@@ -1,0 +1,21 @@
+{
+  "name": "agent-builder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Workshop for building AI employees. Employee one: a housing architect, interior designer and master planner.",
+  "type": "module",
+  "engines": { "node": ">=22.18" },
+  "scripts": {
+    "doctor": "node workshop/office/doctor.ts",
+    "images": "node workshop/office/images.ts",
+    "test": "node --test \"workshop/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "undici": "^7.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.0"
+  }
+}

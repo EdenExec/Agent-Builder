@@ -1,0 +1,34 @@
+{
+  "batchcomplete": true,
+  "query": {
+    "pages": [
+      {
+        "pageid": 1001, "ns": 6, "title": "File:Modern kitchen interior.jpg",
+        "imageinfo": [{
+          "url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Modern_kitchen_interior.jpg",
+          "descriptionurl": "https://commons.wikimedia.org/wiki/File:Modern_kitchen_interior.jpg",
+          "thumburl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Modern_kitchen_interior.jpg/800px-Modern_kitchen_interior.jpg",
+          "width": 3000, "height": 2000, "mime": "image/jpeg",
+          "extmetadata": {
+            "LicenseShortName": { "value": "CC BY-SA 4.0" },
+            "LicenseUrl": { "value": "https://creativecommons.org/licenses/by-sa/4.0" },
+            "Artist": { "value": "<a href=\"//commons.wikimedia.org/wiki/User:Example\">Example User</a>" },
+            "ObjectName": { "value": "Modern kitchen interior" }
+          }
+        }]
+      },
+      {
+        "pageid": 1002, "ns": 6, "title": "File:Kitchen plan.svg",
+        "imageinfo": [{ "url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Kitchen_plan.svg", "mime": "image/svg+xml", "extmetadata": { "LicenseShortName": { "value": "CC0" } } }]
+      },
+      {
+        "pageid": 1003, "ns": 6, "title": "File:Restricted kitchen.jpg",
+        "imageinfo": [{ "url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Restricted_kitchen.jpg", "mime": "image/jpeg", "extmetadata": { "LicenseShortName": { "value": "CC BY-NC 2.0" }, "Artist": { "value": "Someone" } } }]
+      },
+      {
+        "pageid": 1004, "ns": 6, "title": "File:Old kitchen 1920.jpg",
+        "imageinfo": [{ "url": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Old_kitchen_1920.jpg", "mime": "image/jpeg", "width": 1200, "height": 900, "extmetadata": { "LicenseShortName": { "value": "Public domain" } } }]
+      }
+    ]
+  }
+}

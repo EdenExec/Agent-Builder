@@ -1,0 +1,26 @@
+{
+  "result_count": 2,
+  "results": [
+    {
+      "id": "4bc43a04-ef46-4544-a0c1-63c63f56e276",
+      "title": "Modern kitchen with oak island",
+      "foreign_landing_url": "https://www.flickr.com/photos/example/123",
+      "url": "https://live.staticflickr.com/65535/123_o.jpg",
+      "thumbnail": "https://api.openverse.org/v1/images/4bc43a04/thumb/",
+      "width": 4000, "height": 2667,
+      "creator": "Jane Example", "creator_url": "https://www.flickr.com/photos/example/",
+      "license": "by", "license_version": "2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "source": "flickr", "provider": "flickr"
+    },
+    {
+      "id": "7a1d0c2e-0000-4000-8000-000000000002",
+      "title": "",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Kitchen.jpg",
+      "thumbnail": "https://api.openverse.org/v1/images/7a1d0c2e/thumb/",
+      "creator": null, "license": "cc0", "license_version": "1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": "wikimedia", "provider": "wikimedia"
+    }
+  ]
+}
