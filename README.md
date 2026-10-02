@@ -17,15 +17,33 @@ Design overview and build plan: see `docs/` and the published wireframe.
 
 ## Your three-minute setup
 
-Everything below is a one-time edit in the cloud environment's settings (title bar → cloud environment menu → **Edit**). Nothing needs to be pasted into chat.
+The environment editor lives on the web, not in the Code tab of the phone app. On a phone, open **claude.ai/code** in Safari or Chrome (if it bounces to the app, long-press the link and open in browser, or use Request Desktop Website). Then:
 
-1. **Anthropic key.** Under *API credentials* add `ANTHROPIC_API_KEY`. The key's organisation needs Managed Agents beta access; `npm run doctor` tells you if it does not.
-2. **Network access.** Add these hosts to the allowed domains (or pick a broader access level):
-   `api.openverse.org`, `commons.wikimedia.org`, `api.unsplash.com`, `api.pexels.com`, `upload.wikimedia.org`, `images.unsplash.com`, `images.pexels.com`, `live.staticflickr.com`.
-   The first four are the search APIs; the rest serve the image files boards embed.
-3. **Optional image keys** (free, better interiors):
-   - Unsplash: <https://unsplash.com/oauth/applications> → *New Application* → copy **Access Key** → add as `UNSPLASH_ACCESS_KEY`.
-   - Pexels: <https://www.pexels.com/api/> → *Get Started* → key is shown immediately → add as `PEXELS_API_KEY`.
+1. Tap the **cloud icon** showing the environment name, in the row above the message box.
+2. Tap **Cloud**, then the **gear** next to the environment you use (Default), to open **Edit cloud environment**.
+3. In **Environment variables**, paste (one per line; lines 2 and 3 are optional):
+
+   ```
+   ANTHROPIC_API_KEY=sk-ant-...
+   UNSPLASH_ACCESS_KEY=...
+   PEXELS_API_KEY=...
+   ```
+   The Anthropic key has to be an environment variable: the proxy's *API credentials* feature never attaches a key to api.anthropic.com. The key's organisation needs Managed Agents beta access; `npm run doctor` tells you if it does not.
+4. In **Network access**, either pick **Full** (one tap), or pick **Custom**, tick *Also include default list of common package managers*, and paste:
+
+   ```
+   api.openverse.org
+   commons.wikimedia.org
+   upload.wikimedia.org
+   api.unsplash.com
+   images.unsplash.com
+   api.pexels.com
+   images.pexels.com
+   live.staticflickr.com
+   ```
+5. **Save changes.**
+
+Free image keys, if you want them: Unsplash at <https://unsplash.com/oauth/applications> (New Application → Access Key); Pexels at <https://www.pexels.com/api/> (Get Started → key shown immediately).
 
 A new session picks the settings up. Then:
 
