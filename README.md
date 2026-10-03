@@ -2,14 +2,14 @@
 
 A workshop for hiring AI employees. Employee one is a housing architect, interior designer and master planner that you brainstorm with, send away, and get vision boards, planning studies and 3D massing back from.
 
-Design overview and build plan: see `docs/` and the published wireframe.
+Design overview and build plan: `docs/overview.html` (also published as an artifact: https://claude.ai/artifact/Tat89bfBNgfj4Vgo6u6P8N).
 
 ## Status
 
 | Phase | State |
 |---|---|
-| 0 · Scaffold: image connectors, doctor, test harness | in progress |
-| 1 · Hire: agent config, memory, brainstorm | not started |
+| 0 · Scaffold: image connectors, doctor, test harness | done (12 tests passing) |
+| 1 · Hire: agent config, memory, brainstorm | awaiting plan approval |
 | 2 · Vision boards | not started |
 | 3 · Planning | not started |
 | 4 · 3D massing and renders | not started |

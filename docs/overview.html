@@ -1,0 +1,244 @@
+<title>Agent Workshop Plan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap">
+<style>
+/* Layout: drafting-sheet. One column of numbered-by-meaning sections, wireframes drawn as plotted sheets. */
+:root{
+  --paper:#eef0ec; --sheet:#f8f9f6; --ink:#1b2a35; --muted:#5c6b73; --line:#c5cdc8;
+  --accent:#e4572e; --accent-ink:#ffffff; --ok:#2f7d4f; --warn:#b7791f; --bad:#b8372a;
+  --f-display:'Familjen Grotesk',system-ui,sans-serif; --f-body:'Newsreader',Georgia,serif; --f-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#12191e; --sheet:#1a242b; --ink:#e7ece9; --muted:#9aa9b1; --line:#33434d; --accent:#ff7a52; --accent-ink:#12191e; --ok:#5cc08a; --warn:#e0a94a; --bad:#ef7b6d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#12191e; --sheet:#1a242b; --ink:#e7ece9; --muted:#9aa9b1; --line:#33434d; --accent:#ff7a52; --accent-ink:#12191e; --ok:#5cc08a; --warn:#e0a94a; --bad:#ef7b6d; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.55;padding-inline:max(16px,4vw);padding-block:32px 64px}
+main{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700;letter-spacing:-.02em}
+h2{font-size:1.7rem;font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.05rem;font-weight:600}
+p{margin:0}
+.lede{font-size:1.25rem;max-width:62ch;color:var(--ink)}
+.tag{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.title-block{display:flex;flex-direction:column;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:28px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:500}
+section{display:flex;flex-direction:column;gap:20px;min-width:0}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+.sec-head p{color:var(--muted);max-width:64ch}
+
+/* loop */
+.loop{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--ink);background:var(--sheet)}
+.loop>div{padding:16px;display:flex;flex-direction:column;gap:8px;border-right:1px solid var(--line);min-width:0}
+.loop>div:last-child{border-right:0}
+.loop .who{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+.loop .who.you{color:var(--accent)}
+.loop .who.emp{color:var(--muted)}
+.loop p{font-size:.95rem;line-height:1.4}
+@media(max-width:760px){.loop{grid-template-columns:1fr}.loop>div{border-right:0;border-bottom:1px solid var(--line)}.loop>div:last-child{border-bottom:0}}
+
+/* wireframes */
+.frames{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px}
+.frame{display:flex;flex-direction:column;gap:10px;min-width:0}
+.sheet{background:var(--sheet);border:1px solid var(--ink);padding:12px;display:flex;flex-direction:column;gap:8px;min-height:300px}
+.bar{display:flex;gap:6px;align-items:center;font-family:var(--f-mono);font-size:.66rem;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:8px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.bubble{border:1px solid var(--line);padding:8px 10px;font-size:.82rem;line-height:1.35;max-width:88%}
+.bubble.me{align-self:flex-end;background:var(--paper)}
+.bubble.ag{border-color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-family:var(--f-mono);font-size:.64rem;border:1px solid var(--ink);padding:2px 7px}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.cta{margin-top:auto;font-family:var(--f-display);font-weight:600;font-size:.85rem;background:var(--ink);color:var(--sheet);padding:9px 12px;text-align:center}
+.masonry{columns:3;column-gap:6px}
+.masonry i{display:block;margin-bottom:6px;background:repeating-linear-gradient(135deg,var(--line) 0 6px,transparent 6px 12px);border:1px solid var(--line)}
+.masonry i:nth-child(3n+1){height:78px}.masonry i:nth-child(3n+2){height:52px}.masonry i:nth-child(3n){height:96px}
+.masonry i.pick{border:2px solid var(--accent)}
+.legend{font-family:var(--f-mono);font-size:.64rem;color:var(--muted)}
+.mass{flex:1;min-height:150px;border:1px solid var(--line);display:flex;align-items:flex-end;justify-content:center;gap:5px;padding:12px;background:linear-gradient(var(--paper),var(--sheet))}
+.mass b{display:block;background:var(--sheet);border:1.5px solid var(--ink);position:relative}
+.mass b::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 11px,var(--line) 11px 12px)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-family:var(--f-mono);font-size:.66rem}
+.stats span:nth-child(odd){color:var(--muted)}
+.cap{font-size:.92rem;color:var(--muted)}
+.cap b{color:var(--ink);font-family:var(--f-display);font-weight:600}
+
+/* anatomy */
+.anat{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;border:1px solid var(--ink);background:var(--sheet)}
+.anat>div{padding:16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px;min-width:0}
+.anat code{font-family:var(--f-mono);font-size:.74rem;color:var(--accent)}
+.anat p{font-size:.92rem;line-height:1.4}
+
+/* roadmap */
+.road{display:flex;flex-direction:column;border:1px solid var(--ink);background:var(--sheet)}
+.road>div{display:grid;grid-template-columns:150px 1fr 1fr;gap:16px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.road>div:last-child{border-bottom:0}
+.road .ph{font-family:var(--f-display);font-weight:700}
+.road .ph small{display:block;font-family:var(--f-mono);font-weight:400;font-size:.68rem;color:var(--muted)}
+.road p{font-size:.92rem;line-height:1.4}
+.road .l{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block}
+@media(max-width:760px){.road>div{grid-template-columns:1fr;gap:8px}}
+
+/* risks */
+.tw{overflow-x:auto;border:1px solid var(--ink);background:var(--sheet)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem;line-height:1.4}
+th{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--ink)}
+td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td:first-child{font-family:var(--f-display);font-weight:600;width:24%}
+.lv{font-family:var(--f-mono);font-size:.68rem;padding:2px 7px;border:1px solid currentColor;white-space:nowrap}
+.lv.h{color:var(--bad)}.lv.m{color:var(--warn)}.lv.l{color:var(--ok)}
+
+/* questions */
+.qs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.q{border:1px solid var(--ink);background:var(--sheet);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.q .def{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.q .def b{color:var(--accent);font-weight:500}
+.q ul{margin:0;padding-left:18px;font-size:.95rem;display:flex;flex-direction:column;gap:3px}
+.foot{border-top:2px solid var(--ink);padding-top:20px;display:flex;flex-direction:column;gap:6px}
+</style>
+
+<main>
+  <header class="title-block">
+    <span class="tag">Agent Workshop · Plan sheet 1 of 1 · Awaiting your markup</span>
+    <h1>Hire an employee, brief them once, get work back.</h1>
+    <p class="lede">The workshop is where you describe a job and we build the person for it. Employee one is a housing architect, interior designer and master planner. You think out loud with them, send them away, and they return vision boards, planning studies and 3D massing.</p>
+    <div class="meta">
+      <span>Status <b>Plan mode</b></span>
+      <span>Phase 0 scaffold <b>done, tested</b></span>
+      <span>Nothing past Phase 0 is built until you approve</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head">
+      <span class="tag">The working loop</span>
+      <h2>You steer at two points. The employee does the rest.</h2>
+      <p>Every employee in the workshop follows the same loop, so the second hire costs a fraction of the first.</p>
+    </div>
+    <div class="loop">
+      <div><span class="who you">You</span><h3>Brainstorm</h3><p>Talk through the site, family, budget, taste. The agent asks sharp questions and pushes back.</p></div>
+      <div><span class="who emp">Agent</span><h3>Write the brief</h3><p>Turns the chat into a one-page design brief with open assumptions listed. You edit and approve it.</p></div>
+      <div><span class="who emp">Agent, away</span><h3>Work</h3><p>Searches licensed image sources, curates boards, runs the planning math, builds the massing model.</p></div>
+      <div><span class="who emp">Agent</span><h3>Self-review</h3><p>Scores its own output against a rubric for that deliverable and fixes what fails before you see it.</p></div>
+      <div><span class="who you">You</span><h3>Review</h3><p>Pin, reject, comment. Your reactions are saved to the employee's memory and shape the next round.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="tag">Wireframes</span>
+      <h2>Three rooms in the office.</h2>
+      <p>Sketches of the layout and behaviour, not the final look. Tell me what is missing.</p>
+    </div>
+    <div class="frames">
+      <div class="frame">
+        <div class="sheet">
+          <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;Brainstorm · Lakeside infill</div>
+          <div class="bubble me">Narrow lot, west light, young family, we want it to feel like a quiet ryokan.</div>
+          <div class="bubble ag">Two questions. Is the lake side the street side? And is a garage a must, or can that footprint become a courtyard?</div>
+          <div class="chips"><span class="chip on">quiet</span><span class="chip on">timber</span><span class="chip">courtyard?</span><span class="chip">3 bed</span></div>
+          <div class="cta">Send away to build vision board</div>
+        </div>
+        <p class="cap"><b>Brainstorm.</b> Chat on the left, a live brief that fills in as you talk. Style words become chips you can toggle.</p>
+      </div>
+      <div class="frame">
+        <div class="sheet">
+          <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;Board · Living + courtyard</div>
+          <div class="masonry"><i class="pick"></i><i></i><i></i><i></i><i class="pick"></i><i></i><i></i><i></i><i class="pick"></i></div>
+          <div class="chips"><span class="chip on">Materials</span><span class="chip">Light</span><span class="chip">Furniture</span><span class="chip">Exterior</span></div>
+          <div class="legend">Each tile: title · creator · licence · source link</div>
+        </div>
+        <p class="cap"><b>Vision board.</b> Pinterest-style masonry. Pin or reject each tile with a reason. Every image carries its creator and licence, and the board exports as one self-contained file.</p>
+      </div>
+      <div class="frame">
+        <div class="sheet">
+          <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;Massing · Option B</div>
+          <div class="mass"><b style="width:46px;height:70px"></b><b style="width:70px;height:46px"></b><b style="width:38px;height:96px"></b></div>
+          <div class="stats"><span>Lot</span><span>9.5 × 32 m</span><span>Coverage</span><span>41% of 45% max</span><span>GFA</span><span>212 m²</span><span>Height</span><span>7.8 of 9.0 m</span></div>
+          <div class="chips"><span class="chip on">A</span><span class="chip on">B</span><span class="chip">C</span><span class="chip">Sun · Jun 21 4pm</span></div>
+        </div>
+        <p class="cap"><b>Planning and massing.</b> Orbit the model in the browser, flip between options, scrub the sun. Numbers are checked against the rules you gave it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="tag">How the employee is built</span>
+      <h2>Five parts, all plain files you can read and edit.</h2>
+      <p>Everything lives in <span style="font-family:var(--f-mono);font-size:.85em">employees/housing-architect/</span>. A new hire is a new folder.</p>
+    </div>
+    <div class="anat">
+      <div><code>agent.yaml</code><h3>Role and rules</h3><p>Who they are, what they may do on their own, what needs your sign-off, spending and time limits.</p></div>
+      <div><code>skills/</code><h3>Playbooks</h3><p>Brainstorm interview, board curation, programme and zoning study, massing generation, design critique.</p></div>
+      <div><code>memory/</code><h3>What they remember</h3><p>Your taste, past projects, rejected tiles, site facts. Seeded with architecture and planning fundamentals.</p></div>
+      <div><code>rubrics/</code><h3>Definition of good</h3><p>Checklists the agent scores its own work against, and that I use to test it before handing it over.</p></div>
+      <div><code>evals/</code><h3>Probation tests</h3><p>Sample briefs with known good outcomes. If a change makes the employee worse, the suite catches it.</p></div>
+      <div><code>tools</code><h3>Hands</h3><p>Image search across four licensed sources (built), board builder, massing engine, file export.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="tag">Build plan</span>
+      <h2>Six phases, each ends with something you can use.</h2>
+      <p>I stop at each phase boundary, show you the result, and bug-check before moving on.</p>
+    </div>
+    <div class="road">
+      <div><div class="ph">0 · Scaffold<small>done</small></div><p><span class="l">Delivers</span>Four image connectors, health check, search CLI, 12 passing tests.</p><p><span class="l">Exit test</span>Search returns licensed, attributed candidates from every configured source.</p></div>
+      <div><div class="ph">1 · Hire<small>next</small></div><p><span class="l">Delivers</span>Agent config, seeded memory, brainstorm interview, one-page brief.</p><p><span class="l">Exit test</span>Three sample conversations produce briefs a designer would accept.</p></div>
+      <div><div class="ph">2 · Vision boards</div><p><span class="l">Delivers</span>Curated boards by theme, pin and reject loop, self-contained export.</p><p><span class="l">Exit test</span>Rejected tiles never come back. Every tile has creator and licence.</p></div>
+      <div><div class="ph">3 · Planning</div><p><span class="l">Delivers</span>Site and programme study, adjacency diagram, zoning checks, area schedule.</p><p><span class="l">Exit test</span>Numbers reconcile and every rule cites its source or is flagged unverified.</p></div>
+      <div><div class="ph">4 · 3D massing</div><p><span class="l">Delivers</span>Parametric massing options, sun study, orbit viewer, image-style renders.</p><p><span class="l">Exit test</span>Model respects lot, setbacks and height. Options differ in a meaningful way.</p></div>
+      <div><div class="ph">5 · Browser office</div><p><span class="l">Delivers</span>One front door: employees, projects, briefs, boards, models, review inbox.</p><p><span class="l">Exit test</span>You can run a project end to end from your phone.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="tag">Forecast</span>
+      <h2>What I expect to go wrong.</h2>
+      <p>Ranked by how likely it is to hurt. Each has a planned defence.</p>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Risk</th><th>Likelihood</th><th>What happens</th><th>Defence</th></tr></thead>
+        <tbody>
+          <tr><td>Photoreal renders</td><td><span class="lv h">High</span></td><td>No image generation model is wired in. A browser 3D view looks like a clean study model, not a magazine render.</td><td>Ship clean massing first. Add a render step only if you give me an image generation key. Tell me which you want.</td></tr>
+          <tr><td>Zoning is local</td><td><span class="lv h">High</span></td><td>Setbacks, height and coverage differ by city. A guess presented as fact is dangerous.</td><td>Agent asks for your jurisdiction, takes rules as inputs, labels anything unverified, and never calls a design compliant.</td></tr>
+          <tr><td>Taste drift</td><td><span class="lv m">Medium</span></td><td>Boards look generic, or keep repeating the same look after you reject it.</td><td>Reject reasons stored in memory, diversity rule per board, a taste summary you can edit.</td></tr>
+          <tr><td>Image licensing</td><td><span class="lv m">Medium</span></td><td>A source changes terms or a file is mislabelled. Unsplash and Pexels need attribution.</td><td>Licence stored per tile, NC and ND dropped, attribution printed on every export.</td></tr>
+          <tr><td>Image links rot</td><td><span class="lv m">Medium</span></td><td>Boards break when a source URL dies.</td><td>Boards embed the image bytes. Already in the design.</td></tr>
+          <tr><td>Agent overreach</td><td><span class="lv m">Medium</span></td><td>It runs long, spends too much, or acts on its own assumptions.</td><td>Hard limits in <span style="font-family:var(--f-mono);font-size:.8em">agent.yaml</span>, assumptions listed in every brief, you approve the brief before work starts.</td></tr>
+          <tr><td>Geometry bugs</td><td><span class="lv m">Medium</span></td><td>Odd lots, slivers and non-rectangular sites produce broken or overlapping volumes.</td><td>Geometry tests on awkward polygons, plus a validity check before any model is shown.</td></tr>
+          <tr><td>Phone use</td><td><span class="lv l">Low</span></td><td>3D viewer is heavy on older phones.</td><td>Light meshes, tap-to-orbit, static fallback images.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="tag">Your markup</span>
+      <h2>Questions before I build Phase 1.</h2>
+      <p>Each has my default. Reply with just the ones you want to change, and add anything I have not thought of.</p>
+    </div>
+    <div class="qs">
+      <div class="q"><h3>1. Where do these projects sit?</h3><p>Country and city, or "varies by project". This decides the zoning approach.</p><div class="def">Default: <b>rules entered per project</b>, none assumed</div></div>
+      <div class="q"><h3>2. What does "3D rendering" mean to you?</h3><ul><li>Clean massing model you can orbit</li><li>Stylised images of that model</li><li>Photoreal interiors and exteriors</li></ul><div class="def">Default: <b>massing now</b>, renders only with an image key</div></div>
+      <div class="q"><h3>3. Who is a project for?</h3><p>Your own builds, clients, or both? Clients mean shareable boards and a cleaner export.</p><div class="def">Default: <b>both</b>, export-first boards</div></div>
+      <div class="q"><h3>4. Scale and type of housing</h3><p>Single homes, townhouses, small multifamily, subdivisions? This sets how deep the master planning goes.</p><div class="def">Default: <b>single home to small multifamily</b></div></div>
+      <div class="q"><h3>5. Where should the work live?</h3><ul><li>Files in this repo</li><li>A web page you open on your phone</li><li>Both</li></ul><div class="def">Default: <b>files first</b>, browser office in Phase 5</div></div>
+      <div class="q"><h3>6. What should it do without asking?</h3><p>Examples: spend image API quota, start a new board, revise a brief, re-run a study overnight.</p><div class="def">Default: <b>boards and studies free</b>, brief changes need approval</div></div>
+      <div class="q"><h3>7. Features you already want</h3><p>Ideas I would add if you agree: mood to materials palette, room-by-room programme, budget estimate ranges, site photo markup, before and after comparisons, a style quiz for clients.</p><div class="def">Tick any, strike any, add your own</div></div>
+      <div class="q"><h3>8. The next employee</h3><p>You said there are lots more ideas. Tell me one more job now so I build the shared parts to fit both.</p><div class="def">Optional, but it changes the architecture</div></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <h3>What happens after you reply</h3>
+    <p>I fold in your answers, update this sheet, then build Phase 1 and hand it back with test results. For each later phase I show the result and bug-check before moving on. Final handoff is a usable employee, a short manual, and the probation test report.</p>
+  </footer>
+</main>
