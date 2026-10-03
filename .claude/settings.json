@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(npm run qc -- approve*)",
+      "Bash(npm run qc -- reject*)",
+      "Bash(npm run qc approve*)",
+      "Bash(npm run qc reject*)",
+      "Bash(node workshop/office/qc.ts approve*)",
+      "Bash(node workshop/office/qc.ts reject*)",
+      "Edit(qc/**)",
+      "Write(qc/**)"
+    ]
+  }
+}

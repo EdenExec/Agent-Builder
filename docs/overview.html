@@ -101,13 +101,13 @@ td:first-child{font-family:var(--f-display);font-weight:600;width:24%}
 
 <main>
   <header class="title-block">
-    <span class="tag">Agent Workshop · Plan sheet 1 of 1 · Awaiting your markup</span>
+    <span class="tag">Agent Workshop · Plan sheet 1 of 1 · Revision 2</span>
     <h1>Hire an employee, brief them once, get work back.</h1>
     <p class="lede">The workshop is where you describe a job and we build the person for it. Employee one is a housing architect, interior designer and master planner. You think out loud with them, send them away, and they return vision boards, planning studies and 3D massing.</p>
     <div class="meta">
-      <span>Status <b>Plan mode</b></span>
+      <span>Status <b>Phase 1 built, tested</b></span>
       <span>Phase 0 scaffold <b>done, tested</b></span>
-      <span>Nothing past Phase 0 is built until you approve</span>
+      <span>32 tests passing</span>
     </div>
   </header>
 
@@ -188,8 +188,8 @@ td:first-child{font-family:var(--f-display);font-weight:600;width:24%}
     </div>
     <div class="road">
       <div><div class="ph">0 · Scaffold<small>done</small></div><p><span class="l">Delivers</span>Four image connectors, health check, search CLI, 12 passing tests.</p><p><span class="l">Exit test</span>Search returns licensed, attributed candidates from every configured source.</p></div>
-      <div><div class="ph">1 · Hire<small>next</small></div><p><span class="l">Delivers</span>Agent config, seeded memory, brainstorm interview, one-page brief.</p><p><span class="l">Exit test</span>Three sample conversations produce briefs a designer would accept.</p></div>
-      <div><div class="ph">2 · Vision boards</div><p><span class="l">Delivers</span>Curated boards by theme, pin and reject loop, self-contained export.</p><p><span class="l">Exit test</span>Rejected tiles never come back. Every tile has creator and licence.</p></div>
+      <div><div class="ph">1 · Hire<small>done</small></div><p><span class="l">Delivers</span>Agent config, seeded memory, brainstorm interview, one-page brief.</p><p><span class="l">Exit test</span>Three sample conversations produce briefs a designer would accept.</p></div>
+      <div><div class="ph">2 · Vision boards<small>next</small></div><p><span class="l">Delivers</span>Curated boards by theme, pin and reject loop, self-contained export.</p><p><span class="l">Exit test</span>Rejected tiles never come back. Every tile has creator and licence.</p></div>
       <div><div class="ph">3 · Planning</div><p><span class="l">Delivers</span>Site and programme study, adjacency diagram, zoning checks, area schedule.</p><p><span class="l">Exit test</span>Numbers reconcile and every rule cites its source or is flagged unverified.</p></div>
       <div><div class="ph">4 · 3D massing</div><p><span class="l">Delivers</span>Parametric massing options, sun study, orbit viewer, image-style renders.</p><p><span class="l">Exit test</span>Model respects lot, setbacks and height. Options differ in a meaningful way.</p></div>
       <div><div class="ph">5 · Browser office</div><p><span class="l">Delivers</span>One front door: employees, projects, briefs, boards, models, review inbox.</p><p><span class="l">Exit test</span>You can run a project end to end from your phone.</p></div>
@@ -221,24 +221,55 @@ td:first-child{font-family:var(--f-display);font-weight:600;width:24%}
 
   <section>
     <div class="sec-head">
-      <span class="tag">Your markup</span>
-      <h2>Questions before I build Phase 1.</h2>
-      <p>Each has my default. Reply with just the ones you want to change, and add anything I have not thought of.</p>
+      <span class="tag">Decisions locked</span>
+      <h2>Your answers, and what I built from them.</h2>
+      <p>Phase 1 is built and tested. Marlowe can be invoked in Claude Code today.</p>
     </div>
     <div class="qs">
-      <div class="q"><h3>1. Where do these projects sit?</h3><p>Country and city, or "varies by project". This decides the zoning approach.</p><div class="def">Default: <b>rules entered per project</b>, none assumed</div></div>
-      <div class="q"><h3>2. What does "3D rendering" mean to you?</h3><ul><li>Clean massing model you can orbit</li><li>Stylised images of that model</li><li>Photoreal interiors and exteriors</li></ul><div class="def">Default: <b>massing now</b>, renders only with an image key</div></div>
-      <div class="q"><h3>3. Who is a project for?</h3><p>Your own builds, clients, or both? Clients mean shareable boards and a cleaner export.</p><div class="def">Default: <b>both</b>, export-first boards</div></div>
-      <div class="q"><h3>4. Scale and type of housing</h3><p>Single homes, townhouses, small multifamily, subdivisions? This sets how deep the master planning goes.</p><div class="def">Default: <b>single home to small multifamily</b></div></div>
-      <div class="q"><h3>5. Where should the work live?</h3><ul><li>Files in this repo</li><li>A web page you open on your phone</li><li>Both</li></ul><div class="def">Default: <b>files first</b>, browser office in Phase 5</div></div>
-      <div class="q"><h3>6. What should it do without asking?</h3><p>Examples: spend image API quota, start a new board, revise a brief, re-run a study overnight.</p><div class="def">Default: <b>boards and studies free</b>, brief changes need approval</div></div>
-      <div class="q"><h3>7. Features you already want</h3><p>Ideas I would add if you agree: mood to materials palette, room-by-room programme, budget estimate ranges, site photo markup, before and after comparisons, a style quiz for clients.</p><div class="def">Tick any, strike any, add your own</div></div>
-      <div class="q"><h3>8. The next employee</h3><p>You said there are lots more ideas. Tell me one more job now so I build the shared parts to fit both.</p><div class="def">Optional, but it changes the architecture</div></div>
+      <div class="q"><h3>Places</h3><p>Boise, Idaho and Washington. Zoning is never assumed. Marlowe opens the live city or county code, records the source and date, and marks anything unconfirmed.</p></div>
+      <div class="q"><h3>Clients and homes</h3><p>Your family first, some public-facing. Single-family executive homes and ranches. Public-facing work only uses commercially licensed images and needs your approval to publish.</p></div>
+      <div class="q"><h3>Autonomy</h3><p>Everything runs on its own except spending and messaging others. Those are locked: the loader refuses any employee config that lets them run unapproved. Brief changes, publishing and deleting also ask.</p></div>
+      <div class="q"><h3>Your approval queue</h3><p>Gated actions land in <span style="font-family:var(--f-mono);font-size:.85em">qc/</span> with the exact text, recipients or amount. You approve or reject. Agents are blocked from approving their own items.</p></div>
+      <div class="q"><h3>Executive assistant layer</h3><p>Decision log, open items, weekly summary, consultant list with drafted outreach, budget tracker with confidence, schedule and lead times, meeting briefs.</p></div>
+      <div class="q"><h3>Quality</h3><p>Rubrics for briefs, boards and planning studies. Marlowe scores its own work before showing you. Four probation cases include a test that it refuses to send or buy without approval.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="tag">Roster</span>
+      <h2>Your other hires share the same chassis.</h2>
+      <p>Loader, approval queue, memory and brief tooling are built once. Each new employee is mostly content and tools.</p>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Employee</th><th>State</th><th>First needs</th><th>Gated by default</th></tr></thead>
+        <tbody>
+          <tr><td>Housing architect</td><td><span class="lv l">Phase 1 built</span></td><td>Optional Unsplash and Pexels keys</td><td>Spend, messages, publish, brief changes</td></tr>
+          <tr><td>Finance assistant</td><td><span class="lv m">Planned next</span></td><td>QuickBooks connector, your invoice approval rules</td><td>Sending invoices, logging above a threshold</td></tr>
+          <tr><td>Personal assistant</td><td><span class="lv m">Planned</span></td><td>Mail, calendar, notes connectors</td><td>All outgoing mail and invites</td></tr>
+          <tr><td>VRBO general manager</td><td><span class="lv m">Planned</span></td><td>Where bookings and guest messages arrive</td><td>Every guest message, price change, refund</td></tr>
+          <tr><td>Travel planner</td><td><span class="lv m">Planned</span></td><td>Preferences, loyalty accounts, budget rules</td><td>Any booking or payment</td></tr>
+          <tr><td>Business operator</td><td><span class="lv m">Planned</span></td><td>List of businesses and their numbers</td><td>External communication, spend</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="tag">Known gaps</span>
+      <h2>What Phase 1 does not do yet.</h2>
+    </div>
+    <div class="qs">
+      <div class="q"><h3>No automated behaviour test</h3><p>The probation cases are scored by reading a transcript against a checklist. The structure, guardrails and compiled agent are tested automatically (32 tests).</p></div>
+      <div class="q"><h3>No boards or 3D yet</h3><p>The playbooks exist. The board builder is Phase 2, the planning calculator Phase 3, the 3D viewer Phase 4.</p></div>
+      <div class="q"><h3>Approval gate is file based</h3><p>It is enforced by project permissions and instructions, not by a locked server. Fine for a trusted workspace. Say so if you want a harder lock.</p></div>
     </div>
   </section>
 
   <footer class="foot">
-    <h3>What happens after you reply</h3>
-    <p>I fold in your answers, update this sheet, then build Phase 1 and hand it back with test results. For each later phase I show the result and bug-check before moving on. Final handoff is a usable employee, a short manual, and the probation test report.</p>
+    <h3>Next</h3>
+    <p>Phase 2 builds the vision board maker: curated, self-contained boards with pin and reject that feeds Marlowe's memory. Then planning and 3D massing. Tell me if you would rather start the finance assistant first.</p>
   </footer>
 </main>
