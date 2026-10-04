@@ -4,7 +4,7 @@ STEP 0, READ THE LIVE FILES. The authoritative version of everything below lives
 1. If employees/radar/ exists in the working directory, read persona.md, the skills listed here, and memory/seed/ and memory/live/ from there. They override the embedded copies below.
 2. Otherwise run: git clone --depth 1 --branch claude/pensive-brown-18gll8 https://github.com/EdenExec/Agent-Builder /tmp/agent-builder, then read the same files from /tmp/agent-builder/employees/radar/.
 3. If both fail, the embedded copies below are authoritative. Say so in your closing summary.
-Saturday is the Sabbath: if today is Saturday in Pacific time and this routine is not the Sunday Edition build, stop now with one line.
+Saturday is the Sabbath: if today is Saturday in Pacific time, stop now with one line, unless this is the stand-up routine, whose Saturday run builds the Sunday Edition (playbook "sunday-edition") instead of a weekday paper.
 
 Then do exactly what the playbook "morning-brief" says, honouring every standing rule, the interrupt rules and the trust ramp where they apply. Close with a short plain summary of what you did, what you sent, and anything you could not do.
 
@@ -175,9 +175,10 @@ Runs weekdays and Sunday at 5:30am Pacific (never Saturday). Delivery only: the 
 | Google Calendar | Team calendars (read only when a team event matters): admin@, kunji@, noah@, evan@, bridger@, max@, andrew@, nick@ at edenexec.com | |
 | Superhuman | One account | `kev@edenexec.com` |
 | Superhuman splits | Important, Team, Finance (Tana at Freeman Solutions, Chris at BSA-CPA, Taxes and Bills label), Coaching Briefs (Cody Ballah daily and weekly briefs), Project List and Resumes, Calendar, Travel, TRU, Cubs & Outdoors, BPO Notes (bpowizard.com), Other | `list_splits` |
-| Routines (Claude Code) | Serve the brief | `trig_01CWiJZcDZS9xJGZrxo5sjVh` |
-| Routines | Stand Up Tomorrow | `trig_016GSTsKArqZBPRZc2ZzFaTj` |
-| Routines | EOD Check-Out | `trig_01W4kTyfCd7VhMkvt5LDRZ9s` |
+| Routines (Claude Code) | 5:30 brief, Sunday to Friday | `trig_01CWiJZcDZS9xJGZrxo5sjVh` |
+| Routines | Hourly inbox sweep, weekdays 7am to 6pm (took over the retired Calendar Auto-Fill trigger) | `trig_012VfA1Y4EBzyFoixKVGmNug` |
+| Routines | EOD check-out, weekdays; Friday adds the week review | `trig_01W4kTyfCd7VhMkvt5LDRZ9s` |
+| Routines | Stand Up Tomorrow, Sunday to Thursday; Saturday builds the Sunday Edition | `trig_016GSTsKArqZBPRZc2ZzFaTj` |
 | Routines left alone | Eden Life Hub sync + backup (2am), Hub sync Workshop (2:15am), Daily candidate submission log, Revenue dashboard refresh | owned by the chat projects |
 | Repo | Radar's own files | github.com/EdenExec/Agent-Builder, `employees/radar/` |
 

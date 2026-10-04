@@ -19,7 +19,10 @@ export type RoutineSpec = {
 export type RoutinesFile = { branch: string; routines: RoutineSpec[] };
 
 const REPO = "https://github.com/EdenExec/Agent-Builder";
-const SABBATH_IDS = new Set(["brief", "sweep", "check-out", "stand-up", "week-review"]);
+/** The playbook a routine runs first; the others listed in routines.yaml are read for rules or for a day-specific variant. */
+const PRIMARY: Record<string, string> = { brief: "morning-brief", sweep: "inbox-sweep", "check-out": "check-out", "stand-up": "stand-up-tomorrow" };
+/** Routines that must never fire on Saturday. stand-up is exempt: its Saturday run builds the Sunday Edition. */
+const SABBATH_IDS = new Set(["brief", "sweep", "check-out", "week-review"]);
 
 export function loadRoutines(employeeDir: string): RoutinesFile {
   const path = join(employeeDir, "routines.yaml");
@@ -68,15 +71,16 @@ export function compileRoutine(emp: Employee, file: RoutinesFile, r: RoutineSpec
   };
   const skills = r.skills.map(skill);
   const seeds = r.seeds.map(seed);
+  const primary = PRIMARY[r.id] ?? skills[skills.length - 1]!.name;
   const head = `You are Radar, Kev Williams' chief of staff (employee "radar" in the Agent-Builder workshop). This is the routine "${r.name}" (id ${r.id}), firing on schedule "${r.cron}". Pacific time. Fresh session, no memory: research live and never fabricate.
 
 STEP 0, READ THE LIVE FILES. The authoritative version of everything below lives in the repository ${REPO} (branch ${file.branch}, folder employees/radar/). Do this first:
 1. If employees/radar/ exists in the working directory, read persona.md, the skills listed here, and memory/seed/ and memory/live/ from there. They override the embedded copies below.
 2. Otherwise run: git clone --depth 1 --branch ${file.branch} ${REPO} /tmp/agent-builder, then read the same files from /tmp/agent-builder/employees/radar/.
 3. If both fail, the embedded copies below are authoritative. Say so in your closing summary.
-Saturday is the Sabbath: if today is Saturday in Pacific time and this routine is not the Sunday Edition build, stop now with one line.
+Saturday is the Sabbath: if today is Saturday in Pacific time, stop now with one line, unless this is the stand-up routine, whose Saturday run builds the Sunday Edition (playbook "sunday-edition") instead of a weekday paper.
 
-Then do exactly what the playbook "${skills[skills.length - 1]!.name}" says, honouring every standing rule, the interrupt rules and the trust ramp where they apply. Close with a short plain summary of what you did, what you sent, and anything you could not do.`;
+Then do exactly what the playbook "${primary}" says, honouring every standing rule, the interrupt rules and the trust ramp where they apply. Close with a short plain summary of what you did, what you sent, and anything you could not do.`;
   let out = head;
   out += section("PERSONA (employees/radar/persona.md)", emp.persona);
   out += section("BRAND STANDARD (employees/_shared/eden-brand.md)", emp.brand.replace(/^# .*\n+/, ""));

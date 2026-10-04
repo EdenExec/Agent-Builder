@@ -27,4 +27,8 @@ Weekdays 5:30pm Pacific. A live conversation with Kev, not a report. Closes toda
 - Every follow-up as its own row with Lane, Owner, Bill rate, Due, Source "check-out <date>". Update existing rows instead of duplicating.
 - Monday to Thursday: fire Stand Up Tomorrow (`Claude_Code_Remote` `fire_trigger`, trigger id `trig_016GSTsKArqZBPRZc2ZzFaTj`) with the QC feedback in the text field. Friday: do not fire; Sunday night builds Monday. Tell Kev in one line that tomorrow is being stood up and the brief lands at 5:30.
 
+## Friday
+
+After the hand-off on Fridays, run `week-review.md` in the same conversation: the three tables, the trust-ramp question, the archive count and the "Week ahead" row. One push ("Radar: week review is ready, 3 taps") only if Kev has left the conversation.
+
 Don't ask Kev to organise anything himself. Capture and file it all for him.

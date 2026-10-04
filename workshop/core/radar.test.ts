@@ -19,13 +19,19 @@ describe("radar employee", () => {
 describe("radar routines", () => {
   const { file, prompts } = compileAll(DIR);
 
-  test("six routines, none on Saturday except the Sunday Edition build", () => {
-    assert.equal(file.routines.length, 6);
+  test("four routines, none on Saturday except the stand-up run that builds the Sunday Edition", () => {
+    assert.equal(file.routines.length, 4);
     for (const r of file.routines) {
       const dow = r.cron.split(" ").at(-1)!;
-      if (r.id === "sunday-edition") assert.equal(dow, "6");
+      if (r.id === "stand-up") assert.match(dow, /6/);
       else assert.ok(!/6/.test(dow), `${r.id} must not fire on Saturday (got ${dow})`);
     }
+  });
+  test("the Friday review and the Sunday Edition ride on connector-bearing routines", () => {
+    const byId = Object.fromEntries(file.routines.map((r) => [r.id, r]));
+    assert.ok(byId["check-out"]!.skills.includes("week-review"));
+    assert.ok(byId["stand-up"]!.skills.includes("sunday-edition"));
+    for (const r of file.routines) assert.ok(r.trigger_id, `${r.id} must reuse an existing trigger with connectors`);
   });
 
   test("brief runs at 5:30 Sunday to Friday, sweeps hourly on weekdays", () => {
@@ -39,6 +45,7 @@ describe("radar routines", () => {
     for (const r of file.routines) {
       const p = prompts[r.id]!;
       assert.match(p, /STEP 0, READ THE LIVE FILES/);
+      assert.match(p, /Saturday is the Sabbath/);
       assert.match(p, /git clone --depth 1 --branch/);
       assert.match(p, /PERSONA \(employees\/radar\/persona\.md\)/);
       assert.match(p, /BRAND STANDARD/);
@@ -50,12 +57,12 @@ describe("radar routines", () => {
     }
   });
 
-  test("the three existing routines are updated in place, the rest created", () => {
+  test("every routine updates a trigger Kev's account already holds", () => {
     const byId = Object.fromEntries(file.routines.map((r) => [r.id, r]));
     assert.equal(byId["brief"]!.trigger_id, "trig_01CWiJZcDZS9xJGZrxo5sjVh");
     assert.equal(byId["check-out"]!.trigger_id, "trig_01W4kTyfCd7VhMkvt5LDRZ9s");
     assert.equal(byId["stand-up"]!.trigger_id, "trig_016GSTsKArqZBPRZc2ZzFaTj");
-    assert.equal(byId["sweep"]!.trigger_id, null);
+    assert.equal(byId["sweep"]!.trigger_id, "trig_012VfA1Y4EBzyFoixKVGmNug");
   });
 
   test("validator catches Saturday firing, missing standing rules and bad cron", () => {

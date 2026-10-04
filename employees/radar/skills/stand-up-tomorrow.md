@@ -2,6 +2,9 @@
 
 Fired by the check-out Monday to Thursday, with an 8:47pm Sunday to Thursday fallback. Builds tomorrow's day before today ends: flags, leads, calendar, and the finished paper. "Tomorrow" is the next weekday; Sunday and a Friday fire-through build Monday. Fresh session: research live, never fabricate.
 
+## Saturday
+On a Saturday firing this routine does not build a weekday paper. It builds the Sunday Edition exactly as `sunday-edition.md` says, then stops. Steps 0 to 7 below are for Sunday to Thursday firings.
+
 ## Step 0, skip check
 Drive folder "The Eden Daily" (id `1DvqQIdEi0gt9AEImtR20_T3HdQAa8AaN`): if "Eden Daily delivered - <tomorrow>" exists, stop. Tomorrow is stood up.
 
