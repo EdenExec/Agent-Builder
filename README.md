@@ -14,7 +14,7 @@ Design overview and build plan: `docs/overview.html` (also published as an artif
 | 3 · Planning | not started |
 | 4 · 3D massing and renders | not started |
 | 5 · Browser office | not started |
-| R0 · Radar, chief of staff: ledger lanes, six routines, /radar | done |
+| R0 · Radar, chief of staff: ledger lanes, four routines on existing triggers, /radar | done |
 
 ## Your three-minute setup
 

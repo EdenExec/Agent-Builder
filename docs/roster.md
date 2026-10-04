@@ -5,7 +5,7 @@ Each employee is a folder under `employees/`. Shared parts (loader, QC gate, mem
 | Employee | State | Needs before it can work | Gated by default |
 |---|---|---|---|
 | Housing architect (Marlowe) | Phase 1 built | Image keys optional (Unsplash, Pexels) | spend, messages, publish, brief changes |
-| Chief of staff (Radar) | R0 built: ledger lanes, six routines, /radar | Superhuman, Google Calendar, Notion, Drive connectors (already attached) | spend; email beyond the current trust stage (`employees/radar/skills/trust-ramp.md`); deleting anything |
+| Chief of staff (Radar) | R0 built: ledger lanes, four routines (brief, hourly sweep, check-out with the Friday review, stand-up with the Saturday Sunday Edition build), /radar | Superhuman, Google Calendar, Notion, Drive connectors (already attached) | spend; email beyond the current trust stage (`employees/radar/skills/trust-ramp.md`); deleting anything |
 | Finance assistant (invoices, QuickBooks logging) | planned | QuickBooks connector (available). Decide invoice approval rules | creating or sending invoices, logging transactions over a set amount |
 | VRBO general manager | planned | Where bookings and messages live (VRBO has no open API for owners; likely mail and calendar) | every guest message, price change, refund |
 | Travel planner and agent | planned | Preferences, loyalty accounts, budget rules | any booking or payment |
