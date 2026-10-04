@@ -10,7 +10,7 @@ Design overview and build plan: `docs/overview.html` (also published as an artif
 |---|---|
 | 0 · Scaffold: image connectors, doctor, test harness | done (12 tests passing) |
 | 1 · Hire: agent config, memory, brainstorm, QC gate | done (32 tests passing) |
-| 2 · Vision boards | not started |
+| 2 · Vision boards | done (50 tests passing). Best with Unsplash and Pexels keys |
 | 3 · Planning | not started |
 | 4 · 3D massing and renders | not started |
 | 5 · Browser office | not started |
@@ -65,6 +65,8 @@ npm run hire -- compile                          # regenerate .claude/agents/*.m
 npm run brief -- projects/<slug>/brief.yaml      # completeness check + review copy of a design brief
 npm run qc                                       # what is waiting for your approval
 npm run qc -- approve <id> | reject <id> [note]  # you decide; agents are blocked from running these
+npm run board -- make --slug x --title T --queries "a|b|c"   # build a vision board (see header of workshop/office/board.ts)
+npm run board -- feedback <board.json> <file>    # record pins and rejections from a board
 npm run memory -- show housing-architect         # what Marlowe has learned about your taste
 npm test                                         # all tests, no network
 npm run typecheck
@@ -78,6 +80,8 @@ workshop/
   sources/             openverse, wikimedia, unsplash, pexels behind one ImageSource interface
   office/doctor.ts     connection health
   office/images.ts     search CLI
+  boards/              curate, embed, render and feedback for vision boards
+  office/board.ts      board CLI
   core/                employee loader and compiler, QC gate, memory, design brief
   office/              hire, qc, memory, brief CLIs
 qc/                    approval queue: pending, approved, rejected (one JSON file each)
@@ -100,10 +104,14 @@ Every candidate carries title, creator, licence, source page and a ready-to-prin
 
 ## Working with Marlowe (housing architect)
 
-In Claude Code, ask for the `housing-architect` agent, for example: "Use housing-architect to brainstorm a single-level ranch outside Eagle." Marlowe interviews you, keeps a brief in `projects/<slug>/brief.yaml`, and queues it for your approval before any work starts. Then: vision boards, programme and zoning study. 3D massing is phase 4.
+In Claude Code, ask for the `housing-architect` agent, for example: "Use housing-architect to brainstorm a single-level ranch outside Eagle." Marlowe interviews you, keeps a brief in `projects/<slug>/brief.yaml`, and queues it for your approval before any work starts. Then: vision boards (`deliverables/boards/<slug>/board.html`, one self-contained file you open on any device), then a programme and zoning study. 3D massing is phase 4.
 
 **Guardrails.** Spending money and sending any message to another person always need your approval, and this cannot be switched off in `agent.yaml` (the loader rejects it). Approvals live in `qc/`. Project permissions in `.claude/settings.json` stop agents from running `qc approve` or editing `qc/`. Run `npm run qc` to see what is waiting.
 
 **Honest limits.** Marlowe is not an architect of record or a code official. Zoning and cost figures are either cited from a source opened that session or marked UNVERIFIED. The probation cases in `employees/housing-architect/evals/` are scored by reading a transcript against the checklist; there is no automated model run yet.
 
 See `docs/roster.md` for the employees planned next.
+
+### Vision boards
+
+Marlowe builds a board with `npm run board -- make`. Open `board.html`, pin or reject each image with a short reason, tap **Send feedback to Marlowe**, copy the text and paste it into the chat. Marlowe records it with `board feedback`, and rejected images never come back on later boards. Boards embed the image bytes, keep creator and licence on every tile, and public-facing boards only use commercially cleared images. Without Unsplash and Pexels keys only Openverse and Wikimedia are used, and results for interiors and architecture are noticeably weaker.

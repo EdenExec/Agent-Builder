@@ -15,7 +15,8 @@
     "hire": "node workshop/office/hire.ts",
     "qc": "node workshop/office/qc.ts",
     "memory": "node workshop/office/memory.ts",
-    "brief": "node workshop/office/brief.ts"
+    "brief": "node workshop/office/brief.ts",
+    "board": "node workshop/office/board.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",

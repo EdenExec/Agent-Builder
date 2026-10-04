@@ -22,6 +22,8 @@ export type FetchResponse = {
   headers: { get(name: string): string | null };
   json(): Promise<unknown>;
   text(): Promise<string>;
+  /** Present on the production fetcher; image embedding needs it. */
+  arrayBuffer?(): Promise<ArrayBuffer>;
 };
 
 /** Anything shaped like fetch. Tests pass a stub; production uses undici. */

@@ -105,9 +105,9 @@ td:first-child{font-family:var(--f-display);font-weight:600;width:24%}
     <h1>Hire an employee, brief them once, get work back.</h1>
     <p class="lede">The workshop is where you describe a job and we build the person for it. Employee one is a housing architect, interior designer and master planner. You think out loud with them, send them away, and they return vision boards, planning studies and 3D massing.</p>
     <div class="meta">
-      <span>Status <b>Phase 1 built, tested</b></span>
+      <span>Status <b>Phase 2 built, tested</b></span>
       <span>Phase 0 scaffold <b>done, tested</b></span>
-      <span>32 tests passing</span>
+      <span>50 tests passing</span>
     </div>
   </header>
 
@@ -189,8 +189,8 @@ td:first-child{font-family:var(--f-display);font-weight:600;width:24%}
     <div class="road">
       <div><div class="ph">0 · Scaffold<small>done</small></div><p><span class="l">Delivers</span>Four image connectors, health check, search CLI, 12 passing tests.</p><p><span class="l">Exit test</span>Search returns licensed, attributed candidates from every configured source.</p></div>
       <div><div class="ph">1 · Hire<small>done</small></div><p><span class="l">Delivers</span>Agent config, seeded memory, brainstorm interview, one-page brief.</p><p><span class="l">Exit test</span>Three sample conversations produce briefs a designer would accept.</p></div>
-      <div><div class="ph">2 · Vision boards<small>next</small></div><p><span class="l">Delivers</span>Curated boards by theme, pin and reject loop, self-contained export.</p><p><span class="l">Exit test</span>Rejected tiles never come back. Every tile has creator and licence.</p></div>
-      <div><div class="ph">3 · Planning</div><p><span class="l">Delivers</span>Site and programme study, adjacency diagram, zoning checks, area schedule.</p><p><span class="l">Exit test</span>Numbers reconcile and every rule cites its source or is flagged unverified.</p></div>
+      <div><div class="ph">2 · Vision boards<small>done</small></div><p><span class="l">Delivers</span>Curated boards by theme, pin and reject loop, self-contained export.</p><p><span class="l">Exit test</span>Rejected tiles never come back. Every tile has creator and licence.</p></div>
+      <div><div class="ph">3 · Planning<small>next</small></div><p><span class="l">Delivers</span>Site and programme study, adjacency diagram, zoning checks, area schedule.</p><p><span class="l">Exit test</span>Numbers reconcile and every rule cites its source or is flagged unverified.</p></div>
       <div><div class="ph">4 · 3D massing</div><p><span class="l">Delivers</span>Parametric massing options, sun study, orbit viewer, image-style renders.</p><p><span class="l">Exit test</span>Model respects lot, setbacks and height. Options differ in a meaningful way.</p></div>
       <div><div class="ph">5 · Browser office</div><p><span class="l">Delivers</span>One front door: employees, projects, briefs, boards, models, review inbox.</p><p><span class="l">Exit test</span>You can run a project end to end from your phone.</p></div>
     </div>
@@ -259,17 +259,17 @@ td:first-child{font-family:var(--f-display);font-weight:600;width:24%}
   <section>
     <div class="sec-head">
       <span class="tag">Known gaps</span>
-      <h2>What Phase 1 does not do yet.</h2>
+      <h2>What Phase 2 does not do yet.</h2>
     </div>
     <div class="qs">
       <div class="q"><h3>No automated behaviour test</h3><p>The probation cases are scored by reading a transcript against a checklist. The structure, guardrails and compiled agent are tested automatically (32 tests).</p></div>
-      <div class="q"><h3>No boards or 3D yet</h3><p>The playbooks exist. The board builder is Phase 2, the planning calculator Phase 3, the 3D viewer Phase 4.</p></div>
+      <div class="q"><h3>No planning tools or 3D yet</h3><p>Vision boards are built. The planning calculator is Phase 3 and the 3D viewer Phase 4.</p></div>
       <div class="q"><h3>Approval gate is file based</h3><p>It is enforced by project permissions and instructions, not by a locked server. Fine for a trusted workspace. Say so if you want a harder lock.</p></div>
     </div>
   </section>
 
   <footer class="foot">
     <h3>Next</h3>
-    <p>Phase 2 builds the vision board maker: curated, self-contained boards with pin and reject that feeds Marlowe's memory. Then planning and 3D massing. Tell me if you would rather start the finance assistant first.</p>
+    <p>Phase 3 builds the programme and zoning study tools, then 3D massing. Add Unsplash and Pexels keys to get much better boards. Tell me if you would rather start the finance assistant first.</p>
   </footer>
 </main>
