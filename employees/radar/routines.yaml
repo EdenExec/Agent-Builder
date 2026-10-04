@@ -1,0 +1,53 @@
+# Radar's routines. `npm run radar -- compile` turns each into a self-contained prompt in employees/radar/routines/<id>.md
+# and `npm run radar -- deploy` prints the trigger payloads. The routine reads the live repo files first when it can;
+# the embedded copy is the fallback. Times are Pacific. Saturday is the Sabbath: nothing fires.
+branch: claude/pensive-brown-18gll8
+routines:
+  - id: brief
+    name: "Radar · 5:30 brief"
+    trigger_id: trig_01CWiJZcDZS9xJGZrxo5sjVh
+    cron: "CRON_TZ=America/Los_Angeles 22 5 * * 0-5"
+    model: claude-sonnet-5-5
+    skills: [standing-rules, interrupt-rules, trust-ramp, morning-brief]
+    seeds: [sources, rhythm]
+    notify: push
+  - id: sweep
+    name: "Radar · inbox sweep (hourly)"
+    trigger_id: null
+    cron: "CRON_TZ=America/Los_Angeles 7 7-18 * * 1-5"
+    model: claude-sonnet-5-5
+    skills: [standing-rules, ledger, interrupt-rules, trust-ramp, inbox-sweep]
+    seeds: [sources, people]
+    notify: none
+  - id: check-out
+    name: "Radar · EOD check-out (5:30pm)"
+    trigger_id: trig_01W4kTyfCd7VhMkvt5LDRZ9s
+    cron: "CRON_TZ=America/Los_Angeles 30 17 * * 1-5"
+    model: claude-opus-5-5
+    skills: [standing-rules, ledger, trust-ramp, roster-liaison, check-out]
+    seeds: [sources, people, rhythm]
+    notify: none
+  - id: stand-up
+    name: "Radar · stand up tomorrow (builds The Eden Daily)"
+    trigger_id: trig_016GSTsKArqZBPRZc2ZzFaTj
+    cron: "CRON_TZ=America/Los_Angeles 47 20 * * 0-4"
+    model: claude-opus-5-5
+    skills: [standing-rules, ledger, stand-up-tomorrow]
+    seeds: [sources, people, rhythm]
+    notify: push
+  - id: week-review
+    name: "Radar · Friday week review"
+    trigger_id: null
+    cron: "CRON_TZ=America/Los_Angeles 52 15 * * 5"
+    model: claude-opus-5-5
+    skills: [standing-rules, ledger, trust-ramp, roster-liaison, week-review]
+    seeds: [sources, people]
+    notify: push
+  - id: sunday-edition
+    name: "Radar · Sunday Edition build (Saturday 8pm)"
+    trigger_id: null
+    cron: "CRON_TZ=America/Los_Angeles 5 20 * * 6"
+    model: claude-opus-5-5
+    skills: [standing-rules, ledger, sunday-edition]
+    seeds: [sources, people, rhythm, c12-framework]
+    notify: push

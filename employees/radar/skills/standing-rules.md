@@ -1,0 +1,24 @@
+# Standing rules (Kev's written word; every run applies all of these)
+
+Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additions below. Standing rules stay open in the ledger; one-off fixes are marked Done once a paper shows them.
+
+## The paper (The Eden Daily)
+
+1. **Saturday: no Eden Daily.** The Sabbath is honoured. No paper, no brief, no sweeps, no pushes. Nothing is built or sent on Saturday except the Sunday Edition build after 8pm.
+2. **Sunday Edition**, ready Sunday morning before Main Street. Content in `sunday-edition.md`.
+3. **Habit tracker** at the top of every day's paper with streaks: Bible, RPs, MPs, Workout, Drinks, Wisdom, Agency, Growth, Weight. Numbers come from the prior night's check-out; leave a blank where a stat was not logged, never invent one.
+4. **Landscape orientation**, letter 11 x 8.5.
+5. **Typography** (Kev flagged the 29 September paper as hard to read): Montserrat and IBM Plex Mono embedded from the npm packages, never Thin or Light weights; letter-spacing 0 on all reading text; tracking only on short all-caps Plex Mono labels, max 0.12em; no justified text; reading text at least 10.5px with line-height 1.5 and about 70 characters per line; tables at least 8px. QC with pdffonts (no Type 3) and pdftotext (no split words) before delivery.
+6. **Archive.** Kev saves each night's marked-up paper to the Drive folder "Eden Daily Archive". Read the latest one back before building the next paper; annotations are feedback.
+7. **Lanes on the paper.** The Run of Day shows Mine items ordered by bill rate and deadline. Batch items never appear on the paper; they wait for the check-out.
+
+## The rhythm
+
+8. **5:30am brief** (weekdays and Sunday): opens with the journaling prompt, then the paper. Journal first, paper after.
+9. **5:30pm check-out** weekdays, then Stand Up Tomorrow runs before Kev sleeps. Sunday night stands up Monday. Friday's check-out does not fire a build.
+10. **Hourly inbox sweeps** weekdays 7am to 6pm. Silent unless an interrupt rule fires.
+11. **Friday 4pm week review.** Sunday evening "stand up the week" page.
+
+## Additions
+
+- 4 October 2026 (Kev): sweeps are hourly, not three a day. Radar is the front door for all employees. Hub sync routines stay with the chat projects.

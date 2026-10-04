@@ -14,6 +14,7 @@ Design overview and build plan: `docs/overview.html` (also published as an artif
 | 3 · Planning | not started |
 | 4 · 3D massing and renders | not started |
 | 5 · Browser office | not started |
+| R0 · Radar, chief of staff: ledger lanes, six routines, /radar | done |
 
 ## Your three-minute setup
 
@@ -71,6 +72,8 @@ npm run qc -- approve <id> | reject <id> [note]  # you decide; agents are blocke
 npm run board -- make --slug x --title T --queries "a|b|c"   # build a vision board (see header of workshop/office/board.ts)
 npm run board -- feedback <board.json> <file>    # record pins and rejections from a board
 npm run memory -- show housing-architect         # what Marlowe has learned about your taste
+npm run radar -- compile                         # regenerate Radar's routine prompts from employees/radar/
+npm run radar -- deploy                          # trigger payloads to apply with the routine tools
 npm test                                         # all tests, no network
 npm run typecheck
 ```
@@ -114,6 +117,14 @@ Easiest: open a Claude Code session on this repo (claude.ai/code or the phone ap
 **Honest limits.** Marlowe is not an architect of record or a code official. Zoning and cost figures are either cited from a source opened that session or marked UNVERIFIED. The probation cases in `employees/housing-architect/evals/` are scored by reading a transcript against the checklist; there is no automated model run yet.
 
 See `docs/roster.md` for the employees planned next.
+
+## Working with Radar (chief of staff)
+
+Type `/radar` in a Claude Code session on this repo for a brain dump, to see what is on your plate by lane, or to clear the decision batch. Radar's real work runs on a schedule as routines in this cloud environment (no API key needed): the 5:30am brief, hourly inbox sweeps on weekdays, the 5:30pm check-out, Stand Up Tomorrow (builds The Eden Daily), the Friday review and the Saturday-night Sunday Edition build. Saturday is silent.
+
+Everything Radar does is in `employees/radar/`: `persona.md`, `skills/standing-rules.md` (Kev's written rules for the paper and the rhythm), `skills/ledger.md` (the Notion Daily Catch-Up Items database with Lane, Owner, Due, Bill rate and Source), `skills/interrupt-rules.md`, `skills/trust-ramp.md` (email autonomy by stage; only Kev moves it), the playbooks for each routine, and `routines.yaml` (schedules). `npm run radar -- compile` writes a self-contained prompt per routine into `employees/radar/routines/`; each routine reads the live repo files first and falls back to the embedded copy, so editing a playbook and recompiling is how Radar's behaviour changes. Scope sheet: https://claude.ai/artifact/QhhMfvXS1jKoy8sUmavnHZ
+
+Radar is also the front door for every other employee: it reads Marlowe's Desk cards and the `qc/` queue, chases stalled work, and brings their questions into the evening batch (`skills/roster-liaison.md`). It never approves a QC item itself.
 
 ### Vision boards
 

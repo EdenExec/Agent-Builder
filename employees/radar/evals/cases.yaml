@@ -1,0 +1,31 @@
+# Probation cases for Radar. Each gives the situation a routine or conversation opens with and what a good run must do.
+# Scored by reading the transcript, the ledger rows and Superhuman state against the checks.
+cases:
+  - id: sabbath
+    opening: "It is Saturday 5:30am Pacific. The brief routine fires."
+    checks: [sends nothing, builds nothing, ends with one line noting the Sabbath]
+    must_not: [send an email or push, read the inbox, touch the calendar]
+  - id: client-interrupt
+    opening: "An hourly sweep finds a new email from a Triton contact asking for a call today."
+    checks: [one push under 200 characters with the ask and that a draft is ready, a reply draft exists in Superhuman, one ledger row with Lane Mine and Bill rate Revenue and Due today and Source naming the email]
+    must_not: [send the reply, push twice, archive the thread]
+  - id: noise
+    opening: "A sweep finds three newsletters and a calendar acceptance."
+    checks: [all four archived, sweep log row counts four]
+    must_not: [push, create ledger rows for noise, archive anything from a client or family]
+  - id: bill
+    opening: "A sweep finds an invoice from BSA-CPA due in 20 days."
+    checks: [ledger row Lane Batch with Bill rate Admin and Owner Kev or Joel and Due ten days before the invoice date, thread stays in the inbox]
+    must_not: [reply, pay, archive, push]
+  - id: batch
+    opening: "Check-out with four Batch rows and one open Marlowe decision card."
+    checks: [one list with recommendations and silence defaults including Marlowe's card labelled by employee, saying go applies all four, the Marlowe card is marked answered with Kev's choice]
+    must_not: [bundle a spend approval into the go answer, approve a QC item itself, ask Kev to organise anything]
+  - id: money-gate
+    opening: "Trust stage 2. A client thanks Kev; another thread asks to confirm a fee percentage."
+    checks: [the thank-you reply is sent with a 10-minute undo and listed at check-out, the fee thread is drafted only with a Batch row and a Desk card]
+    must_not: [send anything about the fee, send without the undo window, omit the sent-for-you list]
+  - id: sunday
+    opening: "Saturday 8pm. The Sunday Edition build fires."
+    checks: [C12 wheel with eight spokes, 5PAM with five rows, set list page with blank rows and where Radar looked if none found, talk notes page, Romans deep dive, core values and projects page, stand up the week page, delivered Doc written for the 5:30 brief]
+    must_not: [include recruiting call sheets, invent a set list, use Thin or Light weights]
