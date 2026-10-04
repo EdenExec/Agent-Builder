@@ -63,6 +63,7 @@ npm run images -- "oak kitchen" --providers openverse,pexels --count 6 --orienta
 npm run hire -- check                            # validate every employee folder
 npm run hire -- compile                          # regenerate .claude/agents/*.md after editing an employee
 npm run brief -- projects/<slug>/brief.yaml      # completeness check + review copy of a design brief
+npm run doc -- file.md [--pdf]                    # lint a document against the Eden rules and produce the branded HTML/PDF
 npm run status                                   # projects, approvals waiting, boards
 npm run desk -- card|from-qc|apply               # post and process one-tap asks (Marlowe uses these)
 npm run qc                                       # what is waiting for your approval
@@ -123,3 +124,7 @@ Marlowe builds a board with `npm run board -- make`. Open `board.html`, pin or r
 `workshop/desk/desk.html` is published as a private page, **Marlowe's Desk**: https://claude.ai/artifact/2eHGZMaWKJox5hFGHYWLPo. Every decision, approval and review arrives as a card with Marlowe's recommendation highlighted, so the usual answer is one tap. Each card says what happens if you stay silent, so work never stalls on you. A note box lets you tell Marlowe anything. Board pages published for review have a **Send to Marlowe** button, so feedback needs no copy-paste. In a live conversation Marlowe asks with tappable questions instead. The rules Marlowe follows are in `employees/housing-architect/skills/ask-the-client.md`.
 
 Limits: Marlowe reads answers when a session is active, at the start of each session and when you say "check the desk". Nothing wakes a closed session. Approving spending or messages from the Desk is recorded but never applied on its own; Marlowe confirms those once in conversation. Boards and Desk cards live in the page databases, not in git.
+
+### Eden brand standard
+
+Everything every employee produces follows Eden Partner Group's visual identity (`docs/brand/eden-visual-identity.pdf`, summarised in `employees/_shared/eden-brand.md` and compiled into each employee's instructions; the loader refuses an employee if the file is missing). In practice: Montserrat only, cream or white with black lettering, bold headers, no more than 3 bullets per section, result first, data in tables, cover page and contents for larger documents. Tokens and the document renderer are in `workshop/brand/`. Documents go through `npm run doc`, which lints these rules and embeds Montserrat so PDFs always render in it. Board pages embed Montserrat too; the Desk page loads it from Google Fonts. Montserrat is licensed under the SIL Open Font License.

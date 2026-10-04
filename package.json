@@ -18,7 +18,8 @@
     "brief": "node workshop/office/brief.ts",
     "board": "node workshop/office/board.ts",
     "desk": "node workshop/office/desk.ts",
-    "status": "node workshop/office/desk.ts status"
+    "status": "node workshop/office/desk.ts status",
+    "doc": "node workshop/office/doc.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",

@@ -11,7 +11,7 @@ Desk: `desk.json` has the URL of the Desk page. Cards go in collection `asks`. T
 3. **Recommend.** Every decision names your recommendation and why in one line. The common answer should be one tap on the highlighted button.
 4. **Never block on silence.** Every decision card carries `defaultIfSilent`: what you will do if they do not answer, in plain words. Do that work in the meantime when it is reversible. Record the assumption.
 5. **Show, do not describe.** For taste questions, point to a board or a sketch (a link) rather than words. Offer options as pictures or short labels, never essays.
-6. **Short.** Title is one line and a question. Body is at most 4 short lines, decisions first. Detail goes behind a link.
+6. **Short.** Title is one line and a question. Body is at most 4 short lines, decisions first, result first, no more than 3 points. Detail goes behind a link. Plain Eden voice: no emoji, no exclamation marks, no flourish.
 7. **No homework.** 2 to 5 options. If it is bigger, you have not done your job of narrowing it.
 
 ## Choose the channel

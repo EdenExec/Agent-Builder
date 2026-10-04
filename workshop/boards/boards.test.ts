@@ -138,6 +138,15 @@ describe("render", () => {
     assert.match(f, /getElementById\("board"\)\.dataset\.slug/);
     assert.match(renderBoard(spec()), /^<!doctype html>[\s\S]*<body>[\s\S]*<\/body><\/html>\n$/);
   });
+  test("follows the Eden identity: Montserrat, neutral palette, name and site, no serif or brand colour", () => {
+    const html = renderBoard(spec());
+    assert.match(html, /font-family:'Montserrat';font-style:normal;font-weight:100 900;[^}]*data:font\/woff2;base64,/);
+    assert.match(html, /--font:'Montserrat'/);
+    assert.match(html, /EDEN PARTNER GROUP/);
+    assert.match(html, /edenpartnergroup\.com/);
+    assert.match(html, /--bg:#FAF8F3/);
+    assert.doesNotMatch(html, /Georgia|#c4491f|#ff8159/i);
+  });
   test("carries attribution, licence and filters on every tile and is theme-aware and self-contained", () => {
     const s = spec();
     const html = renderBoard(s);
@@ -148,7 +157,7 @@ describe("render", () => {
     assert.match(html, /<em>not embedded<\/em>/);
     assert.match(html, /<a href="https:\/\/example\.org\/u\/\d+"[^>]*>&quot;Oak kitchen \d+&quot; by Creator/);
     assert.equal((html.match(/class="note"/g) ?? []).length, 1, "empty notes are not rendered");
-    assert.doesNotMatch(html, /<link |<script src=/);
+    assert.doesNotMatch(html, /<script src=/);
     assert.match(html, /data-slug="test-board"/);
     assert.match(html, /<title>Quiet &lt;Timber&gt;<\/title>/);
   });

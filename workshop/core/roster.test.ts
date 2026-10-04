@@ -52,6 +52,17 @@ describe("shipped employees", () => {
       assert.ok(skill.toLowerCase().includes(must.toLowerCase()) || /Money and messages/.test(skill), must);
     }
   });
+  test("the Eden brand standard is compiled into the employee and its rubrics", () => {
+    const emp = loadEmployee("employees/housing-architect");
+    const compiled = readFileSync(".claude/agents/housing-architect.md", "utf8");
+    for (const must of ["Montserrat is mandatory", "more than 3 bullets is too long", "Result first", "edenpartnergroup.com"]) {
+      assert.ok(compiled.toLowerCase().includes(must.toLowerCase()), must);
+    }
+    assert.match(emp.persona, /Eden standard/);
+    for (const r of emp.rubrics) assert.match(readFileSync(join("employees/housing-architect/rubrics", r), "utf8"), /Eden standard/, r);
+    const ids = parse(readFileSync("employees/housing-architect/evals/brainstorm-cases.yaml", "utf8")).cases.map((c: any) => c.id);
+    assert.ok(ids.includes("brand-document") && ids.includes("brand-chat"));
+  });
   test("project settings deny agents from approving their own QC items", () => {
     const s = JSON.parse(readFileSync(".claude/settings.json", "utf8"));
     const deny: string[] = s.permissions.deny;

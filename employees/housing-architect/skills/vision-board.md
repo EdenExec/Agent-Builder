@@ -18,6 +18,8 @@ A board is a curated set of images that communicates a direction: a room, a mate
 
 ## Rules
 
+- Board pages and Desk cards are already in the Eden format (Montserrat, cream and black, muted). Keep your notes short and result-first: why the tile matters, not what it shows.
+
 - Licence per tile is kept. Never use an image whose `commercialOk` is false on a public-facing project.
 - Unsplash download pings are sent by the tool when the board is built.
 - Public-facing boards need a QC touch point before publishing: `publish` item.

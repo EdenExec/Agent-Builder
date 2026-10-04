@@ -1,25 +1,25 @@
 <title>Agent Workshop Plan</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap">
 <style>
 /* Layout: drafting-sheet. One column of numbered-by-meaning sections, wireframes drawn as plotted sheets. */
+/* Eden Partner Group identity (docs/brand). */
 :root{
-  --paper:#eef0ec; --sheet:#f8f9f6; --ink:#1b2a35; --muted:#5c6b73; --line:#c5cdc8;
-  --accent:#e4572e; --accent-ink:#ffffff; --ok:#2f7d4f; --warn:#b7791f; --bad:#b8372a;
-  --f-display:'Familjen Grotesk',system-ui,sans-serif; --f-body:'Newsreader',Georgia,serif; --f-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --paper:#FAF8F3; --sheet:#FFFFFF; --ink:#111111; --muted:#5A5A5A; --line:#D9D6CE; --accent:#111111; --accent-ink:#FFFFFF; --ok:#3D6B4F; --warn:#7A5A1C; --bad:#8A3A32;
+  --f-display:'Montserrat','Helvetica Neue',Arial,sans-serif; --f-body:'Montserrat','Helvetica Neue',Arial,sans-serif; --f-mono:'Montserrat','Helvetica Neue',Arial,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --paper:#12191e; --sheet:#1a242b; --ink:#e7ece9; --muted:#9aa9b1; --line:#33434d; --accent:#ff7a52; --accent-ink:#12191e; --ok:#5cc08a; --warn:#e0a94a; --bad:#ef7b6d; color-scheme:dark}}
+  --paper:#151515; --sheet:#1D1D1C; --ink:#F2F0EA; --muted:#A3A09A; --line:#2F2F2D; --accent:#F2F0EA; --accent-ink:#111111; --ok:#7DB391; --warn:#D2A95C; --bad:#D4857B; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --paper:#12191e; --sheet:#1a242b; --ink:#e7ece9; --muted:#9aa9b1; --line:#33434d; --accent:#ff7a52; --accent-ink:#12191e; --ok:#5cc08a; --warn:#e0a94a; --bad:#ef7b6d; color-scheme:dark}
+  --paper:#151515; --sheet:#1D1D1C; --ink:#F2F0EA; --muted:#A3A09A; --line:#2F2F2D; --accent:#F2F0EA; --accent-ink:#111111; --ok:#7DB391; --warn:#D2A95C; --bad:#D4857B; color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.55;padding-inline:max(16px,4vw);padding-block:32px 64px}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;padding-inline:max(16px,4vw);padding-block:32px 64px}
 main{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
 h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
-h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700;letter-spacing:-.02em}
+h1{font-size:clamp(1.9rem,5vw,2.9rem);font-weight:700;letter-spacing:-.02em}
 h2{font-size:1.7rem;font-weight:700;letter-spacing:-.01em}
 h3{font-size:1.05rem;font-weight:600}
 p{margin:0}
-.lede{font-size:1.25rem;max-width:62ch;color:var(--ink)}
+.lede{font-size:1.1rem;max-width:62ch;color:var(--ink)}
 .tag{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .title-block{display:flex;flex-direction:column;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:28px}
 .meta{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
@@ -101,13 +101,13 @@ td:first-child{font-family:var(--f-display);font-weight:600;width:24%}
 
 <main>
   <header class="title-block">
-    <span class="tag">Agent Workshop · Plan sheet 1 of 1 · Revision 2</span>
+    <span class="tag" style="color:var(--ink);font-weight:700">EDEN PARTNER GROUP</span>
     <h1>Hire an employee, brief them once, get work back.</h1>
     <p class="lede">The workshop is where you describe a job and we build the person for it. Employee one is a housing architect, interior designer and master planner. You think out loud with them, send them away, and they return vision boards, planning studies and 3D massing.</p>
     <div class="meta">
       <span>Status <b>Phase 2 built, tested</b></span>
       <span>Phase 0 scaffold <b>done, tested</b></span>
-      <span>50 tests passing</span>
+      <span>75 tests passing</span>
     </div>
   </header>
 
@@ -231,6 +231,8 @@ td:first-child{font-family:var(--f-display);font-weight:600;width:24%}
       <div class="q"><h3>Autonomy</h3><p>Everything runs on its own except spending and messaging others. Those are locked: the loader refuses any employee config that lets them run unapproved. Brief changes, publishing and deleting also ask.</p></div>
       <div class="q"><h3>Your approval queue</h3><p>Gated actions land in <span style="font-family:var(--f-mono);font-size:.85em">qc/</span> with the exact text, recipients or amount. You approve or reject. Agents are blocked from approving their own items.</p></div>
       <div class="q"><h3>Executive assistant layer</h3><p>Decision log, open items, weekly summary, consultant list with drafted outreach, budget tracker with confidence, schedule and lead times, meeting briefs.</p></div>
+      <div class="q"><h3>Eden identity on everything</h3><p>Montserrat, cream and white with black lettering, bold headers, three bullets per section, result first, data in tables. Boards, the Desk, briefs and documents all follow it, and a linter checks documents.</p></div>
+      <div class="q"><h3>The Desk</h3><p>Every decision, approval and review reaches you as a one-tap card with Marlowe's recommendation highlighted. Board feedback goes straight to Marlowe with no copy-paste.</p></div>
       <div class="q"><h3>Quality</h3><p>Rubrics for briefs, boards and planning studies. Marlowe scores its own work before showing you. Four probation cases include a test that it refuses to send or buy without approval.</p></div>
     </div>
   </section>
@@ -262,7 +264,7 @@ td:first-child{font-family:var(--f-display);font-weight:600;width:24%}
       <h2>What Phase 2 does not do yet.</h2>
     </div>
     <div class="qs">
-      <div class="q"><h3>No automated behaviour test</h3><p>The probation cases are scored by reading a transcript against a checklist. The structure, guardrails and compiled agent are tested automatically (32 tests).</p></div>
+      <div class="q"><h3>No automated behaviour test</h3><p>The probation cases are scored by reading a transcript against a checklist. The structure, guardrails and compiled agent are tested automatically (75 tests).</p></div>
       <div class="q"><h3>No planning tools or 3D yet</h3><p>Vision boards are built. The planning calculator is Phase 3 and the 3D viewer Phase 4.</p></div>
       <div class="q"><h3>Approval gate is file based</h3><p>It is enforced by project permissions and instructions, not by a locked server. Fine for a trusted workspace. Say so if you want a harder lock.</p></div>
     </div>
@@ -272,4 +274,5 @@ td:first-child{font-family:var(--f-display);font-weight:600;width:24%}
     <h3>Next</h3>
     <p>Phase 3 builds the programme and zoning study tools, then 3D massing. Add Unsplash and Pexels keys to get much better boards. Tell me if you would rather start the finance assistant first.</p>
   </footer>
+  <p class="tag" style="display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:12px"><span>edenpartnergroup.com</span><span>EDEN PARTNER GROUP</span></p>
 </main>

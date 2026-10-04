@@ -1,6 +1,7 @@
 // One self-contained HTML file: masonry layout, embedded images, attribution on every tile,
 // pin / reject with reasons, and an exportable feedback block that `board feedback` turns into memory.
 import type { BoardSpec, Tile } from "./types.ts";
+import { tokenCss, fontFaceCss, SITE, NAME } from "../brand/eden.ts";
 
 export const esc = (s: string | undefined) =>
   (s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
@@ -42,13 +43,13 @@ export function renderBoardFragment(spec: BoardSpec): string {
   const licences = [...new Set(spec.tiles.map((t) => t.candidate.license))];
   return `<title>${esc(spec.title)}</title>
 <style>
-:root{--bg:#f4f4f0;--card:#fff;--ink:#1c2428;--mute:#5d686d;--line:#d6d9d3;--accent:#c4491f;--accent-ink:#fff;--pin:#2f7d4f;--rej:#b8372a;color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11171a;--card:#1a2327;--ink:#e8ecea;--mute:#98a6ab;--line:#2f3c42;--accent:#ff8159;--accent-ink:#11171a;--pin:#5cc08a;--rej:#ef7b6d;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#11171a;--card:#1a2327;--ink:#e8ecea;--mute:#98a6ab;--line:#2f3c42;--accent:#ff8159;--accent-ink:#11171a;--pin:#5cc08a;--rej:#ef7b6d;color-scheme:dark}
+${fontFaceCss()}
+${tokenCss()}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding-inline:max(16px,3vw);padding-block:28px 150px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 14px/1.55 var(--font);padding-inline:max(16px,3vw);padding-block:28px 150px}
 header{max-width:1200px;margin:0 auto 20px;display:flex;flex-direction:column;gap:6px}
-h1{font:600 clamp(1.6rem,4vw,2.4rem)/1.1 Georgia,"Times New Roman",serif;margin:0;text-wrap:balance}
+h1{font:700 clamp(1.5rem,4vw,2.2rem)/1.15 var(--font);letter-spacing:-.01em;margin:0;text-wrap:balance}
+.org{font-weight:700;letter-spacing:.06em;font-size:.72rem;border-bottom:1px solid var(--ink);padding-bottom:8px;margin:0 0 18px}
 .sub{color:var(--mute);margin:0}
 .chips{max-width:1200px;margin:0 auto 20px;display:flex;flex-wrap:wrap;gap:8px}
 .chip{border:1px solid var(--ink);background:none;color:var(--ink);padding:5px 12px;font:inherit;font-size:13px;cursor:pointer;border-radius:999px}
@@ -56,38 +57,40 @@ h1{font:600 clamp(1.6rem,4vw,2.4rem)/1.1 Georgia,"Times New Roman",serif;margin:
 .wall{max-width:1200px;margin:0 auto;columns:3 260px;column-gap:16px}
 .tile{break-inside:avoid;margin:0 0 16px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column}
 .tile[hidden]{display:none}
-.tile.pinned{outline:3px solid var(--pin)}
+.tile.pinned{outline:3px solid var(--pos)}
 .tile.rejected{opacity:.45}
 .img{border:0;padding:0;background:var(--line);cursor:zoom-in;display:block;width:100%}
 .img img{display:block;width:100%;height:auto;min-height:80px}
 .body{padding:12px;display:flex;flex-direction:column;gap:6px}
 .body p{margin:0}
-.note{font-weight:600}
+.note{font-weight:700}
 .credit,.attr{font-size:12px;color:var(--mute);overflow-wrap:anywhere}
 a{color:inherit}
 .acts{display:flex;gap:8px;margin-top:2px}
 .acts button{flex:1;padding:7px;font:inherit;font-size:13px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}
-.acts .pin[aria-pressed="true"]{background:var(--pin);border-color:var(--pin);color:var(--accent-ink)}
-.acts .rej[aria-pressed="true"]{background:var(--rej);border-color:var(--rej);color:var(--accent-ink)}
+.acts .pin[aria-pressed="true"]{background:var(--pos);border-color:var(--pos);color:var(--accent-ink)}
+.acts .rej[aria-pressed="true"]{background:var(--neg);border-color:var(--neg);color:var(--accent-ink)}
 .why{width:100%;padding:7px;font:inherit;font-size:13px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
 button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .dock{position:fixed;inset-inline:0;bottom:0;background:var(--card);border-top:1px solid var(--ink);padding:10px max(16px,3vw) calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:12px;align-items:center;flex-wrap:wrap;z-index:5}
 .dock .count{font-size:13px;color:var(--mute);flex:1;min-width:140px}
-.dock button{padding:9px 16px;font:inherit;font-weight:600;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.dock button{padding:9px 16px;font:inherit;font-weight:700;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer}
 .dock button.alt{background:none;color:var(--ink);border:1px solid var(--ink)}
 dialog{border:1px solid var(--ink);background:var(--card);color:var(--ink);padding:16px;max-width:min(94vw,640px);width:100%}
 dialog::backdrop{background:rgba(0,0,0,.55)}
 dialog textarea{width:100%;min-height:160px;font:12px/1.4 ui-monospace,monospace;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:8px}
-.chip.send{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.chip.send{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
 dialog .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 dialog label{font-size:13px;color:var(--mute);display:block;margin-bottom:4px}
 dialog input.cm{width:100%;padding:8px;font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:10px}
 #lb img{width:100%;height:auto;display:block;max-height:78vh;object-fit:contain}
 .foot{max-width:1200px;margin:28px auto 0;color:var(--mute);font-size:12px}
+.foot.brand{display:flex;justify-content:space-between;margin-top:10px;border-top:1px solid var(--line);padding-top:12px;font-size:11px}
 @media (prefers-reduced-motion:no-preference){.tile{transition:opacity .2s}}
 </style>
 <div id="board" data-slug="${esc(spec.slug)}">
 <header>
+  <p class="org">${NAME}</p>
   <h1>${esc(spec.title)}</h1>
   <p class="sub">${esc(spec.theme)}${spec.project ? ` · ${esc(spec.project)}` : ""} · ${spec.tiles.length} images · ${spec.audience === "public" ? "public-facing, commercially cleared" : "family"}</p>
 </header>
@@ -99,6 +102,7 @@ dialog input.cm{width:100%;padding:8px;font:inherit;border:1px solid var(--line)
 ${spec.tiles.map(tileHtml).join("\n")}
 </main>
 <p class="foot">Images remain the property of their creators. Licences on this board: ${licences.map(esc).join(", ") || "none"}. Created ${esc(spec.createdAt.slice(0, 10))}.</p>
+<p class="foot brand"><span>${SITE}</span><span>${NAME}</span></p>
 <div class="dock"><span class="count" id="count">No pins or rejections yet</span><button class="alt" type="button" id="reset">Clear</button><button type="button" id="export">Send feedback to Marlowe</button></div>
 <dialog id="lb"><img alt=""><p class="credit" id="lbc"></p><div class="row"><button class="chip" type="button" id="lbx">Close</button></div></dialog>
 <dialog id="fb"><label for="fbc">Anything else about this board?</label><input class="cm" id="fbc" type="text" maxlength="400" placeholder="Optional comment">

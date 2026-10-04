@@ -43,7 +43,10 @@ describe("policyFor", () => {
 
 describe("loadEmployee + compile", () => {
   function scaffold(omit?: string) {
-    const d = tmp();
+    const root = tmp();
+    const d = join(root, "tester");
+    mkdirSync(d, { recursive: true });
+    if (omit !== "brand") { mkdirSync(join(root, "_shared")); writeFileSync(join(root, "_shared", "eden-brand.md"), "# Eden\n\nMontserrat only.\n"); }
     for (const sub of ["skills", "memory/seed", "rubrics", "evals"]) mkdirSync(join(d, sub), { recursive: true });
     writeFileSync(join(d, "agent.yaml"), `id: tester\nname: Tess\ntitle: Tester\nsummary: Tests things.\nmodel: sonnet\ntools: [Read, Bash]\nautonomy: {spend: approve, send_message: approve, start_work: auto}\nlimits: {maxSpendUsd: 5, maxMinutesPerTask: 30}\nskills: [a]\n`);
     if (omit !== "persona") writeFileSync(join(d, "persona.md"), "You are Tess.\n");
@@ -61,10 +64,12 @@ describe("loadEmployee + compile", () => {
     assert.match(out, /Needs a QC touch point before it happens: spend, send_message/);
     assert.match(out, /Runs without asking: start_work/);
     assert.match(out, /You are Tess\./);
+    assert.match(out, /## Brand standard[\s\S]*Montserrat only\./);
   });
   test("reports every missing piece", () => {
     assert.throws(() => loadEmployee(scaffold("persona")), (e: any) => e instanceof EmployeeError && /persona.md is missing/.test(e.message));
     assert.throws(() => loadEmployee(scaffold("skill")), /skills\/a.md is listed/);
+    assert.throws(() => loadEmployee(scaffold("brand")), /eden-brand\.md is missing/);
     assert.throws(() => loadEmployee(tmp()), /agent.yaml not found/);
   });
 });

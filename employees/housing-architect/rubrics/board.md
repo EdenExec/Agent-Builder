@@ -1,6 +1,6 @@
 # Rubric: vision board
 
-Score each 0, 1, 2. Pass line: 14 of 18, with no zero.
+Score each 0, 1, 2. Pass line: 16 of 20, with no zero.
 
 1. Matches the brief's style words and respects the avoid list.
 2. Respects live memory: nothing previously rejected, preferences reflected.
@@ -11,3 +11,4 @@ Score each 0, 1, 2. Pass line: 14 of 18, with no zero.
 7. Every tile has creator, licence, source link and a one-line note.
 8. Licence suitable for the audience (commercial-OK for public-facing).
 9. Delivered as one self-contained file with embedded images and visible attribution.
+10. Eden standard: Montserrat, cream or white with black lettering, bold headers, no more than 3 bullets per section, result first, data in tables, `npm run doc` (or the board and Desk tools) used so the format is correct.
