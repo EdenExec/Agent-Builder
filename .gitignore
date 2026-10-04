@@ -5,3 +5,4 @@ node_modules/
 deliverables/
 *.log
 .DS_Store
+.desk-outbox/

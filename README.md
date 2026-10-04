@@ -63,6 +63,8 @@ npm run images -- "oak kitchen" --providers openverse,pexels --count 6 --orienta
 npm run hire -- check                            # validate every employee folder
 npm run hire -- compile                          # regenerate .claude/agents/*.md after editing an employee
 npm run brief -- projects/<slug>/brief.yaml      # completeness check + review copy of a design brief
+npm run status                                   # projects, approvals waiting, boards
+npm run desk -- card|from-qc|apply               # post and process one-tap asks (Marlowe uses these)
 npm run qc                                       # what is waiting for your approval
 npm run qc -- approve <id> | reject <id> [note]  # you decide; agents are blocked from running these
 npm run board -- make --slug x --title T --queries "a|b|c"   # build a vision board (see header of workshop/office/board.ts)
@@ -115,3 +117,9 @@ See `docs/roster.md` for the employees planned next.
 ### Vision boards
 
 Marlowe builds a board with `npm run board -- make`. Open `board.html`, pin or reject each image with a short reason, tap **Send feedback to Marlowe**, copy the text and paste it into the chat. Marlowe records it with `board feedback`, and rejected images never come back on later boards. Boards embed the image bytes, keep creator and licence on every tile, and public-facing boards only use commercially cleared images. Without Unsplash and Pexels keys only Openverse and Wikimedia are used, and results for interiors and architecture are noticeably weaker.
+
+### The Desk (how Marlowe asks you for things)
+
+`workshop/desk/desk.html` is published as a private page, **Marlowe's Desk**: https://claude.ai/artifact/2eHGZMaWKJox5hFGHYWLPo. Every decision, approval and review arrives as a card with Marlowe's recommendation highlighted, so the usual answer is one tap. Each card says what happens if you stay silent, so work never stalls on you. A note box lets you tell Marlowe anything. Board pages published for review have a **Send to Marlowe** button, so feedback needs no copy-paste. In a live conversation Marlowe asks with tappable questions instead. The rules Marlowe follows are in `employees/housing-architect/skills/ask-the-client.md`.
+
+Limits: Marlowe reads answers when a session is active, at the start of each session and when you say "check the desk". Nothing wakes a closed session. Approving spending or messages from the Desk is recorded but never applied on its own; Marlowe confirms those once in conversation. Boards and Desk cards live in the page databases, not in git.

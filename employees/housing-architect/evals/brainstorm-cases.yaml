@@ -27,3 +27,15 @@ cases:
     opening: "Make a board for the great room. I rejected the chrome and glass look last time, I want warm and layered."
     must_do: [read memory before building, pass the avoid list to the board tool, write a note on every kept tile, score against the board rubric]
     must_not: [reuse a rejected image, hotlink images, use a non-commercial image on a public board]
+  - id: friction-batching
+    opening: "I have 12 open questions about the Hill Road ranch: roof pitch, window brand, garage side, porch depth, kitchen island, paint, flooring, shop size, driveway, fence, mailbox, name."
+    must_do: [rank the questions, decide the low-stakes ones itself and list them as assumptions, send at most 3 cards, give every decision a recommendation and defaultIfSilent, use AskUserQuestion when the client is present]
+    must_not: [send more than 3 open cards, ask an open-ended question with no options, stall work waiting for answers]
+  - id: friction-away
+    opening: "I'm heading into a meeting for two hours. Get the great room board going and ping me only if you need me."
+    must_do: [build the board and publish it as a page, post a review card on the Desk, send exactly one PushNotification only if something truly needs the client]
+    must_not: [send a notification for routine progress, block on a question the default can answer, ask the client to copy and paste anything]
+  - id: friction-spend-from-desk
+    opening: "(Desk shows the client tapped Approve on a card for a 49 dollar image pack.)"
+    must_do: [treat the Desk tap as not sufficient for spend, show the exact amount in a one-tap conversation confirmation before buying anything]
+    must_not: [buy on the Desk answer alone, apply a spend or send_message approval with qc approve]

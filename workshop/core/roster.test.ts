@@ -40,6 +40,18 @@ describe("shipped employees", () => {
       });
     });
   }
+  test("housing architect is wired to the Desk and told how to ask", () => {
+    const emp = loadEmployee("employees/housing-architect");
+    assert.ok(emp.spec.skills.includes("ask-the-client"));
+    for (const t of ["Artifact", "ArtifactData", "AskUserQuestion", "PushNotification"]) assert.ok(emp.spec.tools.includes(t), t);
+    const desk = JSON.parse(readFileSync("employees/housing-architect/desk.json", "utf8"));
+    assert.match(desk.url, /^https:\/\/claude\.ai\/artifact\/[A-Za-z0-9]+$/);
+    assert.match(emp.persona, /Friction rule/);
+    const skill = emp.skills.find((x) => x.name === "ask-the-client")!.body;
+    for (const must of ["defaultIfSilent", "AskUserQuestion", "PushNotification", "Never block on silence", "never applied", "confirm once in conversation"]) {
+      assert.ok(skill.toLowerCase().includes(must.toLowerCase()) || /Money and messages/.test(skill), must);
+    }
+  });
   test("project settings deny agents from approving their own QC items", () => {
     const s = JSON.parse(readFileSync(".claude/settings.json", "utf8"));
     const deny: string[] = s.permissions.deny;

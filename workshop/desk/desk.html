@@ -1,0 +1,193 @@
+<title>Marlowe's Desk</title>
+<style>
+/* Layout: a single phone-first column. What needs you first, answered work below, a note box last. */
+:root{--bg:#f4f4f0;--card:#ffffff;--ink:#1c2428;--mute:#5d686d;--line:#d6d9d3;--accent:#c4491f;--accent-ink:#ffffff;--ok:#2f7d4f;--warn:#a96a12;--soft:#ebece6;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11171a;--card:#1a2327;--ink:#e8ecea;--mute:#98a6ab;--line:#2f3c42;--accent:#ff8159;--accent-ink:#11171a;--ok:#5cc08a;--warn:#e0a94a;--soft:#222d32;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#11171a;--card:#1a2327;--ink:#e8ecea;--mute:#98a6ab;--line:#2f3c42;--accent:#ff8159;--accent-ink:#11171a;--ok:#5cc08a;--warn:#e0a94a;--soft:#222d32;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding-inline:16px;padding-block:24px 56px}
+main{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1{font:600 clamp(1.7rem,6vw,2.2rem)/1.1 Georgia,"Times New Roman",serif;margin:0}
+h2{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:0 0 10px;font-weight:600}
+.sub{margin:6px 0 0;color:var(--mute)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card.now{border-color:var(--accent);box-shadow:inset 4px 0 0 var(--accent)}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--mute)}
+.tag{border:1px solid currentColor;padding:1px 8px;border-radius:999px;font-size:11px;letter-spacing:.04em}
+.tag.now{color:var(--accent)}.tag.today{color:var(--warn)}
+.title{font-weight:650;font-size:1.08rem;line-height:1.3;margin:0;text-wrap:balance}
+.body{margin:0;color:var(--mute);white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px}
+.silent{margin:0;font-size:13px;color:var(--mute);background:var(--soft);padding:8px 10px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;font:inherit;padding:13px 14px;min-height:48px;border:1px solid var(--ink);background:none;color:var(--ink);cursor:pointer}
+.opt .d{font-size:13px;color:var(--mute)}
+.opt.rec{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.opt.rec .d{color:inherit;opacity:.85}
+.opt .star{font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.9}
+.opt:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row .opt{flex:1;min-width:130px;align-items:center;text-align:center}
+.link{display:inline-block;padding:12px 14px;border:1px solid var(--ink);color:var(--ink);text-decoration:none;font-weight:600;text-align:center}
+.note{width:100%;font:inherit;padding:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:44px;resize:vertical}
+button:focus-visible,a:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.done{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:12px 14px;background:var(--card);border:1px solid var(--line);font-size:14px}
+.done .what{min-width:0}.done b{display:block;font-weight:600;overflow-wrap:anywhere}
+.done span{color:var(--mute)}
+.undo{font:inherit;font-size:13px;background:none;border:0;color:var(--accent);cursor:pointer;padding:4px 0;text-decoration:underline;white-space:nowrap}
+.empty{padding:28px 16px;text-align:center;color:var(--mute);border:1px dashed var(--line)}
+.empty b{display:block;color:var(--ink);font-size:1.05rem;margin-bottom:4px}
+.send{align-self:flex-start;font:inherit;font-weight:600;padding:11px 18px;border:0;background:var(--ink);color:var(--bg);cursor:pointer}
+.msg{font-size:13px;color:var(--ok);min-height:1.2em;margin:0}
+.warn{padding:12px 14px;border:1px solid var(--warn);color:var(--warn);font-size:14px}
+</style>
+
+<main>
+  <header>
+    <h1>Marlowe's Desk</h1>
+    <p class="sub" id="sub">Connecting…</p>
+  </header>
+  <div class="warn" id="offline" hidden>The Desk could not connect. Open this page from the Claude app or claude.ai while signed in.</div>
+
+  <section aria-labelledby="h-open">
+    <h2 id="h-open">Needs you</h2>
+    <div class="stack" id="open"></div>
+  </section>
+
+  <section aria-labelledby="h-note">
+    <h2 id="h-note">Tell Marlowe something</h2>
+    <div class="card">
+      <label for="noteText" class="body">A change of plan, a new idea, a photo link. Marlowe reads this first next session.</label>
+      <textarea class="note" id="noteText" rows="3" maxlength="800" placeholder="e.g. We just bought the lot on Hill Road."></textarea>
+      <button class="send" type="button" id="noteSend">Send</button>
+      <p class="msg" id="noteMsg" role="status"></p>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-done" id="doneWrap" hidden>
+    <h2 id="h-done">Answered</h2>
+    <div class="stack" id="done"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var openEl = document.getElementById("open"), doneEl = document.getElementById("done"), subEl = document.getElementById("sub");
+  var asks = {}, db = null, busy = {};
+  var RANK = { now: 0, today: 1, whenever: 2 };
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
+  function when(iso) {
+    var d = new Date(iso); if (isNaN(d)) return "";
+    var mins = Math.round((Date.now() - d.getTime()) / 60000);
+    if (mins < 1) return "just now"; if (mins < 60) return mins + " min ago";
+    var h = Math.round(mins / 60); if (h < 24) return h + " h ago";
+    return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  }
+  function write(id, patch) {
+    if (!db || busy[id]) return Promise.resolve();
+    busy[id] = true;
+    return db.doc("asks/" + id).update(patch).catch(function (e) {
+      subEl.textContent = "That did not save (" + (e && e.code || "error") + "). Try again.";
+    }).then(function () { busy[id] = false; });
+  }
+  function answer(a, choice, text) {
+    var ans = { choice: choice, at: new Date().toISOString() };
+    if (text) ans.text = text;
+    return write(a.id, { status: "answered", answer: ans });
+  }
+
+  function openCard(a) {
+    var card = el("article", "card" + (a.urgency === "now" ? " now" : ""));
+    var meta = el("div", "meta");
+    if (a.urgency !== "whenever") meta.appendChild(el("span", "tag " + a.urgency, a.urgency === "now" ? "Needs you now" : "Today"));
+    meta.appendChild(el("span", "", (a.employee || "Marlowe").replace(/-/g, " ") + " · " + when(a.createdAt)));
+    card.appendChild(meta);
+    card.appendChild(el("h3", "title", a.title));
+    if (a.body) card.appendChild(el("p", "body", a.body));
+    if (a.link && /^https:\/\//i.test(a.link.url)) {
+      var l = el("a", "link", a.link.label + " ↗"); l.href = a.link.url; l.target = "_blank"; l.rel = "noopener noreferrer"; card.appendChild(l);
+    }
+    var note = null;
+    if (a.allowText || a.kind === "approval" || a.kind === "review") {
+      note = el("textarea", "note"); note.rows = 2; note.maxLength = 500;
+      note.placeholder = a.kind === "decision" ? "Add a note (optional)" : "Add a note (optional). Say what to change if needed.";
+      note.setAttribute("aria-label", "Note for " + a.title);
+    }
+    var opts = a.options || [];
+    var rec = opts.filter(function (o) { return o.id === a.recommended; }).concat(opts.filter(function (o) { return o.id !== a.recommended; }));
+    var box = el("div", a.kind === "decision" ? "opts" : "row");
+    rec.forEach(function (o) {
+      var b = el("button", "opt" + (o.id === a.recommended ? " rec" : "")); b.type = "button";
+      if (o.id === a.recommended) b.appendChild(el("span", "star", "Marlowe suggests"));
+      b.appendChild(el("span", "", o.label));
+      if (o.detail) b.appendChild(el("span", "d", o.detail));
+      b.addEventListener("click", function () { b.disabled = true; answer(a, o.id, note && note.value.trim()); });
+      box.appendChild(b);
+    });
+    card.appendChild(box);
+    if (note) card.appendChild(note);
+    if (a.defaultIfSilent) card.appendChild(el("p", "silent", "If you don't answer: " + a.defaultIfSilent));
+    return card;
+  }
+  function doneRow(a) {
+    var row = el("div", "done"), what = el("div", "what");
+    var label = (a.options || []).filter(function (o) { return o.id === (a.answer && a.answer.choice); })[0];
+    what.appendChild(el("b", "", a.title));
+    what.appendChild(el("span", "", (label ? label.label : (a.answer && a.answer.choice) || "Answered") + (a.answer && a.answer.text ? " · " + a.answer.text : "")));
+    row.appendChild(what);
+    if (a.status === "answered") {
+      var u = el("button", "undo", "Change"); u.type = "button";
+      u.addEventListener("click", function () { write(a.id, { status: "open", answer: null }); });
+      row.appendChild(u);
+    } else row.appendChild(el("span", "", "Marlowe acted on it"));
+    return row;
+  }
+
+  function render() {
+    var list = Object.keys(asks).map(function (k) { return asks[k]; });
+    var open = list.filter(function (a) { return a.status === "open"; }).sort(function (x, y) {
+      return (RANK[x.urgency] - RANK[y.urgency]) || String(x.createdAt).localeCompare(String(y.createdAt));
+    });
+    var done = list.filter(function (a) { return a.status === "answered" || a.status === "done"; }).sort(function (x, y) {
+      return String((y.answer || {}).at).localeCompare(String((x.answer || {}).at));
+    }).slice(0, 12);
+    // Keep text typed into an open card while other cards change.
+    var typed = {};
+    [].forEach.call(openEl.querySelectorAll("article"), function (c) { var t = c.querySelector("textarea"); if (t && t.value) typed[c.dataset.id] = t.value; });
+    openEl.textContent = ""; doneEl.textContent = "";
+    if (!open.length) {
+      var e = el("div", "empty"); e.appendChild(el("b", "", "Nothing is waiting on you.")); e.appendChild(el("span", "", "Marlowe will post a card here when a decision, approval or review needs you."));
+      openEl.appendChild(e);
+    }
+    open.forEach(function (a) { var c = openCard(a); c.dataset.id = a.id; var t = c.querySelector("textarea"); if (t && typed[a.id]) t.value = typed[a.id]; openEl.appendChild(c); });
+    done.forEach(function (a) { doneEl.appendChild(doneRow(a)); });
+    document.getElementById("doneWrap").hidden = !done.length;
+    subEl.textContent = open.length ? open.length + (open.length === 1 ? " thing needs" : " things need") + " you. One tap each." : "All caught up.";
+  }
+
+  render(); subEl.textContent = "Connecting…";
+
+  document.getElementById("noteSend").addEventListener("click", function () {
+    var ta = document.getElementById("noteText"), msg = document.getElementById("noteMsg"), text = ta.value.trim();
+    if (!text) { msg.textContent = ""; return; }
+    if (!db) { msg.textContent = "Not connected."; return; }
+    db.collection("notes").add({ text: text, status: "new", createdAt: new Date().toISOString() }).then(function () {
+      ta.value = ""; msg.textContent = "Sent. Marlowe will read it first next session.";
+    }, function () { msg.textContent = "That did not send. Try again."; });
+  });
+
+  setInterval(function () { render(); }, 60000);
+
+  window.claude && window.claude.use("db").then(function (d) {
+    if (!d) { document.getElementById("offline").hidden = false; subEl.textContent = "Offline"; return; }
+    db = d;
+    db.collection("asks").onSnapshot(function (snap) {
+      asks = {};
+      snap.docs.forEach(function (s) { var v = s.data(); if (v && v.title) { v.id = s.id; asks[s.id] = v; } });
+      render();
+    }, function () { document.getElementById("offline").hidden = false; subEl.textContent = "Offline"; });
+  });
+  if (!window.claude) { document.getElementById("offline").hidden = false; subEl.textContent = "Offline"; }
+})();
+</script>

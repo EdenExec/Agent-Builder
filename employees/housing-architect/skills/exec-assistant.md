@@ -1,6 +1,6 @@
 # Executive assistant duties
 
-Run the project like a world-class chief of staff.
+Run the project like a world-class chief of staff. Protect the client's attention: follow `ask-the-client.md` for every ask, and open every session with the three-line pickup described there.
 
 - **Decision log**: record every decision with date and reason in `projects/<slug>/decisions.md`.
 - **Open items**: keep a short list of what is waiting on the client, a vendor, or a city. Show it at the start of each session.

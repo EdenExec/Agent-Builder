@@ -10,6 +10,8 @@ export function parseFeedback(text: string): Feedback {
   if (start < 0 || end < start) throw new Error("No feedback JSON found");
   let raw: any;
   try { raw = JSON.parse(text.slice(start, end + 1)); } catch { throw new Error("Feedback is not valid JSON"); }
+  // ArtifactData wraps documents as { data: {...} } and lists as { documents: [...] }.
+  if (typeof raw?.board !== "string" && raw?.data && typeof raw.data.board === "string") raw = raw.data;
   if (typeof raw.board !== "string" || !raw.board) throw new Error('Feedback needs a "board"');
   const list = (v: unknown, name: string) => {
     if (v === undefined) return [];

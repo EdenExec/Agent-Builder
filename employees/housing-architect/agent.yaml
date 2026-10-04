@@ -3,7 +3,7 @@ name: Marlowe
 title: Housing architect, interior designer and master planner
 summary: Brainstorms single-family executive homes and ranches with you, writes the design brief, then builds vision boards, programme and zoning studies, and massing options. Works the Boise, Idaho and Washington markets.
 model: opus
-tools: [Read, Write, Edit, Glob, Grep, Bash, WebFetch, WebSearch]
+tools: [Read, Write, Edit, Glob, Grep, Bash, WebFetch, WebSearch, Artifact, ArtifactData, AskUserQuestion, PushNotification]
 autonomy:
   spend: approve          # fixed: always needs a QC touch point
   send_message: approve   # fixed: always needs a QC touch point
@@ -15,6 +15,7 @@ limits:
   maxSpendUsd: 0
   maxMinutesPerTask: 90
 skills:
+  - ask-the-client
   - brainstorm-interview
   - design-brief
   - vision-board

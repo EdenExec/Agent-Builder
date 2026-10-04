@@ -31,12 +31,16 @@ function tileHtml(t: Tile, i: number): string {
 </article>`;
 }
 
+/** Standalone file: a complete HTML document. */
 export function renderBoard(spec: BoardSpec): string {
+  return `<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>\n${renderBoardFragment(spec)}\n</body></html>\n`;
+}
+
+/** Page content only (title, style, markup, script), the form the Artifact tool wraps itself. */
+export function renderBoardFragment(spec: BoardSpec): string {
   const queries = [...new Set(spec.tiles.map((t) => t.query))];
   const licences = [...new Set(spec.tiles.map((t) => t.candidate.license))];
-  return `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(spec.title)}</title>
+  return `<title>${esc(spec.title)}</title>
 <style>
 :root{--bg:#f4f4f0;--card:#fff;--ink:#1c2428;--mute:#5d686d;--line:#d6d9d3;--accent:#c4491f;--accent-ink:#fff;--pin:#2f7d4f;--rej:#b8372a;color-scheme:light}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11171a;--card:#1a2327;--ink:#e8ecea;--mute:#98a6ab;--line:#2f3c42;--accent:#ff8159;--accent-ink:#11171a;--pin:#5cc08a;--rej:#ef7b6d;color-scheme:dark}}
@@ -74,14 +78,15 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{
 dialog{border:1px solid var(--ink);background:var(--card);color:var(--ink);padding:16px;max-width:min(94vw,640px);width:100%}
 dialog::backdrop{background:rgba(0,0,0,.55)}
 dialog textarea{width:100%;min-height:160px;font:12px/1.4 ui-monospace,monospace;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:8px}
+.chip.send{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
 dialog .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 dialog label{font-size:13px;color:var(--mute);display:block;margin-bottom:4px}
 dialog input.cm{width:100%;padding:8px;font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-bottom:10px}
 #lb img{width:100%;height:auto;display:block;max-height:78vh;object-fit:contain}
 .foot{max-width:1200px;margin:28px auto 0;color:var(--mute);font-size:12px}
 @media (prefers-reduced-motion:no-preference){.tile{transition:opacity .2s}}
-</style></head>
-<body data-slug="${esc(spec.slug)}">
+</style>
+<div id="board" data-slug="${esc(spec.slug)}">
 <header>
   <h1>${esc(spec.title)}</h1>
   <p class="sub">${esc(spec.theme)}${spec.project ? ` · ${esc(spec.project)}` : ""} · ${spec.tiles.length} images · ${spec.audience === "public" ? "public-facing, commercially cleared" : "family"}</p>
@@ -97,11 +102,11 @@ ${spec.tiles.map(tileHtml).join("\n")}
 <div class="dock"><span class="count" id="count">No pins or rejections yet</span><button class="alt" type="button" id="reset">Clear</button><button type="button" id="export">Send feedback to Marlowe</button></div>
 <dialog id="lb"><img alt=""><p class="credit" id="lbc"></p><div class="row"><button class="chip" type="button" id="lbx">Close</button></div></dialog>
 <dialog id="fb"><label for="fbc">Anything else about this board?</label><input class="cm" id="fbc" type="text" maxlength="400" placeholder="Optional comment">
-<label for="fbt">Copy this and paste it to Marlowe</label><textarea id="fbt" readonly></textarea>
-<div class="row"><button class="chip" type="button" id="fbcopy">Copy</button><button class="chip" type="button" id="fbx">Close</button></div><p class="credit" id="fbmsg" role="status"></p></dialog>
+<label for="fbt" id="fblab">Copy this and paste it to Marlowe</label><textarea id="fbt" readonly></textarea>
+<div class="row"><button class="chip send" type="button" id="fbsend" hidden>Send to Marlowe</button><button class="chip" type="button" id="fbcopy">Copy instead</button><button class="chip" type="button" id="fbx">Close</button></div><p class="credit" id="fbmsg" role="status"></p></dialog>
 <script>
 (function(){
-var slug=document.body.dataset.slug,KEY="board:"+slug,state={};
+var slug=document.getElementById("board").dataset.slug,KEY="board:"+slug,state={};
 try{state=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
 var tiles=[].slice.call(document.querySelectorAll(".tile"));
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
@@ -142,9 +147,18 @@ document.getElementById("fbx").onclick=function(){fb.close()};
 document.getElementById("fbcopy").onclick=function(){var m=document.getElementById("fbmsg");
   function fallback(){ta.focus();ta.select();m.textContent="Selected. Press copy on your keyboard."}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(function(){m.textContent="Copied."},fallback)}else fallback()};
+var db=null,sendBtn=document.getElementById("fbsend");
+if(window.claude&&window.claude.use){window.claude.use("db").then(function(d){if(!d)return;db=d;sendBtn.hidden=false;
+  document.getElementById("fblab").textContent="This goes straight to Marlowe. You can also copy it.";
+  document.getElementById("fbcopy").textContent="Copy instead";},function(){})}
+sendBtn.onclick=function(){var m=document.getElementById("fbmsg");if(!db)return;
+  var o=JSON.parse(build());o.status="new";o.createdAt=new Date().toISOString();
+  if(!o.pins.length&&!o.rejects.length&&!o.comment){m.textContent="Pin or reject something first, or add a comment.";return}
+  sendBtn.disabled=true;
+  db.collection("feedback").doc(slug+"-"+Date.now()).set(o).then(function(){m.textContent="Sent. Marlowe has it. You can close this page.";},
+    function(){sendBtn.disabled=false;m.textContent="That did not send. Use Copy instead.";});};
 paint();
 })();
 </script>
-</body></html>
-`;
+</div>`;
 }

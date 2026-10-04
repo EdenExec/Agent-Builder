@@ -16,7 +16,9 @@
     "qc": "node workshop/office/qc.ts",
     "memory": "node workshop/office/memory.ts",
     "brief": "node workshop/office/brief.ts",
-    "board": "node workshop/office/board.ts"
+    "board": "node workshop/office/board.ts",
+    "desk": "node workshop/office/desk.ts",
+    "status": "node workshop/office/desk.ts status"
   },
   "dependencies": {
     "undici": "^7.10.0",

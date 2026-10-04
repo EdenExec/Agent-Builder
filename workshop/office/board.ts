@@ -48,6 +48,7 @@ async function main() {
       embed: !flags.has("no-embed"), outRoot: OUT,
     });
     console.log(`Board: ${r.htmlPath} (${kb(r.bytes)}, ${r.spec.tiles.length} tiles)`);
+    console.log(`Page:  ${r.pagePath}  (publish this with the Artifact tool, capabilities {"db":{}}, so feedback needs no copy-paste)`);
     console.log(`Spec:  ${r.specPath}  (edit the "note" on each tile, then: npm run board -- build ${r.specPath})`);
     console.log(`Excluded from memory: ${exclude.size} previously rejected image(s) skipped.`);
     const reasons = new Map<string, number>();

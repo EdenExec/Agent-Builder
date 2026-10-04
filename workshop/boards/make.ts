@@ -6,7 +6,7 @@ import type { Orientation } from "../sources/types.ts";
 import type { Fetcher } from "../lib/http.ts";
 import { curate, type Dropped, type Found } from "./curate.ts";
 import { embedTiles, pingUnsplash } from "./embed.ts";
-import { renderBoard } from "./render.ts";
+import { renderBoard, renderBoardFragment } from "./render.ts";
 import { tileId, type BoardSpec, type Tile } from "./types.ts";
 
 export type MakeOptions = {
@@ -34,6 +34,7 @@ export type MakeOptions = {
 export type MakeResult = {
   spec: BoardSpec;
   htmlPath: string;
+  pagePath: string;
   specPath: string;
   dropped: Dropped[];
   searchErrors: { provider: string; message: string }[];
@@ -48,17 +49,20 @@ export function boardDir(outRoot: string, slug: string) {
   return join(outRoot, slug);
 }
 
-export function saveBoard(spec: BoardSpec, outRoot: string): { htmlPath: string; specPath: string; bytes: number } {
+export function saveBoard(spec: BoardSpec, outRoot: string): { htmlPath: string; pagePath: string; specPath: string; bytes: number } {
   const dir = boardDir(outRoot, spec.slug);
   mkdirSync(dir, { recursive: true });
   const html = renderBoard(spec);
   const htmlPath = join(dir, "board.html");
   const specPath = join(dir, "board.json");
   writeFileSync(htmlPath, html);
+  // The same board as page content, for publishing as a private page with one-tap feedback.
+  const pagePath = join(dir, "board.page.html");
+  writeFileSync(pagePath, renderBoardFragment(spec));
   // The spec keeps tile metadata and notes but not the image bytes (they are re-fetched on rebuild).
   const lean = { ...spec, tiles: spec.tiles.map(({ dataUri: _d, ...t }) => t) };
   writeFileSync(specPath, JSON.stringify(lean, null, 2) + "\n");
-  return { htmlPath, specPath, bytes: Buffer.byteLength(html) };
+  return { htmlPath, pagePath, specPath, bytes: Buffer.byteLength(html) };
 }
 
 export function loadSpec(path: string): BoardSpec {

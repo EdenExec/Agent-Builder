@@ -7,7 +7,7 @@ import type { Fetcher } from "../lib/http.ts";
 import type { ImageCandidate, ImageSource } from "../sources/types.ts";
 import { curate, type Found } from "./curate.ts";
 import { embedTiles } from "./embed.ts";
-import { renderBoard, esc } from "./render.ts";
+import { renderBoard, renderBoardFragment, esc } from "./render.ts";
 import { makeBoard, rebuildBoard, loadSpec } from "./make.ts";
 import { parseFeedback, applyFeedback, loadExcluded } from "./feedback.ts";
 import { recall } from "../core/memory.ts";
@@ -130,6 +130,14 @@ describe("render", () => {
     assert.match(html, /A&amp;B/);
     assert.equal(esc(`'"<>&`), "&#39;&quot;&lt;&gt;&amp;");
   });
+  test("fragment has no document wrapper but keeps title, style, board root and script; standalone wraps it", () => {
+    const f = renderBoardFragment(spec());
+    assert.match(f, /^<title>Quiet &lt;Timber&gt;<\/title>/);
+    assert.doesNotMatch(f, /<!doctype|<html[ >]|<head[ >]|<body[ >]/i);
+    assert.match(f, /<div id="board" data-slug="test-board">/);
+    assert.match(f, /getElementById\("board"\)\.dataset\.slug/);
+    assert.match(renderBoard(spec()), /^<!doctype html>[\s\S]*<body>[\s\S]*<\/body><\/html>\n$/);
+  });
   test("carries attribution, licence and filters on every tile and is theme-aware and self-contained", () => {
     const s = spec();
     const html = renderBoard(s);
@@ -142,6 +150,7 @@ describe("render", () => {
     assert.equal((html.match(/class="note"/g) ?? []).length, 1, "empty notes are not rendered");
     assert.doesNotMatch(html, /<link |<script src=/);
     assert.match(html, /data-slug="test-board"/);
+    assert.match(html, /<title>Quiet &lt;Timber&gt;<\/title>/);
   });
 });
 
@@ -208,6 +217,17 @@ describe("feedback", () => {
     assert.throws(() => parseFeedback('{"pins":[]}'), /board/);
     assert.throws(() => parseFeedback('{"board":"b","pins":[{"id":"nocolon"}]}'), /Bad tile id/);
     assert.throws(() => parseFeedback('{"board":"b","pins":"x"}'), /must be a list/);
+  });
+  test("reads the document exactly as the board page stores it, wrapped or not, ignoring extra fields", () => {
+    const doc = { board: "b", pins: [{ id: "pexels:9", reason: "light" }], rejects: [], status: "new", createdAt: "2026-10-04T00:00:00Z" };
+    assert.equal(parseFeedback(JSON.stringify(doc)).pins[0]!.id, "pexels:9");
+    assert.equal(parseFeedback(JSON.stringify({ data: doc, version: 3 })).board, "b");
+  });
+  test("board page sends to the Desk database when available and still offers copy", () => {
+    const html = renderBoard(spec());
+    assert.match(html, /id="fbsend"[^>]*hidden/);
+    assert.match(html, /collection\("feedback"\)/);
+    assert.match(html, /id="fbcopy"/);
   });
   test("writes taste and rejected ids to memory, and curate then excludes them", () => {
     const emp = tmp();
