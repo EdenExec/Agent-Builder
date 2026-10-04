@@ -104,7 +104,7 @@ Every candidate carries title, creator, licence, source page and a ready-to-prin
 
 ## Working with Marlowe (housing architect)
 
-In Claude Code, ask for the `housing-architect` agent, for example: "Use housing-architect to brainstorm a single-level ranch outside Eagle." Marlowe interviews you, keeps a brief in `projects/<slug>/brief.yaml`, and queues it for your approval before any work starts. Then: vision boards (`deliverables/boards/<slug>/board.html`, one self-contained file you open on any device), then a programme and zoning study. 3D massing is phase 4.
+Easiest: open a Claude Code session on this repo (claude.ai/code or the phone app) and type `/marlowe` followed by what you want, for example `/marlowe brainstorm a single-level ranch outside Eagle`. That gives a normal back-and-forth conversation. For one-shot jobs you can also say "Use the housing-architect agent to build a kitchen board for project X". Marlowe's files, memory and `qc/` are committed to the repo, so commit and push at the end of a session or they vanish with the container. Marlowe interviews you, keeps a brief in `projects/<slug>/brief.yaml`, and queues it for your approval before any work starts. Then: vision boards (`deliverables/boards/<slug>/board.html`, one self-contained file you open on any device), then a programme and zoning study. 3D massing is phase 4.
 
 **Guardrails.** Spending money and sending any message to another person always need your approval, and this cannot be switched off in `agent.yaml` (the loader rejects it). Approvals live in `qc/`. Project permissions in `.claude/settings.json` stop agents from running `qc approve` or editing `qc/`. Run `npm run qc` to see what is waiting.
 
