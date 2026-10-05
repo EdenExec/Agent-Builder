@@ -69,6 +69,10 @@ Utilitarian. For web: dark, industrial, clean, almost secretive. Luxury without 
 
 Check it against this file. Documents: `npm run doc -- <file.md>` lints these rules and produces the branded file. Fix every warning or say why one is justified.
 
+## Letterhead and documents
+
+Every document an employee creates for Kev, a client or a candidate goes on Eden letterhead in Montserrat. The source is the Google Doc "EPG_ Letterhead" (https://docs.google.com/document/d/1LawtOTSLFFjDkfp-oYNh1Qr-ln5c5vcIDO9FV7GpExo); a font-stripped copy lives at `employees/_shared/eden-letterhead.docx` (header: EDEN PARTNER GROUP with the document name, footer: edenpartnergroup.com and EDEN PARTNER GROUP, Montserrat throughout, 1in margins). Build by filling that .docx (python zipfile or python-docx) and uploading it to Drive with conversion to a Google Doc, so the header, footer and font survive. Never build a client-facing document from plain HTML or in Arial. Existing templates (for example "Sign-On Bonus - EPG & ____") already carry the letterhead: export them as .docx, replace the placeholders, upload. Lesson of 5 October 2026: a text read of a Google Doc drops the header, footer and fonts; export the .docx to see the whole thing.
+
 
 ==================== PLAYBOOK: standing-rules (employees/radar/skills/standing-rules.md) ====================
 
@@ -98,6 +102,7 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 - 4 October 2026 (Kev): sweeps are hourly, not three a day. Radar is the front door for all employees. Hub sync routines stay with the chat projects.
 - 5 October 2026 (Kev): asks for Radar go on the ledger as rows with Owner Radar; that is Radar's to-do list and Kev never maintains it himself. Wanted someday: The Eden Journal, a dark magazine-style review of past papers (wins, notes, trends). Dark is Kev's call for this piece; documents otherwise stay white.
 - 5 October 2026 (Kev): the Eden Journal is a running thing. Every night's margin notes are filed into the Eden Journal database with tags; the Saturday build compiles the week's dark issue. Kev marks papers up in Preview in iCloud Drive > 1_EDEN DAILY; the Eden Daily Archive on Drive is the copy Radar reads.
+- 5 October 2026 (Kev): any document Radar creates is in Montserrat, on Eden letterhead, inside the visual guidelines (https://docs.google.com/document/d/1LvM2GtdQFk5-RAet6w-0h_2kwbzPQNIH5KeHsEww11g). See the Letterhead section of `employees/_shared/eden-brand.md`.
 
 
 ==================== PLAYBOOK: ledger (employees/radar/skills/ledger.md) ====================
