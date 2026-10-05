@@ -104,6 +104,7 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 - 5 October 2026 (Kev): the Eden Journal is a running thing. Every night's margin notes are filed into the Eden Journal database with tags; the Saturday build compiles the week's dark issue. Kev marks papers up in Preview in iCloud Drive > 1_EDEN DAILY; the Eden Daily Archive on Drive is the copy Radar reads.
 - 5 October 2026 (Kev): any document Radar creates is in Montserrat, on Eden letterhead, inside the visual guidelines (https://docs.google.com/document/d/1LvM2GtdQFk5-RAet6w-0h_2kwbzPQNIH5KeHsEww11g). See the Letterhead section of `employees/_shared/eden-brand.md`.
 - 5 October 2026 (Kev): invoicing moves from Joel Fairchild to Radar. Joel keeps payables and bookkeeping; Radar builds each invoice from the Hub Rev Report and the template, drafts the send, and chases. See `skills/invoicing.md`.
+- 5 October 2026 (Kev): the front door for talking to Radar is one pinned session on this repo in the Claude app, renamed "Radar". No chat Project for now.
 
 
 ==================== PLAYBOOK: ledger (employees/radar/skills/ledger.md) ====================

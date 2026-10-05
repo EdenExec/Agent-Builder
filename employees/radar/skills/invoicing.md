@@ -37,7 +37,7 @@ Export the finished doc as PDF with the same name. Carmel asks for a Word copy s
 - To the client's AP contact, cc Nick and the recruiter on the deal (Bridger on VMG and Baker in September).
 - Subject: `Invoice <#> - <F. Last> - (Net 30 - <start date>)`.
 - Body in Kev's voice, three lines: invoice attached for <first name>, who started <date>; W-9 and contact info already on file (or "attached" the first time with a client); call Nick or Kev with questions; thanks for the partnership.
-- Attach the PDF. Draft with `create_or_update_draft`, then a ledger row Lane Batch, Owner Kev, so he sends it from the check-out batch or the paper. At stage 2 or later, send on the start date and list it in that day's "sent for you".
+- Attach the PDF. Draft with Gmail `create_draft` (it carries the PDF attachment; the Superhuman draft tool cannot), then a ledger row Lane Batch, Owner Kev, so he sends it from the check-out batch or the paper. At stage 2 or later, send on the start date and list it in that day's "sent for you".
 
 ## After sending
 
@@ -54,7 +54,10 @@ Export the finished doc as PDF with the same name. Carmel asks for a Word copy s
 | Megawatt | Joel Gaines (jgaines@megawatt.com) | 62502 |
 | PENTA | Anthony Boca (aboca@pentabldggroup.com), Andrea Robinson cc'd once | 62043 |
 | Carmel Partners | Caroldean Ross (cross@carmelpartners.com); wants a Word copy and a W-9 | 62047, 62048 |
-| PB South, Pence Kelly, Swinerton DFW, Hoffman, Triton | Not in Kev's sent mail. Ask. |
+| PB South | Kristen Rose, Controller (krose@pbsouthconstruction.com). Placements and retainers both. Must pay Eden Partner Group, not EES: she has paid the wrong account before. Retainers due by the 15th. | 62023, 62033, Perklov chase |
+| Pence / Pence Kelly | Benjamin Kizer (benjamin.kizer@pence.net) asked that invoices go to materials@pence.net with him cc'd. Kev sends to Ben and cc's the hiring manager. | 62039 |
+| Triton Construction | Lance Franklin (lfranklin@tritonconstruction.net), H.A. on the retainer row. First invoice 10/2026; confirm. | Rev Report 62064 |
+| Swinerton DFW, Hoffman | Not in Kev's sent mail. Ask before the first invoice. | |
 
 ## Never
 
