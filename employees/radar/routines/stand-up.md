@@ -184,7 +184,7 @@ Training insert: if Kev emailed himself a training plan for tomorrow (from kev@e
 Render HTML to PDF with Playwright Chromium (executablePath `/opt/pw-browsers/chromium`, no install). Letter landscape, printBackground, zero margins. QC: pdffonts shows no Type 3; pdftotext -layout shows no split words; render page 1 and a study page at 110 dpi and look at them; every open QC row is visibly applied.
 
 ## Step 7, deliver
-Save as `/mnt/user-data/outputs/Eden Daily - <Day> <Mon> <D>.pdf` and deliver with `SendUserFile` (status proactive, display attach, caption = tomorrow's biggest must-hit). Create the Google Doc "Eden Daily delivered - <Day> <Mon> <D>" in the Eden Daily folder with the plain-text front page so the 5:30 brief can read it. Mark applied one-off QC rows Done. Finish with a six-line summary: check-out found or not, QC applied, archive annotations read, flags logged, leads per search, events added, PDF name.
+Save as `/mnt/user-data/outputs/Eden Daily - <Day> <Mon> <D>.pdf` and deliver with `SendUserFile` (status proactive, display attach, caption = tomorrow's biggest must-hit). Then publish the same PDF as an Artifact so a link exists outside this session: a one-line white Montserrat page titled "Eden Daily - <Day> <Mon> <D>" with the PDF attached through the Artifact tool's `files` parameter and one "Open the PDF" link to it. Put the claude.ai link in the delivered Doc's first line and in the closing summary. Create the Google Doc "Eden Daily delivered - <Day> <Mon> <D>" in the Eden Daily folder with the plain-text front page so the 5:30 brief can read it. Mark applied one-off QC rows Done. Finish with a six-line summary: check-out found or not, QC applied, archive annotations read, flags logged, leads per search, events added, PDF name.
 
 
 ==================== PLAYBOOK: sunday-edition (employees/radar/skills/sunday-edition.md) ====================
@@ -208,7 +208,7 @@ Built Saturday night after 8pm, served Sunday at 5:30am before Main Street. Pers
 After the Sunday Edition, build the week's issue of **The Eden Journal**: Kev's dark magazine-style look-back. Source: the Eden Journal database rows for the week (`collection://61f6bc1d-5d84-43c3-b946-5bf602a35897`), the check-outs and the Round Table numbers. Pages: cover with the week's lede and numbers; one page per paper (wins, done, carried, the margin notes in Kev's words, evidence, calls on the sheets); the weekend; the Round Table; trends (what the week says in one sitting, with dials and drinks by day); look for next week. Matte dark (#161616, ink #F2F0EA), Montserrat and Plex Mono embedded, landscape; this is Kev's deliberate exception to the white-paper rule. Set each row's Issue number. Deliver as `Eden Journal - Issue <n>.pdf` with `SendUserFile`.
 
 ## Deliver
-Build Saturday night: PDF via Playwright as on weekdays, QC the same way, deliver with `SendUserFile`, write "Eden Daily delivered - Sun <Mon> <D>" to the Eden Daily folder with the front page text. The 5:30am Sunday brief then serves it with the journal prompt first.
+Build Saturday night: PDF via Playwright as on weekdays, QC the same way, deliver with `SendUserFile`, publish the PDF as an Artifact the same way as a weekday paper (one-line page, PDF in `files`, link in the Doc and the summary), write "Eden Daily delivered - Sun <Mon> <D>" to the Eden Daily folder with the front page text. The 5:30am Sunday brief then serves it with the journal prompt first.
 
 
 ==================== SEED MEMORY: sources (employees/radar/memory/seed/sources.md) ====================
