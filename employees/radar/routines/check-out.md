@@ -96,6 +96,8 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 ## Additions
 
 - 4 October 2026 (Kev): sweeps are hourly, not three a day. Radar is the front door for all employees. Hub sync routines stay with the chat projects.
+- 5 October 2026 (Kev): asks for Radar go on the ledger as rows with Owner Radar; that is Radar's to-do list and Kev never maintains it himself. Wanted someday: The Eden Journal, a dark magazine-style review of past papers (wins, notes, trends). Dark is Kev's call for this piece; documents otherwise stay white.
+- 5 October 2026 (Kev): the Eden Journal is a running thing. Every night's margin notes are filed into the Eden Journal database with tags; the Saturday build compiles the week's dark issue. Kev marks papers up in Preview in iCloud Drive > 1_EDEN DAILY; the Eden Daily Archive on Drive is the copy Radar reads.
 
 
 ==================== PLAYBOOK: ledger (employees/radar/skills/ledger.md) ====================
@@ -252,6 +254,7 @@ Deliver as one `PushNotification` ("Radar: week review is ready, 3 taps") and th
 | System | What | Identifier |
 |---|---|---|
 | Notion ledger | Daily Catch-Up Items database (the ledger) | data source `collection://be709daf-ca63-4687-9295-e329e54f87bf`; database https://app.notion.com/p/d18ce0753b65404a86e4992be19124df; parent page "Daily Catch-Up Log" https://app.notion.com/p/3ce25d7d12f48110b9f2d1dcda440b90 |
+| Notion journal | Eden Journal database: one row per note Kev wrote, tagged by client, search, people, topic, type; seeded with the week of Sep 28 (issue 1) | data source `collection://61f6bc1d-5d84-43c3-b946-5bf602a35897`; database https://app.notion.com/p/77f7147290074855b76e2e5b1a8e4e22 |
 | Notion hub | Eden Life Master Plan (Hub): cross-project source of truth, synced nightly by the Eden 2.0 and Workshop chat projects | https://app.notion.com/p/3ea25d7d12f4817682defd39712b3674 |
 | Drive | "The Eden Daily" folder: delivered Docs, lead sheets, PDFs | folder id `1DvqQIdEi0gt9AEImtR20_T3HdQAa8AaN` |
 | Drive | "Eden Daily Archive": Kev's marked-up papers, saved nightly | folder id `19EYZokFjw0KgT-_ollIgYRP11UnTBavN` |

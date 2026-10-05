@@ -96,6 +96,8 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 ## Additions
 
 - 4 October 2026 (Kev): sweeps are hourly, not three a day. Radar is the front door for all employees. Hub sync routines stay with the chat projects.
+- 5 October 2026 (Kev): asks for Radar go on the ledger as rows with Owner Radar; that is Radar's to-do list and Kev never maintains it himself. Wanted someday: The Eden Journal, a dark magazine-style review of past papers (wins, notes, trends). Dark is Kev's call for this piece; documents otherwise stay white.
+- 5 October 2026 (Kev): the Eden Journal is a running thing. Every night's margin notes are filed into the Eden Journal database with tags; the Saturday build compiles the week's dark issue. Kev marks papers up in Preview in iCloud Drive > 1_EDEN DAILY; the Eden Daily Archive on Drive is the copy Radar reads.
 
 
 ==================== PLAYBOOK: ledger (employees/radar/skills/ledger.md) ====================
@@ -158,7 +160,7 @@ Drive folder "The Eden Daily" (id `1DvqQIdEi0gt9AEImtR20_T3HdQAa8AaN`): if "Eden
 `notion-query-data-sources` on `collection://be709daf-ca63-4687-9295-e329e54f87bf`: (a) every row with Status Not started or In progress, oldest first, with its Lane, Owner, Bill rate and Due; (b) today's "EOD Check-Out · <date>" row; (c) every open "Claude QC" row. Apply every QC row in steps 4 and 5. No check-out today: proceed with open rows and the calendar and print "No EOD check-out logged" at the top of Must-Hits.
 
 ## Step 2, read the archive
-Drive folder "Eden Daily Archive" (id `19EYZokFjw0KgT-_ollIgYRP11UnTBavN`): the newest file. Kev's handwritten annotations are feedback and to-dos. Each becomes a ledger row (Source "paper <date> margin") or a QC row. Say in the summary how many you read.
+Drive folder "Eden Daily Archive" (id `19EYZokFjw0KgT-_ollIgYRP11UnTBavN`): the newest file. Kev's handwritten annotations are feedback and to-dos. Each becomes a ledger row (Source "paper <date> margin") or a QC row, and every note Kev wrote also becomes one row in the **Eden Journal** database (data source `collection://61f6bc1d-5d84-43c3-b946-5bf602a35897`, inside Daily Catch-Up Log): Note in Kev's words, Date, Type (Win, Stuck, Idea, Decision, Follow-up, Number, Prayer, Scripture, Family, Quote, QC, Meeting notes), Clients, Searches, People, Topics, Source, Sure unchecked when the handwriting was unclear. The journal is Kev's searchable memory; never skip it. Say in the summary how many annotations you read and how many journal rows you wrote.
 
 ## Step 3, flag what is still open
 Superhuman: threads from the last 3 days where someone asked Kev something and he has not replied (skip newsletters, blasts, answered threads; the sweeps' `Radar/Swept` label and drafts tell you what is already handled). Google Calendar (`kev@edenexec.com`): invites in the next 3 days not accepted; tomorrow's interviews and client calls without confirmation. Family calendar (`0nae4cnun4tvm43clph902slbt2tphvl@import.calendar.google.com`): anything tomorrow Kev should know. Log each new flag as a ledger row with Lane and Owner. No duplicates.
@@ -200,6 +202,9 @@ Built Saturday night after 8pm, served Sunday at 5:30am before Main Street. Pers
 7. **Core values and big projects.** The seven pillars as Kev has written them (ledger or hub; if not found, print the C12 wheel's eight areas as the frame and say so). Then the big projects from the Eden Life Master Plan hub (https://app.notion.com/p/3ea25d7d12f4817682defd39712b3674): North Star, Eden Excursions, Eden Ranch, Eden Farms, homes and relocation, each as one line of status and one line of next step.
 8. **Evening: stand up the week.** Monday to Friday columns from the Kev - Eden and Family calendars, the "Week ahead" row from Friday's review, family plans (one memory with the kids, scheduled), the admin block, and three Must-Dos for the week with boxes.
 
+## The Eden Journal (companion issue)
+After the Sunday Edition, build the week's issue of **The Eden Journal**: Kev's dark magazine-style look-back. Source: the Eden Journal database rows for the week (`collection://61f6bc1d-5d84-43c3-b946-5bf602a35897`), the check-outs and the Round Table numbers. Pages: cover with the week's lede and numbers; one page per paper (wins, done, carried, the margin notes in Kev's words, evidence, calls on the sheets); the weekend; the Round Table; trends (what the week says in one sitting, with dials and drinks by day); look for next week. Matte dark (#161616, ink #F2F0EA), Montserrat and Plex Mono embedded, landscape; this is Kev's deliberate exception to the white-paper rule. Set each row's Issue number. Deliver as `Eden Journal - Issue <n>.pdf` with `SendUserFile`.
+
 ## Deliver
 Build Saturday night: PDF via Playwright as on weekdays, QC the same way, deliver with `SendUserFile`, write "Eden Daily delivered - Sun <Mon> <D>" to the Eden Daily folder with the front page text. The 5:30am Sunday brief then serves it with the journal prompt first.
 
@@ -211,6 +216,7 @@ Build Saturday night: PDF via Playwright as on weekdays, QC the same way, delive
 | System | What | Identifier |
 |---|---|---|
 | Notion ledger | Daily Catch-Up Items database (the ledger) | data source `collection://be709daf-ca63-4687-9295-e329e54f87bf`; database https://app.notion.com/p/d18ce0753b65404a86e4992be19124df; parent page "Daily Catch-Up Log" https://app.notion.com/p/3ce25d7d12f48110b9f2d1dcda440b90 |
+| Notion journal | Eden Journal database: one row per note Kev wrote, tagged by client, search, people, topic, type; seeded with the week of Sep 28 (issue 1) | data source `collection://61f6bc1d-5d84-43c3-b946-5bf602a35897`; database https://app.notion.com/p/77f7147290074855b76e2e5b1a8e4e22 |
 | Notion hub | Eden Life Master Plan (Hub): cross-project source of truth, synced nightly by the Eden 2.0 and Workshop chat projects | https://app.notion.com/p/3ea25d7d12f4817682defd39712b3674 |
 | Drive | "The Eden Daily" folder: delivered Docs, lead sheets, PDFs | folder id `1DvqQIdEi0gt9AEImtR20_T3HdQAa8AaN` |
 | Drive | "Eden Daily Archive": Kev's marked-up papers, saved nightly | folder id `19EYZokFjw0KgT-_ollIgYRP11UnTBavN` |
