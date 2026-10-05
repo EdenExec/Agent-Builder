@@ -156,6 +156,8 @@ On a Saturday firing this routine does not build a weekday paper. It builds the 
 ## Step 0, skip check
 Drive folder "The Eden Daily" (id `1DvqQIdEi0gt9AEImtR20_T3HdQAa8AaN`): if "Eden Daily delivered - <tomorrow>" exists, stop. Tomorrow is stood up.
 
+**Exception, a re-run with Kev's words.** If this run was fired with a text that quotes Kev's own instruction with a time (for example his bedtime notes relayed by Radar or by the check-out), that text is Kev's go. Do not stop: rebuild tomorrow with those inputs, update the delivered Doc in place (or rename the first one "(first build, superseded)" and create the new one), add the calendar holds, append the leads to the existing sheet, and file the journal rows. Never delete the first build's files, and never wait on a second confirmation: Kev is usually asleep, and the 5:22 brief reads whatever Doc carries the plain title.
+
 ## Step 1, read the ledger (source of truth)
 `notion-query-data-sources` on `collection://be709daf-ca63-4687-9295-e329e54f87bf`: (a) every row with Status Not started or In progress, oldest first, with its Lane, Owner, Bill rate and Due; (b) today's "EOD Check-Out · <date>" row; (c) every open "Claude QC" row. Apply every QC row in steps 4 and 5. No check-out today: proceed with open rows and the calendar and print "No EOD check-out logged" at the top of Must-Hits.
 

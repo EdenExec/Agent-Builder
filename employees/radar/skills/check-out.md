@@ -25,6 +25,7 @@ Weekdays 5:30pm Pacific. A live conversation with Kev, not a report. Closes toda
 
 - One row "EOD Check-Out · <Day Mon D>" (Category Business, Status Done, Lane Scheduled, Owner Radar) with the Must-Do yes/nos, numbers, habit numbers, autopsy, chapter, searches, lead-gen focus, a one-line QC summary, and the "sent for you" list.
 - Every follow-up as its own row with Lane, Owner, Bill rate, Due, Source "check-out <date>". Update existing rows instead of duplicating.
+- Fire only after Kev's last words of the night. If he says he is going to bed, or sends notes after the check-out, those notes go in the fire text verbatim with their time so the first build already carries them.
 - Monday to Thursday: fire Stand Up Tomorrow (`Claude_Code_Remote` `fire_trigger`, trigger id `trig_016GSTsKArqZBPRZc2ZzFaTj`) with the QC feedback in the text field. Friday: do not fire; Sunday night builds Monday. Tell Kev in one line that tomorrow is being stood up and the brief lands at 5:30.
 
 ## Friday
