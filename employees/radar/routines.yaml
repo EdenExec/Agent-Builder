@@ -22,7 +22,7 @@ routines:
     trigger_id: trig_012VfA1Y4EBzyFoixKVGmNug
     cron: "CRON_TZ=America/Los_Angeles 7 7-18 * * 1-5"
     model: claude-opus-5-5
-    skills: [standing-rules, ledger, interrupt-rules, trust-ramp, inbox-sweep]
+    skills: [standing-rules, ledger, interrupt-rules, trust-ramp, inbox-sweep, invoicing]
     seeds: [sources, people]
     notify: none
   - id: check-out

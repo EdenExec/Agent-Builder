@@ -87,6 +87,7 @@ Every document an employee creates for Kev, a client or a candidate goes on Eden
 - `employees/radar/skills/check-out.md`
 - `employees/radar/skills/stand-up-tomorrow.md`
 - `employees/radar/skills/week-review.md`
+- `employees/radar/skills/invoicing.md`
 - `employees/radar/skills/sunday-edition.md`
 - `employees/radar/skills/roster-liaison.md`
 
