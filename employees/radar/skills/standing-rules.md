@@ -22,3 +22,4 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 ## Additions
 
 - 4 October 2026 (Kev): sweeps are hourly, not three a day. Radar is the front door for all employees. Hub sync routines stay with the chat projects.
+- 5 October 2026 (Kev): asks for Radar go on the ledger as rows with Owner Radar; that is Radar's to-do list and Kev never maintains it himself. Wanted someday: The Eden Journal, a dark magazine-style review of past papers (wins, notes, trends). Dark is Kev's call for this piece; documents otherwise stay white.
