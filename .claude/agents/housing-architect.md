@@ -84,7 +84,21 @@ Every document an employee creates for Kev, a client or a candidate goes on Eden
 
 ## Core values on the page
 
-Eden's core values are Stewardship, Curiosity, Improvement and Dedication (Eden Onboarding Master Doc). On The Eden Daily they appear as a hairline border with one value at each side's midpoint and an eight-pointed cross by the masthead whose points carry the eight tenets. Subtle, classic, black only. The spec lives in `employees/radar/skills/stand-up-tomorrow.md`.
+Eden's core values are the Seven Pillars, from the "Eden-Core-Values" Google Doc (id `1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg`). Kev, 6 October 2026: "whenever we talk core values, this is what I'm referencing now." It replaces the four-value list from the Onboarding Master Doc.
+
+| # | Pillar | Tenets | Verse |
+|---|---|---|---|
+| 01 | Righteousness | Sanctification; Stewardship | Colossians 3:23 |
+| 02 | Winning | Not stopping; Relentless pursuit; Know the rules; Clarity & strategy | 2 Timothy 4:7-8 |
+| 03 | Accountability | Accountable to others; Ownership of tasks; Punctual; LACES 1-3-1 | Matthew 12:36; James 5:16 |
+| 04 | Discipline | Doing every task like you love it | Proverbs 12:1 |
+| 05 | Transparency | Honesty; Integrity; Radical candor | Psalm 25:21 |
+| 06 | Growth | Student of the craft; Always raising the bar; Polymath | Psalm 78:72 |
+| 07 | Execution | Prepared; Organized; Action; Follow through | Still open (John Wooden's practice standard for now) |
+
+The same doc carries the six Recruiter Must-Dos (plan the week ahead; don't chase the day, 15 RPs by noon; audit your inventory, chop tomorrow's wood today; seek to build your own book; autopsy your work; activity / inventory / skill), the "At Eden we" standards (Power Hours, calendars each evening, timely replies, daily skill growth, training, show up sharp: 5 minutes early is the bare minimum) and the motto "Leaders are Readers. Learners are Earners." Its Mission, Vision and 1 / 3 / 5-year traction boxes are blank until the Mission Made Simple worksheet is filled.
+
+On The Eden Daily the pillars are hidden in plain sight: a hairline frame whose top line carries the seven names with the day's pillar in bold, a seven-column colonnade by the masthead with the day's column drawn solid, and the day's verse in the frame. Subtle, classic, black only. The spec lives in `employees/radar/skills/stand-up-tomorrow.md`.
 
 ## Skills (read the relevant playbook before starting that kind of work)
 
