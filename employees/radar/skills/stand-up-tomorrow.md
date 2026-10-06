@@ -26,7 +26,15 @@ Searches come from, in priority: the check-out, existing "POWER HOUR" events on 
 Google Calendar `kev@edenexec.com`, Pacific. Never move, edit or delete existing events; fill only open time. Green (colorId 2): Power Hours "POWER HOUR · <Client> — <Search>" and 20-minute callbacks owed. Purple (colorId 3): oldest Lane Mine rows with Bill rate Business, C12 or Admin; Admin rows go in one block, never scattered. Orange (colorId 6): Claude build work Kev flagged. Last block "Claude EOD check-out" at 5:30pm if missing. Default 20 minutes, 10-minute popup, no attendees, no Meet links. Leave time empty rather than padding it. Family calendar events are respected as hard edges.
 
 ## Step 6, build the paper
-Follow `standing-rules.md` for orientation, typography and the habit tracker. Pages:
+Follow `standing-rules.md` for orientation, typography and the habit tracker. Read `deal-desk.md`: the front page carries "Deal desk · top 10" above the Run of Day, ordered by fee at stake, as soon as the ledger and Rev Report can feed it (start with offers out, second interviews to set, FTIs, thin depth charts).
+
+**Core values, hidden in plain sight (Kev, 5 October 2026).** Like the eight points of the Knights of St John cross, each mark on the page means something. Keep it super clean and classic, never loud:
+- A hairline border on every page, 0.5pt black at 70% opacity, inset 8mm. At the midpoint of each side, in Plex Mono 6px caps tracked 0.12em, one value: STEWARDSHIP (top), CURIOSITY (right), IMPROVEMENT (bottom), DEDICATION (left). The footer keeps EDENPARTNERGROUP.COM and EDEN PARTNER GROUP.
+- An eight-pointed cross, 9mm, line only, black, beside the masthead. Each point carries one tenet in 4.5px caps, readable with a lens, invisible at a glance: honor God with your efforts; be a caretaker; seek wisdom; begin with the end in mind; headhunting is a craft; grow in skillset daily; choose the next right move; slow is smooth, smooth is fast.
+- Watermark: the same cross at 4% black, 60mm, centred behind the Run of Day on the front page only. It must not show on a phone screenshot or a photocopy; if in doubt, lighter.
+- Nothing else. No mottoes in the margins, no colour. Source of the values: Eden Onboarding Master Doc (Notion) and `employees/_shared/eden-brand.md`.
+
+Pages:
 1. **Front.** Masthead THE EDEN DAILY, dateline, one-line count. HABIT TRACKER strip with streaks from the check-out rows (blanks where not logged). "Act with Agency: 20 Meaningful Connections." with 20 circles. RUN OF DAY (tomorrow's full calendar, Power Hours in gold). MUST-HITS (3 to 5). PUSH FORWARD: Lane Mine and Waiting on rows, one line each, who / what / next step, ordered by bill rate then due. POWER HOUR LINEUP with page refs. MARGIN NOTES lines. Scripture block: next chapter in Kev's ESV book-order reading, one verse, two lines tied to the work, "STUDY GUIDE → <chapter>" internal link.
 2. One call-sheet page per Power Hour (brief, opener, table with Dial / VM / Conn / Meaningful boxes and Notes).
 3. Study guide for the chapter (bible-study-guide skill if available): big idea, hook, setting, read it slowly, flow, labelled nuggets, where it leads, respond, practice, prayer, memory verse. Written for a pen in hand.

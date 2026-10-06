@@ -38,6 +38,6 @@ routines:
     trigger_id: trig_016GSTsKArqZBPRZc2ZzFaTj
     cron: "CRON_TZ=America/Los_Angeles 47 20 * * 0-4,6"
     model: claude-opus-5-5
-    skills: [standing-rules, ledger, stand-up-tomorrow, sunday-edition]
+    skills: [standing-rules, ledger, stand-up-tomorrow, sunday-edition, deal-desk]
     seeds: [sources, people, rhythm, c12-framework]
     notify: push

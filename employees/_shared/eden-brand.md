@@ -30,3 +30,7 @@ Check it against this file. Documents: `npm run doc -- <file.md>` lints these ru
 ## Letterhead and documents
 
 Every document an employee creates for Kev, a client or a candidate goes on Eden letterhead in Montserrat. The source is the Google Doc "EPG_ Letterhead" (https://docs.google.com/document/d/1LawtOTSLFFjDkfp-oYNh1Qr-ln5c5vcIDO9FV7GpExo); a font-stripped copy lives at `employees/_shared/eden-letterhead.docx` (header: EDEN PARTNER GROUP with the document name, footer: edenpartnergroup.com and EDEN PARTNER GROUP, Montserrat throughout, 1in margins). Build by filling that .docx (python zipfile or python-docx) and uploading it to Drive with conversion to a Google Doc, so the header, footer and font survive. Never build a client-facing document from plain HTML or in Arial. Existing templates (for example "Sign-On Bonus - EPG & ____") already carry the letterhead: export them as .docx, replace the placeholders, upload. Lesson of 5 October 2026: a text read of a Google Doc drops the header, footer and fonts; export the .docx to see the whole thing.
+
+## Core values on the page
+
+Eden's core values are Stewardship, Curiosity, Improvement and Dedication (Eden Onboarding Master Doc). On The Eden Daily they appear as a hairline border with one value at each side's midpoint and an eight-pointed cross by the masthead whose points carry the eight tenets. Subtle, classic, black only. The spec lives in `employees/radar/skills/stand-up-tomorrow.md`.
