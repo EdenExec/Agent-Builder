@@ -37,7 +37,7 @@ Export the finished doc as PDF with the same name. Carmel asks for a Word copy s
 - To the client's AP contact, cc Nick and the recruiter on the deal (Bridger on VMG and Baker in September).
 - Subject: `Invoice <#> - <F. Last> - (Net 30 - <start date>)`.
 - Body in Kev's voice, three lines: invoice attached for <first name>, who started <date>; W-9 and contact info already on file (or "attached" the first time with a client); call Nick or Kev with questions; thanks for the partnership.
-- Attach the PDF. Draft with Gmail `create_draft` (it carries the PDF attachment; the Superhuman draft tool cannot), then a ledger row Lane Batch, Owner Kev, so he sends it from the check-out batch or the paper. At stage 2 or later, send on the start date and list it in that day's "sent for you".
+- Attach the PDF. Draft with `create_or_update_draft` using `body` (Kev's exact words, HTML). Neither mail tool can attach a file reliably: Gmail `create_draft` wants the PDF as inline base64, which a model cannot reproduce byte for byte, and the Superhuman tool has no attachment field. So the PDF goes to Kev as a file card (SendUserFile) and the Google Doc lives in the Invoices folder; he attaches from Drive or the card before sending. Then a ledger row Lane Batch, Owner Kev, so he sends it from the check-out batch or the paper. At stage 2 or later, send on the start date and list it in that day's "sent for you".
 
 ## After sending
 
