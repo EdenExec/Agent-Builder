@@ -111,6 +111,7 @@ On The Eden Daily the pillars are hidden in plain sight: a hairline frame whose 
 - `employees/atlas/skills/lesson-and-drills.md`
 - `employees/atlas/skills/programs-and-tools.md`
 - `employees/atlas/skills/learning-pathways.md`
+- `employees/atlas/skills/atlas-desk.md`
 
 ## Memory
 

@@ -18,3 +18,7 @@ After the Sunday Edition, build the week's issue of **The Eden Journal**: Kev's 
 
 ## Deliver
 Build Saturday night: PDF via Playwright as on weekdays, QC the same way, deliver with `SendUserFile`, publish the PDF as an Artifact the same way as a weekday paper (one-line page, PDF in `files`, link in the Doc and the summary), write "Eden Daily delivered - Sun <Mon> <D>" to the Eden Daily folder with the front page text. The 5:30am Sunday brief then serves it with the journal prompt first.
+
+## Atlas week (from 11 October 2026)
+
+One box on the family page: last week's lessons with the three ticks (finished, taught back, action), minutes and allowance G earned, the streak, and next week's lessons from the Desk (`employees/atlas/desk.json`, collections `lessons`, `ledger`, `settings/rules`). Read it with `ArtifactData`; never write to it.

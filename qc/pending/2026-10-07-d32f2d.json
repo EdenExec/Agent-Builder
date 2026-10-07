@@ -1,0 +1,10 @@
+{
+  "id": "2026-10-07-d32f2d",
+  "status": "pending",
+  "createdAt": "2026-10-07T15:54:27.326Z",
+  "employee": "atlas",
+  "kind": "spend",
+  "summary": "ElevenLabs Creator plan for Atlas podcast voices ($22/month, about 100 minutes of audio, cancel any month)",
+  "detail": "Kev asked for a wise-mentor voice for Atlas and a 10-12 year old boy for Finn; the free Edge and Google voices cannot do that. ElevenLabs Creator: $22/month, ~100,000 credits = ~100 minutes = three to four road-trip episodes a month at the current length. Voices: pick or design one elder mentor and one boy from the Voice Library / Voice Design, then record the two voice ids in Atlas's memory. Radar logs characters per episode on the ledger and flags when a month passes 80,000 credits. Alternative if No: OpenAI gpt-4o-mini-tts at about $0.015/min (under $1 per episode) with instruction-steered 'wise elder' and 'curious boy' vibes; good but no true child voice.",
+  "amountUsd": 22
+}

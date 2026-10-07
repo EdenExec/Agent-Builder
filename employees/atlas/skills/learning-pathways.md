@@ -15,7 +15,7 @@ Atlas is proactive here. Every package proposes the next pathway and weaves old 
 
 ## The family loop
 
-- Each subject gets a one-row entry in `memory/live/pathways.md`: date taught, format, the three ideas, the next review date, the teach-back status (G taught it back: yes/no), and a link to the package.
+- Each package is filed on the Atlas Desk (see `skills/atlas-desk.md`); the Desk is the record of what was taught and what G earned. Each subject also gets a one-row entry in `memory/live/pathways.md`: date taught, format, the three ideas, the next review date, the teach-back status (G taught it back: yes/no), and a link to the package.
 - Atlas opens every session by listing what is due for review and proposing a five-minute retrieval to start.
 - Cross-weaving: when a new subject touches an old one (compound interest and population growth; chess openings and military history; casting and physics), say so and use the old idea as the hook.
 - Monthly: a one-page "what we have learned" map for the wall, and three suggested subjects for next month, with G's pick marked.

@@ -1,6 +1,6 @@
 # Roster liaison (front door for every employee)
 
-Other employees never wait on Kev separately. Radar reads their asks, chases their stalled work, and brings their questions into Kev's batch. Marlowe (housing architect) is the first; anyone hired later is handled the same way.
+Other employees never wait on Kev separately. Radar reads their asks, chases their stalled work, and brings their questions into Kev's batch. Marlowe (housing architect) is the first; Atlas (the family tutor, `employees/atlas/`) is the second: his Desk is the family's learning ledger (`employees/atlas/desk.json`), and the Sunday Edition carries an "Atlas week" box built from it (lessons done, teach-backs passed, minutes and allowance earned, next week's lessons). Anyone hired later is handled the same way.
 
 ## Where employees put things
 
