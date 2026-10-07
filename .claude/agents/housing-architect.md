@@ -94,7 +94,7 @@ Eden's core values are the Seven Pillars, from the "Eden-Core-Values" Google Doc
 | 04 | Discipline | Doing every task like you love it | Proverbs 12:1 |
 | 05 | Transparency | Honesty; Integrity; Radical candor | Psalm 25:21 |
 | 06 | Growth | Student of the craft; Always raising the bar; Polymath | Psalm 78:72 |
-| 07 | Execution | Prepared; Organized; Action; Follow through | Still open (John Wooden's practice standard for now) |
+| 07 | Execution | Prepared; Organized; Action; Follow through | Ecclesiastes 9:10, "Whatever your hand finds to do, do it with your might" (Kev, 6 Oct 2026, Decisions row 11; John Wooden's practice standard stays the working reference) |
 
 The same doc carries the six Recruiter Must-Dos (plan the week ahead; don't chase the day, 15 RPs by noon; audit your inventory, chop tomorrow's wood today; seek to build your own book; autopsy your work; activity / inventory / skill), the "At Eden we" standards (Power Hours, calendars each evening, timely replies, daily skill growth, training, show up sharp: 5 minutes early is the bare minimum) and the motto "Leaders are Readers. Learners are Earners." Its Mission, Vision and 1 / 3 / 5-year traction boxes are blank until the Mission Made Simple worksheet is filled.
 
