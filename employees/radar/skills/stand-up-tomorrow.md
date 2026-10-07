@@ -37,7 +37,9 @@ Follow `standing-rules.md` for orientation, typography and the habit tracker. Re
 - Page 2: "Recruiter must-dos · the six, on <day>", each tied to a real item on tomorrow's calendar (01 plan the week, 02 don't chase the day with 15 RPs by noon, 03 audit your inventory at the check-out, 04 build your own book, 05 autopsy your work on Friday, 06 activity / inventory / skill), then one line of "At Eden we" and the motto.
 - Check-out page: six "At Eden we" tick boxes, "The reason I am working this hard is" with two lines, and "Did I finish the race today?" for the pillar.
 - Decisions page: open items from the core values doc (the Execution verse, the Mission Made Simple worksheet) stay as tick rows until Kev answers them.
-- Front-page pillar box: Kev struck the label and circled the frame and colonnade on 6 October. Until he answers the Decisions row (keep / shrink / drop), draw it at half height.
+- Front-page pillar box stays at full size (Kev, 6 October 2026: "I liked the pillar box. It's cool."). Never shrink or drop it.
+- Monogram (Kev, 6 October 2026): bottom-right corner of every page, inside the frame, a 6mm circle with a 0.5pt ring and KDTW in Montserrat 600, tracked 0.08em, black at 80%. Classy office-stationery feel. Nothing else changes.
+- Notes page (Kev, 6 October 2026): the last page of every paper is a full-page dot grid, 5mm pitch, hairline dots at 35% black, with the frame, frieze, footer and monogram like every other page and a small NOTES label top left in Plex Mono caps. Kev duplicates it in Preview whenever he needs more.
 - Nothing else in the margins, no colour. First run: Tuesday 6 October 2026, stamped onto the finished PDF with pdf-lib (scratchpad `tue/overlay.mjs`); a full build draws the same marks in the HTML.
 
 Pages:
@@ -45,7 +47,8 @@ Pages:
 2. One call-sheet page per Power Hour (brief, opener, table with Dial / VM / Conn / Meaningful boxes and Notes). Layout (Kev, 6 October 2026, standing): no left-hand index column; names flush left in the first column; Notes is the widest column; a legend under every table reads "O = continue chasing, F.U. = follow-up email".
 3. Study guide for the chapter (bible-study-guide skill if available): big idea, hook, setting, read it slowly, flow, labelled nuggets, where it leads, respond, practice, prayer, memory verse. Written for a pen in hand.
 4. **Decisions page** (Kev, 5 October 2026). One line per Batch-lane ledger row with Status not Done: the question, Radar's recommended answer, what silence does, and three tick boxes (Yes / No / Talk). Kev marks it in Preview and sends the photo back; the next sweep or check-out reads the marks as his answers and updates the rows.
-5. Back page "Tonight's EOD Check-Out": Must-Do boxes, RPs /15, connections /20, habit numbers, scripture done, prompts (How did today go · What moves forward · Leads for tomorrow · Who needs what · Family and home · C12 to-dos · Any way Radar can improve tomorrow's paper).
+5. "Tonight's EOD Check-Out": Must-Do boxes, RPs /15, connections /20, habit numbers, scripture done, prompts (How did today go · What moves forward · Leads for tomorrow · Who needs what · Family and home · C12 to-dos · Any way Radar can improve tomorrow's paper).
+6. **Notes page**, last. Dot grid as specified above.
 Training insert: if Kev emailed himself a training plan for tomorrow (from kev@edenexec.com, subject contains "Training" and the date), add 1 to 2 pages after the study guide.
 
 Render HTML to PDF with Playwright Chromium (executablePath `/opt/pw-browsers/chromium`, no install). Letter landscape, printBackground, zero margins. QC: pdffonts shows no Type 3; pdftotext -layout shows no split words; render page 1 and a study page at 110 dpi and look at them; every open QC row is visibly applied.

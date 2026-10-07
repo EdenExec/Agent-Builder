@@ -98,7 +98,7 @@ Eden's core values are the Seven Pillars, from the "Eden-Core-Values" Google Doc
 
 The same doc carries the six Recruiter Must-Dos (plan the week ahead; don't chase the day, 15 RPs by noon; audit your inventory, chop tomorrow's wood today; seek to build your own book; autopsy your work; activity / inventory / skill), the "At Eden we" standards (Power Hours, calendars each evening, timely replies, daily skill growth, training, show up sharp: 5 minutes early is the bare minimum) and the motto "Leaders are Readers. Learners are Earners." Its Mission, Vision and 1 / 3 / 5-year traction boxes are blank until the Mission Made Simple worksheet is filled.
 
-On The Eden Daily the pillars are hidden in plain sight: a hairline frame whose top line carries the seven names with the day's pillar in bold, a seven-column colonnade by the masthead with the day's column drawn solid, and the day's verse in the frame. Subtle, classic, black only. The spec lives in `employees/radar/skills/stand-up-tomorrow.md`.
+On The Eden Daily the pillars are hidden in plain sight: a hairline frame whose top line carries the seven names with the day's pillar in bold, a seven-column colonnade by the masthead with the day's column drawn solid, and the day's verse in the frame. Subtle, classic, black only. Two more marks since 6 October 2026: Kev's monogram, KDTW in a small ring at the bottom-right of every page, and a dot-grid notes page as the last page of every paper. The spec lives in `employees/radar/skills/stand-up-tomorrow.md`.
 
 ## Skills (read the relevant playbook before starting that kind of work)
 
