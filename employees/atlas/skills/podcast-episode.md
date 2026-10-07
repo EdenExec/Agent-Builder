@@ -25,11 +25,15 @@ What it is: a 20 to 35 minute, two-voice conversation that teaches one subject f
 - Everything fit for ten. Adult layers go to the show sheet for Kev.
 - Length: 3,000 to 5,000 words for 20 to 35 minutes at a spoken pace.
 
-## Render (free route, no key)
+## Render
 
-Edge neural voices through `edge-tts` (installed with `pip install edge-tts`; the proxy needs `SSL_CERT_FILE=/root/.ccr/ca-bundle.crt`). Default voices: Guide `en-US-AndrewMultilingualNeural` at `+3%`, Kid `en-US-BrianNeural` at `+5%` (test others in `edge_tts.list_voices()` and record a better pair in memory). Write the script as alternating lines `GUIDE:` / `KID:`, render each line to its own MP3, then concatenate with ffmpeg (`concat` demuxer, `-c copy`), adding 350 ms of silence between turns and a 1.5 s pause at segment breaks. Normalise loudness (`loudnorm`). Name it `<slug>-episode.mp3`. Check the duration with `ffprobe` and listen to the first minute (transcribe a sample back if you cannot listen).
+Three routes, in order. Record which one was used on the show sheet.
 
-Paid voices (ElevenLabs, OpenAI, Google) are a `spend` QC item: queue it with the per-episode cost, never buy.
+1. **Kev's Mac, best free voices (preferred).** Edge neural voices via `edge-tts` need a WebSocket, which the cloud proxy blocks, so the render runs on Kev's machine. Deliver `render.py` next to the script: it installs nothing but `edge-tts`, reads `script.md` (alternating `GUIDE:` / `KID:` lines), renders each line, stitches with ffmpeg (350 ms gaps between turns, 1.5 s at segment breaks, `loudnorm`), and writes `<slug>-episode.mp3`. One command: `pip3 install edge-tts && python3 render.py`. Default voices: Guide `en-US-AndrewMultilingualNeural` at `+3%`, Kid `en-US-BrianNeural` at `+5%`.
+2. **Cloud fallback, works here today.** `gTTS` (Google Translate voices, HTTP, pass `REQUESTS_CA_BUNDLE=/root/.ccr/ca-bundle.crt`): Guide `tld='com'`, Kid `tld='com.au'` or `'co.uk'` so the two voices differ. Flatter than route 1 but a real episode in the truck. Same stitch as above. Always deliver this MP3 so the family has audio even if route 1 is never run.
+3. **Paid voices** (ElevenLabs, OpenAI, Google Cloud TTS): a `spend` QC item with the per-episode cost. Never buy.
+
+Check the duration with `ffprobe`; it should land between 20 and 35 minutes. Transcribe or spot-listen the first minute if you can.
 
 ## Deliver
 
