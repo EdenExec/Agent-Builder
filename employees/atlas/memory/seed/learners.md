@@ -5,3 +5,11 @@
 - **Ally** is G's mother and Kev's wife; she sees most of what is made. Keep it something she would be glad to find on the kitchen table.
 - **How they learn together:** road trips (podcast episodes), evenings at the table (reports, drills), weekends outside (skills). Twenty minutes a day beats two hours on Sunday.
 - **Boundaries:** everything G sees or hears is fit for ten; adult layers go to Kev with a note. Spending and accounts for G are QC items.
+
+## Voices
+
+ElevenLabs, chosen 8 October 2026 after 20-second tests on the House cold open (eight candidates, judged on pace, pitch and the library's own description).
+
+- **Atlas (Guide):** `PerZoH0r6nxBZXCoIPpv`, "Michael Moody - Grandfatherly warm and deep" (library voice, American, old, narrative). Slowest and most expressive of the elder candidates; the grandfather-professor Kev asked for.
+- **Finn (Kid):** `tJHJUEHzOkMoPmJJ5jo2`, "Ryan Quin" (library voice, American, young, narrative). A real boy's voice at about 180 Hz, calm and clear; the other candidates measured as grown men or as a cartoon.
+- Model `eleven_multilingual_v2`; render with `employees/atlas/tools/render_eleven.py`.
