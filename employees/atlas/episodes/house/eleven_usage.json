@@ -1,0 +1,10 @@
+{
+  "episode": "house",
+  "characters": 23684,
+  "model": "eleven_multilingual_v2",
+  "voices": {
+    "GUIDE": "PerZoH0r6nxBZXCoIPpv",
+    "KID": "tJHJUEHzOkMoPmJJ5jo2"
+  },
+  "duration_s": 1870.994286
+}

@@ -1,0 +1,10 @@
+{
+  "episode": "river",
+  "characters": 23402,
+  "model": "eleven_multilingual_v2",
+  "voices": {
+    "GUIDE": "PerZoH0r6nxBZXCoIPpv",
+    "KID": "tJHJUEHzOkMoPmJJ5jo2"
+  },
+  "duration_s": 1915.663673
+}
