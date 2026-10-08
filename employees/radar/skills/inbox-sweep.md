@@ -26,3 +26,7 @@ Runs weekdays, every hour from 7am to 6pm Pacific. Silent: no message to Kev unl
 - Never archive anything from a client, a candidate in process, family, finance or legal.
 - Never reply to a thread that mentions money, offers, compensation, legal or family.
 - Never push twice for the same thread.
+
+## Admin split (Kev, 8 October 2026)
+
+admin@edenexec.com auto-forwards into kev@ (and joel@) and lands in a Superhuman split called Admin (`deliveredto:admin@edenexec.com OR to:admin@edenexec.com`). Sweep it as its own class every hour: vendor notices, portal and compliance mail, W-9 and banking requests, state agency mail (SAW, DOR, L&I, ESD) and invoices file to the ledger with Category Admin / Emma Gap and Owner Joel where it is his; receipts and notifications already filed are noise and archive; anything with money, legal or a signature goes to the Batch, never answered. Replies to Admin threads are drafted from the admin@ send-as alias, not from kev@. The personal Gmail (kdt.williams@gmail.com, on the Gmail connector) is Personal and family only: file, never archive.
