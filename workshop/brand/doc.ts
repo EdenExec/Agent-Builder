@@ -75,6 +75,10 @@ export function renderDoc(md: string, opts: DocOptions = {}): string {
   const cover = opts.cover ?? (meta.cover ? meta.cover !== "false" : words > 450 || h2s.length > 5);
   const toc = h2s.length >= 5 && meta.toc !== "false";
   const date = meta.date ?? "";
+  // `compact: true` in the front matter tightens type and spacing so a one-to-two page brief stays on two pages.
+  const compact = meta.compact === "true"
+    ? "body{font-size:9.5pt;line-height:1.45}h1{font-size:20pt}h2{font-size:12pt;margin:16px 0 6px;padding-top:6px}p{margin:0 0 6px}ul,ol{margin:0 0 6px}li{margin:0 0 2px}.tw{margin:6px 0 8px}table{font-size:8.5pt}th{padding:4px 8px}td{padding:4px 8px}@page{margin:20mm 18mm 18mm}"
+    : "";
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${escHtml(title)}</title>
@@ -111,6 +115,7 @@ h2,h3{break-after:avoid}
 .toc{break-after:page;page-break-after:always;padding-top:20px}
 .toc ol{list-style:none;padding:0}.toc li{display:flex;gap:12px;border-bottom:1px solid #d9d6ce;padding:8px 0;font-weight:600}
 .toc a{text-decoration:none}
+${compact}
 </style></head><body>
 ${cover
     ? `<section class="cover"><div class="org">${NAME}</div><div><h1>${escHtml(title)}</h1>${meta.subtitle ? `<p class="sub">${escHtml(meta.subtitle)}</p>` : ""}</div><div class="meta"><span>${escHtml([meta.author, date].filter(Boolean).join(" · "))}</span><span>${SITE}</span></div></section>`
