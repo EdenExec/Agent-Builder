@@ -59,6 +59,7 @@ Utilitarian. For web: dark, industrial, clean, almost secretive. Luxury without 
 - **Headers:** bold. Data goes in tables or graphs whenever possible.
 - **Structure:** break information up with page breaks when sections are divisible. Give a cover page whenever necessary, and an executive summary or table of contents for larger documents.
 - **Identity:** the header reads EDEN PARTNER GROUP, with the document title in bold italic beneath. The footer carries edenpartnergroup.com and EDEN PARTNER GROUP.
+- **Which name (Kev, 10 October 2026):** "All mentions of Eden Partner Group should move to KDTW Group for any home projects, family projects and projects not focused on recruiting." Recruiting, clients, candidates, invoices and the weekday Eden Daily carry Eden Partner Group. Atlas, Marlowe, the Atlas Desk, home and ranch plans, the Sunday Edition and the Eden Journal carry KDTW GROUP in the same place, with no website in the footer (KDTW Group has none). In code: `identity("kdtw")` in `workshop/brand/eden.ts`; documents take `org: kdtw` in the front matter; boards default to KDTW. The paper's own name, The Eden Daily, does not change.
 
 ## Writing rules (documents and chat replies alike)
 
@@ -73,7 +74,7 @@ Check it against this file. Documents: `npm run doc -- <file.md>` lints these ru
 
 ## Letterhead and documents
 
-Every document an employee creates for Kev, a client or a candidate goes on Eden letterhead in Montserrat. The source is the Google Doc "EPG_ Letterhead" (https://docs.google.com/document/d/1LawtOTSLFFjDkfp-oYNh1Qr-ln5c5vcIDO9FV7GpExo); a font-stripped copy lives at `employees/_shared/eden-letterhead.docx` (header: EDEN PARTNER GROUP with the document name, footer: edenpartnergroup.com and EDEN PARTNER GROUP, Montserrat throughout, 1in margins). Build by filling that .docx (python zipfile or python-docx) and uploading it to Drive with conversion to a Google Doc, so the header, footer and font survive. Never build a client-facing document from plain HTML or in Arial. Existing templates (for example "Sign-On Bonus - EPG & ____") already carry the letterhead: export them as .docx, replace the placeholders, upload. Lesson of 5 October 2026: a text read of a Google Doc drops the header, footer and fonts; export the .docx to see the whole thing.
+Every document an employee creates for Kev, a client or a candidate goes on Eden letterhead in Montserrat. KDTW Group documents have no letterhead file yet: render them with `npm run doc` and `org: kdtw` until Kev supplies one. The source is the Google Doc "EPG_ Letterhead" (https://docs.google.com/document/d/1LawtOTSLFFjDkfp-oYNh1Qr-ln5c5vcIDO9FV7GpExo); a font-stripped copy lives at `employees/_shared/eden-letterhead.docx` (header: EDEN PARTNER GROUP with the document name, footer: edenpartnergroup.com and EDEN PARTNER GROUP, Montserrat throughout, 1in margins). Build by filling that .docx (python zipfile or python-docx) and uploading it to Drive with conversion to a Google Doc, so the header, footer and font survive. Never build a client-facing document from plain HTML or in Arial. Existing templates (for example "Sign-On Bonus - EPG & ____") already carry the letterhead: export them as .docx, replace the placeholders, upload. Lesson of 5 October 2026: a text read of a Google Doc drops the header, footer and fonts; export the .docx to see the whole thing.
 
 ## Core values on the page
 
@@ -140,6 +141,7 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 - 9 October 2026 (Kev): **client staff on lead lists.** Moss is a client: never call their people; the only touch is a referral ask, so Moss names go on a separate "Moss · referral asks only" tab, never on a dial tab. Baker Concrete is a client too: we can pull from Baker but discreetly, so every Baker row carries "Client · discreet" in the Note and the recruiter is told before dialing. The same test applies to every active client (Triton, PB South, VMG, Megawatt, Hoffman, Pence Kelly and their GC Fortis, Carmel, Promethean, Prometheus, Swinerton): check the company column against the client list before a sheet goes out. Kev decides any exception.
 - 9 October 2026 (Kev): **Sunday lab review.** "As part of our Sunday review, we should have each agent build a slide deck on the project they're working on, organised like an investor update. I come in with Radar, tell them where to go next, give that advice, then they go back to the lab. This turns the agents into their own project managers and I become a client reviewing status reports." Every employee builds one deck per active project by Saturday 8pm (eight slides, the ask on slide 2, numbers on slide 4); Radar files them on the Desk, builds the Lab review page of the Sunday Edition, runs the Sunday-evening walk-through with Kev, and writes his advice back onto each employee's status card, a ledger row and the journal so the employee reads it at its next session. Spec in `employees/_shared/lab-review.md`. Decks report; they never act.
 - 10 October 2026 (Kev): **Atlas episodes live on the Atlas Desk.** "Spin up a media library in Atlas's Desk... It should be standalone only in Atlas's Desk." The Atlas Desk (https://claude.ai/artifact/Hy19F4FNCKe18QHUvRqj6h) now has Home tickets, a Listen library (resume where you stopped, 15-second skips, speed, clips with notes), Lessons, Reading (books $10 to $15 each, a big prize per finished series that Kev sets), Scouts (pack, rank, adventures tied to tracks) and the Bank. The Eden Desk carries a link to `#listen`, never the MP3 itself. Spec in `employees/atlas/skills/atlas-desk.md`.
+- 10 October 2026 (Kev): **KDTW Group for everything not recruiting.** "All mentions of Eden Partner Group should move to KDTW Group for any home projects / family projects / and projects not focused on recruiting." Atlas, Marlowe, the Atlas Desk, Marlowe's Desk and boards, home and ranch plans, the Sunday Edition and the Eden Journal carry KDTW GROUP. Recruiting, clients, candidates, invoices, the Eden Desk and the weekday paper keep Eden Partner Group. Legal and finance records that name the entity (payroll, the Boise HQ move) are facts, not branding, and are not renamed. Details in `employees/_shared/eden-brand.md`.
 
 
 ==================== PLAYBOOK: ledger (employees/radar/skills/ledger.md) ====================
@@ -251,7 +253,7 @@ Save as `/mnt/user-data/outputs/Eden Daily - <Day> <Mon> <D>.pdf` and deliver wi
 
 # The Sunday Edition
 
-Built Saturday night after 8pm, served Sunday at 5:30am before Main Street. Personal growth, core values, long-term vision and big projects. No recruiting call sheets. Same paper standards as weekdays (`standing-rules.md`), landscape, Montserrat and Plex Mono embedded.
+Built Saturday night after 8pm, served Sunday at 5:30am before Main Street. Personal growth, core values, long-term vision and big projects. No recruiting call sheets. Same paper standards as weekdays (`standing-rules.md`), landscape, Montserrat and Plex Mono embedded. The Sunday Edition and the Eden Journal are not about recruiting, so their header and footer carry KDTW GROUP, not Eden Partner Group (Kev, 10 October 2026); the masthead stays THE EDEN DAILY · SUNDAY EDITION.
 
 ## Pages
 
@@ -344,7 +346,7 @@ The next step for the paper is to be predictive. Recruiting is crucial, but driv
 
 | Who | Role | Radar routes |
 |---|---|---|
-| Kev Williams | Founder, Eden Executive Search and Eden Partner Group. Recruits construction leadership. Drummer at Main Street. Member of C12. | Everything ends with him |
+| Kev Williams | Founder, Eden Executive Search and Eden Partner Group. Home, family and non-recruiting projects run under KDTW Group. Recruits construction leadership. Drummer at Main Street. Member of C12. | Everything ends with him |
 | Ally | Kev's wife | Family lane; never emailed by Radar |
 | The kids (Ivy and siblings) | | Family lane: one scheduled memory a week |
 | Nida | Admin and BPO (BPO Wizard): loads leads into Crelate overnight | Admin tasks, lead sheets |

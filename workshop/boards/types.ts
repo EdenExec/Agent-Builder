@@ -19,6 +19,8 @@ export type BoardSpec = {
   theme: string;
   project?: string;
   audience: "family" | "public";
+  /** Name on the board. Home boards are KDTW Group (Kev, 10 Oct 2026); "eden" only for recruiting work. */
+  org?: "eden" | "kdtw";
   avoid: string[];
   createdAt: string;
   tiles: Tile[];

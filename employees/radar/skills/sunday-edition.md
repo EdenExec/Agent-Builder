@@ -1,6 +1,6 @@
 # The Sunday Edition
 
-Built Saturday night after 8pm, served Sunday at 5:30am before Main Street. Personal growth, core values, long-term vision and big projects. No recruiting call sheets. Same paper standards as weekdays (`standing-rules.md`), landscape, Montserrat and Plex Mono embedded.
+Built Saturday night after 8pm, served Sunday at 5:30am before Main Street. Personal growth, core values, long-term vision and big projects. No recruiting call sheets. Same paper standards as weekdays (`standing-rules.md`), landscape, Montserrat and Plex Mono embedded. The Sunday Edition and the Eden Journal are not about recruiting, so their header and footer carry KDTW GROUP, not Eden Partner Group (Kev, 10 October 2026); the masthead stays THE EDEN DAILY · SUNDAY EDITION.
 
 ## Pages
 

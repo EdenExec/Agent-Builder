@@ -142,8 +142,9 @@ describe("render", () => {
     const html = renderBoard(spec());
     assert.match(html, /font-family:'Montserrat';font-style:normal;font-weight:100 900;[^}]*data:font\/woff2;base64,/);
     assert.match(html, /--font:'Montserrat'/);
-    assert.match(html, /EDEN PARTNER GROUP/);
-    assert.match(html, /edenpartnergroup\.com/);
+    assert.match(html, /KDTW GROUP/, "home boards carry KDTW Group");
+    assert.doesNotMatch(html, /EDEN PARTNER GROUP|edenpartnergroup/);
+    assert.match(renderBoard({ ...spec(), org: "eden" }), /EDEN PARTNER GROUP[\s\S]*edenpartnergroup\.com/);
     assert.match(html, /--bg:#FAF8F3/);
     assert.doesNotMatch(html, /Georgia|#c4491f|#ff8159/i);
   });

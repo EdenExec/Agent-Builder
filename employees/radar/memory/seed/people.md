@@ -2,7 +2,7 @@
 
 | Who | Role | Radar routes |
 |---|---|---|
-| Kev Williams | Founder, Eden Executive Search and Eden Partner Group. Recruits construction leadership. Drummer at Main Street. Member of C12. | Everything ends with him |
+| Kev Williams | Founder, Eden Executive Search and Eden Partner Group. Home, family and non-recruiting projects run under KDTW Group. Recruits construction leadership. Drummer at Main Street. Member of C12. | Everything ends with him |
 | Ally | Kev's wife | Family lane; never emailed by Radar |
 | The kids (Ivy and siblings) | | Family lane: one scheduled memory a week |
 | Nida | Admin and BPO (BPO Wizard): loads leads into Crelate overnight | Admin tasks, lead sheets |

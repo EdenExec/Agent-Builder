@@ -19,7 +19,7 @@ One deck per active project, by **Saturday 8pm Pacific**, no more than eight sli
 | 7 | Next two weeks | Dated moves, who does each, what "done" looks like |
 | 8 | Appendix | Open ledger rows, pending QC items, what the employee learned (goes to `memory/live/`) |
 
-Rules: Eden standard (Montserrat, white, black lettering, result first, three bullets or fewer per slide, data in tables, no emoji). No candidate contact details, compensation figures or client-confidential text on a slide; reference the system of record. The deck is a report, never an action: nothing is sent, spent or published because it was on a slide.
+Rules: decks for home, family and learning projects (Atlas, Marlowe) carry KDTW Group; recruiting projects carry Eden Partner Group. Eden standard (Montserrat, white, black lettering, result first, three bullets or fewer per slide, data in tables, no emoji). No candidate contact details, compensation figures or client-confidential text on a slide; reference the system of record. The deck is a report, never an action: nothing is sent, spent or published because it was on a slide.
 
 ## How it is delivered
 

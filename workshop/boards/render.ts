@@ -1,7 +1,7 @@
 // One self-contained HTML file: masonry layout, embedded images, attribution on every tile,
 // pin / reject with reasons, and an exportable feedback block that `board feedback` turns into memory.
 import type { BoardSpec, Tile } from "./types.ts";
-import { tokenCss, fontFaceCss, SITE, NAME } from "../brand/eden.ts";
+import { tokenCss, fontFaceCss, identity } from "../brand/eden.ts";
 
 export const esc = (s: string | undefined) =>
   (s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
@@ -90,7 +90,7 @@ dialog input.cm{width:100%;padding:8px;font:inherit;border:1px solid var(--line)
 </style>
 <div id="board" data-slug="${esc(spec.slug)}">
 <header>
-  <p class="org">${NAME}</p>
+  <p class="org">${identity(spec.org ?? "kdtw").name}</p>
   <h1>${esc(spec.title)}</h1>
   <p class="sub">${esc(spec.theme)}${spec.project ? ` · ${esc(spec.project)}` : ""} · ${spec.tiles.length} images · ${spec.audience === "public" ? "public-facing, commercially cleared" : "family"}</p>
 </header>
@@ -102,7 +102,7 @@ dialog input.cm{width:100%;padding:8px;font:inherit;border:1px solid var(--line)
 ${spec.tiles.map(tileHtml).join("\n")}
 </main>
 <p class="foot">Images remain the property of their creators. Licences on this board: ${licences.map(esc).join(", ") || "none"}. Created ${esc(spec.createdAt.slice(0, 10))}.</p>
-<p class="foot brand"><span>${SITE}</span><span>${NAME}</span></p>
+<p class="foot brand"><span>${identity(spec.org ?? "kdtw").site}</span><span>${identity(spec.org ?? "kdtw").name}</span></p>
 <div class="dock"><span class="count" id="count">No pins or rejections yet</span><button class="alt" type="button" id="reset">Clear</button><button type="button" id="export">Send feedback to Marlowe</button></div>
 <dialog id="lb"><img alt=""><p class="credit" id="lbc"></p><div class="row"><button class="chip" type="button" id="lbx">Close</button></div></dialog>
 <dialog id="fb"><label for="fbc">Anything else about this board?</label><input class="cm" id="fbc" type="text" maxlength="400" placeholder="Optional comment">

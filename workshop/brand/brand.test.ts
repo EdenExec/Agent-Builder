@@ -65,6 +65,9 @@ describe("render", () => {
     assert.ok(h.includes(FONT_STACK));
     assert.match(h, /EDEN PARTNER GROUP/);
     assert.match(h, /edenpartnergroup\.com/);
+    const k = renderDoc("---\ntitle: Ranch\norg: kdtw\n---\n## Plan\ntext\n");
+    assert.match(k, /KDTW GROUP/);
+    assert.doesNotMatch(k, /EDEN PARTNER GROUP|edenpartnergroup/, "org: kdtw carries KDTW Group only");
     assert.match(h, /background:#fff/);
     assert.match(h, /<table>[\s\S]*<th>Room<\/th>/);
     assert.doesNotMatch(h, /<section class="cover">/);
