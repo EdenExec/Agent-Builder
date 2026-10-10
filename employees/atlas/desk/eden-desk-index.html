@@ -1,0 +1,485 @@
+
+<!-- Eden Desk · build 2026-10-09T15:05 archive-audio -->
+<title>Eden Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: the KDTW Daily shell. Gold eyebrow, big uppercase title, a dark widget with a gold bar for today's folder,
+   square mode cards, then the team scorecard. Light = KDTW Personal palette, dark = Eden Hub business palette. */
+:root{
+  --bg:#FAF8F4; --paper:#FFFFFF; --ink:#1A1A1A; --mute:#8A8478; --line:#EAE4D8; --gold:#A8895C; --gold-soft:#EFE6D8;
+  --widget:#1A1A1A; --widget-ink:#FFFFFF; --widget-mute:rgba(255,255,255,.62); --widget-line:rgba(255,255,255,.12); --widget-gold:#C9A24A;
+  --pos:#3D6B4F; --neg:#8A3A32;
+  --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#050504; --paper:#0e0e0c; --ink:#f7f3e8; --mute:#8a8474; --line:#242219; --gold:#c9a24a; --gold-soft:#1a1710;
+  --widget:#0e0e0c; --widget-ink:#f7f3e8; --widget-mute:#8a8474; --widget-line:#242219; --widget-gold:#c9a24a;
+  --pos:#7DB391; --neg:#D4857B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#050504; --paper:#0e0e0c; --ink:#f7f3e8; --mute:#8a8474; --line:#242219; --gold:#c9a24a; --gold-soft:#1a1710;
+  --widget:#0e0e0c; --widget-ink:#f7f3e8; --widget-mute:#8a8474; --widget-line:#242219; --widget-gold:#c9a24a;
+  --pos:#7DB391; --neg:#D4857B; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;padding-inline:16px;padding-block:28px 90px;line-height:1.45}
+.wrap{max-width:720px;margin:0 auto}
+.brand{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+h1{font-weight:800;font-size:32px;letter-spacing:-.5px;text-transform:uppercase;line-height:1.05;margin:8px 0 0}
+.greet{font-size:13px;color:var(--mute);margin-top:4px;font-family:var(--mono);letter-spacing:1px}
+.hr{height:1px;background:linear-gradient(to right,var(--gold) 0%,var(--line) 14%);margin:22px 0}
+.label{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:700;margin:26px 0 10px}
+.label:first-of-type{margin-top:0}
+
+/* Today widget */
+.widget{background:var(--widget);color:var(--widget-ink);border-radius:10px;padding:18px 20px;position:relative;overflow:hidden}
+.widget::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--widget-gold)}
+.w-eyebrow{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--widget-gold);font-weight:700}
+.w-head{font-size:15px;font-weight:700;margin-top:6px}
+.w-sub{font-size:12.5px;color:var(--widget-mute);margin-top:4px}
+.files{list-style:none;margin:14px 0 0;padding:0}
+.files li{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--widget-line);min-height:52px}
+.files li:first-child{border-top:0;padding-top:4px}
+.files .row{flex:1;min-width:0;display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--widget-gold);flex:0 0 6px}
+.ft{min-width:0;flex:1}
+.ft b{display:block;font-size:13.5px;font-weight:700}
+.ft small{display:block;color:var(--widget-mute);font-size:11.5px;margin-top:1px}
+.kind{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--widget-gold);white-space:nowrap}
+.save{font:inherit;font-weight:700;font-size:11.5px;background:var(--widget-gold);color:#1A1A1A;border:0;border-radius:6px;padding:9px 12px;cursor:pointer;white-space:nowrap}
+.save:disabled{opacity:.6;cursor:default}
+.save:focus-visible,a:focus-visible,button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.files li.audio{flex-wrap:wrap}
+.files li.audio audio{width:100%;min-width:0;margin-top:6px;filter:none}
+.empty{color:var(--widget-mute);font-size:13px;margin-top:12px}
+
+/* Ask Atlas: question/answer thread on the paper card, composer under it. Same tokens as the scorecard. */
+.chat{display:grid;gap:12px}
+.chat .sub{margin:0}
+.thread{display:grid;gap:14px;max-height:60vh;overflow-y:auto;padding-right:2px;scroll-behavior:smooth}
+.turn{display:grid;gap:4px;min-width:0}
+.turn .tag{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute)}
+.turn .tag.atlas{color:var(--gold)}
+.turn .q{font-weight:700;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.turn .a{background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:8px;padding:12px 14px;font-size:14px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+.turn .a.thinking{color:var(--mute);font-style:italic}
+.turn .a.cut{border-style:dashed}
+.chat .empty{color:var(--mute);font-size:13px;margin:0}
+.composer{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start}
+.composer textarea{width:100%;min-height:52px;resize:vertical;line-height:1.45}
+.composer .btns{display:grid;gap:6px}
+.composer .btn{min-width:84px}
+.chat .status{margin:0}
+@media (prefers-reduced-motion:reduce){.thread{scroll-behavior:auto}}
+
+/* Mode cards */
+.modes{display:flex;gap:12px}
+.mode{flex:1;min-width:0;aspect-ratio:1;border-radius:12px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;color:inherit;transition:transform .15s ease}
+.mode:active{transform:scale(.97)}
+.mode.dark{background:var(--widget);color:var(--widget-ink)}
+.mode.light{background:var(--paper);color:var(--ink);border:1.5px solid var(--line)}
+.mode svg{width:30px;height:30px;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.mode.dark svg{stroke:var(--widget-gold)}.mode.light svg{stroke:var(--gold)}
+.mode .n{font-size:18px;font-weight:800;letter-spacing:-.3px}
+.mode .s{font-size:11.5px;margin-top:3px;opacity:.7;font-weight:500}
+.mode-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pill{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:7px 13px;font-size:11.5px;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap}
+.pill:hover{border-color:var(--gold)}
+@media (max-width:420px){.mode{aspect-ratio:auto;min-height:118px}}
+
+/* Scorecard */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 18px 20px}
+.card h3{font-size:15px;font-weight:800;margin:0;letter-spacing:-.2px}
+.card .sub{font-size:12.5px;color:var(--mute);margin:4px 0 0}
+.who{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+select,textarea,input[type=number],input[type=text]{font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:9px 10px;min-width:0}
+select{flex:1 1 180px}
+.wk{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--mute)}
+.grid{width:100%;border-collapse:collapse;margin-top:14px;font-size:12.5px}
+.grid th{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);font-weight:500;text-align:center;padding:6px 2px;border-bottom:1px solid var(--line)}
+.grid th:first-child{text-align:left}
+.grid td{padding:8px 2px;border-bottom:1px solid var(--line);vertical-align:middle;text-align:center}
+.grid td.t{text-align:left;padding-right:8px}
+.grid td.t b{display:block;font-size:12.5px;font-weight:700}
+.grid td.t small{display:block;color:var(--mute);font-size:11px}
+.grid td.n{font-family:var(--mono);font-size:11px;color:var(--mute);width:26px;text-align:left}
+.box{width:30px;height:30px;border:1.5px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.box.yes{background:var(--gold);border-color:var(--gold);color:#1A1A1A}
+.box.no{background:var(--gold-soft);border-color:var(--line);color:var(--mute)}
+.box:disabled{cursor:default;opacity:.55}
+.rp{width:40px;padding:6px 4px;text-align:center;font-family:var(--mono);font-size:12px}
+.tot{font-family:var(--mono);font-size:11px;color:var(--mute);white-space:nowrap}
+.score{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.tile{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.tile .k{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute)}
+.tile b{display:block;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:2px}
+.tile b.win{color:var(--pos)}
+.fields{display:grid;gap:12px;margin-top:14px}
+.fields label{display:grid;gap:5px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);font-weight:700}
+.fields textarea{min-height:64px;resize:vertical;letter-spacing:0;text-transform:none;font-weight:400}
+.fields .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:480px){.fields .two{grid-template-columns:1fr}.grid td.t small{display:none}.grid th.long{font-size:0}.grid th.long::after{content:'Daily';font-size:10px}.box{width:26px;height:26px}.rp{width:34px}}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.btn{font:inherit;font-weight:700;font-size:13px;border:0;border-radius:8px;padding:12px 18px;cursor:pointer;background:var(--ink);color:var(--bg)}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:default}
+.status{font-size:12.5px;color:var(--mute);min-height:1.2em}
+.status.ok{color:var(--pos)}.status.bad{color:var(--neg)}
+.scroll{overflow-x:auto}
+.why{font-size:12px;color:var(--mute);margin-top:10px;line-height:1.5}
+details{margin-top:8px}
+summary{cursor:pointer;font-weight:700;font-size:13px;padding:8px 0;list-style:none;display:flex;justify-content:space-between;color:var(--ink)}
+summary::-webkit-details-marker{display:none}
+summary .n{font-family:var(--mono);font-size:11px;color:var(--mute)}
+.day{padding:10px 0;border-top:1px solid var(--line)}
+.day .d{font-weight:700;font-size:13.5px}
+.day .h{font-size:12px;color:var(--mute)}
+.day .fl{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;margin-top:4px}
+.day .fl a{color:var(--gold);text-decoration:none;font-weight:600}
+.foot{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;color:var(--mute);border-top:1px solid var(--line);padding-top:12px;margin-top:30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;text-transform:uppercase}
+.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:13px;max-width:90vw;z-index:9}
+@media (prefers-reduced-motion:reduce){.mode{transition:none}}
+</style>
+
+<div class="wrap">
+  <div class="brand">Eden Partner Group</div>
+  <h1>Eden Desk</h1>
+  <div class="greet" id="greet">—</div>
+  <div class="hr"></div>
+
+  <div class="label">Today</div>
+  <section class="widget" id="today">
+    <div class="w-eyebrow" id="t-date">Loading today</div>
+    <div class="w-head" id="t-head">Radar files each day's folder here the night before.</div>
+    <ul class="files" id="t-files"></ul>
+    <div class="empty" id="t-empty" hidden>Nothing filed for today yet. The paper, the leads sheet and any briefs land here by 5:30am.</div>
+  </section>
+
+  <div class="label">Ask Atlas</div>
+  <section class="card chat" id="atlas">
+    <h3>Ask Atlas</h3>
+    <p class="sub">The tutor. Ask about the episodes, the house, the river, or anything either of you is learning. Base level first, fit for ten. Say “G here” if it's G asking.</p>
+    <div class="thread" id="atlas-thread" aria-live="polite" hidden></div>
+    <p class="empty" id="atlas-empty">No questions yet. The first one starts the thread.</p>
+    <form class="composer" id="atlas-form">
+      <label for="atlas-q" hidden>Your question for Atlas</label>
+      <textarea id="atlas-q" name="atlas-q" rows="2" placeholder="Ask Atlas" enterkeyhint="send"></textarea>
+      <div class="btns">
+        <button class="btn" id="atlas-ask" type="submit">Ask</button>
+        <button class="btn ghost" id="atlas-stop" type="button" hidden>Stop</button>
+      </div>
+    </form>
+    <span class="status" id="atlas-note"></span>
+    <p class="why">Answers use your own Claude usage. The thread is shared with everyone who can open the Desk.</p>
+  </section>
+
+  <div class="label">Where are we working?</div>
+  <div class="modes" id="modes"></div>
+  <div class="mode-links" id="mode-links"></div>
+
+  <div class="label">Depth charts · print for the wall</div>
+  <section class="widget" id="charts-w">
+    <div class="w-eyebrow">One per client · newest on top</div>
+    <ul class="files" id="charts"></ul>
+    <div class="empty" id="charts-empty">No depth charts filed yet. Radar builds one per client from the Crelate portal and the client's org chart.</div>
+  </section>
+
+  <div class="label">Team · Friday scorecard</div>
+  <section class="card" id="sc">
+    <h3>Weekly scorecard</h3>
+    <p class="sub">Tap a box: once for ✓, twice for •. Win is 90% or better of 42 boxes. Save on Friday by 1:00, then Copy for email to Kev and Nick.</p>
+    <div class="who">
+      <select id="sc-name" aria-label="Your name">
+        <option value="">Who is this?</option>
+        <option>Max Betcher</option><option>Evan MacArthur</option><option>Bridger Stainbrook</option><option>Noah</option><option>Andrew</option><option>Kunji</option><option>Kev Williams</option><option>Nick</option>
+      </select>
+      <span class="wk" id="sc-week">Week of —</span>
+    </div>
+    <div class="scroll"><table class="grid" id="sc-daily"></table></div>
+    <div class="scroll"><table class="grid" id="sc-weekly"></table></div>
+    <div class="score">
+      <div class="tile"><span class="k">Boxes</span><b id="sc-boxes">0 / 42</b></div>
+      <div class="tile"><span class="k">Score</span><b id="sc-score">0%</b></div>
+      <div class="tile"><span class="k">RPs · wk</span><b id="sc-rps">0</b></div>
+    </div>
+    <div class="fields">
+      <label>Autopsy · one thing I'd do differently<textarea id="sc-autopsy"></textarea></label>
+      <label>Wins and blockers<textarea id="sc-wins"></textarea></label>
+      <label>Next week I will (three lines)<textarea id="sc-next" placeholder="1.&#10;2.&#10;3."></textarea></label>
+      <div class="two">
+        <label>Pillar for next week<select id="sc-pillar" style="flex:none;width:100%"><option>01 Righteousness</option><option>02 Winning</option><option>03 Accountability</option><option>04 Discipline</option><option>05 Transparency</option><option>06 Growth</option><option>07 Execution</option></select></label>
+        <label>Burn-out · 1 fried to 10 fresh<input type="number" id="sc-burn" min="1" max="10" step="1"></label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="sc-save" type="button">Save scorecard</button>
+      <button class="btn ghost" id="sc-copy" type="button">Copy for email</button>
+      <span class="status" id="sc-status"></span>
+    </div>
+    <p class="why">Saved cards are private to you on this page; Kev and Nick read them for the Friday review. If Save is refused here, Copy for email still works: paste it into a note to kev@edenexec.com and nick@edenexec.com.</p>
+  </section>
+
+  <div class="label">Earlier days</div>
+  <details id="earlier">
+    <summary><span>Open the archive</span><span class="n" id="earlier-n">0</span></summary>
+    <div id="days"></div>
+  </details>
+
+  <div class="foot"><span>Filed by Radar · Save PDF puts the file in your Downloads</span><span id="status">connecting</span></div>
+</div>
+
+<script>
+// Ask Atlas: a chat box backed by the sample capability; the thread lives in db collection atlas_chat.
+const Atlas=(function(){
+  const $=id=>document.getElementById(id);
+  const RULES=[
+    "You are Atlas, tutor and polymath-in-residence for one family: Kev Williams, a father who founded Eden Executive Search and Eden Partner Group and lives in the Pacific Northwest, and his son Garnet, called G, who is ten. They are asking you from the Eden Desk on a phone, often in the truck.",
+    "Who is asking: assume Kev unless the message says it is G or plainly reads like a ten-year-old. Everything you say must be fit for a ten-year-old to hear. If a subject has an adult layer, say so in one line and leave it for Kev.",
+    "How you answer: base level first. Name the one idea the answer hangs on, give one picture a ten-year-old can see, then one concrete example. Add the mechanism and the history only if asked or if Kev is clearly asking. Spoken English, contractions, short sentences. Round numbers and compare them to something they know. Under 150 words unless asked to go deeper. Plain paragraphs only: no headings, no bullet lists, no markdown, no emoji.",
+    "Never talk down to G and never bury him. If you are not sure of a fact, say so plainly instead of guessing; you have no web access here. Never claim to have done something you did not do.",
+    "Faith is the floor of the house. Eden's Seven Pillars are Righteousness, Winning, Accountability, Discipline, Transparency, Growth and Execution, and the family leads like Jesus. Let that shape how you talk about character, money, strength and leadership by pointing to men who lived it. Never preach at G.",
+    "End with one question back when it would help them think or argue, not every time.",
+    "The two road-trip episodes on the Desk, with Atlas as the guide and Finn as the kid: 'How a House Stands Up' covers the lot and the ground (survey, soil, footings below the frost line, why Pisa leans), the frame and the systems (the load path from roof to dirt, headers over windows, plumber before electrician before ducts), and the skin (water out and back out, flashing laps like shingles, Wingspread's leaking roof). 'Reading a River' covers the fish (a trout wants cold oxygen-rich water, drifting food, a roof, and slow water next to fast), the water (riffle, run, pool, tailout; seams, eddies, foam lines, undercut banks, pockets behind rocks), and the bug (mayflies, caddis, stoneflies, midges; match size first, shape second, colour last)."
+  ].join("\n\n");
+  const COPY={
+    rate_limited:"Atlas is busy right now. Try again in a minute.",
+    session_expired:"Sign in again to ask Atlas.",
+    refused:"Atlas can't take that one. Try asking it a different way.",
+    empty_completion:"Atlas came back empty. Try asking it a different way.",
+    prompt_too_large:"That's too long for one question. Shorten it.",
+    invalid_request:"Something in that question couldn't be sent. Try rewording it.",
+    upstream_error:"The connection dropped. Ask again."
+  };
+  const HIDE=new Set(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"]);
+  let sample=null, db=null, thread=[], local=[], pending=null, ctl=null, today=null;
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  function items(){
+    const base=db?thread:local;
+    return pending&&!base.some(t=>t.id===pending.id)?base.concat([pending]):base;
+  }
+  function renderThread(){
+    const list=items();
+    const box=$('atlas-thread');
+    const atBottom=box.scrollHeight-box.scrollTop-box.clientHeight<40;
+    box.innerHTML=list.map(t=>'<div class="turn"><div class="tag">'+(t.who?esc(t.who):'You')+'</div><div class="q">'+esc(t.q)+'</div>'+
+      '<div class="tag atlas">Atlas</div><div class="a'+(t.pending&&!t.a?' thinking':'')+(t.cut?' cut':'')+'">'+esc(t.pending&&!t.a?'Thinking...':t.a)+(t.cut?'\n\n(cut short)':'')+'</div></div>').join('');
+    $('atlas-empty').hidden=list.length>0;
+    box.hidden=list.length===0;
+    if(atBottom||pending)box.scrollTop=box.scrollHeight;
+  }
+  function contextTurns(){
+    const prior=items().filter(t=>!t.pending&&t.a).slice(-8);
+    const turns=[{role:'user',content:RULES+(today?"\n\nFiled on the Desk today ("+(today.label||today.date)+"): "+(Array.isArray(today.files)?today.files.map(f=>f.title).join('; '):''):'')}];
+    for(const t of prior){turns.push({role:'user',content:t.q});turns.push({role:'assistant',content:t.a});}
+    return turns;
+  }
+  function setBusy(b){
+    $('atlas-ask').disabled=b;$('atlas-stop').hidden=!b;$('atlas-q').disabled=b;
+  }
+  async function persist(t){
+    const rec={q:t.q,a:t.a,at:t.at,who:t.who||'',cut:!!t.cut};
+    if(db){try{await db.collection('atlas_chat').doc(t.id).set(rec);return;}catch(e){}}
+    local.push(Object.assign({id:t.id},rec));
+  }
+  async function ask(q){
+    if(!sample||pending)return;
+    q=q.trim();if(!q)return;
+    const id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+    const who=/^\s*g\b/i.test(q)?'G':'';
+    pending={id,q,a:'',at:new Date().toISOString(),who,pending:true};
+    $('atlas-note').textContent='';
+    setBusy(true);renderThread();
+    ctl=new AbortController();
+    const turns=contextTurns();turns.push({role:'user',content:q});
+    try{
+      const r=await sample(turns,{cache:false,signal:ctl.signal,modelTier:'default',onText:({text})=>{pending.a=text;renderThread();}});
+      pending.a=r.text;pending.cut=!!r.truncated;
+    }catch(e){
+      const code=e&&e.code;
+      if(HIDE.has(code)){pending=null;setBusy(false);renderThread();offline(code==='not_granted'?"Claude isn't allowed for this page yet. Allow it from the page's Permissions menu, then ask again.":UNAVAILABLE);return;}
+      if(e&&e.text){pending.a=e.text;pending.cut=true;}
+      if(code!=='cancelled')$('atlas-note').textContent=COPY[code]||COPY.upstream_error;
+      if(!pending.a){pending=null;setBusy(false);renderThread();return;}
+    }
+    const done=pending;done.pending=false;
+    $('atlas-q').value='';
+    await persist(done);
+    pending=null;setBusy(false);renderThread();
+  }
+  (()=>{
+    $('atlas-form').addEventListener('submit',e=>{e.preventDefault();ask($('atlas-q').value);});
+    $('atlas-q').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();ask($('atlas-q').value);}});
+    $('atlas-stop').addEventListener('click',()=>{if(ctl)ctl.abort();});
+  })();
+  const UNAVAILABLE="Atlas can't answer in this view yet. Open the Desk in a browser at claude.ai, signed in, and try again.";
+  function offline(msg){$('atlas-q').disabled=true;$('atlas-ask').disabled=true;$('atlas-note').textContent=msg;}
+  (async()=>{
+    offline('Connecting to Atlas.');
+    try{sample=(window.claude&&window.claude.use)?await window.claude.use('sample'):null;}catch(e){sample=null;}
+    if(!sample){offline(UNAVAILABLE);return;}
+    $('atlas-q').disabled=false;$('atlas-ask').disabled=false;$('atlas-note').textContent='';renderThread();
+  })();
+  return {
+    attachDb(d){
+      db=d;
+      d.collection('atlas_chat').orderBy('at','asc').limit(200).onSnapshot(s=>{thread=s.docs.map(x=>Object.assign({id:x.id},x.data()));renderThread();},()=>{});
+    },
+    setToday(t){today=t;}
+  };
+})();
+(function(){
+  const $=id=>document.getElementById(id);
+  const PT='America/Los_Angeles';
+  const state={days:[],modes:[],charts:[],today:null,dl:null,db:null,me:null,card:null,saving:false};
+  const DAILY=[
+    ["Executing on the weekly plan","Worked the plan, not the inbox"],
+    ["Don't chase the day","15 RPs, on track by noon"],
+    ["Activity / Inventory / Skill","JOs to required resumes; depth chart owned"],
+    ["Power Hours hit","Power Hours taken seriously"],
+    ["Reviewed my work","End-of-day admin + check-out"],
+    ["Calendar set for tomorrow","Tomorrow booked before leaving"],
+    ["Showed up sharp","5 min early is the minimum"]];
+  const WEEKLY=[
+    ["Audit your inventory","MPCs pulled for campaigns"],
+    ["Build your own book","Chart the course; new business"],
+    ["Autopsy your week","One line: what I'd do differently"],
+    ["Grew toward my next role","Did something to earn the next title"],
+    ["Replied in a timely manner",""],
+    ["Took training seriously",""],
+    ["Sharp all week","5 of 5 sharp days"]];
+  const DAYS=["Mon","Tue","Wed","Thu","Fri"];
+
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  function safeUrl(u){u=String(u||'');return /^(https?:|shortcuts:)/i.test(u)?u:'#'}
+  function ptParts(){const f=new Intl.DateTimeFormat('en-US',{timeZone:PT,year:'numeric',month:'2-digit',day:'2-digit',hour:'numeric',hour12:false,weekday:'short'});const o={};f.formatToParts(new Date()).forEach(p=>o[p.type]=p.value);return o}
+  function todayKey(){const p=ptParts();return p.year+'-'+p.month+'-'+p.day}
+  function weekKey(){ // Monday of this week, PT
+    const p=ptParts();const d=new Date(Date.UTC(+p.year,+p.month-1,+p.day));const dow=(d.getUTCDay()+6)%7;d.setUTCDate(d.getUTCDate()-dow);return d.toISOString().slice(0,10)}
+  function greet(){
+    const p=ptParts();const h=+p.hour;const g=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+    $('greet').textContent=g+' · '+new Intl.DateTimeFormat('en-US',{timeZone:PT,weekday:'long',month:'long',day:'numeric'}).format(new Date());
+  }
+  greet();setInterval(greet,60000);
+  let toastT=null;
+  function toast(msg){let t=document.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t)}t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true},3500)}
+
+  // ---------- Today ----------
+  function fileRow(f,i){
+    const canSave=state.dl&&f.file;
+    if(f.kind==='audio'&&f.file){
+      return '<li class="audio"><span class="dot"></span><span class="ft"><b>'+esc(f.title)+'</b>'+(f.note?'<small>'+esc(f.note)+'</small>':'')+'</span><span class="kind">audio</span>'+
+        '<audio controls preload="none" src="'+esc(f.file)+'"></audio></li>';
+    }
+    return '<li><a class="row" href="'+esc(safeUrl(f.url))+'" target="_blank" rel="noopener"><span class="dot"></span><span class="ft"><b>'+esc(f.title)+'</b>'+(f.note?'<small>'+esc(f.note)+'</small>':'')+'</span><span class="kind">'+esc(f.kind||'link')+'</span></a>'+
+      (canSave?'<button class="save" type="button" data-file="'+esc(f.file)+'">Save PDF</button>':'')+'</li>';
+  }
+  async function saveFile(f,btn){
+    if(!state.dl||!f.file)return;
+    btn.disabled=true;btn.textContent='Fetching';
+    try{const r=await fetch(f.file);if(!r.ok)throw new Error('fetch '+r.status);const blob=await r.blob();const name=(f.file.split('/').pop()||'file.pdf');await state.dl.save({filename:name,data:blob});toast('Saved '+name)}
+    catch(e){const c=e&&e.code;toast(c==='declined'?'Not saved.':c==='rate_limited'?'One at a time. Try again in a moment.':'Could not save here. Use the link instead.')}
+    btn.disabled=false;btn.textContent='Save PDF';
+  }
+  document.addEventListener('click',e=>{const b=e.target.closest('button.save');if(!b)return;if(b.dataset.file)saveFile({file:b.dataset.file},b)});
+  function renderCharts(){
+    const list=state.charts.slice().sort((a,b)=>(b.updated||'').localeCompare(a.updated||''));
+    $('charts').innerHTML=list.map(c=>'<li>'+(c.url?'<a class="row" href="'+esc(safeUrl(c.url))+'" target="_blank" rel="noopener">':'<span class="row">')+'<span class="dot"></span><span class="ft"><b>'+esc(c.client)+(c.title?' · '+esc(c.title):'')+'</b><small>'+esc(c.note||'')+(c.updated?(c.note?' · ':'')+'Updated '+esc(c.updated):'')+'</small></span><span class="kind">'+esc(c.pages?c.pages+' pp':'pdf')+'</span>'+(c.url?'</a>':'</span>')+
+      ((state.dl&&c.file)?'<button class="save" type="button" data-file="'+esc(c.file)+'">Save PDF</button>':'')+'</li>').join('');
+    $('charts-empty').hidden=list.length>0;
+  }
+
+  const ICONS={
+    phone:'<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>',
+    search:'<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>'};
+  function renderModes(){
+    const m=state.modes;
+    $('modes').innerHTML=m.map((x,i)=>{const run=x.shortcut?'shortcuts://run-shortcut?name='+encodeURIComponent(x.shortcut):'#';
+      return '<a class="mode '+(i%2?'light':'dark')+'" href="'+esc(run)+'"><span>'+(ICONS[x.icon]||ICONS[i%2?'search':'phone'])+'</span><span><span class="n">'+esc(x.name)+'</span><span class="s">'+esc(x.note||'')+'</span></span></a>'}).join('')
+      ||'<div class="card" style="flex:1">Modes appear here once set up.</div>';
+    const links=[];m.forEach(x=>(Array.isArray(x.links)?x.links:[]).forEach(l=>{if(!links.some(k=>k.url===l.url))links.push(l)}));
+    $('mode-links').innerHTML=links.map(l=>'<a class="pill" href="'+esc(safeUrl(l.url))+'" target="_blank" rel="noopener">'+esc(l.title)+'</a>').join('');
+  }
+  function render(){
+    const key=todayKey();
+    const sorted=state.days.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    const today=sorted.find(d=>(d.date||'')<=key)||null;state.today=today;
+    Atlas.setToday(today);
+    if(today){
+      $('t-date').textContent=today.label||today.date;$('t-head').textContent=today.headline||'';$('t-head').hidden=!today.headline;
+      const files=Array.isArray(today.files)?today.files:[];$('t-files').innerHTML=files.map((f,i)=>fileRow(f,i)).join('');$('t-empty').hidden=files.length>0;
+    } else {
+      $('t-date').textContent=new Intl.DateTimeFormat('en-US',{timeZone:PT,weekday:'long',month:'long',day:'numeric'}).format(new Date());$('t-head').hidden=true;$('t-files').innerHTML='';$('t-empty').hidden=false;
+    }
+    const earlier=sorted.filter(d=>d!==today);$('earlier-n').textContent=String(earlier.length);
+    $('days').innerHTML=earlier.map(d=>'<div class="day"><div class="d">'+esc(d.label||d.date)+'</div>'+(d.headline?'<div class="h">'+esc(d.headline)+'</div>':'')+
+      '<div class="fl">'+(Array.isArray(d.files)?d.files:[]).filter(f=>f.url).map(f=>'<a href="'+esc(safeUrl(f.url))+'" target="_blank" rel="noopener">'+esc(f.title)+'</a>').join('')+'</div>'+
+      (Array.isArray(d.files)?d.files:[]).filter(f=>f.kind==='audio'&&f.file).map(f=>'<div class="fl"><span>'+esc(f.title)+'</span></div><audio controls preload="none" style="width:100%;margin-top:4px" src="'+esc(f.file)+'"></audio>').join('')+'</div>').join('');
+    renderModes();renderCharts();
+  }
+
+  // ---------- Scorecard ----------
+  function blankCard(){return {week:weekKey(),name:'',daily:DAILY.map(()=>[0,0,0,0,0]),weekly:WEEKLY.map(()=>0),rps:[null,null,null,null,null],autopsy:'',wins:'',next:'',pillar:'',burn:null,savedAt:null}}
+  state.card=blankCard();
+  function mark(v){return v===1?'✓':v===2?'•':''}
+  function cls(v){return 'box'+(v===1?' yes':v===2?' no':'')}
+  function renderCard(){
+    const c=state.card;
+    $('sc-week').textContent='Week of '+new Date(c.week+'T12:00:00Z').toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'UTC'});
+    if($('sc-name').value!==c.name)$('sc-name').value=c.name||'';
+    let h='<thead><tr><th>#</th><th class="long">Daily · check out Mon–Thu 4:30 · Fri 1:00</th>'+DAYS.map(d=>'<th>'+d+'</th>').join('')+'<th>✓</th></tr></thead><tbody>';
+    DAILY.forEach((r,i)=>{const row=c.daily[i];const n=row.filter(v=>v===1).length;
+      h+='<tr><td class="n">'+String(i+1).padStart(2,'0')+'</td><td class="t"><b>'+esc(r[0])+'</b><small>'+esc(r[1])+'</small></td>'+row.map((v,j)=>'<td><button type="button" class="'+cls(v)+'" data-d="'+i+'" data-j="'+j+'" aria-label="'+esc(r[0])+' '+DAYS[j]+'">'+mark(v)+'</button></td>').join('')+'<td class="tot">'+n+'/5</td></tr>'});
+    h+='<tr><td class="n"></td><td class="t"><b>RPs</b><small>self-reported · target 15</small></td>'+c.rps.map((v,j)=>'<td><input class="rp" type="number" min="0" max="99" data-rp="'+j+'" value="'+(v==null?'':v)+'" aria-label="RPs '+DAYS[j]+'"></td>').join('')+'<td class="tot" id="rp-tot"></td></tr></tbody>';
+    $('sc-daily').innerHTML=h;
+    let w='<thead><tr><th>#</th><th>Weekly · Friday close-out</th><th>This wk</th></tr></thead><tbody>';
+    WEEKLY.forEach((r,i)=>{w+='<tr><td class="n">'+String(i+1).padStart(2,'0')+'</td><td class="t"><b>'+esc(r[0])+'</b>'+(r[1]?'<small>'+esc(r[1])+'</small>':'')+'</td><td><button type="button" class="'+cls(c.weekly[i])+'" data-w="'+i+'" aria-label="'+esc(r[0])+'">'+mark(c.weekly[i])+'</button></td></tr>'});
+    $('sc-weekly').innerHTML=w+'</tbody>';
+    const boxes=c.daily.flat().filter(v=>v===1).length+c.weekly.filter(v=>v===1).length;const pct=Math.round(boxes/42*100);
+    $('sc-boxes').textContent=boxes+' / 42';const s=$('sc-score');s.textContent=pct+'%';s.className=pct>=90?'win':'';
+    const rps=c.rps.reduce((a,b)=>a+(Number(b)||0),0);$('sc-rps').textContent=String(rps);$('rp-tot').textContent=String(rps);
+    $('sc-autopsy').value=c.autopsy||'';$('sc-wins').value=c.wins||'';$('sc-next').value=c.next||'';if(c.pillar)$('sc-pillar').value=c.pillar;$('sc-burn').value=c.burn==null?'':c.burn;
+    $('sc-status').textContent=c.savedAt?('Saved '+new Date(c.savedAt).toLocaleString('en-US',{timeZone:PT,weekday:'short',hour:'numeric',minute:'2-digit'})):'';$('sc-status').className='status';
+  }
+  function cycle(v){return v===1?2:v===2?0:1}
+  $('sc').addEventListener('click',e=>{const b=e.target.closest('button.box');if(!b)return;const c=state.card;
+    if(b.dataset.d!=null){c.daily[+b.dataset.d][+b.dataset.j]=cycle(c.daily[+b.dataset.d][+b.dataset.j])}else if(b.dataset.w!=null){c.weekly[+b.dataset.w]=cycle(c.weekly[+b.dataset.w])}
+    renderCard();persistLocal()});
+  $('sc').addEventListener('input',e=>{const t=e.target;const c=state.card;
+    if(t.dataset.rp!=null){c.rps[+t.dataset.rp]=t.value===''?null:Number(t.value);const rps=c.rps.reduce((a,b)=>a+(Number(b)||0),0);$('sc-rps').textContent=String(rps);$('rp-tot').textContent=String(rps)}
+    else if(t.id==='sc-name')c.name=t.value;else if(t.id==='sc-autopsy')c.autopsy=t.value;else if(t.id==='sc-wins')c.wins=t.value;else if(t.id==='sc-next')c.next=t.value;else if(t.id==='sc-pillar')c.pillar=t.value;else if(t.id==='sc-burn')c.burn=t.value===''?null:Number(t.value);
+    persistLocal()});
+  function persistLocal(){try{localStorage.setItem('sc-'+state.card.week,JSON.stringify(state.card))}catch(e){}}
+  function loadLocal(){try{const s=localStorage.getItem('sc-'+weekKey());if(s){const c=JSON.parse(s);if(c&&c.week===weekKey())state.card=Object.assign(blankCard(),c)}}catch(e){}}
+  function cardText(){const c=state.card;const boxes=c.daily.flat().filter(v=>v===1).length+c.weekly.filter(v=>v===1).length;const pct=Math.round(boxes/42*100);
+    const lines=['EDEN · WEEKLY SCORECARD','Week of '+c.week+' · '+(c.name||'(name)'),'Boxes '+boxes+' / 42 · Score '+pct+'%'+(pct>=90?' · WIN':''),'RPs: '+c.rps.map((v,j)=>DAYS[j]+' '+(v==null?'-':v)).join(' · ')+' · week '+c.rps.reduce((a,b)=>a+(Number(b)||0),0),'',
+      'DAILY'].concat(DAILY.map((r,i)=>String(i+1).padStart(2,'0')+' '+r[0]+': '+c.daily[i].map(mark).map(m=>m||'_').join(' ')+'  ('+c.daily[i].filter(v=>v===1).length+'/5)'))
+      .concat(['','WEEKLY']).concat(WEEKLY.map((r,i)=>String(i+1).padStart(2,'0')+' '+r[0]+': '+(mark(c.weekly[i])||'_')))
+      .concat(['','AUTOPSY: '+(c.autopsy||''),'WINS & BLOCKERS: '+(c.wins||''),'NEXT WEEK I WILL: '+(c.next||'').replace(/\n/g,' / '),'PILLAR NEXT WEEK: '+(c.pillar||''),'BURN-OUT (1 fried – 10 fresh): '+(c.burn==null?'':c.burn)]);
+    return lines.join('\n')}
+  $('sc-copy').addEventListener('click',async()=>{const t=cardText();try{await navigator.clipboard.writeText(t);toast('Copied. Paste into an email to Kev and Nick.')}catch(e){const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Copied.')}catch(x){toast('Select and copy the text below.');ta.style.cssText='width:100%;min-height:200px';}}});
+  $('sc-save').addEventListener('click',async()=>{
+    const c=state.card;const st=$('sc-status');
+    if(!c.name){st.textContent='Pick your name first.';st.className='status bad';$('sc-name').focus();return}
+    if(!state.db){st.textContent='Not connected. Use Copy for email.';st.className='status bad';return}
+    const b=$('sc-save');b.disabled=true;st.textContent='Saving';st.className='status';
+    try{c.savedAt=new Date().toISOString();await state.db.doc('data/users/me/sc-'+c.week).set(Object.assign({},c,{submittedBy:state.me&&state.me.id||null}));persistLocal();renderCard();st.textContent='Saved. Kev and Nick can read it now.';st.className='status ok';toast('Scorecard saved.')}
+    catch(e){c.savedAt=null;st.textContent='Could not save here ('+((e&&e.code)||'refused')+'). Use Copy for email.';st.className='status bad'}
+    b.disabled=false});
+
+  loadLocal();render();renderCard();
+  (async function boot(){
+    let db=null;try{db=await window.claude.use('db')}catch(e){db=null}
+    try{state.dl=await window.claude.use('downloads')}catch(e){state.dl=null}
+    try{const u=await window.claude.use('user');if(u){state.me=await u.me()}}catch(e){state.me=null}
+    state.db=db;render();
+    if(!db){$('status').textContent='offline copy';return}
+    $('status').textContent='live';
+    Atlas.attachDb(db);
+    db.collection('days').onSnapshot(s=>{state.days=s.docs.map(d=>Object.assign({id:d.id},d.data()));render()},()=>{$('status').textContent='could not read days'});
+    db.collection('charts').onSnapshot(s=>{state.charts=s.docs.map(d=>Object.assign({id:d.id},d.data()));renderCharts()},()=>{});
+    db.doc('settings/modes').onSnapshot(s=>{state.modes=(s.exists&&Array.isArray(s.data().modes))?s.data().modes:[];renderModes()},()=>{});
+    db.doc('data/users/me/sc-'+weekKey()).onSnapshot(s=>{if(s.exists){state.card=Object.assign(blankCard(),s.data());renderCard()}},()=>{});
+  })();
+})();
+</script>
+
