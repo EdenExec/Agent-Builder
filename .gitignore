@@ -6,3 +6,7 @@ deliverables/
 *.log
 .DS_Store
 .desk-outbox/
+
+# ElevenLabs render output (delivered via the Desks, never committed)
+employees/atlas/episodes/*/eleven_segments/
+employees/atlas/episodes/*/*-episode-eleven.mp3
