@@ -78,6 +78,10 @@ describe("render", () => {
     assert.match(renderDoc(good, { cover: true }), /<section class="cover">/);
     assert.doesNotMatch(renderDoc(many, { cover: false }), /<section class="cover">/);
   });
+  test("compact front matter tightens the layout and is off by default", () => {
+    assert.match(renderDoc("---\ntitle: T\ncompact: true\n---\n## A\ntext\n"), /line-height:1\.45/);
+    assert.doesNotMatch(renderDoc(good), /line-height:1\.45/);
+  });
   test("escapes HTML, links only http(s), supports page breaks and inline styles", () => {
     const { html } = renderDocBody("<script>x</script> **bold** *it* [ok](https://a.co) [bad](javascript:alert(1))\n\n<!-- pagebreak -->\n\n1. one\n2. two\n");
     assert.doesNotMatch(html, /<script>/);

@@ -38,3 +38,7 @@ Check the duration with `ffprobe`; it should land between 20 and 35 minutes. Tra
 ## Deliver
 
 The MP3 (via Artifact `files` or the Drive connector if small enough; else the file card), the show sheet PDF (title, the three ideas, the ten interview questions with answers, sources, "G's pick"), and the script as Markdown. Score against `rubrics/podcast.md` and say the score.
+
+## Filing the episode (10 October 2026)
+
+The finished MP3 goes into the Atlas Desk library, not the Eden Desk: publish it to the Atlas Desk URL with `files: {"files/<Name>-episode.mp3": <path>}`, set a `media` row and the lesson's `mediaId` (see `atlas-desk.md`). The Eden Desk carries only a link to the Atlas Desk's Listen tab (`#listen`).

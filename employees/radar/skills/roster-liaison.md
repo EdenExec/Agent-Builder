@@ -18,6 +18,10 @@ Other employees never wait on Kev separately. Radar reads their asks, chases the
 3. Record Kev's answer on the card (`ArtifactData update`, `status: "answered"`, `answer: {choice, text, at}`) so the employee picks it up at its next session. For QC items Kev approves, tell him to run `npm run qc -- approve <id>` or do it from the Desk approval card; Radar never approves a QC item itself (project permissions block it).
 4. If Kev is silent on a card past its urgency, the employee's `defaultIfSilent` applies. Radar notes that on the card and in the ledger so Kev can reverse it with one tap.
 
+## Sunday lab review
+
+Every employee reports weekly like a founder to an investor: one eight-slide deck per active project by Saturday 8pm, a `status` card on its Desk, the source file in `projects/<slug>/status/<date>.md`. Radar collects them in the Saturday build, renders any deck an employee could not publish, builds the Sunday Edition's Lab review page, walks them with Kev on Sunday evening and writes his advice back to the card, the ledger and the journal. Full spec: `employees/_shared/lab-review.md`.
+
 ## Chasing stalled work
 
 - A project with no decision in 7 days, or a card open for more than 3 days, gets one ledger row (Lane Mine or Batch, Owner the employee) and one line in Friday's review.

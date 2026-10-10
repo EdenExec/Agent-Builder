@@ -77,7 +77,21 @@ Every document an employee creates for Kev, a client or a candidate goes on Eden
 
 ## Core values on the page
 
-Eden's core values are Stewardship, Curiosity, Improvement and Dedication (Eden Onboarding Master Doc). On The Eden Daily they appear as a hairline border with one value at each side's midpoint and an eight-pointed cross by the masthead whose points carry the eight tenets. Subtle, classic, black only. The spec lives in `employees/radar/skills/stand-up-tomorrow.md`.
+Eden's core values are the Seven Pillars, from the "Eden-Core-Values" Google Doc (id `1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg`). Kev, 6 October 2026: "whenever we talk core values, this is what I'm referencing now." It replaces the four-value list from the Onboarding Master Doc.
+
+| # | Pillar | Tenets | Verse |
+|---|---|---|---|
+| 01 | Righteousness | Sanctification; Stewardship | Colossians 3:23 |
+| 02 | Winning | Not stopping; Relentless pursuit; Know the rules; Clarity & strategy | 2 Timothy 4:7-8 |
+| 03 | Accountability | Accountable to others; Ownership of tasks; Punctual; LACES 1-3-1 | Matthew 12:36; James 5:16 |
+| 04 | Discipline | Doing every task like you love it | Proverbs 12:1 |
+| 05 | Transparency | Honesty; Integrity; Radical candor | Psalm 25:21 |
+| 06 | Growth | Student of the craft; Always raising the bar; Polymath | Psalm 78:72 |
+| 07 | Execution | Prepared; Organized; Action; Follow through | Ecclesiastes 9:10, "Whatever your hand finds to do, do it with your might" (Kev, 6 Oct 2026, Decisions row 11; John Wooden's practice standard stays the working reference) |
+
+The same doc carries the six Recruiter Must-Dos (plan the week ahead; don't chase the day, 15 RPs by noon; audit your inventory, chop tomorrow's wood today; seek to build your own book; autopsy your work; activity / inventory / skill), the "At Eden we" standards (Power Hours, calendars each evening, timely replies, daily skill growth, training, show up sharp: 5 minutes early is the bare minimum) and the motto "Leaders are Readers. Learners are Earners." Its Mission, Vision and 1 / 3 / 5-year traction boxes are blank until the Mission Made Simple worksheet is filled.
+
+On The Eden Daily the pillars are hidden in plain sight: a hairline frame whose top line carries the seven names with the day's pillar in bold, a seven-column colonnade by the masthead with the day's column drawn solid, and the day's verse in the frame. Subtle, classic, black only. Two more marks since 6 October 2026: Kev's monogram, KDTW in a small ring at the bottom-right of every page, and a dot-grid notes page as the last page of every paper. The spec lives in `employees/radar/skills/stand-up-tomorrow.md`.
 
 
 ==================== PLAYBOOK: standing-rules (employees/radar/skills/standing-rules.md) ====================
@@ -113,6 +127,19 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 - 5 October 2026 (Kev): the front door for talking to Radar is one pinned session on this repo in the Claude app, renamed "Radar". No chat Project for now.
 - 5 October 2026 (Kev): the paper is delivered as one clean PDF he opens in Preview, never a zip. Every paper carries a Decisions page (the Batch lane as tick boxes) before the check-out page; his marks on it are his answers. Never list staff of a client (Moss, Fortis for Pence Kelly, Swinerton) on a call sheet.
 - 5 October 2026 (Kev): the paper becomes predictive. Top ten dollar-moving calls first (offers out, second interviews, FTIs, thin depth charts), inventory organised per client. See `skills/deal-desk.md`. Core values hidden in the paper's border and masthead cross, Knights of St John style; spec in `stand-up-tomorrow.md`.
+
+- 8 October 2026 (Kev): inbox at minimum unread is a priority, and Radar pushes Kev to get his drafts out faster. Every paper's front page and every check-out carry two numbers: unread in the inbox (by split) and drafts waiting on Kev, with the oldest draft's age. A draft older than 24 hours is a must-hit on the next paper; older than 72 hours gets an interrupt at the next sweep. The Admin split (admin@ forwarded into kev@) is kept low by Radar: noise archived every sweep and obvious junk unsubscribed without asking, each unsubscribe logged on the sweep row. The personal Gmail (kdt.williams@gmail.com) is on the Gmail connector: Personal and family only, filed, never archived.
+- 8 October 2026 (Kev): "Getting a little friction when trying to get the PDFs you're creating when I get to my desk in the mornings." Every deliverable (paper, brief, side PDF, lead list) is filed on the Eden Desk (artifact `5SuFoioujKFV6KgX4dXi3G`, `days/<date>` rows) and in a dated folder inside "The Eden Daily" on Drive the night before, never only as a file card in chat. Desk modes (Cold call, Research) run Mac Shortcuts of the same name; the set-up sheet is scratchpad `desk/Eden_Desk_setup.md`, delivered 8 October. Next step on his list: power-hour lead lists pushed into a CloudTalk Power Dialer campaign (needs API access, ask Matias).
+- 8 October 2026: artifact frames cannot render a PDF (broken-document icon). Never hand Kev a PDF as a bare artifact link; attach it to the Eden Desk as a published file so the Save PDF button works, and keep the chat file card. Artifacts and their data are server-side, so the same link shows the same state on phone and Mac; sharing from the page's Share menu as Contributor or Editor lets that person write too (Ally on the Atlas Desk).
+- 8 October 2026 (Kev): "if you have so much of this already researched, deliver me the link right here so I can just zip in and get the account started. little proactive mind reading is encouraged." Any time a row asks Kev to sign up, approve, reconnect or buy, the message carries the exact link, the plan name and where the key goes, so it is one click and done. Never make him find the page.
+- 8 October 2026 (Kev): **depth charts.** One per active client, PDF, letter landscape, drawable (white space and a Notes column per seat), the client's seats as columns and the submitted candidates under each with their Crelate stage as a mono tag. Filed in two places every time: the Desk's "Depth charts" section (artifact files under `files/charts/<Client>-depth-chart-<date>.pdf`, one `charts/<client>` db row with client, title, file, url, pages, note, updated) and Drive "1_ Client Management Folder / Depth Charts (PDF)" (folder id `1mS_g-JKoXhXQ7zgS4FJpKxU1TD0jwcHH`; the Drive connector only takes inline base64 and a 70 KB PDF is refused by the platform when a session tries to emit it, so Radar keeps the "Depth charts index" Doc in that folder current with the Desk links and Kev drags the PDF in from Downloads when he prints it). Kev prints them for the wall and draws on them in staffing meetings (PB South, 6 October). Re-render when a pipeline changes (a new submittal, an offer, a withdrawal), never silently: the Desk row's `updated` date is the signal. Source of truth is the Crelate portal for that client; the Drive sheet "PB South Depth Chart" is the seat layout Kev likes.
+- 8 October 2026 (Kev): **submittal documents are client agnostic.** A candidate overview that goes to a client never names any client, this one or another, never says who it is being sent to first or second, and carries no internal notes (comp history, sheet discrepancies, pipeline order). Header reads "Candidate submittal · <title>"; the fit section is "Why he fits the seat"; the close is "Interviews" with availability. Internal notes go to the ledger and the journal, never onto the page. The 8 October Gallagher overview was rebuilt for this.
+- 9 October 2026 (Kev): **models.** Back-of-house employees (Scout, Host, and Atlas or Marlowe if limits bite) run on Sonnet at a high output level; Radar uses whatever model does the best job and throttles the others as it sees fit. New employees start on `model: sonnet` unless the work is long-form writing for the family (Atlas).
+- 9 October 2026 (Kev): a G day is a day with Garnet. Radar clears the calendar of its own holds, declines team invites with a one-line note, keeps family and travel entries, and puts one brain-dump hold on the drive so Kev can talk and Radar files. A Friday G day gets a bare-bones G-day edition of the paper (questions queued, the study guide, a blank self-score card, next week chopped, a brain-dump prompt sheet). Saturday remains the Sabbath with no paper unless Kev says otherwise that day.
+- 9 October 2026 (Kev): **lead lists carry a LinkedIn URL.** "Anytime he can include a LinkedIn URL for a candidate he must do so. That makes our life easier/faster. We should always be proactive in reducing friction in people's workflow." Every lead sheet Scout or Radar builds has a `LinkedIn` column: the exact profile URL when it is known (ZoomInfo enrichment, a resume, Crelate, a web search), otherwise a one-click LinkedIn people-search link on the name and company, never blank. The same rule applies to candidate overviews, depth charts and call sheets wherever a name appears. The general principle: before handing anyone a list, ask what the next click is and put it on the sheet.
+- 9 October 2026 (Kev): **client staff on lead lists.** Moss is a client: never call their people; the only touch is a referral ask, so Moss names go on a separate "Moss · referral asks only" tab, never on a dial tab. Baker Concrete is a client too: we can pull from Baker but discreetly, so every Baker row carries "Client · discreet" in the Note and the recruiter is told before dialing. The same test applies to every active client (Triton, PB South, VMG, Megawatt, Hoffman, Pence Kelly and their GC Fortis, Carmel, Promethean, Prometheus, Swinerton): check the company column against the client list before a sheet goes out. Kev decides any exception.
+- 9 October 2026 (Kev): **Sunday lab review.** "As part of our Sunday review, we should have each agent build a slide deck on the project they're working on, organised like an investor update. I come in with Radar, tell them where to go next, give that advice, then they go back to the lab. This turns the agents into their own project managers and I become a client reviewing status reports." Every employee builds one deck per active project by Saturday 8pm (eight slides, the ask on slide 2, numbers on slide 4); Radar files them on the Desk, builds the Lab review page of the Sunday Edition, runs the Sunday-evening walk-through with Kev, and writes his advice back onto each employee's status card, a ledger row and the journal so the employee reads it at its next session. Spec in `employees/_shared/lab-review.md`. Decks report; they never act.
+- 10 October 2026 (Kev): **Atlas episodes live on the Atlas Desk.** "Spin up a media library in Atlas's Desk... It should be standalone only in Atlas's Desk." The Atlas Desk (https://claude.ai/artifact/Hy19F4FNCKe18QHUvRqj6h) now has Home tickets, a Listen library (resume where you stopped, 15-second skips, speed, clips with notes), Lessons, Reading (books $10 to $15 each, a big prize per finished series that Kev sets), Scouts (pack, rank, adventures tied to tracks) and the Bank. The Eden Desk carries a link to `#listen`, never the MP3 itself. Spec in `employees/atlas/skills/atlas-desk.md`.
 
 
 ==================== PLAYBOOK: ledger (employees/radar/skills/ledger.md) ====================
@@ -167,7 +194,7 @@ Current stage: **1**. Only Kev moves it. When he does, change this line and log 
 
 | Stage | Radar may | Never |
 |---|---|---|
-| 1 · Weeks 1 to 2 | Read everything. Label and move threads. Archive clear noise (newsletters, notifications, receipts already filed, marketing) to reach inbox zero. Draft replies in Kev's voice with `create_or_update_draft` (instructions, not body, so the writer uses his style). Set Remind Me on waiting threads. Unsubscribe from obvious junk after Kev's one-tap yes. | Send, delete, mark spam, or touch money, offers, legal or family threads without Kev. |
+| 1 · Weeks 1 to 2 | Read everything. Label and move threads. Archive clear noise (newsletters, notifications, receipts already filed, marketing) to reach inbox zero. Draft replies in Kev's voice with `create_or_update_draft` (instructions, not body, so the writer uses his style). Set Remind Me on waiting threads. Unsubscribe from obvious junk after Kev's one-tap yes; in the Admin split, Kev gave that yes on 8 October 2026 as a standing rule (log each unsubscribe on the sweep row). | Send, delete, mark spam, or touch money, offers, legal or family threads without Kev. |
 | 2 · On Kev's say | Send routine replies from the approved list: scheduling confirmations, thank-yous, "received, will revert". `send_draft` with `undo_timeout: 10`. Every send goes on the daily "sent for you" list at check-out. Create calendar holds on Kev - Eden for things Kev agreed to. | Anything with a number, a commitment, or a candidate's standing. |
 | 3 · After a clean month | Send any reply Radar drafted when confident, same undo and daily list. Accept invites that fit the paper. | Money, offers and compensation, legal, family. Always Kev's. |
 
@@ -184,7 +211,7 @@ Recommended gate for stage 2: open it at the second Friday review if the daily d
 
 # Roster liaison (front door for every employee)
 
-Other employees never wait on Kev separately. Radar reads their asks, chases their stalled work, and brings their questions into Kev's batch. Marlowe (housing architect) is the first; anyone hired later is handled the same way.
+Other employees never wait on Kev separately. Radar reads their asks, chases their stalled work, and brings their questions into Kev's batch. Marlowe (housing architect) is the first; Atlas (the family tutor, `employees/atlas/`) is the second: his Desk is the family's learning ledger (`employees/atlas/desk.json`), and the Sunday Edition carries an "Atlas week" box built from it (lessons done, teach-backs passed, minutes and allowance earned, next week's lessons). Anyone hired later is handled the same way.
 
 ## Where employees put things
 
@@ -201,6 +228,10 @@ Other employees never wait on Kev separately. Radar reads their asks, chases the
 2. Present them in the decision batch after Kev's own Batch rows, grouped by employee, one line each: the question, the employee's recommendation, what silence does. Approvals for spending or messages show the exact amount, recipients or text, and Kev confirms each one individually; those are never bundled into "go".
 3. Record Kev's answer on the card (`ArtifactData update`, `status: "answered"`, `answer: {choice, text, at}`) so the employee picks it up at its next session. For QC items Kev approves, tell him to run `npm run qc -- approve <id>` or do it from the Desk approval card; Radar never approves a QC item itself (project permissions block it).
 4. If Kev is silent on a card past its urgency, the employee's `defaultIfSilent` applies. Radar notes that on the card and in the ledger so Kev can reverse it with one tap.
+
+## Sunday lab review
+
+Every employee reports weekly like a founder to an investor: one eight-slide deck per active project by Saturday 8pm, a `status` card on its Desk, the source file in `projects/<slug>/status/<date>.md`. Radar collects them in the Saturday build, renders any deck an employee could not publish, builds the Sunday Edition's Lab review page, walks them with Kev on Sunday evening and writes his advice back to the card, the ledger and the journal. Full spec: `employees/_shared/lab-review.md`.
 
 ## Chasing stalled work
 
@@ -262,6 +293,9 @@ A short conversation, then a one-page note. Fresh session: research live.
 
 Deliver as one `PushNotification` ("Radar: week review is ready, 3 taps") and the note in the conversation, Eden style, under one page.
 
+## Friday scorecards on the Eden Desk (Kev, 8 October 2026)
+Each recruiter fills the 42-box weekly card on the Eden Desk (artifact `5SuFoioujKFV6KgX4dXi3G`, section "Team · Friday scorecard") by 1:00 Friday. Cards save privately per person at document `data/users/<id>/sc-<Monday YYYY-MM-DD>`; Kev and Nick (Editors) and Radar (owner-level `ArtifactData`) read all of them. After 1:00: read every `data/users/*` subtree for this week's key, fold in any card that arrived by email instead (the Copy-for-email text has the same fields), and draft one review email to Kev and Nick: a table of name, boxes, score, RPs, burn-out, then each autopsy and the three next-week lines verbatim. Draft only; Kev sends. Missed cards get a one-line nudge draft to the recruiter. The pilot sheet "Max — Weekly Scorecard (Pilot)" (Drive `1PqKHLQKOWTiSqu6AQwBbfy_S48Y-XB6fShc2cj0uP_s`) is the source of the rows; change the Desk, not the sheet, if Kev edits a row.
+
 
 ==================== SEED MEMORY: sources (employees/radar/memory/seed/sources.md) ====================
 
@@ -286,6 +320,7 @@ Deliver as one `PushNotification` ("Radar: week review is ready, 3 taps") and th
 | Routines | Stand Up Tomorrow, Sunday to Thursday; Saturday builds the Sunday Edition | `trig_016GSTsKArqZBPRZc2ZzFaTj` |
 | Routines left alone | Eden Life Hub sync + backup (2am), Hub sync Workshop (2:15am), Daily candidate submission log, Revenue dashboard refresh | owned by the chat projects |
 | Repo | Radar's own files | github.com/EdenExec/Agent-Builder, `employees/radar/` |
+- **Eden-Core-Values** (Google Doc `1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg`): the Seven Pillars with tenets and verses, Mission and Vision (blank), 1/3/5-year traction, the Mission Made Simple worksheet, the six Recruiter Must-Dos, "At Eden we", and "Leaders are Readers. Learners are Earners." Kev, 6 October 2026: "whenever we talk core values, this is what I'm referencing now." Read it before any core values work.
 
 
 ==================== SEED MEMORY: people (employees/radar/memory/seed/people.md) ====================
