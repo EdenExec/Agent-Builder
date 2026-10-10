@@ -261,8 +261,8 @@ const Atlas=(function(){
     const list=items();
     const box=$('atlas-thread');
     const atBottom=box.scrollHeight-box.scrollTop-box.clientHeight<40;
-    box.innerHTML=list.map(t=>'<div class="turn"><div class="who">'+(t.who?esc(t.who):'You')+'</div><div class="q">'+esc(t.q)+'</div>'+
-      '<div class="who">Atlas</div><div class="a'+(t.pending&&!t.a?' thinking':'')+(t.cut?' cut':'')+'">'+esc(t.pending&&!t.a?'Thinking...':t.a)+(t.cut?'\n\n(cut short)':'')+'</div></div>').join('');
+    box.innerHTML=list.map(t=>'<div class="turn"><div class="tag">'+(t.who?esc(t.who):'You')+'</div><div class="q">'+esc(t.q)+'</div>'+
+      '<div class="tag atlas">Atlas</div><div class="a'+(t.pending&&!t.a?' thinking':'')+(t.cut?' cut':'')+'">'+esc(t.pending&&!t.a?'Thinking...':t.a)+(t.cut?'\n\n(cut short)':'')+'</div></div>').join('');
     $('atlas-empty').hidden=list.length>0;
     box.hidden=list.length===0;
     if(atBottom||pending)box.scrollTop=box.scrollHeight;
