@@ -8,6 +8,20 @@ export const FONT_STACK = `'Montserrat','Helvetica Neue',Arial,sans-serif`;
 export const SITE = "edenpartnergroup.com";
 export const NAME = "EDEN PARTNER GROUP";
 
+/**
+ * Which name a page carries (Kev, 10 October 2026): Eden Partner Group for recruiting, clients and candidates;
+ * KDTW Group for home, family and every project not focused on recruiting. Same visual system for both.
+ * KDTW Group has no public site, so its footer carries the name only.
+ */
+export type Org = "eden" | "kdtw";
+export const IDENTITY: Record<Org, { name: string; site: string }> = {
+  eden: { name: NAME, site: SITE },
+  kdtw: { name: "KDTW GROUP", site: "" },
+};
+export function identity(org?: string): { name: string; site: string } {
+  return org === "kdtw" ? IDENTITY.kdtw : IDENTITY.eden;
+}
+
 /** Light: cream and white with black lettering. Dark: matte, industrial. Semantic colours are muted and used only for state. */
 export const TOKENS = {
   light: { bg: "#FAF8F3", card: "#FFFFFF", ink: "#111111", mute: "#5A5A5A", line: "#D9D6CE", soft: "#F0EDE6", accent: "#111111", accentInk: "#FFFFFF", pos: "#3D6B4F", neg: "#8A3A32", warn: "#7A5A1C" },

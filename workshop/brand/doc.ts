@@ -1,6 +1,6 @@
 // Markdown -> an Eden-branded HTML document: white page, Montserrat, bold headers, cover page,
 // table of contents for larger documents, page breaks, header and footer on every printed page.
-import { fontFaceCss, FONT_STACK, SITE, NAME } from "./eden.ts";
+import { fontFaceCss, FONT_STACK, identity } from "./eden.ts";
 import { splitFrontMatter } from "./lint.ts";
 
 export const escHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -70,6 +70,8 @@ export type DocOptions = { cover?: boolean };
 export function renderDoc(md: string, opts: DocOptions = {}): string {
   const { meta, body } = splitFrontMatter(md);
   const title = meta.title ?? "Untitled";
+  // `org: kdtw` in the front matter puts KDTW Group on a home, family or non-recruiting document.
+  const { name: NAME, site: SITE } = identity(meta.org);
   const { html, headings, words } = renderDocBody(body);
   const h2s = headings.filter((h) => h.level === 2);
   const cover = opts.cover ?? (meta.cover ? meta.cover !== "false" : words > 450 || h2s.length > 5);

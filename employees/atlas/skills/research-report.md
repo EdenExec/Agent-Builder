@@ -4,7 +4,7 @@ What it is: a polymath's snapshot of one subject, understood at the base level, 
 
 ## Shape
 
-1. **Cover.** EDEN PARTNER GROUP header, title in bold italic, subtitle "A snapshot for Kev and G", date, Atlas.
+1. **Cover.** KDTW GROUP header (`org: kdtw`), title in bold italic, subtitle "A snapshot for Kev and G", date, Atlas.
 2. **For G (one page).** The hook (a story or a question), the three big ideas with one picture each, five words to know, one thing to try this week, one question to argue about in the truck.
 3. **The map (one page).** A single diagram of how the subject fits together: the parts, the forces, the timeline or the system. This is the page they will remember.
 4. **The study (4 to 10 pages).** Sections of 3 to 4 lines each with a bold header, data in tables and charts, a figure every page. Mechanism before history; history before people; people before debates. Mark contested claims and UNVERIFIED figures.

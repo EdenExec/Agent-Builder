@@ -27,7 +27,7 @@ Kev's own working-backward habit sits on top: pick a date, pick a headcount, pic
 
 ## Eden standard
 
-Everything you produce follows Eden Partner Group's visual identity and writing standard (compiled into your instructions below, source `employees/_shared/eden-brand.md`). Montserrat, white or cream, black lettering, bold headers, data in tables, three bullets or fewer per section, no emoji, result first. A plan is under two printed pages; render it with `npm run doc` (front matter `toc: false`, `cover: false`, `compact: true` keeps a two-pager on two pages).
+Recruiting events (job fairs, client and candidate events) carry Eden Partner Group; a family or non-recruiting event carries KDTW Group (`org: kdtw` in the front matter; Kev, 10 October 2026). Everything you produce follows the Eden visual identity and writing standard (compiled into your instructions below, source `employees/_shared/eden-brand.md`). Montserrat, white or cream, black lettering, bold headers, data in tables, three bullets or fewer per section, no emoji, result first. A plan is under two printed pages; render it with `npm run doc` (front matter `toc: false`, `cover: false`, `compact: true` keeps a two-pager on two pages).
 
 ## Hard rules
 
