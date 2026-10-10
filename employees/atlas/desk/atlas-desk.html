@@ -170,18 +170,52 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 .wm{position:relative;margin-top:28px;min-height:120px;overflow:hidden}
 .wm img{position:absolute;right:-20px;bottom:-30px;width:220px;height:220px;border-radius:50%;object-fit:cover;opacity:.18;filter:grayscale(1);pointer-events:none}
 .wm p{position:relative;max-width:420px;font-style:italic;color:var(--ink-2);font-size:14px;margin:0;padding:20px 0}
-.map{position:relative;width:100%;aspect-ratio:2/1;border:1px solid var(--line);background:var(--panel);overflow:hidden}
-.map img{position:absolute;inset:0;width:100%;height:100%;display:block}
-.pin{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;border:2px solid var(--gold);background:var(--panel);padding:0;cursor:pointer}
-.pin.done{background:var(--gold)}
-.pin.sel{box-shadow:0 0 0 4px var(--gold-soft);z-index:2}
-.pin.home{border-radius:0;transform:rotate(45deg);border-color:var(--ink);background:var(--ink)}
+.map{position:relative;width:100%;aspect-ratio:2/1;border:1px solid var(--line);background:var(--panel);overflow:hidden;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.map.zoomed{touch-action:none}
+.map-layer{position:absolute;inset:0;transform-origin:0 0;will-change:transform}
+.map-layer img{width:100%;height:100%;display:block;pointer-events:none}
+.zoom{position:absolute;right:8px;top:8px;display:grid;gap:4px;z-index:3}
+.zoom button{width:34px;height:34px;border:1px solid var(--line-2);background:var(--panel);color:var(--ink);font:600 17px/1 var(--display);cursor:pointer;padding:0}
+.zoom button.fit{font:500 9.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.zl{position:absolute;left:8px;bottom:6px;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--panel);padding:1px 5px;z-index:3}
+.pin{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;border:2px solid var(--gold);background:var(--panel);padding:0;cursor:pointer;z-index:2}
+.pin.learned{background:var(--gold)}
+.pin.idea{border:2px dashed var(--ink-3);width:13px;height:13px;margin:-6.5px 0 0 -6.5px}
+.pin.sel{box-shadow:0 0 0 5px var(--gold-soft);z-index:4;transform:scale(1.25)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:12.5px;color:var(--ink-2);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.lg{width:11px;height:11px;border-radius:50%;border:2px solid var(--gold);display:inline-block}
+.lg.learned{background:var(--gold)}.lg.idea{border:2px dashed var(--ink-3)}
+.mapdetail{margin-top:12px}
+.mapdetail .card{border-color:var(--gold)}
 .places{display:grid;gap:0}
-.place{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line);background:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;color:var(--ink);cursor:pointer}
+.place{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 4px;border-top:1px solid var(--line);background:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;color:var(--ink);cursor:pointer}
 .place .dot2{width:10px;height:10px;border-radius:50%;border:2px solid var(--gold);background:var(--panel)}
-.place .dot2.done{background:var(--gold)}
+.place .dot2.learned{background:var(--gold)}.place .dot2.idea{border:2px dashed var(--ink-3)}
 .place .pn{display:block;font-weight:600;font-size:14.5px}.place .pl{display:block;font-size:12.5px;color:var(--ink-3)}
 .place.sel{background:var(--gold-soft)}
+.ideacard{display:grid;gap:6px;padding:12px 0;border-top:1px solid var(--line)}
+.ideacard:first-child{border-top:0;padding-top:2px}
+.ideacard b{font-size:15px;font-weight:600}
+.ideacard p{margin:0;color:var(--ink-2);font-size:14px}
+.ideacard .hook{font-style:italic;color:var(--ink-2)}
+.ideacard.picked{opacity:.6}
+/* Field notes: a lined notebook page with a gold margin rule */
+.page{position:relative;border:1px solid var(--line-2);background-color:var(--panel);background-image:repeating-linear-gradient(to bottom,transparent 0 27px,var(--line) 27px 28px);padding:16px 16px 14px 30px;display:grid;gap:16px}
+.page::before{content:"";position:absolute;left:18px;top:0;bottom:0;width:1px;background:var(--gold);opacity:.7}
+.page h3{margin:2px 0 0;font-size:19px;font-weight:700;text-wrap:balance}
+.pg-lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
+.pg-lab span{color:var(--ink-3);letter-spacing:.06em;text-transform:none}
+.concepts{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14.5px;line-height:1.5}
+.sketchwrap{border:1px dashed var(--line-2);background:transparent}
+#sketch{display:block;width:100%;touch-action:none;cursor:crosshair}
+#note-text{width:100%;min-height:140px;background:transparent;border:1px dashed var(--line-2);line-height:28px;padding:0 8px;font-size:15px}
+.pg-nav{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line-2);padding-top:10px}
+.pg-nav .mono{font-size:11px;color:var(--ink-3)}
+.pageidx{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);background:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;color:var(--ink);cursor:pointer}
+.pageidx:first-child{border-top:0}
+.pageidx .n{font-family:var(--mono);font-size:11px;color:var(--ink-3);width:2.4em}
+.pageidx.on b{color:var(--gold)}
 .folder{border:1px solid var(--line);background:var(--panel)}
 .folder summary{padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;cursor:pointer;list-style:none}
 .folder summary::-webkit-details-marker{display:none}
@@ -212,6 +246,7 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
       <button role="tab" aria-selected="false" data-view="ask">Ask</button>
       <button role="tab" aria-selected="false" data-view="lessons">Library</button>
       <button role="tab" aria-selected="false" data-view="map">Map</button>
+      <button role="tab" aria-selected="false" data-view="notes">Field Notes</button>
       <button role="tab" aria-selected="false" data-view="listen">Listen</button>
       <button role="tab" aria-selected="false" data-view="reading">Reading</button>
       <button role="tab" aria-selected="false" data-view="scouts">Scouts</button>
@@ -264,10 +299,30 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 
   <!-- MAP -->
   <section class="view" id="view-map" hidden>
-    <h2>Where the lessons live <small id="map-count"></small></h2>
-    <div class="map" id="map"><img src="files/world-map.svg" alt="World map"></div>
-    <p class="note">Every lesson is pinned where its story happened. Gold pins are learned; hollow pins are planned. Tap a pin or a row.</p>
-    <div class="places" id="places"><div class="empty">No pins yet. Atlas pins each lesson's places as it files them.</div></div>
+    <h2>The world so far <small id="map-count"></small></h2>
+    <div class="chips" id="map-filter" role="group" aria-label="Show on the map" style="margin-bottom:10px">
+      <button type="button" class="chip" data-f="all" aria-pressed="true">All</button>
+      <button type="button" class="chip" data-f="learned" aria-pressed="false">Learned</button>
+      <button type="button" class="chip" data-f="planned" aria-pressed="false">Planned</button>
+      <button type="button" class="chip" data-f="idea" aria-pressed="false">To explore</button>
+    </div>
+    <div class="map" id="map">
+      <div class="map-layer" id="map-layer"><img src="files/world-map.svg" alt="World map" draggable="false"></div>
+      <div class="zoom"><button type="button" id="zoom-in" aria-label="Zoom in">+</button><button type="button" id="zoom-out" aria-label="Zoom out">&minus;</button><button type="button" class="fit" id="zoom-fit" aria-label="Show the whole world">World</button></div>
+      <span class="zl" id="zoom-level">1.0x</span>
+    </div>
+    <div class="legend"><span><i class="lg learned"></i>Learned</span><span><i class="lg"></i>Planned</span><span><i class="lg idea"></i>To explore</span><span style="color:var(--ink-3)">Pinch or scroll to zoom. Drag to move.</span></div>
+    <div class="mapdetail" id="map-detail"></div>
+    <h2>Places</h2>
+    <div class="places" id="places"><div class="empty">Pins appear as Atlas files lessons and ideas.</div></div>
+  </section>
+
+  <!-- FIELD NOTES -->
+  <section class="view" id="view-notes" hidden>
+    <h2>G's field notes <small id="notes-count"></small></h2>
+    <div id="book"><div class="empty">Every lesson G finishes becomes a page here: the core ideas, a sketch, his own notes and the bookmarks he clipped from the episode. Finish a lesson and its page appears.</div></div>
+    <h2>Every page</h2>
+    <div class="card" id="notes-index"><div class="note">The table of contents fills as pages are added.</div></div>
   </section>
 
   <!-- LISTEN -->
@@ -311,12 +366,14 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 
   <!-- LESSONS -->
   <section class="view" id="view-lessons" hidden>
+    <h2>Pick what's next <small id="idea-count">jumping-off points</small></h2>
+    <div class="card" id="idea-list"><div class="note">Jumping-off points load here: places and people from all over the world, each one a lesson waiting to be built. Tap Pick and Atlas builds it for next week.</div></div>
+    <h2>Folders <small id="lib-total"></small></h2>
+    <div class="stack" id="track-list"></div>
     <h2 id="week-label">This week</h2>
-    <div class="stack" id="week-list"><div class="empty">Loading the week. Lessons appear here when Atlas files them: a report, an episode, an essay or a drill, each with three ways to earn.</div></div>
+    <div class="stack" id="week-list"><div class="empty">Lessons appear here when Atlas files them.</div></div>
     <h2>Up next</h2>
-    <div class="stack" id="next-list"><div class="empty">Nothing queued yet. G's pick goes here.</div></div>
-    <h2>The library <small id="lib-total">thirteen folders</small></h2>
-    <div class="stack" id="track-list"><div class="empty">The folders load here. Every lesson Atlas files goes in its folder and stays there for good.</div></div>
+    <div class="stack" id="next-list"><div class="empty">Nothing queued yet. Pick one above.</div></div>
     <div class="stack" id="done-list" hidden></div>
   </section>
 
@@ -433,9 +490,10 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 (function(){
   const $=s=>document.querySelector(s);
   const $$=s=>Array.from(document.querySelectorAll(s));
-  const views=["home","ask","lessons","map","listen","reading","scouts","bank","rules"];
+  const views=["home","ask","lessons","map","notes","listen","reading","scouts","bank","rules"];
   const DEF_RULES={lesson:30,teach:15,action:2,bonus:30,book:10,scout:0};
-  const state={lessons:[],tracks:[],ledger:[],rules:Object.assign({},DEF_RULES),media:[],progress:{},clips:[],tickets:[],books:[],series:[],projects:[],adventures:[],scouts:{},chat:[],db:null,canWrite:true};
+  const DEF_TRACKS=[["history","History","Cause and effect; how we know; the long arc of empires, faith and tools."],["science","Science and survival","Energy, matter and life; the method; water, food, shelter, power, first aid."],["math","Math","Number sense and estimation; patterns and proof; math as the language of the real world."],["words","Reading and writing","Reading like a writer; the sentence; structure; reading aloud; writing every day."],["people","People: psychology and sociology","Why people do what they do; groups and status; habits; persuasion and its ethics."],["art","Art and music","Looking slowly; what makes a thing beautiful; the masters; taste as a learned skill."],["character","Character and leading like Jesus","Service, courage, manners; servant leadership from the Gospels; how to master anything."],["strength","Strength","Progressive overload; sleep, food, consistency; safety first; the big lifts."],["outdoors","Fly fishing, farming and the ranch","The fish, the water, the bug; reading a river; soil, water, animals, seasons."],["firearms","Firearms knowledge","How a firearm works; every part and its job; safety, law, history."],["chess","Chess","The board as a system; tactics before strategy; endgames first."],["money","Money, business and real estate","Income, expenses, assets, debt; compounding; a business as a machine; stewardship."],["ai","AI by building games","Prompts as instructions; feedback loops; build, break, improve."]].map((t,i)=>({id:t[0],name:t[1],idea:t[2],order:i+1}));
+  const state={ideas:[],notes:{},showAllIdeas:false,lessons:[],tracks:DEF_TRACKS.slice(),ledger:[],rules:Object.assign({},DEF_RULES),media:[],progress:{},clips:[],tickets:[],books:[],series:[],projects:[],adventures:[],scouts:{},chat:[],db:null,canWrite:true};
   const fmt=n=>new Intl.NumberFormat("en-US").format(Math.round(n));
   const money=n=>{n=Math.round(n*100)/100;return (n<0?"-$":"$")+Math.abs(n).toFixed(Math.abs(n)%1?2:0)};
   const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -448,7 +506,7 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 
   /* ---------- tabs ---------- */
   $$('nav.tabs button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.view)));
-  function show(v){views.forEach(x=>{$("#view-"+x).hidden=x!==v});$$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===v)));ls.set('atlas-tab',v)}
+  function show(v){views.forEach(x=>{$("#view-"+x).hidden=x!==v});$$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===v)));ls.set('atlas-tab',v);requestAnimationFrame(()=>{try{if(v==='map')positionPins();if(v==='notes')fitSketch()}catch(e){}})}
   {const t=ls.get('atlas-tab');if(t&&views.includes(t))show(t)}
   if(location.hash&&views.includes(location.hash.slice(1)))show(location.hash.slice(1));
 
@@ -500,7 +558,7 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
     const dis=state.canWrite?'':' disabled';
     return `<article class="lesson" data-id="${esc(l.id)}">
       <div class="head"><div><div class="kicker">${esc(trackName(l.track))} · ${esc(l.format||'')}</div><h3>${esc(l.title)}</h3></div>${status}</div>
-      <p>${esc(l.blurb||'')}${link}</p>${Array.isArray(l.places)&&l.places.length?`<p class="note" style="margin:0 0 8px">On the map: ${l.places.map(p=>esc(p.name)).join(' · ')}</p>`:''}${listen?`<div class="row" style="margin-bottom:6px">${listen}</div>`:''}
+      <p>${esc(l.blurb||'')}${link}</p>${Array.isArray(l.places)&&l.places.length?`<p class="note" style="margin:0 0 8px">On the map: ${l.places.map(p=>esc(p.name)).join(' · ')}</p>`:''}${(listen||l.done)?`<div class="row" style="margin-bottom:6px">${listen}${l.done?` <button class="act small quiet" data-notes="${esc(l.id)}">Field notes</button>`:''}</div>`:''}
       <div class="steps">
         <div class="step"><label><input type="checkbox" data-k="done" ${l.done?'checked':''}${dis}><span class="what">Finished it</span></label><span class="earn">+${r.lesson} min</span></div>
         <div class="step ${l.done?'':'locked'}"><label><input type="checkbox" data-k="teachback" ${l.teachback?'checked':''}${l.done?'':' disabled'}${dis}><span class="what">Taught it back to Kev<span class="q">${esc(l.teachbackQuestion||'Four sentences, no notes.')}</span></span></label><span class="earn">+${r.teach} min</span></div>
@@ -519,8 +577,8 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
     const tracks=[...state.tracks].sort((a,b)=>(a.order||0)-(b.order||0));
     const openSet=new Set($$('.folder[open]').map(d=>d.dataset.track));
     $("#lib-total").textContent=all.length+(all.length===1?' lesson in ':' lessons in ')+tracks.length+' folders';
-    $("#track-list").innerHTML=tracks.length?tracks.map(tr=>{const ls_=all.filter(l=>l.track===tr.id).sort((a,b)=>(b.week||'').localeCompare(a.week||'')||(a.order||0)-(b.order||0));const dn=ls_.filter(complete).length;const pct=ls_.length?Math.round(100*dn/ls_.length):0;
-      return `<details class="folder" data-track="${esc(tr.id)}"${openSet.has(tr.id)?' open':''}><summary><span class="ico" aria-hidden="true"></span><span><span class="fn">${esc(tr.name)}</span><span class="fi">${esc(tr.idea||'')}</span></span><span class="fc">${dn} / ${ls_.length}</span></summary><div class="body"><div class="bar" style="margin-top:0"><i style="width:${pct}%"></i></div>${ls_.length?ls_.map(lessonCard).join(''):'<div class="empty">Nothing filed in this folder yet. It fills as G learns.</div>'}</div></details>`}).join(''):'<div class="empty">The folders load here.</div>';
+    $("#track-list").innerHTML=tracks.length?tracks.map(tr=>{const ls_=all.filter(l=>l.track===tr.id).sort((a,b)=>(b.week||'').localeCompare(a.week||'')||(a.order||0)-(b.order||0));const dn=ls_.filter(complete).length;const pct=ls_.length?Math.round(100*dn/ls_.length):0;const nIdeas=state.ideas.filter(x=>x.track===tr.id&&x.status!=='picked').length;
+      return `<details class="folder" data-track="${esc(tr.id)}"${openSet.has(tr.id)?' open':''}><summary><span class="ico" aria-hidden="true"></span><span><span class="fn">${esc(tr.name)}</span><span class="fi">${esc(tr.idea||'')}</span></span><span class="fc">${dn} / ${ls_.length}${nIdeas?' · '+nIdeas+' ideas':''}</span></summary><div class="body"><div class="bar" style="margin-top:0"><i style="width:${pct}%"></i></div>${ls_.length?ls_.map(lessonCard).join(''):'<div class="empty">Nothing filed in this folder yet. It fills as G learns.</div>'}${(()=>{const ids=state.ideas.filter(x=>x.track===tr.id&&x.status!=='picked');return ids.length?`<div class="kicker" style="margin-top:4px">Ideas to start</div><div class="card">${ids.map(ideaRow).join('')}</div>`:''})()}</div></details>`}).join(''):'<div class="empty">The folders load here.</div>';
     // home week strip
     const wk=all.filter(l=>l.week===thisWeek).sort((a,b)=>(a.order||0)-(b.order||0));
     const carry=all.filter(l=>l.week&&l.week<thisWeek&&!complete(l));
@@ -824,7 +882,7 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
     const ls_=[...state.lessons].sort((a,b)=>(a.week||'').localeCompare(b.week||''));
     const lines=ls_.map(l=>`- ${l.title} (${trackName(l.track)}, ${l.format||''}, ${l.done?'learned':'planned'}${l.teachback?', taught back':''}${Array.isArray(l.places)&&l.places.length?'; places: '+l.places.map(p=>p.name).join(', '):''})`);
     const books=state.books.map(b=>`- ${b.title}${b.author?' by '+b.author:''} (${b.status||'want'})`);
-    return "\n\nThe Library on G's Desk right now:\n"+(lines.join("\n")||"(empty)")+"\n\nBooks:\n"+(books.join("\n")||"(none)")+"\n\nFolders: "+state.tracks.map(t=>t.name).join('; ');
+    return "\n\nThe Library on G's Desk right now:\n"+(lines.join("\n")||"(empty)")+"\n\nBooks:\n"+(books.join("\n")||"(none)")+"\n\nFolders: "+state.tracks.map(t=>t.name).join('; ')+"\n\nJumping-off points G can pick next: "+openIdeas().map(x=>x.title).join('; ');
   }
   function askTurns(q){
     const prior=chatItems().filter(t=>!t.pending&&t.a).slice(-8);
@@ -857,20 +915,172 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
   $("#askbar").addEventListener('submit',e=>{e.preventDefault();if(pendingAsk){if(askCtl)askCtl.abort();return}askAtlas($("#ask-q").value)});
   (async()=>{askOffline('Connecting to Atlas.');try{sample=(window.claude&&window.claude.use)?await window.claude.use('sample'):null}catch(e){sample=null}if(!sample){askOffline(UNAVAILABLE);return}askOnline()})();
 
-  /* ---------- map ---------- */
-  let selPlace=null;
-  function renderMap(){
-    const pins=[];state.lessons.forEach(l=>{(Array.isArray(l.places)?l.places:[]).forEach((p,i)=>{if(typeof p.lat==='number'&&typeof p.lon==='number')pins.push({key:l.id+':'+i,name:p.name||'',note:p.note||'',lat:p.lat,lon:p.lon,lesson:l})})});
-    const pct=p=>({x:((p.lon+180)/360*100).toFixed(2),y:((90-p.lat)/180*100).toFixed(2)});
-    const map=$("#map");map.querySelectorAll('.pin').forEach(e=>e.remove());
-    pins.forEach(p=>{const c=pct(p);const b=document.createElement('button');b.className='pin'+(p.lesson.done?' done':'')+(selPlace===p.key?' sel':'');b.style.left=c.x+'%';b.style.top=c.y+'%';b.dataset.place=p.key;b.setAttribute('aria-label',p.name+' · '+p.lesson.title);map.appendChild(b)});
-    const learned=pins.filter(p=>p.lesson.done).length;
-    $("#map-count").textContent=pins.length?learned+' of '+pins.length+' places learned':'';
-    $("#places").innerHTML=pins.length?pins.sort((a,b)=>(b.lesson.week||'').localeCompare(a.lesson.week||'')||a.name.localeCompare(b.name)).map(p=>`<button class="place${selPlace===p.key?' sel':''}" data-place="${esc(p.key)}"><span class="dot2${p.lesson.done?' done':''}"></span><span><span class="pn">${esc(p.name)}</span><span class="pl">${esc(p.note||'')}${p.note?' · ':''}${esc(p.lesson.title)}</span></span><span class="pill ${p.lesson.done?'done':''}">${p.lesson.done?'Learned':'Planned'}</span></button>`).join(''):'<div class="empty">No pins yet. Atlas pins each lesson\'s places as it files them.</div>';
+  /* ---------- ideas (jumping-off points) ---------- */
+  const nextWeek=(()=>{const d=new Date(thisWeek+'T12:00:00');d.setDate(d.getDate()+7);return weekKey(d)})();
+  function openIdeas(){return state.ideas.filter(x=>x.status!=='picked').sort((a,b)=>(a.order||0)-(b.order||0))}
+  function ideaRow(x){
+    const place=Array.isArray(x.places)&&x.places[0]?x.places[0].name:'';
+    const picked=x.status==='picked';
+    return `<div class="ideacard${picked?' picked':''}"><div class="kicker">${esc(trackName(x.track))}${place?' · '+esc(place):''}${x.format?' · '+esc(x.format):''}</div><b>${esc(x.title)}</b>${x.blurb?`<p>${esc(x.blurb)}</p>`:''}${x.hook?`<p class="hook">${esc(x.hook)}</p>`:''}<div class="row">${picked?'<span class="pill ready">Picked</span>':`<button class="act small" data-pickidea="${esc(x.id)}"${state.canWrite?'':' disabled'}>Pick for next week</button>`}${place?` <button class="act small quiet" data-mapidea="${esc(x.id)}">See on map</button>`:''}</div></div>`;
   }
-  document.addEventListener('click',ev=>{const p=ev.target.closest('[data-place]');if(!p)return;selPlace=selPlace===p.dataset.place?null:p.dataset.place;renderMap();if(p.classList.contains('pin')){const row=$('.place[data-place="'+CSS.escape(p.dataset.place)+'"]');if(row)row.scrollIntoView({block:'nearest'})}});
+  function renderIdeas(){
+    const list=openIdeas();
+    $("#idea-count").textContent=list.length?list.length+' jumping-off points':'jumping-off points';
+    const shown=state.showAllIdeas?list:list.slice(0,6);
+    $("#idea-list").innerHTML=list.length?shown.map(ideaRow).join('')+(list.length>6?`<div class="row mt"><button class="act small quiet" id="ideas-more">${state.showAllIdeas?'Show fewer':'Show all '+list.length}</button></div>`:''):'<div class="note">No open ideas right now. Atlas adds more every Sunday, and anything G asks about can become one.</div>';
+  }
+  async function pickIdea(id){
+    const x=state.ideas.find(i=>i.id===id);if(!x||x.status==='picked')return;
+    const lid='pick-'+id;
+    const data={title:x.title,track:x.track||'history',format:x.format||'Report',blurb:x.blurb||'',week:nextWeek,order:Date.now()%100000,status:'planned',places:Array.isArray(x.places)?x.places:[],done:false,teachback:false,action:false,teachbackQuestion:'The three big ideas, one example each.',actionItem:'Atlas sets this when the lesson is built.',fromIdea:id,pickedAt:nowIso()};
+    if(await write('lessons/'+lid,data,'set')){await write('ideas/'+id,{status:'picked',pickedAt:nowIso(),lessonId:lid},'update');selPlace=null;toast('Picked for next week. Atlas builds it.')}
+  }
+  document.addEventListener('click',ev=>{
+    const pk=ev.target.closest('[data-pickidea]');if(pk){pk.disabled=true;pickIdea(pk.dataset.pickidea);return}
+    const mi=ev.target.closest('[data-mapidea]');if(mi){mapFilter='all';selPlace='i:'+mi.dataset.mapidea+':0';show('map');renderMap();requestAnimationFrame(()=>focusSel(true));return}
+    if(ev.target.closest('#ideas-more')){state.showAllIdeas=!state.showAllIdeas;renderIdeas()}
+  });
 
-  function renderAll(){renderScore();renderLessons();renderTickets();renderLibrary();renderPlayer();renderClips();renderReading();renderScouts();renderRules();renderAsk();renderMap();
+  /* ---------- map ---------- */
+  let selPlace=null,mapFilter='all';
+  const mv={s:1,x:0,y:0};
+  function allPins(){
+    const pins=[];
+    state.lessons.forEach(l=>{(Array.isArray(l.places)?l.places:[]).forEach((p,i)=>{if(typeof p.lat==='number'&&typeof p.lon==='number')pins.push({key:'l:'+l.id+':'+i,kind:l.done?'learned':'planned',name:p.name||'',note:p.note||'',lat:p.lat,lon:p.lon,lesson:l})})});
+    openIdeas().forEach(x=>{(Array.isArray(x.places)?x.places:[]).forEach((p,i)=>{if(typeof p.lat==='number'&&typeof p.lon==='number')pins.push({key:'i:'+x.id+':'+i,kind:'idea',name:p.name||'',note:p.note||'',lat:p.lat,lon:p.lon,idea:x})})});
+    return pins;
+  }
+  function clampView(W,H){mv.s=Math.min(12,Math.max(1,mv.s));mv.x=Math.min(0,Math.max(W-W*mv.s,mv.x));mv.y=Math.min(0,Math.max(H-H*mv.s,mv.y))}
+  function positionPins(){
+    const m=$("#map");const W=m.clientWidth,H=m.clientHeight;if(!W)return;clampView(W,H);
+    $("#map-layer").style.transform=`translate(${mv.x}px,${mv.y}px) scale(${mv.s})`;
+    m.querySelectorAll('.pin').forEach(b=>{b.style.left=(mv.x+mv.s*(+b.dataset.lon+180)/360*W)+'px';b.style.top=(mv.y+mv.s*(90-b.dataset.lat)/180*H)+'px'});
+    $("#zoom-level").textContent=mv.s.toFixed(1)+'x';m.classList.toggle('zoomed',mv.s>1.01);
+  }
+  function zoomAt(f,cx,cy){const s0=mv.s,s1=Math.min(12,Math.max(1,s0*f)),k=s1/s0;mv.x=cx-(cx-mv.x)*k;mv.y=cy-(cy-mv.y)*k;mv.s=s1;positionPins()}
+  function focusSel(zoomIn){
+    const pin=$('#map .pin.sel');const m=$("#map");if(!pin)return;const W=m.clientWidth,H=m.clientHeight;if(!W)return;
+    if(zoomIn&&mv.s<3)mv.s=3;
+    const px=(+pin.dataset.lon+180)/360*W,py=(90-pin.dataset.lat)/180*H;mv.x=W/2-mv.s*px;mv.y=H/2-mv.s*py;positionPins();
+  }
+  function kindLabel(k){return k==='learned'?'Learned':k==='planned'?'Planned':'To explore'}
+  function placeDetail(p){
+    if(p.idea){const x=p.idea;return `<div class="card"><div class="kicker">${esc(p.name)} · ${esc(trackName(x.track))} · to explore</div><h3>${esc(x.title)}</h3>${x.blurb?`<p>${esc(x.blurb)}</p>`:''}${x.hook?`<p class="hook" style="font-style:italic">${esc(x.hook)}</p>`:''}<div class="row"><button class="act" data-pickidea="${esc(x.id)}"${state.canWrite?'':' disabled'}>Pick for next week</button></div></div>`}
+    const l=p.lesson;return `<div class="card"><div class="kicker">${esc(p.name)} · ${esc(trackName(l.track))} · ${kindLabel(p.kind).toLowerCase()}</div><h3>${esc(l.title)}</h3>${p.note?`<p><b>Here:</b> ${esc(p.note)}</p>`:''}<p>${esc(l.blurb||'')}</p><div class="row">${l.done?`<button class="act" data-notes="${esc(l.id)}">Open field notes</button>`:`<button class="act quiet" data-goto="lessons">Open the Library</button>`}</div></div>`;
+  }
+  function renderMap(){
+    const pins=allPins();
+    const shown=pins.filter(p=>mapFilter==='all'||p.kind===mapFilter);
+    if(selPlace&&!shown.some(p=>p.key===selPlace))selPlace=null;
+    const m=$("#map");m.querySelectorAll('.pin').forEach(e=>e.remove());
+    shown.forEach(p=>{const b=document.createElement('button');b.type='button';b.className='pin '+p.kind+(selPlace===p.key?' sel':'');b.dataset.place=p.key;b.dataset.lat=p.lat;b.dataset.lon=p.lon;b.setAttribute('aria-label',p.name+' · '+(p.lesson?p.lesson.title:p.idea.title));m.appendChild(b)});
+    positionPins();
+    const n=k=>pins.filter(p=>p.kind===k).length;
+    $("#map-count").textContent=n('learned')+' learned · '+n('planned')+' planned · '+n('idea')+' to explore';
+    $$('#map-filter .chip').forEach(c=>c.setAttribute('aria-pressed',String(c.dataset.f===mapFilter)));
+    const sel=pins.find(p=>p.key===selPlace);
+    $("#map-detail").innerHTML=sel?placeDetail(sel):'<div class="note">Tap a pin. Gold is what G has learned; hollow is planned; dashed grey is the rest of the world, waiting. Pick a dashed pin and Atlas builds that lesson for next week.</div>';
+    const rank={learned:0,planned:1,idea:2};
+    $("#places").innerHTML=shown.length?shown.sort((a,b)=>rank[a.kind]-rank[b.kind]||a.name.localeCompare(b.name)).map(p=>`<button class="place${selPlace===p.key?' sel':''}" data-place="${esc(p.key)}"><span class="dot2 ${p.kind}"></span><span><span class="pn">${esc(p.name)}</span><span class="pl">${esc(p.note||'')}${p.note?' · ':''}${esc(p.lesson?p.lesson.title:p.idea.title)}</span></span><span class="pill ${p.kind==='learned'?'done':p.kind==='planned'?'ready':''}">${kindLabel(p.kind)}</span></button>`).join(''):'<div class="empty">Nothing in this view yet.</div>';
+  }
+  (()=>{
+    const m=$("#map");const pts=new Map();let base=null,moved=false;
+    const snap=()=>[...pts.values()].map(p=>({x:p.x,y:p.y}));
+    const reset=()=>{base={x:mv.x,y:mv.y,s:mv.s,p:snap()}};
+    const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+    m.addEventListener('pointerdown',e=>{if(e.target.closest('.zoom'))return;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});moved=false;reset()});
+    window.addEventListener('pointermove',e=>{
+      if(!pts.has(e.pointerId)||!base)return;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});const now=snap();const r=m.getBoundingClientRect();
+      if(now.length===1&&base.p.length===1){const dx=now[0].x-base.p[0].x,dy=now[0].y-base.p[0].y;if(!moved&&Math.abs(dx)+Math.abs(dy)<5)return;if(mv.s<=1.01&&!moved&&Math.abs(dy)>Math.abs(dx))return;moved=true;mv.x=base.x+dx;mv.y=base.y+dy;positionPins()}
+      else if(now.length>=2&&base.p.length>=2){const d0=dist(base.p[0],base.p[1])||1,d1=dist(now[0],now[1]);const c0={x:(base.p[0].x+base.p[1].x)/2-r.left,y:(base.p[0].y+base.p[1].y)/2-r.top};const c1={x:(now[0].x+now[1].x)/2-r.left,y:(now[0].y+now[1].y)/2-r.top};const s1=Math.min(12,Math.max(1,base.s*d1/d0)),k=s1/base.s;mv.s=s1;mv.x=c1.x-(c0.x-base.x)*k;mv.y=c1.y-(c0.y-base.y)*k;moved=true;positionPins()}
+    });
+    const end=e=>{if(!pts.has(e.pointerId))return;pts.delete(e.pointerId);reset()};
+    window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end);
+    m.addEventListener('click',e=>{if(moved){e.stopPropagation();e.preventDefault();moved=false}},true);
+    m.addEventListener('wheel',e=>{e.preventDefault();const r=m.getBoundingClientRect();zoomAt(e.deltaY<0?1.2:1/1.2,e.clientX-r.left,e.clientY-r.top)},{passive:false});
+    m.addEventListener('dblclick',e=>{if(e.target.closest('.pin,.zoom'))return;const r=m.getBoundingClientRect();zoomAt(2,e.clientX-r.left,e.clientY-r.top)});
+    $("#zoom-in").addEventListener('click',()=>zoomAt(1.6,m.clientWidth/2,m.clientHeight/2));
+    $("#zoom-out").addEventListener('click',()=>zoomAt(1/1.6,m.clientWidth/2,m.clientHeight/2));
+    $("#zoom-fit").addEventListener('click',()=>{mv.s=1;mv.x=0;mv.y=0;positionPins()});
+    try{new ResizeObserver(()=>positionPins()).observe(m)}catch(e){window.addEventListener('resize',positionPins)}
+  })();
+  document.addEventListener('click',ev=>{
+    const f=ev.target.closest('#map-filter [data-f]');if(f){mapFilter=f.dataset.f;renderMap();return}
+    const p=ev.target.closest('[data-place]');if(!p)return;
+    selPlace=selPlace===p.dataset.place?null:p.dataset.place;renderMap();
+    if(p.classList.contains('place')&&selPlace){focusSel(true);$("#map").scrollIntoView({block:'center',behavior:'smooth'})}
+  });
+
+  /* ---------- field notes ---------- */
+  let notePage=null,strokes=[],drawing=null,noteDirty=false,sketchDirty=false,saveT=null;
+  function pages(){return state.lessons.filter(l=>l.done).sort((a,b)=>(a.doneAt||a.week||'').localeCompare(b.doneAt||b.week||''))}
+  function decodeSketch(s){try{const a=JSON.parse(s||'[]');return Array.isArray(a)?a:[]}catch(e){return[]}}
+  function drawSketch(){
+    const c=$("#sketch");if(!c)return;const ctx=c.getContext('2d');const dpr=window.devicePixelRatio||1;const W=c.width/dpr,H=c.height/dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim()||'#111';ctx.lineWidth=2.2;ctx.lineCap='round';ctx.lineJoin='round';
+    strokes.forEach(st=>{if(st.length<2)return;ctx.beginPath();ctx.moveTo(st[0]/1000*W,st[1]/1000*H);for(let i=2;i<st.length;i+=2)ctx.lineTo(st[i]/1000*W,st[i+1]/1000*H);if(st.length===2)ctx.lineTo(st[0]/1000*W+.1,st[1]/1000*H);ctx.stroke()});
+  }
+  function fitSketch(){const c=$("#sketch");if(!c)return;const w=c.clientWidth;if(!w)return;const dpr=window.devicePixelRatio||1;const h=Math.round(w*.6);c.style.height=h+'px';if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr)}drawSketch()}
+  function queueSave(){clearTimeout(saveT);$("#note-status").textContent='Not saved yet';saveT=setTimeout(saveNote,1200)}
+  async function saveNote(){
+    clearTimeout(saveT);if(!notePage||(!noteDirty&&!sketchDirty))return;
+    const sk=JSON.stringify(strokes);if(sk.length>300000){toast('This sketch is full. Clear it to draw more.');return}
+    const data={lessonId:notePage,text:$("#note-text").value,sketch:sk,at:nowIso()};
+    const ok=await write('notes/'+notePage,data,'set');
+    if(ok){noteDirty=false;sketchDirty=false;state.notes[notePage]=data;$("#note-status").textContent='Saved'}else $("#note-status").textContent='Not saved. Check the connection.';
+  }
+  function pageClips(l){const ids=state.media.filter(m=>m.lessonId===l.id).map(m=>m.id);return state.clips.filter(c=>ids.includes(c.mediaId)).sort((a,b)=>(a.t||0)-(b.t||0))}
+  function renderNotes(force){
+    const ps=pages();
+    $("#notes-count").textContent=ps.length?ps.length+(ps.length===1?' page':' pages'):'';
+    $("#notes-index").innerHTML=ps.length?ps.map((l,i)=>`<button class="pageidx${l.id===notePage?' on':''}" data-notepage="${esc(l.id)}"><span class="n">p.${i+1}</span><span><b>${esc(l.title)}</b><span class="kicker" style="display:block">${esc(trackName(l.track))}</span></span><span class="mono" style="font-size:11px;color:var(--ink-3)">${state.notes[l.id]&&(state.notes[l.id].text||state.notes[l.id].sketch&&state.notes[l.id].sketch.length>2)?'notes':''}</span></button>`).join(''):'<div class="note">The table of contents fills as pages are added.</div>';
+    if(!ps.length){$("#book").innerHTML='<div class="empty">Every lesson G finishes becomes a page here: the core ideas, a sketch, his own notes and the bookmarks he clipped from the episode. Finish a lesson and its page appears.</div>';$("#book").dataset.page='';return}
+    if(!notePage||!ps.some(l=>l.id===notePage))notePage=ps[ps.length-1].id;
+    const i=ps.findIndex(l=>l.id===notePage),l=ps[i],n=state.notes[l.id]||{};
+    const book=$("#book");
+    if(force||book.dataset.page!==l.id){
+      if(noteDirty||sketchDirty)saveNote();
+      book.dataset.page=l.id;noteDirty=false;sketchDirty=false;strokes=decodeSketch(n.sketch);
+      const when=l.doneAt?new Date(l.doneAt).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'';
+      const places=Array.isArray(l.places)&&l.places.length?l.places.map(p=>esc(p.name)).join(' · '):'';
+      book.innerHTML=`<article class="page">
+        <div><div class="kicker">Page ${i+1} of ${ps.length} · ${esc(trackName(l.track))}${when?' · learned '+esc(when):''}</div><h3>${esc(l.title)}</h3>${places?`<div class="note" style="margin-top:4px">${places}</div>`:''}</div>
+        <div><div class="pg-lab">Core ideas</div><div id="pg-concepts"></div></div>
+        <div><div class="pg-lab">Sketch it <span>draw the big idea with a finger</span></div><div class="sketchwrap"><canvas id="sketch" aria-label="Sketch pad"></canvas></div><div class="row mt"><button class="act small quiet" id="sk-undo" type="button">Undo</button><button class="act small quiet" id="sk-clear" type="button">Clear</button></div></div>
+        <div><div class="pg-lab">My notes <span id="note-status"></span></div><label for="note-text" hidden>Notes</label><textarea id="note-text" placeholder="What stuck? What would you tell a friend?"></textarea></div>
+        <div><div class="pg-lab">Bookmarks from the episode</div><div id="pg-clips"></div></div>
+        <div class="pg-nav"><button class="act small quiet" data-notepage="${i>0?esc(ps[i-1].id):''}"${i>0?'':' disabled'}>&lsaquo; Earlier page</button><span class="mono">${i+1} / ${ps.length}</span><button class="act small quiet" data-notepage="${i<ps.length-1?esc(ps[i+1].id):''}"${i<ps.length-1?'':' disabled'}>Later page &rsaquo;</button></div>
+      </article>`;
+      $("#note-text").value=n.text||'';
+      $("#note-text").disabled=!state.canWrite;
+      $("#note-text").addEventListener('input',()=>{noteDirty=true;queueSave()});
+      $("#note-text").addEventListener('blur',()=>{if(noteDirty)saveNote()});
+      $("#sk-undo").addEventListener('click',()=>{strokes.pop();sketchDirty=true;drawSketch();queueSave()});
+      $("#sk-clear").addEventListener('click',e=>{const b=e.currentTarget;if(!b.dataset.armed){b.dataset.armed='1';b.textContent='Tap again to clear';setTimeout(()=>{if(b.isConnected){delete b.dataset.armed;b.textContent='Clear'}},3000);return}strokes=[];sketchDirty=true;drawSketch();queueSave();delete b.dataset.armed;b.textContent='Clear'});
+      const c=$("#sketch");
+      const pt=e=>{const r=c.getBoundingClientRect();return[Math.round(Math.min(1,Math.max(0,(e.clientX-r.left)/r.width))*1000),Math.round(Math.min(1,Math.max(0,(e.clientY-r.top)/r.height))*1000)]};
+      c.addEventListener('pointerdown',e=>{if(!state.canWrite)return;c.setPointerCapture(e.pointerId);drawing=pt(e);strokes.push(drawing.slice());drawSketch()});
+      c.addEventListener('pointermove',e=>{if(!drawing)return;const q=pt(e);const st=strokes[strokes.length-1];const lx=st[st.length-2],ly=st[st.length-1];if(Math.abs(q[0]-lx)+Math.abs(q[1]-ly)<5)return;st.push(q[0],q[1]);drawSketch()});
+      const stop=()=>{if(!drawing)return;drawing=null;sketchDirty=true;queueSave()};
+      c.addEventListener('pointerup',stop);c.addEventListener('pointercancel',stop);
+      requestAnimationFrame(fitSketch);
+    }else{
+      if(!noteDirty&&document.activeElement!==$("#note-text"))$("#note-text").value=n.text||'';
+      if(!sketchDirty&&!drawing){strokes=decodeSketch(n.sketch);drawSketch()}
+    }
+    const concepts=Array.isArray(l.concepts)?l.concepts:[];
+    $("#pg-concepts").innerHTML=concepts.length?`<ul class="concepts">${concepts.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>`:'<div class="note" style="margin:0">Atlas writes the core ideas here when he files the lesson.</div>';
+    const clips=pageClips(l);
+    $("#pg-clips").innerHTML=clips.length?clips.map(c=>`<div class="clip"><button class="at" data-jump="${c.t}" data-media="${esc(c.mediaId)}">${clock(c.t)}</button><div class="txt"><span>${esc(c.who||'')}</span>${c.note?esc(c.note):'<em style="color:var(--ink-3)">No note</em>'}</div><span></span></div>`).join(''):'<div class="note" style="margin:0">Bookmarks G clips while listening land on this page. Tap the gold bookmark in the player.</div>';
+  }
+  document.addEventListener('click',ev=>{
+    const b=ev.target.closest('[data-notepage],[data-notes]');if(!b)return;const id=b.dataset.notepage||b.dataset.notes;if(!id)return;
+    notePage=id;show('notes');renderNotes(true);window.scrollTo({top:0});
+  });
+  window.addEventListener('pagehide',()=>{if(noteDirty||sketchDirty)saveNote()});
+
+  function renderAll(){renderScore();renderLessons();renderTickets();renderLibrary();renderPlayer();renderClips();renderReading();renderScouts();renderRules();renderAsk();renderIdeas();renderMap();renderNotes();
     $$('#ticket-form input,#ticket-form button,#book-form input,#book-form select,#book-form button,#project-form input,#project-form button,#adv-form input,#adv-form select,#adv-form button,#sc-save,#view-scouts .card input').forEach(el=>el.disabled=!state.canWrite)}
   renderAll();
 
@@ -882,7 +1092,7 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
     try{const user=await window.claude.use('user');if(user){const w=await user.can('data.write');if(w===false)state.canWrite=false}}catch(e){}
     const docs=s=>s.docs.map(d=>Object.assign({id:d.id},d.data()));
     const sub=(name,key,after)=>db.collection(name).onSnapshot(s=>{state[key]=docs(s);if(after)after();renderAll()},()=>{});
-    sub('tracks','tracks');sub('lessons','lessons');sub('ledger','ledger');sub('media','media');sub('clips','clips');sub('tickets','tickets');sub('books','books');sub('series','series');sub('projects','projects');sub('scouts','adventures');sub('atlas_chat','chat');
+    sub('tracks','tracks',()=>{if(!state.tracks.length)state.tracks=DEF_TRACKS.slice()});sub('ideas','ideas');db.collection('notes').onSnapshot(s=>{const m={};s.docs.forEach(d=>{m[d.id]=d.data()});state.notes=m;renderNotes()},()=>{});sub('lessons','lessons');sub('ledger','ledger');sub('media','media');sub('clips','clips');sub('tickets','tickets');sub('books','books');sub('series','series');sub('projects','projects');sub('scouts','adventures');sub('atlas_chat','chat');
     db.collection('progress').onSnapshot(s=>{const m={};s.docs.forEach(d=>{m[d.id]=d.data()});state.progress=m;renderLibrary()},()=>{});
     db.doc('settings/rules').onSnapshot(s=>{if(s.exists)state.rules=Object.assign({},DEF_RULES,s.data());renderAll()},()=>{});
     db.doc('settings/scouts').onSnapshot(s=>{if(s.exists)state.scouts=s.data();renderScouts()},()=>{});
