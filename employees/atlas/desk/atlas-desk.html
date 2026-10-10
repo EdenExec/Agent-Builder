@@ -1,3 +1,4 @@
+
 <title>Atlas Desk</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -84,6 +85,11 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 .ticket.done .tt{text-decoration:line-through}
 .ticket .tt{font-weight:600;font-size:15px;display:block}
 .ticket .who{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.ticket .earns{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--gold);margin-top:4px}
+.deal{display:grid;gap:0}
+.payrow{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid var(--gold);border-top:0;background:var(--gold-soft);padding:8px 12px;font-size:13px}
+.prize{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.prize .pt{font-weight:600;font-size:14.5px}.prize .pa{font-size:12.5px;color:var(--ink-3)}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chip{border:1px solid var(--line-2);background:none;color:var(--ink-2);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:7px 10px;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -177,11 +183,12 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
     <h2 id="home-week-label">This week <small id="home-week-count"></small></h2>
     <div id="home-week"><div class="empty">This week's lessons show here once Atlas files them.</div></div>
 
-    <h2>Tickets <small>tap to finish one</small></h2>
-    <div class="tickets" id="tickets"><div class="empty">No tickets yet. Add the first one below: pick next week's lesson, plan a fishing trip, finish a chapter.</div></div>
+    <h2>Tickets and deals <small>tap when it's done · Kev taps Pay</small></h2>
+    <div class="tickets" id="tickets"><div class="empty">No tickets yet. Add one below. A ticket can carry a deal: the job on the left, what it earns on the right.</div></div>
     <form id="ticket-form" class="card" style="margin-top:10px" autocomplete="off">
       <div class="row">
-        <input type="text" id="ticket-title" class="grow" placeholder="New ticket, e.g. Pick next week's lesson" aria-label="New ticket">
+        <input type="text" id="ticket-title" class="grow" placeholder="The job, e.g. Pick up Todd's dog poop" aria-label="New ticket">
+        <input type="text" id="ticket-earns" class="grow" placeholder="Earns: 60 min, or Gaming session with Hansel" aria-label="What it earns">
         <div class="chips" role="group" aria-label="Who">
           <button type="button" class="chip" data-who="G" aria-pressed="true">G</button>
           <button type="button" class="chip" data-who="Kev" aria-pressed="false">Kev</button>
@@ -311,7 +318,9 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
       <button class="act quiet" id="spend-60">Spend 60 min</button>
       <button class="act quiet" id="payout">Allowance paid out</button>
     </div>
-    <p class="note">Kev taps these when screen time is used or allowance is handed over. Lessons, finished books and earned adventures add to the bank on their own.</p>
+    <p class="note">Kev taps these when screen time is used or allowance is handed over. Lessons, finished books, earned adventures and paid deals add to the bank on their own.</p>
+    <h2>Prizes earned <small>Kev taps Used it when it happens</small></h2>
+    <div class="card" id="prizes"><div class="note">No prizes banked. A deal with a prize lands here once Kev pays it.</div></div>
     <h2>Where it came from</h2>
     <div style="overflow-x:auto"><table><thead><tr><th>Source</th><th style="text-align:right">Min</th><th style="text-align:right">$</th></tr></thead><tbody id="earn-body"></tbody></table></div>
     <h2>Ledger</h2>
@@ -332,7 +341,7 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
     <div class="row mt"><button class="act" id="save-rules">Save rules</button></div>
     <p class="note">Rules are Kev's. Each book can carry its own amount ($10 to $15); a series prize is set on the Reading tab. Atlas files the lessons; the Desk keeps the score; the Sunday Edition prints the week.</p>
     <h2>The deal, in G's words</h2>
-    <p>Learn the thing. Teach it back. Do the thing. Read the book. The Desk pays out, every time, no arguing.</p>
+    <p>Learn the thing. Teach it back. Do the thing. Read the book. Do the job on the ticket and Kev taps Pay. The Desk pays out, every time, no arguing.</p>
   </section>
 
   <div class="foot"><span>edenpartnergroup.com</span><span>Atlas · tutor</span><span>KDTW</span></div>
@@ -396,18 +405,20 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
     const bd=booksDone.reduce((s,b)=>s+(+b.reward||0),0);
     const advDone=state.adventures.filter(a=>a.status==='earned');
     const sd=advDone.length*(+state.rules.scout||0);
-    let spentM=0,spentD=0;state.ledger.forEach(e=>{if(e.kind==='spend'){spentM+=e.minutes||0;spentD+=e.dollars||0}});
-    m=lm+bonus-spentM;d=ld+bd+sd-spentD;
-    return{m,d,streak,lm,ld,bonus,bd,sd,spentM,spentD,books:booksDone.length,adv:advDone.length}
+    let spentM=0,spentD=0,earnM=0,earnD=0,deals=0;state.ledger.forEach(e=>{if(e.kind==='spend'){spentM+=e.minutes||0;spentD+=e.dollars||0}else if(e.kind==='earn'){earnM+=e.minutes||0;earnD+=e.dollars||0;deals+=1}});
+    m=lm+bonus+earnM-spentM;d=ld+bd+sd+earnD-spentD;
+    return{m,d,streak,lm,ld,bonus,bd,sd,spentM,spentD,earnM,earnD,deals,books:booksDone.length,adv:advDone.length}
   }
   function renderScore(){
     const t=totals();
     $("#s-minutes").textContent=fmt(t.m);$("#s-dollars").textContent=money(t.d);$("#s-books").textContent=t.books;
     $("#b-minutes").textContent=fmt(t.m);$("#b-dollars").textContent=money(t.d);$("#b-streak").textContent=t.streak;
     $("#spend-30").disabled=!state.canWrite||t.m<30;$("#spend-60").disabled=!state.canWrite||t.m<60;$("#payout").disabled=!state.canWrite||t.d<=0;
-    $("#earn-body").innerHTML=[["Lessons finished and taught back",t.lm,0],["Action items",0,t.ld],["Weekly bonus",t.bonus,0],["Books finished ("+t.books+")",0,t.bd],["Scout adventures ("+t.adv+")",0,t.sd],["Spent and paid out",-t.spentM,-t.spentD]].map(r=>`<tr><td>${esc(r[0])}</td><td class="num">${r[1]?fmt(r[1]):""}</td><td class="num">${r[2]?money(r[2]):""}</td></tr>`).join("");
+    $("#earn-body").innerHTML=[["Lessons finished and taught back",t.lm,0],["Action items",0,t.ld],["Weekly bonus",t.bonus,0],["Books finished ("+t.books+")",0,t.bd],["Scout adventures ("+t.adv+")",0,t.sd],["Deals paid ("+t.deals+")",t.earnM,t.earnD],["Spent and paid out",-t.spentM,-t.spentD]].map(r=>`<tr><td>${esc(r[0])}</td><td class="num">${r[1]?fmt(r[1]):""}</td><td class="num">${r[2]?money(r[2]):""}</td></tr>`).join("");
     const led=[...state.ledger].sort((a,b)=>(b.at||'').localeCompare(a.at||''));
     $("#ledger-body").innerHTML=led.length?led.map(e=>`<tr><td class="mono">${esc((e.at||'').slice(0,10))}</td><td>${esc(e.note||'')}</td><td class="num">${e.minutes?(e.kind==='spend'?'-':'+')+e.minutes:''}</td><td class="num">${e.dollars?(e.kind==='spend'?'-':'+')+money(e.dollars):''}</td></tr>`).join(''):'<tr><td colspan="4" class="note">No entries yet.</td></tr>';
+    const prizes=led.filter(e=>e.kind==='earn'&&e.prize&&!e.redeemed);
+    $("#prizes").innerHTML=prizes.length?prizes.map(e=>`<div class="prize"><div style="min-width:0"><div class="pt">${esc(e.prize)}</div><div class="pa">Earned ${esc((e.at||'').slice(0,10))}${e.note?' · '+esc(e.note):''}</div></div><button class="act small" data-redeem="${esc(e.id)}"${state.canWrite?'':' disabled'}>Used it</button></div>`).join(''):'<div class="note">No prizes banked. A deal with a prize lands here once Kev pays it.</div>';
   }
 
   /* ---------- lessons ---------- */
@@ -460,24 +471,38 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
   /* ---------- tickets ---------- */
   let ticketWho='G';
   $$('#ticket-form .chip').forEach(c=>c.addEventListener('click',()=>{ticketWho=c.dataset.who;$$('#ticket-form .chip').forEach(x=>x.setAttribute('aria-pressed',String(x===c)))}));
+  function parseEarns(v){v=String(v||'').trim();if(!v)return null;const m=v.match(/^(\d+)\s*(min|mins|minutes|m)\b/i);if(m)return{minutes:+m[1]};const d=v.match(/^\$\s*(\d+(?:\.\d+)?)$/);if(d)return{dollars:+d[1]};return{prize:v}}
+  function rewardText(r){if(!r)return'';if(r.minutes)return r.minutes+' min screen time';if(r.dollars)return money(r.dollars);return r.prize||''}
   $("#ticket-form").addEventListener('submit',async e=>{
     e.preventDefault();const t=$("#ticket-title").value.trim();if(!t)return;
-    $("#ticket-title").value='';
-    if(await write('tickets',{title:t,who:ticketWho,status:'todo',week:thisWeek,createdAt:nowIso(),order:Date.now()},'add'))toast('Ticket added.');
+    const reward=parseEarns($("#ticket-earns").value);
+    $("#ticket-title").value='';$("#ticket-earns").value='';
+    if(await write('tickets',{title:t,who:ticketWho,status:'todo',week:thisWeek,createdAt:nowIso(),order:Date.now(),reward:reward||null,paid:false},'add'))toast(reward?'Deal added.':'Ticket added.');
   });
   function renderTickets(){
     const open=state.tickets.filter(t=>t.status!=='done').sort((a,b)=>(a.order||0)-(b.order||0));
     const done=state.tickets.filter(t=>t.status==='done'&&(t.doneAt||'')>=thisWeek).sort((a,b)=>(b.doneAt||'').localeCompare(a.doneAt||''));
-    const tk=t=>`<button class="ticket ${t.who==='G'?'g':t.who==='Kev'?'kev':''} ${t.status==='done'?'done':''}" data-ticket="${esc(t.id)}"${state.canWrite?'':' disabled'}><span class="box" aria-hidden="true">${t.status==='done'?'✓':''}</span><span><span class="who">${esc(t.who||'Both')}${t.detail?' · '+esc(t.detail):''}</span><span class="tt">${esc(t.title)}</span></span></button>`;
+    const tk=t=>`<button class="ticket ${t.who==='G'?'g':t.who==='Kev'?'kev':''} ${t.status==='done'?'done':''}" data-ticket="${esc(t.id)}"${state.canWrite?'':' disabled'}><span class="box" aria-hidden="true">${t.status==='done'?'✓':''}</span><span><span class="who">${esc(t.who||'Both')}${t.detail?' · '+esc(t.detail):''}</span><span class="tt">${esc(t.title)}</span>${t.reward?`<span class="earns">Earns ${esc(rewardText(t.reward))}${t.paid?' · paid':t.status==='done'?' · waiting on Kev':''}</span>`:''}</span></button>`;
+    const deal=t=>`<div class="deal">${tk(t)}${(t.reward&&t.status==='done'&&!t.paid)?`<div class="payrow"><span>Earns <b>${esc(rewardText(t.reward))}</b></span><button class="act small" data-pay="${esc(t.id)}"${state.canWrite?'':' disabled'}>Pay it</button></div>`:''}</div>`;
     $("#tickets").innerHTML=open.length?open.map(tk).join(''):'<div class="empty">All clear. Add a ticket below for anything G and Kev want to get done this week.</div>';
-    $("#tickets-done").innerHTML=done.length?`<h2>Done this week <small>${done.length}</small></h2><div class="tickets">${done.map(tk).join('')}</div>`:'';
+    $("#tickets-done").innerHTML=done.length?`<h2>Done this week <small>${done.length}</small></h2><div class="tickets">${done.map(deal).join('')}</div>`:'';
   }
   document.addEventListener('click',async ev=>{
     const b=ev.target.closest('[data-ticket]');if(!b)return;
     const t=state.tickets.find(x=>x.id===b.dataset.ticket);if(!t)return;
+    if(t.paid){toast('Already paid. It stays done.');return}
     const done=t.status!=='done';const patch=done?{status:'done',doneAt:nowIso()}:{status:'todo',doneAt:null};
     Object.assign(t,patch);renderTickets();
     if(await write('tickets/'+t.id,patch,'update'))toast(done?'Done. Nice.':'Back on the board.');
+  });
+  document.addEventListener('click',async ev=>{
+    const p=ev.target.closest('[data-pay]');
+    if(p){const t=state.tickets.find(x=>x.id===p.dataset.pay);if(!t||!t.reward||t.paid)return;p.disabled=true;
+      const entry={kind:'earn',minutes:t.reward.minutes||0,dollars:t.reward.dollars||0,prize:t.reward.prize||null,note:'Deal: '+t.title,ticketId:t.id,at:nowIso()};
+      if(await write('ledger',entry,'add')){t.paid=true;renderAll();await write('tickets/'+t.id,{paid:true,paidAt:nowIso()},'update');toast(t.reward.prize?'Paid. The prize is in the bank.':'Paid. '+rewardText(t.reward)+' banked.')}else p.disabled=false;
+      return}
+    const r=ev.target.closest('[data-redeem]');
+    if(r){r.disabled=true;if(await write('ledger/'+r.dataset.redeem,{redeemed:true,redeemedAt:nowIso()},'update'))toast('Enjoy it.');else r.disabled=false}
   });
   document.addEventListener('click',ev=>{const g=ev.target.closest('[data-goto]');if(g)show(g.dataset.goto)});
 
@@ -722,3 +747,4 @@ td.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
   })();
 })();
 </script>
+

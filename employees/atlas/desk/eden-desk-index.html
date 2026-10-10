@@ -156,7 +156,7 @@ summary .n{font-family:var(--mono);font-size:11px;color:var(--mute)}
   </section>
 
   <div class="label">Ask Atlas</div>
-  <section class="card chat" id="atlas" hidden>
+  <section class="card chat" id="atlas">
     <h3>Ask Atlas</h3>
     <p class="sub">The tutor. Ask about the episodes, the house, the river, or anything either of you is learning. Base level first, fit for ten. Say “G here” if it's G asking.</p>
     <div class="thread" id="atlas-thread" aria-live="polite" hidden></div>
@@ -296,7 +296,7 @@ const Atlas=(function(){
       pending.a=r.text;pending.cut=!!r.truncated;
     }catch(e){
       const code=e&&e.code;
-      if(HIDE.has(code)){$('atlas').hidden=true;pending=null;setBusy(false);return;}
+      if(HIDE.has(code)){pending=null;setBusy(false);renderThread();offline(code==='not_granted'?"Claude isn't allowed for this page yet. Allow it from the page's Permissions menu, then ask again.":UNAVAILABLE);return;}
       if(e&&e.text){pending.a=e.text;pending.cut=true;}
       if(code!=='cancelled')$('atlas-note').textContent=COPY[code]||COPY.upstream_error;
       if(!pending.a){pending=null;setBusy(false);renderThread();return;}
@@ -311,10 +311,13 @@ const Atlas=(function(){
     $('atlas-q').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();ask($('atlas-q').value);}});
     $('atlas-stop').addEventListener('click',()=>{if(ctl)ctl.abort();});
   })();
+  const UNAVAILABLE="Atlas can't answer in this view yet. Open the Desk in a browser at claude.ai, signed in, and try again.";
+  function offline(msg){$('atlas-q').disabled=true;$('atlas-ask').disabled=true;$('atlas-note').textContent=msg;}
   (async()=>{
-    try{sample=await window.claude.use('sample');}catch(e){sample=null;}
-    if(!sample)return;
-    $('atlas').hidden=false;renderThread();
+    offline('Connecting to Atlas.');
+    try{sample=(window.claude&&window.claude.use)?await window.claude.use('sample'):null;}catch(e){sample=null;}
+    if(!sample){offline(UNAVAILABLE);return;}
+    $('atlas-q').disabled=false;$('atlas-ask').disabled=false;$('atlas-note').textContent='';renderThread();
   })();
   return {
     attachDb(d){
