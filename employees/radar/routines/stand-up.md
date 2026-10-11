@@ -189,6 +189,15 @@ The ledger is the Notion database **Daily Catch-Up Items** (data source `collect
 | Family | Ally, the kids, home, the Boise move, Eden Ranch and Excursions planning time |
 | Formation | Scripture, journaling, C12, Main Street, rest |
 
+## Reading the ledger without burning the Notion quota (11 October 2026)
+
+On Kev's Notion plan the SQL query tool (`notion-query-data-sources` in sql mode) has a small shared workspace allowance; hourly sweeps used it up on 10 October. Saved views have no quota. So:
+
+- **Read through the two saved views** with `mode: "view"`, paging with `next_cursor`: "Radar · Open for Kev" (`view://3f625d7d-12f4-8178-8f0a-000c76ff5fa3`, Status not Done and Owner Kev or Lane Batch) for the paper, the check-out and the hit list; "Radar · All open" (`view://3f625d7d-12f4-8192-a255-000ca93c1ae5`, Status not Done) for the sweep's search-before-create and the Friday review.
+- **Read once per run.** Pull the view at the start of a sweep, keep it in memory, and match against it; never query per email.
+- **Find one row** with `notion-search` scoped to the ledger, not SQL.
+- **SQL only** for a one-off question no view answers, at most once per run, and never inside a loop.
+
 
 ==================== PLAYBOOK: stand-up-tomorrow (employees/radar/skills/stand-up-tomorrow.md) ====================
 
