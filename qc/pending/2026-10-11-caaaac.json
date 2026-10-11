@@ -1,0 +1,10 @@
+{
+  "id": "2026-10-11-caaaac",
+  "status": "pending",
+  "createdAt": "2026-10-11T15:30:51.557Z",
+  "employee": "radar",
+  "kind": "spend",
+  "summary": "Supabase Pro for the Eden Daily project (Eden's own database)",
+  "detail": "Q's proposal projects/eden-crm/proposals/2026-10-ownership-access-agents.md: the Eden org is on the free plan (500 MB, no backups, pauses after a week idle). Pro is from $25/month with 8 GB included, $0.125 per extra GB (Supabase pricing page, checked 11 Oct by Q). Holds the Crelate copy, CloudTalk calls and notes. Recurring monthly. Also needed first: Kev or Cody re-links the Supabase connector or resets the database password; both logins fail today.",
+  "amountUsd": 25
+}
