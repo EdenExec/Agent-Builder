@@ -82,3 +82,7 @@ Kev: a 3% monthly return on G's allowance, "only if he does a biblical 10% tithe
 ## iPad (Kev, 11 Oct)
 
 One page, one URL. At 740px and wider (iPad portrait and up) every tab shows in one row (no More), moves, folders, ideas and places go two-up, the map and sketch pad grow, and at 1100px (iPad landscape) the Field Notes contents sit beside the page. Check new features at 430, 820 and 1180 wide before publishing.
+
+## Picture guides
+
+A lesson can carry `guide`: a claude.ai artifact URL for a visual companion (cards, diagrams). The lesson card shows a "Picture guide" button next to Listen. The first one is the Chess Field Guide (https://claude.ai/artifact/4CZut4F6M57NsZgdeSTXT8) on `ep3-chess`, built by `employees/atlas/episodes/chess/guide/build_guide.py`. It has six piece trading cards (2.5 x 3.5 in when printed) plus setup, check, checkmate, stalemate, castling and the four-move trap. The printable copy is `chess-field-guide.pdf`.

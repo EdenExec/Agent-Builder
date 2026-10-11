@@ -54,9 +54,9 @@ a{color:var(--ink);text-underline-offset:3px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .row.mt{margin-top:10px}
 button{font:inherit}
-button.act{background:var(--ink);color:var(--bg);border:1px solid var(--ink);font-family:var(--display);font-weight:600;font-size:13px;padding:9px 14px;cursor:pointer}
-button.act.quiet{background:none;color:var(--ink)}
-button.act.small{padding:6px 10px;font-size:12px}
+button.act,a.act{display:inline-block;text-decoration:none;background:var(--ink);color:var(--bg);border:1px solid var(--ink);font-family:var(--display);font-weight:600;font-size:13px;padding:9px 14px;cursor:pointer}
+button.act.quiet,a.act.quiet{background:none;color:var(--ink)}
+button.act.small,a.act.small{padding:6px 10px;font-size:12px}
 button.act:disabled{opacity:.4;cursor:default}
 button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 input[type=text],input[type=number],textarea,select{font-family:var(--display);font-size:15px;padding:9px 10px;border:1px solid var(--line-2);background:var(--panel);color:var(--ink);min-width:0}
@@ -716,10 +716,11 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
     const status=complete?'<span class="pill done">Complete</span>':(l.status==='ready'||l.link||l.mediaId)?'<span class="pill ready">Ready</span>':'<span class="pill">Planned</span>';
     const listen=l.mediaId&&state.media.find(m=>m.id===l.mediaId)?` <button class="act small" data-listen="${esc(l.mediaId)}">Listen</button>`:'';
     const link=!l.mediaId&&l.link?` <a href="${esc(l.link)}" target="_blank" rel="noopener">Open</a>`:'';
+    const guide=/^https:\/\/claude\.ai\//.test(l.guide||'')?` <a class="act small quiet" href="${esc(l.guide)}" target="_blank" rel="noopener">Picture guide</a>`:'';
     const dis=state.canWrite?'':' disabled';
     return `<article class="lesson" data-id="${esc(l.id)}">
       <div class="head"><div><div class="kicker">${esc(trackName(l.track))} · ${esc(l.format||'')}</div><h3>${esc(l.title)}</h3></div>${status}</div>
-      <p>${esc(l.blurb||'')}${link}</p>${Array.isArray(l.places)&&l.places.length?`<p class="note" style="margin:0 0 8px">On the map: ${l.places.map(p=>esc(p.name)).join(' · ')}</p>`:''}${(listen||l.done)?`<div class="row" style="margin-bottom:6px">${listen}${l.done?` <button class="act small quiet" data-notes="${esc(l.id)}">Field notes</button>`:''}</div>`:''}
+      <p>${esc(l.blurb||'')}${link}</p>${Array.isArray(l.places)&&l.places.length?`<p class="note" style="margin:0 0 8px">On the map: ${l.places.map(p=>esc(p.name)).join(' · ')}</p>`:''}${(listen||guide||l.done)?`<div class="row" style="margin-bottom:6px">${listen}${guide}${l.done?` <button class="act small quiet" data-notes="${esc(l.id)}">Field notes</button>`:''}</div>`:''}
       <div class="steps">
         <div class="step"><label><input type="checkbox" data-k="done" ${l.done?'checked':''}${dis}><span class="what">Finished it</span></label><span class="earn">+${r.lesson} min</span></div>
         <div class="step ${l.done?'':'locked'}"><label><input type="checkbox" data-k="teachback" ${l.teachback?'checked':''}${l.done?'':' disabled'}${dis}><span class="what">Taught it back to Kev<span class="q">${esc(l.teachbackQuestion||'Four sentences, no notes.')}</span></span></label><span class="earn">+${r.teach} min</span></div>
