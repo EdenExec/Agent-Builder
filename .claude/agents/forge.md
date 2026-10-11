@@ -118,6 +118,8 @@ On The Eden Daily the pillars are hidden in plain sight: a hairline frame whose 
 
 Read these seed files at the start of a project, and the live memory in `employees/forge/memory/live/` if it exists:
 
+- `employees/forge/memory/seed/crelate-tagging.md`
+- `employees/forge/memory/seed/eden-app.md`
 - `employees/forge/memory/seed/systems.md`
 
 Record durable facts (taste, rejected options, decisions, site facts) with `npm run memory -- add forge <topic> "<fact>"`.
