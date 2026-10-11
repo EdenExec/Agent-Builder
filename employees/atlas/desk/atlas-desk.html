@@ -6,10 +6,10 @@
 :root{
   --bg:#fbfaf7; --panel:#ffffff; --ink:#111111; --ink-2:#4a4944; --ink-3:#8a8880; --line:#e4e2db; --line-2:#cfccc2;
   --gold:#b8922e; --gold-soft:#f5efdf; --ok:#2f6b3a; --ok-soft:#e6f0e7; --warn:#8a5a14; --warn-soft:#f6ecdc;
-  --display:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --c-in:#a8801f; --c-out:#3f6ea8; --display:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#161614; --panel:#1f1f1c; --ink:#f1efe8; --ink-2:#c5c2b8; --ink-3:#8b887e; --line:#2f2e29; --line-2:#44433c; --gold:#d4ab45; --gold-soft:#2b2619; --ok:#8fcf9a; --ok-soft:#1d2a1f; --warn:#e0a84a; --warn-soft:#2c2316; color-scheme:dark } }
-:root[data-theme="dark"]{ --bg:#161614; --panel:#1f1f1c; --ink:#f1efe8; --ink-2:#c5c2b8; --ink-3:#8b887e; --line:#2f2e29; --line-2:#44433c; --gold:#d4ab45; --gold-soft:#2b2619; --ok:#8fcf9a; --ok-soft:#1d2a1f; --warn:#e0a84a; --warn-soft:#2c2316; color-scheme:dark }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#161614; --panel:#1f1f1c; --ink:#f1efe8; --ink-2:#c5c2b8; --ink-3:#8b887e; --line:#2f2e29; --line-2:#44433c; --gold:#d4ab45; --gold-soft:#2b2619; --ok:#8fcf9a; --ok-soft:#1d2a1f; --warn:#e0a84a; --warn-soft:#2c2316; --c-in:#b08a2a; --c-out:#5b8fd6; color-scheme:dark } }
+:root[data-theme="dark"]{ --bg:#161614; --panel:#1f1f1c; --ink:#f1efe8; --ink-2:#c5c2b8; --ink-3:#8b887e; --line:#2f2e29; --line-2:#44433c; --gold:#d4ab45; --gold-soft:#2b2619; --ok:#8fcf9a; --ok-soft:#1d2a1f; --warn:#e0a84a; --warn-soft:#2c2316; --c-in:#b08a2a; --c-out:#5b8fd6; color-scheme:dark }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--display);font-size:15px;line-height:1.45}
@@ -300,6 +300,27 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
 .pin.bible.sel{transform:rotate(45deg) scale(1.25)}
 .lg.bible{border-radius:1px;transform:rotate(45deg);border-color:var(--ink);width:9px;height:9px}
 .place .dot2.bible{border-radius:1px;transform:rotate(45deg);border-color:var(--ink)}
+.growcard{position:relative;border:1px solid var(--line);background:var(--panel);padding:12px 14px}
+.growcard .big{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.growcard .sub{font-size:13px;color:var(--ink-2)}
+.chartwrap{position:relative;margin-top:10px}
+.chartwrap svg{display:block;width:100%;height:auto;overflow:visible}
+.chartwrap .gridl{stroke:var(--line);stroke-width:1}
+.chartwrap .axis{fill:var(--ink-3);font:10px var(--mono)}
+.chartwrap .zero{stroke:var(--line-2);stroke-width:1}
+.chartwrap .bin{fill:var(--c-in)}.chartwrap .bout{fill:var(--c-out)}
+.chartwrap .bal{fill:none;stroke:var(--ink);stroke-width:2}
+.chartwrap .proj{fill:none;stroke:var(--ink-3);stroke-width:2;stroke-dasharray:4 4}
+.chartwrap .dot{fill:var(--ink);stroke:var(--panel);stroke-width:2}
+.chartwrap .hit{fill:transparent;cursor:pointer}
+.chartwrap .hl{fill:var(--line);opacity:.5}
+.ctip{position:absolute;top:0;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;line-height:1.45;padding:7px 9px;min-width:150px;z-index:3;font-variant-numeric:tabular-nums}
+.clegend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--ink-2);margin-top:6px}
+.clegend i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px}
+.clegend .lin{background:var(--c-in)}.clegend .lout{background:var(--c-out)}.clegend .lbal{height:2px;background:var(--ink);vertical-align:3px}.clegend .lproj{height:0;border-top:2px dashed var(--ink-3);vertical-align:3px}
+.tithe{border:1.5px solid var(--gold);background:var(--gold-soft);padding:12px 14px;display:grid;gap:8px}
+.tithe.met{border-color:var(--ok);background:var(--ok-soft)}
+.tithe input[type=text],.tithe input[type=number],.tithe input[type=password]{font-size:15px}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}.lock .shackle{transition:none}h2.fold::before{transition:none}}
 @media (max-width:420px){.bank{grid-template-columns:1fr 1fr}.brand h1{font-size:19px}.cbtn{width:50px;height:50px}.cbtn.play{width:62px;height:62px}}
 </style>
@@ -312,7 +333,7 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
     </div>
     <div class="score">
       <button type="button" class="tile gold st locked" id="st-tile" data-goto="home"><b><svg class="lock" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="1.5"/><path class="shackle" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span id="s-minutes">0</span></b><span id="st-label">Screen min</span></button>
-      <div class="tile gold"><b id="s-dollars">$0</b><span>Allowance</span></div>
+      <button type="button" class="tile gold st" data-goto="bank"><b id="s-dollars">$0</b><span>Allowance</span></button>
       <div class="tile"><b id="s-books">0</b><span>Books read</span></div>
     </div>
     <nav class="tabs" role="tablist" aria-label="Desk sections">
@@ -529,6 +550,10 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
       <button class="act quiet" id="spend-60">Spend 60 min</button>
       <button class="act quiet" id="payout">Allowance paid out</button>
     </div>
+    <h2 data-fold="open"><span>Your money growing</span> <small id="grow-rate"></small></h2>
+    <div class="growcard" id="grow"></div>
+    <h2 data-fold="open"><span>Give first</span> <small id="tithe-state"></small></h2>
+    <div class="tithe" id="tithe"></div>
     <p class="note">Screen time spends only on a day it is unlocked. Kev taps these when screen time is used or allowance is handed over. Lessons, finished books, earned adventures and paid deals add to the bank on their own.</p>
     <h2>Prizes earned <small>Kev taps Used it when it happens</small></h2>
     <div class="card" id="prizes"><div class="note">No prizes banked. A deal with a prize lands here once Kev pays it.</div></div>
@@ -548,6 +573,9 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
       <label>All three on every lesson in a week · bonus minutes <input type="number" id="r-bonus" min="0" step="5"></label>
       <label>Finish a book · dollars (default for new books) <input type="number" id="r-book" min="0" step="1"></label>
       <label>Earn a Cub Scout adventure · dollars <input type="number" id="r-scout" min="0" step="1"></label>
+      <label>Monthly interest on saved allowance · percent <input type="number" id="r-interest" min="0" max="10" step="0.5"></label>
+      <label>Give first, to unlock interest · percent <input type="number" id="r-tithe" min="0" max="50" step="1"></label>
+      <label>Give first is figured on <select id="r-tithebasis" style="width:auto"><option value="new">new money this month</option><option value="bank">the whole bank</option></select></label>
     </div>
     <div class="row mt"><button class="act" id="save-rules">Save rules</button></div>
     <p class="note">Rules are Kev's. Each book can carry its own amount ($10 to $15); a series prize is set on the Reading tab. Atlas files the lessons; the Desk keeps the score; the Sunday Edition prints the week.</p>
@@ -585,7 +613,7 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
   const $=s=>document.querySelector(s);
   const $$=s=>Array.from(document.querySelectorAll(s));
   const views=["home","ask","lessons","map","notes","listen","reading","scouts","bank","rules"];
-  const DEF_RULES={lesson:30,teach:15,action:2,bonus:30,book:10,scout:0};
+  const DEF_RULES={lesson:30,teach:15,action:2,bonus:30,book:10,scout:0,interest:3,tithe:10,tithebasis:'new'};
   const DEF_TRACKS=[["bible","The Bible","The big story from Creation to Christ; the people God used; what it means to follow Jesus."],["history","History","Cause and effect; how we know; the long arc of empires, faith and tools."],["science","Science and survival","Energy, matter and life; the method; water, food, shelter, power, first aid."],["math","Math","Number sense and estimation; patterns and proof; math as the language of the real world."],["words","Reading and writing","Reading like a writer; the sentence; structure; reading aloud; writing every day."],["people","People: psychology and sociology","Why people do what they do; groups and status; habits; persuasion and its ethics."],["art","Art and music","Looking slowly; what makes a thing beautiful; the masters; taste as a learned skill."],["character","Character and leading like Jesus","Service, courage, manners; servant leadership from the Gospels; how to master anything."],["strength","Strength","Progressive overload; sleep, food, consistency; safety first; the big lifts."],["outdoors","Fly fishing, farming and the ranch","The fish, the water, the bug; reading a river; soil, water, animals, seasons."],["firearms","Firearms knowledge","How a firearm works; every part and its job; safety, law, history."],["chess","Chess","The board as a system; tactics before strategy; endgames first."],["money","Money, business and real estate","Income, expenses, assets, debt; compounding; a business as a machine; stewardship."],["ai","AI by building games","Prompts as instructions; feedback loops; build, break, improve."]].map((t,i)=>({id:t[0],name:t[1],idea:t[2],order:i}));
   const state={questions:[],moves:{},moveDefs:null,parent:{},ideas:[],notes:{},showAllIdeas:false,lessons:[],tracks:DEF_TRACKS.slice(),ledger:[],rules:Object.assign({},DEF_RULES),media:[],progress:{},clips:[],tickets:[],books:[],series:[],projects:[],adventures:[],scouts:{},chat:[],db:null,canWrite:true};
   const fmt=n=>new Intl.NumberFormat("en-US").format(Math.round(n));
@@ -627,9 +655,9 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
     const bd=booksDone.reduce((s,b)=>s+(+b.reward||0),0);
     const advDone=state.adventures.filter(a=>a.status==='earned');
     const sd=advDone.length*(+state.rules.scout||0);
-    let spentM=0,spentD=0,earnM=0,earnD=0,deals=0;state.ledger.forEach(e=>{if(e.kind==='spend'){spentM+=e.minutes||0;spentD+=e.dollars||0}else if(e.kind==='earn'){earnM+=e.minutes||0;earnD+=e.dollars||0;deals+=1}});
-    m=lm+bonus+earnM-spentM;d=ld+bd+sd+earnD-spentD;
-    return{m,d,streak,lm,ld,bonus,bd,sd,spentM,spentD,earnM,earnD,deals,books:booksDone.length,adv:advDone.length}
+    let spentM=0,spentD=0,earnM=0,earnD=0,deals=0,gave=0,intr=0;state.ledger.forEach(e=>{if(e.kind==='spend'){spentM+=e.minutes||0;spentD+=e.dollars||0}else if(e.kind==='earn'){earnM+=e.minutes||0;earnD+=e.dollars||0;deals+=1}else if(e.kind==='give'){gave+=e.dollars||0}else if(e.kind==='interest'){intr+=e.dollars||0}});
+    m=lm+bonus+earnM-spentM;d=ld+bd+sd+earnD+intr-spentD-gave;
+    return{m,d,streak,lm,ld,bonus,bd,sd,spentM,spentD,earnM,earnD,deals,gave,intr,books:booksDone.length,adv:advDone.length}
   }
   function renderScore(){
     const t=totals();
@@ -638,9 +666,9 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
     const open=unlockedToday();
     $("#spend-30").disabled=!state.canWrite||!open||t.m<30;$("#spend-60").disabled=!state.canWrite||!open||t.m<60;
     $("#st-tile").classList.toggle('locked',!open);$("#st-tile").classList.toggle('open',open);$("#st-label").textContent=open?'Unlocked':'Screen min';$("#st-tile").setAttribute('aria-label',fmt(t.m)+' screen minutes, '+(open?'unlocked today':'locked'));$("#payout").disabled=!state.canWrite||t.d<=0;
-    $("#earn-body").innerHTML=[["Lessons finished and taught back",t.lm,0],["Action items",0,t.ld],["Weekly bonus",t.bonus,0],["Books finished ("+t.books+")",0,t.bd],["Scout adventures ("+t.adv+")",0,t.sd],["Deals paid ("+t.deals+")",t.earnM,t.earnD],["Spent and paid out",-t.spentM,-t.spentD]].map(r=>`<tr><td>${esc(r[0])}</td><td class="num">${r[1]?fmt(r[1]):""}</td><td class="num">${r[2]?money(r[2]):""}</td></tr>`).join("");
+    $("#earn-body").innerHTML=[["Lessons finished and taught back",t.lm,0],["Action items",0,t.ld],["Weekly bonus",t.bonus,0],["Books finished ("+t.books+")",0,t.bd],["Scout adventures ("+t.adv+")",0,t.sd],["Deals paid ("+t.deals+")",t.earnM,t.earnD],["Interest earned",0,t.intr],["Given to help others",0,-t.gave],["Spent and paid out",-t.spentM,-t.spentD]].map(r=>`<tr><td>${esc(r[0])}</td><td class="num">${r[1]?fmt(r[1]):""}</td><td class="num">${r[2]?money(r[2]):""}</td></tr>`).join("");
     const led=[...state.ledger].sort((a,b)=>(b.at||'').localeCompare(a.at||''));
-    $("#ledger-body").innerHTML=led.length?led.map(e=>`<tr><td class="mono">${esc((e.at||'').slice(0,10))}</td><td>${esc(e.note||'')}</td><td class="num">${e.minutes?(e.kind==='spend'?'-':'+')+e.minutes:''}</td><td class="num">${e.dollars?(e.kind==='spend'?'-':'+')+money(e.dollars):''}</td></tr>`).join(''):'<tr><td colspan="4" class="note">No entries yet.</td></tr>';
+    $("#ledger-body").innerHTML=led.length?led.map(e=>`<tr><td class="mono">${esc((e.at||'').slice(0,10))}</td><td>${esc(e.note||'')}</td><td class="num">${e.minutes?(e.kind==='spend'?'-':'+')+e.minutes:''}</td><td class="num">${e.dollars?((e.kind==='spend'||e.kind==='give')?'-':'+')+money(e.dollars):(e.missed?'0':'')}</td></tr>`).join(''):'<tr><td colspan="4" class="note">No entries yet.</td></tr>';
     const prizes=led.filter(e=>e.kind==='earn'&&e.prize&&!e.redeemed);
     $("#prizes").innerHTML=prizes.length?prizes.map(e=>`<div class="prize"><div style="min-width:0"><div class="pt">${esc(e.prize)}</div><div class="pa">Earned ${esc((e.at||'').slice(0,10))}${e.note?' · '+esc(e.note):''}</div></div><button class="act small" data-redeem="${esc(e.id)}"${state.canWrite?'':' disabled'}>Used it</button></div>`).join(''):'<div class="note">No prizes banked. A deal with a prize lands here once Kev pays it.</div>';
   }
@@ -948,9 +976,9 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
   $("#spend-30").addEventListener('click',()=>addLedger({kind:'spend',minutes:30,note:'Screen time used'}));
   $("#spend-60").addEventListener('click',()=>addLedger({kind:'spend',minutes:60,note:'Screen time used'}));
   $("#payout").addEventListener('click',()=>{const t=totals();addLedger({kind:'spend',dollars:t.d,note:'Allowance paid out'})});
-  function renderRules(){const r=state.rules;['lesson','teach','action','bonus','book','scout'].forEach(k=>{const el=$("#r-"+k);if(document.activeElement!==el)el.value=r[k]});$$('.settings input,#save-rules').forEach(i=>i.disabled=!state.canWrite)}
+  function renderRules(){const r=state.rules;['lesson','teach','action','bonus','book','scout','interest','tithe','tithebasis'].forEach(k=>{const el=$("#r-"+k);if(el&&document.activeElement!==el)el.value=r[k]});$$('.settings input,.settings select,#save-rules').forEach(i=>i.disabled=!state.canWrite)}
   $("#save-rules").addEventListener('click',async()=>{
-    const r={};['lesson','teach','action','bonus','book','scout'].forEach(k=>r[k]=+$("#r-"+k).value||0);
+    const r={};['lesson','teach','action','bonus','book','scout','interest','tithe'].forEach(k=>r[k]=+$("#r-"+k).value||0);r.tithebasis=$("#r-tithebasis").value==='bank'?'bank':'new';
     state.rules=r;renderAll();if(await write('settings/rules',r,'set'))toast('Rules saved.');
   });
 
@@ -1077,6 +1105,98 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
   (()=>{const t=$("#ask-toggle"),bar=$("#askbar");const av=bar.querySelector('.av');if(av)$("#ask-toggle-av").src=av.src;
     t.addEventListener('click',()=>{const open=bar.hidden;bar.hidden=!open;t.setAttribute('aria-expanded',String(open));if(open)setTimeout(()=>$("#ask-q").focus(),30)});
   })();
+
+  /* ---------- money: give first, then interest compounds ---------- */
+  const MONEY_START='2026-10';
+  const mKey=d=>{d=new Date(d);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
+  const mStart=k=>new Date(+k.slice(0,4),+k.slice(5,7)-1,1);
+  const mNext=k=>{const d=mStart(k);d.setMonth(d.getMonth()+1);return mKey(d)};
+  const mLabel=k=>mStart(k).toLocaleDateString('en-US',{month:'short'});
+  function moneyEvents(){
+    const ev=[];const r=state.rules;
+    state.lessons.forEach(l=>{if(l.action&&+r.action)ev.push({t:l.actionAt||l.doneAt||(l.week?l.week+'T12:00:00':nowIso()),amt:+r.action,type:'earn'})});
+    state.books.forEach(b=>{if(b.status==='done'&&+b.reward)ev.push({t:b.doneAt||nowIso(),amt:+b.reward,type:'earn'})});
+    state.adventures.forEach(a=>{if(a.status==='earned'&&+r.scout)ev.push({t:a.earnedAt||nowIso(),amt:+r.scout,type:'earn'})});
+    state.ledger.forEach(e=>{const d=+e.dollars||0;if(!d)return;const t=e.at||nowIso();
+      if(e.kind==='earn')ev.push({t,amt:d,type:'earn'});else if(e.kind==='interest')ev.push({t,amt:d,type:'interest'});else if(e.kind==='give')ev.push({t,amt:-d,type:'give'});else if(e.kind==='spend')ev.push({t,amt:-d,type:'out'})});
+    return ev.map(e=>Object.assign(e,{ms:new Date(e.t).getTime()})).sort((a,b)=>a.ms-b.ms);
+  }
+  function monthStats(ev,k){
+    const a=mStart(k).getTime(),b=mStart(mNext(k)).getTime();const o={earn:0,interest:0,give:0,out:0,start:0,end:0};
+    ev.forEach(e=>{if(e.ms<a)o.start+=e.amt;if(e.ms<b)o.end+=e.amt;if(e.ms>=a&&e.ms<b)o[e.type]+=Math.abs(e.amt)});return o;
+  }
+  function titheDue(st){const r=state.rules;const pct=(+r.tithe||0)/100;const base=r.tithebasis==='bank'?(st.end+st.give):(st.earn+st.interest);return Math.round(pct*Math.max(0,base)*100)/100}
+  function titheMet(st){return st.give+0.004>=titheDue(st)}
+  let postingInterest=false;
+  async function postInterest(){
+    const L=state.loaded||{};if(!state.db||!state.canWrite||postingInterest||!(L.ledger&&L.lessons&&L.books&&L.adventures&&L.rules))return;postingInterest=true;
+    try{
+      const ev=moneyEvents();const now=mKey(new Date());const have=new Set(state.ledger.map(e=>e.id));
+      for(let k=MONEY_START;k<now;k=mNext(k)){
+        const id='interest-'+k;if(have.has(id))continue;
+        const st=monthStats(ev,k);const rate=(+state.rules.interest||0)/100;const at=mStart(mNext(k)).toISOString();
+        let doc;
+        if(!titheMet(st))doc={kind:'interest',dollars:0,missed:true,month:k,note:'No give-first in '+mLabel(k)+', so no interest',at};
+        else{const amt=Math.round(rate*Math.max(0,st.end)*100)/100;doc={kind:'interest',dollars:amt,month:k,note:(+state.rules.interest||0)+'% interest on '+money(st.end)+' ('+mLabel(k)+')',at}}
+        await state.db.doc('ledger/'+id).set(doc);ev.push({t:at,ms:new Date(at).getTime(),amt:doc.dollars,type:'interest'});ev.sort((a,b)=>a.ms-b.ms);
+      }
+    }catch(e){}finally{postingInterest=false}
+  }
+  function projection(start,months){const r=state.rules;const rate=(+r.interest||0)/100,pct=(+r.tithe||0)/100;let b=start;const out=[];for(let i=0;i<months;i++){const i1=rate*b;const give=r.tithebasis==='bank'?pct*b:pct*i1;b=b-give+i1;out.push(Math.round(b*100)/100)}return out}
+  function renderMoney(){
+    const ev=moneyEvents();const now=mKey(new Date());const r=state.rules;const rate=+r.interest||0,pct=+r.tithe||0;
+    const st=monthStats(ev,now);const due=titheDue(st),left=Math.max(0,Math.round((due-st.give)*100)/100),met=titheMet(st);
+    const bal=Math.round(st.end*100)/100;const intrTotal=state.ledger.filter(e=>e.kind==='interest').reduce((a,e)=>a+(+e.dollars||0),0);
+    const lastI=state.ledger.filter(e=>e.kind==='interest').sort((a,b)=>(b.month||'').localeCompare(a.month||''))[0];
+    $("#grow-rate").textContent=rate+'% a month after giving '+pct+'%';
+    $("#tithe-state").textContent=met?'done this month':money(left)+' to give';
+    const basisTxt=r.tithebasis==='bank'?'of everything in your bank':'of the new money that came in this month';
+    $("#tithe").classList.toggle('met',met);
+    const pin=!!(state.parent&&state.parent.pinHash);
+    $("#tithe").innerHTML=`<div><b>${met?'Given. This month\'s '+rate+'% is unlocked.':'Give '+money(left)+' to unlock this month\'s '+rate+'%.'}</b></div><div class="sub" style="font-size:13px;color:var(--ink-2)">Give ${pct}% ${basisTxt} to help someone else, then the rest earns interest on the 1st. "Bring the whole tithe into the storehouse" (Malachi 3:10). This month: ${money(st.earn+st.interest)} came in, ${money(st.give)} given.</div>
+      <div class="row"><input type="number" id="give-amt" min="0" step="0.25" value="${(left||due||0).toFixed(2)}" aria-label="Amount given" style="width:100px"><input type="text" id="give-where" class="grow" placeholder="Where did it go? Church, a friend, food bank" aria-label="Where it went"></div>
+      <div class="row">${pin?'<input type="password" id="give-pin" inputmode="numeric" maxlength="6" placeholder="Parent PIN" aria-label="Parent PIN" style="width:120px">':''}<button class="act" id="give-go"${state.canWrite?'':' disabled'}>We gave it</button><span class="note" id="give-msg" style="margin:0"></span></div>`;
+    // chart: 6 months back, 6 ahead
+    const months=[];let k=MONEY_START;const back=[];{let x=now;for(let i=0;i<5;i++){const d=mStart(x);d.setMonth(d.getMonth()-1);x=mKey(d)}k=x<MONEY_START?MONEY_START:x}
+    for(;k<=now;k=mNext(k))back.push(k);
+    const proj=projection(bal,6);const fut=[];{let x=now;for(let i=0;i<6;i++){x=mNext(x);fut.push(x)}}
+    const rows=back.map(m=>{const s=monthStats(ev,m);return{k:m,in:s.earn+s.interest,interest:s.interest,give:s.give,out:s.out,bal:s.end,fut:false}}).concat(fut.map((m,i)=>({k:m,in:0,interest:0,give:0,out:0,bal:proj[i],fut:true})));
+    const yr=projection(bal,12)[11];
+    $("#grow").innerHTML=`<div class="big">${money(bal)}</div><div class="sub">in the bank now · ${money(intrTotal)} interest earned so far${lastI&&lastI.month?' · last month '+(lastI.missed?'missed (no give-first)':money(+lastI.dollars||0)):''}</div><div class="sub" style="margin-top:4px">Leave it alone, keep giving first, and in a year it becomes <b>${money(yr)}</b>.</div><div class="chartwrap" id="chart"></div><div class="clegend"><span><i class="lin"></i>Money in</span><span><i class="lout"></i>Given or spent</span><span><i class="lbal"></i>Bank balance</span><span><i class="lproj"></i>If you leave it alone</span></div>`;
+    drawChart(rows);
+  }
+  function drawChart(rows){
+    const host=$("#chart");if(!host)return;const W=360,H=170,L=34,R=8,T=10,B=22;const n=rows.length;const cw=(W-L-R)/n;
+    const maxV=Math.max(1,...rows.map(r=>Math.max(r.bal,r.in)));const minV=Math.min(0,...rows.map(r=>-(r.give+r.out)));
+    const step=(()=>{const span=maxV-minV;const raw=span/3;const mag=Math.pow(10,Math.floor(Math.log10(raw)));const n1=raw/mag;return (n1<=1?1:n1<=2?2:n1<=5?5:10)*mag})();
+    const top=Math.ceil(maxV/step)*step,bot=Math.floor(minV/step)*step;const y=v=>T+(top-v)/(top-bot)*(H-T-B);
+    let g='';for(let v=bot;v<=top+1e-9;v+=step){g+=`<line class="${Math.abs(v)<1e-9?'zero':'gridl'}" x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}"/><text class="axis" x="${L-5}" y="${y(v)+3}" text-anchor="end">$${Math.round(v)}</text>`}
+    const bw=Math.min(16,cw*0.42);let bars='',hits='';
+    rows.forEach((r,i)=>{const cx=L+cw*i+cw/2;
+      if(!r.fut){if(r.in>0){const h=y(0)-y(r.in);bars+=`<rect class="bin" x="${cx-bw-1}" y="${y(r.in)}" width="${bw}" height="${Math.max(1,h)}" rx="2"/>`}
+        const o=r.give+r.out;if(o>0){bars+=`<rect class="bout" x="${cx+1}" y="${y(0)}" width="${bw}" height="${Math.max(1,y(-o)-y(0))}" rx="2"/>`}}
+      g+=`<text class="axis" x="${cx}" y="${H-6}" text-anchor="middle">${mLabel(r.k)}</text>`;
+      hits+=`<rect class="hit" data-i="${i}" x="${L+cw*i}" y="${T}" width="${cw}" height="${H-T-B}"/>`});
+    const past=rows.filter(r=>!r.fut),pi=past.length-1;
+    const pts=rows.map((r,i)=>[L+cw*i+cw/2,y(r.bal)]);
+    const line=pts.slice(0,pi+1).map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join('');
+    const pline=pts.slice(pi).map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join('');
+    host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly money in, given or spent, and bank balance, with a projection"><g id="hl"></g>${g}${bars}<path class="proj" d="${pline}"/><path class="bal" d="${line}"/><circle class="dot" cx="${pts[pi][0]}" cy="${pts[pi][1]}" r="4"/>${hits}</svg><div class="ctip" id="ctip" hidden></div>`;
+    const tip=$("#ctip"),hl=host.querySelector('#hl');
+    const showTip=i=>{const r=rows[i];const x=L+cw*i;hl.innerHTML=`<rect class="hl" x="${x}" y="${T}" width="${cw}" height="${H-T-B}"/>`;
+      tip.innerHTML=`<b>${mStart(r.k).toLocaleDateString('en-US',{month:'long',year:'numeric'})}${r.fut?' (if left alone)':''}</b><br>`+(r.fut?'':`In: ${money(r.in)}${r.interest?' (interest '+money(r.interest)+')':''}<br>Given: ${money(r.give)}<br>Spent or paid out: ${money(r.out)}<br>`)+`Balance: ${money(r.bal)}`;
+      tip.hidden=false;const hb=host.getBoundingClientRect();const px=(x+cw/2)/W*hb.width;tip.style.left=Math.min(hb.width-160,Math.max(0,px-80))+'px';tip.style.top='-8px';tip.style.transform='translateY(-100%)'};
+    host.querySelectorAll('.hit').forEach(h=>{h.addEventListener('pointerenter',()=>showTip(+h.dataset.i));h.addEventListener('click',()=>showTip(+h.dataset.i))});
+    host.addEventListener('pointerleave',()=>{tip.hidden=true;hl.innerHTML=''});
+  }
+  document.addEventListener('click',async ev=>{
+    const b=ev.target.closest('#give-go');if(!b)return;const msg=$("#give-msg");
+    const amt=Math.round((+$("#give-amt").value||0)*100)/100;const where=$("#give-where").value.trim();
+    if(amt<=0){msg.textContent='Enter how much was given.';return}if(!where){msg.textContent='Say where it went.';return}
+    if(state.parent&&state.parent.pinHash){const v=($("#give-pin").value||'').trim();if(!v){msg.textContent='Dad or Mom: enter the PIN.';return}if(await hashPin(v)!==state.parent.pinHash){msg.textContent='That PIN is not right.';return}}
+    if(amt>totals().d+0.004){msg.textContent='That is more than is in the bank.';return}
+    b.disabled=true;await addLedger({kind:'give',dollars:amt,note:'Gave '+money(amt)+': '+where});b.disabled=false;
+  });
 
   /* ---------- fold-away sections ---------- */
   (()=>{
@@ -1288,7 +1408,7 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
   });
   window.addEventListener('pagehide',()=>{if(noteDirty||sketchDirty)saveNote()});
 
-  function renderAll(){renderScore();renderLessons();renderTickets();renderLibrary();renderPlayer();renderClips();renderReading();renderScouts();renderRules();renderAsk();renderIdeas();renderMap();renderNotes();renderMoves();renderBubbles();
+  function renderAll(){renderScore();renderLessons();renderTickets();renderLibrary();renderPlayer();renderClips();renderReading();renderScouts();renderRules();renderAsk();renderIdeas();renderMap();renderNotes();renderMoves();renderBubbles();renderMoney();
     $$('#ticket-form input,#ticket-form button,#book-form input,#book-form select,#book-form button,#project-form input,#project-form button,#adv-form input,#adv-form select,#adv-form button,#sc-save,#view-scouts .card input').forEach(el=>el.disabled=!state.canWrite)}
   renderAll();
 
@@ -1299,10 +1419,10 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
     state.db=db;
     try{const user=await window.claude.use('user');if(user){const w=await user.can('data.write');if(w===false)state.canWrite=false}}catch(e){}
     const docs=s=>s.docs.map(d=>Object.assign({id:d.id},d.data()));
-    const sub=(name,key,after)=>db.collection(name).onSnapshot(s=>{state[key]=docs(s);if(after)after();renderAll()},()=>{});
-    sub('tracks','tracks',()=>{if(!state.tracks.length)state.tracks=DEF_TRACKS.slice()});sub('ideas','ideas');sub('questions','questions');db.collection('moves').onSnapshot(s=>{const m={};s.docs.forEach(d=>{m[d.id]=d.data()});state.moves=m;renderMoves();renderScore()},()=>{});db.doc('settings/parent').onSnapshot(s=>{state.parent=s.exists?s.data():{};renderMoves()},()=>{});db.doc('settings/moves').onSnapshot(s=>{state.moveDefs=s.exists&&Array.isArray(s.data().moves)?s.data().moves:null;renderMoves()},()=>{});db.collection('notes').onSnapshot(s=>{const m={};s.docs.forEach(d=>{m[d.id]=d.data()});state.notes=m;renderNotes()},()=>{});sub('lessons','lessons');sub('ledger','ledger');sub('media','media');sub('clips','clips');sub('tickets','tickets');sub('books','books');sub('series','series');sub('projects','projects');sub('scouts','adventures');sub('atlas_chat','chat');
+    const sub=(name,key,after)=>db.collection(name).onSnapshot(s=>{state[key]=docs(s);state.loaded=state.loaded||{};state.loaded[key]=true;if(after)after();renderAll()},()=>{});
+    sub('tracks','tracks',()=>{if(!state.tracks.length)state.tracks=DEF_TRACKS.slice()});sub('ideas','ideas');sub('questions','questions');db.collection('moves').onSnapshot(s=>{const m={};s.docs.forEach(d=>{m[d.id]=d.data()});state.moves=m;renderMoves();renderScore()},()=>{});db.doc('settings/parent').onSnapshot(s=>{state.parent=s.exists?s.data():{};renderMoves()},()=>{});db.doc('settings/moves').onSnapshot(s=>{state.moveDefs=s.exists&&Array.isArray(s.data().moves)?s.data().moves:null;renderMoves()},()=>{});db.collection('notes').onSnapshot(s=>{const m={};s.docs.forEach(d=>{m[d.id]=d.data()});state.notes=m;renderNotes()},()=>{});sub('lessons','lessons');sub('ledger','ledger',()=>{state.ledgerLoaded=true;clearTimeout(window.__pi);window.__pi=setTimeout(postInterest,2500)});sub('media','media');sub('clips','clips');sub('tickets','tickets');sub('books','books');sub('series','series');sub('projects','projects');sub('scouts','adventures');sub('atlas_chat','chat');
     db.collection('progress').onSnapshot(s=>{const m={};s.docs.forEach(d=>{m[d.id]=d.data()});state.progress=m;renderLibrary()},()=>{});
-    db.doc('settings/rules').onSnapshot(s=>{if(s.exists)state.rules=Object.assign({},DEF_RULES,s.data());renderAll()},()=>{});
+    db.doc('settings/rules').onSnapshot(s=>{state.loaded=state.loaded||{};state.loaded.rules=true;if(s.exists)state.rules=Object.assign({},DEF_RULES,s.data());renderAll()},()=>{});
     db.doc('settings/scouts').onSnapshot(s=>{if(s.exists)state.scouts=s.data();renderScouts()},()=>{});
   })();
 })();

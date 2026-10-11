@@ -69,3 +69,12 @@ The page's Ask rules are the source of truth (`RULES` in `employees/atlas/desk/a
 ## The Bible folder
 
 Track `bible` ("The Bible", order 0, first folder). Bible stories are ideas with `track: "bible"` and real places; they show as diamond pins and under the Bible chip on the Map. Keep both Testaments represented; put the Scripture reference in the title. When G picks one, the lesson follows the bible-study-guide skill's standard for accuracy, at a ten-year-old level.
+
+## Give first, then interest (Kev, 11 Oct)
+
+Kev: a 3% monthly return on G's allowance, "only if he does a biblical 10% tithe where he helps other people with 10% first", with a graph of growth and spending.
+
+- Rules (Kev's): `interest` (% a month, default 3), `tithe` (%, default 10), `tithebasis` `new` (10% of new money that month: earnings plus interest, the default) or `bank` (10% of the whole balance). On `bank`, 10% given against 3% earned shrinks the balance about 7% a month; that is why `new` is the default. Kev can switch it on the Rules tab.
+- Giving: the Bank tab's Give first card records a `ledger` row {kind give, dollars, note "Gave $X: where"}; it needs the parent PIN.
+- Interest: on the first open after a month ends, the page writes `ledger/interest-YYYY-MM` (set by fixed id, so two phones never double-post): {kind interest, dollars = rate x month-end balance, month, note} when the give-first was met, else {dollars 0, missed true}. Never write these yourself; if one is wrong, tell Kev.
+- The "Your money growing" card shows the balance, interest to date, a one-year projection, and a chart: money in (gold) and given or spent (blue) per month, the balance line, and a dashed line for six months if left alone.
