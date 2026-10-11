@@ -1,0 +1,10 @@
+{
+  "episode": "flybox",
+  "characters": 14754,
+  "model": "eleven_multilingual_v2",
+  "voices": {
+    "GUIDE": "PerZoH0r6nxBZXCoIPpv",
+    "KID": "tJHJUEHzOkMoPmJJ5jo2"
+  },
+  "duration_s": 1178.357551
+}
