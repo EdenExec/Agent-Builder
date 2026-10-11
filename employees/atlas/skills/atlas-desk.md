@@ -78,3 +78,7 @@ Kev: a 3% monthly return on G's allowance, "only if he does a biblical 10% tithe
 - Giving: the Bank tab's Give first card records a `ledger` row {kind give, dollars, note "Gave $X: where"}; it needs the parent PIN.
 - Interest: on the first open after a month ends, the page writes `ledger/interest-YYYY-MM` (set by fixed id, so two phones never double-post): {kind interest, dollars = rate x month-end balance, month, note} when the give-first was met, else {dollars 0, missed true}. Never write these yourself; if one is wrong, tell Kev.
 - The "Your money growing" card shows the balance, interest to date, a one-year projection, and a chart: money in (gold) and given or spent (blue) per month, the balance line, and a dashed line for six months if left alone.
+
+## iPad (Kev, 11 Oct)
+
+One page, one URL. At 740px and wider (iPad portrait and up) every tab shows in one row (no More), moves, folders, ideas and places go two-up, the map and sketch pad grow, and at 1100px (iPad landscape) the Field Notes contents sit beside the page. Check new features at 430, 820 and 1180 wide before publishing.
