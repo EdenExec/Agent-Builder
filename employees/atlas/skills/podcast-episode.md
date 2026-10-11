@@ -42,3 +42,12 @@ The MP3 (via Artifact `files` or the Drive connector if small enough; else the f
 ## Filing the episode (10 October 2026)
 
 The finished MP3 goes into the Atlas Desk library, not the Eden Desk: publish it to the Atlas Desk URL with `files: {"files/<Name>-episode.mp3": <path>}`, set a `media` row and the lesson's `mediaId` (see `atlas-desk.md`). The Eden Desk carries only a link to the Atlas Desk's Listen tab (`#listen`).
+
+## Family episodes: current rules (Kev, 11 Oct 2026; these override the length and render notes above for G's episodes)
+
+- **Length:** 20 to 25 minutes, about 3,000 to 3,600 words. Check the duration with ffprobe; re-cut if it lands outside.
+- **Who is in the room:** Atlas talks with Finn. G is in the room listening, often with something in his hands (a chess set, a fly box, a map). Atlas speaks to G by name two or three times an episode and gives him small jobs ("G, pick up a knight"); Finn can talk to him too. G never speaks a line; the audio is two voices only.
+- **Running series:** fishing continues. Alternate the river with other subjects; every non-fishing episode closes on next week's question, and that question goes back to the river at least every other week.
+- **Render route and credits:** ElevenLabs is approved for these episodes (`employees/atlas/tools/render_eleven.py`, voices in `memory/seed/learners.md`). Before every render, read the subscription counter and note characters left and the reset date in the report. A 22-minute episode costs about 15,000 to 16,000 characters. If fewer than 20,000 remain before the reset, don't render: deliver the script, the NotebookLM source pack, and the gTTS fallback, and tell Kev.
+- **NotebookLM route (free):** with every episode, deliver `notebooklm-source.md` next to the script: the teaching points, the stories, the facts with their sources, and a one-line Audio Overview customization naming Atlas, Finn and G. Kev pastes it into NotebookLM for a second, free version.
+- **Facts:** every claim that could be wrong is checked against a source opened that session and listed on the show sheet. Reword anything you can't source.
