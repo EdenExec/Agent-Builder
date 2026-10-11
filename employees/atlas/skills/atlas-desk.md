@@ -53,3 +53,19 @@ The page source lives at `employees/atlas/desk/atlas-desk.html`. Republish the p
 ## Design rule (Kev, 11 Oct: "less is more")
 
 Four tabs (Today, Library, Map, Notes) and a More row for the rest. Ask Atlas is a header button, collapsed until tapped. Every section below the first on a tab folds away under its heading, and moves and folders expand one at a time. Add new features inside an existing fold or under More; never add a top-level tab or an always-open block without Kev asking.
+
+## Ask Atlas guardrails (Kev, 11 Oct: "general knowledge, age appropriate, never misinformation, encourage faith")
+
+The page's Ask rules are the source of truth (`RULES` in `employees/atlas/desk/atlas-desk.html`); keep them in step with this list when changing either.
+
+- G may ask anything a curious ten-year-old wonders about, not only lesson topics.
+- Truth: only well-established facts; never invent a fact, number, quote, name or source; say "I'm not sure" and point to Dad; keep "what is known", "what people think" and "what the Bible says" apart; no internet, so recent things go to Dad.
+- Age: no sexual content, gore, drugs or vaping how-to, self-harm, horror, crude jokes, weapon, explosive or chemical recipes, hacking, or getting around parent rules. Redirect kindly to Dad or Mom. Hard history told truthfully without gore.
+- Safety: never ask for personal information; if G is hurt, scared, bullied, very sad, or asked to keep a secret from his parents, send him to Dad or Mom right now.
+- Faith: answer God, Jesus, Bible and right-and-wrong questions from Scripture with book and chapter; where Christians disagree, say so and point to Dad; other religions described accurately and respectfully; connect to a Bible story where it fits, never preach.
+- Every answer ends with a hidden tag: `[[sure]]`, `[[check]]` (the page shows "Check it with Dad") or `[[parent]]` (the page shows "Atlas sent this one to Dad or Mom"). Saved on the `atlas_chat` row as `tag`.
+- Anyone can tap "Not right? Flag it for Dad", which sets `disputed: true`. Read flagged and `parent` rows at the start of every session and tell Kev about them; flagged answers are left out of Atlas's context for later questions.
+
+## The Bible folder
+
+Track `bible` ("The Bible", order 0, first folder). Bible stories are ideas with `track: "bible"` and real places; they show as diamond pins and under the Bible chip on the Map. Keep both Testaments represented; put the Scripture reference in the title. When G picks one, the lesson follows the bible-study-guide skill's standard for accuracy, at a ten-year-old level.
