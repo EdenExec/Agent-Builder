@@ -19,4 +19,9 @@ Send one push notification (PushNotification, or the routine's own push where th
 
 ## The phone line (phase 2, not built)
 
-Kev keeps his Google Voice number and forwards it to a Radar phone line when that line exists (decision 11 Oct). Google Voice has no calling API, so the line itself would be an ElevenLabs voice agent on a Twilio number, reading this same doc and writing answers back. It is spend, so it goes through QC, and it waits until the voice walk-through has stuck for two weeks.
+Kev keeps his Google Voice number and forwards it to a Radar phone line when that line exists (decision 11 Oct). Google Voice has no calling API, so the line itself would be an ElevenLabs voice agent on a Twilio number, reading this same doc and writing answers back. It is spend, so it goes through QC, and it waits until the voice walk-through has stuck for two weeks. Kev also runs CloudTalk VOIP for Eden and wants Radar able to answer his incoming calls there: check with Matias (CloudTalk) whether CloudTalk can hand calls to an AI voice agent or forward unanswered calls to the Radar line, before buying anything new.
+
+## Quick ways in
+
+- A Stream Deck key on the Mac that opens straight into a voice message to Radar (Kev, 11 Oct). Build it when he is at the desk: open the Claude app to the Radar project and start voice, or a Wispr Flow push-to-talk into the Radar chat if voice mode cannot be scripted.
+- The Clicks Communicator (order CT261381270, Onyx) when it arrives: Claude app, the Radar project pinned, voice one tap away.
