@@ -1,0 +1,47 @@
+{
+ "voice": "iP95p4xoKVk53GoZ742B",
+ "model": "eleven_multilingual_v2",
+ "tracks": [
+  [
+   "00-Pile-Gate",
+   2783,
+   202.2
+  ],
+  [
+   "01-Franciscan-Monastery",
+   2501,
+   163.5
+  ],
+  [
+   "02-Sponza-Palace",
+   2226,
+   159.5
+  ],
+  [
+   "03-St-Blaise-and-Clock-Tower",
+   2621,
+   184.9
+  ],
+  [
+   "04-Rectors-Palace",
+   2572,
+   178.9
+  ],
+  [
+   "05-Cathedral",
+   2429,
+   166.8
+  ],
+  [
+   "06-Gundulic-Square",
+   1910,
+   132.6
+  ],
+  [
+   "07-Jesuit-Stairs",
+   2573,
+   185.3
+  ]
+ ],
+ "characters": 19615
+}
