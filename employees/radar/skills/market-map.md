@@ -1,5 +1,7 @@
 # Market Map (the always-on talent bucket)
 
+**Owned by Scout since 11 October 2026** (`employees/scout/skills/market-map.md`). Radar no longer runs the pulls; it reads what Scout files, puts the movers on the stand-up and relays Scout's asks. The mechanics below are the original play Scout inherited.
+
 Kev, 6 October 2026: "We market map the entire US and have alerts set for each major metro we're working in." Build it once in Boise, then run the same play for every market on the Biz Dev hit list. The point is to always hawk the best incoming talent, not to build a list per job order.
 
 ## The idea in one line

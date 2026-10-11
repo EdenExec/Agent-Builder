@@ -1,6 +1,6 @@
 # Scout's workbench (the tools behind lead lists and research)
 
-Scout researches job orders and builds lead lists (Scout is not hired yet; until it is, Radar does this work and you build the same tools for Radar). You build and keep the tools; Scout or Radar runs them. Standing rules that every tool must enforce are in `employees/radar/skills/standing-rules.md`.
+Scout (`employees/scout/`, hired 11 Oct 2026) lives in ZoomInfo and LinkedIn search, builds lead lists and maps the talent pools in every core market. You build and keep the tools; Scout runs them. Read Scout's `lead-list` and `market-map` playbooks so your tools fit how it works. Standing rules that every tool must enforce are in `employees/radar/skills/standing-rules.md`.
 
 ## The pipeline a lead list goes through
 

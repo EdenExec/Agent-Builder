@@ -10,7 +10,7 @@
 ## Reporting to Kev (through Radar)
 
 - One line per shipped thing: what it does for the team, how you proved it, where to open it.
-- A blocker gets a ledger row with the one thing you need, Lane Batch, Owner Forge.
+- A blocker gets a ledger row with the one thing you need, Lane Batch, Owner Q.
 - Questions go on your Desk as ask cards (or to Radar while you have no Desk), each with your recommendation and what silence does.
 
 ## Sunday lab review
