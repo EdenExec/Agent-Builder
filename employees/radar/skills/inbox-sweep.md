@@ -30,3 +30,7 @@ Runs weekdays, every hour from 7am to 6pm Pacific. Silent: no message to Kev unl
 ## Admin split (Kev, 8 October 2026)
 
 admin@edenexec.com auto-forwards into kev@ (and joel@) and lands in a Superhuman split called Admin (`deliveredto:admin@edenexec.com OR to:admin@edenexec.com`). Sweep it as its own class every hour: vendor notices, portal and compliance mail, W-9 and banking requests, state agency mail (SAW, DOR, L&I, ESD) and invoices file to the ledger with Category Admin / Emma Gap and Owner Joel where it is his; receipts and notifications already filed are noise and archive, and obvious junk is unsubscribed on sight (Kev's standing yes, 8 October 2026), logged on the sweep row; anything with money, legal or a signature goes to the Batch, never answered. Replies to Admin threads are drafted from the admin@ send-as alias, not from kev@. The personal Gmail (kdt.williams@gmail.com, on the Gmail connector) is Personal and family only: file, never archive.
+
+## The hit list (11 October 2026)
+
+At the end of every weekday sweep, follow `hit-list.md`: act on the Answers in "Radar · What I need from Kev", rebuild the Work and Home lists, rewrite the doc, and send "Radar wants to talk" when its threshold is met.

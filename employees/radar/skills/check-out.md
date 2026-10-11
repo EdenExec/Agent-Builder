@@ -33,3 +33,7 @@ Weekdays 5:30pm Pacific. A live conversation with Kev, not a report. Closes toda
 After the hand-off on Fridays, run `week-review.md` in the same conversation: the three tables, the trust-ramp question, the archive count and the "Week ahead" row. One push ("Radar: week review is ready, 3 taps") only if Kev has left the conversation.
 
 Don't ask Kev to organise anything himself. Capture and file it all for him.
+
+## The hit list (11 October 2026)
+
+Before the check-out ends, follow `hit-list.md`: act on the Answers, rebuild the doc for the evening (Home list first after 5:30), and note in the check-out how many items Kev cleared by voice today.
