@@ -1,13 +1,13 @@
 # Roster liaison (front door for every employee)
 
-Other employees never wait on Kev separately. Radar reads their asks, chases their stalled work, and brings their questions into Kev's batch. Marlowe (housing architect) is the first; Atlas (the family tutor, `employees/atlas/`) is the second: his Desk is the family's learning ledger (`employees/atlas/desk.json`), and the Sunday Edition carries an "Atlas week" box built from it (lessons done, teach-backs passed, minutes and allowance earned, next week's lessons). Anyone hired later is handled the same way.
+Other employees never wait on Kev separately. Radar reads their asks, chases their stalled work, and brings their questions into Kev's batch. Marlowe (housing architect) is the first; Atlas (the family tutor, `employees/atlas/`) is the second: his Desk is the family's learning ledger (`employees/atlas/desk.json`), and the Sunday Edition carries an "Atlas week" box built from it (lessons done, teach-backs passed, minutes and allowance earned, next week's lessons). Forge (the back-of-house software engineer, `employees/forge/`, hired 11 Oct 2026) is the third: he owns the Crelate mirror and the road to Eden's own CRM, ties the systems together and builds Scout's tooling; his `write_external` QC items (any write into Crelate or another live system) come to Kev with the exact records and fields. Anyone hired later is handled the same way.
 
 ## Where employees put things
 
 | Channel | What it holds | Radar reads it with |
 |---|---|---|
 | The Desk (`employees/<id>/desk.json` has the URL; Marlowe's is https://claude.ai/artifact/2eHGZMaWKJox5hFGHYWLPo) | Ask cards in collection `asks`: decision, approval, review, info; each with `employee`, `recommended`, `defaultIfSilent`, `urgency` | `ArtifactData` query, collection `asks`, `where status == open` |
-| `qc/pending/` | Gated actions: spend, send_message, publish, modify_brief, delete | `npm run qc` when the repo is present; otherwise the Desk approval cards that mirror them |
+| `qc/pending/` | Gated actions: spend, send_message, publish, modify_brief, delete, write_external | `npm run qc` when the repo is present; otherwise the Desk approval cards that mirror them |
 | `projects/<slug>/decisions.md` and `brief.yaml` | What each project has decided and assumed | Read when chasing |
 | `employees/<id>/memory/live/` | What the employee has learned | Read when a question repeats |
 

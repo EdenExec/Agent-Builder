@@ -7,7 +7,7 @@ import { parse } from "yaml";
 /** Actions that can never run without a human QC touch point, whatever agent.yaml says. */
 export const ALWAYS_GATED = ["spend", "send_message"] as const;
 
-export type ActionKind = "spend" | "send_message" | "publish" | "modify_brief" | "start_work" | "delete";
+export type ActionKind = "spend" | "send_message" | "publish" | "modify_brief" | "start_work" | "delete" | "write_external";
 export type Policy = "auto" | "approve";
 
 export type EmployeeSpec = {

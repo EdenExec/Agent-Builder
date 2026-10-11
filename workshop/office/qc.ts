@@ -7,7 +7,7 @@ import type { ActionKind } from "../core/employee.ts";
 
 const ROOT = "qc";
 const [cmd = "list", ...rest] = process.argv.slice(2);
-const KINDS: ActionKind[] = ["spend", "send_message", "publish", "modify_brief", "start_work", "delete"];
+const KINDS: ActionKind[] = ["spend", "send_message", "publish", "modify_brief", "start_work", "delete", "write_external"];
 
 function line(i: QcItem) {
   const extra = i.amountUsd !== undefined ? ` $${i.amountUsd}` : i.recipients ? ` -> ${i.recipients.join(", ")}` : "";
