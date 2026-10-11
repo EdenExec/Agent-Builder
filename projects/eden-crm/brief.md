@@ -33,3 +33,15 @@ Goal: Eden's own recruiting CRM and ATS, built on a mirror of Crelate first, bor
 - Public API v1 and v2 are switched off (HTTP 410). Use v3: base `https://app.crelate.com/api3/`, header `X-Api-Key: $CRELATE_API_KEY` (the key is in the environment's Network secrets).
 - Crelate sits behind Cloudflare and refuses Python's default client (error 1010). Send a normal User-Agent (curl works).
 - Responses are `{Data, Metadata, Errors}`. Contact records carry EEO fields (ethnicity, gender, disability), salary expectations and personal addresses: the mirror leaves EEO fields out entirely, and salary and home details never reach the paper, the hit list or any shared sheet.
+
+## Principle: Eden owns its data (Kev, 11 October 2026)
+
+"Building a good portion of this ourselves allows us to own the data, not use Rhaven to store all of our stuff. I need to pivot Cody from a 3rd party vendor mindset to a consultant building an internal database for us. He can be our architect, not a service provider."
+
+- Every record, call, transcript and note lands first in Eden's own database (Supabase "Eden Daily" today). Vendors and tools, Rhaven included, read and write through it; none is the only home of anything.
+- Cody Ballah is the architect of that database: schema, pipes and standards. Q builds and runs it day to day with him.
+
+## Open questions Kev filed for Radar and Q (11 October 2026)
+
+1. How do Radar and Q get access to Kev's Claude Projects (Workshop Computer, EPG 2.0, The Word, BRAIN, Strat Growth & Coaching, Eden Lead Gen) and the knowledge in them?
+2. Could Radar and Q manage agents running elsewhere, such as Codex and Gemini?
