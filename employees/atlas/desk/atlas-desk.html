@@ -353,6 +353,8 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
   #view-notes > #book{grid-column:1;grid-row:2 / span 3}
   #view-notes > h2.fold,#view-notes > .foldbody{grid-column:2}
 }
+.robanner{margin-top:12px;border:1.5px solid var(--warn);background:var(--warn-soft);color:var(--ink);padding:10px 14px;font-size:14px}
+.mcheck{padding:10px 0;min-height:44px}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}.lock .shackle{transition:none}h2.fold::before{transition:none}}
 @media (max-width:420px){.bank{grid-template-columns:1fr 1fr}.brand h1{font-size:19px}.cbtn{width:50px;height:50px}.cbtn.play{width:62px;height:62px}}
 </style>
@@ -392,6 +394,8 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
       <p class="hint" id="ask-hint"></p>
     </form>
   </header>
+
+  <div class="robanner" id="ro-banner" role="status" hidden></div>
 
   <!-- HOME -->
   <section class="view" id="view-home">
@@ -1101,7 +1105,7 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
     const key=dayKey(),doc=todayDoc(),defs=moveDefs(),won=wonCount(doc),open=!!doc.unlocked;
     $("#moves-date").textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'})+' · '+Math.min(won,defs.length)+' won';
     $$('#movebar i').forEach((b,i)=>b.classList.toggle('on',i<won));
-    const dis=state.canWrite&&!open?'':' disabled';
+    const dis=state.canWrite?'':' disabled';
     $("#moves").innerHTML=defs.map(m=>{const c=(doc.checks||{})[m.id]||[];const w=isWon(doc,m);const n=m.checks.filter((_,i)=>c[i]).length;
       return `<details class="move${w?' won':''}" data-mid="${esc(m.id)}"${openMoves.has(m.id)?' open':''}><summary><span class="mn">${esc(m.name)}</span><span class="badge">${w?'Won':n+' of '+m.checks.length}</span></summary><div class="inner"><div class="ml">${esc(m.line)}</div>${m.checks.map((t,i)=>`<label class="mcheck"><input type="checkbox" data-move="${esc(m.id)}" data-i="${i}"${c[i]?' checked':''}${dis}><span>${esc(t)}</span></label>`).join('')}</div></details>`}).join('');
     const t=totals();const box=$("#unlock-box");box.classList.toggle('open',open);
@@ -1440,13 +1444,14 @@ details.move.won .mn::before{background:var(--gold);border-color:var(--gold)}
   });
   window.addEventListener('pagehide',()=>{if(noteDirty||sketchDirty)saveNote()});
 
-  function renderAll(){renderScore();renderLessons();renderTickets();renderLibrary();renderPlayer();renderClips();renderReading();renderScouts();renderRules();renderAsk();renderIdeas();renderMap();renderNotes();renderMoves();renderBubbles();renderMoney();
+  function renderBanner(){const b=$("#ro-banner");if(!b)return;let msg='';if(state.booted&&!state.db)msg="Not connected on this device, so taps here won't save. Open the Desk signed in to claude.ai.";else if(state.db&&!state.canWrite)msg="This device can view the Desk but not change it, so ticks and taps won't save. Kev: open Share on the Desk and give this account edit access.";b.textContent=msg;b.hidden=!msg}
+  function renderAll(){renderBanner();renderScore();renderLessons();renderTickets();renderLibrary();renderPlayer();renderClips();renderReading();renderScouts();renderRules();renderAsk();renderIdeas();renderMap();renderNotes();renderMoves();renderBubbles();renderMoney();
     $$('#ticket-form input,#ticket-form button,#book-form input,#book-form select,#book-form button,#project-form input,#project-form button,#adv-form input,#adv-form select,#adv-form button,#sc-save,#view-scouts .card input').forEach(el=>el.disabled=!state.canWrite)}
   renderAll();
 
   /* ---------- data ---------- */
   (async()=>{
-    const db=await window.claude?.use?.('db');
+    const db=await window.claude?.use?.('db');state.booted=true;
     if(!db){state.canWrite=false;renderAll();return}
     state.db=db;
     try{const user=await window.claude.use('user');if(user){const w=await user.can('data.write');if(w===false)state.canWrite=false}}catch(e){}
