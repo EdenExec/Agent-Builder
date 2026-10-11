@@ -1,0 +1,1 @@
+- 2026-10-11: Crelate API (11 Oct 2026): v3 only, base https://app.crelate.com/api3/, header X-Api-Key from the CRELATE_API_KEY secret, and send a normal User-Agent (Cloudflare blocks Python's default client with error 1010). v1/v2 return 410. Never copy EEO fields; salary and home addresses never leave the system of record. Brief: projects/eden-crm/brief.md.
