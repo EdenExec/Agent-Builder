@@ -33,3 +33,15 @@ Status words for people on a depth chart follow the existing colour codes: inter
 2. Mock the three sections and seed from real data: Triton, PB South and VMG depth charts; Boise and national PE buckets; eden-crm, finance, Triton screener stats notes.
 3. Republish the Desk once with the new sections and a "last updated by" line per row. Check it on a phone.
 4. Kev reviews, then shares with named teammates.
+
+## Draft (12 October, for Radar to merge)
+
+`projects/team-hub/draft/team-hub-sections.html` is a standalone mock of the three sections in the Desk's look, with example rows (marked on the page). It reads the db collections `depth`, `buckets` and `notes`; once a collection has rows, they replace the examples, and an empty live collection shows a designed empty state. Checked once in a browser at phone (400px) and desktop widths, light and dark, no sideways scroll, no script errors. Not tested against the live Desk database, and not published or shared.
+
+Row fields:
+
+- `depth`: client, project, updated, source, seats [{seat, loc, people [{name, status, note}]}]
+- `buckets`: pool, project, role, metro, leads, owner, sheet, built
+- `notes`: title, status (active, waiting, done), owner, decision, next [..], links [{title, url}], updated
+
+Project notes first cut (Radar, 12 October): PB South (West Palm and Project X Miami), VMG, Prometheus, Triton (link the screener stats), eden-crm. Finance and Tally stay off the team hub: Kev, Joel and Nick only.

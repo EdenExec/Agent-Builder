@@ -1,0 +1,205 @@
+<title>Eden Team Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: the Eden Desk shell (gold eyebrow, uppercase title, dark widget bar, paper cards). Three sections stacked on a phone, depth chart seats as columns on a wide screen. */
+:root{
+  --bg:#FAF8F4; --paper:#FFFFFF; --ink:#1A1A1A; --mute:#6F695D; --line:#EAE4D8; --gold:#8F6F3E; --gold-soft:#EFE6D8;
+  --widget:#1A1A1A; --widget-ink:#FFFFFF; --widget-mute:rgba(255,255,255,.66); --widget-line:rgba(255,255,255,.14); --widget-gold:#C9A24A;
+  --pos:#3D6B4F; --warn:#8A6A1F; --neg:#8A3A32; --pos-bg:#E4EEE7; --warn-bg:#F3EAD0; --neg-bg:#F1DDD9; --info-bg:#E9E6DD;
+  --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#050504; --paper:#0e0e0c; --ink:#f7f3e8; --mute:#a39d8d; --line:#242219; --gold:#c9a24a; --gold-soft:#1a1710;
+  --widget:#0e0e0c; --widget-ink:#f7f3e8; --widget-mute:#a39d8d; --widget-line:#242219; --widget-gold:#c9a24a;
+  --pos:#7DB391; --warn:#D9B45E; --neg:#D4857B; --pos-bg:#14231b; --warn-bg:#2a2410; --neg-bg:#2c1815; --info-bg:#1b1a15; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#050504; --paper:#0e0e0c; --ink:#f7f3e8; --mute:#a39d8d; --line:#242219; --gold:#c9a24a; --gold-soft:#1a1710;
+  --widget:#0e0e0c; --widget-ink:#f7f3e8; --widget-mute:#a39d8d; --widget-line:#242219; --widget-gold:#c9a24a;
+  --pos:#7DB391; --warn:#D9B45E; --neg:#D4857B; --pos-bg:#14231b; --warn-bg:#2a2410; --neg-bg:#2c1815; --info-bg:#1b1a15; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;padding-inline:16px;padding-block:28px 90px;line-height:1.45}
+.wrap{max-width:1040px;margin:0 auto;display:grid;gap:8px}
+.wrap>*{min-width:0}
+.brand{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+h1{font-weight:800;font-size:32px;letter-spacing:-.5px;text-transform:uppercase;line-height:1.05;margin:8px 0 0;text-wrap:balance}
+.greet{font-size:13px;color:var(--mute);font-family:var(--mono);letter-spacing:1px}
+.hr{height:1px;background:linear-gradient(to right,var(--gold) 0%,var(--line) 14%);margin:14px 0 6px}
+.label{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:700;margin:26px 0 6px}
+.note{font-size:12.5px;color:var(--mute);margin:0 0 10px;max-width:70ch}
+.sample{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:var(--warn-bg);color:var(--warn);border-radius:4px;padding:3px 7px;margin-left:8px;vertical-align:2px}
+a{color:var(--gold)}
+a:focus-visible,button:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* nav */
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{font:inherit;font-weight:700;font-size:12px;letter-spacing:.5px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:20px;padding:9px 14px;cursor:pointer;min-height:40px}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* status chips: color is paired with a word, never alone */
+.chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;border-radius:4px;padding:3px 7px;white-space:nowrap;background:var(--info-bg);color:var(--ink)}
+.chip.pos{background:var(--pos-bg);color:var(--pos)}.chip.warn{background:var(--warn-bg);color:var(--warn)}.chip.neg{background:var(--neg-bg);color:var(--neg)}
+
+/* depth chart */
+.dc-head{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;justify-content:space-between;margin:12px 0 10px}
+.dc-head h2{font-size:18px;font-weight:800;margin:0;letter-spacing:-.2px}
+.meta{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.5px}
+.seats{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;align-items:start}
+.seat{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0}
+.seat h3{font-size:13px;font-weight:800;margin:0}
+.seat .loc{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--mute);margin-top:2px}
+.people{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:0}
+.people li{display:grid;gap:3px;padding:9px 0;border-top:1px solid var(--line);min-width:0}
+.people li:first-child{border-top:0}
+.people b{font-size:13.5px;font-weight:700;overflow-wrap:anywhere}
+.people small{color:var(--mute);font-size:11.5px;overflow-wrap:anywhere}
+.open{color:var(--mute);font-size:12.5px;padding:9px 0;border-top:1px dashed var(--line)}
+.stale{color:var(--warn)}
+
+/* lead buckets */
+.scroll{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+th{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);font-weight:500;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td b{font-weight:700}
+td small{display:block;color:var(--mute);font-size:11.5px}
+.pool{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--mute)}
+.totals{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 10px}
+.tile{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 14px;min-width:0}
+.tile .k{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute)}
+.tile b{display:block;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+
+/* project notes */
+.notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.pn{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px;min-width:0;align-content:start}
+.pn h3{font-size:15px;font-weight:800;margin:0}
+.pn p{margin:0;font-size:13px;overflow-wrap:anywhere}
+.pn .k{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);margin-bottom:2px}
+.pn ul{margin:0;padding-left:1.1em;font-size:13px;display:grid;gap:3px}
+.links{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12.5px}
+.empty{background:var(--paper);border:1px dashed var(--line);border-radius:10px;padding:18px;color:var(--mute);font-size:13px}
+.foot{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;color:var(--mute);border-top:1px solid var(--line);padding-top:12px;margin-top:30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;text-transform:uppercase}
+@media (max-width:480px){h1{font-size:26px}}
+</style>
+
+<div class="wrap">
+  <div class="brand">Eden Partner Group</div>
+  <h1>Team Hub</h1>
+  <div class="greet" id="greet">Private to the people Kev shares it with. Names, role and status only.</div>
+  <div class="hr"></div>
+
+  <div class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" id="tab-depth" aria-selected="true" data-sec="depth">Depth charts</button>
+    <button class="tab" role="tab" id="tab-buckets" aria-selected="false" data-sec="buckets">Lead buckets</button>
+    <button class="tab" role="tab" id="tab-notes" aria-selected="false" data-sec="notes">Project notes</button>
+  </div>
+
+  <section id="sec-depth" aria-labelledby="tab-depth">
+    <div class="label">Depth charts <span class="sample" id="s-depth">Example rows</span></div>
+    <p class="note">One chart per client search. Pick a client; each column is a seat, each row a person with their stage. Print copies stay on the Desk as PDFs.</p>
+    <div class="tabs" id="dc-tabs" role="tablist" aria-label="Clients"></div>
+    <div id="dc"></div>
+  </section>
+
+  <section id="sec-buckets" aria-labelledby="tab-buckets" hidden>
+    <div class="label">Lead buckets <span class="sample" id="s-buckets">Example rows</span></div>
+    <p class="note">The talent pools Scout and Radar keep warm. Each row is one role bucket in one market, with the sheet the recruiters dial from.</p>
+    <div class="totals" id="b-totals"></div>
+    <div class="scroll"><table id="b-table"></table></div>
+  </section>
+
+  <section id="sec-notes" aria-labelledby="tab-notes" hidden>
+    <div class="label">Project notes <span class="sample" id="s-notes">Example rows</span></div>
+    <p class="note">Where each search stands, what was decided, and what happens next. Update the row, not a new document.</p>
+    <div class="notes" id="notes"></div>
+  </section>
+
+  <div class="foot"><span>Names, role and status only · no pay or contact details</span><span id="status">example data</span></div>
+</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  function safeUrl(u){u=String(u||'');return /^https?:/i.test(u)?u:'#'}
+
+  // ---- example rows; the live page reads db collections depth, buckets, notes with these same fields ----
+  const SAMPLE={
+    depth:[{id:'triton',client:'Triton Construction',project:'West Palm Beach and South Beach',updated:'2026-10-12',source:'Kev email, 5 Oct; depth chart, 8 Oct',seats:[
+      {seat:'Procurement',loc:'West Palm Beach / Miami',people:[{name:'Shane Tedder',status:'PTC',note:'Estimator / Purchasing seat'},{name:'Gerardo Icaza',status:'PTC',note:'Sr. Procurement Manager'},{name:'Kristof Anderson',status:'PTC',note:'Procurement Engineer or APM'}]},
+      {seat:'Superintendent',loc:'West Palm Beach',people:[{name:'Marc Malloy',status:'PTC',note:'Asst Super / Super, seat 2'},{name:'Sam Derlis',status:'PTC',note:'Seats 2 and 4'}]},
+      {seat:'Field Engineer / APM',loc:'West Palm Beach / Miami',people:[{name:'Alessandro Colangelo',status:'PTC',note:'Field Engineer'},{name:'Andrew Farmen',status:'PTC',note:'MEP Engineer / APM'},{name:'Conner Burke',status:'PTC',note:'South Beach, seat 8'}]},
+      {seat:'Interior scopes',loc:'South Beach',people:[{name:'Diego Munoz',status:'Pass',note:'Withdrawn, Promethean wants him'}]},
+      {seat:'To place',loc:'Miami',people:[{name:'Jacqueline Hall',status:'Pending PTC',note:'Role to be decided'}]}]}],
+    buckets:[
+      {id:'a1',pool:'A',project:'Project X (PB South Miami)',role:'Project Engineer',metro:'Miami',leads:65,owner:'',sheet:'',built:'2026-10-09'},
+      {id:'a2',pool:'A',project:'Project X (PB South Miami)',role:'Senior PM',metro:'Miami',leads:66,owner:'',sheet:'',built:'2026-10-09'},
+      {id:'a6',pool:'A',project:'Project X (PB South Miami)',role:'Controller',metro:'Miami',leads:60,owner:'Noah',sheet:'',built:'2026-10-09'},
+      {id:'b1',pool:'B',project:'Project X (PB South Miami)',role:'Procurement',metro:'Miami',leads:58,owner:'',sheet:'',built:'2026-10-09'},
+      {id:'v1',pool:'',project:'VMG',role:'Supers (DC)',metro:'Washington DC',leads:25,owner:'Andrew',sheet:'',built:''},
+      {id:'p1',pool:'',project:'Prometheus',role:'Sr PM / PM',metro:'',leads:27,owner:'Andrew',sheet:'',built:''}],
+    notes:[
+      {id:'triton',title:'Triton',status:'active',owner:'Kev',decision:'Present 9 candidates on 5 Oct; track days waiting on Triton feedback.',next:['Screener stats report walk-through on Zoom','Chase written feedback on all seats'],links:[],updated:'2026-10-12'},
+      {id:'pbs',title:'PB South: West Palm and Project X Miami',status:'active',owner:'Bridger',decision:'Two offers out at City Place; Project X buckets built 9 Oct.',next:['Assign owners to the 10 unassigned buckets'],links:[],updated:'2026-10-12'},
+      {id:'crm',title:'Eden CRM',status:'waiting',owner:'Q',decision:'Own the data in Supabase Pro; read-only Crelate mirror first.',next:['Kev approves Supabase Pro','Fix the Eden Daily database login'],links:[],updated:'2026-10-12'}]
+  };
+  const state={depth:SAMPLE.depth,buckets:SAMPLE.buckets,notes:SAMPLE.notes,pick:null,sec:'depth'};
+
+  const STATUS={'interviewing':'pos','offer letter':'pos','ptc':'info','pending ptc':'warn','background':'info','future play':'info','pass':'neg','pass offer':'neg','waiting on resume':'warn'};
+  function chip(s){const k=String(s||'').toLowerCase();return '<span class="chip '+(STATUS[k]||'')+'">'+esc(s||'no status')+'</span>'}
+  function age(d){if(!d)return null;const n=Math.floor((Date.now()-new Date(d+'T12:00:00').getTime())/864e5);return isNaN(n)?null:n}
+
+  function renderDepth(){
+    const list=state.depth.slice().sort((a,b)=>(b.updated||'').localeCompare(a.updated||''));
+    if(!state.pick||!list.some(c=>c.id===state.pick))state.pick=list[0]&&list[0].id;
+    $('dc-tabs').innerHTML=list.map(c=>'<button class="tab" type="button" role="tab" aria-selected="'+(c.id===state.pick)+'" data-pick="'+esc(c.id)+'">'+esc(c.client)+'</button>').join('');
+    const c=list.find(x=>x.id===state.pick);
+    if(!c){$('dc').innerHTML='<div class="empty">No depth charts yet. Radar adds one per client search; it will show up here as soon as the first row is filed.</div>';return}
+    const a=age(c.updated);const stale=a!=null&&a>14;
+    $('dc').innerHTML='<div class="dc-head"><h2>'+esc(c.client)+(c.project?' · '+esc(c.project):'')+'</h2><span class="meta'+(stale?' stale':'')+'">Updated '+esc(c.updated||'unknown')+(stale?' · check with owner':'')+(c.source?' · '+esc(c.source):'')+'</span></div>'+
+      '<div class="seats">'+(c.seats||[]).map(s=>'<div class="seat"><h3>'+esc(s.seat)+'</h3><div class="loc">'+esc(s.loc||'')+'</div><ul class="people">'+
+        ((s.people||[]).map(p=>'<li><b>'+esc(p.name)+'</b>'+chip(p.status)+(p.note?'<small>'+esc(p.note)+'</small>':'')+'</li>').join('')||'<li class="open">Seat open</li>')+'</ul></div>').join('')+'</div>';
+  }
+  function renderBuckets(){
+    const b=state.buckets;const total=b.reduce((n,x)=>n+(Number(x.leads)||0),0);const un=b.filter(x=>!x.owner).length;
+    $('b-totals').innerHTML='<div class="tile"><span class="k">Buckets</span><b>'+b.length+'</b></div><div class="tile"><span class="k">Leads</span><b>'+total+'</b></div><div class="tile"><span class="k">No owner yet</span><b>'+un+'</b></div>';
+    if(!b.length){$('b-table').innerHTML='<tbody><tr><td>No buckets yet. Scout files one row per role and market; they will appear here.</td></tr></tbody>';return}
+    $('b-table').innerHTML='<thead><tr><th>Project and role</th><th>Metro</th><th class="num">Leads</th><th>Owner</th><th>Sheet</th><th>Built</th></tr></thead><tbody>'+
+      b.map(x=>'<tr><td><b>'+esc(x.role)+'</b><small>'+esc(x.project||'')+(x.pool?' · <span class="pool">Pool '+esc(x.pool)+'</span>':'')+'</small></td><td>'+esc(x.metro||'')+'</td><td class="num">'+esc(x.leads)+'</td><td>'+(x.owner?esc(x.owner):'<span class="chip warn">Unassigned</span>')+'</td><td>'+(x.sheet?'<a href="'+esc(safeUrl(x.sheet))+'" target="_blank" rel="noopener">Open sheet</a>':'<span class="meta">link to add</span>')+'</td><td class="meta">'+esc(x.built||'')+'</td></tr>').join('')+'</tbody>';
+  }
+  const NS={active:'pos',waiting:'warn',done:''};
+  function renderNotes(){
+    const n=state.notes;
+    $('notes').innerHTML=n.length?n.map(x=>'<article class="pn"><div><h3>'+esc(x.title)+'</h3></div><div>'+(x.status?'<span class="chip '+(NS[x.status]||'')+'">'+esc(x.status)+'</span> ':'')+'<span class="meta">Owner '+esc(x.owner||'to assign')+' · '+esc(x.updated||'')+'</span></div>'+
+      (x.decision?'<div><div class="k">Last decision</div><p>'+esc(x.decision)+'</p></div>':'')+
+      ((x.next||[]).length?'<div><div class="k">Next</div><ul>'+x.next.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div>':'')+
+      ((x.links||[]).length?'<div class="links">'+x.links.map(l=>'<a href="'+esc(safeUrl(l.url))+'" target="_blank" rel="noopener">'+esc(l.title)+'</a>').join('')+'</div>':'')+'</article>').join('')
+      :'<div class="empty">No project notes yet. Each project owner adds one row and keeps it current.</div>';
+  }
+  function renderAll(){renderDepth();renderBuckets();renderNotes()}
+
+  document.querySelector('.tabs[aria-label="Sections"]').addEventListener('click',e=>{
+    const t=e.target.closest('[data-sec]');if(!t)return;state.sec=t.dataset.sec;
+    document.querySelectorAll('[data-sec]').forEach(x=>x.setAttribute('aria-selected',String(x===t)));
+    ['depth','buckets','notes'].forEach(s=>{$('sec-'+s).hidden=s!==state.sec});
+    try{history.replaceState(null,'','#'+state.sec)}catch(_){}
+  });
+  $('dc-tabs').addEventListener('click',e=>{const t=e.target.closest('[data-pick]');if(!t)return;state.pick=t.dataset.pick;renderDepth()});
+  renderAll();
+  try{const h=(location.hash||'').slice(1);const t=document.querySelector('[data-sec="'+h+'"]');if(t&&/^(depth|buckets|notes)$/.test(h))t.click()}catch(_){}
+
+  // ---- live data: same db the Desk uses. A collection that has rows replaces the example rows. ----
+  (async function(){
+    let db=null;try{db=await window.claude.use('db')}catch(e){db=null}
+    if(!db)return;
+    function watch(name,key,flag){db.collection(name).onSnapshot(s=>{
+      const rows=s.docs.map(d=>Object.assign({id:d.id},d.data()));
+      if(rows.length){state[key]=rows;$(flag).hidden=true}else{state[key]=[];$(flag).hidden=true}
+      $('status').textContent='live';renderAll()},()=>{$('status').textContent='could not read '+name})}
+    watch('depth','depth','s-depth');watch('buckets','buckets','s-buckets');watch('notes','notes','s-notes');
+  })();
+})();
+</script>
