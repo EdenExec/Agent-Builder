@@ -1,6 +1,8 @@
-# Triton outreach report, 12 October 2026
+# Screener stats report: Triton, 12 October 2026
 
-Status: layout and job list only. No outreach numbers yet. Waiting on Kev's answers to W28 (which searches are in scope, and how the numbers reach me). Crelate copy, job list read 12 October 2026. Nothing here goes to Triton until Kev and Nick review it (publish/send QC item).
+Kev will walk Triton through this on a Zoom screen share (mark-up of 12 October).
+
+Status: layout, job list and shot clock design only. No outreach numbers yet. Waiting on Kev's answers to W28 (which searches are in scope, and how the numbers reach me). Crelate copy, job list read 12 October 2026. Nothing here goes to Triton until Kev and Nick review it (publish/send QC item).
 
 ## Part 1: client version (Eden Partner Group style, counts only, no names)
 
@@ -14,9 +16,24 @@ Status: layout and job list only. No outreach numbers yet. Waiting on Kev's answ
 | Submittals to Triton | n/a until data |
 | Interviews | n/a until data |
 
-Then for each search in scope, one row: search title (client-safe wording), weeks open, candidates in pipeline by stage (Sourced, Contacted, Screened, Submitted, Interview, Offer), and a small weekly outreach chart (calls, emails, LinkedIn messages per week).
+Then the shot clock by seat (above, counts only), then for each search in scope, one row: search title (client-safe wording), weeks open, candidates in pipeline by stage (Sourced, Contacted, Screened, Submitted, Interview, Offer), and a small weekly outreach chart (calls, emails, LinkedIn messages per week).
 
 Rules for this version: counts only; no candidate names, no pay, no recruiter initials; any number the API cannot give is printed "not available" and never estimated; a footer says "Source: Eden's recruiting records, <date>".
+
+## Shot clock (new, Kev's mark-up of 12 October)
+
+For every candidate presented to Triton: **days since presented** and **days waiting on Triton's feedback**.
+
+- Presented date: the submitted date in Triton's portal, or Kev's 5 October email where the portal has none. If neither gives a date for a candidate, the cell reads "date needed", never a guess.
+- Days since presented = today minus presented date. Days waiting on feedback = the same count until Triton gives feedback, then it stops and shows the day feedback arrived.
+- Counts calendar days; the sheet shows "as of <date>" so the screen share is not stale.
+- Client version: by seat only (for example, "Project Engineer: 3 presented, longest wait 7 days, 1 with feedback"), no names. Internal version: one line per candidate with seat, presented date, days waiting, feedback status.
+
+Candidates presented per Kev's note (internal version only; seat and dates to fill from the portal and the 5 October email): Shane Tedder, Marc Malloy, Gerardo Icaza, Alessandro Colangelo, Andrew Farmen, Kristof Anderson, Conner Burke, Diego Munoz, Sam Derlis. Pending: Jacqueline Hall.
+
+| Candidate | Seat | Presented | Days since presented | Feedback | Days waiting |
+|---|---|---|---|---|---|
+| (9 names above, plus Jacqueline Hall as pending) | to fill | date needed | formula | to fill | formula |
 
 ## Part 2: internal version (Kev and Nick only)
 
@@ -48,6 +65,7 @@ Same tables plus: candidate names and stage by search, recruiter by search, last
 
 | Number | Source | Status |
 |---|---|---|
+| Presented date and Triton feedback, per candidate | Triton portal or Kev's 5 October email | Needs Nick's export or the email; not in this file yet |
 | Candidates in pipeline, by stage | Crelate job pipeline entries | Needs a way to read them (W28) |
 | Calls, emails, LinkedIn messages by week | Crelate activities tied to the job or its candidates | Needs a way to read them (W28); LinkedIn messages only count if logged in Crelate |
 | Meaningful conversations | Only if Eden tags or logs them | Not known if tracked |
