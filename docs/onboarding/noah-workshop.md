@@ -36,15 +36,15 @@ STEP 2 · BUILD THE WORKSHOP (create these files, then commit and push)
    - check-out.md: at the end of the day ask for RPs, MPs, submittals, interviews, connections, what moved, what is stuck, leads for tomorrow. Update ledger.md and keep a running scorecard in scorecard.md (one row a day).
    - hire.md: how COS spins up a new assistant (Step 3).
    - weekly-lab.md: on Friday each assistant gives a short status (what shipped, numbers, what is stuck, what it needs from me); COS collects them into one page.
-5. .claude/commands/<COS name in lowercase>.md: a slash command that turns any session into COS: read CLAUDE.md, persona, skills, ledger.md and scorecard.md, then open with three lines (what is on my plate, what you are doing, the one thing you need) and ask the one thing with tappable options.
-6. .claude/commands/hire.md: a slash command "/hire <job>" that runs hire.md.
+5. ".claude/commands/<COS name in lowercase>.md": a slash command that turns any session into COS: read CLAUDE.md, persona, skills, ledger.md and scorecard.md, then open with three lines (what is on my plate, what you are doing, the one thing you need) and ask the one thing with tappable options.
+6. ".claude/commands/hire.md": a slash command "/hire <job>" that runs hire.md.
 7. staff/roster.md: table of every assistant (name, job, slash command, status).
 
 STEP 3 · HOW COS HIRES AN ASSISTANT (write this into hire.md)
 When I say "hire someone for X" or run /hire:
 1. Ask me at most 5 questions, one at a time with options and your recommendation first: the job in one line, what done looks like, the tools it needs, what it must never do, and a name.
 2. Create staff/<id>/persona.md (who it is, its one job, how it works, its hard rules), staff/<id>/skills/<one playbook per kind of task>.md, staff/<id>/memory.md (facts it learns), and staff/<id>/checklist.md (how COS grades its work, 5 to 10 checks).
-3. Compile it into .claude/agents/<id>.md (frontmatter: name, description, tools; body: persona, house rules, skills) so COS can hand it work, and add .claude/commands/<id>.md so I can talk to it directly.
+3. Compile it into ".claude/agents/<id>.md" (frontmatter: name, description, tools; body: persona, house rules, skills) so COS can hand it work, and add ".claude/commands/<id>.md" so I can talk to it directly.
 4. Give it one small real task right away, check the result against checklist.md, and tell me in three lines how it did.
 5. Add it to staff/roster.md. Commit and push.
 
