@@ -102,6 +102,22 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
 .tools label{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--mute)}
 .by{color:var(--gold);font-family:var(--mono);font-size:10.5px;letter-spacing:.6px}
 .saving{color:var(--warn)}
+.shead{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:3px;width:100%;min-height:44px}
+.shead:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.shead .row1{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.shead .sname{font-size:13px;font-weight:800}
+.ssum{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:4px}
+.seat .caret{flex:none;width:8px;height:8px}
+.folder[data-open="true"] .seat[data-open="false"] .caret{transform:rotate(-45deg)}
+.seat[data-open="true"] .caret{transform:rotate(45deg)}
+.bub{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:10.5px;color:var(--mute);padding:4px 6px;border-radius:4px;min-height:24px}
+.bub svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+.bub.has{color:var(--gold)}.bub:hover{color:var(--gold)}.bub:focus-visible{outline:2px solid var(--gold)}
+.thread{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px;display:grid;gap:8px;margin:6px 0 2px}
+.thread .c{font-size:12.5px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;border-left:2px solid var(--gold-soft);padding-left:8px}
+.thread .c .meta{display:block;font-size:10px;white-space:normal}
+.thread textarea{width:100%;min-height:60px;font:inherit;font-size:13px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:6px;padding:8px;resize:vertical}
+.thread button[type=submit]{font:inherit;font-weight:700;font-size:11.5px;border:1.5px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:6px;padding:7px 10px;cursor:pointer;min-height:36px;justify-self:start}
 .r3{display:grid;grid-template-columns:1fr 1fr auto;gap:6px}
 .seat.filled{background:var(--pos-bg);border-color:transparent}
 .seat .stools{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
@@ -165,8 +181,9 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   const tone=s=>TONE[String(s||'').toLowerCase()]||'';
   const isOut=s=>['out','pass','withdrawn','pass offer'].includes(String(s||'').toLowerCase());
 
-  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[],meetings:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,confirm:null,showRemoved:false,saving:0,live:false,pending:{},last:{},deferred:false};
-  try{state.present=sessionStorage.getItem('hub-present')==='1'}catch(_){}
+  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[],meetings:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,confirm:null,showRemoved:false,thread:null,expanded:new Set(),saving:0,live:false,pending:{},last:{},deferred:false};
+  try{state.present=sessionStorage.getItem('hub-present')==='1';state.expanded=new Set(JSON.parse(sessionStorage.getItem('hub-open')||'[]'))}catch(_){}
+  const saveOpen=()=>{try{sessionStorage.setItem('hub-open',JSON.stringify([...state.expanded]))}catch(_){}};
 
   const chip=s=>'<span class="chip '+tone(s)+'">'+esc(s||'no status')+'</span>';
   const stale=d=>{const a=age(d);return a!=null&&a>14};
@@ -174,6 +191,16 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   const A=(act,attrs,label,cls)=>'<button class="mini'+(cls?' '+cls:'')+'" type="button" data-act="'+act+'" '+attrs+'>'+label+'</button>';
   const at=(c,si,pi)=>'data-doc="'+esc(c.id)+'" data-s="'+si+'"'+(pi!=null?' data-p="'+pi+'"':'');
 
+  const BUBBLE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" stroke-linejoin="round"/></svg>';
+  const fmtAt=a=>{try{const d=new Date(a);return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+' '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})}catch(_){return a||''}};
+  function bubble(kind,c,si,pi,list){const n=(list||[]).length;return '<button class="bub'+(n?' has':'')+'" type="button" data-act="thread" data-key="'+esc(kind+'|'+c.id+'|'+si+(pi!=null?'|'+pi:''))+'" aria-label="Notes ('+n+')">'+BUBBLE+(n?n:'')+'</button>'}
+  function thread(kind,c,si,pi,list){
+    const key=kind+'|'+c.id+'|'+si+(pi!=null?'|'+pi:'');
+    if(state.thread!==key)return '';
+    const items=(list||[]).map(x=>'<div class="c">'+esc(x.text)+'<span class="meta">'+esc(fmtAt(x.at))+'</span></div>').join('')||'<div class="meta">No notes yet.</div>';
+    const form=state.canEdit?'<form data-act="add-comment" data-key="'+esc(key)+'"><textarea name="text" data-k="cm-'+esc(key)+'" placeholder="Add a note. It saves with the date." aria-label="Add a note" required></textarea><button type="submit">Save note</button></form>':'';
+    return '<div class="thread">'+items+form+'</div>';
+  }
   function person(c,si,pi,p){
     const key=c.id+'|'+si+'|'+pi;
     const dim=state.by&&String(p.by||'').toLowerCase()!==state.by.toLowerCase();
@@ -187,7 +214,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     }
     const st=state.canEdit?'<select class="st '+tone(p.status)+'" data-act="status" '+at(c,si,pi)+' aria-label="Status for '+esc(p.name)+'">'+opts(p.status)+'</select>':chip(p.status);
     const tools=state.canEdit?A('edit','data-key="'+esc(key)+'"','Edit')+(pi>0?A('up',at(c,si,pi),'↑ Up'):'')+A('fill',at(c,si,pi),'✓ Filled'):'';
-    return '<li class="'+cls+'"><b>'+esc(p.name)+'</b><div class="prow">'+st+(p.by?'<span class="by">'+esc(p.by)+'</span>':'')+tools+'</div>'+(p.note?'<small>'+esc(p.note)+'</small>':'')+'</li>';
+    return '<li class="'+cls+'"><b>'+esc(p.name)+'</b><div class="prow">'+st+(p.by?'<span class="by">'+esc(p.by)+'</span>':'')+bubble('p',c,si,pi,p.comments)+tools+'</div>'+(p.note?'<small>'+esc(p.note)+'</small>':'')+thread('p',c,si,pi,p.comments)+'</li>';
   }
   function addForm(c,si){
     if(!state.canEdit)return '';
@@ -197,9 +224,19 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
       '<div class="r3"><input class="ed" name="by" data-k="a-by-'+k+'" placeholder="Recruiter" aria-label="Recruiter" value="'+esc(state.by)+'"><select class="ed" name="status" data-k="a-st-'+k+'" aria-label="Status">'+STATUSES.map((x,i)=>'<option value="'+esc(x)+'"'+(i===0?' selected':'')+'>'+esc(x)+'</option>').join('')+'</select><button type="submit">Add</button></div>'+
       '<input class="ed" name="note" data-k="a-note-'+k+'" placeholder="Note (optional)" aria-label="Note"></form>';
   }
+  function seatSummary(s){
+    const ppl=(s.people||[]).filter(p=>!isOut(p.status));
+    const order=['Placed','Offer','Interview','Submitted','PTC','Pending PTC'];
+    const best=order.find(o=>ppl.some(p=>String(p.status).toLowerCase()===o.toLowerCase()));
+    const mine=state.by?(s.people||[]).filter(p=>String(p.by||'').toLowerCase()===state.by.toLowerCase()).length:null;
+    return '<span class="meta">'+ppl.length+(ppl.length===1?' name':' names')+(mine!=null?' · '+mine+' '+esc(state.by):'')+'</span>'+(best?chip(best):'');
+  }
   function seatCard(c,s,si){
-    const tools=state.canEdit?'<div class="stools">'+(state.confirm===c.id+'|'+si?A('remove',at(c,si),'Tap again to remove','warn')+A('cancel','','Keep'):A('ask-remove',at(c,si),'Remove seat'))+'</div>':'';
-    return '<div class="seat"><h5>'+esc(s.seat)+'</h5><div class="loc">'+esc(s.loc||'')+'</div>'+tools+'<ul class="people">'+
+    const k=c.id+'|'+si, open=state.expanded.has(k);
+    const head='<button class="shead" type="button" data-act="toggle-seat" data-key="'+esc(k)+'" aria-expanded="'+open+'"><span class="row1"><span class="sname">'+esc(s.seat)+'</span><span class="caret" aria-hidden="true"></span></span><span class="loc">'+esc(s.loc||'')+'</span><span class="ssum">'+seatSummary(s)+((s.comments||[]).length?'<span class="meta">· '+s.comments.length+' seat note'+(s.comments.length>1?'s':'')+'</span>':'')+'</span></button>';
+    if(!open)return '<div class="seat" data-open="false">'+head+'</div>';
+    const tools='<div class="stools">'+bubble('s',c,si,null,s.comments)+(state.canEdit?(state.confirm===k?A('remove',at(c,si),'Tap again to remove','warn')+A('cancel','','Keep'):A('ask-remove',at(c,si),'Remove seat')):'')+'</div>';
+    return '<div class="seat" data-open="true">'+head+tools+thread('s',c,si,null,s.comments)+'<ul class="people">'+
       ((s.people||[]).map((p,pi)=>person(c,si,pi,p)).join('')||'<li class="open">Seat open</li>')+'</ul>'+addForm(c,si)+'</div>';
   }
   function filledCard(c,s,si){
@@ -208,7 +245,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   }
   function rDepth(rows){
     const recs=[...new Set(rows.flatMap(c=>(c.seats||[]).flatMap(s=>(s.people||[]).map(p=>String(p.by||'').trim()).filter(Boolean))))].sort();
-    const tools=recs.length?'<div class="tools"><label for="byf">Recruiter</label><select class="ed" id="byf" data-act="by"><option value="">Everyone</option>'+recs.map(r=>'<option value="'+esc(r)+'"'+(r.toLowerCase()===state.by.toLowerCase()?' selected':'')+'>'+esc(r)+'</option>').join('')+'</select></div>':'';
+    const tools='<div class="tools">'+(recs.length?'<label for="byf">Recruiter</label><select class="ed" id="byf" data-act="by"><option value="">Everyone</option>'+recs.map(r=>'<option value="'+esc(r)+'"'+(r.toLowerCase()===state.by.toLowerCase()?' selected':'')+'>'+esc(r)+'</option>').join('')+'</select>':'')+A('expand-all','','Expand all')+A('collapse-all','','Collapse all')+'</div>';
     const newChart=state.canEdit?'<form class="addbar" data-act="add-chart"><input class="ed" name="title" data-k="n-chart" placeholder="New depth chart title (e.g. West Palm Beach)" aria-label="New depth chart title" required><button type="submit">+ New depth chart</button></form>':'';
     if(!rows.length)return '<div class="empty">No depth chart filed for this client yet.</div>'+newChart;
     return tools+sortCharts(rows).map(c=>{
@@ -259,7 +296,8 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
       h+='<h2>'+esc(ch.title||'Depth chart')+'</h2><table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left">Seat</th><th style="text-align:left">Candidates</th></tr></thead><tbody>';
       seats.forEach(s=>{
         const ppl=(s.people||[]).filter(p=>!state.by||String(p.by||'').toLowerCase()===state.by.toLowerCase());
-        const cell=s.filled?'<b>Filled:</b> '+esc(s.filled.name)+' ('+esc(s.filled.date||'')+')':(ppl.map(p=>'<div><b>'+esc(p.name)+'</b> · '+esc(p.status||'no status')+(p.by?' · '+esc(p.by):'')+(p.note?' · <i>'+esc(p.note)+'</i>':'')+'</div>').join('')||'<i>Open</i>');
+        const cm=l=>(l||[]).map(x=>'<div style="color:#555;font-size:10px;padding-left:10px">'+esc(fmtAt(x.at))+': '+esc(x.text)+'</div>').join('');
+        const cell=(s.filled?'<b>Filled:</b> '+esc(s.filled.name)+' ('+esc(s.filled.date||'')+')':(ppl.map(p=>'<div><b>'+esc(p.name)+'</b> · '+esc(p.status||'no status')+(p.by?' · '+esc(p.by):'')+(p.note?' · <i>'+esc(p.note)+'</i>':'')+cm(p.comments)+'</div>').join('')||'<i>Open</i>'))+(s.comments&&s.comments.length?'<div style="margin-top:4px"><b style="font-size:10px">Seat notes</b>'+cm(s.comments)+'</div>':'');
         h+='<tr><td style="vertical-align:top"><b>'+esc(s.seat)+'</b><div style="color:#666;font-size:10px">'+esc(s.loc||'')+'</div></td><td>'+cell+'</td></tr>';
       });
       h+='</tbody></table>';
@@ -347,6 +385,9 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
       if(act==='ask-remove'){state.confirm=a.dataset.doc+'|'+a.dataset.s;render(true);return}
       if(act==='remove'&&s){s.removed=today();state.confirm=null;saveSeats(c);return}
       if(act==='restore'&&s){delete s.removed;saveSeats(c);return}
+      if(act==='toggle-seat'){const k=a.dataset.key;state.expanded.has(k)?state.expanded.delete(k):state.expanded.add(k);saveOpen();render(true);return}
+      if(act==='expand-all'||act==='collapse-all'){state.sections.depth.forEach(ch=>(ch.seats||[]).forEach((x,i)=>{const k=ch.id+'|'+i;act==='expand-all'?state.expanded.add(k):state.expanded.delete(k)}));saveOpen();render(true);return}
+      if(act==='thread'){state.thread=state.thread===a.dataset.key?null:a.dataset.key;render(true);const t=folders.querySelector('[data-k="cm-'+CSS.escape(a.dataset.key)+'"]');if(t)t.focus();return}
       if(act==='toggle-removed'){state.showRemoved=!state.showRemoved;render(true);return}
       if(act==='print'){$('report').innerHTML=reportHtml();try{window.print()}catch(_){setStatus('print blocked here · use Download report')}return}
       if(act==='download'){const c2=state.clients.find(x=>x.id===state.open)||{name:'client'};const doc='<!doctype html><html><head><meta charset="utf-8"><title>'+esc(c2.name)+' depth chart review '+today()+'</title><style>body{font-family:Montserrat,Arial,sans-serif;margin:32px;color:#111}h1{font-size:22px}h2{font-size:14px;text-transform:uppercase;letter-spacing:1px;margin-top:22px}td,th{padding:6px 8px;border-bottom:1px solid #ddd;font-size:12px;text-align:left}</style></head><body>'+reportHtml()+'</body></html>';
@@ -374,6 +415,9 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     if(act==='add-person'){const c=chartOf(f.dataset.doc),s=c&&c.seats[+f.dataset.s];if(!s||!v('name'))return;(s.people=s.people||[]).push({name:v('name'),status:v('status'),note:v('note'),by:v('by')});
       const k=f.dataset.doc+'-'+f.dataset.s;['a-name-','a-note-'].forEach(x=>{const el=folders.querySelector('[data-k="'+CSS.escape(x+k)+'"]');if(el)el.value=''});
       saveSeats(c);const n=folders.querySelector('[data-k="'+CSS.escape('a-name-'+k)+'"]');if(n){n.value='';n.focus()}return}
+    if(act==='add-comment'){const parts=f.dataset.key.split('|'),kind=parts[0],c=chartOf(parts[1]),s=c&&c.seats[+parts[2]];const text=v('text');if(!s||!text)return;
+      const tgt=kind==='p'?(s.people||[])[+parts[3]]:s;if(!tgt)return;(tgt.comments=tgt.comments||[]).push({text,at:new Date().toISOString()});
+      const t=folders.querySelector('[data-k="cm-'+CSS.escape(f.dataset.key)+'"]');if(t)t.value='';saveSeats(c);return}
     if(act==='save-person'){const c=chartOf(f.dataset.doc),p=c&&c.seats[+f.dataset.s]&&c.seats[+f.dataset.s].people[+f.dataset.p];if(!p||!v('name'))return;p.name=v('name');p.by=v('by');p.status=v('status');p.note=v('note');state.editing=null;saveSeats(c);return}
     if(act==='add-seat'){const c=chartOf(f.dataset.doc);if(!c||!v('seat'))return;(c.seats=c.seats||[]).push({seat:v('seat'),loc:v('loc'),people:[]});
       ['s-seat-','s-loc-'].forEach(x=>{const el=folders.querySelector('[data-k="'+CSS.escape(x+c.id)+'"]');if(el)el.value=''});saveSeats(c);return}
@@ -386,7 +430,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   function unsubAll(){state.unsubs.forEach(u=>{try{u()}catch(_){}});state.unsubs=[]}
   let db=null;
   function openClient(id){
-    unsubAll();state.sections={depth:[],leads:[],notes:[],resources:[],meetings:[]};state.last={};state.open=id||null;state.editing=null;state.confirm=null;state.by='';
+    unsubAll();state.sections={depth:[],leads:[],notes:[],resources:[],meetings:[]};state.last={};state.open=id||null;state.editing=null;state.confirm=null;state.thread=null;state.by='';
     try{history.replaceState(null,'',id?'#'+id:location.pathname+location.search)}catch(_){}
     if(id&&db){['depth','leads','notes','resources','meetings'].forEach(k=>{
       state.unsubs.push(db.collection('clients/'+id+'/'+k).onSnapshot(s=>{
