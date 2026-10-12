@@ -30,3 +30,16 @@ Runs weekdays, every hour from 7am to 6pm Pacific. Silent: no message to Kev unl
 ## Admin split (Kev, 8 October 2026)
 
 admin@edenexec.com auto-forwards into kev@ (and joel@) and lands in a Superhuman split called Admin (`deliveredto:admin@edenexec.com OR to:admin@edenexec.com`). Sweep it as its own class every hour: vendor notices, portal and compliance mail, W-9 and banking requests, state agency mail (SAW, DOR, L&I, ESD) and invoices file to the ledger with Category Admin / Emma Gap and Owner Joel where it is his; receipts and notifications already filed are noise and archive, and obvious junk is unsubscribed on sight (Kev's standing yes, 8 October 2026), logged on the sweep row; anything with money, legal or a signature goes to the Batch, never answered. Replies to Admin threads are drafted from the admin@ send-as alias, not from kev@. The personal Gmail (kdt.williams@gmail.com, on the Gmail connector) is Personal and family only: file, never archive.
+
+## The hit list (11 October 2026)
+
+At the end of every weekday sweep, follow `hit-list.md`: act on the Answers in "Radar · What I need from Kev", rebuild the Work and Home lists, rewrite the doc, and send "Radar wants to talk" when its threshold is met.
+
+## Call-backs (Kev, 11 October 2026)
+
+Kev: "All incoming calls in CloudTalk should just route to one number, the Google Voice line. Then you could watch missed calls and voicemails, run them against our Crelate contacts and leads, and rank and prioritize my call backs." Every weekday sweep:
+
+1. Read new Google Voice voicemail and missed-call emails (voicemail transcripts arrive by email once Kev turns that on in Google Voice settings) in the inbox they land in.
+2. Match each caller's number and name against Crelate (API key or Nida's weekly contact export), Superhuman contacts and signatures, the lead sheets and the ledger. Unknown numbers stay "unknown", never guessed.
+3. Rank: clients with an open job order and candidates in process (offer, interview, submittal) first, then warm leads, then new names, then vendors and spam. One line each: who, company, what they want (from the transcript), why it ranks there, and the number to dial.
+4. Put the ranked call-backs at the top of the hit list's Work section and on the paper; spam and robocalls are dropped and counted, not listed.

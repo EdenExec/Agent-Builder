@@ -143,6 +143,8 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 - 10 October 2026 (Kev): **Atlas episodes live on the Atlas Desk.** "Spin up a media library in Atlas's Desk... It should be standalone only in Atlas's Desk." The Atlas Desk (https://claude.ai/artifact/Hy19F4FNCKe18QHUvRqj6h) now has Home tickets, a Listen library (resume where you stopped, 15-second skips, speed, clips with notes), Lessons, Reading (books $10 to $15 each, a big prize per finished series that Kev sets), Scouts (pack, rank, adventures tied to tracks) and the Bank. The Eden Desk carries a link to `#listen`, never the MP3 itself. Spec in `employees/atlas/skills/atlas-desk.md`.
 - 10 October 2026 (Kev): **KDTW Group for everything not recruiting.** "All mentions of Eden Partner Group should move to KDTW Group for any home projects / family projects / and projects not focused on recruiting." Atlas, Marlowe, the Atlas Desk, Marlowe's Desk and boards, home and ranch plans, the Sunday Edition and the Eden Journal carry KDTW GROUP. Recruiting, clients, candidates, invoices, the Eden Desk and the weekday paper keep Eden Partner Group. Legal and finance records that name the entity (payroll, the Boise HQ move) are facts, not branding, and are not renamed. Details in `employees/_shared/eden-brand.md`.
 - 10 October 2026 (Kev): the Eden Desk carries an "Ask Atlas" panel under Today (the `sample` capability; thread in collection `atlas_chat`, docs {q, a, at, who, cut}). Keep it on every republish: read the live Desk first, edit in place, and when passing `capabilities` restate the full union (user, db with its two data/users rules, downloads, sample); a declaration that drops a name revokes it. Source copy: `employees/atlas/desk/eden-desk-index.html`.
+- 11 October 2026 (Kev): **the voice hit list.** Kev clears decisions by voice: "Radar, what do you need from me?" in a Claude voice chat walks the Google Doc "Radar · What I need from Kev", one item at a time, my pick first, his answer logged. Work hours (Mon to Fri 7:00 to 5:30) carry only Eden Partner Group items plus personal items that need a decision today; after hours open with a "Last time" catch-up on the personal projects. Every sweep and check-out acts on his answers and rewrites the list; "Radar wants to talk" pushes when it backs up. He keeps his Google Voice number and forwards it to a future Radar phone line. Spec: `skills/hit-list.md`.
+- 11 October 2026 (Kev): **Q and Scout hired.** Q (`employees/q/`, named for Bond's quartermaster) is the back-of-house software engineer: the Crelate mirror, the Eden CRM, the systems wiring and Scout's tools; send him every software or data question; any write into Crelate is a `write_external` QC item; he studies Kev's training recordings first. Scout (`employees/scout/`) lives in ZoomInfo and LinkedIn search, builds every lead list for a live search and owns the market map; Radar sends lead-list requests to Scout and files its sheets. Both run on Sonnet. Details in `roster-liaison.md`.
 
 
 ==================== PLAYBOOK: ledger (employees/radar/skills/ledger.md) ====================
@@ -187,6 +189,15 @@ The ledger is the Notion database **Daily Catch-Up Items** (data source `collect
 | Admin | Bills, forms, scheduling, vendor replies, bookkeeping questions. Batched into one block a day. |
 | Family | Ally, the kids, home, the Boise move, Eden Ranch and Excursions planning time |
 | Formation | Scripture, journaling, C12, Main Street, rest |
+
+## Reading the ledger without burning the Notion quota (11 October 2026)
+
+On Kev's Notion plan the SQL query tool (`notion-query-data-sources` in sql mode) has a small shared workspace allowance; hourly sweeps used it up on 10 October. Saved views have no quota. So:
+
+- **Read through the two saved views** with `mode: "view"`, paging with `next_cursor`: "Radar · Open for Kev" (`view://3f625d7d-12f4-8178-8f0a-000c76ff5fa3`, Status not Done and Owner Kev or Lane Batch) for the paper, the check-out and the hit list; "Radar · All open" (`view://3f625d7d-12f4-8192-a255-000ca93c1ae5`, Status not Done) for the sweep's search-before-create and the Friday review.
+- **Read once per run.** Pull the view at the start of a sweep, keep it in memory, and match against it; never query per email.
+- **Find one row** with `notion-search` scoped to the ledger, not SQL.
+- **SQL only** for a one-off question no view answers, at most once per run, and never inside a loop.
 
 
 ==================== PLAYBOOK: interrupt-rules (employees/radar/skills/interrupt-rules.md) ====================
@@ -263,6 +274,19 @@ Runs weekdays, every hour from 7am to 6pm Pacific. Silent: no message to Kev unl
 ## Admin split (Kev, 8 October 2026)
 
 admin@edenexec.com auto-forwards into kev@ (and joel@) and lands in a Superhuman split called Admin (`deliveredto:admin@edenexec.com OR to:admin@edenexec.com`). Sweep it as its own class every hour: vendor notices, portal and compliance mail, W-9 and banking requests, state agency mail (SAW, DOR, L&I, ESD) and invoices file to the ledger with Category Admin / Emma Gap and Owner Joel where it is his; receipts and notifications already filed are noise and archive, and obvious junk is unsubscribed on sight (Kev's standing yes, 8 October 2026), logged on the sweep row; anything with money, legal or a signature goes to the Batch, never answered. Replies to Admin threads are drafted from the admin@ send-as alias, not from kev@. The personal Gmail (kdt.williams@gmail.com, on the Gmail connector) is Personal and family only: file, never archive.
+
+## The hit list (11 October 2026)
+
+At the end of every weekday sweep, follow `hit-list.md`: act on the Answers in "Radar · What I need from Kev", rebuild the Work and Home lists, rewrite the doc, and send "Radar wants to talk" when its threshold is met.
+
+## Call-backs (Kev, 11 October 2026)
+
+Kev: "All incoming calls in CloudTalk should just route to one number, the Google Voice line. Then you could watch missed calls and voicemails, run them against our Crelate contacts and leads, and rank and prioritize my call backs." Every weekday sweep:
+
+1. Read new Google Voice voicemail and missed-call emails (voicemail transcripts arrive by email once Kev turns that on in Google Voice settings) in the inbox they land in.
+2. Match each caller's number and name against Crelate (API key or Nida's weekly contact export), Superhuman contacts and signatures, the lead sheets and the ledger. Unknown numbers stay "unknown", never guessed.
+3. Rank: clients with an open job order and candidates in process (offer, interview, submittal) first, then warm leads, then new names, then vendors and spam. One line each: who, company, what they want (from the transcript), why it ranks there, and the number to dial.
+4. Put the ranked call-backs at the top of the hit list's Work section and on the paper; spam and robocalls are dropped and counted, not listed.
 
 
 ==================== PLAYBOOK: invoicing (employees/radar/skills/invoicing.md) ====================

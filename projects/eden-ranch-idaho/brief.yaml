@@ -1,0 +1,48 @@
+project: Eden Ranch, Idaho (KDTW Group)
+audience: family
+status: draft
+site:
+  jurisdiction: "Treasure Valley, ID (candidates: Ada, Canyon, Gem, Elmore counties; parcel not chosen, studies provisional)"
+  views: "River or water frontage wanted; within 50 minutes of Boise airport (BOI)"
+  utilities: "Unknown. Likely well and septic on 40+ acres."
+  constraints:
+    - "Land not bought. No purchase year set."
+    - "Water rights and irrigation rights unverified."
+    - "Floodplain and riparian setbacks likely if on a river. UNVERIFIED."
+program:
+  type: ranch
+  bedrooms: 5
+  bathrooms: 4
+  stories: 2
+  mustHaves:
+    - "Modern ranch, U-shaped walkout / daylight-basement main house, Usonian scale but sized to host guests"
+    - "Easy hospitality use; outbuildings that can earn income while the family is away"
+    - "Livestock: sheep, goats, a donkey, chickens; coop, greenhouse, shop"
+    - "Kitchen open to living, pantry and mudroom at kitchen door, pocket office off main suite, main suite as east arm"
+    - "Lower level: kids' rooms, family room with bar, hitting bay at walkout patio"
+    - "Long covered walks between buildings, no short breezeways"
+  niceToHaves:
+    - "Bermed self-care circuit (hot tub, cold plunge, outdoor shower), living-garden roof with hidden gazebo bar"
+    - "Pool, fire pit, pond corner for trap and sporting clays"
+    - "Phasing: small homes first, main house later, one cohesive design"
+style:
+  words: ["modern ranch", "mid-century", "Scandinavian", "Usonian"]
+  materials: ["concrete", "wood", "shou sugi ban exterior"]
+  references: ["Frank Lloyd Wright", "Liljestrand House", "Ung Studio", "Isaac French"]
+  avoid: []
+budget:
+  low: 1500000
+  high: 3000000
+  confidence: rough
+timeline: "Planning through 2027; build a few years out. Land search timing not set."
+assumptions:
+  - "Budget $1.5M to $3M for land plus build, rough, from Kev 11 Oct 2026. At this range expect smaller acreage, inland or pond water, and phasing (small homes first). UNVERIFIED against current Treasure Valley land prices."
+  - "Bedroom and bathroom counts (5 / 4) are my placeholders from the hub's room list: main suite, two guest rooms, kids' rooms. Please correct."
+  - "Watch cost per sq ft closely (from the hub); get creative on it."
+  - "40+ acres, compound on 5 to 10 acres, rest for ranch and farming (from the hub)."
+  - "HQ stays near Boise; this ranch is the primary home, hospitality-capable."
+  - "Second property, NorCal near Lincoln / Auburn / Grass Valley / Nevada City, is a separate project: small cottage or off-grid RV first, long-term holiday home if the rice farm goes ahead."
+openQuestions:
+  - "Land purchase year."
+  - "Is income from outbuildings (guest cottages, short-term stays) a goal or a bonus? It changes zoning and septic."
+  - "River frontage vs. pond or irrigation water: how firm is 'on the water'?"

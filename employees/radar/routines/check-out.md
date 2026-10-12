@@ -143,6 +143,8 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 - 10 October 2026 (Kev): **Atlas episodes live on the Atlas Desk.** "Spin up a media library in Atlas's Desk... It should be standalone only in Atlas's Desk." The Atlas Desk (https://claude.ai/artifact/Hy19F4FNCKe18QHUvRqj6h) now has Home tickets, a Listen library (resume where you stopped, 15-second skips, speed, clips with notes), Lessons, Reading (books $10 to $15 each, a big prize per finished series that Kev sets), Scouts (pack, rank, adventures tied to tracks) and the Bank. The Eden Desk carries a link to `#listen`, never the MP3 itself. Spec in `employees/atlas/skills/atlas-desk.md`.
 - 10 October 2026 (Kev): **KDTW Group for everything not recruiting.** "All mentions of Eden Partner Group should move to KDTW Group for any home projects / family projects / and projects not focused on recruiting." Atlas, Marlowe, the Atlas Desk, Marlowe's Desk and boards, home and ranch plans, the Sunday Edition and the Eden Journal carry KDTW GROUP. Recruiting, clients, candidates, invoices, the Eden Desk and the weekday paper keep Eden Partner Group. Legal and finance records that name the entity (payroll, the Boise HQ move) are facts, not branding, and are not renamed. Details in `employees/_shared/eden-brand.md`.
 - 10 October 2026 (Kev): the Eden Desk carries an "Ask Atlas" panel under Today (the `sample` capability; thread in collection `atlas_chat`, docs {q, a, at, who, cut}). Keep it on every republish: read the live Desk first, edit in place, and when passing `capabilities` restate the full union (user, db with its two data/users rules, downloads, sample); a declaration that drops a name revokes it. Source copy: `employees/atlas/desk/eden-desk-index.html`.
+- 11 October 2026 (Kev): **the voice hit list.** Kev clears decisions by voice: "Radar, what do you need from me?" in a Claude voice chat walks the Google Doc "Radar · What I need from Kev", one item at a time, my pick first, his answer logged. Work hours (Mon to Fri 7:00 to 5:30) carry only Eden Partner Group items plus personal items that need a decision today; after hours open with a "Last time" catch-up on the personal projects. Every sweep and check-out acts on his answers and rewrites the list; "Radar wants to talk" pushes when it backs up. He keeps his Google Voice number and forwards it to a future Radar phone line. Spec: `skills/hit-list.md`.
+- 11 October 2026 (Kev): **Q and Scout hired.** Q (`employees/q/`, named for Bond's quartermaster) is the back-of-house software engineer: the Crelate mirror, the Eden CRM, the systems wiring and Scout's tools; send him every software or data question; any write into Crelate is a `write_external` QC item; he studies Kev's training recordings first. Scout (`employees/scout/`) lives in ZoomInfo and LinkedIn search, builds every lead list for a live search and owns the market map; Radar sends lead-list requests to Scout and files its sheets. Both run on Sonnet. Details in `roster-liaison.md`.
 
 
 ==================== PLAYBOOK: ledger (employees/radar/skills/ledger.md) ====================
@@ -188,6 +190,15 @@ The ledger is the Notion database **Daily Catch-Up Items** (data source `collect
 | Family | Ally, the kids, home, the Boise move, Eden Ranch and Excursions planning time |
 | Formation | Scripture, journaling, C12, Main Street, rest |
 
+## Reading the ledger without burning the Notion quota (11 October 2026)
+
+On Kev's Notion plan the SQL query tool (`notion-query-data-sources` in sql mode) has a small shared workspace allowance; hourly sweeps used it up on 10 October. Saved views have no quota. So:
+
+- **Read through the two saved views** with `mode: "view"`, paging with `next_cursor`: "Radar · Open for Kev" (`view://3f625d7d-12f4-8178-8f0a-000c76ff5fa3`, Status not Done and Owner Kev or Lane Batch) for the paper, the check-out and the hit list; "Radar · All open" (`view://3f625d7d-12f4-8192-a255-000ca93c1ae5`, Status not Done) for the sweep's search-before-create and the Friday review.
+- **Read once per run.** Pull the view at the start of a sweep, keep it in memory, and match against it; never query per email.
+- **Find one row** with `notion-search` scoped to the ledger, not SQL.
+- **SQL only** for a one-off question no view answers, at most once per run, and never inside a loop.
+
 
 ==================== PLAYBOOK: trust-ramp (employees/radar/skills/trust-ramp.md) ====================
 
@@ -214,14 +225,14 @@ Recommended gate for stage 2: open it at the second Friday review if the daily d
 
 # Roster liaison (front door for every employee)
 
-Other employees never wait on Kev separately. Radar reads their asks, chases their stalled work, and brings their questions into Kev's batch. Marlowe (housing architect) is the first; Atlas (the family tutor, `employees/atlas/`) is the second: his Desk is the family's learning ledger (`employees/atlas/desk.json`), and the Sunday Edition carries an "Atlas week" box built from it (lessons done, teach-backs passed, minutes and allowance earned, next week's lessons). Anyone hired later is handled the same way.
+Other employees never wait on Kev separately. Radar reads their asks, chases their stalled work, and brings their questions into Kev's batch. Marlowe (housing architect) is the first; Atlas (the family tutor, `employees/atlas/`) is the second: his Desk is the family's learning ledger (`employees/atlas/desk.json`), and the Sunday Edition carries an "Atlas week" box built from it (lessons done, teach-backs passed, minutes and allowance earned, next week's lessons). Q (the back-of-house software engineer, `employees/q/`, hired 11 Oct 2026) is the third: he owns the Crelate mirror and the road to Eden's own CRM, ties the systems together and builds Scout's tooling; his `write_external` QC items (any write into Crelate or another live system) come to Kev with the exact records and fields. Scout (`employees/scout/`, hired 11 Oct 2026) is the fourth: it lives in ZoomInfo and LinkedIn search, builds the lead lists for live searches and owns the market map; its sheets reach the Desk through Radar, and its Crelate loads and credit spends come to Kev as QC items. Anyone hired later is handled the same way.
 
 ## Where employees put things
 
 | Channel | What it holds | Radar reads it with |
 |---|---|---|
 | The Desk (`employees/<id>/desk.json` has the URL; Marlowe's is https://claude.ai/artifact/2eHGZMaWKJox5hFGHYWLPo) | Ask cards in collection `asks`: decision, approval, review, info; each with `employee`, `recommended`, `defaultIfSilent`, `urgency` | `ArtifactData` query, collection `asks`, `where status == open` |
-| `qc/pending/` | Gated actions: spend, send_message, publish, modify_brief, delete | `npm run qc` when the repo is present; otherwise the Desk approval cards that mirror them |
+| `qc/pending/` | Gated actions: spend, send_message, publish, modify_brief, delete, write_external | `npm run qc` when the repo is present; otherwise the Desk approval cards that mirror them |
 | `projects/<slug>/decisions.md` and `brief.yaml` | What each project has decided and assumed | Read when chasing |
 | `employees/<id>/memory/live/` | What the employee has learned | Read when a question repeats |
 
@@ -280,6 +291,10 @@ Weekdays 5:30pm Pacific. A live conversation with Kev, not a report. Closes toda
 After the hand-off on Fridays, run `week-review.md` in the same conversation: the three tables, the trust-ramp question, the archive count and the "Week ahead" row. One push ("Radar: week review is ready, 3 taps") only if Kev has left the conversation.
 
 Don't ask Kev to organise anything himself. Capture and file it all for him.
+
+## The hit list (11 October 2026)
+
+Before the check-out ends, follow `hit-list.md`: act on the Answers, rebuild the doc for the evening (Home list first after 5:30), and note in the check-out how many items Kev cleared by voice today.
 
 
 ==================== PLAYBOOK: week-review (employees/radar/skills/week-review.md) ====================
