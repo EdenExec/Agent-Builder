@@ -171,6 +171,8 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   const slugOf=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
   const age=d=>{if(!d)return null;const n=Math.floor((Date.now()-new Date(d+'T12:00:00').getTime())/864e5);return isNaN(n)?null:n};
   const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+  // the store hands back frozen data: take an editable copy of every document before the page touches it
+  const own=d=>Object.assign({id:d.id},JSON.parse(JSON.stringify(d.data()||{})));
   const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 
   // Live schema: clients/{slug}; clients/{slug}/{depth|leads|notes|resources|meetings}/{id}; playbooks/{id}.
@@ -435,7 +437,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     if(id&&db){['depth','leads','notes','resources','meetings'].forEach(k=>{
       state.unsubs.push(db.collection('clients/'+id+'/'+k).onSnapshot(s=>{
         if(state.open!==id)return;
-        let rows=s.docs.map(x=>Object.assign({id:x.id},x.data()));
+        let rows=s.docs.map(own);
         const base='clients/'+id+'/'+k+'/';
         rows=rows.map(r=>state.pending[base+r.id]>0?(state.sections[k].find(x=>x.id===r.id)||r):r);
         state.sections[k].forEach(x=>{if(state.pending[base+x.id]>0&&!rows.some(r=>r.id===x.id))rows.push(x)});
@@ -468,8 +470,8 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     try{db=await window.claude.use('db')}catch(e){db=null}
     if(!db){setStatus('not connected');render(true);return}
     state.live=true;
-    db.collection('clients').onSnapshot(s=>setClients(s.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{setStatus('could not read clients')});
-    db.collection('playbooks').onSnapshot(s=>{state.playbooks=s.docs.map(d=>Object.assign({id:d.id},d.data()));render()},()=>{});
+    db.collection('clients').onSnapshot(s=>setClients(s.docs.map(own)),()=>{setStatus('could not read clients')});
+    db.collection('playbooks').onSnapshot(s=>{state.playbooks=s.docs.map(own);render()},()=>{});
     try{const u=await window.claude.use('user');if(u){state.canEdit=!!(await u.canEdit());render(true)}}catch(_){}
     try{const d=await window.claude.use('downloads');if(d){state.dl=d;state.downloads=true;render(true)}}catch(_){}
   })();
