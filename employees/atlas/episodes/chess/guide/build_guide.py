@@ -46,7 +46,7 @@ def board(pos, files='abcdefgh', ranks='87654321', sq=44, marks=None, arrows=Non
     for ri, r in enumerate(ranks):
         for fi, f in enumerate(files):
             x = pad_l + 1 + fi * sq; y = 1 + ri * sq; xy[f + r] = (x, y)
-            dark = (FILES.index(f) + int(r)) % 2 == 0
+            dark = (FILES.index(f) + int(r)) % 2 == 1
             out.append(f'<rect x="{x}" y="{y}" width="{sq}" height="{sq}" fill="{DARK if dark else LIGHT}"/>')
     out.append(f'<rect x="{pad_l + .5}" y=".5" width="{sq * len(files) + 1}" height="{sq * len(ranks) + 1}" fill="none" stroke="#5a4a32" stroke-width="1"/>')
     for s, kind in marks.items():
