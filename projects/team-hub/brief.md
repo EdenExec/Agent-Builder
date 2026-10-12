@@ -1,47 +1,56 @@
-# Team hub: depth charts, lead buckets and project notes in one place (Kev, 12 October 2026)
+# Team hub: one place for depth charts, lead lists, project notes and resources (Kev, 12 October 2026)
 
-Decision (Kev, 12 October): a **private artifact, team only**. No public site. Extend the existing Eden Desk (`claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G`) instead of building a second page.
+Direction (Kev, 12 October, replaces the first plan):
 
-## Why private
+- A **fresh standalone artifact**, shared with the whole team. The Eden Desk stays private to Kev and gets no team sections.
+- **Segmented by client.** Each client (PB South, Triton, VMG, Prometheus, Hoffman, Pence Kelly, Megawatt and more) is a closed folder. Nothing from one client shows until that client is opened. Reason: when someone screen-shares with Triton, Triton must not see PB South, and VMG must not see Hoffman.
+- Landing view is closed folders only: no cross-client totals, counts or names inside.
+- Nothing from Kev's coaching, email or finance goes on it. Finance and Tally stay off.
+- Private, named sharing only. No public link. Sharing is Kev's yes once he names the roster.
 
-Depth charts name candidates and their status. A public link would put that in front of anyone, including competitors and the candidates' employers. Even the private hub shows names plus role and status only: no pay, phone, email or home details.
+## What the draft does
 
-## What the Desk already has
+`projects/team-hub/draft/eden-hub.html`, in Eden's look, with example rows until a database exists.
 
-Collections in its database: `days` (the daily folder), `charts` (depth-chart PDFs), `settings/modes`, `atlas_chat`, and per-person scorecards. It reads and writes through the artifact's database, so content changes go through `ArtifactData` and the page is not republished.
+- Landing: a find box, a Screen-share mode button, closed client folders, and an "Eden playbooks" folder for material that is not client specific.
+- Opening a folder replaces the list: only that client shows (depth chart as seat columns, lead lists table, project notes, resources). "All clients" returns.
+- **Screen-share mode** hides every client name. You type the client you are presenting to and press Enter; only that client shows, with no way back to the list on screen. A link ending in `#triton` opens that client directly.
+- When live, an open folder reads only that client's rows, so another client's data is never loaded into the page while presenting.
+- The page only reads. Radar, Scout and Q write rows with `ArtifactData`; nobody edits from the page.
 
-## What we add
+Checked once in a browser at 400px and desktop, light and dark: no sideways scroll, no script errors, and the isolation checks pass (opening Triton shows no PB South or VMG text; screen-share mode shows no client names). Not tested against a live database and not published or shared.
 
-| Section | Collection | One row is | Filled by |
-|---|---|---|---|
-| Depth charts (live view, next to the PDFs) | `depth` | One client search: client, project, last updated, source link, seats: [{seat, title, location, people: [{name, status, note}]}] | Radar and the owning recruiter |
-| Lead buckets | `buckets` | One bucket and metro: bucket, metro, tiers {A,B,C counts}, total, sheet link, Crelate list name, owner, last pull, new since last visit | Scout, with Radar |
-| Project notes | `notes` | One project: slug, title, status (active, waiting, done), owner, last decision, next steps, links, updated | Whoever owns the project; Q for eden-crm and finance |
+## Database layout (keyed by client)
 
-Status words for people on a depth chart follow the existing colour codes: interviewing, offer letter, PTC, pending PTC, background, future play, pass, pass offer, waiting on resume.
+| Path | One document is | Fields |
+|---|---|---|
+| `clients/{slug}` | A client folder | name, sort, updated |
+| `clients/{slug}/depth/{id}` | One depth chart | title, updated, source, seats [{seat, loc, people [{name, status, note}]}] |
+| `clients/{slug}/leads/{id}` | One lead list | pool, project, role, metro, leads, owner, sheet, built |
+| `clients/{slug}/notes/{id}` | One project note | title, status (active, waiting, done), owner, decision, next [..], links [{title, url}], updated |
+| `clients/{slug}/resources/{id}` | One link | title, kind, url, note, updated |
+| `playbooks/{id}` | An Eden-wide resource | title, kind, url, note, updated |
+
+Slugs are lowercase letters, digits and hyphens (`triton`, `pb-south`).
+
+Declare `capabilities: {db: {rules: [{path: "", read: "view", write: "admin"}]}}` so teammates read and only editors write. A rule can later lock a single client's path if a client ever needs a separate audience.
 
 ## Rules
 
-- Names plus role and status only. Nothing with pay, phone, email, home address or EEO data. Salary talk stays in Crelate.
-- Family and KDTW material (Eden Ranch, Marlowe) does not appear in the team hub.
-- Source and date on every row ("Crelate portal, 8 Oct"). A row older than 14 days shows "check with owner".
-- Sharing is named people only. The share step is Kev's yes, a publish/share QC item.
+- Names plus role and status only. No pay, phone, email, home address or EEO data.
+- Family and KDTW material stays out. Finance stays out.
+- Source and date on every row. A row older than 14 days shows "check with owner".
+- Anyone who can open the hub can read every client in it. The folders protect a screen share, not access: do not share with anyone who should not see all clients.
 
-## Build steps
+## Seed (Radar, 12 October)
 
-1. Radar agrees the schema and who edits the Desk (sent 12 October).
-2. Mock the three sections and seed from real data: Triton, PB South and VMG depth charts; Boise and national PE buckets; eden-crm, finance, Triton screener stats notes.
-3. Republish the Desk once with the new sections and a "last updated by" line per row. Check it on a phone.
-4. Kev reviews, then shares with named teammates.
+- PB South: Project X (Miami) has 11 role buckets, 651 leads, built 9 Oct. Pool A, one sheet per role, folder `1yO3P2KJ_9fzWtLlt6MwCv2cIXm5uXfMU` (PE 65, SPM 66, VT 69, Asst MEP 66, Safety 51, Controller 60). Pool B, one sheet per role, folder `1X8FZdKoiLsld7PGKLDni_wcPEvcztWGm` (Accountant 57, Procurement 58, Admin 59, BIM 57, Demo 43). Controller owner Noah; the other ten unassigned.
+- VMG Supers DC (25) and Prometheus Sr PM/PM (27), both owned by Andrew.
+- Triton: depth chart and shot clock from `projects/eden-crm/reports/2026-10-12-triton-screener-stats.md` (internal names; the client version never shows names).
 
-## Draft (12 October, for Radar to merge)
+## Steps
 
-`projects/team-hub/draft/team-hub-sections.html` is a standalone mock of the three sections in the Desk's look, with example rows (marked on the page). It reads the db collections `depth`, `buckets` and `notes`; once a collection has rows, they replace the examples, and an empty live collection shows a designed empty state. Checked once in a browser at phone (400px) and desktop widths, light and dark, no sideways scroll, no script errors. Not tested against the live Desk database, and not published or shared.
-
-Row fields:
-
-- `depth`: client, project, updated, source, seats [{seat, loc, people [{name, status, note}]}]
-- `buckets`: pool, project, role, metro, leads, owner, sheet, built
-- `notes`: title, status (active, waiting, done), owner, decision, next [..], links [{title, url}], updated
-
-Project notes first cut (Radar, 12 October): PB South (West Palm and Project X Miami), VMG, Prometheus, Triton (link the screener stats), eden-crm. Finance and Tally stay off the team hub: Kev, Joel and Nick only.
+1. Radar publishes `eden-hub.html` as a new private artifact with the db declaration above.
+2. Seed the client folders with `ArtifactData`, one client at a time.
+3. Read back one client as a lower-level viewer to confirm teammates can read.
+4. Kev names the roster and approves sharing.

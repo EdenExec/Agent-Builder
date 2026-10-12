@@ -1,0 +1,241 @@
+<title>Eden Team Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: a landing of closed client folders and nothing else; opening one folder shows only that client's depth chart, lead lists, notes and resources. Screen-share mode hides the folder list. */
+:root{
+  --bg:#FAF8F4; --paper:#FFFFFF; --ink:#1A1A1A; --mute:#6F695D; --line:#EAE4D8; --gold:#8F6F3E; --gold-soft:#EFE6D8;
+  --pos:#3D6B4F; --warn:#8A6A1F; --neg:#8A3A32; --pos-bg:#E4EEE7; --warn-bg:#F3EAD0; --neg-bg:#F1DDD9; --info-bg:#E9E6DD;
+  --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#050504; --paper:#0e0e0c; --ink:#f7f3e8; --mute:#a39d8d; --line:#242219; --gold:#c9a24a; --gold-soft:#1a1710;
+  --pos:#7DB391; --warn:#D9B45E; --neg:#D4857B; --pos-bg:#14231b; --warn-bg:#2a2410; --neg-bg:#2c1815; --info-bg:#1b1a15; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#050504; --paper:#0e0e0c; --ink:#f7f3e8; --mute:#a39d8d; --line:#242219; --gold:#c9a24a; --gold-soft:#1a1710;
+  --pos:#7DB391; --warn:#D9B45E; --neg:#D4857B; --pos-bg:#14231b; --warn-bg:#2a2410; --neg-bg:#2c1815; --info-bg:#1b1a15; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;padding-inline:16px;padding-block:28px 90px;line-height:1.45}
+.wrap{max-width:1040px;margin:0 auto;display:grid;gap:10px}
+.wrap>*{min-width:0}
+.brand{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+h1{font-weight:800;font-size:32px;letter-spacing:-.5px;text-transform:uppercase;line-height:1.05;margin:8px 0 0;text-wrap:balance}
+.sub{font-size:13px;color:var(--mute);max-width:64ch;margin:0}
+.hr{height:1px;background:linear-gradient(to right,var(--gold) 0%,var(--line) 14%);margin:10px 0 4px}
+a{color:var(--gold)}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input[type=search]{font:inherit;font-size:14px;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:8px;padding:11px 12px;flex:1 1 240px;min-width:0}
+.btn{font:inherit;font-weight:700;font-size:12px;letter-spacing:.4px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:11px 14px;cursor:pointer;min-height:44px}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.sample{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:var(--warn-bg);color:var(--warn);border-radius:4px;padding:3px 7px}
+
+/* folders */
+.folders{display:grid;gap:10px}
+.folders>*,.fbody>*,.sec{min-width:0}
+.folder{background:var(--paper);border:1px solid var(--line);border-radius:10px;min-width:0}
+.fhead{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;padding:16px 18px;cursor:pointer;min-height:56px}
+.fhead:focus-visible{outline:2px solid var(--gold);outline-offset:-2px;border-radius:10px}
+.fname{font-weight:800;font-size:16px;letter-spacing:-.2px;flex:1;min-width:0;overflow-wrap:anywhere}
+.fmeta{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--mute)}
+.caret{width:10px;height:10px;border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(-45deg);transition:transform .15s}
+.folder[data-open="true"] .caret{transform:rotate(45deg)}
+.fbody{padding:0 18px 20px;display:grid;gap:22px;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:reduce){.caret{transition:none}}
+.sec h3{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:700;margin:18px 0 8px}
+.chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;border-radius:4px;padding:3px 7px;white-space:nowrap;background:var(--info-bg);color:var(--ink);justify-self:start}
+.chip.pos{background:var(--pos-bg);color:var(--pos)}.chip.warn{background:var(--warn-bg);color:var(--warn)}.chip.neg{background:var(--neg-bg);color:var(--neg)}
+.meta{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.4px}
+.stale{color:var(--warn)}
+
+/* depth chart */
+.dc-head{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline;justify-content:space-between;margin:0 0 10px}
+.dc-head h4{font-size:15px;font-weight:800;margin:0}
+.seats{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;align-items:start}
+.seat{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;min-width:0}
+.seat h5{font-size:13px;font-weight:800;margin:0}
+.loc{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--mute);margin-top:2px}
+.people{list-style:none;margin:8px 0 0;padding:0}
+.people li{display:grid;gap:3px;padding:9px 0;border-top:1px solid var(--line);min-width:0}
+.people li:first-child{border-top:0}
+.people b{font-size:13.5px;overflow-wrap:anywhere}
+.people small{color:var(--mute);font-size:11.5px;overflow-wrap:anywhere}
+.open{color:var(--mute);font-size:12.5px;padding:9px 0}
+
+/* tables and cards */
+.scroll{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:13px}
+th{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);font-weight:500;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+td small{display:block;color:var(--mute);font-size:11.5px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:14px;display:grid;gap:8px;min-width:0;align-content:start}
+.card h4{font-size:14px;font-weight:800;margin:0}
+.card p{margin:0;font-size:13px;overflow-wrap:anywhere}
+.k{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);margin-bottom:2px}
+.card ul{margin:0;padding-left:1.1em;font-size:13px;display:grid;gap:3px}
+.links{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:13px}
+.res{list-style:none;margin:0;padding:0;display:grid;gap:0;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+.res li{padding:12px 14px;border-top:1px solid var(--line);display:grid;gap:2px;min-width:0}
+.res li:first-child{border-top:0}
+.res a{font-weight:700;overflow-wrap:anywhere}
+.empty{background:var(--bg);border:1px dashed var(--line);border-radius:8px;padding:14px;color:var(--mute);font-size:13px}
+.back{all:unset;cursor:pointer;color:var(--gold);font-weight:700;font-size:12.5px;min-height:44px;display:inline-flex;align-items:center}
+.back:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.foot{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;color:var(--mute);border-top:1px solid var(--line);padding-top:12px;margin-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;text-transform:uppercase}
+@media (max-width:480px){h1{font-size:26px}}
+</style>
+
+<div class="wrap">
+  <div class="brand">Eden Partner Group</div>
+  <h1>Team Hub</h1>
+  <p class="sub" id="sub">Pick a client to open its folder. Each folder shows only that client's depth chart, lead lists, notes and resources.</p>
+  <div class="hr"></div>
+
+  <div class="bar" id="bar">
+    <input type="search" id="find" placeholder="Type a client name" autocomplete="off" aria-label="Find a client folder">
+    <button class="btn" id="present" type="button" aria-pressed="false">Screen-share mode</button>
+    <span class="sample" id="sample" hidden>Example data</span>
+  </div>
+  <p class="sub" id="present-note" hidden>Screen-share mode is on. Client names are hidden. Type the client you are presenting to and press Enter.</p>
+
+  <div class="folders" id="folders"></div>
+  <div id="playbooks"></div>
+
+  <div class="foot"><span>Names, role and status only · no pay or contact details</span><span id="status">connecting</span></div>
+</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const safeUrl=u=>/^https?:/i.test(String(u||''))?String(u):'#';
+  const slugOf=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const age=d=>{if(!d)return null;const n=Math.floor((Date.now()-new Date(d+'T12:00:00').getTime())/864e5);return isNaN(n)?null:n};
+
+  // ---- example rows, shown only when the page has no database. Live schema: clients/{slug}/{depth|leads|notes|resources}/{id}, and playbooks/{id} for Eden-wide material. ----
+  const POOLA='https://drive.google.com/drive/folders/1yO3P2KJ_9fzWtLlt6MwCv2cIXm5uXfMU', POOLB='https://drive.google.com/drive/folders/1X8FZdKoiLsld7PGKLDni_wcPEvcztWGm';
+  const SAMPLE={
+    clients:[{id:'triton',name:'Triton Construction',sort:1,updated:'2026-10-12'},{id:'pb-south',name:'PB South',sort:2,updated:'2026-10-12'},{id:'vmg',name:'VMG',sort:3,updated:'2026-10-09'},{id:'prometheus',name:'Prometheus',sort:4,updated:'2026-10-09'}],
+    data:{
+      triton:{depth:[{id:'d1',title:'West Palm Beach and South Beach',updated:'2026-10-12',source:'Kev email 5 Oct; depth chart 8 Oct',seats:[
+        {seat:'Procurement',loc:'West Palm Beach / Miami',people:[{name:'Shane Tedder',status:'PTC',note:'Estimator / Purchasing seat'},{name:'Gerardo Icaza',status:'PTC',note:'Sr. Procurement Manager'},{name:'Kristof Anderson',status:'PTC',note:'Procurement Engineer or APM'}]},
+        {seat:'Superintendent',loc:'West Palm Beach',people:[{name:'Marc Malloy',status:'PTC',note:'Asst Super / Super, seat 2'},{name:'Sam Derlis',status:'PTC',note:'Seats 2 and 4'}]},
+        {seat:'Field Engineer / APM',loc:'West Palm Beach / Miami',people:[{name:'Alessandro Colangelo',status:'PTC',note:'Field Engineer'},{name:'Andrew Farmen',status:'PTC',note:'MEP Engineer / APM'},{name:'Conner Burke',status:'PTC',note:'South Beach, seat 8'}]},
+        {seat:'To place',loc:'Miami',people:[{name:'Jacqueline Hall',status:'Pending PTC',note:'Role to be decided'}]}]}],
+        leads:[],notes:[{id:'n1',title:'Screener stats',status:'active',owner:'Kev',decision:'Present 9 candidates on 5 Oct; track days waiting on Triton feedback.',next:['Walk Triton through the screener stats on Zoom','Chase written feedback on every seat'],links:[],updated:'2026-10-12'}],resources:[]},
+      'pb-south':{depth:[],leads:[
+        {id:'l1',pool:'A',project:'Project X (Miami)',role:'Project Engineer',metro:'Miami',leads:65,owner:'',sheet:POOLA,built:'2026-10-09'},
+        {id:'l2',pool:'A',project:'Project X (Miami)',role:'Controller',metro:'Miami',leads:60,owner:'Noah',sheet:POOLA,built:'2026-10-09'},
+        {id:'l3',pool:'B',project:'Project X (Miami)',role:'Procurement',metro:'Miami',leads:58,owner:'',sheet:POOLB,built:'2026-10-09'}],
+        notes:[{id:'n1',title:'West Palm and Project X Miami',status:'active',owner:'Bridger',decision:'Project X lead lists built 9 Oct.',next:['Give every unassigned list an owner'],links:[],updated:'2026-10-12'}],
+        resources:[{id:'r1',title:'Pool A lead sheets',kind:'Drive folder',url:POOLA,note:'One sheet per role',updated:'2026-10-09'},{id:'r2',title:'Pool B lead sheets',kind:'Drive folder',url:POOLB,note:'One sheet per role',updated:'2026-10-12'}]},
+      vmg:{depth:[],leads:[{id:'l1',pool:'',project:'VMG',role:'Supers (DC)',metro:'Washington DC',leads:25,owner:'Andrew',sheet:'',built:''}],notes:[],resources:[]},
+      prometheus:{depth:[],leads:[{id:'l1',pool:'',project:'Prometheus',role:'Sr PM / PM',metro:'',leads:27,owner:'Andrew',sheet:'',built:''}],notes:[],resources:[]}},
+    playbooks:[{id:'p1',title:'Crelate tagging standard',kind:'Playbook',url:'#',note:'One spelling per tag',updated:'2026-10-11'}]
+  };
+
+  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[]},playbooks:[],present:false,sample:false,unsubs:[]};
+  try{state.present=sessionStorage.getItem('hub-present')==='1'}catch(_){}
+
+  const STATUS={'interviewing':'pos','offer letter':'pos','pending ptc':'warn','pass':'neg','pass offer':'neg','waiting on resume':'warn'};
+  const chip=s=>'<span class="chip '+(STATUS[String(s||'').toLowerCase()]||'')+'">'+esc(s||'no status')+'</span>';
+  const stale=d=>{const a=age(d);return a!=null&&a>14};
+
+  function rDepth(rows){
+    if(!rows.length)return '<div class="empty">No depth chart filed for this client yet.</div>';
+    return rows.slice().sort((a,b)=>(b.updated||'').localeCompare(a.updated||'')).map(c=>
+      '<div class="dc-head"><h4>'+esc(c.title||'Depth chart')+'</h4><span class="meta'+(stale(c.updated)?' stale':'')+'">Updated '+esc(c.updated||'unknown')+(stale(c.updated)?' · check with owner':'')+(c.source?' · '+esc(c.source):'')+'</span></div>'+
+      '<div class="seats">'+(c.seats||[]).map(s=>'<div class="seat"><h5>'+esc(s.seat)+'</h5><div class="loc">'+esc(s.loc||'')+'</div><ul class="people">'+
+        ((s.people||[]).map(p=>'<li><b>'+esc(p.name)+'</b>'+chip(p.status)+(p.note?'<small>'+esc(p.note)+'</small>':'')+'</li>').join('')||'<li class="open">Seat open</li>')+'</ul></div>').join('')+'</div>').join('');
+  }
+  function rLeads(rows){
+    if(!rows.length)return '<div class="empty">No lead lists for this client yet.</div>';
+    return '<div class="scroll"><table><thead><tr><th>Role</th><th>Market</th><th class="num">Leads</th><th>Owner</th><th>Sheet</th><th>Built</th></tr></thead><tbody>'+
+      rows.map(x=>'<tr><td><b>'+esc(x.role)+'</b><small>'+esc(x.project||'')+(x.pool?' · Pool '+esc(x.pool):'')+'</small></td><td>'+esc(x.metro||'')+'</td><td class="num">'+esc(x.leads)+'</td><td>'+(x.owner?esc(x.owner):'<span class="chip warn">Unassigned</span>')+'</td><td>'+(x.sheet?'<a href="'+esc(safeUrl(x.sheet))+'" target="_blank" rel="noopener">Open</a>':'<span class="meta">link to add</span>')+'</td><td class="meta">'+esc(x.built||'')+'</td></tr>').join('')+'</tbody></table></div>';
+  }
+  const NS={active:'pos',waiting:'warn'};
+  function rNotes(rows){
+    if(!rows.length)return '<div class="empty">No project notes yet. The project owner adds one note and keeps it current.</div>';
+    return '<div class="cards">'+rows.map(x=>'<article class="card"><h4>'+esc(x.title)+'</h4><div>'+(x.status?'<span class="chip '+(NS[x.status]||'')+'">'+esc(x.status)+'</span> ':'')+'<span class="meta">Owner '+esc(x.owner||'to assign')+' · '+esc(x.updated||'')+'</span></div>'+
+      (x.decision?'<div><div class="k">Last decision</div><p>'+esc(x.decision)+'</p></div>':'')+
+      ((x.next||[]).length?'<div><div class="k">Next</div><ul>'+x.next.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div>':'')+
+      ((x.links||[]).length?'<div class="links">'+x.links.map(l=>'<a href="'+esc(safeUrl(l.url))+'" target="_blank" rel="noopener">'+esc(l.title)+'</a>').join('')+'</div>':'')+'</article>').join('')+'</div>';
+  }
+  function rRes(rows){
+    if(!rows.length)return '<div class="empty">No resources for this client yet.</div>';
+    return '<ul class="res">'+rows.map(x=>'<li><a href="'+esc(safeUrl(x.url))+'" target="_blank" rel="noopener">'+esc(x.title)+'</a><span class="meta">'+esc(x.kind||'Link')+(x.note?' · '+esc(x.note):'')+(x.updated?' · '+esc(x.updated):'')+'</span></li>').join('')+'</ul>';
+  }
+  function folderBody(){
+    const s=state.sections;
+    return '<div class="fbody"><div class="sec"><h3>Depth chart</h3>'+rDepth(s.depth)+'</div><div class="sec"><h3>Lead lists</h3>'+rLeads(s.leads)+'</div><div class="sec"><h3>Project notes</h3>'+rNotes(s.notes)+'</div><div class="sec"><h3>Resources</h3>'+rRes(s.resources)+'</div></div>';
+  }
+
+  function render(){
+    $('present').setAttribute('aria-pressed',String(state.present));
+    $('sample').hidden=!state.sample;
+    const q=($('find').value||'').trim().toLowerCase();
+    if(state.present&&!state.open){
+      $('present-note').hidden=false;$('present-note').textContent='Screen-share mode is on. Client names are hidden. Type the client you are presenting to and press Enter.';
+      $('folders').innerHTML='';$('playbooks').innerHTML='';$('sub').hidden=true;return;
+    }
+    $('sub').hidden=false;
+    $('present-note').hidden=!state.present;
+    if(state.present)$('present-note').textContent='Screen-share mode is on. Only this client is showing. Turn it off to see the other folders.';
+    let list=state.clients.slice().sort((a,b)=>(a.sort||99)-(b.sort||99)||String(a.name).localeCompare(String(b.name)));
+    if(state.open)list=list.filter(c=>c.id===state.open);
+    else if(q)list=list.filter(c=>String(c.name).toLowerCase().includes(q));
+    if(!state.clients.length){$('folders').innerHTML='<div class="empty">No client folders yet. Radar adds one per client; it will appear here as soon as the first one is filed.</div>';$('playbooks').innerHTML='';return}
+    $('folders').innerHTML=(state.open&&!state.present?'<button class="back" id="back" type="button">← All clients</button>':'')+(list.map(c=>{
+      const open=c.id===state.open;
+      return '<div class="folder" data-open="'+open+'"><button class="fhead" type="button" data-id="'+esc(c.id)+'" aria-expanded="'+open+'" aria-controls="fb-'+esc(c.id)+'"><span class="fname">'+esc(c.name)+'</span>'+(open&&c.updated?'<span class="fmeta">Updated '+esc(c.updated)+'</span>':'')+'<span class="caret" aria-hidden="true"></span></button>'+(open?'<div id="fb-'+esc(c.id)+'">'+folderBody()+'</div>':'')+'</div>'}).join('')||'<div class="empty">No client matches that name.</div>');
+    $('playbooks').innerHTML=(!state.open&&state.playbooks.length)?'<div class="folder" data-open="false"><div class="fhead" style="cursor:default"><span class="fname">Eden playbooks</span><span class="fmeta">Not client specific</span></div><div class="fbody"><div class="sec">'+rRes(state.playbooks)+'</div></div></div>':'';
+  }
+
+  function unsubAll(){state.unsubs.forEach(u=>{try{u()}catch(_){}});state.unsubs=[]}
+  let db=null;
+  function openClient(id){
+    unsubAll();state.sections={depth:[],leads:[],notes:[],resources:[]};state.open=id||null;
+    try{history.replaceState(null,'',id?'#'+id:location.pathname+location.search)}catch(_){}
+    if(id){
+      if(state.sample){const d=SAMPLE.data[id]||{};state.sections={depth:d.depth||[],leads:d.leads||[],notes:d.notes||[],resources:d.resources||[]}}
+      else if(db){['depth','leads','notes','resources'].forEach(k=>{
+        state.unsubs.push(db.collection('clients/'+id+'/'+k).onSnapshot(s=>{if(state.open===id){state.sections[k]=s.docs.map(x=>Object.assign({id:x.id},x.data()));render()}},()=>{}));});}
+      window.scrollTo(0,0);
+    }
+    render();
+  }
+  $('folders').addEventListener('click',e=>{
+    if(e.target.closest('#back')){openClient(null);return}
+    const h=e.target.closest('.fhead[data-id]');if(!h)return;
+    openClient(state.open===h.dataset.id?null:h.dataset.id);
+  });
+  $('find').addEventListener('input',()=>{if(!state.open&&!state.present)render()});
+  $('find').addEventListener('keydown',e=>{
+    if(e.key!=='Enter')return;e.preventDefault();
+    const q=slugOf($('find').value);if(!q)return;
+    const hit=state.clients.find(c=>c.id===q||slugOf(c.name)===q)||state.clients.find(c=>slugOf(c.name).startsWith(q));
+    if(hit){$('find').value='';openClient(hit.id)}
+  });
+  $('present').addEventListener('click',()=>{
+    state.present=!state.present;try{sessionStorage.setItem('hub-present',state.present?'1':'0')}catch(_){}
+    if(state.present)$('find').value='';render();
+  });
+
+  function setClients(rows){
+    state.clients=rows;$('status').textContent=state.sample?'example data':'live';
+    const want=(location.hash||'').slice(1);
+    if(want&&!state.open&&rows.some(c=>c.id===want))openClient(want);else render();
+  }
+  (async function boot(){
+    try{db=await window.claude.use('db')}catch(e){db=null}
+    if(!db){state.sample=true;state.playbooks=SAMPLE.playbooks;setClients(SAMPLE.clients);return}
+    db.collection('clients').onSnapshot(s=>setClients(s.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{$('status').textContent='could not read clients'});
+    db.collection('playbooks').onSnapshot(s=>{state.playbooks=s.docs.map(d=>Object.assign({id:d.id},d.data()));render()},()=>{});
+  })();
+  render();
+})();
+</script>
