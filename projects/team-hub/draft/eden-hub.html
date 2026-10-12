@@ -9,12 +9,7 @@
   --pos:#3D6B4F; --warn:#8A6A1F; --neg:#8A3A32; --pos-bg:#E4EEE7; --warn-bg:#F3EAD0; --neg-bg:#F1DDD9; --info-bg:#E9E6DD;
   --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#050504; --paper:#0e0e0c; --ink:#f7f3e8; --mute:#a39d8d; --line:#242219; --gold:#c9a24a; --gold-soft:#1a1710;
-  --pos:#7DB391; --warn:#D9B45E; --neg:#D4857B; --pos-bg:#14231b; --warn-bg:#2a2410; --neg-bg:#2c1815; --info-bg:#1b1a15; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#050504; --paper:#0e0e0c; --ink:#f7f3e8; --mute:#a39d8d; --line:#242219; --gold:#c9a24a; --gold-soft:#1a1710;
-  --pos:#7DB391; --warn:#D9B45E; --neg:#D4857B; --pos-bg:#14231b; --warn-bg:#2a2410; --neg-bg:#2c1815; --info-bg:#1b1a15; color-scheme:dark}
+:root{color-scheme:light}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;padding-inline:16px;padding-block:28px 90px;line-height:1.45}
 .wrap{max-width:1040px;margin:0 auto;display:grid;gap:10px}
@@ -98,7 +93,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
 .people li.out{opacity:.5}
 .people li.dimmed{opacity:.28}
 .add{display:grid;gap:6px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
-.add .more{display:none;gap:6px}.add:focus-within .more{display:grid}
+.add .more{display:grid;gap:6px}
 .add .r2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .add button,.addbar button{font:inherit;font-weight:700;font-size:11.5px;letter-spacing:.4px;border:1.5px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:6px;padding:7px 10px;cursor:pointer;min-height:36px}
 .addbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:10px 0 0}
@@ -107,6 +102,28 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
 .tools label{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--mute)}
 .by{color:var(--gold);font-family:var(--mono);font-size:10.5px;letter-spacing:.6px}
 .saving{color:var(--warn)}
+.r3{display:grid;grid-template-columns:1fr 1fr auto;gap:6px}
+.seat.filled{background:var(--pos-bg);border-color:transparent}
+.seat .stools{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.mini.warn{color:var(--neg)}
+.filledrow{display:grid;gap:2px;padding:8px 0 0}
+.minutes textarea{width:100%;min-height:150px;font:inherit;font-size:14px;line-height:1.5;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:8px;padding:12px;resize:vertical}
+.minutes .meta{display:block;margin-top:6px}
+.past{margin-top:10px;display:grid;gap:8px}
+.past details{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.past summary{cursor:pointer;font-weight:700;font-size:13px}
+.past p{white-space:pre-wrap;font-size:13px;margin:8px 0 0}
+.rbar{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 0}
+#report{display:none}
+@media print{
+  body{background:#fff;padding:0}
+  .wrap>*:not(#report){display:none!important}
+  #report{display:block!important;font-family:var(--sans);color:#111}
+  #report h1{font-size:22px;margin:0 0 2px}#report h2{font-size:14px;margin:18px 0 6px;text-transform:uppercase;letter-spacing:1px}
+  #report table{min-width:0;font-size:11px;page-break-inside:auto}#report td,#report th{padding:5px 6px;border-bottom:1px solid #ddd}
+  #report tr{page-break-inside:avoid}#report .notes{white-space:pre-wrap;font-size:12px;border:1px solid #ddd;padding:8px;border-radius:4px}
+}
+
 
 </style>
 
@@ -125,6 +142,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
 
   <div class="folders" id="folders"></div>
   <div id="playbooks"></div>
+  <div id="report"></div>
 
   <div class="foot"><span>Names, role and status only · no pay or contact details</span><span id="status">connecting</span></div>
 </div>
@@ -139,52 +157,74 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
   const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 
-  // Live schema: clients/{slug} and clients/{slug}/{depth|leads|notes|resources}/{id}; playbooks/{id}.
-  // Depth chart doc: {title, updated, source, seats:[{seat, loc, people:[{name, status, note, by}]}]}
+  // Live schema: clients/{slug}; clients/{slug}/{depth|leads|notes|resources|meetings}/{id}; playbooks/{id}.
+  // Depth chart doc: {title, updated, source, sort, seats:[{seat, loc, filled?:{name,by,date}, removed?:date, people:[{name, status, note, by}]}]}
+  // Meeting notes doc: clients/{slug}/meetings/{YYYY-MM-DD} {date, text, updated}
   const STATUSES=['Pending PTC','PTC','Submitted','Interview','Offer','Placed','On hold','Out'];
   const TONE={'pending ptc':'warn','ptc':'gold','submitted':'gold','presented':'gold','interview':'pos','interviewing':'pos','offer':'pos','offer letter':'pos','placed':'pos','on hold':'','waiting on resume':'warn','out':'neg','pass':'neg','pass offer':'neg','withdrawn':'neg'};
   const tone=s=>TONE[String(s||'').toLowerCase()]||'';
   const isOut=s=>['out','pass','withdrawn','pass offer'].includes(String(s||'').toLowerCase());
 
-  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,saving:0,live:false};
+  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[],meetings:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,confirm:null,showRemoved:false,saving:0,live:false,pending:{},last:{},deferred:false};
   try{state.present=sessionStorage.getItem('hub-present')==='1'}catch(_){}
 
   const chip=s=>'<span class="chip '+tone(s)+'">'+esc(s||'no status')+'</span>';
   const stale=d=>{const a=age(d);return a!=null&&a>14};
-  const opts=(cur)=>{const list=STATUSES.slice();if(cur&&!list.some(x=>x.toLowerCase()===String(cur).toLowerCase()))list.unshift(cur);return (cur?'':'<option value="" selected>No status</option>')+list.map(x=>'<option'+(String(cur).toLowerCase()===x.toLowerCase()?' selected':'')+'>'+esc(x)+'</option>').join('')};
+  const opts=cur=>{const list=STATUSES.slice();if(cur&&!list.some(x=>x.toLowerCase()===String(cur).toLowerCase()))list.unshift(cur);return (cur?'':'<option value="" selected>No status</option>')+list.map(x=>'<option value="'+esc(x)+'"'+(String(cur).toLowerCase()===x.toLowerCase()?' selected':'')+'>'+esc(x)+'</option>').join('')};
+  const A=(act,attrs,label,cls)=>'<button class="mini'+(cls?' '+cls:'')+'" type="button" data-act="'+act+'" '+attrs+'>'+label+'</button>';
+  const at=(c,si,pi)=>'data-doc="'+esc(c.id)+'" data-s="'+si+'"'+(pi!=null?' data-p="'+pi+'"':'');
 
   function person(c,si,pi,p){
     const key=c.id+'|'+si+'|'+pi;
     const dim=state.by&&String(p.by||'').toLowerCase()!==state.by.toLowerCase();
     const cls=(isOut(p.status)?'out':'')+(dim?' dimmed':'');
     if(state.canEdit&&state.editing===key){
-      return '<li class="'+cls+'"><form class="add" data-act="save-person" data-doc="'+esc(c.id)+'" data-s="'+si+'" data-p="'+pi+'" style="border:0;margin:0;padding:0">'+
+      return '<li class="'+cls+'"><form class="add" data-act="save-person" '+at(c,si,pi)+' style="border:0;margin:0;padding:0">'+
         '<input class="ed" name="name" data-k="e-name-'+esc(key)+'" value="'+esc(p.name)+'" aria-label="Name" required>'+
         '<div class="r2"><input class="ed" name="by" data-k="e-by-'+esc(key)+'" value="'+esc(p.by||'')+'" placeholder="Recruiter" aria-label="Recruiter"><select class="ed" name="status" aria-label="Status">'+opts(p.status)+'</select></div>'+
         '<input class="ed" name="note" data-k="e-note-'+esc(key)+'" value="'+esc(p.note||'')+'" placeholder="Note (no pay or contact details)" aria-label="Note">'+
-        '<div class="prow"><button type="submit">Save</button><button type="button" class="mini" data-act="cancel">Cancel</button></div></form></li>';
+        '<div class="prow"><button type="submit">Save</button>'+A('cancel','','Cancel')+'</div></form></li>';
     }
-    const st=state.canEdit?'<select class="st '+tone(p.status)+'" data-act="status" data-doc="'+esc(c.id)+'" data-s="'+si+'" data-p="'+pi+'" aria-label="Status for '+esc(p.name)+'">'+opts(p.status)+'</select>':chip(p.status);
-    const tools=state.canEdit?'<button class="mini" type="button" data-act="edit" data-key="'+esc(key)+'">Edit</button>'+(pi>0?'<button class="mini" type="button" data-act="up" data-doc="'+esc(c.id)+'" data-s="'+si+'" data-p="'+pi+'" aria-label="Move '+esc(p.name)+' up">↑ Up</button>':''):'';
+    const st=state.canEdit?'<select class="st '+tone(p.status)+'" data-act="status" '+at(c,si,pi)+' aria-label="Status for '+esc(p.name)+'">'+opts(p.status)+'</select>':chip(p.status);
+    const tools=state.canEdit?A('edit','data-key="'+esc(key)+'"','Edit')+(pi>0?A('up',at(c,si,pi),'↑ Up'):'')+A('fill',at(c,si,pi),'✓ Filled'):'';
     return '<li class="'+cls+'"><b>'+esc(p.name)+'</b><div class="prow">'+st+(p.by?'<span class="by">'+esc(p.by)+'</span>':'')+tools+'</div>'+(p.note?'<small>'+esc(p.note)+'</small>':'')+'</li>';
   }
   function addForm(c,si){
     if(!state.canEdit)return '';
-    return '<form class="add" data-act="add-person" data-doc="'+esc(c.id)+'" data-s="'+si+'">'+
-      '<input class="ed" name="name" data-k="a-name-'+esc(c.id)+'-'+si+'" placeholder="+ Add a name" aria-label="Add a name to this seat" required>'+
-      '<div class="more"><div class="r2"><input class="ed" name="by" data-k="a-by-'+esc(c.id)+'-'+si+'" placeholder="Recruiter" aria-label="Recruiter" value="'+esc(state.by)+'"><select class="ed" name="status" aria-label="Status">'+STATUSES.map((x,i)=>'<option'+(i===0?' selected':'')+'>'+esc(x)+'</option>').join('')+'</select></div>'+
-      '<input class="ed" name="note" data-k="a-note-'+esc(c.id)+'-'+si+'" placeholder="Note (optional)" aria-label="Note"><button type="submit">Add to seat</button></div></form>';
+    const k=esc(c.id)+'-'+si;
+    return '<form class="add" data-act="add-person" '+at(c,si)+'>'+
+      '<input class="ed" name="name" data-k="a-name-'+k+'" placeholder="+ Add a name" aria-label="Add a name to this seat" required>'+
+      '<div class="r3"><input class="ed" name="by" data-k="a-by-'+k+'" placeholder="Recruiter" aria-label="Recruiter" value="'+esc(state.by)+'"><select class="ed" name="status" data-k="a-st-'+k+'" aria-label="Status">'+STATUSES.map((x,i)=>'<option value="'+esc(x)+'"'+(i===0?' selected':'')+'>'+esc(x)+'</option>').join('')+'</select><button type="submit">Add</button></div>'+
+      '<input class="ed" name="note" data-k="a-note-'+k+'" placeholder="Note (optional)" aria-label="Note"></form>';
+  }
+  function seatCard(c,s,si){
+    const tools=state.canEdit?'<div class="stools">'+(state.confirm===c.id+'|'+si?A('remove',at(c,si),'Tap again to remove','warn')+A('cancel','','Keep'):A('ask-remove',at(c,si),'Remove seat'))+'</div>':'';
+    return '<div class="seat"><h5>'+esc(s.seat)+'</h5><div class="loc">'+esc(s.loc||'')+'</div>'+tools+'<ul class="people">'+
+      ((s.people||[]).map((p,pi)=>person(c,si,pi,p)).join('')||'<li class="open">Seat open</li>')+'</ul>'+addForm(c,si)+'</div>';
+  }
+  function filledCard(c,s,si){
+    const f=s.filled||{};
+    return '<div class="seat filled"><h5>'+esc(s.seat)+'</h5><div class="loc">'+esc(s.loc||'')+'</div><div class="filledrow"><b>'+esc(f.name||'')+'</b><div class="prow"><span class="chip pos">Filled '+esc(f.date||'')+'</span>'+(f.by?'<span class="by">'+esc(f.by)+'</span>':'')+(state.canEdit?A('reopen',at(c,si),'Reopen'):'')+'</div></div></div>';
   }
   function rDepth(rows){
     const recs=[...new Set(rows.flatMap(c=>(c.seats||[]).flatMap(s=>(s.people||[]).map(p=>String(p.by||'').trim()).filter(Boolean))))].sort();
-    const tools=(recs.length||state.canEdit)?'<div class="tools">'+(recs.length?'<label for="byf">Recruiter</label><select class="ed" id="byf" data-act="by"><option value="">Everyone</option>'+recs.map(r=>'<option'+(r.toLowerCase()===state.by.toLowerCase()?' selected':'')+'>'+esc(r)+'</option>').join('')+'</select>':'')+'</div>':'';
+    const tools=recs.length?'<div class="tools"><label for="byf">Recruiter</label><select class="ed" id="byf" data-act="by"><option value="">Everyone</option>'+recs.map(r=>'<option value="'+esc(r)+'"'+(r.toLowerCase()===state.by.toLowerCase()?' selected':'')+'>'+esc(r)+'</option>').join('')+'</select></div>':'';
     const newChart=state.canEdit?'<form class="addbar" data-act="add-chart"><input class="ed" name="title" data-k="n-chart" placeholder="New depth chart title (e.g. West Palm Beach)" aria-label="New depth chart title" required><button type="submit">+ New depth chart</button></form>':'';
     if(!rows.length)return '<div class="empty">No depth chart filed for this client yet.</div>'+newChart;
-    return tools+rows.slice().sort((a,b)=>(a.sort||99)-(b.sort||99)||String(a.title||'').localeCompare(String(b.title||''))).map(c=>
-      '<div style="margin-bottom:18px"><div class="dc-head"><h4>'+esc(c.title||'Depth chart')+'</h4><span class="meta'+(stale(c.updated)?' stale':'')+'">Updated '+esc(c.updated||'unknown')+(stale(c.updated)?' · check with owner':'')+(c.source?' · '+esc(c.source):'')+'</span></div>'+
-      '<div class="seats">'+(c.seats||[]).map((s,si)=>'<div class="seat"><h5>'+esc(s.seat)+'</h5><div class="loc">'+esc(s.loc||'')+'</div><ul class="people">'+
-        ((s.people||[]).map((p,pi)=>person(c,si,pi,p)).join('')||'<li class="open">Seat open</li>')+'</ul>'+addForm(c,si)+'</div>').join('')+'</div>'+
-      (state.canEdit?'<form class="addbar" data-act="add-seat" data-doc="'+esc(c.id)+'"><input class="ed" name="seat" data-k="s-seat-'+esc(c.id)+'" placeholder="New seat (e.g. Arcade Super)" aria-label="New seat name" required><input class="ed" name="loc" data-k="s-loc-'+esc(c.id)+'" placeholder="Project / location" aria-label="Seat location"><button type="submit">+ Add seat</button></form>':'')+'</div>').join('')+newChart;
+    return tools+sortCharts(rows).map(c=>{
+      const seats=(c.seats||[]).map((s,si)=>({s,si}));
+      const act=seats.filter(x=>!x.s.filled&&!x.s.removed), fil=seats.filter(x=>x.s.filled&&!x.s.removed), rem=seats.filter(x=>x.s.removed);
+      return '<div style="margin-bottom:22px"><div class="dc-head"><h4>'+esc(c.title||'Depth chart')+'</h4><span class="meta'+(stale(c.updated)?' stale':'')+'">'+act.length+' open · '+fil.length+' filled · Updated '+esc(c.updated||'unknown')+(stale(c.updated)?' · check with owner':'')+'</span></div>'+
+      '<div class="seats">'+(act.map(x=>seatCard(c,x.s,x.si)).join('')||'<div class="empty">Every seat on this chart is filled.</div>')+'</div>'+
+      (fil.length?'<h3 style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin:14px 0 8px">Filled</h3><div class="seats">'+fil.map(x=>filledCard(c,x.s,x.si)).join('')+'</div>':'')+
+      (state.canEdit&&rem.length?'<div class="rbar">'+A('toggle-removed','',(state.showRemoved?'Hide':'Show')+' removed seats ('+rem.length+')')+'</div>'+(state.showRemoved?'<div class="seats">'+rem.map(x=>'<div class="seat"><h5>'+esc(x.s.seat)+'</h5><div class="loc">Removed '+esc(x.s.removed)+'</div><div class="stools">'+A('restore',at(c,x.si),'Restore')+'</div></div>').join('')+'</div>':''):'')+
+      (state.canEdit?'<form class="addbar" data-act="add-seat" data-doc="'+esc(c.id)+'"><input class="ed" name="seat" data-k="s-seat-'+esc(c.id)+'" placeholder="New seat (e.g. Arcade Super)" aria-label="New seat name" required><input class="ed" name="loc" data-k="s-loc-'+esc(c.id)+'" placeholder="Project / location" aria-label="Seat location"><button type="submit">+ Add seat</button></form>':'')+'</div>'}).join('')+newChart;
+  }
+  const sortCharts=rows=>rows.slice().sort((a,b)=>(a.sort||99)-(b.sort||99)||String(a.title||'').localeCompare(String(b.title||'')));
+  function rMinutes(rows){
+    const t=rows.find(x=>x.id===today()), past=rows.filter(x=>x.id!==today()&&x.text).sort((a,b)=>String(b.id).localeCompare(String(a.id))).slice(0,8);
+    const box=state.canEdit?'<textarea data-k="minutes" data-act="minutes" placeholder="Notes from today\'s review: who is excited about whom, next steps, asks for the client. Saves as you type." aria-label="Meeting notes for today">'+esc(t?t.text:'')+'</textarea><span class="meta" id="mstatus">'+(t&&t.updated?'Saved':'Not started')+'</span>':(t&&t.text?'<div class="past"><details open><summary>Today</summary><p>'+esc(t.text)+'</p></details></div>':'<div class="empty">No notes for today yet.</div>');
+    return '<div class="minutes">'+box+'</div>'+(past.length?'<div class="past">'+past.map(x=>'<details><summary>'+esc(x.id)+'</summary><p>'+esc(x.text)+'</p></details>').join('')+'</div>':'');
   }
   function rLeads(rows){
     if(!rows.length)return '<div class="empty">No lead lists for this client yet.</div>';
@@ -205,14 +245,39 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   }
   function folderBody(){
     const s=state.sections;
-    return '<div class="fbody"><div class="sec"><h3>Depth chart</h3>'+rDepth(s.depth)+'</div><div class="sec"><h3>Lead lists</h3>'+rLeads(s.leads)+'</div><div class="sec"><h3>Project notes</h3>'+rNotes(s.notes)+'</div><div class="sec"><h3>Resources</h3>'+rRes(s.resources)+'</div></div>';
+    return '<div class="fbody"><div class="rbar" style="margin-top:14px"><button class="btn" type="button" data-act="print">Print report</button>'+(state.downloads?'<button class="btn" type="button" data-act="download">Download report</button>':'')+'</div>'+
+      '<div class="sec"><h3>Depth chart</h3>'+rDepth(s.depth)+'</div><div class="sec"><h3>Meeting notes · '+esc(today())+'</h3>'+rMinutes(s.meetings)+'</div><div class="sec"><h3>Lead lists</h3>'+rLeads(s.leads)+'</div><div class="sec"><h3>Project notes</h3>'+rNotes(s.notes)+'</div><div class="sec"><h3>Resources</h3>'+rRes(s.resources)+'</div></div>';
+  }
+
+  // ---- report ----
+  function reportHtml(){
+    const c=state.clients.find(x=>x.id===state.open)||{name:''};
+    const t=state.sections.meetings.find(x=>x.id===today());
+    let h='<div style="font-family:Montserrat,Arial,sans-serif;color:#111"><div style="font-family:monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#8F6F3E">Eden Partner Group</div><h1>'+esc(c.name)+' · Depth chart review</h1><div style="font-size:12px;color:#555">'+esc(today())+(state.by?' · Recruiter: '+esc(state.by):'')+'</div>';
+    sortCharts(state.sections.depth).forEach(ch=>{
+      const seats=(ch.seats||[]).filter(s=>!s.removed);
+      h+='<h2>'+esc(ch.title||'Depth chart')+'</h2><table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left">Seat</th><th style="text-align:left">Candidates</th></tr></thead><tbody>';
+      seats.forEach(s=>{
+        const ppl=(s.people||[]).filter(p=>!state.by||String(p.by||'').toLowerCase()===state.by.toLowerCase());
+        const cell=s.filled?'<b>Filled:</b> '+esc(s.filled.name)+' ('+esc(s.filled.date||'')+')':(ppl.map(p=>'<div><b>'+esc(p.name)+'</b> · '+esc(p.status||'no status')+(p.by?' · '+esc(p.by):'')+(p.note?' · <i>'+esc(p.note)+'</i>':'')+'</div>').join('')||'<i>Open</i>');
+        h+='<tr><td style="vertical-align:top"><b>'+esc(s.seat)+'</b><div style="color:#666;font-size:10px">'+esc(s.loc||'')+'</div></td><td>'+cell+'</td></tr>';
+      });
+      h+='</tbody></table>';
+    });
+    const live=document.querySelector('#folders textarea[data-k="minutes"]');
+    const notes=live?live.value:(t?t.text:'');
+    h+='<h2>Meeting notes</h2><div class="notes" style="white-space:pre-wrap;border:1px solid #ddd;padding:8px;border-radius:4px;font-size:12px">'+(notes?esc(notes):'<i>None</i>')+'</div></div>';
+    return h;
   }
 
   // keep what someone is typing when a live update redraws the page
   function snapshotInputs(){const m={};document.querySelectorAll('#folders [data-k]').forEach(el=>{m[el.dataset.k]=el.value});const a=document.activeElement;return {m,focus:a&&a.dataset?a.dataset.k:null,sel:a&&a.selectionStart!=null?[a.selectionStart,a.selectionEnd]:null}}
-  function restoreInputs(x){document.querySelectorAll('#folders [data-k]').forEach(el=>{if(x.m[el.dataset.k]!=null&&x.m[el.dataset.k]!=='')el.value=x.m[el.dataset.k]});if(x.focus){const el=document.querySelector('#folders [data-k="'+CSS.escape(x.focus)+'"]');if(el){el.focus();if(x.sel)try{el.setSelectionRange(x.sel[0],x.sel[1])}catch(_){}}}}
+  function restoreInputs(x){document.querySelectorAll('#folders [data-k]').forEach(el=>{const v=x.m[el.dataset.k];if(v!=null&&(v!==''||el.tagName==='TEXTAREA'))el.value=v});if(x.focus){const el=document.querySelector('#folders [data-k="'+CSS.escape(x.focus)+'"]');if(el){el.focus();if(x.sel)try{el.setSelectionRange(x.sel[0],x.sel[1])}catch(_){}}}}
 
-  function render(){
+  function render(force){
+    const a=document.activeElement;
+    if(!force&&a&&a.tagName==='SELECT'&&$('folders').contains(a)){state.deferred=true;return}
+    state.deferred=false;
     const keep=snapshotInputs();
     $('present').setAttribute('aria-pressed',String(state.present));
     $('editing').hidden=!state.canEdit;
@@ -235,65 +300,108 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     $('playbooks').innerHTML=(!state.open&&state.playbooks.length)?'<div class="folder" data-open="false"><div class="fhead" style="cursor:default"><span class="fname">Eden playbooks</span><span class="fmeta">Not client specific</span></div><div class="fbody"><div class="sec">'+rRes(state.playbooks)+'</div></div></div>':'';
     restoreInputs(keep);
   }
+  document.addEventListener('focusout',()=>{if(state.deferred)setTimeout(()=>{const a=document.activeElement;if(state.deferred&&!(a&&a.tagName==='SELECT'))render()},0)},true);
 
-  // ---- writes: one at a time per document, editors only ----
+  // ---- writes: one at a time per document, editors only; live updates never overwrite an edit still saving ----
   const queues={};
-  function setStatus(t){$('status').textContent=t;$('status').className=t==='saving'?'saving':''}
-  function writeDoc(path,data){
+  function setStatus(t){$('status').textContent=t;$('status').className=/^saving/.test(t)?'saving':''}
+  function writeDoc(path,data,mode){
     if(!db||!state.canEdit)return Promise.resolve();
-    state.saving++;setStatus('saving');
-    const run=()=>db.doc(path).update(data).catch(e=>{if(e&&e.code==='unavailable')return new Promise(r=>setTimeout(r,600+Math.random()*600)).then(()=>db.doc(path).update(data));throw e});
-    queues[path]=(queues[path]||Promise.resolve()).then(run).then(()=>{},e=>{setStatus('not saved: '+((e&&e.code)||'error'));if(e&&e.code==='invalid_argument'){state.canEdit=false;render()}throw e}).finally(()=>{state.saving--;if(!state.saving&&$('status').textContent==='saving')setStatus('live')});
-    return queues[path].catch(()=>{});
+    state.saving++;state.pending[path]=(state.pending[path]||0)+1;setStatus('saving');
+    const call=()=>mode==='set'?db.doc(path).set(data):db.doc(path).update(data);
+    const run=()=>call().catch(e=>{if(e&&e.code==='unavailable')return new Promise(r=>setTimeout(r,600+Math.random()*600)).then(call);throw e});
+    const p=(queues[path]||Promise.resolve()).then(run);
+    queues[path]=p.catch(()=>{});
+    p.then(()=>{if(state.saving===1)setStatus('saved')},e=>{setStatus('not saved: '+((e&&e.code)||'error')+' · try again');if(e&&e.code==='invalid_argument'&&mode!=='set'){state.canEdit=false;render(true)}})
+     .finally(()=>{state.saving--;setTimeout(()=>{state.pending[path]--;},1500)});
+    return p.catch(()=>{});
   }
   function chartOf(id){return state.sections.depth.find(c=>c.id===id)}
   function saveSeats(c){
-    c.updated=today();render();
+    c.updated=today();render(true);
     writeDoc('clients/'+state.open+'/depth/'+c.id,{seats:JSON.parse(JSON.stringify(c.seats||[])),updated:c.updated});
     touchClient();
   }
   function touchClient(){const c=state.clients.find(x=>x.id===state.open);if(c&&c.updated!==today()){c.updated=today();writeDoc('clients/'+c.id,{updated:c.updated})}}
+  let mTimer=null;
+  function saveMinutes(text){
+    const id=today(),path='clients/'+state.open+'/meetings/'+id;
+    let row=state.sections.meetings.find(x=>x.id===id);
+    if(!row){row={id,date:id};state.sections.meetings.push(row)}
+    row.text=text;row.updated=new Date().toISOString();
+    const ms=$('mstatus');if(ms)ms.textContent='Saving…';
+    writeDoc(path,{date:id,text,updated:row.updated},'set').then(()=>{const m=$('mstatus');if(m)m.textContent='Saved'});
+  }
 
   const folders=$('folders');
   folders.addEventListener('click',e=>{
     if(e.target.closest('#back')){openClient(null);return}
-    const a=e.target.closest('[data-act]');
-    if(a&&a.tagName==='BUTTON'){
-      const act=a.dataset.act;
-      if(act==='edit'){state.editing=a.dataset.key;render();const f=folders.querySelector('[data-k="e-name-'+CSS.escape(a.dataset.key)+'"]');if(f)f.focus();return}
-      if(act==='cancel'){state.editing=null;render();return}
-      if(act==='up'){const c=chartOf(a.dataset.doc),s=c&&c.seats[+a.dataset.s],i=+a.dataset.p;if(s&&i>0){const t=s.people[i-1];s.people[i-1]=s.people[i];s.people[i]=t;saveSeats(c)}return}
+    const a=e.target.closest('button[data-act]');
+    if(a){
+      const act=a.dataset.act,c=a.dataset.doc?chartOf(a.dataset.doc):null,s=c&&a.dataset.s!=null?c.seats[+a.dataset.s]:null,i=+a.dataset.p;
+      if(act==='edit'){state.editing=a.dataset.key;render(true);const f=folders.querySelector('[data-k="e-name-'+CSS.escape(a.dataset.key)+'"]');if(f)f.focus();return}
+      if(act==='cancel'){state.editing=null;state.confirm=null;render(true);return}
+      if(act==='up'&&s&&i>0){const t=s.people[i-1];s.people[i-1]=s.people[i];s.people[i]=t;saveSeats(c);return}
+      if(act==='fill'&&s&&s.people[i]){const p=s.people[i];p.status='Placed';s.filled={name:p.name,by:p.by||'',date:today()};saveSeats(c);return}
+      if(act==='reopen'&&s){delete s.filled;saveSeats(c);return}
+      if(act==='ask-remove'){state.confirm=a.dataset.doc+'|'+a.dataset.s;render(true);return}
+      if(act==='remove'&&s){s.removed=today();state.confirm=null;saveSeats(c);return}
+      if(act==='restore'&&s){delete s.removed;saveSeats(c);return}
+      if(act==='toggle-removed'){state.showRemoved=!state.showRemoved;render(true);return}
+      if(act==='print'){$('report').innerHTML=reportHtml();try{window.print()}catch(_){setStatus('print blocked here · use Download report')}return}
+      if(act==='download'){const c2=state.clients.find(x=>x.id===state.open)||{name:'client'};const doc='<!doctype html><html><head><meta charset="utf-8"><title>'+esc(c2.name)+' depth chart review '+today()+'</title><style>body{font-family:Montserrat,Arial,sans-serif;margin:32px;color:#111}h1{font-size:22px}h2{font-size:14px;text-transform:uppercase;letter-spacing:1px;margin-top:22px}td,th{padding:6px 8px;border-bottom:1px solid #ddd;font-size:12px;text-align:left}</style></head><body>'+reportHtml()+'</body></html>';
+        state.dl.save({filename:slugOf(c2.name)+'-depth-chart-review-'+today()+'.html',data:doc}).catch(er=>{if(er&&er.code!=='declined')setStatus('download failed: '+(er.code||'error'))});return}
+      return;
     }
     const h=e.target.closest('.fhead[data-id]');if(!h)return;
     openClient(state.open===h.dataset.id?null:h.dataset.id);
   });
   folders.addEventListener('change',e=>{
     const el=e.target;
-    if(el.dataset.act==='by'){state.by=el.value;render();return}
+    if(el.dataset.act==='by'){state.by=el.value;render(true);return}
     if(el.dataset.act==='status'){const c=chartOf(el.dataset.doc),p=c&&c.seats[+el.dataset.s]&&c.seats[+el.dataset.s].people[+el.dataset.p];if(p){p.status=el.value;saveSeats(c)}}
   });
+  folders.addEventListener('input',e=>{
+    const el=e.target;if(el.dataset.act!=='minutes'||!state.canEdit)return;
+    const ms=$('mstatus');if(ms)ms.textContent='Typing…';
+    clearTimeout(mTimer);const v=el.value;mTimer=setTimeout(()=>saveMinutes(v),1200);
+  });
+  folders.addEventListener('focusout',e=>{if(e.target.dataset&&e.target.dataset.act==='minutes'&&mTimer){clearTimeout(mTimer);mTimer=null;saveMinutes(e.target.value)}});
   folders.addEventListener('submit',e=>{
     const f=e.target.closest('form[data-act]');if(!f)return;e.preventDefault();
     const v=n=>String((f.elements[n]&&f.elements[n].value)||'').trim();
     const act=f.dataset.act;
-    if(act==='add-person'){const c=chartOf(f.dataset.doc),s=c&&c.seats[+f.dataset.s];if(!s||!v('name'))return;(s.people=s.people||[]).push({name:v('name'),status:v('status'),note:v('note'),by:v('by')});f.querySelectorAll('[data-k]').forEach(x=>{if(!/a-by-/.test(x.dataset.k))x.value=''});saveSeats(c);const n=folders.querySelector('[data-k="a-name-'+CSS.escape(f.dataset.doc)+'-'+f.dataset.s+'"]');if(n){n.value='';n.focus()}return}
+    if(act==='add-person'){const c=chartOf(f.dataset.doc),s=c&&c.seats[+f.dataset.s];if(!s||!v('name'))return;(s.people=s.people||[]).push({name:v('name'),status:v('status'),note:v('note'),by:v('by')});
+      const k=f.dataset.doc+'-'+f.dataset.s;['a-name-','a-note-'].forEach(x=>{const el=folders.querySelector('[data-k="'+CSS.escape(x+k)+'"]');if(el)el.value=''});
+      saveSeats(c);const n=folders.querySelector('[data-k="'+CSS.escape('a-name-'+k)+'"]');if(n){n.value='';n.focus()}return}
     if(act==='save-person'){const c=chartOf(f.dataset.doc),p=c&&c.seats[+f.dataset.s]&&c.seats[+f.dataset.s].people[+f.dataset.p];if(!p||!v('name'))return;p.name=v('name');p.by=v('by');p.status=v('status');p.note=v('note');state.editing=null;saveSeats(c);return}
-    if(act==='add-seat'){const c=chartOf(f.dataset.doc);if(!c||!v('seat'))return;(c.seats=c.seats||[]).push({seat:v('seat'),loc:v('loc'),people:[]});f.reset();saveSeats(c);return}
-    if(act==='add-chart'){if(!v('title')||!db)return;const id=slugOf(v('title'))+'-'+uid();state.saving++;setStatus('saving');db.doc('clients/'+state.open+'/depth/'+id).set({title:v('title'),updated:today(),source:'Live in Team Hub',sort:99,seats:[]}).then(()=>{f.reset();touchClient()},er=>setStatus('not saved: '+((er&&er.code)||'error'))).finally(()=>{state.saving--;if(!state.saving&&$('status').textContent==='saving')setStatus('live')});return}
-    if(act==='add-client'){const name=v('name'),id=slugOf(name);if(!id||!db)return;if(state.clients.some(c=>c.id===id)){openClient(id);return}state.saving++;setStatus('saving');db.doc('clients/'+id).set({name,sort:50,updated:today()}).then(()=>{f.reset()},er=>setStatus('not saved: '+((er&&er.code)||'error'))).finally(()=>{state.saving--;if(!state.saving&&$('status').textContent==='saving')setStatus('live')});return}
+    if(act==='add-seat'){const c=chartOf(f.dataset.doc);if(!c||!v('seat'))return;(c.seats=c.seats||[]).push({seat:v('seat'),loc:v('loc'),people:[]});
+      ['s-seat-','s-loc-'].forEach(x=>{const el=folders.querySelector('[data-k="'+CSS.escape(x+c.id)+'"]');if(el)el.value=''});saveSeats(c);return}
+    if(act==='add-chart'){if(!v('title')||!db)return;const id=slugOf(v('title'))+'-'+uid();const el=folders.querySelector('[data-k="n-chart"]');const t=v('title');if(el)el.value='';
+      writeDoc('clients/'+state.open+'/depth/'+id,{title:t,updated:today(),source:'Live in Team Hub',sort:99,seats:[]},'set');touchClient();return}
+    if(act==='add-client'){const name=v('name'),id=slugOf(name);if(!id||!db)return;if(state.clients.some(c=>c.id===id)){openClient(id);return}const el=folders.querySelector('[data-k="n-client"]');if(el)el.value='';
+      writeDoc('clients/'+id,{name,sort:50,updated:today()},'set');return}
   });
 
   function unsubAll(){state.unsubs.forEach(u=>{try{u()}catch(_){}});state.unsubs=[]}
   let db=null;
   function openClient(id){
-    unsubAll();state.sections={depth:[],leads:[],notes:[],resources:[]};state.open=id||null;state.editing=null;state.by='';
+    unsubAll();state.sections={depth:[],leads:[],notes:[],resources:[],meetings:[]};state.last={};state.open=id||null;state.editing=null;state.confirm=null;state.by='';
     try{history.replaceState(null,'',id?'#'+id:location.pathname+location.search)}catch(_){}
-    if(id&&db){['depth','leads','notes','resources'].forEach(k=>{
-      state.unsubs.push(db.collection('clients/'+id+'/'+k).onSnapshot(s=>{if(state.open===id){state.sections[k]=s.docs.map(x=>Object.assign({id:x.id},x.data()));render()}},()=>{}));});
+    if(id&&db){['depth','leads','notes','resources','meetings'].forEach(k=>{
+      state.unsubs.push(db.collection('clients/'+id+'/'+k).onSnapshot(s=>{
+        if(state.open!==id)return;
+        let rows=s.docs.map(x=>Object.assign({id:x.id},x.data()));
+        const base='clients/'+id+'/'+k+'/';
+        rows=rows.map(r=>state.pending[base+r.id]>0?(state.sections[k].find(x=>x.id===r.id)||r):r);
+        state.sections[k].forEach(x=>{if(state.pending[base+x.id]>0&&!rows.some(r=>r.id===x.id))rows.push(x)});
+        const j=JSON.stringify(rows);if(j===state.last[k])return;state.last[k]=j;
+        state.sections[k]=rows;render();
+      },()=>{}));});
       window.scrollTo(0,0);}
-    render();
+    render(true);
   }
-  $('find').addEventListener('input',()=>{if(!state.open&&!state.present)render()});
+  $('find').addEventListener('input',()=>{if(!state.open&&!state.present)render(true)});
   $('find').addEventListener('keydown',e=>{
     if(e.key!=='Enter')return;e.preventDefault();
     const q=slugOf($('find').value);if(!q)return;
@@ -302,22 +410,25 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   });
   $('present').addEventListener('click',()=>{
     state.present=!state.present;try{sessionStorage.setItem('hub-present',state.present?'1':'0')}catch(_){}
-    if(state.present)$('find').value='';render();
+    if(state.present)$('find').value='';render(true);
   });
 
   function setClients(rows){
-    state.clients=rows;if(!state.saving)setStatus('live');
+    rows=rows.map(r=>state.pending['clients/'+r.id]>0?(state.clients.find(x=>x.id===r.id)||r):r);
+    const j=JSON.stringify(rows);if(j===state.last.clients)return;state.last.clients=j;
+    state.clients=rows;if(!state.saving&&!/^not saved/.test($('status').textContent))setStatus('live');
     const want=(location.hash||'').slice(1);
     if(want&&!state.open&&rows.some(c=>c.id===want))openClient(want);else render();
   }
   (async function boot(){
     try{db=await window.claude.use('db')}catch(e){db=null}
-    if(!db){setStatus('not connected');render();return}
+    if(!db){setStatus('not connected');render(true);return}
     state.live=true;
     db.collection('clients').onSnapshot(s=>setClients(s.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{setStatus('could not read clients')});
     db.collection('playbooks').onSnapshot(s=>{state.playbooks=s.docs.map(d=>Object.assign({id:d.id},d.data()));render()},()=>{});
-    try{const u=await window.claude.use('user');if(u){state.canEdit=!!(await u.canEdit());render()}}catch(_){}
+    try{const u=await window.claude.use('user');if(u){state.canEdit=!!(await u.canEdit());render(true)}}catch(_){}
+    try{const d=await window.claude.use('downloads');if(d){state.dl=d;state.downloads=true;render(true)}}catch(_){}
   })();
-  render();
+  render(true);
 })();
 </script>
