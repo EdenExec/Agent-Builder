@@ -29,22 +29,34 @@ For every candidate presented to Triton: **days since presented** and **days wai
 - Counts calendar days; the sheet shows "as of <date>" so the screen share is not stale.
 - Client version: by seat only (for example, "Project Engineer: 3 presented, longest wait 7 days, 1 with feedback"), no names. Internal version: one line per candidate with seat, presented date, days waiting, feedback status.
 
-Calendar days, as of 2026-10-12. Presented dates from Kev's 5 Oct email ("Triton - seven candidates for review + roles/requirements alignment", sent 5 October 2026, 1:38pm PT, with the Crelate client portal). Role titles per seat are not in the email summary I have, so seats below are by location until the portal gives titles.
+Calendar days, as of 2026-10-12. Presented dates from Kev's 5 Oct email ("Triton - seven candidates for review + roles/requirements alignment", sent 5 October 2026, 1:38pm PT, with the Crelate client portal). Roles and seats from that email and the 8 October Triton depth chart.
 
-| Candidate (internal version) | Seat | Presented | Days since presented | Triton feedback | Days waiting |
-|---|---|---|---|---|---|
-| Shane Tedder | West Palm Beach | 2026-10-05 | 7 | None in writing | 7 |
-| Marc Malloy | West Palm Beach | 2026-10-05 | 7 | None in writing | 7 |
-| Gerardo Icaza | West Palm Beach | 2026-10-05 | 7 | None in writing | 7 |
-| Alessandro Colangelo | West Palm Beach | 2026-10-05 | 7 | None in writing | 7 |
-| Andrew Farmen | West Palm Beach | 2026-10-05 | 7 | None in writing | 7 |
-| Kristof Anderson | Miami | 2026-10-05 | 7 | Pending (Steve Sann, 8 Oct thread; no written feedback yet, confirm) | 7 |
-| Conner Burke | Miami | 2026-10-05 | 7 | None in writing | 7 |
-| Sam Derlis | seat to confirm | 2026-10-05 (added to portal after Famoso asked) | 7 | Famoso asked about him; no written feedback | 7 |
-| Diego Munoz | Miami | 2026-10-05 | not counted | Withdrawn: struck for Triton (Promethean wants him) | n/a |
-| Jacqueline Hall | seat to confirm | Not presented yet | n/a | Pending | n/a |
+**Internal version only (names).**
 
-**The table above is the internal version only (names).** Counts for the client version (by seat, no names): West Palm Beach 5 presented, all 7 days, none with written feedback. Miami 2 waiting, 7 days, 1 withdrawn. Plus 1 more added to the portal (seat to confirm), 7 days. 1 pending, not yet presented.
+| Candidate | Location | Role and seat | Presented | Days since presented | Triton feedback | Days waiting |
+|---|---|---|---|---|---|---|
+| Shane Tedder | West Palm Beach | Procurement (Estimator / Purchasing seat) | 2026-10-05 | 7 | None in writing | 7 |
+| Marc Malloy | West Palm Beach | Superintendent (Asst Super / Super, seat 2) | 2026-10-05 | 7 | None in writing | 7 |
+| Gerardo Icaza | Miami column on the chart | Sr. Procurement Manager (Procurement seat 7) | 2026-10-05 | 7 | None in writing | 7 |
+| Alessandro Colangelo | West Palm Beach (can also go to Miami) | Field Engineer | 2026-10-05 | 7 | None in writing | 7 |
+| Andrew Farmen | West Palm Beach | MEP Engineer / APM (seat 4 APM / FE / PM) | 2026-10-05 | 7 | None in writing | 7 |
+| Kristof Anderson | Miami | Procurement Engineer or APM | 2026-10-05 | 7 | None yet; Kev told Steve Sann on 8 Oct there is no rush on written feedback | 7 |
+| Conner Burke | Miami (South Beach) | Field Engineer / APM (seat 8) | 2026-10-05 | 7 | None in writing | 7 |
+| Sam Derlis | West Palm Beach | Seats 2 and 4 (Kev, 8 Oct) | 2026-10-05 (added to portal after Famoso asked) | 7 | Asked about by Famoso; no written feedback | 7 |
+| Diego Munoz | Miami | Interior scopes, South Beach | 2026-10-05 | not counted | Withdrawn: struck for Triton (Promethean wants him) | n/a |
+| Jacqueline Hall | Miami | Role to be decided | Not presented yet | n/a | Pending | n/a |
+
+**Client version (counts by seat, no names).** Seats are grouped; a candidate can cover more than one seat, so the seat counts can add up to more than the number of people. I put each person under their main group.
+
+| Seat group | Presented and waiting | Days since presented | With written feedback | Withdrawn |
+|---|---|---|---|---|
+| Procurement | 3 | 7 | 0 | 0 |
+| Superintendent | 2 | 7 | 0 | 0 |
+| Field Engineer / APM / PM | 3 | 7 | 0 | 0 |
+| Interior scopes | 0 | n/a | 0 | 1 |
+| Not yet presented | 1 (role to be decided) | n/a | n/a | n/a |
+
+Total: 8 presented and waiting, 1 withdrawn, 1 not yet presented. Every waiting candidate went to Triton on the same day, so the longest wait is also 7 days.
 
 Feedback rule: "Days waiting" stops the day Triton's written feedback arrives. Anything Nick's exports show beats this table; where they differ, the exports win and this section is rewritten.
 
