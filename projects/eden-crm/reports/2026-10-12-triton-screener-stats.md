@@ -29,11 +29,26 @@ For every candidate presented to Triton: **days since presented** and **days wai
 - Counts calendar days; the sheet shows "as of <date>" so the screen share is not stale.
 - Client version: by seat only (for example, "Project Engineer: 3 presented, longest wait 7 days, 1 with feedback"), no names. Internal version: one line per candidate with seat, presented date, days waiting, feedback status.
 
-Candidates presented per Kev's note (internal version only; seat and dates to fill from the portal and the 5 October email): Shane Tedder, Marc Malloy, Gerardo Icaza, Alessandro Colangelo, Andrew Farmen, Kristof Anderson, Conner Burke, Diego Munoz, Sam Derlis. Pending: Jacqueline Hall.
+Calendar days, as of 2026-10-12. Presented dates from Kev's 5 Oct email ("Triton - seven candidates for review + roles/requirements alignment", sent 5 October 2026, 1:38pm PT, with the Crelate client portal). Role titles per seat are not in the email summary I have, so seats below are by location until the portal gives titles.
 
-| Candidate | Seat | Presented | Days since presented | Feedback | Days waiting |
+| Candidate (internal version) | Seat | Presented | Days since presented | Triton feedback | Days waiting |
 |---|---|---|---|---|---|
-| (9 names above, plus Jacqueline Hall as pending) | to fill | date needed | formula | to fill | formula |
+| Shane Tedder | West Palm Beach | 2026-10-05 | 7 | None in writing | 7 |
+| Marc Malloy | West Palm Beach | 2026-10-05 | 7 | None in writing | 7 |
+| Gerardo Icaza | West Palm Beach | 2026-10-05 | 7 | None in writing | 7 |
+| Alessandro Colangelo | West Palm Beach | 2026-10-05 | 7 | None in writing | 7 |
+| Andrew Farmen | West Palm Beach | 2026-10-05 | 7 | None in writing | 7 |
+| Kristof Anderson | Miami | 2026-10-05 | 7 | Pending (Steve Sann, 8 Oct thread; no written feedback yet, confirm) | 7 |
+| Conner Burke | Miami | 2026-10-05 | 7 | None in writing | 7 |
+| Sam Derlis | seat to confirm | 2026-10-05 (added to portal after Famoso asked) | 7 | Famoso asked about him; no written feedback | 7 |
+| Diego Munoz | Miami | 2026-10-05 | not counted | Withdrawn: struck for Triton (Promethean wants him) | n/a |
+| Jacqueline Hall | seat to confirm | Not presented yet | n/a | Pending | n/a |
+
+**The table above is the internal version only (names).** Counts for the client version (by seat, no names): West Palm Beach 5 presented, all 7 days, none with written feedback. Miami 2 waiting, 7 days, 1 withdrawn. Plus 1 more added to the portal (seat to confirm), 7 days. 1 pending, not yet presented.
+
+Feedback rule: "Days waiting" stops the day Triton's written feedback arrives. Anything Nick's exports show beats this table; where they differ, the exports win and this section is rewritten.
+
+Source line for the internal version: "Presented dates from Kev's 5 Oct email."
 
 ## Part 2: internal version (Kev and Nick only)
 
