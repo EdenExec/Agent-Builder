@@ -138,6 +138,8 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
 .seat.filled{background:var(--pos-bg);border-color:transparent}
 .seat .stools{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .mini.warn{color:var(--neg)}
+.add label.mv{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--mute);margin-top:6px}.add label.mv select{flex:1;min-width:0}
+.rmq{color:var(--neg);font-size:12px;margin-top:6px}
 .filledrow{display:grid;gap:2px;padding:8px 0 0}
 .minutes textarea{width:100%;min-height:150px;font:inherit;font-size:14px;line-height:1.5;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:8px;padding:12px;resize:vertical}
 .minutes .meta{display:block;margin-top:6px}
@@ -219,6 +221,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   const stale=d=>{const a=age(d);return a!=null&&a>14};
   const opts=cur=>{const list=STATUSES.slice();if(cur&&!list.some(x=>x.toLowerCase()===String(cur).toLowerCase()))list.unshift(cur);return (cur?'':'<option value="" selected>No status</option>')+list.map(x=>'<option value="'+esc(x)+'"'+(String(cur).toLowerCase()===x.toLowerCase()?' selected':'')+'>'+esc(x)+'</option>').join('')};
   const A=(act,attrs,label,cls)=>'<button class="mini'+(cls?' '+cls:'')+'" type="button" data-act="'+act+'" '+attrs+'>'+label+'</button>';
+  const seatOpts=cur=>state.sections.depth.map(ch=>'<optgroup label="'+esc(ch.title||ch.id)+'">'+(ch.seats||[]).map((x,i)=>x.removed?'':'<option value="'+esc(ch.id+'|'+i)+'"'+(ch.id+'|'+i===cur?' selected':'')+'>'+esc(x.seat)+'</option>').join('')+'</optgroup>').join('');
   const at=(c,si,pi)=>'data-doc="'+esc(c.id)+'" data-s="'+si+'"'+(pi!=null?' data-p="'+pi+'"':'');
 
   const BUBBLE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" stroke-linejoin="round"/></svg>';
@@ -240,7 +243,9 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
         '<input class="ed" name="name" data-k="e-name-'+esc(key)+'" value="'+esc(p.name)+'" aria-label="Name" required>'+
         '<div class="r2"><input class="ed" name="by" data-k="e-by-'+esc(key)+'" value="'+esc(p.by||'')+'" placeholder="Recruiter" aria-label="Recruiter"><select class="ed" name="status" aria-label="Status">'+opts(p.status)+'</select></div>'+
         '<input class="ed" name="note" data-k="e-note-'+esc(key)+'" value="'+esc(p.note||'')+'" placeholder="Note (no pay or contact details)" aria-label="Note">'+
-        '<div class="prow"><button type="submit">Save</button>'+A('cancel','','Cancel')+'</div></form></li>';
+        '<label class="mv">Seat <select class="ed" name="seat" aria-label="Move to seat">'+seatOpts(c.id+'|'+si)+'</select></label>'+
+        (state.confirmP===key?'<div class="prow rmq">Remove '+esc(p.name)+' from this seat? '+A('rm-person',at(c,si,pi),'Yes, remove','warn')+A('rm-no','','Keep')+'</div>':'')+
+        '<div class="prow"><button type="submit">Save</button>'+A('cancel','','Cancel')+(state.confirmP===key?'':A('rm-ask','data-key="'+esc(key)+'"','Remove','warn'))+'</div></form></li>';
     }
     const st=state.canEdit?'<select class="st '+tone(p.status)+'" data-act="status" '+at(c,si,pi)+' aria-label="Status for '+esc(p.name)+'">'+opts(p.status)+'</select>':chip(p.status);
     const tools=state.canEdit?A('edit','data-key="'+esc(key)+'"','Edit')+(pi>0?A('up',at(c,si,pi),'↑ Up'):'')+A('fill',at(c,si,pi),'✓ Filled'):'';
@@ -388,7 +393,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     const run=()=>call().catch(e=>{if(e&&e.code==='unavailable')return new Promise(r=>setTimeout(r,600+Math.random()*600)).then(call);throw e});
     const p=(queues[path]||Promise.resolve()).then(run);
     queues[path]=p.catch(()=>{});
-    p.then(()=>{if(state.saving===1)setStatus('saved')},e=>{setStatus('not saved: '+((e&&e.code)||'error')+' · try again');if(e&&e.code==='invalid_argument'&&mode!=='set'){state.canEdit=false;render(true)}})
+    p.then(()=>{if(state.saving===1)setStatus('saved')},e=>{setStatus('not saved: '+((e&&e.code)||'error')+' · try again');if(e&&(e.code==='revoked'||(e.code==='invalid_argument'&&mode!=='set'))){state.canEdit=false;render(true)}})
      .finally(()=>{state.saving--;setTimeout(()=>{state.pending[path]--;},1500)});
     return p.catch(()=>{});
   }
@@ -416,7 +421,10 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     if(a){
       const act=a.dataset.act,c=a.dataset.doc?chartOf(a.dataset.doc):null,s=c&&a.dataset.s!=null?c.seats[+a.dataset.s]:null,i=+a.dataset.p;
       if(act==='edit'){state.editing=a.dataset.key;render(true);const f=folders.querySelector('[data-k="e-name-'+CSS.escape(a.dataset.key)+'"]');if(f)f.focus();return}
-      if(act==='cancel'){state.editing=null;state.confirm=null;render(true);return}
+      if(act==='cancel'){state.editing=null;state.confirm=null;state.confirmP=null;render(true);return}
+      if(act==='rm-ask'){state.confirmP=a.dataset.key;render(true);return}
+      if(act==='rm-no'){state.confirmP=null;render(true);return}
+      if(act==='rm-person'&&s&&s.people[i]){const p=s.people.splice(i,1)[0];(s.gone=s.gone||[]).push(Object.assign({},p,{removedOn:today()}));state.editing=null;state.confirmP=null;saveSeats(c);setStatus(p.name+' removed from '+s.seat);return}
       if(act==='up'&&s&&i>0){const t=s.people[i-1];s.people[i-1]=s.people[i];s.people[i]=t;saveSeats(c);return}
       if(act==='fill'&&s&&s.people[i]){const p=s.people[i];p.status='Placed';s.filled={name:p.name,by:p.by||'',date:today()};saveSeats(c);return}
       if(act==='reopen'&&s){delete s.filled;saveSeats(c);return}
@@ -457,7 +465,10 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     if(act==='add-comment'){const parts=f.dataset.key.split('|'),kind=parts[0],c=chartOf(parts[1]),s=c&&c.seats[+parts[2]];const text=v('text');if(!s||!text)return;
       const tgt=kind==='p'?(s.people||[])[+parts[3]]:s;if(!tgt)return;(tgt.comments=tgt.comments||[]).push({text,at:new Date().toISOString()});
       const t=folders.querySelector('[data-k="cm-'+CSS.escape(f.dataset.key)+'"]');if(t)t.value='';saveSeats(c);return}
-    if(act==='save-person'){const c=chartOf(f.dataset.doc),p=c&&c.seats[+f.dataset.s]&&c.seats[+f.dataset.s].people[+f.dataset.p];if(!p||!v('name'))return;p.name=v('name');p.by=v('by');p.status=v('status');p.note=v('note');state.editing=null;saveSeats(c);return}
+    if(act==='save-person'){const c=chartOf(f.dataset.doc),p=c&&c.seats[+f.dataset.s]&&c.seats[+f.dataset.s].people[+f.dataset.p];if(!p||!v('name'))return;p.name=v('name');p.by=v('by');p.status=v('status');p.note=v('note');state.editing=null;state.confirmP=null;
+      const to=String(v('seat')||''),bar=to.lastIndexOf('|'),c2=bar>0?chartOf(to.slice(0,bar)):null,s2=c2&&c2.seats[+to.slice(bar+1)];
+      if(s2&&s2!==c.seats[+f.dataset.s]){c.seats[+f.dataset.s].people.splice(+f.dataset.p,1);(s2.people=s2.people||[]).push(p);if(c2!==c)saveSeats(c2);saveSeats(c);setStatus(p.name+' moved to '+s2.seat);return}
+      saveSeats(c);return}
     if(act==='add-seat'){const c=chartOf(f.dataset.doc);if(!c||!v('seat'))return;(c.seats=c.seats||[]).push({seat:v('seat'),loc:v('loc'),people:[]});
       ['s-seat-','s-loc-'].forEach(x=>{const el=folders.querySelector('[data-k="'+CSS.escape(x+c.id)+'"]');if(el)el.value=''});saveSeats(c);return}
     if(act==='add-chart'){if(!v('title')||!db)return;const id=slugOf(v('title'))+'-'+uid();const el=folders.querySelector('[data-k="n-chart"]');const t=v('title');if(el)el.value='';
@@ -525,7 +536,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     state.live=true;
     db.collection('clients').onSnapshot(s=>setClients(s.docs.map(own)),()=>{setStatus('could not read clients')});
     db.collection('playbooks').onSnapshot(s=>{state.playbooks=s.docs.map(own);render()},()=>{});
-    try{const u=await window.claude.use('user');if(u){state.canEdit=!!(await u.canEdit());render(true)}}catch(_){}
+    try{const u=await window.claude.use('user');if(u){const w=typeof u.can==='function'?await u.can('data.write'):null;state.canEdit=w===null?true:!!w;render(true)}}catch(_){}
     try{const d=await window.claude.use('downloads');if(d){state.dl=d;state.downloads=true;render(true)}}catch(_){}
   })();
   render(true);
