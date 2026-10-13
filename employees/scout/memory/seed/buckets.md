@@ -13,7 +13,7 @@ Time zone > Geographic market > Book > Sector > Company type > Title.
 | Sector | Mixed Use, Multifamily, Commercial, Mission Critical, Industrial, Civil, Environmental, Public Works, Education |
 | Company type | GC, Mechanical, Electrical, Drywall, Concrete, Civil, Owner Builder, CM, Owner's Rep, Architect's firm. A generic "Sub" tag is open. |
 | Title | Superintendent, General Superintendent, Project Manager, PX, APM, PE, Estimator. Every person also gets a broad role: Project Management or Field Operations. |
-| Location | Three tags: city, state, time zone (where they live or would live). |
+| Location | Three tags: city, state, time zone (where they live or would live). On every upload these are three separate columns headed City, State, Time Zone (Kev, 13 October), so the BPO team's Crelate upload maps each one. |
 
 ## Markets in the Eden App bucket mockup
 

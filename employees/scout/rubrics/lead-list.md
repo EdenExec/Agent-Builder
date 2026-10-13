@@ -11,4 +11,4 @@ Score each 0 (fail), 1 (partial), 2 (strong). Pass line: 16 of 20, with no zero.
 7. Reproducible: the pull recipe (titles, metro ids, filters, Boolean string, date) is written down.
 8. Credits and spend: no bulk enrichment, enrichment counted and logged, anything larger a QC item.
 9. Nothing sent, posted or loaded into Crelate without an approved QC item.
-10. Eden standard: Eden Partner Group, clean columns, three bullets a section or fewer, no emoji.
+10. Eden standard: Eden Partner Group, clean columns (City, State and Time Zone as three separate columns on every row; a zero if any is missing or merged), three bullets a section or fewer, no emoji.
