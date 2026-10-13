@@ -13,6 +13,14 @@ The list is one Google Doc: **"Radar · What I need from Kev"**, id `1lZMFyJtV99
 5. **Order** Work by dollars, then deadline, then age (revenue first, the deal-desk logic). Order Home by deadline, then age.
 6. **Rewrite the doc in place** with the Google Docs connector: read it, delete the body from index 1 to end minus 1, insert the new markdown-free text, re-apply the three heading levels (title, the four section headings, "Last time"). Keep the "How to run this" section word for word. Leave the Answers section empty after acting on it. Stamp the "Updated" line with the Pacific time.
 
+## The morning decision sprint and the evening check-out (Kev, 12 October 2026)
+
+Kev: "Get a decision sprint bullet list set up. I can listen to it tomorrow morning and answer questions in an audio chat... just like we set up for tonight's EOD check-out. The system is working well: morning stand-up, notification monitoring through the day, and EOD autopsy."
+
+- **Morning decision sprint.** Stand Up Tomorrow writes a section "Morning decision sprint (<Weekday D Month>)" above the Work heading every night it runs. It holds 8 to 13 items, numbered D1 and up, each in the same one-line form as the lists (question, "My pick:"), ranked by dollars, then deadline, then age. It draws on Batch rows, check-out follow-ups that need a yes, drafts waiting on Kev's send, `qc/pending`, the Desks' open cards and anything Radar set up overnight. It replaces the previous sprint or check-out section, and the opening line names the trigger phrase "run my decision sprint". Kev listens on the drive in (6:35) and answers in his "Radar's chat" voice session; answers land under Answers like everything else.
+- **Evening check-out.** The check-out routine writes "Tonight: check-out (<date>)" the same way, as C-items, with the trigger "run my check-out".
+- **Sweeps keep these sections.** When a sweep rewrites the doc (step 6 above), it copies the sprint or check-out section through unchanged until its items are answered. From the 11:00 sweep onward, unanswered D-items fold into the Work list and the section is dropped. Answered items are acted on per step 1.
+
 ## "Radar wants to talk"
 
 Send one push notification (PushNotification, or the routine's own push where the trigger has it) when, during work hours (Monday to Friday, 7:00 to 5:30 Pacific), the Work list has three or more items or any item older than one working day, and no alert was sent in the last three hours. Outside work hours only for a TODAY item. Never on Saturday. Text: "Radar wants to talk: <n> decisions, oldest <age>. Open Claude, voice, say 'Radar, what do you need from me?'" Record each alert on the sweep's ledger row so the three-hour rule holds.

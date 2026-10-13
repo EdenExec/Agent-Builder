@@ -6,7 +6,7 @@ So every employee is the project manager of its own projects. Once a week it rep
 
 ## What each employee builds
 
-One deck per active project, by **Saturday 8pm Pacific**, no more than eight slides, in this order. Numbers come from the project's own ledger rows, QC items, Desk cards and files; nothing is invented, and anything not checked this week is marked UNVERIFIED.
+One deck per active project, by **Friday 1:50pm Pacific** (moved from Saturday 8pm on 13 October 2026 so the Sabbath stays clear; the routine "Radar · EOW agent reports", `trig_019qLwVnxBotcrE3J9gZh4YE`, builds any that are missing and emails Kev the roster), no more than eight slides, in this order. Numbers come from the project's own ledger rows, QC items, Desk cards and files; nothing is invented, and anything not checked this week is marked UNVERIFIED.
 
 | # | Slide | What goes on it |
 |---|---|---|
@@ -29,6 +29,7 @@ Rules: decks for home, family and learning projects (Atlas, Marlowe) carry KDTW 
 
 ## What Radar does
 
+- **Friday 1:50pm, the EOW agent reports routine:** writes or collects every status file, opens the `status` cards, emails Kev one roster table and puts each ask into the hit-list doc as L-items.
 - **Saturday night, in the Sunday Edition build:** collect every `status` card and status file, render any deck that has no artifact, file all of them on the Eden Desk Sunday row (`kind: "deck"`) and in the Sunday Drive folder, and build the **Lab review** page of the Sunday Edition: one row per project (employee, status word, the ask, the deck link), then Kev's advice lines (blank, pen-in-hand). A project with no deck gets a row that says so.
 - **Sunday evening, with Kev:** walk the decks in order of the ask's size. Kev reads the ask and the numbers and gives his advice. Radar writes each answer onto the status card (`status: "answered"`, `answer: {choice, text, at}`), onto a ledger row "Lab review · <date> · <employee>" (Lane Mine or Batch, Owner the employee, Source "lab review <date>"), and into the journal. Spending or sending Kev approves is still one QC approval each.
 - **Monday:** each employee's next session reads its answered card first, writes the advice into `memory/live/` and goes back to the lab. Radar chases a card that is still unread on Wednesday.
