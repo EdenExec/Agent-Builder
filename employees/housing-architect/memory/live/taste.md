@@ -1,0 +1,1 @@
+- 2026-10-11: Modern ranch with daylight basement/walkout; livestock wanted: sheep, goats, donkey, chickens. Kev, 11 Oct 2026.
