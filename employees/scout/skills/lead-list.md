@@ -15,9 +15,10 @@ Done means a recruiter opens one sheet and starts dialing, with nothing to look 
 
 ## Columns
 
-#, Tier, Name, Title, Company, Company type, Trade, Metro, LinkedIn, In Crelate (owner, last activity), Fit note (one line), Source (ZoomInfo id or "LinkedIn search"), Note (client flags). Recruiters fill Called and Result.
+#, Tier, Name, Title, Company, Company type, Trade, City, State, Time Zone, LinkedIn, In Crelate (owner, last activity), Fit note (one line), Source (ZoomInfo id or "LinkedIn search"), Note (client flags). Recruiters fill Called and Result.
 
 - **LinkedIn is never blank:** the exact profile URL when known (ZoomInfo record, enrichment, web search); otherwise `https://www.linkedin.com/search/results/people/?keywords=<First Last Company>` URL-encoded.
+- **City, State and Time Zone are three separate columns on every upload, every row.** Kev, 13 October: the BPO team uploads these sheets to Crelate, and Crelate picks up each tag only from its own column. Use those exact headers. City is the city name; State is the two-letter code (FL); Time Zone is one of PST, MST, CST, EST (`memory/seed/buckets.md`). Use where the person lives when known; otherwise the company office's city, with "office location" in Note. Never one combined Metro or Location column.
 - No personal email, no personal phone, no comp.
 
 ## Quality bar
