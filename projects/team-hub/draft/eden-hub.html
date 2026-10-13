@@ -56,6 +56,7 @@ input[type=search]{font:inherit;font-size:14px;color:var(--ink);background:var(-
 .seat.t1{background:var(--g1);border-color:var(--g1-line);box-shadow:inset 4px 0 0 var(--g1-bar)}
 .seat.t2{background:var(--g2);border-color:var(--g2-line);box-shadow:inset 4px 0 0 var(--g2-bar)}
 .chip.need{background:var(--g1-bar);color:#fff}
+.chip.go{background:var(--neg);color:#fff;font-weight:600}
 .chip.fresh{background:var(--gold);color:#fff}
 .chip.nol{background:transparent;color:var(--neg);border:1px dashed var(--red-line)}
 .legend{display:flex;gap:6px 12px;flex-wrap:wrap;align-items:center;margin:-4px 0 10px;font-size:11.5px;color:var(--mute)}
@@ -265,7 +266,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     const best=order.find(o=>ppl.some(p=>String(p.status).toLowerCase()===o.toLowerCase()));
     const mine=state.by?(s.people||[]).filter(p=>String(p.by||'').toLowerCase()===state.by.toLowerCase()).length:null;
     const L=leadsFor(c,s),tot=L.reduce((a,l)=>a+(+l.leads||0),0),fr=L.some(l=>state.freshIds.has(l.id));
-    return '<span class="meta">'+n+(n===1?' resume':' resumes')+(mine!=null?' · '+mine+' '+esc(state.by):'')+'</span>'+(n>0&&n<3?'<span class="chip need">Needs '+(3-n)+' more</span>':'')+(best?chip(best):'')+
+    return '<span class="meta">'+n+(n===1?' resume':' resumes')+(mine!=null?' · '+mine+' '+esc(state.by):'')+'</span>'+(n===0&&!s.filled&&!s.removed?'<span class="chip go">Go now!</span>':'')+(n>0&&n<3?'<span class="chip need">Needs '+(3-n)+' more</span>':'')+(best?chip(best):'')+
       (L.length?'<span class="meta">'+tot+' leads</span>':'<span class="chip nol">No leads</span>')+(fr?'<span class="chip fresh">New leads</span>':'');
   }
   function seatCard(c,s,si){
@@ -287,7 +288,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   function rDepth(rows){
     const recs=[...new Set(rows.flatMap(c=>(c.seats||[]).flatMap(s=>(s.people||[]).map(p=>String(p.by||'').trim()).filter(Boolean))))].sort();
     const tools='<div class="tools">'+(recs.length?'<label for="byf">Recruiter</label><select class="ed" id="byf" data-act="by"><option value="">Everyone</option>'+recs.map(r=>'<option value="'+esc(r)+'"'+(r.toLowerCase()===state.by.toLowerCase()?' selected':'')+'>'+esc(r)+'</option>').join('')+'</select>':'')+A('expand-all','','Expand all')+A('collapse-all','','Collapse all')+'</div>'+
-      '<div class="legend"><span><i style="background:var(--g1);border-color:var(--g1-line)"></i>1 or 2 resumes: work these first</span><span><i style="background:var(--red-fade);border-color:var(--red-line)"></i>No resumes yet</span><span><i style="background:var(--bg)"></i>3 or more</span></div>';
+      '<div class="legend"><span><i style="background:var(--g1);border-color:var(--g1-line)"></i>1 or 2 resumes: work these first</span><span><i style="background:var(--red-fade);border-color:var(--red-line)"></i>No resumes yet: Go now!</span><span><i style="background:var(--bg)"></i>3 or more</span></div>';
     const newChart=state.canEdit?'<form class="addbar" data-act="add-chart"><input class="ed" name="title" data-k="n-chart" placeholder="New depth chart title (e.g. West Palm Beach)" aria-label="New depth chart title" required><button type="submit">+ New depth chart</button></form>':'';
     if(!rows.length)return '<div class="empty">No depth chart filed for this client yet.</div>'+newChart;
     return tools+sortCharts(rows).map(c=>{
