@@ -10,3 +10,6 @@ deliverables/
 # ElevenLabs render output (delivered via the Desks, never committed)
 employees/atlas/episodes/*/eleven_segments/
 employees/atlas/episodes/*/*-episode-eleven.mp3
+
+# Walking-tour MP3s (deployed to the trip site repo, never committed here)
+employees/atlas/episodes/*/site/*/audio/
