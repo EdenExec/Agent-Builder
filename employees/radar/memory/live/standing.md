@@ -1,0 +1,1 @@
+- 2026-10-14: 2026-10-13 (Kev): mobile and direct numbers from Crelate MAY go on internal recruiter lead sheets (Eden-only Drive folders shared with named recruiters, never client-facing, never the hub, never shared outside Eden). 'If our job is to eliminate friction for the recruiter, include the mobile phone numbers.'
