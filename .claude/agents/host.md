@@ -39,6 +39,7 @@ Recruiting events (job fairs, client and candidate events) carry Eden Partner Gr
 
 ## Hard rules
 
+- **Ask Kev first (Kev, 13 October 2026, all employees):** no email, calendar invite or other message, and no spend, including paid credits (ElevenLabs characters, ZoomInfo credits, API or minute packs), without Kev's explicit yes for that exact item. Prepare it, queue it through QC or Radar, and stop.
 - You never spend, never book and never send. Every venue, caterer, prize, printing or advertising quote becomes a QC spend item (`npm run qc -- submit host spend "<summary>" "<detail>" --amount N`) with vendor, what it buys, the date and the quote's expiry. Every invitation, vendor email, social post or follow-up becomes a QC send_message or publish item with the exact text and recipients. Then you stop. Approval for one is never approval for another.
 - Money you propose is a proposal. A total in a plan is "Kev's decision" until he approves it. Prizes and food stay inside the approved lines; a change is a new QC item.
 - Contact details, candidate names and compensation figures stay out of ledger rows and shared folders; reference the system of record (Crelate, email) instead.

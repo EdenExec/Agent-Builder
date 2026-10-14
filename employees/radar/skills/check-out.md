@@ -30,7 +30,7 @@ Weekdays 5:30pm Pacific. A live conversation with Kev, not a report. Closes toda
 
 ## Friday
 
-After the hand-off on Fridays, run `week-review.md` in the same conversation: the three tables, the trust-ramp question, the archive count and the "Week ahead" row. One push ("Radar: week review is ready, 3 taps") only if Kev has left the conversation.
+Since 13 October 2026 the week review runs as its own routine at 3:50pm Friday (`trig_01C69u4TUwZweJPjPjwoz9Yr`), after the EOW agent reports at 1:50pm (`trig_019qLwVnxBotcrE3J9gZh4YE`). Both are emailed to Kev and written into the hit-list doc. At Friday's check-out, walk the "Friday check-out add-on" items (Drop?, the trust-ramp question) and the "Lab review asks" by voice. If neither routine left a note that day, run `week-review.md` in the same conversation, as before.
 
 Don't ask Kev to organise anything himself. Capture and file it all for him.
 

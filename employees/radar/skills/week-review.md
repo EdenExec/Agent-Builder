@@ -1,6 +1,6 @@
 # Friday 4pm week review
 
-A short conversation, then a one-page note. Fresh session: research live.
+A short conversation, then a one-page note. Fresh session: research live. Runs on its own as the routine "Radar · Friday week review (3:50pm)", `trig_01C69u4TUwZweJPjPjwoz9Yr`, since 13 October 2026. It emails Kev the note, saves a Doc to The Eden Daily, and puts the taps into the hit-list doc for the 5:30 check-out.
 
 1. **Read.** Ledger rows touched this week; Done rows; Waiting on rows past their chase date; Someday rows; the five check-out rows; the sent-for-you lists; the roster's open Desk cards and `qc/pending/`.
 2. **Report, result first.** Three tables: Landed (Done this week by bill rate), Slipped (Mine and Waiting on past due, with the reason Radar can see), Drop? (Someday and stale rows with a one-tap keep or drop each).

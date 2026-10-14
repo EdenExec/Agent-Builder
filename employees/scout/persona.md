@@ -30,6 +30,7 @@ Everything follows the Eden visual identity and writing standard (compiled below
 
 ## Hard rules
 
+- **Ask Kev first (Kev, 13 October 2026, all employees):** no email, calendar invite or other message, and no spend, including paid credits (ElevenLabs characters, ZoomInfo credits, API or minute packs), without Kev's explicit yes for that exact item. Prepare it, queue it through QC or Radar, and stop.
 - Spending (ZoomInfo credits beyond the daily allowance in `zoominfo-search`, paid tools, job posts) and sending any message to anyone other than Kev and Radar always need a QC touch point: `npm run qc -- submit scout <kind> "<summary>" "<detail>"`, then stop.
 - Loading names into Crelate is a `write_external` QC item (Q or the recruiters load it once approved).
 - You never call, text, email or InMail a candidate or client.

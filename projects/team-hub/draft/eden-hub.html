@@ -7,6 +7,7 @@
 :root{
   --bg:#FAF8F4; --paper:#FFFFFF; --ink:#1A1A1A; --mute:#6F695D; --line:#EAE4D8; --gold:#8F6F3E; --gold-soft:#EFE6D8;
   --pos:#3D6B4F; --warn:#8A6A1F; --neg:#8A3A32; --pos-bg:#E4EEE7; --warn-bg:#F3EAD0; --neg-bg:#F1DDD9; --info-bg:#E9E6DD;
+  --red-fade:#F5E3DF; --red-line:#EAD2CC; --g1:#D9ECDE; --g1-line:#8FBF9E; --g1-bar:#3D7A52; --g2:#E8F2EB; --g2-line:#BFD9C6; --g2-bar:#8DB89A;
   --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
 }
 :root{color-scheme:light}
@@ -47,10 +48,26 @@ input[type=search]{font:inherit;font-size:14px;color:var(--ink);background:var(-
 /* depth chart */
 .dc-head{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline;justify-content:space-between;margin:0 0 10px}
 .dc-head h4{font-size:15px;font-weight:800;margin:0}
-.seats{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;align-items:start}
-.seat{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;min-width:0}
+.seats{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:8px;align-items:start}
+.seat{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0}
+.seat[data-open="true"]{grid-column:1/-1;padding:12px}
+/* resume heat: no resumes fades to a soft red; 1 or 2 resumes glow green so the team works them first; 3+ stays plain */
+.seat.t0{background:linear-gradient(180deg,var(--bg) 35%,var(--red-fade) 100%);border-color:var(--red-line)}
+.seat.t1{background:var(--g1);border-color:var(--g1-line);box-shadow:inset 4px 0 0 var(--g1-bar)}
+.seat.t2{background:var(--g2);border-color:var(--g2-line);box-shadow:inset 4px 0 0 var(--g2-bar)}
+.chip.need{background:var(--g1-bar);color:#fff}
+.chip.go{background:var(--neg);color:#fff;font-weight:600}
+.chip.fresh{background:var(--gold);color:#fff}
+.chip.nol{background:transparent;color:var(--neg);border:1px dashed var(--red-line)}
+.legend{display:flex;gap:6px 12px;flex-wrap:wrap;align-items:center;margin:-4px 0 10px;font-size:11.5px;color:var(--mute)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px;border:1px solid var(--line)}
+.slead{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}
+.slead li{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px;min-width:0}
+.slead a{font-weight:700}
+.assign{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--mute);margin-top:6px}
+.jo{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink);background:var(--gold-soft);border-radius:4px;padding:3px 7px;white-space:nowrap}
 .seat h5{font-size:13px;font-weight:800;margin:0}
-.loc{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--mute);margin-top:2px}
+.loc{font-family:var(--mono);font-size:9.5px;letter-spacing:.9px;text-transform:uppercase;color:var(--mute);margin-top:1px;overflow-wrap:anywhere}
 .people{list-style:none;margin:8px 0 0;padding:0}
 .people li{display:grid;gap:3px;padding:9px 0;border-top:1px solid var(--line);min-width:0}
 .people li:first-child{border-top:0}
@@ -102,11 +119,11 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
 .tools label{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--mute)}
 .by{color:var(--gold);font-family:var(--mono);font-size:10.5px;letter-spacing:.6px}
 .saving{color:var(--warn)}
-.shead{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:3px;width:100%;min-height:44px}
+.shead{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:2px;width:100%;min-height:40px}
 .shead:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
 .shead .row1{display:flex;align-items:center;gap:8px;justify-content:space-between}
-.shead .sname{font-size:13px;font-weight:800}
-.ssum{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:4px}
+.shead .sname{font-size:12.5px;font-weight:800;line-height:1.25}
+.ssum{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:3px}
 .seat .caret{flex:none;width:8px;height:8px}
 .folder[data-open="true"] .seat[data-open="false"] .caret{transform:rotate(-45deg)}
 .seat[data-open="true"] .caret{transform:rotate(45deg)}
@@ -122,6 +139,8 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
 .seat.filled{background:var(--pos-bg);border-color:transparent}
 .seat .stools{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .mini.warn{color:var(--neg)}
+.add label.mv{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--mute);margin-top:6px}.add label.mv select{flex:1;min-width:0}
+.rmq{color:var(--neg);font-size:12px;margin-top:6px}
 .filledrow{display:grid;gap:2px;padding:8px 0 0}
 .minutes textarea{width:100%;min-height:150px;font:inherit;font-size:14px;line-height:1.5;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:8px;padding:12px;resize:vertical}
 .minutes .meta{display:block;margin-top:6px}
@@ -182,8 +201,20 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   const TONE={'pending ptc':'warn','ptc':'gold','submitted':'gold','presented':'gold','interview':'pos','interviewing':'pos','offer':'pos','offer letter':'pos','placed':'pos','on hold':'','waiting on resume':'warn','out':'neg','pass':'neg','pass offer':'neg','withdrawn':'neg'};
   const tone=s=>TONE[String(s||'').toLowerCase()]||'';
   const isOut=s=>['out','pass','withdrawn','pass offer'].includes(String(s||'').toLowerCase());
+  // job order owner lives at the end of the seat's location ("10 City Place · Owner: Nick"); tiles show the place only
+  const ownerOf=l=>{const m=String(l||'').match(/Owner:\s*(.+)$/);const o=m?m[1].trim():'';return /^open$/i.test(o)?'':o};
+  const placeOf=l=>String(l||'').replace(/\s*·?\s*Owner:.*$/,'').trim();
+  const ROSTER=['Kev','Nick','Noah','Andrew','Max','Bridger','Evan'];
+  const live=s=>(s.people||[]).filter(p=>!isOut(p.status));
+  const heat=n=>n===0?'t0':n===1?'t1':n===2?'t2':'';
+  // fresh leads: each viewer's browser remembers the lead lists it has already seen (built date + count)
+  const sig=l=>String(l.built||'')+'|'+String(l.leads||'');
+  let seen={};try{seen=JSON.parse(localStorage.getItem('hub-seen-leads')||'{}')||{}}catch(_){seen={}}
+  const saveSeen=()=>{try{localStorage.setItem('hub-seen-leads',JSON.stringify(seen))}catch(_){}};
+  const isFresh=(rec,l)=>rec?rec[l.id]!==sig(l):(age(l.built)!=null&&age(l.built)<=2);
+  const leadsFor=(c,s)=>state.sections.leads.filter(l=>(l.seats||[]).includes(c.id+':'+s.seat));
 
-  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[],meetings:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,confirm:null,showRemoved:false,thread:null,expanded:new Set(),saving:0,live:false,pending:{},last:{},deferred:false};
+  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[],meetings:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,confirm:null,showRemoved:false,thread:null,expanded:new Set(),saving:0,live:false,pending:{},last:{},deferred:false,summ:{},watched:new Set(),freshIds:new Set(),seenFor:null,seenRec:null};
   try{state.present=sessionStorage.getItem('hub-present')==='1';state.expanded=new Set(JSON.parse(sessionStorage.getItem('hub-open')||'[]'))}catch(_){}
   const saveOpen=()=>{try{sessionStorage.setItem('hub-open',JSON.stringify([...state.expanded]))}catch(_){}};
 
@@ -191,6 +222,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   const stale=d=>{const a=age(d);return a!=null&&a>14};
   const opts=cur=>{const list=STATUSES.slice();if(cur&&!list.some(x=>x.toLowerCase()===String(cur).toLowerCase()))list.unshift(cur);return (cur?'':'<option value="" selected>No status</option>')+list.map(x=>'<option value="'+esc(x)+'"'+(String(cur).toLowerCase()===x.toLowerCase()?' selected':'')+'>'+esc(x)+'</option>').join('')};
   const A=(act,attrs,label,cls)=>'<button class="mini'+(cls?' '+cls:'')+'" type="button" data-act="'+act+'" '+attrs+'>'+label+'</button>';
+  const seatOpts=cur=>state.sections.depth.map(ch=>'<optgroup label="'+esc(ch.title||ch.id)+'">'+(ch.seats||[]).map((x,i)=>x.removed?'':'<option value="'+esc(ch.id+'|'+i)+'"'+(ch.id+'|'+i===cur?' selected':'')+'>'+esc(x.seat)+'</option>').join('')+'</optgroup>').join('');
   const at=(c,si,pi)=>'data-doc="'+esc(c.id)+'" data-s="'+si+'"'+(pi!=null?' data-p="'+pi+'"':'');
 
   const BUBBLE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" stroke-linejoin="round"/></svg>';
@@ -212,7 +244,9 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
         '<input class="ed" name="name" data-k="e-name-'+esc(key)+'" value="'+esc(p.name)+'" aria-label="Name" required>'+
         '<div class="r2"><input class="ed" name="by" data-k="e-by-'+esc(key)+'" value="'+esc(p.by||'')+'" placeholder="Recruiter" aria-label="Recruiter"><select class="ed" name="status" aria-label="Status">'+opts(p.status)+'</select></div>'+
         '<input class="ed" name="note" data-k="e-note-'+esc(key)+'" value="'+esc(p.note||'')+'" placeholder="Note (no pay or contact details)" aria-label="Note">'+
-        '<div class="prow"><button type="submit">Save</button>'+A('cancel','','Cancel')+'</div></form></li>';
+        '<label class="mv">Seat <select class="ed" name="seat" aria-label="Move to seat">'+seatOpts(c.id+'|'+si)+'</select></label>'+
+        (state.confirmP===key?'<div class="prow rmq">Remove '+esc(p.name)+' from this seat? '+A('rm-person',at(c,si,pi),'Yes, remove','warn')+A('rm-no','','Keep')+'</div>':'')+
+        '<div class="prow"><button type="submit">Save</button>'+A('cancel','','Cancel')+(state.confirmP===key?'':A('rm-ask','data-key="'+esc(key)+'"','Remove','warn'))+'</div></form></li>';
     }
     const st=state.canEdit?'<select class="st '+tone(p.status)+'" data-act="status" '+at(c,si,pi)+' aria-label="Status for '+esc(p.name)+'">'+opts(p.status)+'</select>':chip(p.status);
     const tools=state.canEdit?A('edit','data-key="'+esc(key)+'"','Edit')+(pi>0?A('up',at(c,si,pi),'↑ Up'):'')+A('fill',at(c,si,pi),'✓ Filled'):'';
@@ -226,19 +260,25 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
       '<div class="r3"><input class="ed" name="by" data-k="a-by-'+k+'" placeholder="Recruiter" aria-label="Recruiter" value="'+esc(state.by)+'"><select class="ed" name="status" data-k="a-st-'+k+'" aria-label="Status">'+STATUSES.map((x,i)=>'<option value="'+esc(x)+'"'+(i===0?' selected':'')+'>'+esc(x)+'</option>').join('')+'</select><button type="submit">Add</button></div>'+
       '<input class="ed" name="note" data-k="a-note-'+k+'" placeholder="Note (optional)" aria-label="Note"></form>';
   }
-  function seatSummary(s){
-    const ppl=(s.people||[]).filter(p=>!isOut(p.status));
+  function seatSummary(c,s){
+    const ppl=live(s),n=ppl.length;
     const order=['Placed','Offer','Interview','Submitted','PTC','Pending PTC'];
     const best=order.find(o=>ppl.some(p=>String(p.status).toLowerCase()===o.toLowerCase()));
     const mine=state.by?(s.people||[]).filter(p=>String(p.by||'').toLowerCase()===state.by.toLowerCase()).length:null;
-    return '<span class="meta">'+ppl.length+(ppl.length===1?' name':' names')+(mine!=null?' · '+mine+' '+esc(state.by):'')+'</span>'+(best?chip(best):'');
+    const L=leadsFor(c,s),tot=L.reduce((a,l)=>a+(+l.leads||0),0),fr=L.some(l=>state.freshIds.has(l.id));
+    return '<span class="meta">'+n+(n===1?' resume':' resumes')+(mine!=null?' · '+mine+' '+esc(state.by):'')+'</span>'+(n===0&&!s.filled&&!s.removed?'<span class="chip go">Go now!</span>':'')+(n>0&&n<3?'<span class="chip need">Needs '+(3-n)+' more</span>':'')+(best?chip(best):'')+
+      (L.length?'<span class="meta">'+tot+' leads</span>':'<span class="chip nol">No leads</span>')+(fr?'<span class="chip fresh">New leads</span>':'');
   }
   function seatCard(c,s,si){
-    const k=c.id+'|'+si, open=state.expanded.has(k);
-    const head='<button class="shead" type="button" data-act="toggle-seat" data-key="'+esc(k)+'" aria-expanded="'+open+'"><span class="row1"><span class="sname">'+esc(s.seat)+'</span><span class="caret" aria-hidden="true"></span></span><span class="loc">'+esc(s.loc||'')+'</span><span class="ssum">'+seatSummary(s)+((s.comments||[]).length?'<span class="meta">· '+s.comments.length+' seat note'+(s.comments.length>1?'s':'')+'</span>':'')+'</span></button>';
-    if(!open)return '<div class="seat" data-open="false">'+head+'</div>';
+    const k=c.id+'|'+si, open=state.expanded.has(k), cls='seat '+heat(live(s).length), place=placeOf(s.loc);
+    const head='<button class="shead" type="button" data-act="toggle-seat" data-key="'+esc(k)+'" aria-expanded="'+open+'"><span class="row1"><span class="sname">'+esc(s.seat)+'</span><span class="caret" aria-hidden="true"></span></span>'+(place?'<span class="loc">'+esc(place)+'</span>':'')+'<span class="ssum">'+seatSummary(c,s)+((s.comments||[]).length?'<span class="meta">· '+s.comments.length+' seat note'+(s.comments.length>1?'s':'')+'</span>':'')+'</span></button>';
+    if(!open)return '<div class="'+cls+'" data-open="false">'+head+'</div>';
+    const own=ownerOf(s.loc);
+    const assign='<div class="assign">Assigned '+(state.canEdit?'<select class="ed" data-act="assign" '+at(c,si)+' aria-label="Assign this job order">'+[''].concat(own&&!ROSTER.includes(own)?[own]:[],ROSTER).map(r=>'<option value="'+esc(r)+'"'+(r===own?' selected':'')+'>'+esc(r||'Open')+'</option>').join('')+'</select>':'<b>'+esc(own||'Open')+'</b>')+'</div>';
+    const L=leadsFor(c,s);
+    const leads=L.length?'<ul class="slead">'+L.map(l=>'<li>'+(l.sheet?'<a href="'+esc(safeUrl(l.sheet))+'" target="_blank" rel="noopener">'+esc(l.leads)+' leads</a>':'<b>'+esc(l.leads)+' leads</b>')+'<span class="meta">'+esc(l.project||l.role||'')+(l.built?' · '+esc(l.built):'')+'</span>'+(state.freshIds.has(l.id)?'<span class="chip fresh">New</span>':'')+'</li>').join('')+'</ul>':'<div class="meta" style="margin-top:6px">No lead list for this seat yet.</div>';
     const tools='<div class="stools">'+bubble('s',c,si,null,s.comments)+(state.canEdit?(state.confirm===k?A('remove',at(c,si),'Tap again to remove','warn')+A('cancel','','Keep'):A('ask-remove',at(c,si),'Remove seat')):'')+'</div>';
-    return '<div class="seat" data-open="true">'+head+tools+thread('s',c,si,null,s.comments)+'<ul class="people">'+
+    return '<div class="'+cls+'" data-open="true">'+head+assign+leads+tools+thread('s',c,si,null,s.comments)+'<ul class="people">'+
       ((s.people||[]).map((p,pi)=>person(c,si,pi,p)).join('')||'<li class="open">Seat open</li>')+'</ul>'+addForm(c,si)+'</div>';
   }
   function filledCard(c,s,si){
@@ -247,7 +287,8 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   }
   function rDepth(rows){
     const recs=[...new Set(rows.flatMap(c=>(c.seats||[]).flatMap(s=>(s.people||[]).map(p=>String(p.by||'').trim()).filter(Boolean))))].sort();
-    const tools='<div class="tools">'+(recs.length?'<label for="byf">Recruiter</label><select class="ed" id="byf" data-act="by"><option value="">Everyone</option>'+recs.map(r=>'<option value="'+esc(r)+'"'+(r.toLowerCase()===state.by.toLowerCase()?' selected':'')+'>'+esc(r)+'</option>').join('')+'</select>':'')+A('expand-all','','Expand all')+A('collapse-all','','Collapse all')+'</div>';
+    const tools='<div class="tools">'+(recs.length?'<label for="byf">Recruiter</label><select class="ed" id="byf" data-act="by"><option value="">Everyone</option>'+recs.map(r=>'<option value="'+esc(r)+'"'+(r.toLowerCase()===state.by.toLowerCase()?' selected':'')+'>'+esc(r)+'</option>').join('')+'</select>':'')+A('expand-all','','Expand all')+A('collapse-all','','Collapse all')+'</div>'+
+      '<div class="legend"><span><i style="background:var(--g1);border-color:var(--g1-line)"></i>1 or 2 resumes: work these first</span><span><i style="background:var(--red-fade);border-color:var(--red-line)"></i>No resumes yet: Go now!</span><span><i style="background:var(--bg)"></i>3 or more</span></div>';
     const newChart=state.canEdit?'<form class="addbar" data-act="add-chart"><input class="ed" name="title" data-k="n-chart" placeholder="New depth chart title (e.g. West Palm Beach)" aria-label="New depth chart title" required><button type="submit">+ New depth chart</button></form>':'';
     if(!rows.length)return '<div class="empty">No depth chart filed for this client yet.</div>'+newChart;
     return tools+sortCharts(rows).map(c=>{
@@ -268,7 +309,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   function rLeads(rows){
     if(!rows.length)return '<div class="empty">No lead lists for this client yet.</div>';
     return '<div class="scroll"><table><thead><tr><th>Role</th><th>Market</th><th class="num">Leads</th><th>Owner</th><th>Sheet</th><th>Built</th></tr></thead><tbody>'+
-      rows.slice().sort((a,b)=>String(a.pool||'').localeCompare(String(b.pool||''))||String(a.role).localeCompare(String(b.role))).map(x=>'<tr><td><b>'+esc(x.role)+'</b><small>'+esc(x.project||'')+(x.pool?' · Pool '+esc(x.pool):'')+'</small></td><td>'+esc(x.metro||'')+'</td><td class="num">'+esc(x.leads)+'</td><td>'+(x.owner?esc(x.owner):'<span class="chip warn">Unassigned</span>')+'</td><td>'+(x.sheet?'<a href="'+esc(safeUrl(x.sheet))+'" target="_blank" rel="noopener">Open</a>':'<span class="meta">link to add</span>')+'</td><td class="meta">'+esc(x.built||'')+'</td></tr>').join('')+'</tbody></table></div>';
+      rows.slice().sort((a,b)=>String(a.pool||'').localeCompare(String(b.pool||''))||String(a.role).localeCompare(String(b.role))).map(x=>'<tr><td><b>'+esc(x.role)+'</b>'+(state.freshIds.has(x.id)?' <span class="chip fresh">New</span>':'')+'<small>'+esc(x.project||'')+(x.pool?' · Pool '+esc(x.pool):'')+'</small></td><td>'+esc(x.metro||'')+'</td><td class="num">'+esc(x.leads)+'</td><td>'+(x.owner?esc(x.owner):'<span class="chip warn">Unassigned</span>')+'</td><td>'+(x.sheet?'<a href="'+esc(safeUrl(x.sheet))+'" target="_blank" rel="noopener">Open</a>':'<span class="meta">link to add</span>')+'</td><td class="meta">'+esc(x.built||'')+'</td></tr>').join('')+'</tbody></table></div>';
   }
   const NS={active:'pos',waiting:'warn'};
   function rNotes(rows){
@@ -336,7 +377,8 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     if(!state.clients.length){$('folders').innerHTML='<div class="empty">'+(state.live?'No client folders yet.':'Open this page in Claude to load the hub.')+'</div>'+newClient;$('playbooks').innerHTML='';restoreInputs(keep);return}
     $('folders').innerHTML=(state.open&&!state.present?'<button class="back" id="back" type="button">← All clients</button>':'')+(list.map(c=>{
       const open=c.id===state.open;
-      return '<div class="folder" data-open="'+open+'"><button class="fhead" type="button" data-id="'+esc(c.id)+'" aria-expanded="'+open+'" aria-controls="fb-'+esc(c.id)+'"><span class="fname">'+esc(c.name)+'</span>'+(open&&c.updated?'<span class="fmeta">Updated '+esc(c.updated)+'</span>':'')+'<span class="caret" aria-hidden="true"></span></button>'+(open?'<div id="fb-'+esc(c.id)+'">'+folderBody()+'</div>':'')+'</div>'}).join('')||'<div class="empty">No client matches that name.</div>')+newClient;
+      const sm=state.summ[c.id]||{};
+      return '<div class="folder" data-open="'+open+'"><button class="fhead" type="button" data-id="'+esc(c.id)+'" aria-expanded="'+open+'" aria-controls="fb-'+esc(c.id)+'"><span class="fname">'+esc(c.name)+(sm.open!=null?' <span class="jo">'+sm.open+' open JO'+(sm.open===1?'':'s')+'</span>':'')+(sm.fresh&&!open?' <span class="chip fresh">New leads</span>':'')+'</span>'+(open&&c.updated?'<span class="fmeta">Updated '+esc(c.updated)+'</span>':'')+'<span class="caret" aria-hidden="true"></span></button>'+(open?'<div id="fb-'+esc(c.id)+'">'+folderBody()+'</div>':'')+'</div>'}).join('')||'<div class="empty">No client matches that name.</div>')+newClient;
     $('playbooks').innerHTML=(!state.open&&state.playbooks.length)?'<div class="folder" data-open="false"><div class="fhead" style="cursor:default"><span class="fname">Eden playbooks</span><span class="fmeta">Not client specific</span></div><div class="fbody"><div class="sec">'+rRes(state.playbooks)+'</div></div></div>':'';
     restoreInputs(keep);
   }
@@ -352,7 +394,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     const run=()=>call().catch(e=>{if(e&&e.code==='unavailable')return new Promise(r=>setTimeout(r,600+Math.random()*600)).then(call);throw e});
     const p=(queues[path]||Promise.resolve()).then(run);
     queues[path]=p.catch(()=>{});
-    p.then(()=>{if(state.saving===1)setStatus('saved')},e=>{setStatus('not saved: '+((e&&e.code)||'error')+' · try again');if(e&&e.code==='invalid_argument'&&mode!=='set'){state.canEdit=false;render(true)}})
+    p.then(()=>{if(state.saving===1)setStatus('saved')},e=>{setStatus('not saved: '+((e&&e.code)||'error')+' · try again');if(e&&(e.code==='revoked'||(e.code==='invalid_argument'&&mode!=='set'))){state.canEdit=false;render(true)}})
      .finally(()=>{state.saving--;setTimeout(()=>{state.pending[path]--;},1500)});
     return p.catch(()=>{});
   }
@@ -380,7 +422,10 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     if(a){
       const act=a.dataset.act,c=a.dataset.doc?chartOf(a.dataset.doc):null,s=c&&a.dataset.s!=null?c.seats[+a.dataset.s]:null,i=+a.dataset.p;
       if(act==='edit'){state.editing=a.dataset.key;render(true);const f=folders.querySelector('[data-k="e-name-'+CSS.escape(a.dataset.key)+'"]');if(f)f.focus();return}
-      if(act==='cancel'){state.editing=null;state.confirm=null;render(true);return}
+      if(act==='cancel'){state.editing=null;state.confirm=null;state.confirmP=null;render(true);return}
+      if(act==='rm-ask'){state.confirmP=a.dataset.key;render(true);return}
+      if(act==='rm-no'){state.confirmP=null;render(true);return}
+      if(act==='rm-person'&&s&&s.people[i]){const p=s.people.splice(i,1)[0];(s.gone=s.gone||[]).push(Object.assign({},p,{removedOn:today()}));state.editing=null;state.confirmP=null;saveSeats(c);setStatus(p.name+' removed from '+s.seat);return}
       if(act==='up'&&s&&i>0){const t=s.people[i-1];s.people[i-1]=s.people[i];s.people[i]=t;saveSeats(c);return}
       if(act==='fill'&&s&&s.people[i]){const p=s.people[i];p.status='Placed';s.filled={name:p.name,by:p.by||'',date:today()};saveSeats(c);return}
       if(act==='reopen'&&s){delete s.filled;saveSeats(c);return}
@@ -402,6 +447,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   folders.addEventListener('change',e=>{
     const el=e.target;
     if(el.dataset.act==='by'){state.by=el.value;render(true);return}
+    if(el.dataset.act==='assign'){const c=chartOf(el.dataset.doc),s=c&&c.seats[+el.dataset.s];if(s){const pl=placeOf(s.loc);s.loc=el.value?(pl?pl+' · ':'')+'Owner: '+el.value:pl;saveSeats(c)}return}
     if(el.dataset.act==='status'){const c=chartOf(el.dataset.doc),p=c&&c.seats[+el.dataset.s]&&c.seats[+el.dataset.s].people[+el.dataset.p];if(p){p.status=el.value;saveSeats(c)}}
   });
   folders.addEventListener('input',e=>{
@@ -420,7 +466,10 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     if(act==='add-comment'){const parts=f.dataset.key.split('|'),kind=parts[0],c=chartOf(parts[1]),s=c&&c.seats[+parts[2]];const text=v('text');if(!s||!text)return;
       const tgt=kind==='p'?(s.people||[])[+parts[3]]:s;if(!tgt)return;(tgt.comments=tgt.comments||[]).push({text,at:new Date().toISOString()});
       const t=folders.querySelector('[data-k="cm-'+CSS.escape(f.dataset.key)+'"]');if(t)t.value='';saveSeats(c);return}
-    if(act==='save-person'){const c=chartOf(f.dataset.doc),p=c&&c.seats[+f.dataset.s]&&c.seats[+f.dataset.s].people[+f.dataset.p];if(!p||!v('name'))return;p.name=v('name');p.by=v('by');p.status=v('status');p.note=v('note');state.editing=null;saveSeats(c);return}
+    if(act==='save-person'){const c=chartOf(f.dataset.doc),p=c&&c.seats[+f.dataset.s]&&c.seats[+f.dataset.s].people[+f.dataset.p];if(!p||!v('name'))return;p.name=v('name');p.by=v('by');p.status=v('status');p.note=v('note');state.editing=null;state.confirmP=null;
+      const to=String(v('seat')||''),bar=to.lastIndexOf('|'),c2=bar>0?chartOf(to.slice(0,bar)):null,s2=c2&&c2.seats[+to.slice(bar+1)];
+      if(s2&&s2!==c.seats[+f.dataset.s]){c.seats[+f.dataset.s].people.splice(+f.dataset.p,1);(s2.people=s2.people||[]).push(p);if(c2!==c)saveSeats(c2);saveSeats(c);setStatus(p.name+' moved to '+s2.seat);return}
+      saveSeats(c);return}
     if(act==='add-seat'){const c=chartOf(f.dataset.doc);if(!c||!v('seat'))return;(c.seats=c.seats||[]).push({seat:v('seat'),loc:v('loc'),people:[]});
       ['s-seat-','s-loc-'].forEach(x=>{const el=folders.querySelector('[data-k="'+CSS.escape(x+c.id)+'"]');if(el)el.value=''});saveSeats(c);return}
     if(act==='add-chart'){if(!v('title')||!db)return;const id=slugOf(v('title'))+'-'+uid();const el=folders.querySelector('[data-k="n-chart"]');const t=v('title');if(el)el.value='';
@@ -432,12 +481,18 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   function unsubAll(){state.unsubs.forEach(u=>{try{u()}catch(_){}});state.unsubs=[]}
   let db=null;
   function openClient(id){
-    unsubAll();state.sections={depth:[],leads:[],notes:[],resources:[],meetings:[]};state.last={};state.open=id||null;state.editing=null;state.confirm=null;state.thread=null;state.by='';
+    unsubAll();state.sections={depth:[],leads:[],notes:[],resources:[],meetings:[]};state.last={};state.open=id||null;state.freshIds=new Set();state.seenFor=null;state.editing=null;state.confirm=null;state.thread=null;state.by='';
     try{history.replaceState(null,'',id?'#'+id:location.pathname+location.search)}catch(_){}
     if(id&&db){['depth','leads','notes','resources','meetings'].forEach(k=>{
       state.unsubs.push(db.collection('clients/'+id+'/'+k).onSnapshot(s=>{
         if(state.open!==id)return;
         let rows=s.docs.map(own);
+        if(k==='leads'){
+          if(state.seenFor!==id){state.seenFor=id;state.seenRec=seen[id]?Object.assign({},seen[id]):null}
+          rows.forEach(l=>{if(isFresh(state.seenRec,l))state.freshIds.add(l.id)});
+          seen[id]=Object.fromEntries(rows.map(l=>[l.id,sig(l)]));saveSeen();
+          if(state.summ[id])state.summ[id].fresh=false;
+        }
         const base='clients/'+id+'/'+k+'/';
         rows=rows.map(r=>state.pending[base+r.id]>0?(state.sections[k].find(x=>x.id===r.id)||r):r);
         state.sections[k].forEach(x=>{if(state.pending[base+x.id]>0&&!rows.some(r=>r.id===x.id))rows.push(x)});
@@ -459,10 +514,20 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     if(state.present)$('find').value='';render(true);
   });
 
+  // landing summaries: open job orders per client, and whether new lead lists landed since this browser last looked
+  function watchSummaries(rows){
+    if(!db)return;
+    rows.forEach(c=>{
+      if(state.watched.has(c.id))return;state.watched.add(c.id);
+      const sm=state.summ[c.id]={open:null,fresh:false};
+      db.collection('clients/'+c.id+'/depth').onSnapshot(s=>{const n=s.docs.map(own).reduce((a,d)=>a+(d.seats||[]).filter(x=>!x.filled&&!x.removed).length,0);if(sm.open!==n){sm.open=n;render()}},()=>{});
+      db.collection('clients/'+c.id+'/leads').onSnapshot(s=>{if(state.open===c.id)return;const f=s.docs.map(own).some(l=>isFresh(seen[c.id]||null,l));if(sm.fresh!==f){sm.fresh=f;render()}},()=>{});
+    });
+  }
   function setClients(rows){
     rows=rows.map(r=>state.pending['clients/'+r.id]>0?(state.clients.find(x=>x.id===r.id)||r):r);
     const j=JSON.stringify(rows);if(j===state.last.clients)return;state.last.clients=j;
-    state.clients=rows;if(!state.saving&&!/^not saved/.test($('status').textContent))setStatus('live');
+    state.clients=rows;watchSummaries(rows);if(!state.saving&&!/^not saved/.test($('status').textContent))setStatus('live');
     const want=(location.hash||'').slice(1);
     if(want&&!state.open&&rows.some(c=>c.id===want))openClient(want);else render();
   }
@@ -472,7 +537,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     state.live=true;
     db.collection('clients').onSnapshot(s=>setClients(s.docs.map(own)),()=>{setStatus('could not read clients')});
     db.collection('playbooks').onSnapshot(s=>{state.playbooks=s.docs.map(own);render()},()=>{});
-    try{const u=await window.claude.use('user');if(u){state.canEdit=!!(await u.canEdit());render(true)}}catch(_){}
+    try{const u=await window.claude.use('user');if(u){const w=typeof u.can==='function'?await u.can('data.write'):null;state.canEdit=w===null?true:!!w;render(true)}}catch(_){}
     try{const d=await window.claude.use('downloads');if(d){state.dl=d;state.downloads=true;render(true)}}catch(_){}
   })();
   render(true);

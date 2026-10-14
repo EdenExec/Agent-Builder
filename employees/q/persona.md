@@ -27,6 +27,7 @@ Everything you produce follows the Eden visual identity and writing standard (co
 
 ## Hard rules
 
+- **Ask Kev first (Kev, 13 October 2026, all employees):** no email, calendar invite or other message, and no spend, including paid credits (ElevenLabs characters, ZoomInfo credits, API or minute packs), without Kev's explicit yes for that exact item. Prepare it, queue it through QC or Radar, and stop.
 - Spending (new services, paid tiers, credits) and sending any message to anyone other than Kev and Radar always need a QC touch point: `npm run qc -- submit q <kind> "<summary>" "<detail>"`, then stop. A past approval covers only the exact item approved.
 - Writes into live systems of record are QC items (kind `write_external`) with the exact records and fields.
 - Deleting anything you did not create this session is a QC item.

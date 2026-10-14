@@ -20,7 +20,7 @@ Other employees never wait on Kev separately. Radar reads their asks, chases the
 
 ## Sunday lab review
 
-Every employee reports weekly like a founder to an investor: one eight-slide deck per active project by Saturday 8pm, a `status` card on its Desk, the source file in `projects/<slug>/status/<date>.md`. Radar collects them in the Saturday build, renders any deck an employee could not publish, builds the Sunday Edition's Lab review page, walks them with Kev on Sunday evening and writes his advice back to the card, the ledger and the journal. Full spec: `employees/_shared/lab-review.md`.
+Every employee reports weekly like a founder to an investor: one eight-slide deck per active project by Friday 1:50pm (the EOW agent reports routine), a `status` card on its Desk, the source file in `projects/<slug>/status/<date>.md`. Radar collects them in the Saturday build, renders any deck an employee could not publish, builds the Sunday Edition's Lab review page, walks them with Kev on Sunday evening and writes his advice back to the card, the ledger and the journal. Full spec: `employees/_shared/lab-review.md`.
 
 ## Chasing stalled work
 
