@@ -49,7 +49,7 @@ Pages:
 4. **Decisions page** (Kev, 5 October 2026). One line per Batch-lane ledger row with Status not Done: the question, Radar's recommended answer, what silence does, and three tick boxes (Yes / No / Talk). Kev marks it in Preview and sends the photo back; the next sweep or check-out reads the marks as his answers and updates the rows.
 5. "Tonight's EOD Check-Out": Must-Do boxes, RPs /15, connections /20, habit numbers, scripture done, prompts (How did today go · What moves forward · Leads for tomorrow · Who needs what · Family and home · C12 to-dos · Any way Radar can improve tomorrow's paper).
 6. **Notes page**, last. Dot grid as specified above.
-Training insert: if Kev emailed himself a training plan for tomorrow (from kev@edenexec.com, subject contains "Training" and the date), add 1 to 2 pages after the study guide.
+Training insert: if Kev emailed himself tomorrow's training plan (from kev@edenexec.com, subject has "Training" and the date), add 1-2 pages after the study guide. Tuesdays: the Gmail draft for Wed Headhunter Training (Kev fills it in); also its own PDF.
 
 Render HTML to PDF with Playwright Chromium (executablePath `/opt/pw-browsers/chromium`, no install). Letter landscape, printBackground, zero margins. QC: pdffonts shows no Type 3; pdftotext -layout shows no split words; render page 1 and a study page at 110 dpi and look at them; every open QC row is visibly applied. Then write the morning decision sprint (`hit-list.md`).
 
