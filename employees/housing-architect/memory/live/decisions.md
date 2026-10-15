@@ -1,2 +1,3 @@
 - 2026-10-11: Two ranches wanted: (1) Treasure Valley ID on a river or near water within 50 min of BOI, primary home, hospitality-capable, with small income outbuildings; (2) NorCal near Lincoln/Auburn/Grass Valley/Nevada City (Ally's parents have 11 acres off Big Ben Rd, Lincoln, and 1000+ acres of rice near Colusa). Kev, 11 Oct 2026.
 - 2026-10-11: Idaho ranch budget: $1.5M to $3M land plus build, rough (Kev, 11 Oct 2026). Implies phasing and compromise on acreage or frontage.
+- 2026-10-15: Citrus greenhouse (mandarin, lemon, lime, year-round): attached glass room off the main house (Kev, 15 Oct 2026). First board at claude.ai/artifact/CmnSXHF1qFzHCXhvfCuifY; image sources thin (Openverse only).
