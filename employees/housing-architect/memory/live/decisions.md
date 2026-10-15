@@ -3,3 +3,4 @@
 - 2026-10-15: Citrus greenhouse (mandarin, lemon, lime, year-round): attached glass room off the main house (Kev, 15 Oct 2026). First board at claude.ai/artifact/CmnSXHF1qFzHCXhvfCuifY; image sources thin (Openverse only).
 - 2026-10-15: 2026-10-15: Kev said (via Radar, 5 Oct) he will add Unsplash and Pexels keys; check env before each board.
 - 2026-10-15: 2026-10-15: Water: river OR pond/irrigation water on site is acceptable. Outbuilding income is a goal, plan for it from day one (Kev, 15 Oct 2026).
+- 2026-10-15: 2026-10-15: Orangery board: Pixabay and Openverse returned weak results (fruit, historic palm houses). Kev chose a written spec plus plan sketch instead (projects/eden-ranch-idaho/orangery-spec.md). Rebuild board when Unsplash works.
