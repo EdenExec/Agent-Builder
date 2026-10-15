@@ -1,0 +1,1 @@
+- 2026-10-13 (Kev): save ElevenLabs credits for G's podcasts. No audio renders for anyone else (Kim and Dave tours included) without Kev's explicit yes for that render. The 12 Oct Kotor tour (about 7,300 characters) was commissioned by Radar overnight, not Atlas's own call; 70,638 characters left on Creator, resetting 8 Nov.

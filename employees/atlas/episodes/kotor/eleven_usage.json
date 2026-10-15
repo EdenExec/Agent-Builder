@@ -1,0 +1,42 @@
+{
+ "voice": "iP95p4xoKVk53GoZ742B",
+ "model": "eleven_multilingual_v2",
+ "tracks": [
+  [
+   "00-Sea-Gate",
+   2824,
+   191.0
+  ],
+  [
+   "01-Square-of-Arms",
+   2497,
+   166.8
+  ],
+  [
+   "02-Cathedral",
+   2440,
+   159.9
+  ],
+  [
+   "03-Maritime-Museum",
+   2380,
+   165.9
+  ],
+  [
+   "04-St-Luke",
+   2283,
+   163.7
+  ],
+  [
+   "05-River-Gate",
+   2047,
+   135.6
+  ],
+  [
+   "06-Fortress-and-Farewell",
+   2467,
+   155.7
+  ]
+ ],
+ "characters": 16938
+}
