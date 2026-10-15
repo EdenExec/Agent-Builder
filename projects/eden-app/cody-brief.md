@@ -135,7 +135,7 @@ erDiagram
 |---|---|---|---|
 | Crelate | People, companies, jobs, pipeline, activities, tags | Crelate to Eden's database nightly; later Eden writes back | API v3 verified read-only (11 and 12 Oct). Read-only mirror not yet built. |
 | Eden's database (Supabase "Eden Daily") | The mirror, calls, notes, depth charts, lead lists | Hub of the whole thing | On the free plan today; the Pro upgrade ($25 a month) is queued; the login needs fixing before the mirror starts |
-| CloudTalk | Calls, recordings, transcripts, AI notes | CloudTalk to Eden nightly | Connector working (health check 14 Oct). Recording every line is the next step. |
+| CloudTalk | Calls, recordings, transcripts, AI notes | CloudTalk to Eden nightly | Connector working (health check 13 Oct). Recording every line is the next step. |
 | ZoomInfo, LinkedIn | Lead pulls, saved searches | Into Scout's lists | ZoomInfo connected for Scout; LinkedIn is run by recruiters, with Scout writing the searches |
 | Drive | Lead sheets, documents | Both ways until the app replaces the sheets | In use |
 | Notion | Kev's ledger and journal | Not a data store for the app | In use for Kev only |
