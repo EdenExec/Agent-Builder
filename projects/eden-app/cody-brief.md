@@ -193,3 +193,7 @@ erDiagram
 ## Sources
 
 Eden App Google Doc ("APP: Eden Partner Group") and the November 2025 app deep-dive notes; `projects/eden-crm/brief.md`; Scout's lead-list, market-map, ZoomInfo and LinkedIn playbooks; Radar's deal-desk playbook; the team-hub brief (`projects/team-hub/brief.md`); the 11 to 13 October proposals in `projects/eden-crm/proposals/`.
+
+## Companion deck
+
+Wireframe deck (13 slides, private artifact): https://claude.ai/artifact/Ka7gVfWkRv78fwhzWoG5Dh . It mirrors sections 1 to 10 of this brief with placeholder names only. It is not shared with anyone; sharing it with Cody is Kev's yes.
