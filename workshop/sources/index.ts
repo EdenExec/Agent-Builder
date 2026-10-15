@@ -3,11 +3,12 @@ import { openverse } from "./openverse.ts";
 import { wikimedia } from "./wikimedia.ts";
 import { unsplash } from "./unsplash.ts";
 import { pexels } from "./pexels.ts";
+import { pixabay } from "./pixabay.ts";
 import type { ImageCandidate, ImageSource, ProviderName, SearchOptions } from "./types.ts";
 
 export type { ImageCandidate, ImageSource, ProviderName, SearchOptions } from "./types.ts";
 
-export const SOURCES: readonly ImageSource[] = [openverse, wikimedia, unsplash, pexels];
+export const SOURCES: readonly ImageSource[] = [openverse, wikimedia, unsplash, pexels, pixabay];
 
 export function getSource(name: string): ImageSource | undefined {
   return SOURCES.find((s) => s.name === name);
