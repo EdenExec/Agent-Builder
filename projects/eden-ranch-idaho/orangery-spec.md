@@ -11,7 +11,7 @@ One attached, south-facing glass room off the kitchen and living wing, 14 ft dee
 | Item | Proposal | Why |
 |---|---|---|
 | Footprint | 14 x 28 ft, about 390 sq ft | Room for 8 to 10 large potted trees plus a path and a bench |
-| Height | 9 ft at the house wall, 12 ft at the south eave | Mandarin, lemon and lime in tubs top out around 6 to 8 ft; UNVERIFIED |
+| Height | 13 ft at the house wall falling to an 8 ft south eave, 3 ft overhang | Roof drains away from the house; tubbed citrus tops out around 6 to 8 ft (UNVERIFIED). Corrected 15 Oct: the first draft sloped the roof toward the house, which would drain onto the wall. |
 | Orientation | Long side faces south, glass 60 to 70 percent of south wall | Winter sun is low; the roof overhang shades summer sun |
 | Roof | Insulated opaque north half, glazed south half | Cuts heat loss and keeps the room from cooking in July |
 | Glass | Double or triple glazed, low-E, thermally broken steel or timber frame | Winter nights in the Treasure Valley are cold; UNVERIFIED |
