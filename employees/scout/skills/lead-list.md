@@ -19,7 +19,7 @@ Done means a recruiter opens one sheet and starts dialing, with nothing to look 
 
 - **LinkedIn is never blank:** the exact profile URL when known (ZoomInfo record, enrichment, web search); otherwise `https://www.linkedin.com/search/results/people/?keywords=<First Last Company>` URL-encoded.
 - **City, State and Time Zone are three separate columns on every upload, every row.** Kev, 13 October: the BPO team uploads these sheets to Crelate, and Crelate picks up each tag only from its own column. Use those exact headers. City is the city name; State is the two-letter code (FL); Time Zone is one of PST, MST, CST, EST (`memory/seed/buckets.md`). Use where the person lives when known; otherwise the company office's city, with "office location" in Note. Never one combined Metro or Location column.
-- No personal email, no personal phone, no comp.
+- No personal email and no comp. Crelate mobile and direct numbers may appear on internal Eden-only recruiter sheets (Kev, 13 Oct), never client-facing and never on the hub; ZoomInfo-sourced rows carry no phone.
 
 ## Quality bar
 

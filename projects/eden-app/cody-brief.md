@@ -1,6 +1,6 @@
 # Eden App: brief for Cody
 
-Prepared by Q with Radar's depth-chart and Scout's lead-gen material, 15 October 2026, for Kev's review before it goes to Cody. This version names no clients and no candidates, and holds no pay, phone, email or EEO data.
+Prepared by Q with Radar's depth-chart and Scout's lead-gen material, 15 October 2026, for Kev's review before it goes to Cody. This version names no clients and no candidates, and holds no pay, personal contact details or EEO data.
 
 ## 1. The one-page version
 
@@ -22,7 +22,7 @@ Prepared by Q with Radar's depth-chart and Scout's lead-gen material, 15 October
 | **Eden owns its data** (Kev, 11 Oct) | Every record, call, transcript and note lands first in Eden's database. Vendors read and write through it. If a vendor leaves, Eden loses a tool, not its history. |
 | **One system of record per fact** | Crelate until the switch, then the Eden App. Every copy shows its source and sync time. |
 | **Read first, write last** | Each integration starts as a read. A write path is built only after the read has run cleanly for a week. |
-| **Privacy by design** | No EEO fields, ever. Pay, personal email, personal phone and home address stay in the system of record and never reach sheets, screens shared with clients, logs or prompts. People appear as name, role and status. |
+| **Privacy by design** | No EEO fields, ever. Pay, personal email and home address stay in the system of record and never reach sheets, screens shared with clients, logs or prompts. Mobile and direct numbers may sit on internal Eden-only recruiter sheets (Kev, 13 Oct) but never on a client-facing screen or the team hub. People appear as name, role and status. |
 | **Segmented by client** | Nothing from one client shows on a screen while presenting to another. The prototype does this with closed client folders and a screen-share mode. |
 | **Optional, not managed** | Partners are 1099 contractors. Training, tickets, templates and leaderboards are shown as optional resources and peer tools, not management controls. Legal reviews the wording. |
 | **Spend is stepwise** | Each cost step is quoted and approved when its trigger hits. Nothing assumes a budget range. |
@@ -43,9 +43,9 @@ Three areas, from Kev's blueprint (the "Eden App" doc and the November 2025 deep
 
 ## 4. Core feature 1: depth charts
 
-**What a depth chart is.** One chart per client search. Down the page are the seats the client wants filled (for example "Superintendent, West Palm Beach"). Under each seat are the people being worked, ranked, each with a stage. A seat with one live candidate is thin; a seat with two or more presented back-ups is healthy.
+**What a depth chart is.** One chart per client search. Down the page are the seats the client wants filled (for example "Superintendent, West Palm Beach"). Under each seat are the people being worked, ranked, each with a stage. A seat is thin when there are fewer than two presented (PTC'd) back-ups behind the person interviewing. A thin seat is a call to make today.
 
-**Stages** (the prototype's list): Pending PTC, PTC, Submitted, Interview, Offer, Placed, On hold, Out. PTC is Kev's term for a candidate who has been presented to the client.
+**Stages** (the prototype's list): Pending PTC, PTC, Submitted, Interview, Offer, Placed, On hold, Out. PTC is Kev's term; its exact meaning (and how it differs from Submitted) is for Kev to confirm.
 
 **How it works today.**
 
@@ -77,7 +77,7 @@ Three areas, from Kev's blueprint (the "Eden App" doc and the November 2025 deep
 4. Remove every active client's people first (a protected-client rule). Referral-only and discreet clients get their own marked tab.
 5. Dedupe against the CRM by LinkedIn URL, then name plus company, keeping the existing owner and last activity.
 6. Tier: Tier 1 is the seat at a company type the client hires from, in the metro; Tier 2 is an adjacent title, adjacent company type or relocation distance; Tier 3 is long shots on a separate tab.
-7. Write one sheet per role. Columns: number, tier, name, title, company, company type, trade, city, state, time zone (three separate columns, per Kev's 13 Oct rule, because the BPO team uploads these sheets to the CRM and each tag is read from its own column), LinkedIn, whether already in the CRM (owner, last activity), fit note, source, client flags. Recruiters fill Called and Result.
+7. Write one sheet per role. Columns: number, tier, name, title, company, company type, trade, city, state, time zone (three separate columns, per Kev's 13 Oct rule, because each tag is read from its own column when the sheet is loaded into the CRM), LinkedIn, whether already in the CRM (owner, last activity), fit note, source, client flags. Recruiters fill Called and Result.
 8. Hand off one line: link, counts (pulled, clients removed, already in the CRM, new by tier), the search string, anything odd.
 
 **B. Market maps**
@@ -86,14 +86,17 @@ Three areas, from Kev's blueprint (the "Eden App" doc and the November 2025 deep
 - Refreshed on the first Monday of the month, new records only. Alerts: a daily LinkedIn Recruiter saved search per bucket and metro, a monthly ZoomInfo re-pull, and a digest of job-post applicants.
 - Kev's aim: "market map the entire US and have alerts set for each major metro we're working in", so the best incoming talent is always in front of the recruiters.
 
-**Constraints the app inherits.** ZoomInfo credits are limited (no bulk enrichment until Kev sets a budget; enrichment spends credits). ZoomInfo data is for Eden's recruiting only: never shared or resold. No personal email, phone or pay in a sheet. The standard tags (book, sector, company type, title, location as city and state and time zone) are the app's bucket hierarchy.
+**Constraints the app inherits.** ZoomInfo credits are limited (no bulk enrichment until Kev sets a budget; enrichment spends credits). ZoomInfo data is for Eden's recruiting only: never shared or resold. No pay and no personal email on any sheet. Per Kev (13 Oct), Crelate mobile and direct numbers may appear on internal Eden-only recruiter sheets, never client-facing and never on the hub; ZoomInfo-sourced rows keep no phone, personal email or comp. The standard tags (book, sector, company type, title, location as city and state and time zone) are the app's bucket hierarchy.
 
 **What the app must do.**
 
 1. Hold list rows as data with tier, owner, called, result and source, not as files.
 2. Run the dedupe and the client-exclusion rule at load time, for every source.
 3. Show the bucket hierarchy as collapsible tiles: Time Zone, then Market, then Book, then Sector, then Company Type, then Title or Company.
-4. Let the BPO team load a list and have the tags land correctly without hand editing.
+4. Support both ways lists reach the CRM, with tags landing from their own columns and no hand editing.
+   - **Overnight BPO load:** Radar's stand-up drops a "Leads - <date>" sheet in the Eden Daily folder and the BPO team loads it overnight. Columns: Candidate, Title, Company, City, State, Time Zone, Book, Sector, Title Category, Search, Source.
+   - **Straight into a job's lead pool:** a push through the Crelate API (`POST jobs/{jobId}/contacts` with the stage "Dawg Pound"), only with Kev's yes for each job. First run on 14 Oct: 344 Miami and Broward project managers into one Triton job.
+   The app needs a "push to this job's lead pool" action as well as the bulk load.
 5. Link a list to the job order and the depth chart it feeds, so a thin seat triggers a list.
 
 ## 6. Data model (first draft for Cody to shape)
