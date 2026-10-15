@@ -7,3 +7,4 @@
 ## Crelate: loading leads into a job (14 Oct 2026)
 - API v3: `POST jobs/{jobId}/contacts?contact_ids=<comma-separated ids>` with body `{"statusName":"Dawg Pound"}` (the lead-pool stage; stages from `GET workflowstatuses`). Verify with `GET jobs/{jobId}/contacts/history`. Spec: `api3/swagger/v3/swagger.json`.
 - Only on Kev's say-so per job (a write to Crelate). First run: 344 Miami/Broward PMs into "Triton Construction Company - PM and Sr. PM - Miami" (job 8868), client-staff rows (Baker, Moss, Hoffman) left out.
+- 2026-10-15: 2026-10-15 (Kev): Field Engineer seats (PB South WPB and anywhere else): GC side or sub side are both fine. Never write 'not from a GC' as a requirement again; lead lists and depth charts take both.
