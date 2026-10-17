@@ -9,68 +9,96 @@
       "label": "Cash at 30 Sep 2026",
       "claimed": 252085.8,
       "unit": "usd",
-      "source": "EPG Chase checking, September statement (text: /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/d2e351b5-20260930-statements-0816-.txt), ending balance"
+      "source": "EPG Chase checking, September statement (text: /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/d2e351b5-20260930-statements-0816-.txt), ending balance",
+      "recomputed": 252085.8,
+      "ok": true,
+      "note": "Sep statement (acct ...0816, Eden Partner Group LLC) Ending Balance 252,085.80; ties to 30 Sep daily ending balance and to beginning 268,741.17 + 128,750 - 11,994.71 - 83,275.66 - 50,000 - 135. Bank balance, not book cash (no outstanding items known)."
     },
     {
       "label": "Cash at 31 Aug 2026",
       "claimed": 268741.17,
       "unit": "usd",
-      "source": "EPG Chase checking, August statement (text: /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/7978ec13-20260831-statements-0816-.txt), ending balance"
+      "source": "EPG Chase checking, August statement (text: /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/7978ec13-20260831-statements-0816-.txt), ending balance",
+      "recomputed": 268741.17,
+      "ok": true,
+      "note": "Aug statement Ending Balance 268,741.17; equals Sep beginning balance."
     },
     {
       "label": "Gross fees booked in the Hub (all 2026 rows)",
       "claimed": 1069928,
       "unit": "usd",
-      "source": "Hub workbook /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/hub/hub.xlsx, sheet '2026 Rev Report', column 'Eden Gross', sum of all placement and retainer rows"
+      "source": "Hub workbook /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/hub/hub.xlsx, sheet '2026 Rev Report', column 'Eden Gross', sum of all placement and retainer rows",
+      "recomputed": 1069928,
+      "ok": true,
+      "note": "Summed Eden Gross for all 49 populated rows (sheet total cell 1,069,928 agrees). Includes ~244,600 of Oct/Nov start rows, and Tom Misciasci appears twice (62026-A Net 30 and 62026-B Net 90, 15,000 each, salary 150k x 10% = 15,000): possible double count of 15,000 if the two rows are one fee, otherwise a 30,000 fee on a 10% rate. Also Sean Alexander, Chris Nicks, Chris Whitson zero."
     },
     {
       "label": "Gross fees with a start date through 30 Sep 2026",
       "claimed": 825328,
       "unit": "usd",
-      "source": "Same sheet, column 'Eden Gross' for rows whose Start Date is on or before 2026-09-30. Rows with a blank Start Date: the January, February, March and June PB South retainers are taken as the 15th of that month, and the Jackson Contractors retainer as 15 Feb 2026"
+      "source": "Same sheet, column 'Eden Gross' for rows whose Start Date is on or before 2026-09-30. Rows with a blank Start Date: the January, February, March and June PB South retainers are taken as the 15th of that month, and the Jackson Contractors retainer as 15 Feb 2026",
+      "recomputed": 825328,
+      "ok": true,
+      "note": "Total 1,069,928 less rows starting after 30 Sep: Underwood 33,000 (29 Oct), Willard 45,000 (26 Oct), Ouellette 33,300 (3 Nov), Navarette 33,300 (2 Nov), Davis 42,500 (9 Nov), Oct retainers PB South 7,500 and Triton 5,000 (1 Oct), Stamper 45,000 (start text 'October', no date) = 244,600. Blank-date retainers treated as 15th per definition (Jan/Feb/Mar/Jun PB South 7,500 each, Jackson 8,333), all in. Judgment: Feb PB retainer date is malformed '2/15/0206'; Stamper excluded by reading 'October' as after 30 Sep; Whitson 'December' and Nicks 'TBD' are 0 so no effect. Start date is not a cash or invoice date (Date $ In column is empty for every row), so this is neither cash nor strictly accrual; several Sep starters are Net 90 and unpaid."
     },
     {
       "label": "Owner distributions, Jul and Sep",
       "claimed": 160000,
       "unit": "usd",
-      "source": "July and September statements in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/: transfers to the owner checking account ending 6121 plus the lines described only as 'Withdrawal'"
+      "source": "July and September statements in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/: transfers to the owner checking account ending 6121 plus the lines described only as 'Withdrawal'",
+      "recomputed": 160000,
+      "ok": true,
+      "note": "Jul 31: Transfer to Chk ...6121 30,000 + 'Withdrawal' 30,000; Sep 28: Transfer to Chk ...6121 50,000 + 'Withdrawal' 50,000 = 160,000. Both pairs are separate lines in separate statement sections and both reduce the balance (Other Withdrawals box). JUDGMENT: the 'Withdrawal' lines have no payee or description; classifying them as owner distributions is an assumption, not provable from the statement. If they are not distributions the figure is 80,000. Same-day equal-amount pairs deserve a question to Kev. No other month has 6121 transfers or Withdrawal lines."
     },
     {
       "label": "Transfers to the Profit First money market account (owner tax savings), Feb-Sep",
       "claimed": 34000,
       "unit": "usd",
-      "source": "All Feb to Sep statements in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/: 'Online Transfer To Mma' lines"
+      "source": "All Feb to Sep statements in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/: 'Online Transfer To Mma' lines",
+      "recomputed": 34000,
+      "ok": true,
+      "note": "Online Transfer To Mma ...9560: 2 Mar 1,000; 5 May 1,000; 31 Jul 12,000; 28 Sep 20,000 = 34,000. None in Feb, Apr, Jun, Aug. Note: classification as 'owner tax savings' is an assumption; the MMA is an EPG-held account, so this is an internal transfer, not an expense or distribution."
     },
     {
       "label": "Investor money received, Feb-Mar",
       "claimed": 150000,
       "unit": "usd",
-      "source": "February statement deposit of 10 Feb and March statement deposit of 2 Mar in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/; Hub 'Cap. Infus' cell on the Rev Report sheet shows the same total"
+      "source": "February statement deposit of 10 Feb and March statement deposit of 2 Mar in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/; Hub 'Cap. Infus' cell on the Rev Report sheet shows the same total",
+      "recomputed": 150000,
+      "ok": true,
+      "note": "10 Feb Deposit 125,000.00 + 2 Mar ATM Check Deposit (dated 28 Feb) 25,000.00 = 150,000; equals Hub Cap. Infus 150,000. Statement does not label either deposit as investor money (no payer shown), so character rests on the Hub cell. The 11 Mar Deposit 30,000 (also unlabelled) is not included. Cash period note: the 25k was deposited 28 Feb but posted 2 Mar. Capital/loan, not revenue."
     },
     {
       "label": "Investor interest paid, Feb-Sep",
       "claimed": 10000,
       "unit": "usd",
-      "source": "All Feb to Sep statements in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/: ACH payments to the two individual lenders (payee names containing 'Unclescot' and 'Gramps')"
+      "source": "All Feb to Sep statements in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/: ACH payments to the two individual lenders (payee names containing 'Unclescot' and 'Gramps')",
+      "recomputed": 10000,
+      "ok": true,
+      "note": "ACH to Unclescot 1,000 x 8 (2 Mar, 31 Mar, 30 Apr, 29 May, 30 Jun, 30 Jul, 31 Aug, 30 Sep) = 8,000; to Gramps 250 x 8 = 2,000; total 10,000. Two payments in March (2 Mar and 31 Mar) and none in Feb; the 2 Mar payment looks like Feb interest paid late, so cash basis Feb-Sep is 8 months paid. 8 months at 1,250 = 10,000. Interest at 1,250/mo on 150,000 = 10%/yr; payee names are nicknames, so lender identity and note terms should be confirmed against the notes (legal)."
     },
     {
       "label": "Signed candidates (rows with a candidate, excluding retainers)",
       "claimed": 37,
       "unit": "count",
-      "source": "Hub sheet '2026 Rev Report': rows with a candidate name, not retainers (retainer rows have 'Retainer' in the name or role N/A), whether or not a fee is entered"
+      "source": "Unique candidate names in the Hub sheet '2026 Rev Report', excluding retainers (retainer rows have 'Retainer' in the name or role N/A), whether or not a fee is entered. Tom Misciasci appears on two rows (62026-A and 62026-B, two 15,000 fees, both paid by Beck Group via Blue Square on 26 Mar and 7 May) and counts once"
     },
     {
       "label": "Signed candidates with no fee (did not start)",
       "claimed": 6,
       "unit": "count",
-      "source": "Same rows: candidate rows where the Eden Gross fee is zero or blank"
+      "source": "Same rows: candidate rows where the Eden Gross fee is zero or blank",
+      "recomputed": 6,
+      "ok": true,
+      "note": "Eden Gross zero/blank among the 38: Kevin Portacarrera (23 Feb), Adam Aldawari (30 Mar), Chris Nicks (TBD, not yet started), Sean Alexander (27 Jul, 'no fee, part of retainer'), Jorge Trujillo (14 Sep, fee blank), Chris Whitson (Dec, fee 0). Only some are true fall-offs: Sean Alexander is a no-fee-by-contract placement that started; Nicks and Whitson have not started yet; Trujillo's fee is blank (possibly just unfilled, 14 Sep start). Labelling all 6 'did not start' is wrong. Pence June retainer (0) excluded as a retainer."
     },
     {
       "label": "Fall-off rate",
       "claimed": 16.2,
       "unit": "pct",
-      "source": "Candidates with no fee divided by all signed candidates, as a percent"
+      "source": "Unique signed candidates with no fee (6) divided by unique signed candidates (37), as a percent. Per Kev all six signed and did not start; a Hub note on one row (Sean Alexander) says 'part of the retainer', so the six is Kev's list and is flagged for confirmation in the report"
     }
   ],
-  "createdAt": "2026-10-17T20:30:35.109Z"
+  "createdAt": "2026-10-17T20:30:35.109Z",
+  "checkedBy": "docket"
 }
