@@ -7,6 +7,7 @@ import { openverse, formatCcLicense } from "./openverse.ts";
 import { wikimedia, licenseAllowsCommercial } from "./wikimedia.ts";
 import { unsplash } from "./unsplash.ts";
 import { pexels } from "./pexels.ts";
+import { pixabay, mapPixabay } from "./pixabay.ts";
 import { searchImages, configuredSources, SOURCES, type ImageSource } from "./index.ts";
 
 const fixture = (name: string) => JSON.parse(readFileSync(fileURLToPath(new URL(`./fixtures/${name}.json`, import.meta.url)), "utf8"));
@@ -125,6 +126,62 @@ describe("pexels", () => {
   });
 });
 
+describe("pixabay", () => {
+  let saved: string | undefined;
+  beforeEach(() => { saved = process.env.PIXABAY_API_KEY; process.env.PIXABAY_API_KEY = "pixabay-test"; });
+  afterEach(() => { if (saved === undefined) delete process.env.PIXABAY_API_KEY; else process.env.PIXABAY_API_KEY = saved; });
+
+  test("sends the key as a query param and maps creator, licence and credit", async () => {
+    const { fetcher, calls } = stub(fixture("pixabay"));
+    const out = await pixabay.search("kitchen", { count: 12, fetcher, orientation: "landscape" });
+    const u = new URL(calls[0]!.url);
+    assert.equal(u.origin + u.pathname, "https://pixabay.com/api/");
+    assert.equal(u.searchParams.get("key"), "pixabay-test");
+    assert.equal(u.searchParams.get("q"), "kitchen");
+    assert.equal(u.searchParams.get("image_type"), "photo");
+    assert.equal(u.searchParams.get("safesearch"), "true");
+    assert.equal(u.searchParams.get("per_page"), "12");
+    assert.equal(u.searchParams.get("orientation"), "horizontal");
+    assert.equal(calls.length, 1);
+    assert.equal(out.length, 2);
+    const c = out[0]!;
+    assert.equal(c.provider, "pixabay");
+    assert.equal(c.id, "1234567");
+    assert.equal(c.title, "kitchen, interior, modern");
+    assert.equal(c.creator, "Example_User");
+    assert.equal(c.creatorUrl, "https://pixabay.com/users/Example_User-424242/");
+    assert.equal(c.attribution, "Photo by Example_User on Pixabay");
+    assert.equal(c.pageUrl, "https://pixabay.com/photos/kitchen-interior-modern-home-1234567/");
+    assert.match(c.imageUrl, /_1280\.jpg$/);
+    assert.match(c.thumbUrl, /_640\.jpg$/);
+    assert.equal(c.license, "Pixabay Content License");
+    assert.equal(c.licenseUrl, "https://pixabay.com/service/license-summary/");
+    assert.equal(c.commercialOk, true);
+    assert.equal(c.width, 5472);
+  });
+  test("falls back to webformatURL when there is no large image, and to Untitled", async () => {
+    const { fetcher } = stub(fixture("pixabay"));
+    const c = (await pixabay.search("table", { fetcher }))[1]!;
+    assert.match(c.imageUrl, /_640\.jpg$/);
+    assert.equal(c.title, "Untitled");
+    assert.equal(mapPixabay({ id: 1, pageURL: "x", user: "u", user_id: 2 }), undefined);
+  });
+  test("clamps per_page to 3..200 and the query to 100 characters; squarish sends no orientation", async () => {
+    const s = stub({ hits: [] });
+    await pixabay.search("x".repeat(150), { count: 1, fetcher: s.fetcher, orientation: "squarish" });
+    await pixabay.search("y", { count: 500, fetcher: s.fetcher });
+    const [a, b] = s.calls.map((c) => new URL(c.url).searchParams);
+    assert.equal(a!.get("per_page"), "3");
+    assert.equal(a!.get("q")!.length, 100);
+    assert.equal(a!.get("orientation"), null);
+    assert.equal(b!.get("per_page"), "200");
+  });
+  test("fails clearly without a key", async () => {
+    delete process.env.PIXABAY_API_KEY;
+    await assert.rejects(() => pixabay.search("x", { fetcher: stub({}).fetcher }), /PIXABAY_API_KEY is not set/);
+  });
+});
+
 describe("http layer", () => {
   test("classifies status codes", async () => {
     for (const [status, kind] of [[401, "auth"], [403, "auth"], [429, "rate_limit"], [404, "not_found"], [503, "server"], [418, "http"]] as const) {
@@ -142,7 +199,8 @@ describe("searchImages", () => {
     const names = configuredSources({}).map((s) => s.name);
     assert.deepEqual(names, ["openverse", "wikimedia"]);
     assert.equal(configuredSources({ PEXELS_API_KEY: "k" }).length, 3);
-    assert.equal(SOURCES.length, 4);
+    assert.deepEqual(configuredSources({ PIXABAY_API_KEY: "k" }).map((s) => s.name), ["openverse", "wikimedia", "pixabay"]);
+    assert.equal(SOURCES.length, 5);
   });
   test("tolerates a failing provider and dedupes by image URL", async () => {
     const good: ImageSource = { ...openverse, search: async () => openverse.search("q", { fetcher: stub(fixture("openverse")).fetcher }) };

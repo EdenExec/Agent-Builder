@@ -10,7 +10,7 @@ Design overview and build plan: `docs/overview.html` (also published as an artif
 |---|---|
 | 0 · Scaffold: image connectors, doctor, test harness | done (12 tests passing) |
 | 1 · Hire: agent config, memory, brainstorm, QC gate | done (32 tests passing) |
-| 2 · Vision boards | done (50 tests passing). Best with Unsplash and Pexels keys |
+| 2 · Vision boards | done (50 tests passing). Best with a Pixabay, Unsplash or Pexels key |
 | 3 · Planning | not started |
 | 4 · 3D massing and renders | not started |
 | 5 · Browser office | not started |
@@ -28,6 +28,7 @@ The environment editor lives on the web, not in the Code tab of the phone app. O
    ANTHROPIC_API_KEY=sk-ant-...
    UNSPLASH_ACCESS_KEY=...
    PEXELS_API_KEY=...
+   PIXABAY_API_KEY=...
    ```
    The Anthropic key has to be an environment variable: the proxy's *API credentials* feature never attaches a key to api.anthropic.com. The key's organisation needs Managed Agents beta access; `npm run doctor` tells you if it does not.
 4. In **Network access**, either pick **Full** (one tap), or pick **Custom**, tick *Also include default list of common package managers*, and paste:
@@ -40,11 +41,13 @@ The environment editor lives on the web, not in the Code tab of the phone app. O
    images.unsplash.com
    api.pexels.com
    images.pexels.com
+   pixabay.com
+   cdn.pixabay.com
    live.staticflickr.com
    ```
 5. **Save changes.**
 
-Free image keys, if you want them: Unsplash at <https://unsplash.com/oauth/applications> (New Application → Access Key); Pexels at <https://www.pexels.com/api/> (Get Started → key shown immediately).
+Free image keys, if you want them: Unsplash at <https://unsplash.com/oauth/applications> (New Application → Access Key); Pexels at <https://www.pexels.com/api/> (Get Started → key shown immediately; Pexels has paused new keys as of October 2026); Pixabay at <https://pixabay.com/api/docs/> (log in, the key is shown in the docs; the one to use while Pexels is paused and Unsplash is pending).
 
 A new session picks the settings up. Then:
 
@@ -83,7 +86,7 @@ npm run typecheck
 ```
 workshop/
   lib/http.ts          proxy-aware fetch, error classification
-  sources/             openverse, wikimedia, unsplash, pexels behind one ImageSource interface
+  sources/             openverse, wikimedia, unsplash, pexels, pixabay behind one ImageSource interface
   office/doctor.ts     connection health
   office/images.ts     search CLI
   boards/              curate, embed, render and feedback for vision boards
@@ -104,7 +107,8 @@ docs/                  design notes
 | Openverse | none | Creative Commons, commercial filter applied | Aggregates Flickr, Wikimedia, museums |
 | Wikimedia Commons | none | CC / public domain, varies per file | NC, ND and non-free files are dropped |
 | Unsplash | free | Unsplash License | Attribute "Photo by X on Unsplash"; request `downloadTrigger` on use |
-| Pexels | free | Pexels License | Credit photographer and Pexels |
+| Pexels | free (new keys paused) | Pexels License | Credit photographer and Pexels |
+| Pixabay | free | Pixabay Content License | Credit "Photo by X on Pixabay"; no permanent hotlinking, so boards embed the bytes; 100 requests/60 s |
 
 Every candidate carries title, creator, licence, source page and a ready-to-print attribution line. Boards embed the image bytes so they do not rot.
 
@@ -128,7 +132,7 @@ Radar is also the front door for every other employee: it reads Marlowe's Desk c
 
 ### Vision boards
 
-Marlowe builds a board with `npm run board -- make`. Open `board.html`, pin or reject each image with a short reason, tap **Send feedback to Marlowe**, copy the text and paste it into the chat. Marlowe records it with `board feedback`, and rejected images never come back on later boards. Boards embed the image bytes, keep creator and licence on every tile, and public-facing boards only use commercially cleared images. Without Unsplash and Pexels keys only Openverse and Wikimedia are used, and results for interiors and architecture are noticeably weaker.
+Marlowe builds a board with `npm run board -- make`. Open `board.html`, pin or reject each image with a short reason, tap **Send feedback to Marlowe**, copy the text and paste it into the chat. Marlowe records it with `board feedback`, and rejected images never come back on later boards. Boards embed the image bytes, keep creator and licence on every tile, and public-facing boards only use commercially cleared images. Without a Pixabay, Unsplash or Pexels key only Openverse and Wikimedia are used, and results for interiors and architecture are noticeably weaker.
 
 ### The Desk (how Marlowe asks you for things)
 

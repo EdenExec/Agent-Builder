@@ -8,6 +8,7 @@ export const escHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&l
 function inline(s: string): string {
   let t = escHtml(s);
   t = t.replace(/`([^`]+)`/g, "<code>$1</code>");
+  t = t.replace(/~~([^~]+)~~/g, "<del>$1</del>");
   t = t.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>");
   t = t.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
   return t;
@@ -106,7 +107,7 @@ th{text-align:left;font-weight:700;border-bottom:2px solid #111;padding:8px 10px
 td{border-bottom:1px solid #d9d6ce;padding:8px 10px;vertical-align:top}
 tr{page-break-inside:avoid}
 hr{border:0;border-top:1px solid #d9d6ce;margin:22px 0}
-a{color:#111}code{font-size:.9em;background:#f0ede6;padding:1px 4px}
+a{color:#111}del{color:#5a5a5a;text-decoration-thickness:1px}code{font-size:.9em;background:#f0ede6;padding:1px 4px}
 .pagebreak{break-after:page;page-break-after:always;height:0}
 h2,h3{break-after:avoid}
 .cover{min-height:92vh;display:flex;flex-direction:column;justify-content:space-between;break-after:page;page-break-after:always;padding:40px 0 20px}

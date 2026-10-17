@@ -1,0 +1,1 @@
+- 2026-10-13: Kim and Dave's Oct 2026 cruise matches Celebrity Ascent (cruisetimetables.com): the Montenegro stop on 14 Oct is Bar (07:00-19:00), not Kotor; Kotor is 1.25-1.5 h by road. Walking tours: Kotor rendered 13 Oct (ElevenLabs credits charged ~7.3k for 16.9k chars), Corfu scripts only.

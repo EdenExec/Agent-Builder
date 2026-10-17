@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<title>Kotor Walking Tour · Kim & Dave</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap">
+<style>
+/* Same look as the trip guide: white paper, black ink, one gold. Big tap targets for a phone held in one hand on a sunny street. */
+:root{--gold:#A8895C;--gold-pale:#EFE6D6;--ink:#1A1A1A;--paper:#FFFFFF;--offwhite:#F7F5F0;--gray:#5E5E5E;--line:#E5E0D5;color-scheme:light only}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--paper);-webkit-text-size-adjust:100%}
+body{font-family:'Montserrat',-apple-system,Arial,sans-serif;color:var(--ink);background:var(--paper);font-size:17px;line-height:1.55;padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:640px;margin:0 auto;padding-inline:18px}
+a{color:var(--ink)}
+.back{display:inline-block;margin-top:calc(16px + env(safe-area-inset-top,0px));font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);text-decoration:none}
+.eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:22px}
+h1{font-size:34px;font-weight:800;line-height:1.05;text-transform:uppercase;letter-spacing:-.3px;margin-top:10px}
+h1 span{color:var(--gold)}
+.sub{margin-top:12px;color:#444;font-size:16px}
+.rule{width:60px;border-top:2px solid var(--gold);margin:18px 0}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:4px 0 20px}
+.facts div{padding:12px 6px;text-align:center}
+.facts div+div{border-left:1px solid var(--line)}
+.facts b{display:block;font-size:20px;font-weight:800}
+.facts span{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gray)}
+.how{background:var(--offwhite);border-left:3px solid var(--gold);padding:16px 16px 14px}
+.how h2{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.how ol{padding-left:20px;display:grid;gap:6px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 16px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);font:700 15px/1.2 'Montserrat',Arial,sans-serif;text-decoration:none;cursor:pointer;border-radius:0}
+.btn.dark{background:var(--ink);color:#fff}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn:disabled{opacity:.5}
+.btn svg{width:20px;height:20px;flex:none}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.offline{margin-top:14px}
+.offline p{font-size:13.5px;color:var(--gray);margin-top:8px}
+.stops{display:grid;gap:18px;margin-top:28px}
+.stop{border:1px solid var(--line);padding:18px 16px 16px;scroll-margin-top:16px}
+.stop.on{border:2px solid var(--gold);padding:17px 15px 15px;box-shadow:0 6px 24px rgba(168,137,92,.18)}
+.stop .num{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700}
+.stop h3{font-size:23px;font-weight:800;line-height:1.15;margin-top:4px;text-wrap:balance}
+.stop .tag{font-style:italic;font-weight:500;color:#444;margin-top:2px}
+.stop .where{font-size:14.5px;color:var(--gray);margin-top:10px}
+.player{margin-top:14px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.play{width:64px;height:64px;border-radius:50%;border:0;background:var(--ink);color:#fff;display:grid;place-items:center;cursor:pointer}
+.play svg{width:26px;height:26px;fill:currentColor}
+.skip{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font:700 13px 'Montserrat',Arial;cursor:pointer}
+.track{min-width:0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;cursor:pointer}
+.bar i{display:block;height:100%;width:0;background:var(--gold)}
+.time{display:flex;justify-content:space-between;font-size:12.5px;color:var(--gray);margin-top:6px;font-variant-numeric:tabular-nums}
+.skips{display:flex;gap:8px;justify-content:flex-end}
+.done-note{display:none;margin-top:12px;font-size:14px;background:var(--gold-pale);padding:10px 12px}
+.stop.finished .done-note{display:block}
+.tips{margin-top:34px}
+.tips h2{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.tips ul{padding-left:18px;display:grid;gap:8px;font-size:15.5px}
+.foot{margin-top:34px;border-top:1px solid var(--line);padding-top:12px;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gray);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.now{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:#fff;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));display:none;z-index:9}
+.now.show{display:block}
+.now .in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center}
+.now .t{min-width:0;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;border:0;color:#fff;text-align:left;cursor:pointer;font-family:inherit}
+.now .t small{display:block;font-weight:500;color:#cfc6b6;font-variant-numeric:tabular-nums}
+.now button.c{width:48px;height:48px;border-radius:50%;border:1.5px solid #fff;background:none;color:#fff;font:700 12px 'Montserrat',Arial;cursor:pointer;display:grid;place-items:center}
+.now button.c.p{background:var(--gold);border-color:var(--gold)}
+.now button.c svg{width:20px;height:20px;fill:currentColor}
+button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+@media (max-width:380px){h1{font-size:29px}.play{width:58px;height:58px}.skip{width:46px;height:46px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">&larr; Back to the trip guide</a>
+  <div class="eyebrow">Cruise Day 6 · Wednesday, October 14</div>
+  <h1>Kotor <span>Old Town</span> Walk</h1>
+  <p class="sub">Seven stops, seven short stories, at your own pace. Made for Kim and Dave by Kev.</p>
+  <div class="rule"></div>
+
+  <div class="facts">
+    <div><b>7</b><span>Stops</span></div>
+    <div><b>⅓ mile</b><span>Walking</span></div>
+    <div><b>19 min</b><span>Listening</span></div>
+  </div>
+
+  <div class="how">
+    <h2>How it works</h2>
+    <ol>
+      <li>Start outside the <b>Sea Gate</b>, the Old Town's main gate, on the water side facing the harbor.</li>
+      <li>At each stop, tap the big <b>play</b> button. Each story is two to three minutes.</li>
+      <li>The story ends by telling you where to walk next. Tap <b>Walk here</b> if you want the map.</li>
+    </ol>
+  </div>
+
+  <div class="offline">
+    <button class="btn gold" id="save" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v12M6 10l6 6 6-6M4 21h16"/></svg><span id="save-label">Save the tour for offline</span></button>
+    <p id="save-note">Tap this on the ship's Wi-Fi before you go ashore. The stories then play even with no signal in Kotor.</p>
+  </div>
+
+  <div class="row">
+    <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=42.424737,18.769704&destination=42.426251,18.772159&waypoints=42.424842,18.770057%7C42.424283,18.770776%7C42.424309,18.771207%7C42.425048,18.771401%7C42.425504,18.771213&travelmode=walking">Whole route map</a>
+    <a class="btn" href="audio/Kotor-Walk-All-Stops.mp3" download>All stops, one file</a>
+  </div>
+
+  <div class="stops" id="stops"></div>
+
+  <div class="tips">
+    <h2>Good to know</h2>
+    <ul>
+      <li><b>Getting to Kotor:</b> the ship's schedule shows it docking at <b>Bar</b>, about 40 miles down the coast. Kotor is 1¼ to 1½ hours each way by road. The ship's Kotor excursion, or a driver booked ahead, is easiest. Ask to be dropped at the Old Town's Main Gate (the Sea Gate). If the ship ends up docking in Kotor itself, the gate is just across the road from the pier.</li>
+      <li><b>All aboard:</b> leave at least two hours to get back to the ship from Kotor. The coast road can be slow.</li>
+      <li><b>Free:</b> the squares, the lanes, St. Luke's and St. Nicholas. <b>Small tickets:</b> the Cathedral, the Maritime Museum, and the fortress climb.</li>
+      <li><b>Optional extra, with care:</b> the climb to the Fortress of St. John. Roughly 1,300 uneven steps, very little shade, and close to 900 feet up. Stopping at the little church of Our Lady of Remedy, partway up, gives a lovely view for much less effort. Bring water and go slowly, especially coming down.</li>
+      <li><b>Comfort:</b> the old stone is polished and slippery, so wear shoes with grip. Cover shoulders in St. Nicholas. Montenegro uses the euro.</li>
+    </ul>
+  </div>
+
+  <div class="foot"><span>Kim &amp; Dave do Europe</span><span>Kotor · Oct 14, 2026</span></div>
+</div>
+
+<div class="now" id="now">
+  <div class="in">
+    <button class="t" id="now-t" type="button"><span id="now-title"></span><small id="now-time">0:00</small></button>
+    <button class="c" id="now-back" type="button" aria-label="Back 15 seconds">-15</button>
+    <button class="c p" id="now-play" type="button" aria-label="Play"><svg viewBox="0 0 24 24" id="now-icon"><path d="M8 5l11 7-11 7z"/></svg></button>
+    <button class="c" id="now-fwd" type="button" aria-label="Forward 15 seconds">+15</button>
+  </div>
+</div>
+<audio id="audio" preload="none"></audio>
+
+<script>
+(function(){
+  var STOPS=[
+    {f:"00-Sea-Gate",n:"Start",t:"The Sea Gate",s:"Under the Black Mountain",d:"3:11",w:"Outside the main gate, on the water side. Play this before you walk in.",ll:"42.424737,18.769704"},
+    {f:"01-Square-of-Arms",n:"Stop 1",t:"Square of Arms & Clock Tower",s:"The tower that leans",d:"2:47",w:"The big square just inside the gate, by the clock tower.",ll:"42.424842,18.770057"},
+    {f:"02-Cathedral",n:"Stop 2",t:"St. Tryphon's Cathedral",s:"A saint who came by sea",d:"2:40",w:"The church with two bell towers. Follow the signs for the Cathedral.",ll:"42.424309,18.771207"},
+    {f:"03-Maritime-Museum",n:"Stop 3",t:"The Maritime Museum",s:"Sailors since 809",d:"2:46",w:"A minute north of the cathedral, on a small square with a grand palace.",ll:"42.425048,18.771401"},
+    {f:"04-St-Luke",n:"Stop 4",t:"St. Luke's & St. Nicholas",s:"One roof, two altars",d:"2:44",w:"St. Luke's Square: the small, low stone church.",ll:"42.425504,18.771213"},
+    {f:"05-River-Gate",n:"Stop 5",t:"The River Gate & the Cats",s:"Cats, a river and the north gate",d:"2:16",w:"The north gate, beside the little river.",ll:"42.426251,18.772159"},
+    {f:"06-Fortress-and-Farewell",n:"Stop 6",t:"The Fortress Climb (optional) & Farewell",s:"Above the bay",d:"2:36",w:"Listen before you decide on the climb. A bench in the shade is fine.",ll:"42.425743,18.772868"}
+  ];
+  var PLAY='<path d="M8 5l11 7-11 7z"/>', PAUSE='<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+  var audio=document.getElementById('audio'), cur=-1;
+  function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+  function clock(s){s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+':'+('0'+s%60).slice(-2)}
+  var box=document.getElementById('stops');
+  STOPS.forEach(function(s,i){
+    var el=document.createElement('section');el.className='stop';el.id='stop-'+i;
+    el.innerHTML='<div class="num">'+s.n+'</div><h3>'+s.t+'</h3><div class="tag">'+s.s+'</div><div class="where">'+s.w+'</div>'+
+      '<div class="player"><button class="play" type="button" aria-label="Play '+s.t+'"><svg viewBox="0 0 24 24">'+PLAY+'</svg></button>'+
+      '<div class="track"><div class="bar"><i></i></div><div class="time"><span class="pos">0:00</span><span>'+s.d+'</span></div></div>'+
+      '<div class="skips"><button class="skip" type="button" data-s="-15" aria-label="Back 15 seconds">-15</button><button class="skip" type="button" data-s="15" aria-label="Forward 15 seconds">+15</button></div></div>'+
+      '<div class="row"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+s.ll+'&travelmode=walking">Walk here</a>'+
+      '<a class="btn" href="audio/'+s.f+'.mp3" download>Save audio</a></div>'+
+      (i<STOPS.length-1?'<div class="done-note">Done. Next: <b>'+STOPS[i+1].t+'</b>. <a href="#stop-'+(i+1)+'">Jump to it</a></div>':'<div class="done-note">That\'s the whole walk. Take a photo together and send it home!</div>');
+    box.appendChild(el);
+    var saved=+ls('ktr-pos-'+i)||0; if(saved>3){el.querySelector('.pos').textContent=clock(saved)+' (resume)'}
+    if(ls('ktr-done-'+i)==='1')el.classList.add('finished');
+    el.querySelector('.play').addEventListener('click',function(){toggle(i)});
+    el.querySelectorAll('.skip').forEach(function(b){b.addEventListener('click',function(){if(cur!==i){toggle(i);return}skip(+b.dataset.s)})});
+    el.querySelector('.bar').addEventListener('click',function(e){if(cur!==i||!audio.duration)return;var r=this.getBoundingClientRect();audio.currentTime=audio.duration*(e.clientX-r.left)/r.width});
+  });
+  function card(i){return document.getElementById('stop-'+i)}
+  function toggle(i){
+    if(cur===i){if(audio.paused)audio.play();else audio.pause();return}
+    if(cur>=0){save();card(cur).classList.remove('on')}
+    cur=i;audio.src='audio/'+STOPS[i].f+'.mp3';
+    var start=+ls('ktr-pos-'+i)||0; if(ls('ktr-done-'+i)==='1')start=0;
+    audio.addEventListener('loadedmetadata',function once(){audio.removeEventListener('loadedmetadata',once);if(start>3&&start<audio.duration-5)audio.currentTime=start});
+    audio.play().catch(function(){});
+    card(i).classList.add('on');document.getElementById('now').classList.add('show');
+    document.getElementById('now-title').textContent=STOPS[i].n+' · '+STOPS[i].t;
+    try{navigator.mediaSession.metadata=new MediaMetadata({title:STOPS[i].t,artist:'Kotor walk',album:'Kim & Dave do Europe'})}catch(e){}
+    paint();
+  }
+  function skip(n){audio.currentTime=Math.max(0,Math.min((audio.duration||1e9)-0.5,audio.currentTime+n));save()}
+  var last=0;function save(){if(cur<0)return;ls('ktr-pos-'+cur,String(Math.floor(audio.currentTime||0)))}
+  function paint(){
+    var ic=audio.paused?PLAY:PAUSE;
+    document.getElementById('now-icon').innerHTML=ic;document.getElementById('now-play').setAttribute('aria-label',audio.paused?'Play':'Pause');
+    STOPS.forEach(function(s,i){var b=card(i).querySelector('.play');var on=i===cur&&!audio.paused;b.innerHTML='<svg viewBox="0 0 24 24">'+(on?PAUSE:PLAY)+'</svg>';b.setAttribute('aria-label',(on?'Pause ':'Play ')+s.t)});
+    if(cur<0)return;
+    var c=card(cur),d=audio.duration||0,t=audio.currentTime||0;
+    c.querySelector('.bar i').style.width=(d?100*t/d:0)+'%';c.querySelector('.pos').textContent=clock(t);
+    document.getElementById('now-time').textContent=clock(t)+' / '+(d?clock(d):STOPS[cur].d);
+  }
+  audio.addEventListener('timeupdate',function(){paint();var n=Date.now();if(n-last>5000){last=n;save()}});
+  audio.addEventListener('play',paint);audio.addEventListener('pause',function(){save();paint()});
+  audio.addEventListener('ended',function(){ls('ktr-done-'+cur,'1');ls('ktr-pos-'+cur,'0');card(cur).classList.add('finished');paint()});
+  audio.addEventListener('error',function(){if(cur>=0)document.getElementById('now-time').textContent='No signal? Tap Save audio on Wi-Fi.'});
+  document.getElementById('now-play').addEventListener('click',function(){if(cur>=0)toggle(cur)});
+  document.getElementById('now-back').addEventListener('click',function(){skip(-15)});
+  document.getElementById('now-fwd').addEventListener('click',function(){skip(15)});
+  document.getElementById('now-t').addEventListener('click',function(){if(cur>=0)card(cur).scrollIntoView({behavior:'smooth'})});
+  try{navigator.mediaSession.setActionHandler('seekbackward',function(){skip(-15)});navigator.mediaSession.setActionHandler('seekforward',function(){skip(15)})}catch(e){}
+
+  // Offline: cache the page and every track, then the service worker serves them with no signal.
+  var saveBtn=document.getElementById('save'),label=document.getElementById('save-label'),note=document.getElementById('save-note');
+  var URLS=['./','index.html'].concat(STOPS.map(function(s){return 'audio/'+s.f+'.mp3'}));
+  if(!('serviceWorker' in navigator)||!('caches' in window)){saveBtn.hidden=true;note.textContent='This browser cannot save the tour. Use the "Save audio" buttons on Wi-Fi instead.'}
+  else{
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+    caches.open('ktr-v1').then(function(c){return c.keys()}).then(function(k){if(k.length>=URLS.length){label.textContent='Saved for offline ✓';note.textContent='All seven stories are on this phone. They will play with no signal.'}}).catch(function(){});
+    saveBtn.addEventListener('click',function(){
+      saveBtn.disabled=true;var n=0;label.textContent='Saving 0 of '+URLS.length+'…';
+      caches.open('ktr-v1').then(function(c){return Promise.all(URLS.map(function(u){return fetch(u,{cache:'reload'}).then(function(r){if(!r.ok)throw 0;return c.put(u,r)}).then(function(){n++;label.textContent='Saving '+n+' of '+URLS.length+'…'})}))})
+      .then(function(){label.textContent='Saved for offline ✓';note.textContent='All seven stories are on this phone. They will play with no signal.'})
+      .catch(function(){label.textContent='Try again on Wi-Fi';saveBtn.disabled=false});
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "total": 2, "totalHits": 2,
+  "hits": [
+    {
+      "id": 1234567,
+      "pageURL": "https://pixabay.com/photos/kitchen-interior-modern-home-1234567/",
+      "type": "photo",
+      "tags": "kitchen, interior, modern",
+      "previewURL": "https://cdn.pixabay.com/photo/2020/01/01/00/00/kitchen-1234567_150.jpg",
+      "webformatURL": "https://cdn.pixabay.com/photo/2020/01/01/00/00/kitchen-1234567_640.jpg",
+      "largeImageURL": "https://cdn.pixabay.com/photo/2020/01/01/00/00/kitchen-1234567_1280.jpg",
+      "imageWidth": 5472, "imageHeight": 3648,
+      "user": "Example_User",
+      "user_id": 424242,
+      "userImageURL": "https://cdn.pixabay.com/user/2020/01/01/00-00-00-000_250x250.jpg"
+    },
+    {
+      "id": 7654321,
+      "pageURL": "https://pixabay.com/photos/oak-table-dining-room-7654321/",
+      "type": "photo",
+      "tags": "",
+      "previewURL": "https://cdn.pixabay.com/photo/2021/02/02/00/00/table-7654321_150.jpg",
+      "webformatURL": "https://cdn.pixabay.com/photo/2021/02/02/00/00/table-7654321_640.jpg",
+      "imageWidth": 3000, "imageHeight": 2000,
+      "user": "Another Person",
+      "user_id": 777
+    }
+  ]
+}

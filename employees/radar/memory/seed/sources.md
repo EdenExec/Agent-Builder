@@ -15,7 +15,9 @@
 | Superhuman splits | Important, Team, Finance (Tana at Freeman Solutions, Chris at BSA-CPA, Taxes and Bills label), Coaching Briefs (Cody Ballah daily and weekly briefs), Project List and Resumes, Calendar, Travel, TRU, Cubs & Outdoors, BPO Notes (bpowizard.com), Other | `list_splits` |
 | Routines (Claude Code) | 5:30 brief, Sunday to Friday | `trig_01CWiJZcDZS9xJGZrxo5sjVh` |
 | Routines | Hourly inbox sweep, weekdays 7am to 6pm (took over the retired Calendar Auto-Fill trigger) | `trig_012VfA1Y4EBzyFoixKVGmNug` |
-| Routines | EOD check-out, weekdays; Friday adds the week review | `trig_01W4kTyfCd7VhMkvt5LDRZ9s` |
+| Routines | EOD check-out, weekdays (Friday walks the week-review taps) | `trig_01W4kTyfCd7VhMkvt5LDRZ9s` |
+| Routines | EOW agent reports, Friday 1:50pm | `trig_019qLwVnxBotcrE3J9gZh4YE` |
+| Routines | Friday week review, 3:50pm | `trig_01C69u4TUwZweJPjPjwoz9Yr` |
 | Routines | Stand Up Tomorrow, Sunday to Thursday; Saturday builds the Sunday Edition | `trig_016GSTsKArqZBPRZc2ZzFaTj` |
 | Routines left alone | Eden Life Hub sync + backup (2am), Hub sync Workshop (2:15am), Daily candidate submission log, Revenue dashboard refresh | owned by the chat projects |
 | Repo | Radar's own files | github.com/EdenExec/Agent-Builder, `employees/radar/` |
