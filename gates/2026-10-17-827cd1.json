@@ -3,7 +3,7 @@
   "subject": "Chris and Joel report, cash flow and P&L summary through 30 Sep 2026 (headline figures)",
   "preparer": "tally",
   "checker": "docket",
-  "status": "open",
+  "status": "passed",
   "items": [
     {
       "label": "Cash at 30 Sep 2026",
@@ -81,7 +81,10 @@
       "label": "Signed candidates (rows with a candidate, excluding retainers)",
       "claimed": 35,
       "unit": "count",
-      "source": "Unique candidate names in the Hub sheet '2026 Rev Report'. Excluded: retainer rows (Retainer in the name, or role N/A) and flat engagement fees (no salary entered, fee entered, no named candidate). A candidate on two billing rows counts once. Includes candidates with no fee entered."
+      "source": "Unique candidate names in the Hub sheet '2026 Rev Report'. Excluded: retainer rows (Retainer in the name, or role N/A) and flat engagement fees (no salary entered, fee entered, no named candidate). A candidate on two billing rows counts once. Includes candidates with no fee entered.",
+      "recomputed": 35,
+      "ok": true,
+      "note": "Rev Report rows 4+, unique trimmed Candidate names; dropped 11 retainer rows (name contains Retainer or role N/A/NA, incl. Hoffman Retainer) and 2 PENTA Engagement rows (salary 0, fee entered); Tom Misciasci 62026-A/B counted once; kept 'Healthcare placement - Duggan' (salary 46000 entered, so not a flat fee under the rule) and zero-fee rows"
     },
     {
       "label": "Signed candidates with no fee (did not start)",
@@ -96,9 +99,13 @@
       "label": "Fall-off rate",
       "claimed": 17.1,
       "unit": "pct",
-      "source": "Candidates counted as above whose Eden Gross fee is zero or blank, divided by all candidates counted as above, as a percent"
+      "source": "Candidates counted as above whose Eden Gross fee is zero or blank, divided by all candidates counted as above, as a percent",
+      "recomputed": 17.14,
+      "ok": true,
+      "note": "6/35 = 17.142857%: zero/blank Eden Gross among the 35 = Portacarrera, Aldawari, Nicks, Sean Alexander, Trujillo, Whitson"
     }
   ],
   "createdAt": "2026-10-17T20:30:35.109Z",
-  "checkedBy": "docket"
+  "checkedBy": "docket",
+  "closedAt": "2026-10-17T20:35:08.385Z"
 }
