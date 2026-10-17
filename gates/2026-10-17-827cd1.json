@@ -1,0 +1,76 @@
+{
+  "id": "2026-10-17-827cd1",
+  "subject": "Chris and Joel report, cash flow and P&L summary through 30 Sep 2026 (headline figures)",
+  "preparer": "tally",
+  "checker": "docket",
+  "status": "open",
+  "items": [
+    {
+      "label": "Cash at 30 Sep 2026",
+      "claimed": 252085.8,
+      "unit": "usd",
+      "source": "EPG Chase checking, September statement (text: /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/d2e351b5-20260930-statements-0816-.txt), ending balance"
+    },
+    {
+      "label": "Cash at 31 Aug 2026",
+      "claimed": 268741.17,
+      "unit": "usd",
+      "source": "EPG Chase checking, August statement (text: /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/7978ec13-20260831-statements-0816-.txt), ending balance"
+    },
+    {
+      "label": "Gross fees booked in the Hub (all 2026 rows)",
+      "claimed": 1069928,
+      "unit": "usd",
+      "source": "Hub workbook /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/hub/hub.xlsx, sheet '2026 Rev Report', column 'Eden Gross', sum of all placement and retainer rows"
+    },
+    {
+      "label": "Gross fees with a start date through 30 Sep 2026",
+      "claimed": 825328,
+      "unit": "usd",
+      "source": "Same sheet, column 'Eden Gross' for rows whose Start Date is on or before 2026-09-30. Rows with a blank Start Date: the January, February, March and June PB South retainers are taken as the 15th of that month, and the Jackson Contractors retainer as 15 Feb 2026"
+    },
+    {
+      "label": "Owner distributions, Jul and Sep",
+      "claimed": 160000,
+      "unit": "usd",
+      "source": "July and September statements in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/: transfers to the owner checking account ending 6121 plus the lines described only as 'Withdrawal'"
+    },
+    {
+      "label": "Transfers to the Profit First money market account (owner tax savings), Feb-Sep",
+      "claimed": 34000,
+      "unit": "usd",
+      "source": "All Feb to Sep statements in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/: 'Online Transfer To Mma' lines"
+    },
+    {
+      "label": "Investor money received, Feb-Mar",
+      "claimed": 150000,
+      "unit": "usd",
+      "source": "February statement deposit of 10 Feb and March statement deposit of 2 Mar in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/; Hub 'Cap. Infus' cell on the Rev Report sheet shows the same total"
+    },
+    {
+      "label": "Investor interest paid, Feb-Sep",
+      "claimed": 10000,
+      "unit": "usd",
+      "source": "All Feb to Sep statements in /tmp/claude-0/-home-user-Agent-Builder/7eff2ab9-8cd5-5c61-9553-9db268c6e194/scratchpad/stmts/: ACH payments to the two individual lenders (payee names containing 'Unclescot' and 'Gramps')"
+    },
+    {
+      "label": "Signed candidates (rows with a candidate, excluding retainers)",
+      "claimed": 37,
+      "unit": "count",
+      "source": "Hub sheet '2026 Rev Report': rows with a candidate name, not retainers (retainer rows have 'Retainer' in the name or role N/A), whether or not a fee is entered"
+    },
+    {
+      "label": "Signed candidates with no fee (did not start)",
+      "claimed": 6,
+      "unit": "count",
+      "source": "Same rows: candidate rows where the Eden Gross fee is zero or blank"
+    },
+    {
+      "label": "Fall-off rate",
+      "claimed": 16.2,
+      "unit": "pct",
+      "source": "Candidates with no fee divided by all signed candidates, as a percent"
+    }
+  ],
+  "createdAt": "2026-10-17T20:30:35.109Z"
+}
