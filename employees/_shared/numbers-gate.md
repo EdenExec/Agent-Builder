@@ -8,7 +8,7 @@ A number leaves the building only after a different employee has re-derived it f
 
 ## How it works
 
-1. **Open.** The preparer lists every number in the deliverable with its label, unit (usd, count, pct, days) and **source** (the file, query, report line or clause). `npm run gate -- open "<subject>" <preparer> <checker> items.json`.
+1. **Open.** The preparer lists every number in the deliverable with its label, unit (usd, count, pct, days) and **source** (the file, query, report line or clause). A source says where to look and how a number is defined (which rows count, which are excluded); it never contains the claimed number or the answer you expect, or the check is no longer blind. Define the rule precisely: the first run of the gate failed on "signed candidates" because the definition did not say whether flat-fee engagement rows or a candidate with two billing rows count. `npm run gate -- open "<subject>" <preparer> <checker> items.json`.
 2. **Blind check.** The checker runs `npm run gate -- blind <id>`, sees labels and sources only, and derives each number itself. It also looks for wrong basis, wrong entity, wrong period, double counting and a number that ties but should not exist.
 3. **Verify.** `npm run gate -- verify <id> "<label>" <value> --by <checker>`. Tolerance: dollars within $1, counts and days exact, percentages within 0.1 point. A mismatch fails the gate.
 4. **Fix.** The preparer runs `revise` on the failed number (with its source), and the checker re-derives it from scratch. A gate passes only when every item matches.

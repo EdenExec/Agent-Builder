@@ -79,9 +79,9 @@
     },
     {
       "label": "Signed candidates (rows with a candidate, excluding retainers)",
-      "claimed": 37,
+      "claimed": 35,
       "unit": "count",
-      "source": "Unique candidate names in the Hub sheet '2026 Rev Report', excluding retainers (retainer rows have 'Retainer' in the name or role N/A), whether or not a fee is entered. Tom Misciasci appears on two rows (62026-A and 62026-B, two 15,000 fees, both paid by Beck Group via Blue Square on 26 Mar and 7 May) and counts once"
+      "source": "Unique candidate names in the Hub sheet '2026 Rev Report'. Excluded: retainer rows (Retainer in the name, or role N/A) and flat engagement fees (no salary entered, fee entered, no named candidate). A candidate on two billing rows counts once. Includes candidates with no fee entered."
     },
     {
       "label": "Signed candidates with no fee (did not start)",
@@ -94,9 +94,9 @@
     },
     {
       "label": "Fall-off rate",
-      "claimed": 16.2,
+      "claimed": 17.1,
       "unit": "pct",
-      "source": "Unique signed candidates with no fee (6) divided by unique signed candidates (37), as a percent. Per Kev all six signed and did not start; a Hub note on one row (Sean Alexander) says 'part of the retainer', so the six is Kev's list and is flagged for confirmation in the report"
+      "source": "Candidates counted as above whose Eden Gross fee is zero or blank, divided by all candidates counted as above, as a percent"
     }
   ],
   "createdAt": "2026-10-17T20:30:35.109Z",

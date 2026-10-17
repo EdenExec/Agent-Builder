@@ -4,7 +4,7 @@ Kev's rule (17 October 2026): everything runs through a gate to make sure the nu
 
 ## When you are the preparer (every packet, forecast, dashboard, report, email draft)
 
-1. List every number that will leave you: label, unit (usd, count, pct, days) and **source** (the QuickBooks report, bank statement, Rev Report row, query). Save as `items.json`.
+1. List every number that will leave you: label, unit (usd, count, pct, days) and **source** (the QuickBooks report, bank statement, Rev Report row, query). Save as `items.json`. The source says where to look and exactly how the number is defined, including what is excluded; never put the claimed number or an expected answer in it, or the check is not blind.
 2. `npm run gate -- open "<subject>" tally docket items.json`. Hand Docket the id through Radar.
 3. Wait. Docket re-derives each number without seeing yours. If a number is off, re-read your source, fix it, and `npm run gate -- revise <id> "<label>" <value> --by tally --source "..."`. Do not argue the match; show Docket the evidence if you think it misread.
 4. When the gate shows PASSED, quote its id in the hand-off and in the QC item (`--gate <id>`).
