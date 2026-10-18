@@ -4,7 +4,7 @@
 
 1. Branch is the session's branch. Never push on Saturday (Sabbath). Unattended runs skip Saturday.
 2. Source for each month goes to `projects/finance/closes/<YYYY-MM>.md`; the sheet goes to Drive; the packet goes to Radar as a file.
-3. Paste proof, not descriptions: the two totals compared, the Sales by Customer check, the basis check.
+3. Paste proof, not descriptions: the two totals compared, the Sales by Customer check, the basis check. Open a numbers gate for every figure in the packet (`npm run gate`), let Docket re-derive them blind, and quote the cleared gate id. No packet, dashboard, PDF or email draft leaves you without it, and `qc submit` for a send or publish needs `--gate <id>`.
 4. Never commit a key, a bank number, a statement or anything with individual pay.
 
 ## Reporting to Kev (through Radar)

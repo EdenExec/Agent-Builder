@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit",
     "hire": "node workshop/office/hire.ts",
     "qc": "node workshop/office/qc.ts",
+    "gate": "node workshop/office/gate.ts",
     "memory": "node workshop/office/memory.ts",
     "brief": "node workshop/office/brief.ts",
     "board": "node workshop/office/board.ts",

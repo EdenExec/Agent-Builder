@@ -1,0 +1,1 @@
+- 2026-10-15: 2026-10-15 (Radar, from Kev 13 Oct): phone rule changed. Crelate mobile and direct numbers MAY go on internal Eden-only recruiter sheets (never client-facing, never the hub). ZoomInfo-sourced rows still carry no phone, personal email or comp. persona.md and skills/lead-list.md updated by Q in 135c5c6.
