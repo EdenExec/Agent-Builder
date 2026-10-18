@@ -220,6 +220,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       <button type="button" id="b-sound" aria-pressed="false">Sound off</button>
       <button type="button" id="b-full" aria-pressed="false">Full screen</button>
       <button type="button" id="b-awake" aria-pressed="false">Keep screen awake</button>
+      <button type="button" id="b-only" aria-pressed="false">Meetings only</button>
     </div>
     <div class="demo" id="demo" hidden>
       <span>Preview</span>
@@ -258,6 +259,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
 (function(){
   const $=id=>document.getElementById(id);
   const SERVER='Google Calendar', TOOL='list_events';
+  const CALS=[{key:'main',id:''},{key:'personal',id:'kdt.williams@gmail.com'}];
   const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const safeUrl=u=>/^https:\/\//i.test(String(u||''))?String(u):'';
   const pad=n=>String(n).padStart(2,'0');
@@ -270,7 +272,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
   const isoLocal=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
   const dayKey=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 
-  const S={view:0,viewAt:0,addDur:30,addColor:'',busy:false,events:[],loaded:false,error:null,sample:false,shift:47,updated:0,sound:false,audio:null,awake:null,sig:'',minute:-1,chimed:{},unwatch:null,watchDay:'',mcp:null};
+  const S={raw:{},only:false,view:0,viewAt:0,addDur:30,addColor:'',busy:false,events:[],loaded:false,error:null,sample:false,shift:47,updated:0,sound:false,audio:null,awake:null,sig:'',minute:-1,chimed:{},unwatch:null,watchDay:'',mcp:null};
 
   const COLORS={'1':['Lavender','#a4bdfc'],'2':['Sage','#7ae7bf'],'3':['Grape','#dbadff'],'4':['Flamingo','#ff887c'],'5':['Banana','#fbd75b'],'6':['Tangerine','#ffb878'],'7':['Peacock','#46d6db'],'8':['Graphite','#e1e1e1'],'9':['Blueberry','#5484ed'],'10':['Basil','#51b749'],'11':['Tomato','#dc2127']};
   const MINV=-3, MAXV=7;
@@ -297,8 +299,8 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       const self=(ev.attendees||[]).find(a=>a.self);
       if(self&&self.responseStatus==='declined')continue;
       const allDay=!!(ev.start&&ev.start.date&&!ev.start.dateTime);
-      const s=allDay?new Date(ev.start.date+'T00:00:00'):new Date(ev.start&&ev.start.dateTime);
-      const e=allDay?new Date(ev.end.date+'T00:00:00'):new Date(ev.end&&ev.end.dateTime);
+      const s=allDay?new Date(String(ev.start.date).slice(0,10)+'T00:00:00'):new Date(ev.start&&ev.start.dateTime);
+      const e=allDay?new Date(String((ev.end&&ev.end.date)||ev.start.date).slice(0,10)+'T00:00:00'):new Date(ev.end&&ev.end.dateTime);
       if(isNaN(s)||isNaN(e))continue;
       const dur=e-s;
       const ambient=allDay||dur>=6*36e5||ev.eventType==='OUT_OF_OFFICE'||ev.eventType==='FOCUS_TIME';
@@ -321,10 +323,12 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       const mine=(ev.organizer&&ev.organizer.self)||(ev.creator&&ev.creator.self);
       const resp=me?(me.responseStatus||''):(mine?'accepted':'');
       out.push({id:ev.id||String(s),title:ev.summary||'Busy',s:s.getTime(),e:e.getTime(),allDay,ambient,guests:guests.length,external,
-        videoUrl,provider:videoUrl?provider(videoUrl):'',otherUrl,phone,phonePin,physical,resp,confirmed:resp==='accepted',cal:safeUrl(ev.htmlLink),color:String(ev.colorId||'')});
+        videoUrl,provider:videoUrl?provider(videoUrl):'',otherUrl,phone,phonePin,physical,resp,confirmed:resp==='accepted',cal:safeUrl(ev.htmlLink),color:String(ev.colorId||''),flight:ev.eventType==='FROM_GMAIL'||/\bflight\b|\u2708/i.test(String(ev.summary||'')),dk:String(ev.summary||'')+'|'+s.getTime()+'|'+e.getTime()});
     }
-    out.sort((a,b)=>a.s-b.s);
-    return out;
+    const seen=new Set();
+    const uniq=out.filter(x=>{if(seen.has(x.dk))return false;seen.add(x.dk);return true});
+    uniq.sort((a,b)=>a.s-b.s);
+    return uniq;
   }
   function sampleEvents(){
     const now=Date.now(), m=60000, st=S.shift;
@@ -362,8 +366,9 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
   }
 
   /* ---------- the model for a moment in time ---------- */
+  const isMeeting=e=>e.guests>0||!!(e.videoUrl||e.otherUrl||e.phone||e.physical)||e.flight;
   function model(now){
-    const timed=S.events.filter(e=>!e.allDay&&!e.ambient);
+    const timed=S.events.filter(e=>!e.allDay&&!e.ambient&&(!S.only||isMeeting(e)));
     const today=dayKey(new Date(now));
     const todays=timed.filter(e=>dayKey(new Date(e.s))===today);
     const letterOf=new Map(todays.map((e,i)=>[e.id,i<26?String.fromCharCode(65+i):String(i+1)]));
@@ -379,7 +384,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
   }
 
   /* ---------- where and how to attend ---------- */
-  function kindLabel(ev){return ev.videoUrl?ev.provider:ev.physical?'In person':ev.phone?'Phone':''}
+  function kindLabel(ev){return ev.flight?'Flight':ev.videoUrl?ev.provider:ev.physical?'In person':ev.phone?'Phone':''}
   function whereHtml(ev){
     const out=[];
     if(ev.physical)out.push('<div><small>Location</small>'+esc(ev.physical)+'</div>');
@@ -742,18 +747,21 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     n.hidden=false;n.innerHTML='<span>'+esc(text)+'</span>'+(action?'<button type="button" id="n-act">'+esc(action)+'</button>':'');
   }
   const AUTHZ={needs_reauth:1,server_not_connected:1,not_in_manifest:1,blocked_by_policy:1,approval_required:1,consent_required:1,selection_required:1,not_granted:1,capability_disabled:1,capability_removed:1};
-  function onEvent(ev){
+  function onEvent(ev,cal){
+    cal=cal||CALS[0];
     if(ev.type==='data'){
       const r=ev.result||{};let p=r.payload;
       if(typeof p==='string'){try{p=JSON.parse(p)}catch(_){p=null}}
       const list=Array.isArray(p)?p:(p&&Array.isArray(p.events)?p.events:[]);
-      S.events=normalize(list);S.loaded=true;S.error=null;
+      S.raw[cal.key]=list;
+      S.events=normalize([].concat.apply([],CALS.map(c=>S.raw[c.key]||[])));S.loaded=true;if(cal.key==='main')S.error=null;
       S.updated=r.cache&&r.cache.storedAt?r.cache.storedAt:Date.now();
       showNotice('');
       $('updated').textContent='Calendar updated '+tf.format(S.updated);
       S.sig='';S.sigDrawn='';tick();renderDay();
       return;
     }
+    if(cal.key!=='main')return;
     const e=ev.error||{};const code=e.code||'upstream_error';
     S.error=code;
     if(AUTHZ[code]){S.events=[];S.loaded=true;S.sig='';S.sigDrawn=''}
@@ -772,10 +780,14 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
   }
   function startWatch(){
     if(!S.mcp)return;
-    try{S.unwatch&&S.unwatch()}catch(_){}
+    try{(S.unwatchers||[]).forEach(u=>u())}catch(_){}
+    S.unwatchers=[];
     const now=new Date();S.watchDay=dayKey(now);
     const input={startTime:isoLocal(addDays(startOfDay(now),MINV)),endTime:isoLocal(addDays(startOfDay(now),MAXV+2)),orderBy:'startTime',pageSize:250};
-    S.unwatch=S.mcp.watchTool(SERVER,TOOL,input,onEvent,{refetchInterval:30000});
+    CALS.forEach(c=>{
+      const inp=c.id?Object.assign({calendarId:c.id},input):input;
+      S.unwatchers.push(S.mcp.watchTool(SERVER,TOOL,inp,ev=>onEvent(ev,c),{refetchInterval:30000}));
+    });
   }
   async function askPermission(){
     try{
@@ -827,6 +839,13 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     if(b.getAttribute('aria-pressed')==='true'){try{S.awake&&await S.awake.release()}catch(_){}S.awake=null;b.setAttribute('aria-pressed','false');return}
     const ok=await wake();
     if(ok)b.setAttribute('aria-pressed','true');else $('updated').textContent='Keeping the screen awake is not available here. Use your computer\'s display settings.';
+  });
+  try{S.only=localStorage.getItem('db-only')==='1'}catch(_){}
+  $('b-only').setAttribute('aria-pressed',String(S.only));
+  $('b-only').addEventListener('click',()=>{
+    S.only=!S.only;$('b-only').setAttribute('aria-pressed',String(S.only));
+    try{localStorage.setItem('db-only',S.only?'1':'0')}catch(_){}
+    S.sig='';S.sigDrawn='';tick();
   });
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&$('b-awake').getAttribute('aria-pressed')==='true')wake()});
 
