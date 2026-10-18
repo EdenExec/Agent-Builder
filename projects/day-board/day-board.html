@@ -170,6 +170,12 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
 .warnline{background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600}
 .errline{background:var(--neg-bg);color:var(--neg);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600}
 .sheet-act{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.pencil{display:inline-grid;place-items:center;width:34px;height:34px;padding:0;border:1.5px solid var(--line);border-radius:8px;background:transparent;color:inherit;cursor:pointer;vertical-align:middle}
+.pencil svg{width:16px;height:16px}
+.join.pencil{width:44px;height:44px;border-radius:10px;border-color:currentColor}
+.pill.danger{color:var(--neg);border-color:var(--neg)}
+.pill.danger.arm{background:var(--neg);color:var(--bg)}
+.sheet-act .sp{flex:1}
 </style>
 
 <div class="board" id="board" data-mode="loading" data-view="today">
@@ -186,6 +192,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     <div class="dn-label" id="dn-label"></div>
     <button type="button" class="arrow" id="dn-next" data-act="next" aria-label="Next day"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
     <button type="button" class="pill" id="dn-today" data-act="today" hidden>Back to today</button>
+    <button type="button" class="pill" id="dn-undo" data-act="undo" hidden>Undo</button>
     <button type="button" class="pill fill" id="dn-add" data-act="add">Add event</button>
   </nav>
 
@@ -240,15 +247,15 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
         <label class="f"><span>Start</span><input name="time" type="time" step="300"></label>
       </div>
       <div class="f"><span>Length</span><div class="seg" id="durs"></div></div>
-      <label class="f"><span>Type of meeting</span>
+      <label class="f" id="kind-wrap"><span>Type of meeting</span>
         <select name="kind"><option value="meet">Google Meet (link is added)</option><option value="zoom">Zoom (paste the link)</option><option value="phone">Phone call</option><option value="person">In person</option><option value="none">No location</option></select>
       </label>
       <label class="f" id="detail-wrap"><span id="detail-label">Zoom link</span><input name="detail" type="text" autocomplete="off" maxlength="300"></label>
-      <label class="f"><span>Notes</span><textarea name="notes" rows="3" maxlength="2000"></textarea></label>
+      <label class="f" id="notes-wrap"><span>Notes</span><textarea name="notes" rows="3" maxlength="2000"></textarea></label>
       <div class="f"><span>Color</span><div class="sw" id="sw"></div></div>
       <div class="warnline" id="addwarn" hidden></div>
       <div class="errline" id="adderr" role="alert" hidden></div>
-      <div class="sheet-act"><button type="button" class="pill" data-act="close">Cancel</button><button type="submit" class="pill fill" id="add-go">Add to calendar</button></div>
+      <div class="sheet-act"><button type="button" class="pill danger" id="add-del" data-act="del" hidden>Delete</button><span class="sp"></span><button type="button" class="pill" data-act="close">Cancel</button><button type="submit" class="pill fill" id="add-go">Add to calendar</button></div>
     </form>
   </div>
   <div class="toast" id="toast" role="status" hidden></div>
@@ -323,7 +330,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       const mine=(ev.organizer&&ev.organizer.self)||(ev.creator&&ev.creator.self);
       const resp=me?(me.responseStatus||''):(mine?'accepted':'');
       out.push({id:ev.id||String(s),title:ev.summary||'Busy',s:s.getTime(),e:e.getTime(),allDay,ambient,guests:guests.length,external,
-        videoUrl,provider:videoUrl?provider(videoUrl):'',otherUrl,phone,phonePin,physical,resp,confirmed:resp==='accepted',cal:safeUrl(ev.htmlLink),color:String(ev.colorId||''),flight:ev.eventType==='FROM_GMAIL'||/\bflight\b|\u2708/i.test(String(ev.summary||'')),dk:String(ev.summary||'')+'|'+s.getTime()+'|'+e.getTime()});
+        videoUrl,provider:videoUrl?provider(videoUrl):'',otherUrl,phone,phonePin,physical,resp,confirmed:resp==='accepted',cal:safeUrl(ev.htmlLink),color:String(ev.colorId||''),calId:ev._cal||'',mine:!!mine,desc:String(ev.description||''),loc:loc,flight:ev.eventType==='FROM_GMAIL'||/\bflight\b|\u2708/i.test(String(ev.summary||'')),dk:String(ev.summary||'')+'|'+s.getTime()+'|'+e.getTime()});
     }
     const seen=new Set();
     const uniq=out.filter(x=>{if(seen.has(x.dk))return false;seen.add(x.dk);return true});
@@ -391,6 +398,8 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     if(ev.phone)out.push('<div><small>Dial in</small>'+esc(ev.phone)+(ev.phonePin?' · PIN '+esc(ev.phonePin):'')+'</div>');
     return out.length?'<div class="where">'+out.join('')+'</div>':'';
   }
+  const PENCIL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14 7l3 3"/></svg>';
+  const pencilHtml=(ev,big)=>'<button type="button" class="'+(big?'join':'mini')+' pencil" data-edit="'+esc(ev.id)+'" aria-label="Edit '+esc(ev.title)+'" title="Edit, change color or delete">'+PENCIL+'</button>';
   function buttonsHtml(ev,big){
     const cls=big?'join':'mini', pri=big?' primary':' fill';
     const out=[];
@@ -406,6 +415,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       else out.push('<span class="chip">Accept the invite for directions</span>');
     }
     if(!out.length&&ev.cal)out.push('<a class="'+cls+'" href="'+esc(ev.cal)+'" target="_blank" rel="noopener">Open in Calendar</a>');
+    out.push(pencilHtml(ev,big));
     return out.join('');
   }
 
@@ -621,7 +631,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       const tags=[];if(e.external)tags.push('External');const kl=kindLabel(e);if(kl)tags.push(kl);if(e.guests)tags.push(e.guests+(e.guests===1?' guest':' guests'));
       if(!past&&e.resp==='needsAction')tags.push('RSVP needed');
       let acts='';
-      if(past){if(e.cal)acts='<a class="mini" href="'+esc(e.cal)+'" target="_blank" rel="noopener">Open in Calendar</a>'}
+      if(past){acts=(e.cal?'<a class="mini" href="'+esc(e.cal)+'" target="_blank" rel="noopener">Open in Calendar</a>':'')+pencilHtml(e,false)}
       else acts=buttonsHtml(e,false);
       return '<li class="row dv"><span class="tm">'+esc(tf.format(e.s))+'<br>'+esc(tf.format(e.e))+'</span><div class="rt"><b>'+esc(e.title)+'</b><small>'+esc(tags.join(' · ')||fmtDur(e.e-e.s))+'</small>'+(e.physical?'<div class="where"><div>'+esc(e.physical)+'</div></div>':'')+(acts?'<div class="acts">'+acts+'</div>':'')+'</div>'+dotHtml(e.color)+'</li>';
     }).join(''):'<li class="empty">'+(past?'Nothing was on the calendar that day.':'Nothing scheduled yet. Use Add event to put something on it.')+'</li>';
@@ -637,6 +647,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
   /* ---------- add an event ---------- */
   const DETAIL={meet:null,zoom:'Zoom link',phone:'Phone number',person:'Address',none:null};
   function syncDetail(){
+    if(S.edit){$('detail-wrap').hidden=false;$('detail-label').textContent='Location or link';return}
     const k=$('addform').kind.value,l=DETAIL[k];
     $('detail-wrap').hidden=!l;if(l)$('detail-label').textContent=l;
   }
@@ -645,18 +656,26 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     const w=$('addwarn');
     if(isNaN(st)){w.hidden=true;return}
     const a=st.getTime(),b=a+S.addDur*60000;
-    const hit=S.events.filter(e=>!e.allDay&&!e.ambient&&e.s<b&&e.e>a);
+    const hit=S.events.filter(e=>!e.allDay&&!e.ambient&&e.s<b&&e.e>a&&!(S.edit&&e.id===S.edit.id));
     if(hit.length){w.hidden=false;w.textContent='Overlaps with '+hit.slice(0,2).map(e=>e.title+' at '+tf.format(e.s)).join(' and ')+(hit.length>2?' and '+(hit.length-2)+' more':'')+'. You can still add it.'}
     else w.hidden=true;
   }
   function paintDurs(){
-    $('durs').innerHTML=[15,30,45,60,90].map(m=>'<button type="button" data-dur="'+m+'" aria-pressed="'+(S.addDur===m)+'">'+(m<60?m+' min':m===60?'1 hour':'1.5 hours')+'</button>').join('');
+    $('durs').innerHTML=(S.durCustom?'<button type="button" data-dur="'+S.durCustom+'" aria-pressed="'+(S.addDur===S.durCustom)+'">'+fmtDur(S.durCustom*60000)+' (current)</button>':'')+[15,30,45,60,90].map(m=>'<button type="button" data-dur="'+m+'" aria-pressed="'+(S.addDur===m)+'">'+(m<60?m+' min':m===60?'1 hour':'1.5 hours')+'</button>').join('');
   }
   function paintColors(){
     $('sw').innerHTML='<button type="button" class="none" data-color="" aria-pressed="'+(S.addColor==='')+'">Calendar default</button>'+
       Object.keys(COLORS).map(k=>'<button type="button" data-color="'+k+'" style="background:'+COLORS[k][1]+'" aria-label="'+esc(COLORS[k][0])+'" title="'+esc(COLORS[k][0])+'" aria-pressed="'+(S.addColor===k)+'"></button>').join('');
   }
+  function modalMode(edit){
+    S.edit=edit||null;
+    $('add-h').textContent=edit?'Edit event':'Add to calendar';
+    $('kind-wrap').hidden=!!edit;$('notes-wrap').hidden=!!edit;$('add-del').hidden=!edit;
+    $('add-del').textContent='Delete';$('add-del').classList.remove('arm');S.delArm=0;
+    $('add-go').textContent=edit?'Save changes':'Add to calendar';
+  }
   function openAdd(){
+    modalMode(null);
     const f=$('addform'),now=new Date();
     const day=S.view>=0?dayStart(S.view):startOfDay(now);
     f.title.value='';f.notes.value='';f.detail.value='';f.kind.value='meet';
@@ -664,16 +683,58 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     let t;
     if(S.view===0){t=new Date(now);t.setMinutes(Math.ceil((t.getMinutes()+1)/30)*30,0,0)}else{t=new Date(day);t.setHours(9,0,0,0)}
     f.time.value=pad(t.getHours())+':'+pad(t.getMinutes());
-    S.addDur=30;S.addColor='';paintDurs();paintColors();syncDetail();
-    $('adderr').hidden=true;$('add-go').disabled=false;$('add-go').textContent='Add to calendar';
+    S.addDur=30;S.durCustom=0;S.addColor='';paintDurs();paintColors();syncDetail();
+    $('adderr').hidden=true;$('add-go').disabled=false;
     $('modal').hidden=false;overlapCheck();
     setTimeout(()=>{try{f.title.focus()}catch(_){}},30);
   }
-  function closeAdd(){$('modal').hidden=true}
+  const TZ=(()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(_){return ''}})();
+  const find=id=>S.events.find(e=>e.id===id);
+  function openEdit(id){
+    const ev=find(id);if(!ev)return;
+    modalMode(ev);
+    const f=$('addform'),st=new Date(ev.s);
+    f.title.value=ev.title==='Busy'?'':ev.title;f.date.value=dayKey(st);f.time.value=pad(st.getHours())+':'+pad(st.getMinutes());f.detail.value=ev.loc||'';
+    const len=Math.round((ev.e-ev.s)/60000);S.addDur=len;S.durCustom=[15,30,45,60,90].includes(len)?0:len;
+    S.addColor=ev.color||'';paintDurs();paintColors();syncDetail();
+    const notes=[];
+    if(ev.guests&&!ev.mine)notes.push('Someone else organized this. You can change the color or remove it from your calendar; time and title edits may be refused.');
+    else if(ev.guests)notes.push('Saving sends an update to '+ev.guests+(ev.guests===1?' guest':' guests')+'.');
+    if(/_\d{8}T/.test(ev.id))notes.push('Repeating event: changes apply to this one only.');
+    $('adderr').hidden=true;$('addwarn').hidden=!notes.length;$('addwarn').textContent=notes.join(' ');
+    $('add-go').disabled=false;$('modal').hidden=false;
+  }
+  function closeAdd(){$('modal').hidden=true;S.edit=null}
   function toast(text){
     const t=$('toast');t.textContent=text;t.hidden=false;clearTimeout(S.toastT);S.toastT=setTimeout(()=>{t.hidden=true},5000);
   }
   function addError(msg){const e=$('adderr');e.textContent=msg;e.hidden=false}
+  const parsePayload=r=>{let p=r&&r.payload;if(typeof p==='string'){try{p=JSON.parse(p)}catch(_){p=null}}return p||{}};
+  const errText=err=>{
+    const code=err&&err.code;
+    return AUTHZ[code]?'This board needs your approval to change your calendar. Try again and approve, or reconnect Google Calendar in Claude settings.':
+      code==='tool_error'?'Google Calendar refused that'+(err.message?': '+err.message:'')+'. Nothing was changed.':
+      'Could not confirm the change. Check your calendar before trying again.';
+  };
+  const whereArg=ev=>ev.calId?{calendarId:ev.calId}:{};
+  const tzArg=()=>TZ?{timeZone:TZ}:{};
+  async function refreshAfterWrite(){try{await S.mcp.invalidate(SERVER,TOOL)}catch(_){}}
+
+  /* undo stack: each entry says what it does and how to reverse it */
+  S.undo=[];
+  function pushUndo(label,fn){S.undo.push({label,fn});if(S.undo.length>5)S.undo.shift();paintUndo()}
+  function paintUndo(){
+    const b=$('dn-undo'),top=S.undo[S.undo.length-1];
+    b.hidden=!top;if(top){b.textContent='Undo '+top.label;b.title='Undo: '+top.label}
+  }
+  async function runUndo(){
+    const top=S.undo[S.undo.length-1];if(!top||S.busy)return;
+    S.busy=true;$('dn-undo').disabled=true;
+    try{await top.fn();S.undo.pop();toast('Undone: '+top.label)}
+    catch(err){toast(errText(err))}
+    finally{S.busy=false;$('dn-undo').disabled=false;paintUndo();S.sig='';S.sigDrawn='';tick();renderDay()}
+  }
+
   async function submitAdd(ev){
     ev.preventDefault();
     if(S.busy)return;
@@ -682,8 +743,9 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     const st=new Date(f.date.value+'T'+f.time.value+':00');
     if(!f.date.value||!f.time.value||isNaN(st)){addError('Pick a date and a start time.');return}
     const en=new Date(st.getTime()+S.addDur*60000);
+    if(S.edit)return submitEdit(title,st,en,f.detail.value.trim());
     const kind=f.kind.value,detail=f.detail.value.trim(),notes=f.notes.value.trim();
-    const args={summary:title,startTime:isoLocal(st),endTime:isoLocal(en)};
+    const args=Object.assign({summary:title,startTime:isoLocal(st),endTime:isoLocal(en)},tzArg());
     if(kind==='meet')args.addGoogleMeetUrl=true;
     else if(kind==='zoom')args.location=detail||'Zoom';
     else if(kind==='phone')args.location=detail||'Phone call';
@@ -692,28 +754,96 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     if(S.addColor)args.colorId=S.addColor;
     $('adderr').hidden=true;S.busy=true;$('add-go').disabled=true;$('add-go').textContent='Adding…';
     try{
+      let newId='new'+Date.now();
       if(S.sample){
-        S.events.push({id:'new'+Date.now(),title,s:st.getTime(),e:en.getTime(),allDay:false,ambient:false,guests:0,external:0,videoUrl:kind==='meet'?'https://meet.google.com/example':'',provider:kind==='meet'?'Meet':'',otherUrl:'',phone:kind==='phone'?detail:'',phonePin:'',physical:kind==='person'?detail:'',resp:'accepted',confirmed:true,cal:'',color:S.addColor});
+        S.events.push({id:newId,title,s:st.getTime(),e:en.getTime(),allDay:false,ambient:false,guests:0,external:0,videoUrl:kind==='meet'?'https://meet.google.com/example':'',provider:kind==='meet'?'Meet':'',otherUrl:'',phone:kind==='phone'?detail:'',phonePin:'',physical:kind==='person'?detail:'',loc:detail,mine:true,desc:notes,resp:'accepted',confirmed:true,cal:'',calId:'',color:S.addColor});
         S.events.sort((a,b)=>a.s-b.s);
       }else{
-        await S.mcp.callTool(SERVER,'create_event',args);
-        try{await S.mcp.invalidate(SERVER,TOOL)}catch(_){}
+        const r=await S.mcp.callTool(SERVER,'create_event',args);
+        const p=parsePayload(r);newId=p.id||(p.event&&p.event.id)||'';
+        await refreshAfterWrite();
       }
+      if(newId)pushUndo('add',async()=>{
+        if(S.sample){S.events=S.events.filter(e=>e.id!==newId)}
+        else{await S.mcp.callTool(SERVER,'delete_event',{eventId:newId,notificationLevel:'NONE'});await refreshAfterWrite()}
+      });
       closeAdd();
       const off=Math.round((startOfDay(st)-startOfDay(new Date()))/864e5);
       if(off>=MINV&&off<=MAXV)setView(off);
       S.sig='';S.sigDrawn='';tick();
       toast('Added "'+title+'" to your calendar'+(S.sample?' (example only)':''));
-    }catch(err){
-      const code=err&&err.code;
-      addError(AUTHZ[code]?'This board needs your approval to add events. Tap Add to calendar again and approve, or reconnect Google Calendar in Claude settings.':
-        code==='tool_error'?'Google Calendar refused that event'+(err.message?': '+err.message:'')+'. Nothing was added.':
-        'Could not confirm it was added. Check your calendar before trying again.');
-    }finally{
-      S.busy=false;$('add-go').disabled=false;$('add-go').textContent='Add to calendar';
+    }catch(err){addError(errText(err))}
+    finally{S.busy=false;$('add-go').disabled=false;$('add-go').textContent=S.edit?'Save changes':'Add to calendar'}
+  }
+
+  async function submitEdit(title,st,en,loc){
+    const ev=S.edit,args=Object.assign({eventId:ev.id},whereArg(ev)),prev=Object.assign({eventId:ev.id},whereArg(ev));
+    let changed=false;
+    if(title!==ev.title&&!(ev.title==='Busy'&&!title)){args.summary=title;prev.summary=ev.title;changed=true}
+    if(Math.floor(st.getTime()/60000)!==Math.floor(ev.s/60000)||Math.floor(en.getTime()/60000)!==Math.floor(ev.e/60000)){
+      args.startTime=isoLocal(st);args.endTime=isoLocal(en);prev.startTime=isoLocal(new Date(ev.s));prev.endTime=isoLocal(new Date(ev.e));changed=true;
     }
+    if(loc!==(ev.loc||'')){args.location=loc;prev.location=ev.loc||'';changed=true}
+    if(S.addColor!==(ev.color||'')){args.colorId=S.addColor;prev.colorId=ev.color||'';changed=true}
+    if(!changed){closeAdd();return}
+    if(args.startTime){Object.assign(args,tzArg());Object.assign(prev,tzArg())}
+    const label=Object.keys(args).some(k=>/^(summary|startTime|location)$/.test(k))?'edit':'color change';
+    $('adderr').hidden=true;S.busy=true;$('add-go').disabled=true;$('add-go').textContent='Saving…';
+    try{
+      if(S.sample){
+        if(args.summary)ev.title=args.summary;if(args.startTime){ev.s=st.getTime();ev.e=en.getTime()}
+        if('location' in args){ev.loc=loc;ev.physical=loc&&!/^https:/i.test(loc)?loc:''}
+        if('colorId' in args)ev.color=args.colorId;S.events.sort((a,b)=>a.s-b.s);
+      }else{
+        await S.mcp.callTool(SERVER,'update_event',args);await refreshAfterWrite();
+      }
+      pushUndo(label,async()=>{
+        if(S.sample){
+          if(prev.summary)ev.title=prev.summary;if(prev.startTime){ev.s=new Date(prev.startTime).getTime();ev.e=new Date(prev.endTime).getTime()}
+          if('location' in prev)ev.loc=prev.location;if('colorId' in prev)ev.color=prev.colorId;S.events.sort((a,b)=>a.s-b.s);
+        }else{await S.mcp.callTool(SERVER,'update_event',prev);await refreshAfterWrite()}
+      });
+      closeAdd();S.sig='';S.sigDrawn='';tick();renderDay();
+      toast('Saved'+(S.sample?' (example only)':''));
+    }catch(err){addError(errText(err))}
+    finally{S.busy=false;$('add-go').disabled=false;$('add-go').textContent=S.edit?'Save changes':'Add to calendar'}
+  }
+
+  async function submitDelete(){
+    const ev=S.edit;if(!ev||S.busy)return;
+    const b=$('add-del');
+    if(!S.delArm){
+      S.delArm=1;b.textContent='Tap again to delete';b.classList.add('arm');
+      const warn=[];
+      if(ev.guests&&ev.mine)warn.push('This cancels it for '+ev.guests+(ev.guests===1?' guest':' guests')+' and they will be emailed.');
+      else if(ev.guests)warn.push('This removes it from your calendar only.');
+      if(ev.guests||ev.videoUrl)warn.push('Undo brings back the title, time, place, notes and color, but not guests or the video link.');
+      if(warn.length){$('addwarn').hidden=false;$('addwarn').textContent=warn.join(' ')}
+      clearTimeout(S.delT);S.delT=setTimeout(()=>{S.delArm=0;b.textContent='Delete';b.classList.remove('arm')},6000);
+      return;
+    }
+    S.busy=true;b.disabled=true;$('adderr').hidden=true;
+    const snap=Object.assign({summary:ev.title==='Busy'?'Busy':ev.title,startTime:isoLocal(new Date(ev.s)),endTime:isoLocal(new Date(ev.e))},whereArg(ev),tzArg());
+    if(ev.loc)snap.location=ev.loc;if(ev.desc)snap.description=ev.desc;if(ev.color)snap.colorId=ev.color;
+    const copy=Object.assign({},ev);
+    try{
+      if(S.sample){S.events=S.events.filter(e=>e.id!==ev.id)}
+      else{
+        await S.mcp.callTool(SERVER,'delete_event',Object.assign({eventId:ev.id},whereArg(ev),{notificationLevel:ev.guests&&ev.mine?'ALL':'NONE'}));
+        await refreshAfterWrite();
+      }
+      pushUndo('delete',async()=>{
+        if(S.sample){S.events.push(copy);S.events.sort((a,b)=>a.s-b.s)}
+        else{await S.mcp.callTool(SERVER,'create_event',snap);await refreshAfterWrite()}
+      });
+      closeAdd();S.sig='';S.sigDrawn='';tick();renderDay();
+      toast('Deleted "'+ev.title+'"'+(S.sample?' (example only)':''));
+    }catch(err){addError(errText(err))}
+    finally{S.busy=false;b.disabled=false}
   }
   document.addEventListener('click',e=>{
+    const ed=e.target.closest('[data-edit]');
+    if(ed){S.viewAt=Date.now();openEdit(ed.dataset.edit);return}
     const b=e.target.closest('[data-act],[data-dur],[data-color]');
     if(e.target===$('modal')){closeAdd();return}
     if(!b)return;
@@ -722,7 +852,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     if(b.dataset.color!==undefined&&b.closest('#sw')){S.addColor=b.dataset.color;paintColors();return}
     const a=b.dataset.act;
     if(a==='prev')setView(S.view-1);else if(a==='next')setView(S.view+1);else if(a==='today')setView(0);
-    else if(a==='add')openAdd();else if(a==='close')closeAdd();
+    else if(a==='add')openAdd();else if(a==='close')closeAdd();else if(a==='undo')runUndo();else if(a==='del')submitDelete();
   });
   $('addform').addEventListener('submit',submitAdd);
   $('addform').addEventListener('change',e=>{if(e.target.name==='kind')syncDetail();overlapCheck()});
@@ -753,7 +883,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       const r=ev.result||{};let p=r.payload;
       if(typeof p==='string'){try{p=JSON.parse(p)}catch(_){p=null}}
       const list=Array.isArray(p)?p:(p&&Array.isArray(p.events)?p.events:[]);
-      S.raw[cal.key]=list;
+      S.raw[cal.key]=list.map(x=>Object.assign({_cal:cal.id},x));
       S.events=normalize([].concat.apply([],CALS.map(c=>S.raw[c.key]||[])));S.loaded=true;if(cal.key==='main')S.error=null;
       S.updated=r.cache&&r.cache.storedAt?r.cache.storedAt:Date.now();
       showNotice('');
