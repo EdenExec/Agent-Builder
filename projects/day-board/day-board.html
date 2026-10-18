@@ -36,6 +36,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
 .clock{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .wx{display:grid;grid-template-columns:auto auto;column-gap:16px;row-gap:3px;align-items:center;padding-left:clamp(20px,3vw,44px);border-left:1px solid var(--line);min-width:0}
 .wx.old{opacity:.6}
+.mk{display:flex;flex-direction:column;gap:14px}
+.mk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:clamp(12px,1.6vw,20px)}
+.mk-t{display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:3px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px;min-width:0}
+.mk-t.old{opacity:.6}
+.mk-t svg{width:38px;height:38px;grid-row:span 2}
+.mk-t .c{grid-column:1 / -1;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin-bottom:6px;overflow-wrap:anywhere}
+.mk-t .t{font-size:26px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.mk-t .hl{font-size:13px;color:var(--mute);font-weight:500}
+.mk-t .nt{grid-column:1 / -1;font-size:13px;font-weight:600;margin-top:6px}
 .wx .pl{grid-column:1 / -1;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
 .wx svg{width:54px;height:54px;grid-row:span 3}
 .wx .t{font-size:clamp(30px,3.2vw,44px);font-weight:800;line-height:1;letter-spacing:-.02em}
@@ -145,6 +154,11 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       <ol class="rows" id="rows"><li class="empty">Waiting for the calendar.</li></ol>
     </aside>
   </div>
+
+  <section class="mk" id="mk" aria-label="Weather in your markets" hidden>
+    <h2 class="label">Markets</h2>
+    <div class="mk-grid" id="mk-grid"></div>
+  </section>
 
   <section class="strip-wrap" aria-label="Today at a glance">
     <h2 class="label">Today at a glance</h2>
@@ -435,13 +449,25 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     fog:'<path d="M8 18h32M12 26h28M8 34h32M14 42h22"/>',
     wind:'<path d="M6 18h22a5 5 0 1 0-5-5M6 26h30a5 5 0 1 1-5 5M6 34h16"/>'
   };
+  const svgOf=n=>'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[n]||ICONS.clear)+'</svg>';
+  function renderMarkets(places,updatedAt,old){
+    const el=$('mk');
+    const rest=places.slice(1);
+    if(!rest.length){el.hidden=true;$('mk-grid').innerHTML='';return}
+    el.hidden=false;
+    $('mk-grid').innerHTML=rest.map(w=>'<div class="mk-t'+(old?' old':'')+'"><div class="c">'+esc(w.place||'')+'</div>'+svgOf(w.icon)+'<div class="t">'+Math.round(w.tempF)+'°</div><div class="hl">High '+Math.round(w.hiF)+'° · Low '+Math.round(w.loF)+'°</div>'+(w.note?'<div class="nt">'+esc(w.note)+'</div>':'')+'</div>').join('');
+  }
   function renderWx(){
-    const el=$('wx'),w=S.wx;
-    if(!w||typeof w.tempF!=='number'){el.hidden=true;el.innerHTML='';return}
+    const el=$('wx');
+    const doc=S.wx||{};
+    const places=Array.isArray(doc.places)?doc.places.filter(x=>x&&typeof x.tempF==='number'):(typeof doc.tempF==='number'?[doc]:[]);
+    const w=places.length?Object.assign({updatedAt:doc.updatedAt},places[0]):null;
+    if(!w){el.hidden=true;el.innerHTML='';renderMarkets([],0,false);return}
     const t=w.updatedAt?new Date(w.updatedAt):null,ok=t&&!isNaN(t);
     const old=ok&&(Date.now()-t)/36e5>8;
     const wind=(w.windDir?w.windDir+' ':'')+(w.windMph!=null?Math.round(w.windMph)+' mph':'')+(w.gustMph?', gusts '+Math.round(w.gustMph):'');
     const svg='<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[w.icon]||ICONS.clear)+'</svg>';
+    renderMarkets(places,w.updatedAt,old);
     el.hidden=false;el.className='wx'+(old?' old':'');
     el.innerHTML='<div class="pl">'+esc(w.place||'Weather')+(ok?' · as of '+esc(tf.format(t)):'')+(old?' · old':'')+'</div>'+svg+
       '<div class="t">'+Math.round(w.tempF)+'°</div>'+
@@ -524,7 +550,8 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
 
   function enterSample(){
     S.sample=true;S.events=sampleEvents();S.loaded=true;S.updated=Date.now();
-    S.wx={place:'Example city',updatedAt:new Date().toISOString(),tempF:58,hiF:71,loF:44,icon:'partly',summary:'Partly cloudy',note:'Rain likely around 3 PM',windMph:9,gustMph:18,windDir:'NW'};
+    const ex=(place,t,hi,lo,icon,note,wm)=>({place,tempF:t,hiF:hi,loF:lo,icon,note,windMph:wm||6,gustMph:null,windDir:'NW'});
+    S.wx={updatedAt:new Date().toISOString(),places:[ex('Home city',58,71,44,'partly','Rain likely around 3 PM',9),ex('Market A',52,73,43,'clear','Sunny',5),ex('Market B',84,89,76,'storm','Storms around 4 PM',12),ex('Market C',66,81,52,'cloudy','Mostly cloudy'),ex('Market D',61,70,50,'rain','Rain likely')]};
     $('demo').hidden=false;$('updated').textContent='Example data. Open this page in Claude to show your calendar.';
     S.sig='';S.sigDrawn='';tick();
   }
