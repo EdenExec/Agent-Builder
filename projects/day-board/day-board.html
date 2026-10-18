@@ -53,7 +53,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
 .h-title{font-size:clamp(28px,4.4vw,72px);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin:0;text-wrap:balance;overflow-wrap:anywhere}
 .when{font-size:clamp(16px,1.7vw,24px);font-weight:500;color:var(--mute)}
 .board[data-mode="close"] .when,.board[data-mode="now"] .when{color:var(--inv-mute)}
-.count-wrap{display:flex;align-items:baseline;gap:clamp(12px,1.6vw,24px);flex-wrap:wrap}
+.count-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(8px,1vw,14px)}
 .count{font-size:min(15vw,26vh);font-weight:800;letter-spacing:-.045em;line-height:.92;font-variant-numeric:tabular-nums}
 .unit{font-family:var(--mono);font-size:clamp(11px,1.1vw,14px);letter-spacing:3px;text-transform:uppercase;color:var(--mute);white-space:pre}
 .board[data-mode="close"] .unit,.board[data-mode="now"] .unit{color:var(--inv-mute)}
@@ -62,6 +62,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
 .join{display:inline-block;font-weight:700;font-size:15px;text-decoration:none;border:1.5px solid currentColor;border-radius:10px;padding:11px 18px;min-height:44px}
 .join.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .board[data-mode="close"] .join.primary,.board[data-mode="now"] .join.primary{background:var(--inv-ink);color:var(--inv-bg);border-color:var(--inv-ink)}
+.where{display:grid;gap:8px;font-size:clamp(15px,1.5vw,20px);font-weight:600;overflow-wrap:anywhere}
+.where small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:500;margin-bottom:2px}
+.board[data-mode="close"] .where small,.board[data-mode="now"] .where small{color:var(--inv-mute)}
+button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:pointer}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.mini{display:inline-block;font-family:var(--sans);font-weight:700;font-size:12px;text-decoration:none;border:1.5px solid var(--ink);border-radius:8px;padding:7px 12px;background:transparent;color:var(--ink);cursor:pointer;min-height:34px}
+.mini.fill{background:var(--ink);color:var(--bg)}
+.rt .where{font-size:13px;font-weight:600;margin-top:4px;gap:2px}
 .prog{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
 .prog i{display:block;height:100%;background:var(--ink);width:0}
 .then{font-size:clamp(14px,1.3vw,18px);font-weight:600;padding-top:14px;border-top:1px solid var(--line)}
@@ -179,6 +187,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
     }
     return '';
   }
+  const VIDEO=/zoom\.us|zoomgov\.com|meet\.google\.com|teams\.microsoft\.com|teams\.live\.com|webex\.com|gotomeeting\.com/i;
+  function provider(u){return /zoom/i.test(u)?'Zoom':/meet\.google/i.test(u)?'Meet':/teams\./i.test(u)?'Teams':/webex/i.test(u)?'Webex':'Video'}
+  const mapsUrl=a=>'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(a)+'&travelmode=driving';
   function normalize(list){
     const dom=ownDomain(list);
     const out=[];
@@ -194,14 +205,24 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
       const ambient=allDay||dur>=6*36e5||ev.eventType==='OUT_OF_OFFICE'||ev.eventType==='FOCUS_TIME';
       const guests=(ev.attendees||[]).filter(a=>!a.self&&!a.resource);
       const external=dom?guests.filter(a=>a.email&&a.email.split('@')[1]!==dom).length:0;
-      let link='';
       const eps=(ev.conferenceData&&ev.conferenceData.entryPoints)||[];
       const vid=eps.find(p=>p.entryPointType==='video'&&p.uri);
-      const loc=String(ev.location||'');
+      const loc=String(ev.location||'').trim();
       const locUrl=(loc.match(/https:\/\/\S+/)||[''])[0];
-      const hasVideo=!!(ev.hangoutLink||vid||/zoom\.us|meet\.google|teams\.microsoft/i.test(loc));
-      link=safeUrl(ev.hangoutLink)||safeUrl(vid&&vid.uri)||safeUrl(locUrl)||safeUrl(ev.htmlLink);
-      out.push({id:ev.id||String(s),title:ev.summary||'Busy',s:s.getTime(),e:e.getTime(),allDay,ambient,guests:guests.length,external,hasVideo,link,joinable:!!(safeUrl(ev.hangoutLink)||safeUrl(vid&&vid.uri)||safeUrl(locUrl))});
+      const cands=[ev.hangoutLink,vid&&vid.uri,locUrl].map(safeUrl).filter(Boolean);
+      const videoUrl=cands.find(u=>VIDEO.test(u))||'';
+      const otherUrl=videoUrl?'':(cands[0]||'');
+      const phoneEp=eps.find(p=>p.entryPointType==='phone'&&p.uri);
+      let phone='';
+      if(phoneEp)phone=String(phoneEp.label||phoneEp.uri).replace(/^tel:/i,'').trim();
+      else if(/^\+?\d[\d\s().-]{6,}$/.test(loc))phone=loc;
+      const phonePin=phoneEp?String(phoneEp.pin||phoneEp.passcode||''):'';
+      const physical=(loc&&!locUrl&&!phone&&!/^(zoom|google meet|microsoft teams|webex|phone|call|video)\b/i.test(loc))?loc:'';
+      const me=(ev.attendees||[]).find(a=>a.self);
+      const mine=(ev.organizer&&ev.organizer.self)||(ev.creator&&ev.creator.self);
+      const resp=me?(me.responseStatus||''):(mine?'accepted':'');
+      out.push({id:ev.id||String(s),title:ev.summary||'Busy',s:s.getTime(),e:e.getTime(),allDay,ambient,guests:guests.length,external,
+        videoUrl,provider:videoUrl?provider(videoUrl):'',otherUrl,phone,phonePin,physical,resp,confirmed:resp==='accepted',cal:safeUrl(ev.htmlLink)});
     }
     out.sort((a,b)=>a.s-b.s);
     return out;
@@ -209,14 +230,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
   function sampleEvents(){
     const now=Date.now(), m=60000, st=S.shift;
     const t0=now+st*m;
-    const mk=(id,title,off,len,extra)=>Object.assign({id,title,s:t0+off*m,e:t0+(off+len)*m,allDay:false,ambient:false,guests:3,external:0,hasVideo:true,link:'',joinable:false},extra||{});
+    const base={allDay:false,ambient:false,guests:3,external:0,videoUrl:'',provider:'',otherUrl:'',phone:'',phonePin:'',physical:'',resp:'accepted',confirmed:true,cal:''};
+    const mk=(id,title,off,len,extra)=>Object.assign({id,title,s:t0+off*m,e:t0+(off+len)*m},base,extra||{});
     return [
-      mk('x1','Client search review',0,45,{external:2,guests:4}),
-      mk('x2','Recruiter huddle',75,30,{guests:5}),
-      mk('x3','Offer call: senior superintendent',150,30,{external:1,guests:2}),
-      mk('x4','Depth chart walk-through',240,45,{guests:6}),
-      mk('x5','Weekly scorecard check-out',330,30,{guests:4}),
-      {id:'amb',title:'Rest',s:now-8*36e5,e:now+9*36e5,allDay:false,ambient:true,guests:0,external:0,hasVideo:false,link:'',joinable:false}
+      mk('x1','Client search review',0,45,{external:2,guests:4,videoUrl:'https://zoom.us/j/0000000000',provider:'Zoom'}),
+      mk('x2','Candidate interview, in person',75,30,{guests:2,physical:'Example Cafe, 100 Main St, Boise, ID'}),
+      mk('x3','Offer call: senior superintendent',150,30,{external:1,guests:2,phone:'+1 555 010 0199',phonePin:'123456'}),
+      mk('x4','Depth chart walk-through',240,45,{guests:6,videoUrl:'https://meet.google.com/example',provider:'Meet'}),
+      mk('x5','Site visit, not yet accepted',330,60,{guests:3,physical:'Example Tower, 200 Front St, Miami, FL',resp:'needsAction',confirmed:false}),
+      {id:'amb',title:'Rest',s:now-8*36e5,e:now+9*36e5,allDay:false,ambient:true,guests:0,external:0}
     ];
   }
 
@@ -250,6 +272,32 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
     return {timed,todays,letterOf,live,next,upcoming,subject,mode};
   }
 
+  /* ---------- where and how to attend ---------- */
+  function kindLabel(ev){return ev.videoUrl?ev.provider:ev.physical?'In person':ev.phone?'Phone':''}
+  function whereHtml(ev){
+    const out=[];
+    if(ev.physical)out.push('<div><small>Location</small>'+esc(ev.physical)+'</div>');
+    if(ev.phone)out.push('<div><small>Dial in</small>'+esc(ev.phone)+(ev.phonePin?' · PIN '+esc(ev.phonePin):'')+'</div>');
+    return out.length?'<div class="where">'+out.join('')+'</div>':'';
+  }
+  function buttonsHtml(ev,big){
+    const cls=big?'join':'mini', pri=big?' primary':' fill';
+    const out=[];
+    if(ev.videoUrl)out.push('<a class="'+cls+pri+'" href="'+esc(ev.videoUrl)+'" target="_blank" rel="noopener">Join '+esc(ev.provider)+'</a>');
+    else if(ev.otherUrl)out.push('<a class="'+cls+pri+'" href="'+esc(ev.otherUrl)+'" target="_blank" rel="noopener">Open link</a>');
+    if(ev.phone){
+      const first=!out.length;
+      out.push('<a class="'+cls+(first?pri:'')+'" href="tel:'+esc(ev.phone.replace(/[^\d+]/g,''))+'">Call</a>');
+      out.push('<button type="button" class="'+cls+'" data-copy="'+esc(ev.phone)+'" data-label="Copy number">Copy number</button>');
+    }
+    if(ev.physical){
+      if(ev.confirmed)out.push('<a class="'+cls+((!out.length)?pri:'')+'" href="'+esc(mapsUrl(ev.physical))+'" target="_blank" rel="noopener">'+(big?'Directions and drive time':'Directions')+'</a>');
+      else out.push('<span class="chip">Accept the invite for directions</span>');
+    }
+    if(!out.length&&ev.cal)out.push('<a class="'+cls+'" href="'+esc(ev.cal)+'" target="_blank" rel="noopener">Open in Calendar</a>');
+    return out.join('');
+  }
+
   /* ---------- drawing ---------- */
   function heroHtml(m,now){
     const ev=m.subject;
@@ -258,10 +306,11 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
     }
     const chips=[];
     if(ev.external)chips.push('<span class="chip">External</span>');
-    if(ev.hasVideo)chips.push('<span class="chip">Video</span>');
+    const kl=kindLabel(ev);if(kl)chips.push('<span class="chip">'+esc(kl)+'</span>');
+    if(ev.resp==='needsAction')chips.push('<span class="chip">RSVP needed</span>');
+    else if(ev.resp==='tentative')chips.push('<span class="chip">Tentative</span>');
     if(ev.guests)chips.push('<span class="chip">'+ev.guests+(ev.guests===1?' guest':' guests')+'</span>');
-    const join=ev.link?'<a class="join primary" href="'+esc(ev.link)+'" target="_blank" rel="noopener">'+(ev.joinable?'Join now':'Open in Calendar')+'</a>':'';
-    const meta='<div class="meta">'+chips.join('')+join+'</div>';
+    const meta=whereHtml(ev)+'<div class="meta">'+chips.join('')+buttonsHtml(ev,true)+'</div>';
     if(m.mode==='live'){
       const nx=m.next?'<div class="then">Next: '+esc(m.next.title)+', '+esc(eta(m.next.s-now))+'</div>':'';
       return '<div class="tag">In session</div><h1 class="h-title">'+esc(ev.title)+'</h1><div class="when">'+esc(range(ev))+'</div>'+
@@ -283,8 +332,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
     if(!list.length)return '<li class="empty">Nothing else lined up.</li>';
     return list.map(e=>{
       const isNext=m.next&&e.id===m.next.id;
-      const tags=[range(e)];if(e.external)tags.push('External');if(e.hasVideo)tags.push('Video');
-      return '<li class="row'+(isNext?' next':'')+'"><span class="badge">'+esc(m.letterOf.get(e.id)||'·')+'</span><div class="rt"><b>'+esc(e.title)+'</b><small>'+esc(tags.join(' · '))+'</small></div><span class="eta">'+esc(eta(e.s-now))+'</span></li>';
+      const tags=[range(e)];if(e.external)tags.push('External');const kl=kindLabel(e);if(kl)tags.push(kl);
+      const acts=buttonsHtml(e,false);
+      return '<li class="row'+(isNext?' next':'')+'"><span class="badge">'+esc(m.letterOf.get(e.id)||'·')+'</span><div class="rt"><b>'+esc(e.title)+'</b><small>'+esc(tags.join(' · '))+'</small>'+(e.physical?'<div class="where"><div>'+esc(e.physical)+'</div></div>':'')+(acts?'<div class="acts">'+acts+'</div>':'')+'</div><span class="eta">'+esc(eta(e.s-now))+'</span></li>';
     }).join('');
   }
   function stripHtml(m,now){
@@ -440,6 +490,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
   $('demo').addEventListener('click',e=>{
     const b=e.target.closest('button[data-min]');if(!b)return;
     S.shift=Number(b.dataset.min);S.events=sampleEvents();S.chimed={};S.sig='';S.sigDrawn='';tick();
+  });
+
+  document.addEventListener('click',async e=>{
+    const b=e.target.closest('[data-copy]');if(!b)return;
+    const t=b.getAttribute('data-copy'),label=b.getAttribute('data-label')||b.textContent;
+    try{await navigator.clipboard.writeText(t);b.textContent='Copied';setTimeout(()=>{b.textContent=label},1600)}
+    catch(_){$('updated').textContent='Could not copy. The number is '+t}
   });
 
   /* ---------- controls ---------- */
