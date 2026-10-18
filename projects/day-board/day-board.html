@@ -131,9 +131,48 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
 .ctl button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .demo{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .demo span{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--warn)}
+
+/* day navigation, day view, add event */
+.daynav{display:flex;gap:10px 12px;align-items:center;flex-wrap:wrap}
+.daynav .arrow{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0}
+.daynav .arrow svg{width:20px;height:20px}
+.daynav .arrow:disabled{opacity:.3;cursor:default}
+.dn-label{flex:1 1 200px;min-width:0;font-weight:700;font-size:clamp(16px,1.6vw,20px)}
+.dn-label small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:500;margin-bottom:2px}
+.pill{border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:10px;padding:10px 18px;font-family:var(--sans);font-weight:700;font-size:14px;cursor:pointer;min-height:46px}
+.pill.fill{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pill:disabled{opacity:.5;cursor:default}
+.dayview{display:none;flex-direction:column;gap:20px;flex:1}
+.board[data-view="other"] .dayview{display:flex}
+.board[data-view="other"] .main,.board[data-view="other"] .mk,.board[data-view="other"] .strip-wrap{display:none!important}
+.dv-sum{display:flex;gap:16px clamp(20px,3.4vw,52px);flex-wrap:wrap;padding:24px 28px;border:1.5px solid var(--line);border-radius:18px;background:var(--paper)}
+.dv-sum b{display:block;font-size:clamp(24px,3vw,40px);font-weight:800;line-height:1.05;letter-spacing:-.02em}
+.dv-sum small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:500;margin-top:6px}
+.dv-also{font-size:14px;color:var(--mute);font-weight:500}
+.row.dv{grid-template-columns:104px minmax(0,1fr) auto}
+.row.dv .tm{font-family:var(--mono);font-size:13px;line-height:1.5;color:var(--mute)}
+.dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink);flex:none;align-self:start;margin-top:4px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--inv-bg);color:var(--inv-ink);padding:14px 22px;border-radius:12px;font-weight:700;font-size:14px;z-index:20;max-width:calc(100vw - 32px)}
+.modal{position:fixed;inset:0;background:rgba(12,11,8,.55);display:grid;place-items:center;padding:16px;z-index:10}
+.sheet{background:var(--paper);color:var(--ink);border:1.5px solid var(--line);border-radius:20px;padding:clamp(20px,3vw,36px);width:min(640px,100%);max-height:92dvh;overflow:auto;display:flex;flex-direction:column;gap:16px}
+.sheet-h{margin:0;font-size:22px;font-weight:800}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.f>span{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:500}
+.f input,.f select,.f textarea{font-family:var(--sans);font-size:16px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:11px 14px;min-height:46px;width:100%}
+.f textarea{resize:vertical}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.seg,.sw{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px 14px;font-family:var(--sans);font-weight:700;font-size:14px;cursor:pointer;min-height:44px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.sw button{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}
+.sw button[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--ink)}
+.sw button.none{background:transparent;font-size:11px;font-weight:700;color:var(--mute);width:auto;border-radius:18px;padding:0 12px}
+.warnline{background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600}
+.errline{background:var(--neg-bg);color:var(--neg);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600}
+.sheet-act{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
 </style>
 
-<div class="board" id="board" data-mode="loading">
+<div class="board" id="board" data-mode="loading" data-view="today">
   <header class="top">
     <div class="brand">KDTW Group</div>
     <div class="hdr-right">
@@ -141,6 +180,14 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       <div class="wx" id="wx" hidden></div>
     </div>
   </header>
+
+  <nav class="daynav" aria-label="Choose a day">
+    <button type="button" class="arrow" id="dn-prev" data-act="prev" aria-label="Previous day"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="dn-label" id="dn-label"></div>
+    <button type="button" class="arrow" id="dn-next" data-act="next" aria-label="Next day"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button type="button" class="pill" id="dn-today" data-act="today" hidden>Back to today</button>
+    <button type="button" class="pill fill" id="dn-add" data-act="add">Add event</button>
+  </nav>
 
   <div class="notice" id="notice" role="status" hidden></div>
 
@@ -154,6 +201,8 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       <ol class="rows" id="rows"><li class="empty">Waiting for the calendar.</li></ol>
     </aside>
   </div>
+
+  <section class="dayview" id="dayview" aria-label="Day view"></section>
 
   <section class="mk" id="mk" aria-label="Weather in your markets" hidden>
     <h2 class="label">Markets</h2>
@@ -181,6 +230,27 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     </div>
     <span id="updated">&nbsp;</span>
   </footer>
+  <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="add-h">
+    <form class="sheet" id="addform" novalidate>
+      <h2 class="sheet-h" id="add-h">Add to calendar</h2>
+      <label class="f"><span>Event name</span><input name="title" type="text" autocomplete="off" maxlength="200"></label>
+      <div class="f2">
+        <label class="f"><span>Date</span><input name="date" type="date"></label>
+        <label class="f"><span>Start</span><input name="time" type="time" step="300"></label>
+      </div>
+      <div class="f"><span>Length</span><div class="seg" id="durs"></div></div>
+      <label class="f"><span>Type of meeting</span>
+        <select name="kind"><option value="meet">Google Meet (link is added)</option><option value="zoom">Zoom (paste the link)</option><option value="phone">Phone call</option><option value="person">In person</option><option value="none">No location</option></select>
+      </label>
+      <label class="f" id="detail-wrap"><span id="detail-label">Zoom link</span><input name="detail" type="text" autocomplete="off" maxlength="300"></label>
+      <label class="f"><span>Notes</span><textarea name="notes" rows="3" maxlength="2000"></textarea></label>
+      <div class="f"><span>Color</span><div class="sw" id="sw"></div></div>
+      <div class="warnline" id="addwarn" hidden></div>
+      <div class="errline" id="adderr" role="alert" hidden></div>
+      <div class="sheet-act"><button type="button" class="pill" data-act="close">Cancel</button><button type="submit" class="pill fill" id="add-go">Add to calendar</button></div>
+    </form>
+  </div>
+  <div class="toast" id="toast" role="status" hidden></div>
   <div class="sr" id="announce" aria-live="polite"></div>
 </div>
 
@@ -200,7 +270,11 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
   const isoLocal=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
   const dayKey=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 
-  const S={events:[],loaded:false,error:null,sample:false,shift:47,updated:0,sound:false,audio:null,awake:null,sig:'',minute:-1,chimed:{},unwatch:null,watchDay:'',mcp:null};
+  const S={view:0,viewAt:0,addDur:30,addColor:'',busy:false,events:[],loaded:false,error:null,sample:false,shift:47,updated:0,sound:false,audio:null,awake:null,sig:'',minute:-1,chimed:{},unwatch:null,watchDay:'',mcp:null};
+
+  const COLORS={'1':['Lavender','#a4bdfc'],'2':['Sage','#7ae7bf'],'3':['Grape','#dbadff'],'4':['Flamingo','#ff887c'],'5':['Banana','#fbd75b'],'6':['Tangerine','#ffb878'],'7':['Peacock','#46d6db'],'8':['Graphite','#e1e1e1'],'9':['Blueberry','#5484ed'],'10':['Basil','#51b749'],'11':['Tomato','#dc2127']};
+  const MINV=-3, MAXV=7;
+  const dotHtml=c=>'<span class="dot"'+(COLORS[c]?' style="background:'+COLORS[c][1]+'" title="'+esc(COLORS[c][0])+'"':'')+'></span>';
 
   /* ---------- reading events ---------- */
   function ownDomain(list){
@@ -247,7 +321,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       const mine=(ev.organizer&&ev.organizer.self)||(ev.creator&&ev.creator.self);
       const resp=me?(me.responseStatus||''):(mine?'accepted':'');
       out.push({id:ev.id||String(s),title:ev.summary||'Busy',s:s.getTime(),e:e.getTime(),allDay,ambient,guests:guests.length,external,
-        videoUrl,provider:videoUrl?provider(videoUrl):'',otherUrl,phone,phonePin,physical,resp,confirmed:resp==='accepted',cal:safeUrl(ev.htmlLink)});
+        videoUrl,provider:videoUrl?provider(videoUrl):'',otherUrl,phone,phonePin,physical,resp,confirmed:resp==='accepted',cal:safeUrl(ev.htmlLink),color:String(ev.colorId||'')});
     }
     out.sort((a,b)=>a.s-b.s);
     return out;
@@ -263,6 +337,13 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       mk('x3','Offer call: senior superintendent',150,30,{external:1,guests:2,phone:'+1 555 010 0199',phonePin:'123456'}),
       mk('x4','Depth chart walk-through',240,45,{guests:6,videoUrl:'https://meet.google.com/example',provider:'Meet'}),
       mk('x5','Site visit, not yet accepted',330,60,{guests:3,physical:'Example Tower, 200 Front St, Miami, FL',resp:'needsAction',confirmed:false}),
+      ...(function(){const d0=startOfDay(new Date()).getTime();const at=(id,title,off,h,len,extra)=>Object.assign({id,title,s:d0+off*864e5+h*36e5,e:d0+off*864e5+(h+len)*36e5},base,extra||{});return [
+        at('p1','Weekly pipeline review',-1,9,1,{videoUrl:'https://zoom.us/j/0000000000',provider:'Zoom',color:'9'}),
+        at('p2','Candidate call: finalist',-1,13.5,0.5,{phone:'+1 555 010 0100',color:'2'}),
+        at('f1','Intake call with a new client',1,9,0.75,{external:1,videoUrl:'https://meet.google.com/example',provider:'Meet',color:'6'}),
+        at('f2','Lunch with a candidate',1,12,1,{physical:'Example Grill, 10 Main St, Boise, ID',color:'10'}),
+        at('f3','Depth chart review',2,10,1,{videoUrl:'https://zoom.us/j/0000000000',provider:'Zoom'})
+      ]})(),
       {id:'amb',title:'Rest',s:now-8*36e5,e:now+9*36e5,allDay:false,ambient:true,guests:0,external:0}
     ];
   }
@@ -426,7 +507,9 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       $('rows').innerHTML=rowsHtml(m,now);
       stripHtml(m,now);
       renderWx();
+      if(S.view!==0)renderDay();
     }
+    if(S.view!==0&&!modalOpen()&&now-S.viewAt>180000)setView(0);
     const day=dayKey(new Date(now));
     if(!S.sample&&S.mcp&&day!==S.watchDay)startWatch();
   }
@@ -497,6 +580,161 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     if(m.mode==='close')chime('close');else if(m.mode==='now')chime('now');else if(m.mode==='live')chime('start');
   }
 
+  /* ---------- other days: recap and look ahead ---------- */
+  const fmtDur=ms=>{const m=Math.round(ms/60000),h=Math.floor(m/60),r=m%60;return h?(h+'h'+(r?' '+r+'m':'')):(r+'m')};
+  const dayStart=off=>addDays(startOfDay(new Date()),off);
+  function dayLabel(off){
+    return off===0?'Today':off===1?'Look ahead · tomorrow':off>1?'Look ahead · in '+off+' days':off===-1?'Recap · yesterday':'Recap · '+(-off)+' days ago';
+  }
+  function dayItems(off){
+    const d0=dayStart(off).getTime(),d1=dayStart(off+1).getTime();
+    const inDay=e=>e.s<d1&&e.e>d0;
+    return {timed:S.events.filter(e=>!e.allDay&&!e.ambient&&inDay(e)),also:S.events.filter(e=>(e.allDay||e.ambient)&&inDay(e)),d0,d1};
+  }
+  function longestGap(items,d0){
+    let cur=d0+8*36e5,end=d0+18*36e5,best=0;
+    for(const e of items){if(e.s>cur)best=Math.max(best,Math.min(e.s,end)-cur);cur=Math.max(cur,e.e);if(cur>=end)break}
+    if(cur<end)best=Math.max(best,end-cur);
+    return best;
+  }
+  function renderDay(){
+    const off=S.view,day=dayStart(off);
+    $('board').dataset.view=off===0?'today':'other';
+    $('dn-label').innerHTML='<small>'+esc(dayLabel(off))+'</small>'+esc(df.format(day));
+    $('dn-prev').disabled=off<=MINV;$('dn-next').disabled=off>=MAXV;
+    $('dn-today').hidden=off===0;$('dn-add').hidden=off<0;
+    if(off===0){$('dayview').innerHTML='';return}
+    const it=dayItems(off),past=off<0;
+    const total=it.timed.reduce((a,e)=>a+(e.e-e.s),0);
+    const ext=it.timed.filter(e=>e.external).length;
+    const stats=[[String(it.timed.length),past?'Meetings held':'Meetings booked'],[it.timed.length?fmtDur(total):'0m',past?'Time in meetings':'Booked time']];
+    if(ext)stats.push([String(ext),'With outside guests']);
+    if(!past)stats.push([fmtDur(longestGap(it.timed,it.d0)),'Longest open block, 8 to 6']);
+    const sum='<div class="dv-sum">'+stats.map(x=>'<div><b>'+esc(x[0])+'</b><small>'+esc(x[1])+'</small></div>').join('')+'</div>';
+    const also=it.also.length?'<div class="dv-also">Also on this day: '+it.also.map(e=>esc(e.title)).join(', ')+'</div>':'';
+    const rows=it.timed.length?it.timed.map(e=>{
+      const tags=[];if(e.external)tags.push('External');const kl=kindLabel(e);if(kl)tags.push(kl);if(e.guests)tags.push(e.guests+(e.guests===1?' guest':' guests'));
+      if(!past&&e.resp==='needsAction')tags.push('RSVP needed');
+      let acts='';
+      if(past){if(e.cal)acts='<a class="mini" href="'+esc(e.cal)+'" target="_blank" rel="noopener">Open in Calendar</a>'}
+      else acts=buttonsHtml(e,false);
+      return '<li class="row dv"><span class="tm">'+esc(tf.format(e.s))+'<br>'+esc(tf.format(e.e))+'</span><div class="rt"><b>'+esc(e.title)+'</b><small>'+esc(tags.join(' · ')||fmtDur(e.e-e.s))+'</small>'+(e.physical?'<div class="where"><div>'+esc(e.physical)+'</div></div>':'')+(acts?'<div class="acts">'+acts+'</div>':'')+'</div>'+dotHtml(e.color)+'</li>';
+    }).join(''):'<li class="empty">'+(past?'Nothing was on the calendar that day.':'Nothing scheduled yet. Use Add event to put something on it.')+'</li>';
+    $('dayview').innerHTML=sum+'<ol class="rows">'+rows+'</ol>'+also;
+  }
+  function setView(n){
+    S.view=Math.max(MINV,Math.min(MAXV,n));S.viewAt=Date.now();
+    renderDay();
+    $('announce').textContent=dayLabel(S.view)+', '+df.format(dayStart(S.view));
+  }
+  const modalOpen=()=>!$('modal').hidden;
+
+  /* ---------- add an event ---------- */
+  const DETAIL={meet:null,zoom:'Zoom link',phone:'Phone number',person:'Address',none:null};
+  function syncDetail(){
+    const k=$('addform').kind.value,l=DETAIL[k];
+    $('detail-wrap').hidden=!l;if(l)$('detail-label').textContent=l;
+  }
+  function overlapCheck(){
+    const f=$('addform');const st=new Date(f.date.value+'T'+(f.time.value||'00:00')+':00');
+    const w=$('addwarn');
+    if(isNaN(st)){w.hidden=true;return}
+    const a=st.getTime(),b=a+S.addDur*60000;
+    const hit=S.events.filter(e=>!e.allDay&&!e.ambient&&e.s<b&&e.e>a);
+    if(hit.length){w.hidden=false;w.textContent='Overlaps with '+hit.slice(0,2).map(e=>e.title+' at '+tf.format(e.s)).join(' and ')+(hit.length>2?' and '+(hit.length-2)+' more':'')+'. You can still add it.'}
+    else w.hidden=true;
+  }
+  function paintDurs(){
+    $('durs').innerHTML=[15,30,45,60,90].map(m=>'<button type="button" data-dur="'+m+'" aria-pressed="'+(S.addDur===m)+'">'+(m<60?m+' min':m===60?'1 hour':'1.5 hours')+'</button>').join('');
+  }
+  function paintColors(){
+    $('sw').innerHTML='<button type="button" class="none" data-color="" aria-pressed="'+(S.addColor==='')+'">Calendar default</button>'+
+      Object.keys(COLORS).map(k=>'<button type="button" data-color="'+k+'" style="background:'+COLORS[k][1]+'" aria-label="'+esc(COLORS[k][0])+'" title="'+esc(COLORS[k][0])+'" aria-pressed="'+(S.addColor===k)+'"></button>').join('');
+  }
+  function openAdd(){
+    const f=$('addform'),now=new Date();
+    const day=S.view>=0?dayStart(S.view):startOfDay(now);
+    f.title.value='';f.notes.value='';f.detail.value='';f.kind.value='meet';
+    f.date.value=dayKey(day);
+    let t;
+    if(S.view===0){t=new Date(now);t.setMinutes(Math.ceil((t.getMinutes()+1)/30)*30,0,0)}else{t=new Date(day);t.setHours(9,0,0,0)}
+    f.time.value=pad(t.getHours())+':'+pad(t.getMinutes());
+    S.addDur=30;S.addColor='';paintDurs();paintColors();syncDetail();
+    $('adderr').hidden=true;$('add-go').disabled=false;$('add-go').textContent='Add to calendar';
+    $('modal').hidden=false;overlapCheck();
+    setTimeout(()=>{try{f.title.focus()}catch(_){}},30);
+  }
+  function closeAdd(){$('modal').hidden=true}
+  function toast(text){
+    const t=$('toast');t.textContent=text;t.hidden=false;clearTimeout(S.toastT);S.toastT=setTimeout(()=>{t.hidden=true},5000);
+  }
+  function addError(msg){const e=$('adderr');e.textContent=msg;e.hidden=false}
+  async function submitAdd(ev){
+    ev.preventDefault();
+    if(S.busy)return;
+    const f=$('addform'),title=f.title.value.trim();
+    if(!title){addError('Give the event a name.');f.title.focus();return}
+    const st=new Date(f.date.value+'T'+f.time.value+':00');
+    if(!f.date.value||!f.time.value||isNaN(st)){addError('Pick a date and a start time.');return}
+    const en=new Date(st.getTime()+S.addDur*60000);
+    const kind=f.kind.value,detail=f.detail.value.trim(),notes=f.notes.value.trim();
+    const args={summary:title,startTime:isoLocal(st),endTime:isoLocal(en)};
+    if(kind==='meet')args.addGoogleMeetUrl=true;
+    else if(kind==='zoom')args.location=detail||'Zoom';
+    else if(kind==='phone')args.location=detail||'Phone call';
+    else if(kind==='person'&&detail)args.location=detail;
+    if(notes)args.description=esc(notes).replace(/\n/g,'<br>');
+    if(S.addColor)args.colorId=S.addColor;
+    $('adderr').hidden=true;S.busy=true;$('add-go').disabled=true;$('add-go').textContent='Adding…';
+    try{
+      if(S.sample){
+        S.events.push({id:'new'+Date.now(),title,s:st.getTime(),e:en.getTime(),allDay:false,ambient:false,guests:0,external:0,videoUrl:kind==='meet'?'https://meet.google.com/example':'',provider:kind==='meet'?'Meet':'',otherUrl:'',phone:kind==='phone'?detail:'',phonePin:'',physical:kind==='person'?detail:'',resp:'accepted',confirmed:true,cal:'',color:S.addColor});
+        S.events.sort((a,b)=>a.s-b.s);
+      }else{
+        await S.mcp.callTool(SERVER,'create_event',args);
+        try{await S.mcp.invalidate(SERVER,TOOL)}catch(_){}
+      }
+      closeAdd();
+      const off=Math.round((startOfDay(st)-startOfDay(new Date()))/864e5);
+      if(off>=MINV&&off<=MAXV)setView(off);
+      S.sig='';S.sigDrawn='';tick();
+      toast('Added "'+title+'" to your calendar'+(S.sample?' (example only)':''));
+    }catch(err){
+      const code=err&&err.code;
+      addError(AUTHZ[code]?'This board needs your approval to add events. Tap Add to calendar again and approve, or reconnect Google Calendar in Claude settings.':
+        code==='tool_error'?'Google Calendar refused that event'+(err.message?': '+err.message:'')+'. Nothing was added.':
+        'Could not confirm it was added. Check your calendar before trying again.');
+    }finally{
+      S.busy=false;$('add-go').disabled=false;$('add-go').textContent='Add to calendar';
+    }
+  }
+  document.addEventListener('click',e=>{
+    const b=e.target.closest('[data-act],[data-dur],[data-color]');
+    if(e.target===$('modal')){closeAdd();return}
+    if(!b)return;
+    S.viewAt=Date.now();
+    if(b.dataset.dur){S.addDur=Number(b.dataset.dur);paintDurs();overlapCheck();return}
+    if(b.dataset.color!==undefined&&b.closest('#sw')){S.addColor=b.dataset.color;paintColors();return}
+    const a=b.dataset.act;
+    if(a==='prev')setView(S.view-1);else if(a==='next')setView(S.view+1);else if(a==='today')setView(0);
+    else if(a==='add')openAdd();else if(a==='close')closeAdd();
+  });
+  $('addform').addEventListener('submit',submitAdd);
+  $('addform').addEventListener('change',e=>{if(e.target.name==='kind')syncDetail();overlapCheck()});
+  $('addform').addEventListener('input',e=>{if(e.target.name==='time'||e.target.name==='date')overlapCheck()});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&modalOpen()){closeAdd();return}
+    if(modalOpen()||/^(INPUT|TEXTAREA|SELECT)$/.test((e.target.tagName||'')))return;
+    if(e.key==='ArrowLeft')setView(S.view-1);else if(e.key==='ArrowRight')setView(S.view+1);
+  });
+  let touch=null;
+  document.addEventListener('touchstart',e=>{if(modalOpen()||e.touches.length!==1){touch=null;return}touch={x:e.touches[0].clientX,y:e.touches[0].clientY}},{passive:true});
+  document.addEventListener('touchend',e=>{
+    if(!touch||modalOpen())return;
+    const t=e.changedTouches[0],dx=t.clientX-touch.x,dy=t.clientY-touch.y;touch=null;
+    if(Math.abs(dx)>70&&Math.abs(dy)<60&&Math.abs(dx)>Math.abs(dy)*1.5)setView(S.view+(dx<0?1:-1));
+  },{passive:true});
+
   /* ---------- connection ---------- */
   function showNotice(text,action){
     const n=$('notice');
@@ -513,7 +751,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       S.updated=r.cache&&r.cache.storedAt?r.cache.storedAt:Date.now();
       showNotice('');
       $('updated').textContent='Calendar updated '+tf.format(S.updated);
-      S.sig='';S.sigDrawn='';tick();
+      S.sig='';S.sigDrawn='';tick();renderDay();
       return;
     }
     const e=ev.error||{};const code=e.code||'upstream_error';
@@ -536,7 +774,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     if(!S.mcp)return;
     try{S.unwatch&&S.unwatch()}catch(_){}
     const now=new Date();S.watchDay=dayKey(now);
-    const input={startTime:isoLocal(startOfDay(now)),endTime:isoLocal(addDays(startOfDay(now),2)),orderBy:'startTime',pageSize:100};
+    const input={startTime:isoLocal(addDays(startOfDay(now),MINV)),endTime:isoLocal(addDays(startOfDay(now),MAXV+2)),orderBy:'startTime',pageSize:250};
     S.unwatch=S.mcp.watchTool(SERVER,TOOL,input,onEvent,{refetchInterval:30000});
   }
   async function askPermission(){
@@ -593,7 +831,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&$('b-awake').getAttribute('aria-pressed')==='true')wake()});
 
   /* ---------- start ---------- */
-  tick();setInterval(tick,1000);
+  renderDay();tick();setInterval(tick,1000);
   (async function boot(){
     try{
       const db=(window.claude&&window.claude.use)?await window.claude.use('db'):null;
