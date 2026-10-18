@@ -22,7 +22,7 @@
 [hidden]{display:none!important}
 html,body{min-height:100%}
 body{overflow-x:clip;margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.4;padding-inline:clamp(16px,3vw,48px);padding-block:clamp(16px,2.4vw,36px)}
-.board{max-width:1680px;min-height:calc(100dvh - 2 * clamp(16px,2.4vw,36px));margin:0 auto;display:flex;flex-direction:column;gap:clamp(16px,2vw,28px)}
+.board{max-width:1680px;min-height:calc(100dvh - 2 * clamp(16px,2.4vw,36px));margin:0 auto;display:flex;flex-direction:column;gap:clamp(24px,3vw,44px)}
 .board>*{min-width:0}
 button,a{font:inherit}
 a{color:inherit}
@@ -30,9 +30,17 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* top bar */
-.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
 .brand{font-family:var(--mono);font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--mute);font-weight:500}
-.clock{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.hdr-right{display:flex;gap:clamp(20px,3vw,44px);align-items:flex-start;justify-content:flex-end;flex-wrap:wrap}
+.clock{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.wx{display:grid;grid-template-columns:auto auto;column-gap:16px;row-gap:3px;align-items:center;padding-left:clamp(20px,3vw,44px);border-left:1px solid var(--line);min-width:0}
+.wx.old{opacity:.6}
+.wx .pl{grid-column:1 / -1;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.wx svg{width:54px;height:54px;grid-row:span 3}
+.wx .t{font-size:clamp(30px,3.2vw,44px);font-weight:800;line-height:1;letter-spacing:-.02em}
+.wx .hl,.wx .wd{font-size:14px;color:var(--mute);font-weight:500}
+.wx .nt{grid-column:1 / -1;font-size:14px;font-weight:600;margin-top:6px}
 .clock b{font-size:clamp(32px,4vw,56px);font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1}
 .clock span{font-size:14px;color:var(--mute);font-weight:500}
 
@@ -40,24 +48,24 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
 .notice button{border:1.5px solid currentColor;background:transparent;color:inherit;border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;min-height:40px}
 
 /* main */
-.main{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:clamp(16px,2vw,28px);flex:1}
+.main{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:clamp(24px,3vw,44px);flex:1}
 @media (max-width:900px){.main{grid-template-columns:minmax(0,1fr)}}
 
 /* hero */
-.hero{display:flex;flex-direction:column;justify-content:space-between;gap:clamp(16px,2.4vw,32px);padding:clamp(22px,3.6vw,56px);border:1.5px solid var(--line);border-radius:22px;background:var(--paper);color:var(--ink);min-height:min(56vh,620px);transition:background .6s,color .6s,border-color .6s}
+.hero{display:flex;flex-direction:column;justify-content:space-between;gap:clamp(28px,4vw,60px);padding:clamp(28px,4.8vw,76px);border:1.5px solid var(--line);border-radius:22px;background:var(--paper);color:var(--ink);min-height:min(56vh,620px);transition:background .6s,color .6s,border-color .6s}
 .board[data-mode="soon"] .hero{border-color:var(--ink)}
 .board[data-mode="close"] .hero,.board[data-mode="now"] .hero{background:var(--inv-bg);color:var(--inv-ink);border-color:var(--inv-bg)}
 .board[data-mode="live"] .hero{border-color:var(--ink);border-width:2px}
 .tag{font-family:var(--mono);font-size:clamp(11px,1.1vw,14px);letter-spacing:3px;text-transform:uppercase;font-weight:500;color:var(--mute)}
 .board[data-mode="close"] .tag,.board[data-mode="now"] .tag{color:var(--inv-mute)}
-.h-title{font-size:clamp(28px,4.4vw,72px);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin:0;text-wrap:balance;overflow-wrap:anywhere}
+.h-title{font-size:clamp(28px,4.2vw,68px);font-weight:800;letter-spacing:-.015em;line-height:1.12;margin:0;text-wrap:balance;overflow-wrap:anywhere}
 .when{font-size:clamp(16px,1.7vw,24px);font-weight:500;color:var(--mute)}
 .board[data-mode="close"] .when,.board[data-mode="now"] .when{color:var(--inv-mute)}
-.count-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(8px,1vw,14px)}
-.count{font-size:min(15vw,26vh);font-weight:800;letter-spacing:-.045em;line-height:.92;font-variant-numeric:tabular-nums}
-.unit{font-family:var(--mono);font-size:clamp(11px,1.1vw,14px);letter-spacing:3px;text-transform:uppercase;color:var(--mute);white-space:pre}
+.count-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(14px,1.8vw,26px)}
+.count{font-size:min(14vw,24vh);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.unit{font-family:var(--mono);font-size:clamp(12px,1.2vw,16px);letter-spacing:5px;text-transform:uppercase;color:var(--mute);white-space:pre}
 .board[data-mode="close"] .unit,.board[data-mode="now"] .unit{color:var(--inv-mute)}
-.meta{display:flex;gap:10px 14px;flex-wrap:wrap;align-items:center}
+.meta{display:flex;gap:14px 18px;flex-wrap:wrap;align-items:center}
 .chip{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid currentColor;border-radius:6px;padding:4px 9px;white-space:nowrap}
 .join{display:inline-block;font-weight:700;font-size:15px;text-decoration:none;border:1.5px solid currentColor;border-radius:10px;padding:11px 18px;min-height:44px}
 .join.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -72,16 +80,16 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
 .rt .where{font-size:13px;font-weight:600;margin-top:4px;gap:2px}
 .prog{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
 .prog i{display:block;height:100%;background:var(--ink);width:0}
-.then{font-size:clamp(14px,1.3vw,18px);font-weight:600;padding-top:14px;border-top:1px solid var(--line)}
+.then{font-size:clamp(14px,1.3vw,18px);font-weight:600;padding-top:20px;border-top:1px solid var(--line)}
 @keyframes breathe{0%,100%{box-shadow:0 0 0 0 rgba(127,127,127,.0)}50%{box-shadow:0 0 0 14px rgba(127,127,127,.22)}}
 .board[data-mode="now"] .hero{animation:breathe 2.4s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.board[data-mode="now"] .hero{animation:none}.hero{transition:none}}
 
 /* later today */
-.later{display:flex;flex-direction:column;gap:12px;min-width:0}
+.later{display:flex;flex-direction:column;gap:16px;min-width:0}
 .label{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--mute);font-weight:700;margin:0}
 .rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:16px;background:var(--paper);overflow:hidden}
-.row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:16px 18px;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center;padding:22px 24px;border-top:1px solid var(--line)}
 .row:first-child{border-top:0}
 .badge{width:46px;height:46px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:20px}
 .row.next .badge{background:var(--ink);color:var(--bg)}
@@ -119,7 +127,10 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
 <div class="board" id="board" data-mode="loading">
   <header class="top">
     <div class="brand">Eden Partner Group</div>
-    <div class="clock"><b id="clock">--:--</b><span id="date">&nbsp;</span></div>
+    <div class="hdr-right">
+      <div class="clock"><b id="clock">--:--</b><span id="date">&nbsp;</span></div>
+      <div class="wx" id="wx" hidden></div>
+    </div>
   </header>
 
   <div class="notice" id="notice" role="status" hidden></div>
@@ -400,6 +411,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       S.minute=minute;S.sigDrawn=sig;
       $('rows').innerHTML=rowsHtml(m,now);
       stripHtml(m,now);
+      renderWx();
     }
     const day=dayKey(new Date(now));
     if(!S.sample&&S.mcp&&day!==S.watchDay)startWatch();
@@ -408,6 +420,34 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     const ev=m.subject;if(!ev){$('announce').textContent='Nothing else on the calendar.';return}
     const txt={calm:'Next: ',soon:'Coming up within the hour: ',close:'Starts in 15 minutes: ',now:'Starting now: ',live:'In session: '}[m.mode]||'';
     $('announce').textContent=txt+ev.title;
+  }
+
+  /* ---------- weather (a document the refresh job writes: weather/current) ---------- */
+  const CLOUD='<path d="M12 36h24a8 8 0 0 0 1-15.9A11 11 0 0 0 16.2 22 7 7 0 0 0 12 36z"/>';
+  const CLOUDHI='<path d="M12 30h24a7 7 0 0 0 .9-13.9A10 10 0 0 0 17.6 18 6 6 0 0 0 12 30z"/>';
+  const ICONS={
+    clear:'<circle cx="24" cy="24" r="8"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11.3 11.3l4.2 4.2M32.5 32.5l4.2 4.2M11.3 36.7l4.2-4.2M32.5 15.5l4.2-4.2"/>',
+    partly:'<circle cx="16" cy="16" r="6"/><path d="M16 4v3M4 16h3M7.5 7.5l2.1 2.1M24.5 7.5l-2.1 2.1"/><path d="M16 40h20a7 7 0 0 0 .9-13.9A10 10 0 0 0 17.6 28 6 6 0 0 0 16 40z"/>',
+    cloudy:CLOUD,
+    rain:CLOUDHI+'<path d="M16 35l-2 6M24 35l-2 6M32 35l-2 6"/>',
+    storm:CLOUDHI+'<path d="M26 31l-5 8h6l-3 7"/>',
+    snow:CLOUDHI+'<path d="M16 36v.01M24 38v.01M32 36v.01M20 43v.01M28 43v.01" stroke-width="4"/>',
+    fog:'<path d="M8 18h32M12 26h28M8 34h32M14 42h22"/>',
+    wind:'<path d="M6 18h22a5 5 0 1 0-5-5M6 26h30a5 5 0 1 1-5 5M6 34h16"/>'
+  };
+  function renderWx(){
+    const el=$('wx'),w=S.wx;
+    if(!w||typeof w.tempF!=='number'){el.hidden=true;el.innerHTML='';return}
+    const t=w.updatedAt?new Date(w.updatedAt):null,ok=t&&!isNaN(t);
+    const old=ok&&(Date.now()-t)/36e5>8;
+    const wind=(w.windDir?w.windDir+' ':'')+(w.windMph!=null?Math.round(w.windMph)+' mph':'')+(w.gustMph?', gusts '+Math.round(w.gustMph):'');
+    const svg='<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[w.icon]||ICONS.clear)+'</svg>';
+    el.hidden=false;el.className='wx'+(old?' old':'');
+    el.innerHTML='<div class="pl">'+esc(w.place||'Weather')+(ok?' · as of '+esc(tf.format(t)):'')+(old?' · old':'')+'</div>'+svg+
+      '<div class="t">'+Math.round(w.tempF)+'°</div>'+
+      '<div class="hl">High '+Math.round(w.hiF)+'° · Low '+Math.round(w.loF)+'°</div>'+
+      '<div class="wd">'+(wind?'Wind '+esc(wind):'')+'</div>'+
+      (w.note?'<div class="nt">'+esc(w.note)+'</div>':'');
   }
 
   /* ---------- sound ---------- */
@@ -484,6 +524,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
 
   function enterSample(){
     S.sample=true;S.events=sampleEvents();S.loaded=true;S.updated=Date.now();
+    S.wx={place:'Example city',updatedAt:new Date().toISOString(),tempF:58,hiF:71,loF:44,icon:'partly',summary:'Partly cloudy',note:'Rain likely around 3 PM',windMph:9,gustMph:18,windDir:'NW'};
     $('demo').hidden=false;$('updated').textContent='Example data. Open this page in Claude to show your calendar.';
     S.sig='';S.sigDrawn='';tick();
   }
@@ -527,6 +568,10 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
   /* ---------- start ---------- */
   tick();setInterval(tick,1000);
   (async function boot(){
+    try{
+      const db=(window.claude&&window.claude.use)?await window.claude.use('db'):null;
+      if(db)db.doc('weather/current').onSnapshot(sn=>{S.wx=sn.exists?sn.data():null;renderWx()},()=>{});
+    }catch(_){}
     let mcp=null;
     try{mcp=(window.claude&&window.claude.use)?await window.claude.use('mcp'):null}catch(_){mcp=null}
     if(!mcp){enterSample();return}
