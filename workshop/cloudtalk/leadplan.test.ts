@@ -119,6 +119,14 @@ describe("load plan", () => {
     const p = buildPlan([sheet("x.csv", "Name,Company,Phone,Phone Source\nAvi Test,Acme,5552340111,ZI\nBo Test,Acme,5552340112,Crelate\n")]);
     assert.deepEqual(p.load.map((l) => l.create.name), ["Bo Test"]);
   });
+  test("a Phone Source value overrides a ZoomInfo lead source, so Nida can release her own numbers", () => {
+    const p = buildPlan([sheet("x.csv", "Name,Company,Phone,Phone Source,Source\nAvi Test,Acme,5552340111,Crelate,ZoomInfo 9\nBo Test,Acme,5552340112,ZoomInfo,ZoomInfo 9\nCy Test,Acme,5552340113,,ZoomInfo 9\n")]);
+    assert.deepEqual(p.load.map((l) => l.create.name), ["Avi Test"]);
+    assert.equal(p.summary.zoominfo_phones_blocked, 2);
+  });
+  test("Sr and PM keep their usual spelling in a JO tag", () => {
+    assert.equal(fromFileName("2026-10-19-prometheus-sr-construction-manager-retail-ti.csv").role, "Sr Construction Manager Retail TI");
+  });
   test("a row without a name is skipped", () => {
     assert.equal(plan.summary.no_name, 1);
   });
@@ -183,6 +191,10 @@ describe("batch controls", () => {
     const p = buildPlan([sheet("2026-10-19-triton-supers.csv", rows(5))], { limit: 2 });
     assert.equal(p.load.length, 2);
     assert.equal(p.summary.deferred_by_limit, 3);
+  });
+  test("an extra tag rides on every loaded row (the test-load marker)", () => {
+    const p = buildPlan([sheet("2026-10-19-triton-supers.csv", rows(2))], { extraTags: ["Q Test Load"] });
+    assert.ok(p.load.every((l) => l.create.tags.at(-1) === "Q Test Load"));
   });
   test("rows from the client's own company are skipped", () => {
     const p = buildPlan([sheet("x.csv", "Name,Company,Phone\nAl Staff,Hoffman Inc.,5552340150\nBi Other,Acme,5552340151\n")], { client: "Hoffman" });

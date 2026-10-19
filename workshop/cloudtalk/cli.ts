@@ -1,5 +1,5 @@
 // npm run leadplan -- <sheet.csv|sheet.xlsx ...> [--owner Evan] [--client Hoffman] [--jo "..."] [--date YYYY-MM-DD]
-//                    [--limit 10] [--cloudtalk snapshot.json] [--crelate snapshot.json] [--sheet "Tab name"] [--out dir]
+//                    [--limit 10] [--tag "Q Test Load"] [--cloudtalk snapshot.json] [--crelate snapshot.json] [--sheet "Tab name"] [--out dir]
 //
 // DRY RUN ONLY. Reads lead sheets, writes a load plan, a no-phone list and the draft to Nida into --out
 // (default deliverables/cloudtalk/, which git ignores because the plan holds phone numbers). Prints counts and names,
@@ -21,13 +21,14 @@ for (let i = 0; i < args.length; i++) {
   } else files.push(a);
 }
 if (!files.length) {
-  console.error("usage: npm run leadplan -- <sheet.csv|xlsx ...> [--owner X] [--client X] [--jo X] [--date YYYY-MM-DD] [--limit N] [--cloudtalk f.json] [--crelate f.json] [--sheet tab] [--out dir]");
+  console.error("usage: npm run leadplan -- <sheet.csv|xlsx ...> [--owner X] [--client X] [--jo X] [--date YYYY-MM-DD] [--limit N] [--tag T] [--cloudtalk f.json] [--crelate f.json] [--sheet tab] [--out dir]");
   process.exit(1);
 }
 const json = <T>(p: string | undefined) => (p ? (JSON.parse(readFileSync(p, "utf8")) as T) : undefined);
 const opts: Options = {
   owner: flag.owner, client: flag.client, jo: flag.jo, date: flag.date,
   limit: flag.limit !== undefined ? Number(flag.limit) : undefined,
+  extraTags: flag.tag ? [flag.tag] : undefined,
   cloudtalk: json<CloudTalkContact[]>(flag.cloudtalk),
   crelate: json<CrelateContact[]>(flag.crelate),
 };

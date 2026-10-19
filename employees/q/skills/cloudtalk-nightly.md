@@ -11,7 +11,7 @@ Read `qc/approved/` in the repo (or the clone). The mode is the highest one an a
 | Mode | Approved QC item (kind `write_external`, employee q) | What the run may do |
 |---|---|---|
 | DRY RUN (default) | none | Build the plan and the summary. Create nothing in CloudTalk. |
-| TEST | "CloudTalk 10-row test load" | Create exactly the 10 named rows, once. Then back to DRY RUN until the standing item is approved. |
+| TEST | "CloudTalk 10-row test load" | Plan with `--limit 10 --tag "Q Test Load"` and create those rows, once. Before creating, `cloudtalk_list_contacts` with `tags: ["Q Test Load"]`: if any exist the test is spent, so run as DRY RUN. The night before, DRY RUN summaries name the 10 candidates so Kev can reject. |
 | STANDING | "CloudTalk nightly lead load" | Create contacts per plan, within its stated cap. |
 
 A past approval covers only the exact item approved. No approval found, or the file cannot be read: DRY RUN, and say so in the first line of the summary.
@@ -33,7 +33,7 @@ A past approval covers only the exact item approved. No approval found, or the f
 npm run leadplan -- <Nida sheets> --date <today> --out <scratchpad>/ct
 ```
 
-Add `--owner/--client/--jo` only for stated hints. The tool names the columns it read and the ones it refused (salary, EEO, home address, personal email), maps City, State and Time Zone from their own columns, blocks every ZoomInfo phone, and writes `load-plan-<date>.json`, `no-phone-<date>.csv` and `nida-draft-<date>.txt`. It never prints phone digits; neither may you. Read the summary lines, not the JSON.
+Add `--owner/--client/--jo` only for stated hints. The tool names the columns it read and the ones it refused (salary, EEO, home address, personal email), maps City, State and Time Zone from their own columns, blocks every ZoomInfo phone, and writes `load-plan-<date>.json`, `no-phone-<date>.csv` and `nida-draft-<date>.txt`. A ZoomInfo phone is blocked by its column name, by a `Phone Source` value, or (with no Phone Source) by the row's Source; Nida releases her own numbers on a ZoomInfo-sourced lead by adding a `Phone Source` such as Crelate. It never prints phone digits; neither may you. Read the summary lines, not the JSON.
 
 ## Step 4, dedupe lookups, read-only
 

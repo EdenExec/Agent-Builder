@@ -38,6 +38,8 @@ export type Options = {
   today?: string;
   /** Mark only the first N loadable rows for loading; the rest are deferred (the 10-row test). */
   limit?: number;
+  /** Extra tags on every loaded row, for example "Q Test Load" on the 10-row test so a second test can be refused. */
+  extraTags?: string[];
   cloudtalk?: CloudTalkContact[];
   crelate?: CrelateContact[];
 };
@@ -203,7 +205,7 @@ export function normalizeTz(raw: string): string | undefined {
   return undefined;
 }
 
-const ACRONYMS = new Set(["PM", "PE", "PX", "MD", "DC", "VDC", "BIM", "WPB", "FL", "TI", "MEP", "APM", "GC", "VMG", "PB", "HSI", "SR", "EVP", "VP", "CM", "QA", "QC", "HVAC", "IT", "NYC", "LA", "TX", "ID", "AZ", "CA", "GA", "NC", "SC", "VA", "MD", "DE", "WA", "OR", "CO", "UT", "NV", "TN"]);
+const ACRONYMS = new Set(["PM", "PE", "PX", "MD", "DC", "VDC", "BIM", "WPB", "FL", "TI", "MEP", "APM", "GC", "VMG", "PB", "HSI", "EVP", "VP", "CM", "QA", "QC", "HVAC", "IT", "NYC", "LA", "TX", "ID", "AZ", "CA", "GA", "NC", "SC", "VA", "MD", "DE", "WA", "OR", "CO", "UT", "NV", "TN"]);
 const SMALL = new Set(["and", "of", "the", "for", "in", "at", "to"]);
 export function titleCase(slug: string): string {
   return slug.split(/[\s_-]+/).filter(Boolean).map((w, i) => {
@@ -362,6 +364,7 @@ export function buildPlan(sheets: Sheet[], opts: Options = {}): Plan {
           makeTag("Lead", date),
           tz ? makeTag("TZ", tz) : undefined,
           inCrelate ? "In Crelate" : undefined,
+          ...(opts.extraTags ?? []).map((t) => clean(t)),
         ].filter((t): t is string => !!t);
 
       if (!nm) { plan.summary.no_name++; plan.skipped.push({ ref, name: "", reason: "no_name" }); continue; }
@@ -372,7 +375,9 @@ export function buildPlan(sheets: Sheet[], opts: Options = {}): Plan {
       }
 
       // phones: the allowlisted phone columns only, ZoomInfo-sourced values blocked
-      const rowSourceZi = ZI.test(get("source")) || ZI.test(get("phone_source"));
+      // A "Phone Source" value, when the row has one, says where the phone came from and decides. Without it the row's own
+      // Source decides, and a ZoomInfo row is blocked (the safe side: Nida adds a Phone Source to release her own numbers).
+      const rowSourceZi = get("phone_source") ? ZI.test(get("phone_source")) : ZI.test(get("source"));
       let sawZi = false;
       let sawInvalid = false;
       const phones: string[] = [];
