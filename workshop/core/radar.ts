@@ -22,7 +22,7 @@ const REPO = "https://github.com/EdenExec/Agent-Builder";
 /** The playbook a routine runs first; the others listed in routines.yaml are read for rules or for a day-specific variant. */
 const PRIMARY: Record<string, string> = { brief: "morning-brief", sweep: "inbox-sweep", "check-out": "check-out", "stand-up": "stand-up-tomorrow" };
 /** Routines that must never fire on Saturday. stand-up is exempt: its Saturday run builds the Sunday Edition. */
-const SABBATH_IDS = new Set(["brief", "sweep", "check-out", "week-review"]);
+const SABBATH_IDS = new Set(["brief", "sweep", "check-out", "week-review", "cloudtalk-nightly"]);
 
 export function loadRoutines(employeeDir: string): RoutinesFile {
   const path = join(employeeDir, "routines.yaml");
