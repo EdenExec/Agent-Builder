@@ -21,3 +21,18 @@
   - VMG seats: Project Executive (Baltimore/DC), not Managing Director. Also VDC Manager (Reston), Supers, PMs and PEs.
   - Lead sheets: leave Owner blank with a Suggested owner column. Kev assigns at the JO meeting.
   - Kev wants the Eden Day Board up on his computer every morning.
+- 2026-10-19: Client map, from Kev:
+  - **Prometheus vs Promethean.** These are two different companies. Never merge them.
+    - Prometheus is a real estate investment firm in the Bay Area (Sr CM retail TI, Sr PM seat).
+    - Promethean is a GC in NYC and Miami and a sister company to PB South.
+  - **Bobby H. owns the Promethean / PB South structure.** He stands up each entity with partners:
+    - Jeff and Vinny run PB South in WPB.
+    - Garreth S. runs Miami interiors.
+    - Jeff is helping Bobby build the NYC healthcare book, though he lives in Florida now.
+    - The NYC occupied-healthcare JO is Promethean.
+  - **INL safety JO.** The client is Baker, the concrete contractor on the job. Baker is "Client · discreet" on everything shared. The seat needs NQA-1 certified safety people from nuclear projects, structural or GC side.
+  - **Megawatt Quincy** is a traveling data center PM role.
+  - **Nicknames:** "Juicy" is Andrew.
+  - **Tim Norton** is going for the Prometheus Sr PM seat. If he doesn't land it, Noah takes Megawatt San Jose Sr PM/PX and Promethean NYC, and Andrew takes the Triton role (to confirm).
+  - **No owner yet**, which Kev is fine with: Moss Interior Super, Moss Precon, Hoffman Amarillo low voltage.
+  - **Job orders on the hub.** The hub gets a Job Orders folder (active JOs, lead sheets, who's on what). Flag any recruiter on one JO past 14 days so Kev can rotate.
