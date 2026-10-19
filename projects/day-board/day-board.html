@@ -435,7 +435,7 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
     if(m.mode==='live'){
       const nx=m.next?'<div class="then">Next: '+esc(m.next.title)+', '+esc(eta(m.next.s-now))+'</div>':'';
       return '<div class="tag">In session</div><h1 class="h-title">'+esc(ev.title)+'</h1><div class="when">'+esc(range(ev))+'</div>'+
-        '<div><div class="count-wrap"><div class="count" id="count"></div><div class="unit">left</div></div><div class="prog" aria-hidden="true"><i id="prog"></i></div></div>'+meta+nx;
+        '<div><div class="count-wrap"><div class="count" id="count"></div><div class="unit" id="unit"></div></div><div class="prog" aria-hidden="true"><i id="prog"></i></div></div>'+meta+nx;
     }
     const label={calm:'Next up',soon:'Coming up',close:'Get ready',now:'Starting now'}[m.mode];
     return '<div class="tag">'+label+'</div><h1 class="h-title">'+esc(ev.title)+'</h1><div class="when">'+esc(whenText(ev,now))+'</div>'+
@@ -509,7 +509,9 @@ button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:
       const c=$('count');
       if(c){
         if(m.mode==='live'){
-          c.textContent=cd(m.subject.e-now).big;
+          const left=m.subject.e-now,mins=Math.max(0,Math.ceil(left/60000));
+          if(mins>=60){c.textContent=Math.floor(mins/60)+':'+pad(mins%60);const u=$('unit');if(u)u.textContent='hours  minutes left'}
+          else{c.textContent=String(mins);const u=$('unit');if(u)u.textContent='min left'}
           const p=$('prog');if(p)p.style.width=Math.max(0,Math.min(100,(now-m.subject.s)/(m.subject.e-m.subject.s)*100))+'%';
         }else{
           const r=cd(m.subject.s-now);c.textContent=r.big;const u=$('unit');if(u)u.textContent=r.unit;
