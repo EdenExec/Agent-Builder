@@ -1,0 +1,1 @@
+- 2026-10-19: 2026-10-19: INL safety JO client is Baker (Client · discreet); drop Baker staff (ZoomInfo id 1143100693). Seat = NQA-1 nuclear-project safety, structural or GC side. ZoomInfo cannot show NQA-1; tier on employer (Kiewit, Fluor, Bechtel, Jacobs, Zachry, Parsons, North Wind) plus title and confirm on the call. Sheet 18 v2 in Drive folder; v1 left in place.

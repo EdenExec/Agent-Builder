@@ -21,7 +21,9 @@
     "desk": "node workshop/office/desk.ts",
     "status": "node workshop/office/desk.ts status",
     "doc": "node workshop/office/doc.ts",
-    "radar": "node workshop/office/radar.ts"
+    "radar": "node workshop/office/radar.ts",
+    "leadplan": "node workshop/cloudtalk/cli.ts",
+    "ct-routine": "node workshop/cloudtalk/routine.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",

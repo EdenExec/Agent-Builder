@@ -3,7 +3,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* Layout: a landing of closed client folders and nothing else; opening one folder shows only that client's depth chart, lead lists, notes and resources. Screen-share mode hides the folder list. */
+/* Layout: a landing of closed client folders and nothing else; opening one folder shows only that client's depth chart, lead lists, notes and resources. Screen-share mode hides the folder list.
+   Job Orders: one closed internal folder after the client folders. It spans every client, so its rows load only while it is open, and it never shows in screen-share mode. */
 :root{
   --bg:#FAF8F4; --paper:#FFFFFF; --ink:#1A1A1A; --mute:#6F695D; --line:#EAE4D8; --gold:#8F6F3E; --gold-soft:#EFE6D8;
   --pos:#3D6B4F; --warn:#8A6A1F; --neg:#8A3A32; --pos-bg:#E4EEE7; --warn-bg:#F3EAD0; --neg-bg:#F1DDD9; --info-bg:#E9E6DD;
@@ -150,6 +151,23 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
 .past p{white-space:pre-wrap;font-size:13px;margin:8px 0 0}
 .rbar{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 0}
 #report{display:none}
+/* job orders folder (internal, every client): existing tokens only */
+.jo-sum{display:flex;gap:10px 28px;flex-wrap:wrap;align-items:flex-end;margin-top:16px}
+.jo-sum>div{display:grid;gap:2px;min-width:0}
+.jo-sum b{font-size:26px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.jo-sum .hot b,.jo-sum .hot .meta{color:var(--neg)}
+.jo-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px}
+.jo-group{display:grid;gap:0;margin-bottom:20px;min-width:0}
+.jtop{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.jtop h4{min-width:0;overflow-wrap:anywhere}
+.jcard.rot{background:linear-gradient(180deg,var(--bg) 35%,var(--red-fade) 100%);border-color:var(--red-line)}
+.card ul.jteam,.card ul.slead,.card ul.jlist{padding-left:0}
+.jteam{margin:0}
+.jteam li{padding:7px 0}
+.jlist{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.jlist li{display:grid;gap:3px;padding:8px 0;border-top:1px solid var(--line);font-size:13px;min-width:0;overflow-wrap:anywhere}
+.jlist li:first-child{border-top:0;padding-top:0}
+.chip.rot{background:var(--neg);color:#fff;font-weight:600}
 @media print{
   body{background:#fff;padding:0}
   .wrap>*:not(#report){display:none!important}
@@ -176,6 +194,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   <p class="sub" id="present-note" hidden>Screen-share mode is on. Client names are hidden. Type the client you are presenting to and press Enter.</p>
 
   <div class="folders" id="folders"></div>
+  <div id="jobs"></div>
   <div id="playbooks"></div>
   <div id="report"></div>
 
@@ -197,6 +216,8 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   // Live schema: clients/{slug}; clients/{slug}/{depth|leads|notes|resources|meetings}/{id}; playbooks/{id}.
   // Depth chart doc: {title, updated, source, sort, seats:[{seat, loc, filled?:{name,by,date}, removed?:date, people:[{name, status, note, by}]}]}
   // Meeting notes doc: clients/{slug}/meetings/{YYYY-MM-DD} {date, text, updated}
+  // Job order doc: jobs/{id} {client, client_slug, discreet?, role, location, status (active|on-hold|filled|closed), opened, rank,
+  //   leads:[{title,url,count,built}], team:[{recruiter, since, role_on_job, note}], condition, updated, source}. Radar writes these; the page only reads them.
   const STATUSES=['Pending PTC','PTC','Submitted','Interview','Offer','Placed','On hold','Out'];
   const TONE={'pending ptc':'warn','ptc':'gold','submitted':'gold','presented':'gold','interview':'pos','interviewing':'pos','offer':'pos','offer letter':'pos','placed':'pos','on hold':'','waiting on resume':'warn','out':'neg','pass':'neg','pass offer':'neg','withdrawn':'neg'};
   const tone=s=>TONE[String(s||'').toLowerCase()]||'';
@@ -214,8 +235,8 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   const isFresh=(rec,l)=>rec?rec[l.id]!==sig(l):(age(l.built)!=null&&age(l.built)<=2);
   const leadsFor=(c,s)=>state.sections.leads.filter(l=>(l.seats||[]).includes(c.id+':'+s.seat));
 
-  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[],meetings:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,confirm:null,showRemoved:false,thread:null,expanded:new Set(),saving:0,live:false,pending:{},last:{},deferred:false,summ:{},watched:new Set(),freshIds:new Set(),seenFor:null,seenRec:null};
-  try{state.present=sessionStorage.getItem('hub-present')==='1';state.expanded=new Set(JSON.parse(sessionStorage.getItem('hub-open')||'[]'))}catch(_){}
+  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[],meetings:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,confirm:null,showRemoved:false,thread:null,expanded:new Set(),saving:0,live:false,pending:{},last:{},deferred:false,summ:{},watched:new Set(),freshIds:new Set(),seenFor:null,seenRec:null,jobs:[],jobsOpen:false,jobsLoaded:false,jobsUnsub:null,jview:'client'};
+  try{state.present=sessionStorage.getItem('hub-present')==='1';state.expanded=new Set(JSON.parse(sessionStorage.getItem('hub-open')||'[]'));state.jview=sessionStorage.getItem('hub-jobs-view')==='recruiter'?'recruiter':'client'}catch(_){}
   const saveOpen=()=>{try{sessionStorage.setItem('hub-open',JSON.stringify([...state.expanded]))}catch(_){}};
 
   const chip=s=>'<span class="chip '+tone(s)+'">'+esc(s||'no status')+'</span>';
@@ -329,6 +350,81 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
       '<div class="sec"><h3>Depth chart</h3>'+rDepth(s.depth)+'</div><div class="sec"><h3>Meeting notes · '+esc(today())+'</h3>'+rMinutes(s.meetings)+'</div><div class="sec"><h3>Lead lists</h3>'+rLeads(s.leads)+'</div><div class="sec"><h3>Project notes</h3>'+rNotes(s.notes)+'</div><div class="sec"><h3>Resources</h3>'+rRes(s.resources)+'</div></div>';
   }
 
+  // ---- Job Orders: an internal Eden folder across every client ----
+  // Rows load only while the folder is open and are dropped on close. Screen-share mode hides the folder and closes it.
+  const ROT_DAYS=14;
+  const dayNum=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(s||''));if(!m)return null;const t=today().split('-').map(Number);return Math.round((Date.UTC(t[0],t[1]-1,t[2])-Date.UTC(+m[1],+m[2]-1,+m[3]))/864e5)};
+  const isStandby=p=>/standby/i.test(String(p.role_on_job||''));
+  const overdue=p=>!isStandby(p)&&(dayNum(p.since)||0)>ROT_DAYS;
+  // a discreet client never shows its name: every text field of that row is scrubbed too
+  const discreet=j=>!!j.discreet||/baker/i.test(String(j.client||'')+' '+String(j.client_slug||''));
+  const jt=(j,s)=>{const t=s==null?'':String(s);return discreet(j)?t.replace(/baker[a-z]*/gi,'Client · discreet'):t};
+  const jClient=j=>discreet(j)?'Client · discreet':(j.client||'Client to name');
+  const jKey=j=>discreet(j)?'discreet':(j.client_slug||slugOf(j.client));
+  const jStatus=j=>String(j.status||'active').toLowerCase();
+  const byRank=(a,b)=>(+a.rank||99)-(+b.rank||99)||jClient(a).localeCompare(jClient(b))||String(a.role||'').localeCompare(String(b.role||''));
+  const daysTxt=n=>n==null?'start date to add':n<0?'starts '+(-n)+(n===-1?' day':' days')+' from now':n+(n===1?' day':' days')+' on job';
+  const rotChip='<span class="chip rot">14+ days, rotate?</span>';
+  const roleChip=p=>p.role_on_job?'<span class="chip'+(isStandby(p)?' warn':' gold')+'">'+esc(p.role_on_job)+'</span>':'';
+  function jCard(j){
+    const team=j.team||[],leads=j.leads||[],hot=team.some(overdue);
+    const who=team.length?'<ul class="people jteam">'+team.map(p=>'<li><div class="prow"><b>'+esc(jt(j,p.recruiter))+'</b>'+roleChip(p)+'<span class="meta">'+esc(daysTxt(dayNum(p.since)))+'</span>'+(overdue(p)?rotChip:'')+'</div>'+(p.note?'<small>'+esc(jt(j,p.note))+'</small>':'')+'</li>').join('')+'</ul>':'<span class="chip warn">No owner yet</span>';
+    const sheets=leads.length?'<ul class="slead">'+leads.map(l=>'<li>'+(l.url?'<a href="'+esc(safeUrl(l.url))+'" target="_blank" rel="noopener">'+esc(l.count!=null&&l.count!==''?l.count+' leads':'Open sheet')+'</a>':'<b>'+esc(l.count!=null?l.count+' leads':'Sheet to add')+'</b>')+'<span class="meta">'+esc(jt(j,l.title||''))+(l.built?' · '+esc(l.built):'')+'</span></li>').join('')+'</ul>':'<span class="meta">No lead sheet yet</span>';
+    return '<article class="card jcard'+(hot?' rot':'')+'"><div class="jtop"><h4>'+esc(jt(j,j.role))+'</h4>'+(j.rank?'<span class="jo">#'+esc(j.rank)+'</span>':'')+'</div>'+
+      '<div class="loc">'+esc(jt(j,j.location||'Location to confirm'))+(j.opened?' · opened '+esc(j.opened):'')+'</div>'+
+      (j.condition?'<div><div class="k">Condition</div><p>'+esc(jt(j,j.condition))+'</p></div>':'')+
+      '<div><div class="k">Who is on it</div>'+who+'</div><div><div class="k">Lead sheets</div>'+sheets+'</div>'+
+      '<span class="meta'+(stale(j.updated)?' stale':'')+'">Updated '+esc(j.updated||'unknown')+(stale(j.updated)?' · check with owner':'')+(j.source?' · '+esc(jt(j,j.source)):'')+'</span></article>';
+  }
+  function jByClient(act){
+    const g=new Map();
+    act.forEach(j=>{const k=jKey(j);if(!g.has(k))g.set(k,{name:jClient(j),rows:[]});g.get(k).rows.push(j)});
+    return [...g.values()].map(x=>{const n=x.rows.reduce((a,j)=>a+(j.team||[]).filter(overdue).length,0);
+      return '<section class="jo-group"><div class="dc-head"><h4>'+esc(x.name)+'</h4><span class="meta">'+x.rows.length+' active'+(n?' · <span class="stale">'+n+' to rotate</span>':'')+'</span></div><div class="cards">'+x.rows.map(jCard).join('')+'</div></section>'}).join('');
+  }
+  function jByRecruiter(act){
+    const m=new Map();
+    act.forEach(j=>(j.team||[]).forEach(p=>{const r=String(p.recruiter||'').trim()||'Unnamed';if(!m.has(r))m.set(r,[]);m.get(r).push({j,p})}));
+    const order=[...m.keys()].sort((a,b)=>{const ia=ROSTER.indexOf(a),ib=ROSTER.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib)||a.localeCompare(b)});
+    const none=act.filter(j=>!(j.team||[]).length);
+    const card=(name,meta,items,hot)=>'<article class="card'+(hot?' jcard rot':'')+'"><div class="jtop"><h4>'+esc(name)+'</h4><span class="meta">'+meta+'</span></div><ul class="jlist">'+items+'</ul></article>';
+    return '<div class="cards">'+order.map(r=>{const rows=m.get(r).sort((a,b)=>byRank(a.j,b.j)),late=rows.filter(x=>overdue(x.p)).length,live=rows.filter(x=>!isStandby(x.p)).length;
+      return card(r,live+' job order'+(live===1?'':'s')+(rows.length>live?' · '+(rows.length-live)+' standby':'')+(late?' · <span class="stale">'+late+' to rotate</span>':''),
+        rows.map(({j,p})=>'<li><div><b>'+esc(jClient(j))+'</b> · '+esc(jt(j,j.role))+'</div><div class="prow">'+roleChip(p)+'<span class="meta">'+esc(daysTxt(dayNum(p.since)))+'</span>'+(overdue(p)?rotChip:'')+'</div></li>').join(''),late>0)}).join('')+
+      (none.length?card('No owner yet',none.length+' job order'+(none.length===1?'':'s'),none.map(j=>'<li><div><b>'+esc(jClient(j))+'</b> · '+esc(jt(j,j.role))+'</div></li>').join(''),false):'')+'</div>';
+  }
+  function jobsBody(){
+    if(!state.live)return '<div class="fbody"><div class="empty" style="margin-top:16px">Open this page in Claude to load job orders.</div></div>';
+    if(!state.jobsLoaded)return '<div class="fbody"><div class="empty" style="margin-top:16px">Loading job orders…</div></div>';
+    const all=state.jobs.slice().sort(byRank),act=all.filter(j=>jStatus(j)==='active'),rest=all.filter(j=>jStatus(j)!=='active');
+    if(!all.length)return '<div class="fbody"><div class="empty" style="margin-top:16px">No job orders filed yet. Radar adds them after each JO meeting.</div></div>';
+    const late=act.reduce((a,j)=>a+(j.team||[]).filter(overdue).length,0),none=act.filter(j=>!(j.team||[]).length).length;
+    const sum='<div class="jo-sum"><div><b>'+act.length+'</b><span class="meta">active job orders</span></div><div'+(late?' class="hot"':'')+'><b>'+late+'</b><span class="meta">assignments past '+ROT_DAYS+' days</span></div><div><b>'+none+'</b><span class="meta">with no owner</span></div></div>';
+    const tabs='<div class="jo-tabs" role="group" aria-label="Group job orders">'+[['client','By client'],['recruiter','By recruiter']].map(([k,l])=>'<button class="btn" type="button" data-jv="'+k+'" aria-pressed="'+(state.jview===k)+'">'+l+'</button>').join('')+'</div>';
+    const note='<p class="sub" style="margin-bottom:14px">Internal to Eden. This folder shows every client at once, so keep it closed while sharing your screen. Anyone on the same job order for more than '+ROT_DAYS+' days is flagged for Kev to rotate. Standby means on it only if a condition is met.</p>';
+    const others=rest.length?'<div class="past"><details><summary>On hold, filled or closed ('+rest.length+')</summary><ul class="jlist" style="margin-top:10px">'+rest.map(j=>'<li><div><b>'+esc(jClient(j))+'</b> · '+esc(jt(j,j.role))+'</div><span class="meta">'+esc(jStatus(j))+' · '+esc(jt(j,j.location||''))+(j.condition?' · '+esc(jt(j,j.condition)):'')+'</span></li>').join('')+'</ul></details></div>':'';
+    return '<div class="fbody">'+sum+'<div class="sec">'+tabs+note+(act.length?(state.jview==='recruiter'?jByRecruiter(act):jByClient(act)):'<div class="empty">No active job orders.</div>')+others+'</div></div>';
+  }
+  function renderJobs(){
+    const box=$('jobs');
+    const q=($('find').value||'').trim().toLowerCase();
+    if(state.present||state.open||(!state.jobsOpen&&q&&!'job orders'.includes(q))){box.innerHTML='';return}
+    const open=state.jobsOpen;
+    box.innerHTML=(open?'<button class="back" id="jo-back" type="button">← All folders</button>':'')+
+      '<div class="folder" data-open="'+open+'"><button class="fhead" id="jo-head" type="button" aria-expanded="'+open+'" aria-controls="fb-jobs"><span class="fname">Job Orders</span><span class="fmeta">Internal · Eden only</span><span class="caret" aria-hidden="true"></span></button>'+(open?'<div id="fb-jobs">'+jobsBody()+'</div>':'')+'</div>';
+  }
+  function dropJobs(){if(state.jobsUnsub){try{state.jobsUnsub()}catch(_){}state.jobsUnsub=null}state.jobsOpen=false;state.jobs=[];state.jobsLoaded=false}
+  function openJobs(on){
+    dropJobs();
+    if(on&&!state.present){
+      if(state.open)openClient(null);
+      state.jobsOpen=true;
+      if(db)state.jobsUnsub=db.collection('jobs').onSnapshot(s=>{if(!state.jobsOpen||state.present)return;state.jobs=s.docs.map(own);state.jobsLoaded=true;render()},()=>{if(!state.jobsOpen)return;state.jobs=[];state.jobsLoaded=true;setStatus('could not read job orders');render()});
+      window.scrollTo(0,0);
+    }
+    render(true);
+  }
+
   // ---- report ----
   function reportHtml(){
     const c=state.clients.find(x=>x.id===state.open)||{name:''};
@@ -365,11 +461,13 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
     const q=($('find').value||'').trim().toLowerCase();
     if(state.present&&!state.open){
       $('present-note').hidden=false;$('present-note').textContent='Screen-share mode is on. Client names are hidden. Type the client you are presenting to and press Enter.';
-      $('folders').innerHTML='';$('playbooks').innerHTML='';$('sub').hidden=true;return;
+      $('folders').innerHTML='';$('jobs').innerHTML='';$('playbooks').innerHTML='';$('sub').hidden=true;return;
     }
     $('sub').hidden=false;
     $('present-note').hidden=!state.present;
     if(state.present)$('present-note').textContent='Screen-share mode is on. Only this client is showing. Turn it off to see the other folders.';
+    renderJobs();
+    if(state.jobsOpen){$('folders').innerHTML='';$('playbooks').innerHTML='';return}
     let list=state.clients.slice().sort((a,b)=>(a.sort||99)-(b.sort||99)||String(a.name).localeCompare(String(b.name)));
     if(state.open)list=list.filter(c=>c.id===state.open);
     else if(q)list=list.filter(c=>String(c.name).toLowerCase().includes(q));
@@ -481,7 +579,7 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   function unsubAll(){state.unsubs.forEach(u=>{try{u()}catch(_){}});state.unsubs=[]}
   let db=null;
   function openClient(id){
-    unsubAll();state.sections={depth:[],leads:[],notes:[],resources:[],meetings:[]};state.last={};state.open=id||null;state.freshIds=new Set();state.seenFor=null;state.editing=null;state.confirm=null;state.thread=null;state.by='';
+    dropJobs();unsubAll();state.sections={depth:[],leads:[],notes:[],resources:[],meetings:[]};state.last={};state.open=id||null;state.freshIds=new Set();state.seenFor=null;state.editing=null;state.confirm=null;state.thread=null;state.by='';
     try{history.replaceState(null,'',id?'#'+id:location.pathname+location.search)}catch(_){}
     if(id&&db){['depth','leads','notes','resources','meetings'].forEach(k=>{
       state.unsubs.push(db.collection('clients/'+id+'/'+k).onSnapshot(s=>{
@@ -511,7 +609,13 @@ select.st.pos{background:var(--pos-bg);color:var(--pos)}select.st.warn{backgroun
   });
   $('present').addEventListener('click',()=>{
     state.present=!state.present;try{sessionStorage.setItem('hub-present',state.present?'1':'0')}catch(_){}
-    if(state.present)$('find').value='';render(true);
+    if(state.present){$('find').value='';dropJobs()}render(true);
+  });
+  $('jobs').addEventListener('click',e=>{
+    if(e.target.closest('#jo-back')){openJobs(false);return}
+    const v=e.target.closest('button[data-jv]');
+    if(v){state.jview=v.dataset.jv;try{sessionStorage.setItem('hub-jobs-view',state.jview)}catch(_){}render(true);return}
+    if(e.target.closest('#jo-head'))openJobs(!state.jobsOpen);
   });
 
   // landing summaries: open job orders per client, and whether new lead lists landed since this browser last looked

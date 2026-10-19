@@ -1,0 +1,1 @@
+- 2026-10-19: 2026-10-19: ZoomInfo company names for clients: PB South = 'Promethean Builders'; VMG = 'Vertical Mechanical Group' (vmgmech.com, Sterling VA; the other 'VMG Mechanical' in Apopka FL is a different 15-person firm). Exclude all of these on every list.
