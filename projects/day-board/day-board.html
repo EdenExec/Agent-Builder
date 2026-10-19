@@ -1,0 +1,995 @@
+<title>Eden Day Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one calm board for a second monitor. A large "next up" panel that changes character as the start nears, the rest of the day beside it, and a day strip along the bottom. Cream by day, matte dark by night. */
+:root{
+  --bg:#F6F3EC; --paper:#FFFFFF; --ink:#17160F; --mute:#6B655A; --line:#D9D2C3;
+  --inv-bg:#17160F; --inv-ink:#F6F3EC; --inv-mute:#B9B2A2;
+  --warn:#8A6A1F; --neg:#8A3A32; --warn-bg:#F3EAD0; --neg-bg:#F1DDD9; --info-bg:#E9E6DD;
+  --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C0B08; --paper:#14130E; --ink:#F2EEE4; --mute:#A39D8D; --line:#2A271E;
+  --inv-bg:#F2EEE4; --inv-ink:#14130E; --inv-mute:#5B564A;
+  --warn:#D9B45E; --neg:#D4857B; --warn-bg:#2A2410; --neg-bg:#2C1815; --info-bg:#1D1B14; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C0B08; --paper:#14130E; --ink:#F2EEE4; --mute:#A39D8D; --line:#2A271E;
+  --inv-bg:#F2EEE4; --inv-ink:#14130E; --inv-mute:#5B564A;
+  --warn:#D9B45E; --neg:#D4857B; --warn-bg:#2A2410; --neg-bg:#2C1815; --info-bg:#1D1B14; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{overflow-x:clip;margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.4;padding-inline:clamp(16px,3vw,48px);padding-block:clamp(16px,2.4vw,36px)}
+.board{max-width:1680px;min-height:calc(100dvh - 2 * clamp(16px,2.4vw,36px));margin:0 auto;display:flex;flex-direction:column;gap:clamp(24px,3vw,44px)}
+.board>*{min-width:0}
+button,a{font:inherit}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* top bar */
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--mono);font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--mute);font-weight:500}
+.hdr-right{display:flex;gap:clamp(20px,3vw,44px);align-items:flex-start;justify-content:flex-end;flex-wrap:wrap}
+.clock{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.wx{display:grid;grid-template-columns:auto auto;column-gap:16px;row-gap:3px;align-items:center;padding-left:clamp(20px,3vw,44px);border-left:1px solid var(--line);min-width:0}
+.wx.old{opacity:.6}
+.mk{display:flex;flex-direction:column;gap:14px}
+.mk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:clamp(12px,1.6vw,20px)}
+.mk-t{display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:3px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px;min-width:0}
+.mk-t.old{opacity:.6}
+.mk-t svg{width:38px;height:38px;grid-row:span 2}
+.mk-t .c{grid-column:1 / -1;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin-bottom:6px;overflow-wrap:anywhere}
+.mk-t .t{font-size:26px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.mk-t .hl{font-size:13px;color:var(--mute);font-weight:500}
+.mk-t .nt{grid-column:1 / -1;font-size:13px;font-weight:600;margin-top:6px}
+.wx .pl{grid-column:1 / -1;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.wx svg{width:54px;height:54px;grid-row:span 3}
+.wx .t{font-size:clamp(30px,3.2vw,44px);font-weight:800;line-height:1;letter-spacing:-.02em}
+.wx .hl,.wx .wd{font-size:14px;color:var(--mute);font-weight:500}
+.wx .nt{grid-column:1 / -1;font-size:14px;font-weight:600;margin-top:6px}
+.clock b{font-size:clamp(32px,4vw,56px);font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1}
+.clock span{font-size:14px;color:var(--mute);font-weight:500}
+
+.notice{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:12px 16px;font-size:14px;font-weight:600}
+.notice button{border:1.5px solid currentColor;background:transparent;color:inherit;border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;min-height:40px}
+
+/* main */
+.main{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:clamp(24px,3vw,44px);flex:1}
+@media (max-width:900px){.main{grid-template-columns:minmax(0,1fr)}}
+
+/* hero */
+.hero{display:flex;flex-direction:column;justify-content:space-between;gap:clamp(28px,4vw,60px);padding:clamp(28px,4.8vw,76px);border:1.5px solid var(--line);border-radius:22px;background:var(--paper);color:var(--ink);min-height:min(56vh,620px);transition:background .6s,color .6s,border-color .6s}
+.board[data-mode="soon"] .hero{border-color:var(--ink)}
+.board[data-mode="close"] .hero,.board[data-mode="now"] .hero{background:var(--inv-bg);color:var(--inv-ink);border-color:var(--inv-bg)}
+.board[data-mode="live"] .hero{border-color:var(--ink);border-width:2px}
+.tag{font-family:var(--mono);font-size:clamp(11px,1.1vw,14px);letter-spacing:3px;text-transform:uppercase;font-weight:500;color:var(--mute)}
+.board[data-mode="close"] .tag,.board[data-mode="now"] .tag{color:var(--inv-mute)}
+.h-title{font-size:clamp(28px,4.2vw,68px);font-weight:800;letter-spacing:-.015em;line-height:1.12;margin:0;text-wrap:balance;overflow-wrap:anywhere}
+.when{font-size:clamp(16px,1.7vw,24px);font-weight:500;color:var(--mute)}
+.board[data-mode="close"] .when,.board[data-mode="now"] .when{color:var(--inv-mute)}
+.count-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(14px,1.8vw,26px)}
+.count{font-size:min(14vw,24vh);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.unit{font-family:var(--mono);font-size:clamp(12px,1.2vw,16px);letter-spacing:5px;text-transform:uppercase;color:var(--mute);white-space:pre}
+.board[data-mode="close"] .unit,.board[data-mode="now"] .unit{color:var(--inv-mute)}
+.meta{display:flex;gap:14px 18px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid currentColor;border-radius:6px;padding:4px 9px;white-space:nowrap}
+.join{display:inline-block;font-weight:700;font-size:15px;text-decoration:none;border:1.5px solid currentColor;border-radius:10px;padding:11px 18px;min-height:44px}
+.join.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.board[data-mode="close"] .join.primary,.board[data-mode="now"] .join.primary{background:var(--inv-ink);color:var(--inv-bg);border-color:var(--inv-ink)}
+.where{display:grid;gap:8px;font-size:clamp(15px,1.5vw,20px);font-weight:600;overflow-wrap:anywhere}
+.where small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:500;margin-bottom:2px}
+.board[data-mode="close"] .where small,.board[data-mode="now"] .where small{color:var(--inv-mute)}
+button.join{font-family:var(--sans);background:transparent;color:inherit;cursor:pointer}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.mini{display:inline-block;font-family:var(--sans);font-weight:700;font-size:12px;text-decoration:none;border:1.5px solid var(--ink);border-radius:8px;padding:7px 12px;background:transparent;color:var(--ink);cursor:pointer;min-height:34px}
+.mini.fill{background:var(--ink);color:var(--bg)}
+.rt .where{font-size:13px;font-weight:600;margin-top:4px;gap:2px}
+.prog{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--ink);width:0}
+.then{font-size:clamp(14px,1.3vw,18px);font-weight:600;padding-top:20px;border-top:1px solid var(--line)}
+@keyframes breathe{0%,100%{box-shadow:0 0 0 0 rgba(127,127,127,.0)}50%{box-shadow:0 0 0 14px rgba(127,127,127,.22)}}
+.board[data-mode="now"] .hero{animation:breathe 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.board[data-mode="now"] .hero{animation:none}.hero{transition:none}}
+
+/* later today */
+.later{display:flex;flex-direction:column;gap:16px;min-width:0}
+.label{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--mute);font-weight:700;margin:0}
+.rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:16px;background:var(--paper);overflow:hidden}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center;padding:22px 24px;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.badge{width:46px;height:46px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:20px}
+.row.next .badge{background:var(--ink);color:var(--bg)}
+.rt{min-width:0}
+.rt b{display:block;font-size:17px;font-weight:700;overflow-wrap:anywhere}
+.rt small{display:block;color:var(--mute);font-size:13px;margin-top:2px}
+.eta{font-family:var(--mono);font-size:13px;color:var(--mute);white-space:nowrap;text-align:right}
+.row.next .eta{color:var(--ink);font-weight:500}
+.rows .empty{padding:22px 18px;color:var(--mute);font-size:14px}
+.sect-gap{margin-top:8px}
+
+/* day strip */
+.strip-wrap{display:flex;flex-direction:column;gap:10px}
+.strip{position:relative;border:1px solid var(--line);border-radius:14px;background:var(--paper);overflow:hidden}
+.amb{position:absolute;left:0;right:0;top:0;height:6px}
+.amb i{position:absolute;top:0;bottom:0;background:var(--info-bg);border-left:1px solid var(--line)}
+.blk{position:absolute;height:34px;border:1.5px solid var(--ink);border-radius:8px;background:var(--bg);padding:6px 10px;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:6px}
+.blk.past{opacity:.4}
+.blk.next{background:var(--ink);color:var(--bg)}
+.blk.live{background:var(--ink);color:var(--bg);opacity:1}
+.nowline{position:absolute;top:0;bottom:0;width:2px;background:var(--neg)}
+.nowline em{position:absolute;top:2px;left:6px;font-style:normal;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--neg);font-weight:500}
+.ticks{position:relative;height:20px;margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--mute)}
+.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+
+/* controls */
+.ctl{display:flex;gap:10px 12px;flex-wrap:wrap;align-items:center;justify-content:space-between;color:var(--mute);font-size:12px;font-family:var(--mono);letter-spacing:1px;text-transform:uppercase}
+.ctl .btns{display:flex;gap:8px;flex-wrap:wrap}
+.ctl button{border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:9px 14px;font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.4px;text-transform:none;cursor:pointer;min-height:40px}
+.ctl button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.demo{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.demo span{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--warn)}
+
+/* day navigation, day view, add event */
+.daynav{display:flex;gap:10px 12px;align-items:center;flex-wrap:wrap}
+.daynav .arrow{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0}
+.daynav .arrow svg{width:20px;height:20px}
+.daynav .arrow:disabled{opacity:.3;cursor:default}
+.dn-label{flex:1 1 200px;min-width:0;font-weight:700;font-size:clamp(16px,1.6vw,20px)}
+.dn-label small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:500;margin-bottom:2px}
+.pill{border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:10px;padding:10px 18px;font-family:var(--sans);font-weight:700;font-size:14px;cursor:pointer;min-height:46px}
+.pill.fill{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pill:disabled{opacity:.5;cursor:default}
+.dayview{display:none;flex-direction:column;gap:20px;flex:1}
+.board[data-view="other"] .dayview{display:flex}
+.board[data-view="other"] .main,.board[data-view="other"] .mk,.board[data-view="other"] .strip-wrap{display:none!important}
+.dv-sum{display:flex;gap:16px clamp(20px,3.4vw,52px);flex-wrap:wrap;padding:24px 28px;border:1.5px solid var(--line);border-radius:18px;background:var(--paper)}
+.dv-sum b{display:block;font-size:clamp(24px,3vw,40px);font-weight:800;line-height:1.05;letter-spacing:-.02em}
+.dv-sum small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:500;margin-top:6px}
+.dv-also{font-size:14px;color:var(--mute);font-weight:500}
+.row.dv{grid-template-columns:104px minmax(0,1fr) auto}
+.row.dv .tm{font-family:var(--mono);font-size:13px;line-height:1.5;color:var(--mute)}
+.dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink);flex:none;align-self:start;margin-top:4px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--inv-bg);color:var(--inv-ink);padding:14px 22px;border-radius:12px;font-weight:700;font-size:14px;z-index:20;max-width:calc(100vw - 32px)}
+.modal{position:fixed;inset:0;background:rgba(12,11,8,.55);display:grid;place-items:center;padding:16px;z-index:10}
+.sheet{background:var(--paper);color:var(--ink);border:1.5px solid var(--line);border-radius:20px;padding:clamp(20px,3vw,36px);width:min(640px,100%);max-height:92dvh;overflow:auto;display:flex;flex-direction:column;gap:16px}
+.sheet-h{margin:0;font-size:22px;font-weight:800}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.f>span{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:500}
+.f input,.f select,.f textarea{font-family:var(--sans);font-size:16px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:11px 14px;min-height:46px;width:100%}
+.f textarea{resize:vertical}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.seg,.sw{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px 14px;font-family:var(--sans);font-weight:700;font-size:14px;cursor:pointer;min-height:44px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.sw button{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}
+.sw button[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--ink)}
+.sw button.none{background:transparent;font-size:11px;font-weight:700;color:var(--mute);width:auto;border-radius:18px;padding:0 12px}
+.warnline{background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600}
+.errline{background:var(--neg-bg);color:var(--neg);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600}
+.sheet-act{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.pencil{display:inline-grid;place-items:center;width:34px;height:34px;padding:0;border:1.5px solid var(--line);border-radius:8px;background:transparent;color:inherit;cursor:pointer;vertical-align:middle}
+.pencil svg{width:16px;height:16px}
+.join.pencil{width:44px;height:44px;border-radius:10px;border-color:currentColor}
+.pill.danger{color:var(--neg);border-color:var(--neg)}
+.pill.danger.arm{background:var(--neg);color:var(--bg)}
+.sheet-act .sp{flex:1}
+</style>
+
+<div class="board" id="board" data-mode="loading" data-view="today">
+  <header class="top">
+    <div class="brand">KDTW Group</div>
+    <div class="hdr-right">
+      <div class="clock"><b id="clock">--:--</b><span id="date">&nbsp;</span></div>
+      <div class="wx" id="wx" hidden></div>
+    </div>
+  </header>
+
+  <nav class="daynav" aria-label="Choose a day">
+    <button type="button" class="arrow" id="dn-prev" data-act="prev" aria-label="Previous day"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="dn-label" id="dn-label"></div>
+    <button type="button" class="arrow" id="dn-next" data-act="next" aria-label="Next day"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button type="button" class="pill" id="dn-today" data-act="today" hidden>Back to today</button>
+    <button type="button" class="pill" id="dn-undo" data-act="undo" hidden>Undo</button>
+    <button type="button" class="pill fill" id="dn-add" data-act="add">Add event</button>
+  </nav>
+
+  <div class="notice" id="notice" role="status" hidden></div>
+
+  <div class="main">
+    <section class="hero" id="hero" aria-label="Next meeting">
+      <div class="tag">Connecting</div>
+      <h1 class="h-title">Loading your calendar</h1>
+    </section>
+    <aside class="later" aria-label="Rest of the day">
+      <h2 class="label" id="later-label">Later today</h2>
+      <ol class="rows" id="rows"><li class="empty">Waiting for the calendar.</li></ol>
+    </aside>
+  </div>
+
+  <section class="dayview" id="dayview" aria-label="Day view"></section>
+
+  <section class="mk" id="mk" aria-label="Weather in your markets" hidden>
+    <h2 class="label">Markets</h2>
+    <div class="mk-grid" id="mk-grid"></div>
+  </section>
+
+  <section class="strip-wrap" aria-label="Today at a glance">
+    <h2 class="label">Today at a glance</h2>
+    <div class="strip" id="strip"></div>
+    <div class="ticks" id="ticks"></div>
+  </section>
+
+  <footer class="ctl">
+    <div class="btns">
+      <button type="button" id="b-sound" aria-pressed="false">Sound off</button>
+      <button type="button" id="b-full" aria-pressed="false">Full screen</button>
+      <button type="button" id="b-awake" aria-pressed="false">Keep screen awake</button>
+      <button type="button" id="b-only" aria-pressed="false">Meetings only</button>
+    </div>
+    <div class="demo" id="demo" hidden>
+      <span>Preview</span>
+      <button type="button" data-min="47">Calm</button>
+      <button type="button" data-min="12">15 min out</button>
+      <button type="button" data-min="3">5 min out</button>
+      <button type="button" data-min="-10">In session</button>
+    </div>
+    <span id="updated">&nbsp;</span>
+  </footer>
+  <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="add-h">
+    <form class="sheet" id="addform" novalidate>
+      <h2 class="sheet-h" id="add-h">Add to calendar</h2>
+      <label class="f"><span>Event name</span><input name="title" type="text" autocomplete="off" maxlength="200"></label>
+      <div class="f2">
+        <label class="f"><span>Date</span><input name="date" type="date"></label>
+        <label class="f"><span>Start</span><input name="time" type="time" step="300"></label>
+      </div>
+      <div class="f"><span>Length</span><div class="seg" id="durs"></div></div>
+      <label class="f" id="kind-wrap"><span>Type of meeting</span>
+        <select name="kind"><option value="meet">Google Meet (link is added)</option><option value="zoom">Zoom (paste the link)</option><option value="phone">Phone call</option><option value="person">In person</option><option value="none">No location</option></select>
+      </label>
+      <label class="f" id="detail-wrap"><span id="detail-label">Zoom link</span><input name="detail" type="text" autocomplete="off" maxlength="300"></label>
+      <label class="f" id="notes-wrap"><span>Notes</span><textarea name="notes" rows="3" maxlength="2000"></textarea></label>
+      <div class="f"><span>Color</span><div class="sw" id="sw"></div></div>
+      <div class="warnline" id="addwarn" hidden></div>
+      <div class="errline" id="adderr" role="alert" hidden></div>
+      <div class="sheet-act"><button type="button" class="pill danger" id="add-del" data-act="del" hidden>Delete</button><span class="sp"></span><button type="button" class="pill" data-act="close">Cancel</button><button type="submit" class="pill fill" id="add-go">Add to calendar</button></div>
+    </form>
+  </div>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <div class="sr" id="announce" aria-live="polite"></div>
+</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const SERVER='Google Calendar', TOOL='list_events';
+  const CALS=[{key:'main',id:''},{key:'personal',id:'kdt.williams@gmail.com'}];
+  const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const safeUrl=u=>/^https:\/\//i.test(String(u||''))?String(u):'';
+  const pad=n=>String(n).padStart(2,'0');
+  const tf=new Intl.DateTimeFormat([], {hour:'numeric',minute:'2-digit'});
+  const df=new Intl.DateTimeFormat([], {weekday:'long',month:'long',day:'numeric'});
+  const tzf=new Intl.DateTimeFormat([], {timeZoneName:'short'});
+  const tzName=()=>{const p=tzf.formatToParts(new Date()).find(x=>x.type==='timeZoneName');return p?p.value:''};
+  const startOfDay=d=>{const x=new Date(d);x.setHours(0,0,0,0);return x};
+  const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+  const isoLocal=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+  const dayKey=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+
+  const S={raw:{},only:false,view:0,viewAt:0,addDur:30,addColor:'',busy:false,events:[],loaded:false,error:null,sample:false,shift:47,updated:0,sound:false,audio:null,awake:null,sig:'',minute:-1,chimed:{},unwatch:null,watchDay:'',mcp:null};
+
+  const COLORS={'1':['Lavender','#a4bdfc'],'2':['Sage','#7ae7bf'],'3':['Grape','#dbadff'],'4':['Flamingo','#ff887c'],'5':['Banana','#fbd75b'],'6':['Tangerine','#ffb878'],'7':['Peacock','#46d6db'],'8':['Graphite','#e1e1e1'],'9':['Blueberry','#5484ed'],'10':['Basil','#51b749'],'11':['Tomato','#dc2127']};
+  const MINV=-3, MAXV=7;
+  const dotHtml=c=>'<span class="dot"'+(COLORS[c]?' style="background:'+COLORS[c][1]+'" title="'+esc(COLORS[c][0])+'"':'')+'></span>';
+
+  /* ---------- reading events ---------- */
+  function ownDomain(list){
+    for(const ev of list){
+      const me=(ev.attendees||[]).find(a=>a.self&&a.email);
+      if(me)return me.email.split('@')[1];
+      if(ev.organizer&&ev.organizer.self&&ev.organizer.email)return ev.organizer.email.split('@')[1];
+      if(ev.creator&&ev.creator.self&&ev.creator.email)return ev.creator.email.split('@')[1];
+    }
+    return '';
+  }
+  const VIDEO=/zoom\.us|zoomgov\.com|meet\.google\.com|teams\.microsoft\.com|teams\.live\.com|webex\.com|gotomeeting\.com/i;
+  function provider(u){return /zoom/i.test(u)?'Zoom':/meet\.google/i.test(u)?'Meet':/teams\./i.test(u)?'Teams':/webex/i.test(u)?'Webex':'Video'}
+  const mapsUrl=a=>'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(a)+'&travelmode=driving';
+  function normalize(list){
+    const dom=ownDomain(list);
+    const out=[];
+    for(const ev of list){
+      if(!ev||ev.status==='cancelled')continue;
+      const self=(ev.attendees||[]).find(a=>a.self);
+      if(self&&self.responseStatus==='declined')continue;
+      const allDay=!!(ev.start&&ev.start.date&&!ev.start.dateTime);
+      const s=allDay?new Date(String(ev.start.date).slice(0,10)+'T00:00:00'):new Date(ev.start&&ev.start.dateTime);
+      const e=allDay?new Date(String((ev.end&&ev.end.date)||ev.start.date).slice(0,10)+'T00:00:00'):new Date(ev.end&&ev.end.dateTime);
+      if(isNaN(s)||isNaN(e))continue;
+      const dur=e-s;
+      const ambient=allDay||dur>=6*36e5||ev.eventType==='OUT_OF_OFFICE'||ev.eventType==='FOCUS_TIME';
+      const guests=(ev.attendees||[]).filter(a=>!a.self&&!a.resource);
+      const external=dom?guests.filter(a=>a.email&&a.email.split('@')[1]!==dom).length:0;
+      const eps=(ev.conferenceData&&ev.conferenceData.entryPoints)||[];
+      const vid=eps.find(p=>p.entryPointType==='video'&&p.uri);
+      const loc=String(ev.location||'').trim();
+      const locUrl=(loc.match(/https:\/\/\S+/)||[''])[0];
+      const cands=[ev.hangoutLink,vid&&vid.uri,locUrl].map(safeUrl).filter(Boolean);
+      const videoUrl=cands.find(u=>VIDEO.test(u))||'';
+      const otherUrl=videoUrl?'':(cands[0]||'');
+      const phoneEp=eps.find(p=>p.entryPointType==='phone'&&p.uri);
+      let phone='';
+      if(phoneEp)phone=String(phoneEp.label||phoneEp.uri).replace(/^tel:/i,'').trim();
+      else if(/^\+?\d[\d\s().-]{6,}$/.test(loc))phone=loc;
+      const phonePin=phoneEp?String(phoneEp.pin||phoneEp.passcode||''):'';
+      const physical=(loc&&!locUrl&&!phone&&!/^(zoom|google meet|microsoft teams|webex|phone|call|video)\b/i.test(loc))?loc:'';
+      const me=(ev.attendees||[]).find(a=>a.self);
+      const mine=(ev.organizer&&ev.organizer.self)||(ev.creator&&ev.creator.self);
+      const resp=me?(me.responseStatus||''):(mine?'accepted':'');
+      out.push({id:ev.id||String(s),title:ev.summary||'Busy',s:s.getTime(),e:e.getTime(),allDay,ambient,guests:guests.length,external,
+        videoUrl,provider:videoUrl?provider(videoUrl):'',otherUrl,phone,phonePin,physical,resp,confirmed:resp==='accepted',cal:safeUrl(ev.htmlLink),color:String(ev.colorId||''),calId:ev._cal||'',mine:!!mine,desc:String(ev.description||''),loc:loc,flight:ev.eventType==='FROM_GMAIL'||/\bflight\b|\u2708/i.test(String(ev.summary||'')),dk:String(ev.summary||'')+'|'+s.getTime()+'|'+e.getTime()});
+    }
+    const seen=new Set();
+    const uniq=out.filter(x=>{if(seen.has(x.dk))return false;seen.add(x.dk);return true});
+    uniq.sort((a,b)=>a.s-b.s);
+    return uniq;
+  }
+  function sampleEvents(){
+    const now=Date.now(), m=60000, st=S.shift;
+    const t0=now+st*m;
+    const base={allDay:false,ambient:false,guests:3,external:0,videoUrl:'',provider:'',otherUrl:'',phone:'',phonePin:'',physical:'',resp:'accepted',confirmed:true,cal:''};
+    const mk=(id,title,off,len,extra)=>Object.assign({id,title,s:t0+off*m,e:t0+(off+len)*m},base,extra||{});
+    return [
+      mk('x1','Client search review',0,45,{external:2,guests:4,videoUrl:'https://zoom.us/j/0000000000',provider:'Zoom'}),
+      mk('x2','Candidate interview, in person',75,30,{guests:2,physical:'Example Cafe, 100 Main St, Boise, ID'}),
+      mk('x3','Offer call: senior superintendent',150,30,{external:1,guests:2,phone:'+1 555 010 0199',phonePin:'123456'}),
+      mk('x4','Depth chart walk-through',240,45,{guests:6,videoUrl:'https://meet.google.com/example',provider:'Meet'}),
+      mk('x5','Site visit, not yet accepted',330,60,{guests:3,physical:'Example Tower, 200 Front St, Miami, FL',resp:'needsAction',confirmed:false}),
+      ...(function(){const d0=startOfDay(new Date()).getTime();const at=(id,title,off,h,len,extra)=>Object.assign({id,title,s:d0+off*864e5+h*36e5,e:d0+off*864e5+(h+len)*36e5},base,extra||{});return [
+        at('p1','Weekly pipeline review',-1,9,1,{videoUrl:'https://zoom.us/j/0000000000',provider:'Zoom',color:'9'}),
+        at('p2','Candidate call: finalist',-1,13.5,0.5,{phone:'+1 555 010 0100',color:'2'}),
+        at('f1','Intake call with a new client',1,9,0.75,{external:1,videoUrl:'https://meet.google.com/example',provider:'Meet',color:'6'}),
+        at('f2','Lunch with a candidate',1,12,1,{physical:'Example Grill, 10 Main St, Boise, ID',color:'10'}),
+        at('f3','Depth chart review',2,10,1,{videoUrl:'https://zoom.us/j/0000000000',provider:'Zoom'})
+      ]})(),
+      {id:'amb',title:'Rest',s:now-8*36e5,e:now+9*36e5,allDay:false,ambient:true,guests:0,external:0}
+    ];
+  }
+
+  /* ---------- formatting ---------- */
+  function eta(ms){const m=Math.max(0,Math.round(ms/60000));if(m<60)return 'in '+m+' min';const h=Math.floor(m/60),r=m%60;return 'in '+h+'h '+pad(r)+'m'}
+  function cd(ms){
+    const s=Math.max(0,Math.floor(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),sec=s%60;
+    return h>=1?{big:h+':'+pad(m),unit:'hours  minutes'}:{big:m+':'+pad(sec),unit:'minutes  seconds'};
+  }
+  const range=ev=>tf.format(ev.s)+' to '+tf.format(ev.e);
+  function whenText(ev,now){
+    const sameDay=dayKey(new Date(ev.s))===dayKey(new Date(now));
+    const tomorrow=dayKey(new Date(ev.s))===dayKey(addDays(new Date(now),1));
+    return (sameDay?'':(tomorrow?'Tomorrow, ':df.format(ev.s)+', '))+range(ev);
+  }
+
+  /* ---------- the model for a moment in time ---------- */
+  const isMeeting=e=>e.guests>0||!!(e.videoUrl||e.otherUrl||e.phone||e.physical)||e.flight;
+  function model(now){
+    const timed=S.events.filter(e=>!e.allDay&&!e.ambient&&(!S.only||isMeeting(e)));
+    const today=dayKey(new Date(now));
+    const todays=timed.filter(e=>dayKey(new Date(e.s))===today);
+    const letterOf=new Map(todays.map((e,i)=>[e.id,i<26?String.fromCharCode(65+i):String(i+1)]));
+    const live=timed.filter(e=>e.s<=now&&e.e>now).sort((a,b)=>b.s-a.s)[0]||null;
+    const upcoming=timed.filter(e=>e.s>now);
+    const next=upcoming[0]||null;
+    let subject=null,mode='idle';
+    if(next&&(!live||next.s-now<=5*60000)){
+      subject=next;const d=next.s-now;
+      mode=d<=5*60000?'now':d<=15*60000?'close':d<=60*60000?'soon':'calm';
+    }else if(live){subject=live;mode='live'}
+    return {timed,todays,letterOf,live,next,upcoming,subject,mode};
+  }
+
+  /* ---------- where and how to attend ---------- */
+  function kindLabel(ev){return ev.flight?'Flight':ev.videoUrl?ev.provider:ev.physical?'In person':ev.phone?'Phone':''}
+  function whereHtml(ev){
+    const out=[];
+    if(ev.physical)out.push('<div><small>Location</small>'+esc(ev.physical)+'</div>');
+    if(ev.phone)out.push('<div><small>Dial in</small>'+esc(ev.phone)+(ev.phonePin?' · PIN '+esc(ev.phonePin):'')+'</div>');
+    return out.length?'<div class="where">'+out.join('')+'</div>':'';
+  }
+  const PENCIL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14 7l3 3"/></svg>';
+  const pencilHtml=(ev,big)=>'<button type="button" class="'+(big?'join':'mini')+' pencil" data-edit="'+esc(ev.id)+'" aria-label="Edit '+esc(ev.title)+'" title="Edit, change color or delete">'+PENCIL+'</button>';
+  function buttonsHtml(ev,big){
+    const cls=big?'join':'mini', pri=big?' primary':' fill';
+    const out=[];
+    if(ev.videoUrl)out.push('<a class="'+cls+pri+'" href="'+esc(ev.videoUrl)+'" target="_blank" rel="noopener">Join '+esc(ev.provider)+'</a>');
+    else if(ev.otherUrl)out.push('<a class="'+cls+pri+'" href="'+esc(ev.otherUrl)+'" target="_blank" rel="noopener">Open link</a>');
+    if(ev.phone){
+      const first=!out.length;
+      out.push('<a class="'+cls+(first?pri:'')+'" href="tel:'+esc(ev.phone.replace(/[^\d+]/g,''))+'">Call</a>');
+      out.push('<button type="button" class="'+cls+'" data-copy="'+esc(ev.phone)+'" data-label="Copy number">Copy number</button>');
+    }
+    if(ev.physical){
+      if(ev.confirmed)out.push('<a class="'+cls+((!out.length)?pri:'')+'" href="'+esc(mapsUrl(ev.physical))+'" target="_blank" rel="noopener">'+(big?'Directions and drive time':'Directions')+'</a>');
+      else out.push('<span class="chip">Accept the invite for directions</span>');
+    }
+    if(!out.length&&ev.cal)out.push('<a class="'+cls+'" href="'+esc(ev.cal)+'" target="_blank" rel="noopener">Open in Calendar</a>');
+    out.push(pencilHtml(ev,big));
+    return out.join('');
+  }
+
+  /* ---------- drawing ---------- */
+  function heroHtml(m,now){
+    const ev=m.subject;
+    if(!ev){
+      return '<div class="tag">All clear</div><h1 class="h-title">Nothing else on the calendar</h1><div class="when">No more meetings through tomorrow. Use the time well.</div>';
+    }
+    const chips=[];
+    if(ev.external)chips.push('<span class="chip">External</span>');
+    const kl=kindLabel(ev);if(kl)chips.push('<span class="chip">'+esc(kl)+'</span>');
+    if(ev.resp==='needsAction')chips.push('<span class="chip">RSVP needed</span>');
+    else if(ev.resp==='tentative')chips.push('<span class="chip">Tentative</span>');
+    if(ev.guests)chips.push('<span class="chip">'+ev.guests+(ev.guests===1?' guest':' guests')+'</span>');
+    const meta=whereHtml(ev)+'<div class="meta">'+chips.join('')+buttonsHtml(ev,true)+'</div>';
+    if(m.mode==='live'){
+      const nx=m.next?'<div class="then">Next: '+esc(m.next.title)+', '+esc(eta(m.next.s-now))+'</div>':'';
+      return '<div class="tag">In session</div><h1 class="h-title">'+esc(ev.title)+'</h1><div class="when">'+esc(range(ev))+'</div>'+
+        '<div><div class="count-wrap"><div class="count" id="count"></div><div class="unit">left</div></div><div class="prog" aria-hidden="true"><i id="prog"></i></div></div>'+meta+nx;
+    }
+    const label={calm:'Next up',soon:'Coming up',close:'Get ready',now:'Starting now'}[m.mode];
+    return '<div class="tag">'+label+'</div><h1 class="h-title">'+esc(ev.title)+'</h1><div class="when">'+esc(whenText(ev,now))+'</div>'+
+      '<div class="count-wrap"><div class="count" id="count"></div><div class="unit" id="unit"></div></div>'+meta;
+  }
+  function rowsHtml(m,now){
+    const todayKey=dayKey(new Date(now));
+    let list=m.upcoming.filter(e=>(!m.subject||e.id!==m.subject.id)&&dayKey(new Date(e.s))===todayKey).slice(0,7);
+    let label='Later today',note='';
+    if(!list.length){
+      const tom=m.upcoming.filter(e=>dayKey(new Date(e.s))!==todayKey&&(!m.subject||e.id!==m.subject.id)).slice(0,4);
+      if(tom.length){list=tom;label='Tomorrow'}
+    }
+    $('later-label').textContent=label;
+    if(!list.length)return '<li class="empty">Nothing else lined up.</li>';
+    return list.map(e=>{
+      const isNext=m.next&&e.id===m.next.id;
+      const tags=[range(e)];if(e.external)tags.push('External');const kl=kindLabel(e);if(kl)tags.push(kl);
+      const acts=buttonsHtml(e,false);
+      return '<li class="row'+(isNext?' next':'')+'"><span class="badge">'+esc(m.letterOf.get(e.id)||'·')+'</span><div class="rt"><b>'+esc(e.title)+'</b><small>'+esc(tags.join(' · '))+'</small>'+(e.physical?'<div class="where"><div>'+esc(e.physical)+'</div></div>':'')+(acts?'<div class="acts">'+acts+'</div>':'')+'</div><span class="eta">'+esc(eta(e.s-now))+'</span></li>';
+    }).join('');
+  }
+  function stripHtml(m,now){
+    const d0=startOfDay(new Date(now)).getTime();
+    const day=m.todays.concat(S.events.filter(e=>e.ambient&&!e.allDay&&e.e>d0&&e.s<d0+864e5));
+    let lo=7,hi=19;
+    if(m.todays.length){
+      lo=Math.min(Math.floor((m.todays[0].s-d0)/36e5),Math.floor((now-d0)/36e5));
+      hi=Math.ceil((Math.min(Math.max.apply(null,m.todays.map(e=>e.e)),d0+864e5)-d0)/36e5);
+      hi=Math.max(hi,lo+8);
+    }
+    lo=Math.max(0,lo);hi=Math.min(24,hi);if(hi-lo<6)lo=Math.max(0,hi-6);
+    const a=d0+lo*36e5,b=d0+hi*36e5,span=b-a;
+    const pct=t=>Math.max(0,Math.min(100,(t-a)/span*100));
+    const lanes=[];const blocks=[];
+    for(const e of m.todays){
+      let l=0;while(lanes[l]!==undefined&&lanes[l]>e.s)l++;
+      lanes[l]=e.e;
+      blocks.push({e,l});
+    }
+    const laneCount=Math.max(1,lanes.length);
+    const h=18+laneCount*42;
+    const amb=S.events.filter(e=>e.ambient&&!e.allDay&&e.e>a&&e.s<b).map(e=>'<i style="left:'+pct(e.s)+'%;width:'+(pct(e.e)-pct(e.s))+'%" title="'+esc(e.title)+'"></i>').join('');
+    const html=blocks.map(({e,l})=>{
+      const cls='blk'+(e.e<=now?' past':'')+(m.live&&m.live.id===e.id?' live':'')+(m.next&&m.next.id===e.id?' next':'');
+      return '<div class="'+cls+'" style="left:'+pct(e.s)+'%;width:calc('+(pct(e.e)-pct(e.s))+'% - 3px);top:'+(14+l*42)+'px" title="'+esc(e.title+' · '+range(e))+'">'+'<b>'+esc(m.letterOf.get(e.id)||'')+'</b> '+esc(e.title)+'</div>';
+    }).join('');
+    const nowPct=now>=a&&now<=b?'<div class="nowline" style="left:'+pct(now)+'%"><em>Now</em></div>':'';
+    let ticks='';for(let hr=lo;hr<=hi;hr++){if((hr-lo)%2===0||hi-lo<=8){const t=new Date(d0+hr*36e5);ticks+='<span style="left:'+((hr-lo)/(hi-lo)*100)+'%">'+esc(tf.format(t).replace(':00',''))+'</span>'}}
+    $('strip').style.height=h+'px';
+    $('strip').innerHTML='<div class="amb">'+amb+'</div>'+html+nowPct;
+    $('ticks').innerHTML=ticks;
+  }
+
+  function tick(){
+    const now=Date.now();
+    $('clock').textContent=tf.format(now);
+    $('date').textContent=df.format(now)+' · '+tzName();
+    if(!S.loaded){return}
+    const m=model(now);
+    const sig=(m.subject?m.subject.id:'none')+'|'+m.mode;
+    const board=$('board');
+    if(sig!==S.sig){
+      board.dataset.mode=m.mode;
+      $('hero').innerHTML=heroHtml(m,now);
+      S.sig=sig;
+      announce(m,now);
+      maybeChime(m);
+    }
+    if(m.subject){
+      const c=$('count');
+      if(c){
+        if(m.mode==='live'){
+          c.textContent=cd(m.subject.e-now).big;
+          const p=$('prog');if(p)p.style.width=Math.max(0,Math.min(100,(now-m.subject.s)/(m.subject.e-m.subject.s)*100))+'%';
+        }else{
+          const r=cd(m.subject.s-now);c.textContent=r.big;const u=$('unit');if(u)u.textContent=r.unit;
+        }
+      }
+    }
+    const minute=Math.floor(now/60000);
+    if(minute!==S.minute||sig!==S.sigDrawn){
+      S.minute=minute;S.sigDrawn=sig;
+      $('rows').innerHTML=rowsHtml(m,now);
+      stripHtml(m,now);
+      renderWx();
+      if(S.view!==0)renderDay();
+    }
+    if(S.view!==0&&!modalOpen()&&now-S.viewAt>180000)setView(0);
+    const day=dayKey(new Date(now));
+    if(!S.sample&&S.mcp&&day!==S.watchDay)startWatch();
+  }
+  function announce(m,now){
+    const ev=m.subject;if(!ev){$('announce').textContent='Nothing else on the calendar.';return}
+    const txt={calm:'Next: ',soon:'Coming up within the hour: ',close:'Starts in 15 minutes: ',now:'Starting now: ',live:'In session: '}[m.mode]||'';
+    $('announce').textContent=txt+ev.title;
+  }
+
+  /* ---------- weather (a document the refresh job writes: weather/current) ---------- */
+  const CLOUD='<path d="M12 36h24a8 8 0 0 0 1-15.9A11 11 0 0 0 16.2 22 7 7 0 0 0 12 36z"/>';
+  const CLOUDHI='<path d="M12 30h24a7 7 0 0 0 .9-13.9A10 10 0 0 0 17.6 18 6 6 0 0 0 12 30z"/>';
+  const ICONS={
+    clear:'<circle cx="24" cy="24" r="8"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11.3 11.3l4.2 4.2M32.5 32.5l4.2 4.2M11.3 36.7l4.2-4.2M32.5 15.5l4.2-4.2"/>',
+    partly:'<circle cx="16" cy="16" r="6"/><path d="M16 4v3M4 16h3M7.5 7.5l2.1 2.1M24.5 7.5l-2.1 2.1"/><path d="M16 40h20a7 7 0 0 0 .9-13.9A10 10 0 0 0 17.6 28 6 6 0 0 0 16 40z"/>',
+    cloudy:CLOUD,
+    rain:CLOUDHI+'<path d="M16 35l-2 6M24 35l-2 6M32 35l-2 6"/>',
+    storm:CLOUDHI+'<path d="M26 31l-5 8h6l-3 7"/>',
+    snow:CLOUDHI+'<path d="M16 36v.01M24 38v.01M32 36v.01M20 43v.01M28 43v.01" stroke-width="4"/>',
+    fog:'<path d="M8 18h32M12 26h28M8 34h32M14 42h22"/>',
+    wind:'<path d="M6 18h22a5 5 0 1 0-5-5M6 26h30a5 5 0 1 1-5 5M6 34h16"/>'
+  };
+  const svgOf=n=>'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[n]||ICONS.clear)+'</svg>';
+  function renderMarkets(places,updatedAt,old){
+    const el=$('mk');
+    const rest=places.slice(1);
+    if(!rest.length){el.hidden=true;$('mk-grid').innerHTML='';return}
+    el.hidden=false;
+    $('mk-grid').innerHTML=rest.map(w=>'<div class="mk-t'+(old?' old':'')+'"><div class="c">'+esc(w.place||'')+'</div>'+svgOf(w.icon)+'<div class="t">'+Math.round(w.tempF)+'°</div><div class="hl">High '+Math.round(w.hiF)+'° · Low '+Math.round(w.loF)+'°</div>'+(w.note?'<div class="nt">'+esc(w.note)+'</div>':'')+'</div>').join('');
+  }
+  function renderWx(){
+    const el=$('wx');
+    const doc=S.wx||{};
+    const places=Array.isArray(doc.places)?doc.places.filter(x=>x&&typeof x.tempF==='number'):(typeof doc.tempF==='number'?[doc]:[]);
+    const w=places.length?Object.assign({updatedAt:doc.updatedAt},places[0]):null;
+    if(!w){el.hidden=true;el.innerHTML='';renderMarkets([],0,false);return}
+    const t=w.updatedAt?new Date(w.updatedAt):null,ok=t&&!isNaN(t);
+    const old=ok&&(Date.now()-t)/36e5>8;
+    const wind=(w.windDir?w.windDir+' ':'')+(w.windMph!=null?Math.round(w.windMph)+' mph':'')+(w.gustMph?', gusts '+Math.round(w.gustMph):'');
+    const svg='<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[w.icon]||ICONS.clear)+'</svg>';
+    renderMarkets(places,w.updatedAt,old);
+    el.hidden=false;el.className='wx'+(old?' old':'');
+    el.innerHTML='<div class="pl">'+esc(w.place||'Weather')+(ok?' · as of '+esc(tf.format(t)):'')+(old?' · old':'')+'</div>'+svg+
+      '<div class="t">'+Math.round(w.tempF)+'°</div>'+
+      '<div class="hl">High '+Math.round(w.hiF)+'° · Low '+Math.round(w.loF)+'°</div>'+
+      '<div class="wd">'+(wind?'Wind '+esc(wind):'')+'</div>'+
+      (w.note?'<div class="nt">'+esc(w.note)+'</div>':'');
+  }
+
+  /* ---------- sound ---------- */
+  function chime(kind){
+    if(!S.sound||!S.audio)return;
+    try{
+      const a=S.audio,t=a.currentTime;
+      const seq=kind==='now'?[880,1175,1568]:kind==='close'?[660,880]:[1175];
+      seq.forEach((f,i)=>{
+        const o=a.createOscillator(),g=a.createGain();
+        o.type='sine';o.frequency.value=f;
+        g.gain.setValueAtTime(0.0001,t+i*.24);g.gain.linearRampToValueAtTime(.14,t+i*.24+.03);g.gain.exponentialRampToValueAtTime(.0001,t+i*.24+.34);
+        o.connect(g);g.connect(a.destination);o.start(t+i*.24);o.stop(t+i*.24+.36);
+      });
+    }catch(_){}
+  }
+  function maybeChime(m){
+    if(!m.subject)return;
+    const key=m.subject.id+'|'+m.mode;
+    if(S.chimed[key])return;S.chimed[key]=1;
+    if(m.mode==='close')chime('close');else if(m.mode==='now')chime('now');else if(m.mode==='live')chime('start');
+  }
+
+  /* ---------- other days: recap and look ahead ---------- */
+  const fmtDur=ms=>{const m=Math.round(ms/60000),h=Math.floor(m/60),r=m%60;return h?(h+'h'+(r?' '+r+'m':'')):(r+'m')};
+  const dayStart=off=>addDays(startOfDay(new Date()),off);
+  function dayLabel(off){
+    return off===0?'Today':off===1?'Look ahead · tomorrow':off>1?'Look ahead · in '+off+' days':off===-1?'Recap · yesterday':'Recap · '+(-off)+' days ago';
+  }
+  function dayItems(off){
+    const d0=dayStart(off).getTime(),d1=dayStart(off+1).getTime();
+    const inDay=e=>e.s<d1&&e.e>d0;
+    return {timed:S.events.filter(e=>!e.allDay&&!e.ambient&&inDay(e)),also:S.events.filter(e=>(e.allDay||e.ambient)&&inDay(e)),d0,d1};
+  }
+  function longestGap(items,d0){
+    let cur=d0+8*36e5,end=d0+18*36e5,best=0;
+    for(const e of items){if(e.s>cur)best=Math.max(best,Math.min(e.s,end)-cur);cur=Math.max(cur,e.e);if(cur>=end)break}
+    if(cur<end)best=Math.max(best,end-cur);
+    return best;
+  }
+  function renderDay(){
+    const off=S.view,day=dayStart(off);
+    $('board').dataset.view=off===0?'today':'other';
+    $('dn-label').innerHTML='<small>'+esc(dayLabel(off))+'</small>'+esc(df.format(day));
+    $('dn-prev').disabled=off<=MINV;$('dn-next').disabled=off>=MAXV;
+    $('dn-today').hidden=off===0;$('dn-add').hidden=off<0;
+    if(off===0){$('dayview').innerHTML='';return}
+    const it=dayItems(off),past=off<0;
+    const total=it.timed.reduce((a,e)=>a+(e.e-e.s),0);
+    const ext=it.timed.filter(e=>e.external).length;
+    const stats=[[String(it.timed.length),past?'Meetings held':'Meetings booked'],[it.timed.length?fmtDur(total):'0m',past?'Time in meetings':'Booked time']];
+    if(ext)stats.push([String(ext),'With outside guests']);
+    if(!past)stats.push([fmtDur(longestGap(it.timed,it.d0)),'Longest open block, 8 to 6']);
+    const sum='<div class="dv-sum">'+stats.map(x=>'<div><b>'+esc(x[0])+'</b><small>'+esc(x[1])+'</small></div>').join('')+'</div>';
+    const also=it.also.length?'<div class="dv-also">Also on this day: '+it.also.map(e=>esc(e.title)).join(', ')+'</div>':'';
+    const rows=it.timed.length?it.timed.map(e=>{
+      const tags=[];if(e.external)tags.push('External');const kl=kindLabel(e);if(kl)tags.push(kl);if(e.guests)tags.push(e.guests+(e.guests===1?' guest':' guests'));
+      if(!past&&e.resp==='needsAction')tags.push('RSVP needed');
+      let acts='';
+      if(past){acts=(e.cal?'<a class="mini" href="'+esc(e.cal)+'" target="_blank" rel="noopener">Open in Calendar</a>':'')+pencilHtml(e,false)}
+      else acts=buttonsHtml(e,false);
+      return '<li class="row dv"><span class="tm">'+esc(tf.format(e.s))+'<br>'+esc(tf.format(e.e))+'</span><div class="rt"><b>'+esc(e.title)+'</b><small>'+esc(tags.join(' · ')||fmtDur(e.e-e.s))+'</small>'+(e.physical?'<div class="where"><div>'+esc(e.physical)+'</div></div>':'')+(acts?'<div class="acts">'+acts+'</div>':'')+'</div>'+dotHtml(e.color)+'</li>';
+    }).join(''):'<li class="empty">'+(past?'Nothing was on the calendar that day.':'Nothing scheduled yet. Use Add event to put something on it.')+'</li>';
+    $('dayview').innerHTML=sum+'<ol class="rows">'+rows+'</ol>'+also;
+  }
+  function setView(n){
+    S.view=Math.max(MINV,Math.min(MAXV,n));S.viewAt=Date.now();
+    renderDay();
+    $('announce').textContent=dayLabel(S.view)+', '+df.format(dayStart(S.view));
+  }
+  const modalOpen=()=>!$('modal').hidden;
+
+  /* ---------- add an event ---------- */
+  const DETAIL={meet:null,zoom:'Zoom link',phone:'Phone number',person:'Address',none:null};
+  function syncDetail(){
+    if(S.edit){$('detail-wrap').hidden=false;$('detail-label').textContent='Location or link';return}
+    const k=$('addform').kind.value,l=DETAIL[k];
+    $('detail-wrap').hidden=!l;if(l)$('detail-label').textContent=l;
+  }
+  function overlapCheck(){
+    const f=$('addform');const st=new Date(f.date.value+'T'+(f.time.value||'00:00')+':00');
+    const w=$('addwarn');
+    if(isNaN(st)){w.hidden=true;return}
+    const a=st.getTime(),b=a+S.addDur*60000;
+    const hit=S.events.filter(e=>!e.allDay&&!e.ambient&&e.s<b&&e.e>a&&!(S.edit&&e.id===S.edit.id));
+    if(hit.length){w.hidden=false;w.textContent='Overlaps with '+hit.slice(0,2).map(e=>e.title+' at '+tf.format(e.s)).join(' and ')+(hit.length>2?' and '+(hit.length-2)+' more':'')+'. You can still add it.'}
+    else w.hidden=true;
+  }
+  function paintDurs(){
+    $('durs').innerHTML=(S.durCustom?'<button type="button" data-dur="'+S.durCustom+'" aria-pressed="'+(S.addDur===S.durCustom)+'">'+fmtDur(S.durCustom*60000)+' (current)</button>':'')+[15,30,45,60,90].map(m=>'<button type="button" data-dur="'+m+'" aria-pressed="'+(S.addDur===m)+'">'+(m<60?m+' min':m===60?'1 hour':'1.5 hours')+'</button>').join('');
+  }
+  function paintColors(){
+    $('sw').innerHTML='<button type="button" class="none" data-color="" aria-pressed="'+(S.addColor==='')+'">Calendar default</button>'+
+      Object.keys(COLORS).map(k=>'<button type="button" data-color="'+k+'" style="background:'+COLORS[k][1]+'" aria-label="'+esc(COLORS[k][0])+'" title="'+esc(COLORS[k][0])+'" aria-pressed="'+(S.addColor===k)+'"></button>').join('');
+  }
+  function modalMode(edit){
+    S.edit=edit||null;
+    $('add-h').textContent=edit?'Edit event':'Add to calendar';
+    $('kind-wrap').hidden=!!edit;$('notes-wrap').hidden=!!edit;$('add-del').hidden=!edit;
+    $('add-del').textContent='Delete';$('add-del').classList.remove('arm');S.delArm=0;
+    $('add-go').textContent=edit?'Save changes':'Add to calendar';
+  }
+  function openAdd(){
+    modalMode(null);
+    const f=$('addform'),now=new Date();
+    const day=S.view>=0?dayStart(S.view):startOfDay(now);
+    f.title.value='';f.notes.value='';f.detail.value='';f.kind.value='meet';
+    f.date.value=dayKey(day);
+    let t;
+    if(S.view===0){t=new Date(now);t.setMinutes(Math.ceil((t.getMinutes()+1)/30)*30,0,0)}else{t=new Date(day);t.setHours(9,0,0,0)}
+    f.time.value=pad(t.getHours())+':'+pad(t.getMinutes());
+    S.addDur=30;S.durCustom=0;S.addColor='';paintDurs();paintColors();syncDetail();
+    $('adderr').hidden=true;$('add-go').disabled=false;
+    $('modal').hidden=false;overlapCheck();
+    setTimeout(()=>{try{f.title.focus()}catch(_){}},30);
+  }
+  const TZ=(()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(_){return ''}})();
+  const find=id=>S.events.find(e=>e.id===id);
+  function openEdit(id){
+    const ev=find(id);if(!ev)return;
+    modalMode(ev);
+    const f=$('addform'),st=new Date(ev.s);
+    f.title.value=ev.title==='Busy'?'':ev.title;f.date.value=dayKey(st);f.time.value=pad(st.getHours())+':'+pad(st.getMinutes());f.detail.value=ev.loc||'';
+    const len=Math.round((ev.e-ev.s)/60000);S.addDur=len;S.durCustom=[15,30,45,60,90].includes(len)?0:len;
+    S.addColor=ev.color||'';paintDurs();paintColors();syncDetail();
+    const notes=[];
+    if(ev.guests&&!ev.mine)notes.push('Someone else organized this. You can change the color or remove it from your calendar; time and title edits may be refused.');
+    else if(ev.guests)notes.push('Saving sends an update to '+ev.guests+(ev.guests===1?' guest':' guests')+'.');
+    if(/_\d{8}T/.test(ev.id))notes.push('Repeating event: changes apply to this one only.');
+    $('adderr').hidden=true;$('addwarn').hidden=!notes.length;$('addwarn').textContent=notes.join(' ');
+    $('add-go').disabled=false;$('modal').hidden=false;
+  }
+  function closeAdd(){$('modal').hidden=true;S.edit=null}
+  function toast(text){
+    const t=$('toast');t.textContent=text;t.hidden=false;clearTimeout(S.toastT);S.toastT=setTimeout(()=>{t.hidden=true},5000);
+  }
+  function addError(msg){const e=$('adderr');e.textContent=msg;e.hidden=false}
+  const parsePayload=r=>{let p=r&&r.payload;if(typeof p==='string'){try{p=JSON.parse(p)}catch(_){p=null}}return p||{}};
+  const errText=err=>{
+    const code=err&&err.code;
+    return AUTHZ[code]?'This board needs your approval to change your calendar. Try again and approve, or reconnect Google Calendar in Claude settings.':
+      code==='tool_error'?'Google Calendar refused that'+(err.message?': '+err.message:'')+'. Nothing was changed.':
+      'Could not confirm the change. Check your calendar before trying again.';
+  };
+  const whereArg=ev=>ev.calId?{calendarId:ev.calId}:{};
+  const tzArg=()=>TZ?{timeZone:TZ}:{};
+  async function refreshAfterWrite(){try{await S.mcp.invalidate(SERVER,TOOL)}catch(_){}}
+
+  /* undo stack: each entry says what it does and how to reverse it */
+  S.undo=[];
+  function pushUndo(label,fn){S.undo.push({label,fn});if(S.undo.length>5)S.undo.shift();paintUndo()}
+  function paintUndo(){
+    const b=$('dn-undo'),top=S.undo[S.undo.length-1];
+    b.hidden=!top;if(top){b.textContent='Undo '+top.label;b.title='Undo: '+top.label}
+  }
+  async function runUndo(){
+    const top=S.undo[S.undo.length-1];if(!top||S.busy)return;
+    S.busy=true;$('dn-undo').disabled=true;
+    try{await top.fn();S.undo.pop();toast('Undone: '+top.label)}
+    catch(err){toast(errText(err))}
+    finally{S.busy=false;$('dn-undo').disabled=false;paintUndo();S.sig='';S.sigDrawn='';tick();renderDay()}
+  }
+
+  async function submitAdd(ev){
+    ev.preventDefault();
+    if(S.busy)return;
+    const f=$('addform'),title=f.title.value.trim();
+    if(!title){addError('Give the event a name.');f.title.focus();return}
+    const st=new Date(f.date.value+'T'+f.time.value+':00');
+    if(!f.date.value||!f.time.value||isNaN(st)){addError('Pick a date and a start time.');return}
+    const en=new Date(st.getTime()+S.addDur*60000);
+    if(S.edit)return submitEdit(title,st,en,f.detail.value.trim());
+    const kind=f.kind.value,detail=f.detail.value.trim(),notes=f.notes.value.trim();
+    const args=Object.assign({summary:title,startTime:isoLocal(st),endTime:isoLocal(en)},tzArg());
+    if(kind==='meet')args.addGoogleMeetUrl=true;
+    else if(kind==='zoom')args.location=detail||'Zoom';
+    else if(kind==='phone')args.location=detail||'Phone call';
+    else if(kind==='person'&&detail)args.location=detail;
+    if(notes)args.description=esc(notes).replace(/\n/g,'<br>');
+    if(S.addColor)args.colorId=S.addColor;
+    $('adderr').hidden=true;S.busy=true;$('add-go').disabled=true;$('add-go').textContent='Adding…';
+    try{
+      let newId='new'+Date.now();
+      if(S.sample){
+        S.events.push({id:newId,title,s:st.getTime(),e:en.getTime(),allDay:false,ambient:false,guests:0,external:0,videoUrl:kind==='meet'?'https://meet.google.com/example':'',provider:kind==='meet'?'Meet':'',otherUrl:'',phone:kind==='phone'?detail:'',phonePin:'',physical:kind==='person'?detail:'',loc:detail,mine:true,desc:notes,resp:'accepted',confirmed:true,cal:'',calId:'',color:S.addColor});
+        S.events.sort((a,b)=>a.s-b.s);
+      }else{
+        const r=await S.mcp.callTool(SERVER,'create_event',args);
+        const p=parsePayload(r);newId=p.id||(p.event&&p.event.id)||'';
+        await refreshAfterWrite();
+      }
+      if(newId)pushUndo('add',async()=>{
+        if(S.sample){S.events=S.events.filter(e=>e.id!==newId)}
+        else{await S.mcp.callTool(SERVER,'delete_event',{eventId:newId,notificationLevel:'NONE'});await refreshAfterWrite()}
+      });
+      closeAdd();
+      const off=Math.round((startOfDay(st)-startOfDay(new Date()))/864e5);
+      if(off>=MINV&&off<=MAXV)setView(off);
+      S.sig='';S.sigDrawn='';tick();
+      toast('Added "'+title+'" to your calendar'+(S.sample?' (example only)':''));
+    }catch(err){addError(errText(err))}
+    finally{S.busy=false;$('add-go').disabled=false;$('add-go').textContent=S.edit?'Save changes':'Add to calendar'}
+  }
+
+  async function submitEdit(title,st,en,loc){
+    const ev=S.edit,args=Object.assign({eventId:ev.id},whereArg(ev)),prev=Object.assign({eventId:ev.id},whereArg(ev));
+    let changed=false;
+    if(title!==ev.title&&!(ev.title==='Busy'&&!title)){args.summary=title;prev.summary=ev.title;changed=true}
+    if(Math.floor(st.getTime()/60000)!==Math.floor(ev.s/60000)||Math.floor(en.getTime()/60000)!==Math.floor(ev.e/60000)){
+      args.startTime=isoLocal(st);args.endTime=isoLocal(en);prev.startTime=isoLocal(new Date(ev.s));prev.endTime=isoLocal(new Date(ev.e));changed=true;
+    }
+    if(loc!==(ev.loc||'')){args.location=loc;prev.location=ev.loc||'';changed=true}
+    if(S.addColor!==(ev.color||'')){args.colorId=S.addColor;prev.colorId=ev.color||'';changed=true}
+    if(!changed){closeAdd();return}
+    if(args.startTime){Object.assign(args,tzArg());Object.assign(prev,tzArg())}
+    const label=Object.keys(args).some(k=>/^(summary|startTime|location)$/.test(k))?'edit':'color change';
+    $('adderr').hidden=true;S.busy=true;$('add-go').disabled=true;$('add-go').textContent='Saving…';
+    try{
+      if(S.sample){
+        if(args.summary)ev.title=args.summary;if(args.startTime){ev.s=st.getTime();ev.e=en.getTime()}
+        if('location' in args){ev.loc=loc;ev.physical=loc&&!/^https:/i.test(loc)?loc:''}
+        if('colorId' in args)ev.color=args.colorId;S.events.sort((a,b)=>a.s-b.s);
+      }else{
+        await S.mcp.callTool(SERVER,'update_event',args);await refreshAfterWrite();
+      }
+      pushUndo(label,async()=>{
+        if(S.sample){
+          if(prev.summary)ev.title=prev.summary;if(prev.startTime){ev.s=new Date(prev.startTime).getTime();ev.e=new Date(prev.endTime).getTime()}
+          if('location' in prev)ev.loc=prev.location;if('colorId' in prev)ev.color=prev.colorId;S.events.sort((a,b)=>a.s-b.s);
+        }else{await S.mcp.callTool(SERVER,'update_event',prev);await refreshAfterWrite()}
+      });
+      closeAdd();S.sig='';S.sigDrawn='';tick();renderDay();
+      toast('Saved'+(S.sample?' (example only)':''));
+    }catch(err){addError(errText(err))}
+    finally{S.busy=false;$('add-go').disabled=false;$('add-go').textContent=S.edit?'Save changes':'Add to calendar'}
+  }
+
+  async function submitDelete(){
+    const ev=S.edit;if(!ev||S.busy)return;
+    const b=$('add-del');
+    if(!S.delArm){
+      S.delArm=1;b.textContent='Tap again to delete';b.classList.add('arm');
+      const warn=[];
+      if(ev.guests&&ev.mine)warn.push('This cancels it for '+ev.guests+(ev.guests===1?' guest':' guests')+' and they will be emailed.');
+      else if(ev.guests)warn.push('This removes it from your calendar only.');
+      if(ev.guests||ev.videoUrl)warn.push('Undo brings back the title, time, place, notes and color, but not guests or the video link.');
+      if(warn.length){$('addwarn').hidden=false;$('addwarn').textContent=warn.join(' ')}
+      clearTimeout(S.delT);S.delT=setTimeout(()=>{S.delArm=0;b.textContent='Delete';b.classList.remove('arm')},6000);
+      return;
+    }
+    S.busy=true;b.disabled=true;$('adderr').hidden=true;
+    const snap=Object.assign({summary:ev.title==='Busy'?'Busy':ev.title,startTime:isoLocal(new Date(ev.s)),endTime:isoLocal(new Date(ev.e))},whereArg(ev),tzArg());
+    if(ev.loc)snap.location=ev.loc;if(ev.desc)snap.description=ev.desc;if(ev.color)snap.colorId=ev.color;
+    const copy=Object.assign({},ev);
+    try{
+      if(S.sample){S.events=S.events.filter(e=>e.id!==ev.id)}
+      else{
+        await S.mcp.callTool(SERVER,'delete_event',Object.assign({eventId:ev.id},whereArg(ev),{notificationLevel:ev.guests&&ev.mine?'ALL':'NONE'}));
+        await refreshAfterWrite();
+      }
+      pushUndo('delete',async()=>{
+        if(S.sample){S.events.push(copy);S.events.sort((a,b)=>a.s-b.s)}
+        else{await S.mcp.callTool(SERVER,'create_event',snap);await refreshAfterWrite()}
+      });
+      closeAdd();S.sig='';S.sigDrawn='';tick();renderDay();
+      toast('Deleted "'+ev.title+'"'+(S.sample?' (example only)':''));
+    }catch(err){addError(errText(err))}
+    finally{S.busy=false;b.disabled=false}
+  }
+  document.addEventListener('click',e=>{
+    const ed=e.target.closest('[data-edit]');
+    if(ed){S.viewAt=Date.now();openEdit(ed.dataset.edit);return}
+    const b=e.target.closest('[data-act],[data-dur],[data-color]');
+    if(e.target===$('modal')){closeAdd();return}
+    if(!b)return;
+    S.viewAt=Date.now();
+    if(b.dataset.dur){S.addDur=Number(b.dataset.dur);paintDurs();overlapCheck();return}
+    if(b.dataset.color!==undefined&&b.closest('#sw')){S.addColor=b.dataset.color;paintColors();return}
+    const a=b.dataset.act;
+    if(a==='prev')setView(S.view-1);else if(a==='next')setView(S.view+1);else if(a==='today')setView(0);
+    else if(a==='add')openAdd();else if(a==='close')closeAdd();else if(a==='undo')runUndo();else if(a==='del')submitDelete();
+  });
+  $('addform').addEventListener('submit',submitAdd);
+  $('addform').addEventListener('change',e=>{if(e.target.name==='kind')syncDetail();overlapCheck()});
+  $('addform').addEventListener('input',e=>{if(e.target.name==='time'||e.target.name==='date')overlapCheck()});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&modalOpen()){closeAdd();return}
+    if(modalOpen()||/^(INPUT|TEXTAREA|SELECT)$/.test((e.target.tagName||'')))return;
+    if(e.key==='ArrowLeft')setView(S.view-1);else if(e.key==='ArrowRight')setView(S.view+1);
+  });
+  let touch=null;
+  document.addEventListener('touchstart',e=>{if(modalOpen()||e.touches.length!==1){touch=null;return}touch={x:e.touches[0].clientX,y:e.touches[0].clientY}},{passive:true});
+  document.addEventListener('touchend',e=>{
+    if(!touch||modalOpen())return;
+    const t=e.changedTouches[0],dx=t.clientX-touch.x,dy=t.clientY-touch.y;touch=null;
+    if(Math.abs(dx)>70&&Math.abs(dy)<60&&Math.abs(dx)>Math.abs(dy)*1.5)setView(S.view+(dx<0?1:-1));
+  },{passive:true});
+
+  /* ---------- connection ---------- */
+  function showNotice(text,action){
+    const n=$('notice');
+    if(!text){n.hidden=true;n.innerHTML='';return}
+    n.hidden=false;n.innerHTML='<span>'+esc(text)+'</span>'+(action?'<button type="button" id="n-act">'+esc(action)+'</button>':'');
+  }
+  const AUTHZ={needs_reauth:1,server_not_connected:1,not_in_manifest:1,blocked_by_policy:1,approval_required:1,consent_required:1,selection_required:1,not_granted:1,capability_disabled:1,capability_removed:1};
+  function onEvent(ev,cal){
+    cal=cal||CALS[0];
+    if(ev.type==='data'){
+      const r=ev.result||{};let p=r.payload;
+      if(typeof p==='string'){try{p=JSON.parse(p)}catch(_){p=null}}
+      const list=Array.isArray(p)?p:(p&&Array.isArray(p.events)?p.events:[]);
+      S.raw[cal.key]=list.map(x=>Object.assign({_cal:cal.id},x));
+      S.events=normalize([].concat.apply([],CALS.map(c=>S.raw[c.key]||[])));S.loaded=true;if(cal.key==='main')S.error=null;
+      S.updated=r.cache&&r.cache.storedAt?r.cache.storedAt:Date.now();
+      showNotice('');
+      $('updated').textContent='Calendar updated '+tf.format(S.updated);
+      S.sig='';S.sigDrawn='';tick();renderDay();
+      return;
+    }
+    if(cal.key!=='main')return;
+    const e=ev.error||{};const code=e.code||'upstream_error';
+    S.error=code;
+    if(AUTHZ[code]){S.events=[];S.loaded=true;S.sig='';S.sigDrawn=''}
+    const copy={
+      needs_reauth:['Google Calendar needs to be reconnected. In Claude, open Settings, then Connectors.',''],
+      server_not_connected:['Google Calendar is not connected. In Claude, open Settings, then Connectors, and add it.',''],
+      selection_required:['You have more than one Google Calendar connector. Choose one in the prompt Claude shows.',''],
+      blocked_by_policy:['Your organization does not allow pages to read this calendar.',''],
+      not_in_manifest:['This board is not allowed to read your calendar yet.','Allow calendar'],
+      approval_required:['This board needs your approval to read your calendar.','Allow calendar'],
+      consent_required:['This board needs your approval to read your calendar.','Allow calendar']
+    }[code]||['The calendar did not answer. Showing the last update and trying again.',''];
+    showNotice(copy[0],copy[1]);
+    if(!S.loaded){S.loaded=true}
+    S.sig='';S.sigDrawn='';tick();
+  }
+  function startWatch(){
+    if(!S.mcp)return;
+    try{(S.unwatchers||[]).forEach(u=>u())}catch(_){}
+    S.unwatchers=[];
+    const now=new Date();S.watchDay=dayKey(now);
+    const input={startTime:isoLocal(addDays(startOfDay(now),MINV)),endTime:isoLocal(addDays(startOfDay(now),MAXV+2)),orderBy:'startTime',pageSize:250};
+    CALS.forEach(c=>{
+      const inp=c.id?Object.assign({calendarId:c.id},input):input;
+      S.unwatchers.push(S.mcp.watchTool(SERVER,TOOL,inp,ev=>onEvent(ev,c),{refetchInterval:30000}));
+    });
+  }
+  async function askPermission(){
+    try{
+      const perms=await window.claude.use('permissions');
+      if(perms)await perms.request(['mcp:'+SERVER]);
+    }catch(_){}
+    startWatch();
+  }
+  $('notice').addEventListener('click',e=>{if(e.target.closest('#n-act'))askPermission()});
+
+  function enterSample(){
+    S.sample=true;S.events=sampleEvents();S.loaded=true;S.updated=Date.now();
+    const ex=(place,t,hi,lo,icon,note,wm)=>({place,tempF:t,hiF:hi,loF:lo,icon,note,windMph:wm||6,gustMph:null,windDir:'NW'});
+    S.wx={updatedAt:new Date().toISOString(),places:[ex('Home city',58,71,44,'partly','Rain likely around 3 PM',9),ex('Market A',52,73,43,'clear','Sunny',5),ex('Market B',84,89,76,'storm','Storms around 4 PM',12),ex('Market C',66,81,52,'cloudy','Mostly cloudy'),ex('Market D',61,70,50,'rain','Rain likely')]};
+    $('demo').hidden=false;$('updated').textContent='Example data. Open this page in Claude to show your calendar.';
+    S.sig='';S.sigDrawn='';tick();
+  }
+  $('demo').addEventListener('click',e=>{
+    const b=e.target.closest('button[data-min]');if(!b)return;
+    S.shift=Number(b.dataset.min);S.events=sampleEvents();S.chimed={};S.sig='';S.sigDrawn='';tick();
+  });
+
+  document.addEventListener('click',async e=>{
+    const b=e.target.closest('[data-copy]');if(!b)return;
+    const t=b.getAttribute('data-copy'),label=b.getAttribute('data-label')||b.textContent;
+    try{await navigator.clipboard.writeText(t);b.textContent='Copied';setTimeout(()=>{b.textContent=label},1600)}
+    catch(_){$('updated').textContent='Could not copy. The number is '+t}
+  });
+
+  /* ---------- controls ---------- */
+  $('b-sound').addEventListener('click',()=>{
+    S.sound=!S.sound;
+    if(S.sound){
+      try{S.audio=S.audio||new (window.AudioContext||window.webkitAudioContext)();if(S.audio.state==='suspended')S.audio.resume();chime('close')}catch(_){S.sound=false}
+    }
+    $('b-sound').setAttribute('aria-pressed',String(S.sound));$('b-sound').textContent=S.sound?'Sound on':'Sound off';
+  });
+  $('b-full').addEventListener('click',async()=>{
+    try{
+      if(document.fullscreenElement){await document.exitFullscreen()}else{await document.documentElement.requestFullscreen()}
+    }catch(_){$('updated').textContent='Full screen is not available here. Use your browser\'s own full screen.'}
+  });
+  document.addEventListener('fullscreenchange',()=>{const on=!!document.fullscreenElement;$('b-full').setAttribute('aria-pressed',String(on));$('b-full').textContent=on?'Exit full screen':'Full screen'});
+  async function wake(){
+    try{S.awake=await navigator.wakeLock.request('screen');S.awake.addEventListener('release',()=>{});return true}catch(_){return false}
+  }
+  $('b-awake').addEventListener('click',async()=>{
+    const b=$('b-awake');
+    if(b.getAttribute('aria-pressed')==='true'){try{S.awake&&await S.awake.release()}catch(_){}S.awake=null;b.setAttribute('aria-pressed','false');return}
+    const ok=await wake();
+    if(ok)b.setAttribute('aria-pressed','true');else $('updated').textContent='Keeping the screen awake is not available here. Use your computer\'s display settings.';
+  });
+  try{S.only=localStorage.getItem('db-only')==='1'}catch(_){}
+  $('b-only').setAttribute('aria-pressed',String(S.only));
+  $('b-only').addEventListener('click',()=>{
+    S.only=!S.only;$('b-only').setAttribute('aria-pressed',String(S.only));
+    try{localStorage.setItem('db-only',S.only?'1':'0')}catch(_){}
+    S.sig='';S.sigDrawn='';tick();
+  });
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&$('b-awake').getAttribute('aria-pressed')==='true')wake()});
+
+  /* ---------- start ---------- */
+  renderDay();tick();setInterval(tick,1000);
+  (async function boot(){
+    try{
+      const db=(window.claude&&window.claude.use)?await window.claude.use('db'):null;
+      if(db)db.doc('weather/current').onSnapshot(sn=>{S.wx=sn.exists?sn.data():null;renderWx()},()=>{});
+    }catch(_){}
+    let mcp=null;
+    try{mcp=(window.claude&&window.claude.use)?await window.claude.use('mcp'):null}catch(_){mcp=null}
+    if(!mcp){enterSample();return}
+    S.mcp=mcp;startWatch();
+  })();
+})();
+</script>
