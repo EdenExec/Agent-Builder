@@ -1,0 +1,1 @@
+- 2026-10-19: 2026-10-19: Megawatt Quincy WA is a traveling data center PM role, so travelers from anywhere count; sheet 16 is regional (WA metros), widen to national data center PMs if asked.
