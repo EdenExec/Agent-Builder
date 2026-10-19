@@ -157,3 +157,22 @@ Three things only the test load can answer: whether a tag that is not in the cat
 | `workshop/cloudtalk/routine.ts` | Routine compiler (`npm run ct-routine`) |
 | `employees/q/routines.yaml`, `employees/q/routines/cloudtalk-nightly.md` | The schedule and compiled prompt |
 | `employees/q/skills/cloudtalk-nightly.md` | The playbook |
+
+## Live check, done by Radar 19 Oct 2026 (read-only)
+
+- **Connection:** the health check passes for company 344918.
+- **Groups (3):**
+  - Admin Team (307312)
+  - Agents (283714)
+  - Headhunters (307311)
+- **Agents (7), name and extension:**
+  - Kevin Williams 1000
+  - Nick L 1001
+  - Evan MacArthur 1002
+  - Andrew Johnson 1003
+  - Max Betcher 1004
+  - Bridger Stainbrook 1005
+  - Noah Fields 1006
+- **Owner tags map to these agent ids:** favorite_agent_id can be set from the Owner column once Kev fills it in.
+- **Contact tag catalog: 1,611 free-text tags.** None use the Owner / Client / JO / Lead / TZ prefix scheme yet, so the prefixed tags stay distinct.
+- **Compliance flag for Kev:** the existing catalog holds tags on compensation ("150k", "$170 - 200k"), age ("45 years old"), family ("2 kids") and health or disability ("burn victim", "bad stutter"), plus personal judgments. The nightly load must never write tags like these. Kev decides whether the team retires them and how; nothing is deleted without Kev.
