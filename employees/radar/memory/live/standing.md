@@ -10,3 +10,14 @@
 - 2026-10-15: 2026-10-15 (Kev): Field Engineer seats (PB South WPB and anywhere else): GC side or sub side are both fine. Never write 'not from a GC' as a requirement again; lead lists and depth charts take both.
 - 2026-10-15: 2026-10-15 (Kev): PB South 'not in GC' meant the seat's salary is not in general conditions (PB South funds it elsewhere), NOT a candidate filter. GC candidates are wanted for those seats (Garage Super, Field Engineers). Never write 'not in GC' on the hub again.
 - 2026-10-16: 2026-10-15 (Kev): 'I need to do less and lift heavy tasks up.' Radar pre-builds the heavy lifts the night before (submittal drafts, call prep, assignment tables) so Kev only reviews and sends. Default to doing the work, not listing it.
+- 2026-10-19: Kev's answers to the Sun 10/18 list ("Yes to all"):
+  - Triton handoff: Nick on the client, Evan on sourcing.
+  - Nida's leads: a radar@edenexec.com alias into Kev's mailbox, auto-labeled. Kev sets it up.
+  - PB South job fair: go, on the plan as written (Thu Nov 19, WPB, $3,750). Host drafts the note to Vinny for Kev to send.
+  - Decision log links go on both the Eden Daily and the Eden Desk.
+  - VMG: Andrew works it, 3 resumes to Peter by Fri.
+  - Spends: Jabra, ElevenLabs and Supabase approved in chat. They still clear QC by Kev's own approve.
+  - Scheduled bots: Q's CloudTalk nightly first, then Scout's nightly buckets.
+  - VMG seats: Project Executive (Baltimore/DC), not Managing Director. Also VDC Manager (Reston), Supers, PMs and PEs.
+  - Lead sheets: leave Owner blank with a Suggested owner column. Kev assigns at the JO meeting.
+  - Kev wants the Eden Day Board up on his computer every morning.
