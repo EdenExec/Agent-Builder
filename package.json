@@ -14,13 +14,16 @@
     "typecheck": "tsc --noEmit",
     "hire": "node workshop/office/hire.ts",
     "qc": "node workshop/office/qc.ts",
+    "gate": "node workshop/office/gate.ts",
     "memory": "node workshop/office/memory.ts",
     "brief": "node workshop/office/brief.ts",
     "board": "node workshop/office/board.ts",
     "desk": "node workshop/office/desk.ts",
     "status": "node workshop/office/desk.ts status",
     "doc": "node workshop/office/doc.ts",
-    "radar": "node workshop/office/radar.ts"
+    "radar": "node workshop/office/radar.ts",
+    "leadplan": "node workshop/cloudtalk/cli.ts",
+    "ct-routine": "node workshop/cloudtalk/routine.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",

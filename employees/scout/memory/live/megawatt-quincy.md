@@ -1,0 +1,2 @@
+- 2026-10-19: 2026-10-19: Megawatt Quincy WA is a traveling data center PM role, so travelers from anywhere count; sheet 16 is regional (WA metros), widen to national data center PMs if asked.
+- 2026-10-19: 2026-10-19: Sheet 16 v2 (288 rows, Drive id 13kKbFcoaoGvnyd28WBgn7Rf9vpms9hDcYG6kInGQd8M) widens Quincy to national data center PMs: 68 WA rows kept plus 220 from 10 metros; v1 left in place. Hyperscale experience is not visible in ZoomInfo, confirm on call.
