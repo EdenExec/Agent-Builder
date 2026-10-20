@@ -36,3 +36,5 @@
   - **Tim Norton** is going for the Prometheus Sr PM seat. If he doesn't land it, Noah takes Megawatt San Jose Sr PM/PX and Promethean NYC, and Andrew takes the Triton role (to confirm).
   - **No owner yet**, which Kev is fine with: Moss Interior Super, Moss Precon, Hoffman Amarillo low voltage.
   - **Job orders on the hub.** The hub gets a Job Orders folder (active JOs, lead sheets, who's on what). Flag any recruiter on one JO past 14 days so Kev can rotate.
+- 2026-10-20: **The Seven Pillars are Eden's core values for 2026**, replacing the four values (Stewardship, Curiosity, Improvement, Dedication) in hiring and onboarding docs. Kev asked for new "2026 v2" versions with the originals kept: New Hire Flow v2 is doc 1DqC3t9asjWF8L4vR7LJQgq-zk6PZp4ObgzZ5bgduIP0.
+- 2026-10-20: **Kyle Cockell joins as a recruiter in Boise.** He already has recruiting experience, so run him through the Eden workflow on an accelerated ramp with speed checkpoints, not the junior trainee track. Culture vetting (Enneagram, Kolbe, Working Genius, interview, references) comes before he starts.
