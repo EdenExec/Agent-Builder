@@ -8,29 +8,40 @@ date: 2026-10-21
 
 ## What this is
 
-Noah, every lead list Scout builds for a job order now lands in one place, in one format, so you open one sheet and start dialing. You add cell phones next; the sheets already have a spot for them.
+Noah, Scout's lead lists now land in one folder, in one format, and one sheet tells you where every list stands. You add cell numbers; the sheets stay put until they are in Crelate.
 
-## Where the leads are
+## The flow
 
-| Where | What is there |
+| Step | Who | What happens |
+|---|---|---|
+| 1 Landed | Scout | A new sheet per role arrives in the master folder and gets a Landed date in the Lead Log |
+| 2 Phones added | Your routine | Mobile and Mobile source filled, then Phones added dated in the Lead Log |
+| 3 In Crelate | Whoever loads | The leads go into Crelate; In Crelate gets a date |
+| 4 Moved | Radar | The sheet moves to Uploaded to Crelate; Moved gets a date |
+
+## Where things are
+
+| Where | What |
 |---|---|
-| Drive folder "JO Meeting · Lead Buckets · Mon Oct 19" (https://drive.google.com/drive/folders/1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9) | One Google Sheet per role, named `NN · Client · Role · N leads` |
-| The Hub, Job Orders folder (Eden Client Depth Charts) | Each job order links to its sheet, with who is on it |
+| Master folder (https://drive.google.com/drive/folders/1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9) | Every new lead sheet, plus the Lead Log. Same folder every load, daily or weekly. |
+| Uploaded to Crelate (https://drive.google.com/drive/folders/1ToXMnrgReSVHyTS24PT4WEh498VDa8Kk) | Finished sheets. Radar moves them; you do not. |
 
-Eden only. Do not share a sheet or its link outside Eden.
+## Your routine
 
-## How to add cell phones
+Set up a daily weekday task in your Claude with Google Drive and Google Sheets turned on (and Crelate if you have it). Paste the attached prompt (`noah-routine.md`). Each morning it:
 
-1. Open the role's sheet and go to the last two columns: **Mobile** and **Mobile source**. Leave every other column as it is.
-2. Type the number in Mobile, from Crelate, the call itself or the candidate.
-3. Type where it came from in Mobile source (Crelate, call, candidate). A phone with no source does not count.
+- Opens the Lead Log and takes each sheet with Landed set and Phones added blank.
+- Adds the Mobile and Mobile source headers if missing, then fills numbers from Crelate, your own calls or the candidate, with the source on every number.
+- Dates Phones added in the Lead Log.
 
 ## What not to do
 
-- **No phone from ZoomInfo, and no phones, pay or personal email outside the sheet.** ZoomInfo rows have no phone on purpose; the sheet check refuses it. Numbers never go in an email, chat, the Hub or the Desk.
-- **Do not rename, move or delete.** Keep City, State and Time Zone as three separate columns (the BPO team's Crelate upload reads each by name), and mark a wrong row in Note instead of deleting it.
-- **Client staff stay off the dial.** Moss names are referral asks only; a "Client · discreet" note means ask Radar before you call.
+- **No ZoomInfo phones and no paid lookups.** A number needs a source: Crelate, call or candidate.
+- **Do not move, rename, copy, delete or share a sheet.** Dates in the Lead Log are the only status; leave the folders to Radar.
+- **Numbers live only in the Mobile column.** Never in an email, chat, the Hub or the Lead Log. Client names stay inside Eden.
 
 ## If something looks wrong
 
-Tell Radar or Scout the sheet name and the row number. Scout fixes the sheet and re-lands it; do not make a copy.
+Write it in the Lead Log Owner note, or tell Radar or Scout the sheet and row. Scout fixes and re-lands it.
+
+Kev

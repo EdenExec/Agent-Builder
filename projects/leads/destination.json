@@ -1,11 +1,32 @@
 {
-  "status": "provisional: Kev has not yet named the leads artifact; this is the folder Scout already uses and the Hub's Job Orders rows already link into",
+  "status": "permanent (Kev, 21 Oct 2026): the master folder keeps its name and id; Uploaded to Crelate is its subfolder",
   "driveFolder": {
+    "role": "master: every lead sheet lands here, the same folder every load",
     "name": "JO Meeting · Lead Buckets · Mon Oct 19",
     "id": "1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9",
     "url": "https://drive.google.com/drive/folders/1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9",
     "sheetTitle": "NN · Client · Role · N leads",
-    "kind": "Google Sheet, one per role, internal Eden only"
+    "recommendedTitle": "YYYY-MM-DD · Client · Role · N leads (proposed to Kev 21 Oct; one sheet per role per load; adopt when approved)",
+    "kind": "Google Sheet, one per role per load, internal Eden only"
+  },
+  "uploadedFolder": {
+    "role": "archive: a sheet moves here only after it is loaded into Crelate",
+    "name": "Uploaded to Crelate",
+    "id": "1ToXMnrgReSVHyTS24PT4WEh498VDa8Kk",
+    "url": "https://drive.google.com/drive/folders/1ToXMnrgReSVHyTS24PT4WEh498VDa8Kk",
+    "parent": "1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9",
+    "movedBy": "Radar, Drive update_file with parentId; Lead Log gets a Moved date"
+  },
+  "pipeline": [
+    { "stage": "landed", "owner": "Scout", "done": "sheet built, checked, uploaded to the master folder and linked", "recordedBy": "npm run leads -- link", "logColumn": "Landed" },
+    { "stage": "phones", "owner": "Noah's routine", "done": "Mobile and Mobile source filled from Noah's allowed sources (never ZoomInfo phones)", "recordedBy": "Noah's routine dates Phones added in the Lead Log; npm run leads -- stage-set <file> phones", "logColumn": "Phones added" },
+    { "stage": "in-crelate", "owner": "whoever loads (BPO team or Noah)", "done": "leads loaded into Crelate", "recordedBy": "npm run leads -- stage-set <file> crelate", "logColumn": "In Crelate" },
+    { "stage": "moved", "owner": "Radar", "done": "sheet moved to Uploaded to Crelate", "recordedBy": "Radar, Drive update_file parentId, then npm run leads -- stage-set <file> moved", "logColumn": "Moved" }
+  ],
+  "leadLog": {
+    "what": "One control sheet in the master folder named Lead Log: one row per sheet, status by date. Source: projects/leads/lead-log.csv, rebuilt with npm run leads -- log",
+    "columns": ["Sheet", "Drive link", "Rows", "Landed", "Phones added", "In Crelate", "Moved", "Owner note"],
+    "uploadedBy": "Radar, as a Google Sheet (create-only connector: re-create it, not edit it, when it changes, unless the Google Sheets connector is on)"
   },
   "repoMirror": "projects/leads/sheets",
   "index": "projects/leads/index.json",
@@ -15,5 +36,5 @@
     "writer": "Radar, from Scout's one-line hand-off"
   },
   "format": "employees/scout/skills/lead-list.md (Columns) plus Mobile and Mobile source at the end",
-  "gate": "npm run leads -- check|stage"
+  "gate": "npm run leads -- check|stage|verify"
 }

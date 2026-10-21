@@ -1,0 +1,1 @@
+- 2026-10-21: 2026-10-21: Uncle Mike note (ticket t-202610211409-hu09): Docket verdict Option A, $25,000, 7%, 48 months, unsecured, both spouses sign, advance only after the Vancouver permit is SETTLED; no Option B; no $50,000. Gate 2026-10-21-7ce970 passed 21/21; Docket's legal figures in gate 2026-10-21-bf423a (open, Tally checks).

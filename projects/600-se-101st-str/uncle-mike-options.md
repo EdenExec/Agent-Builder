@@ -1,7 +1,7 @@
 ---
 title: Uncle Mike options for the Vancouver rental
 subtitle: Fixed-interest note against revenue-share note, $25,000 to $50,000
-author: Tally (finance), Docket second key pending
+author: Tally (finance), Docket (second key)
 date: 2026-10-21
 org: kdtw
 toc: false
@@ -16,7 +16,7 @@ KDTW Group, family money. Private: not for any team surface, not Eden's books. A
 
 - **Recommend Option A: a fixed-interest, amortising note at 7% for 48 months, $25,000.** It costs Kev **$3,735** in interest on $25,000, against **$10,000 to $12,500** of premium on the revenue-share note at 1.4x to 1.5x, in every one of the 18 scenarios. $25,000 is also Keys' low-case setup budget; Kev funds the rest of Keys' $37,500 base. $50,000 is too much for this house in its weak cases (50% occupancy, $200 a night): Option A is $70 a month short and Option B leaves Kev $154, and with the 15% co-host Keys proposes both go negative.
 - **Option B pays Mike more and Kev less, and it is the riskier paper.** Mike's implied return runs 9.3% to 26.8% a year (1.3x to 1.5x), against 7.2% effective on A (7% nominal). Months to payback run 35 to 80, so the house sets Mike's timeline, and a revenue-share note raises securities and tax questions that a plain family loan mostly avoids.
-- **Nothing here is a go decision.** Keys' tracker holds forecast allowances only (no quotes, no actuals), there is no gated pro forma, and the permit question (can the family rent the house while living in Florida) is unanswered. Every cost and fee below is a labelled placeholder. Books status: no actuals exist, so these are model figures, not reconciled. Docket's review is open at the gate (id at the end).
+- **Nothing here is a go decision.** Keys' tracker holds forecast allowances only (no quotes, no actuals), there is no gated pro forma, and the permit question (can the family rent the house while living in Florida) is unanswered. Every cost and fee below is a labelled placeholder. Books status: no actuals exist, so these are model figures, not reconciled. Docket's review is below: numbers gate passed 21 of 21; verdict FIX FIRST on A at $25,000, no to B and to $50,000.
 
 <!-- pagebreak -->
 
@@ -27,7 +27,7 @@ KDTW Group, family money. Private: not for any team surface, not Eden's books. A
 | `ledger.csv` | Nine forecast rows of setup allowances ($37,500 base), no actuals, no receipts (read 21 Oct 2026) |
 | Keys' `launch-plan.md` (21 Oct 2026) | Planning allowances (A), comps and a launch date of mid-January 2027; this model uses it only as a cross-check, and its figures are not gated |
 | Pro forma | Not yet written or gated; Keys' base-case pro forma still needs its own gate with Tally |
-| Permit and mortgage occupancy clause | Open (Keys' rules map: UNSURE; Docket review due) |
+| Permit and mortgage occupancy clause | Open (Keys' rules map: UNSURE). Docket: Kev's recorded deed of trust not yet read; outside-counsel question 1 |
 | Tax treatment (Schedule E, depreciation, B&O) | Chris and Tally to answer; B&O shown below as a placeholder |
 
 ## Assumptions, each with its source
@@ -96,7 +96,7 @@ The model draws the whole amount at funding; drawing in two tranches (Keys' plan
 **The rate: proposed range 6% to 8%, base 7%.**
 
 - **Floor, the IRS applicable federal rate (AFR)** in effect the day the loan is made. October 2026 (Rev. Rul. 2026-19, Table 1, annual): short-term (3 years or less) **4.25%**; mid-term (over 3 up to 9 years) **4.61%**; 120% of mid-term 5.54%. A 48-month note uses mid-term. Below the AFR the IRS treats the forgone interest as a gift from Mike (see Docket below).
-- **Ceiling:** Washington's general usury cap is 12% or 4 points over the 26-week T-bill rate, whichever is higher (RCW 19.52.020), and business or investment loans are generally exempt (RCW 19.52.080): LIKELY, Docket to confirm. Eden's own investor notes pay 12%.
+- **Ceiling:** Washington's general usury cap is 12% or 4 points over the 26-week T-bill rate, whichever is higher (RCW 19.52.020), and business or investment loans are generally exempt (RCW 19.52.080). Docket, 21 Oct 2026: the 12% prong is SETTLED; the business-or-investment bar applies to individuals except in consumer transactions, LIKELY. Eden's own investor notes pay 12%.
 - **Why 7%:** above the AFR with room (so no gift question), below what an unsecured startup would pay a stranger. Mike's alternative (his savings or Treasury yield) is not in the files: ask him.
 
 | Rate (48 months) | Monthly payment, $25k | Total interest, $25k | Monthly payment, $50k | Total interest, $50k |
@@ -212,42 +212,88 @@ Net share cannot overdraw Kev, but at $50,000 it hands Mike two thirds of the ho
 
 ## Docket (second key)
 
-Prepared by Tally from Docket's playbooks (`employees/docket/skills/contract-review.md`, `debt-leases-vendors.md`, `capital-allocation-review.md`, `memory/live/law.md`) because Docket was not spawned.
+Docket's own review, 21 October 2026. It replaces Tally's pre-read. This is analysis, not legal advice, and nothing here goes to Mike.
 
-This is a pre-read in Docket's format, **not yet Docket's own sign-off**. Docket confirms or corrects it, and the numbers gate stays open until he does.
+**Verdict: Option A at $25,000 is FIX FIRST, then a one-hour outside-counsel read before Kev signs. Do not pursue Option B. Do not borrow $50,000.**
 
-**Verdict: NEEDS COUNSEL.**
+- **The numbers gate passed.** Gate 2026-10-21-7ce970: 21 of 21 figures re-derived blind from the M1 to M15 rules with Docket's own script, and none failed. The AFRs were read from the Rev. Rul. 2026-19 PDF on irs.gov. The figures this review adds (the AFR, the thresholds, the state rates) are in Docket's gate 2026-10-21-bf423a, open until Tally checks them.
+- **A is the right paper.** It is a plain family loan at 7%, inside every rate limit and above the AFR, with no lien on the house and no securities question worth litigating.
+- **Timing is the real risk.** A note is owed from the first month, whether or not Vancouver issues the permit. Fund it only after the permit answer is SETTLED and the mortgage deed of trust is read.
 
-Exposure is $25,000 to $50,000 (Docket's outside-counsel line is over $25,000: $50,000 clears it, $25,000 sits on it), it involves a lender-style relationship, and Option B raises a securities question. Three questions for counsel: (1) Is a revenue-share note from a family member a security under Washington's Securities Act and federal law, and does a family or private-offering exemption apply? (2) Does the Option B premium, a contingent repayment, make the note contingent-payment debt, and who reports what? (3) What is the right security and priority against Kev's mortgage?
+### What the gate does not show
 
-**Top three issues**
-
-1. **Principal protection in Option B is silent.** If the permit is denied or the house never opens, Mike gets nothing. Redline (MUST): "If the first guest stay has not started within six months of funding, the unpaid principal becomes due in 48 monthly instalments at 7% from month seven." That converts B into A in the failure case, which is itself a point for A.
-2. **Gift and income tax on a low rate.** Below the AFR the forgone interest is treated as a gift from Mike (Section 7872). For gift loans of $100,000 or less the income-tax effect is capped at the borrower's net investment income and is zero at $1,000 or less, but the gift-tax treatment of the forgone interest still applies and the cap fails if tax avoidance is a principal purpose. LIKELY, from IRC 7872 as summarised by secondary sources read 21 Oct 2026; unverified against the statute text. Chris and counsel to confirm. A 7% rate is above the AFR, so the issue does not arise at the proposed terms.
-3. **Usury.** Washington's general cap is 12% or T-bill plus 4 points (RCW 19.52.020, DFI summary read 21 Oct 2026). A loan made primarily for business or investment purposes cannot be attacked on usury (RCW 19.52.080, read via search summary, full text unverified). A rental is business or investment, so 7% sits well inside either way; Option B's 26.8% implied rate would not, if a court called it a loan: UNSURE.
-
-**Redlines and clauses for the note draft (MUST unless marked)**
-
-| Topic | Proposed wording |
+| Point | Why it matters |
 |---|---|
-| Parties | "[Borrower's full legal name] (Borrower) and [Mike's full legal name] (Lender)." Docket checks names and whether the house is in a different name or entity. |
-| Money | "Principal $25,000. Interest 7% a year, fixed, simple on the unpaid balance. 48 equal monthly payments of $598.66 beginning the first day of the month after funding." (Tally re-derives; see gate.) |
-| Prepayment | "Borrower may prepay in whole or part at any time without penalty." |
-| No equity | "Lender has no ownership, lien, occupancy or management right in the property or its listings." |
-| Sale | "If Borrower sells or transfers the property, the unpaid balance and accrued interest are due at closing." |
-| Default | "Missed payment not cured within 15 days: lender may demand the unpaid balance. Default interest no higher than 9%." (SHOULD) |
-| Death | "Unpaid balance binds Borrower's estate. If Lender dies, payments go to Lender's estate or named successor. Neither death accelerates the note unless both parties agree." Counsel to check forgiveness-by-will and estate-tax effects. |
-| Security | Unsecured by default. A deed of trust needs the mortgage lender's terms on further liens: not read. (NICE) |
-| Law and notices | Washington law; written notice to named addresses; amendments in writing. |
-| Record | Interest and principal tracked on KDTW Group books; year-end interest statement to Mike. Chris to say whether a Form 1099-INT is due. |
+| "Left to Kev" comes before the mortgage, property tax, HOA and income tax (M13) | It is the house's operating surplus, not Kev's free cash. Keys' gated pro forma has to carry the whole cost before anyone says the note is affordable |
+| The co-host case uses 15% of gross | This is more conservative than Keys' quote (15% of room revenue after fees), but it leaves out the $300 monthly floor, which would bind only in a weak ramp month |
+| The comparison holds on rates, not just dollars | B's lowest implied return in any cell (8.6%, net share, weakest case) is above A's 7.2% effective rate, so A is cheaper in time-value terms in every scenario as well |
+| Gate design | Every source pointed at this file, which prints the answers. Docket derived from the rules before comparing. Next time, point sources at the assumption table only (`employees/_shared/numbers-gate.md`, step 1) |
 
-**Capital-allocation question**
+### Top three issues
 
-- **Circle of competence:** a short-term rental is outside Eden's recruiting circle, so this stays in KDTW Group, with no Eden cash, name or account (kill item "entity bleed").
-- **Kill test and margin of safety:** a fixed note is a personal debt of Kev that arrives before the permit does, so do not draw it until the permit answer is SETTLED and the mortgage clause is read. Opportunity cost of any alternative (HELOC, savings) is unpriced: no rate is in the files.
-- **One question for Kev:** release the money before or after the permit answer? **Where Tally and Docket differ:** none yet; Tally prefers A on cost, Docket prefers A on paper risk.
+1. **The note is owed before the permit is issued.** If the permit fails, Kev owes $25,000 plus interest from his own pocket on a house that earns nothing. Fix (MUST): no funding until the permit answer is SETTLED and the mortgage is read. Draw in up to two advances (Keys' plan releases $14,000 first), with interest running only on what has been drawn. An interest-only setup period changes the gated figures, so it needs a fresh gate.
+2. **Spouse and title.** Washington is a community-property state. Neither spouse may encumber community real property unless the other joins the instrument (RCW 26.16.030(3), read 21 Oct 2026: SETTLED). Fix (MUST): confirm who holds title. Both spouses sign the note, and both would sign any deed of trust.
+3. **Option B is the wrong paper for family money.** It is likely a security, its tax treatment is complex, and it does not say what happens on a sale or a permit failure. Fix: drop it. If Mike wants upside, offer 8% or a written prepayment bonus instead, then re-gate.
 
-Signed: Docket (second key), pre-read prepared by Tally; awaiting Docket's own confirmation.
+### Terms review
+
+| Topic | Finding | Grade and source (read 21 Oct 2026 unless marked) |
+|---|---|---|
+| Usury, A (7%) | Washington's cap is the higher of 12% and the 26-week T-bill rate plus 4 points. 7% sits well inside it | SETTLED: RCW 19.52.020(1) |
+| Usury, B (up to 26.8% implied) | Individuals cannot raise usury on a transaction that is primarily for business or investment, and a rental is investment. The bar does not apply to a "consumer transaction" (personal, family or household purpose); "family" there describes the purpose, not the parties. Where repayment truly depends on revenue, B may not be a loan at all | LIKELY: RCW 19.52.080. Contingent-return doctrine in Washington: UNSURE, no case read |
+| Mike's home state | If Mike lives in Florida and Florida law governed, Florida's usury limits (18% civil, 25% criminal) could reach B's upper cells. Fix: choose Washington law, where the property and the payments are | UNSURE, from memory and unverified: Fla. Stat. 687.02, 687.03 and 687.071 |
+| AFR and gift tax | For a term loan, section 7872 tests the rate against the AFR for the month the loan is made, compounded semiannually. October 2026 mid-term semiannual is 4.56%. At 7% there is no forgone interest and no deemed gift. Check again in the funding month | SETTLED: 26 USC 7872(e) and (f)(2)(A); Rev. Rul. 2026-19, Table 1 |
+| Forgiveness | Each payment Mike forgives is a gift to the borrower(s). It falls inside the annual exclusion ($19,000 per donee in 2026). A forgiveness plan agreed up front lets the IRS treat the whole loan as a gift on day one. Payments must really be made | Exclusion: LIKELY (several sources citing Rev. Proc. 2025-32, not read). Advance-plan rule (Rev. Rul. 77-299): UNSURE, from memory |
+| Unsecured or deed of trust | Recommend unsecured. A deed of trust would give a relative a nonjudicial foreclosure right over the family house, would need both spouses (RCW 26.16.030(3)), and might trigger the mortgage's due-on-sale clause (next row). Mike's protection comes instead from the sale clause, the estate clause and a written disclosure | LIKELY |
+| Due-on-sale and a junior lien | Federal law bars a lender from accelerating over a subordinate lien on a home of one to four units (12 USC 1701j-3(d)(1)). The regulation limits that protection to a home "occupied or to be occupied by the borrower" (12 CFR 191.5(b)). Once the family lives in Florida, a junior lien to Mike may lose the protection | Statute and rule: SETTLED. Application to a non-occupied STR: UNSURE, OUTSIDE COUNSEL |
+| Mortgage occupancy | The uniform Washington deed of trust (Fannie and Freddie Form 3048) usually requires occupancy within 60 days and for at least one year. If the family has lived there over a year, moving out alone is likely no breach. The insurance covenant is the sharper risk: a homeowner policy that excludes STR use could breach it | LIKELY, from secondary copies of the form. Kev's recorded deed of trust has not been read |
+| On sale | A: the unpaid balance is due at closing, and so is any cash-out refinance. B, as sketched, says nothing. If B paid the full cap at a sale in year one, Mike's return would spike, making it look more like a disguised loan | A: drafting point. B: UNSURE |
+| On default | A: written notice and a cure period, then acceleration. Without a lien, Mike's remedy is a lawsuit and a judgment. The limitation period for a written contract is six years | LIKELY, from memory and unverified: RCW 4.16.040 |
+| On death | Kev's death leaves the debt to his estate, and a community debt follows the community. Mike's death makes the note an asset of his estate, and payments continue to his estate or a named successor. Neither death accelerates the note. Under B, Mike's executor would have to audit platform statements for years | LIKELY |
+| Is it a security? | Washington defines a security to include "any note", "evidence of indebtedness", "participation in any profit-sharing agreement" and "investment contract". B fits squarely. A is a note, but a single private family loan sits close to the non-security categories in Reves v. Ernst & Young (1990). Either is likely exempt from registration as an isolated, non-public transaction. Anti-fraud liability still applies, which is why the risk letter below matters | Definitions and exemption: SETTLED, RCW 21.20.005(17)(a) and 21.20.320(1). A or B being a security: LIKELY not and LIKELY yes. Anti-fraud and rescission (RCW 21.20.010 and .430): unverified |
+| Interest reporting | Mike reports the interest as income. Kev files a Form 1099-INT only if the interest is paid in the course of a trade or business and reaches $600 (current IRS instructions, revised 01/2024). Whether an owner-run STR counts as a trade or business here, and whether the 2026 $2,000 threshold for other 1099s applies, are both open. Fix: collect Mike's W-9 at funding and send a year-end interest statement; Chris decides on the 1099-INT | $600 rule: SETTLED. Trade-or-business test and $2,000 carry-over: UNSURE, Chris |
+| Kev's deduction | Interest is deductible against rental income when the loan proceeds are traced to the rental. Fix: keep the money in a dedicated rental account and spend it only on setup | LIKELY, from memory: Treas. Reg. 1.163-8T. Chris |
+| B tax | A revenue-share note may be a contingent-payment debt instrument, which requires a projected payment schedule and annual income accruals for Mike, or it may be treated as a partnership | UNSURE, Chris and counsel |
+
+### Redlines to the note sketch
+
+| Rank | Current (Tally's sketch) | Docket's wording | Why |
+|---|---|---|---|
+| MUST | "[Borrower's full legal name] (Borrower)" | "[Kev's legal name] and [spouse's legal name], jointly and severally (together, Borrower)" | Community property; one clear obligor |
+| MUST | (none) | "Lender will advance up to $25,000 in no more than two advances, on Borrower's written request, after [date the permit issues]. Interest accrues only on amounts advanced." | Nothing is owed before the permit; cuts early interest |
+| MUST | "Interest 7% a year, fixed, simple on the unpaid balance. 48 equal monthly payments of $598.66" | "Interest accrues at 7% a year on the unpaid principal, computed monthly at one twelfth of that rate. Borrower pays 48 equal monthly payments of $598.66 on the first day of each month, beginning the month after the first advance; the last payment is adjusted to pay the balance in full." | Defines the rate basis and the rounding (the $598.66 is gated for a single $25,000 advance only; a two-advance schedule needs a fresh gate) |
+| MUST | "Missed payment not cured within 15 days: lender may demand the unpaid balance. Default interest no higher than 9%." | "If a payment is more than 15 days late and remains unpaid 10 days after Lender's written notice, Lender may declare all unpaid principal and accrued interest due. From that declaration, the unpaid balance bears interest at 9% a year." | "No higher than" sets no rate; notice before acceleration protects family relations |
+| MUST | "If Borrower sells or transfers the property" | "If Borrower sells the property, transfers title to anyone other than a spouse, child or Borrower's living trust, or refinances it and takes cash out, the unpaid balance and accrued interest are due at closing." | Covers refinancing and permits estate-planning transfers |
+| SHOULD | (none) | "Lender acknowledges that the property has no short-term rental permit yet, that this loan is unsecured, and that Borrower's mortgage lender ranks ahead of Lender against the property." | Plain disclosure answers any later fraud or rescission claim |
+| SHOULD | (none) | "Borrower will hold the advances in a separate account and use them only to prepare and furnish the property as a short-term rental." | Interest tracing for Kev's deduction; keeps KDTW money out of Eden |
+| NICE | Washington law; notices; amendments | Keep, and add: "Washington law governs, without regard to its conflict-of-law rules." | Keeps Florida usury out |
+
+Keep as Tally drafted: free prepayment, no equity or management rights, and death does not accelerate.
+
+### Capital allocation (the standing question)
+
+**Verdict: SHARPEN.** Mike's 7% is the cheapest money anywhere in the umbrella (Eden's investor notes cost 12%). The sharper move is to borrow it on the permit, not before.
+
+| Kill item | Status |
+|---|---|
+| Personal recourse | YES by design: $25,000 owed by Kev personally (and his spouse). Acceptable at $25,000, not at $50,000, where the weakest cell is short every month |
+| Fixed cost before revenue | YES if the note funds before the permit. Fixed by the advance clause above |
+| Entity bleed | NO, provided not a dollar of Mike's money reaches EPG or EES (for example to pay down the 12% notes). It was lent for the house, and moving it would breach the use clause and the liability shield |
+| Maturity wall | NO: the note amortises, with no balloon |
+
+- **Floor:** PROPOSED for KDTW: three months of the house's full carrying cost (mortgage, tax, insurance, utilities) held aside before the first advance. Tally sizes it from the gated pro forma; no figure exists yet.
+- **Float:** prepayment is free, so surplus months can retire 7% debt at no penalty. Interest on undrawn money is zero under the advance clause.
+- **One question for Kev:** will you take Mike's money only after the permit, accepting a setup that starts later, or now, accepting that you owe it even if the permit fails?
+
+**Where Tally and Docket differ:** both choose A at $25,000. Tally keeps the loan unsecured because a lien would collide with the mortgage. Docket agrees, and adds two further reasons: a deed of trust gives a relative foreclosure power over the family house, and it needs the spouse's signature. Neither difference changes the recommendation.
+
+### OUTSIDE COUNSEL (a Washington real-estate lawyer, about one hour; spending needs Kev's yes)
+
+1. Read Kev's recorded deed of trust and note. Does moving out and running an STR breach the occupancy, use or insurance covenants? Would a junior deed of trust to Mike lose the Garn-St Germain protection once the family no longer occupies the house?
+2. Is the one-page note complete and enforceable in Washington (spouse joinder, acceleration, fees)? Does the isolated-transaction exemption (RCW 21.20.320(1)) cover it with no filing?
+3. If Option B is ever revived: is it a security under RCW 21.20.005 and Howey, and is it debt or a partnership for tax? (Chris answers the 1099-INT, interest tracing and CPDI questions alongside.)
+
+Signed: Docket (second key), 21 October 2026. The gate passed 21 of 21. Rubric score: legal work 18 of 20, capital allocation 8 of 10.
 
 ## Open questions for Kev (ranked)
 
@@ -257,4 +303,4 @@ Signed: Docket (second key), pre-read prepared by Tally; awaiting Docket's own c
 
 ## Gate and files
 
-Numbers gate with Docket as the checker: **2026-10-21-7ce970**, state **open** (Docket has not re-derived anything yet). Quote it on any hand-off; nothing ships to Mike, a lawyer or a team surface without it passing. Grid: `projects/600-se-101st-str/uncle-mike-options.csv` (IRR columns are fractions, 0.114 = 11.4%).
+Numbers gate with Docket as the checker: **2026-10-21-7ce970**, state **passed** (21 of 21, re-derived blind by Docket, 21 Oct 2026). Docket's added legal figures: **2026-10-21-bf423a**, open, Tally to check. Quote it on any hand-off; nothing ships to Mike, a lawyer or a team surface without it passing. Grid: `projects/600-se-101st-str/uncle-mike-options.csv` (IRR columns are fractions, 0.114 = 11.4%).

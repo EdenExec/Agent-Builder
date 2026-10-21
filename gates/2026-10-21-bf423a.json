@@ -1,0 +1,64 @@
+{
+  "id": "2026-10-21-bf423a",
+  "subject": "Docket terms review of the Uncle Mike note: legal rates, thresholds and rate comparisons",
+  "preparer": "docket",
+  "checker": "tally",
+  "status": "open",
+  "items": [
+    {
+      "label": "AFR mid-term, semiannual compounding, October 2026",
+      "claimed": 4.56,
+      "unit": "pct",
+      "source": "Rev. Rul. 2026-19 Table 1, mid-term AFR row (not 110% or higher), semiannual column (irs.gov/pub/irs-drop/rr-26-19.pdf); 26 USC 7872(f)(2)(A) says term loans are tested at the AFR compounded semiannually"
+    },
+    {
+      "label": "Gift tax annual exclusion per donee, calendar 2026",
+      "claimed": 19000,
+      "unit": "usd",
+      "source": "Rev. Proc. 2025-32, section 4.42(1)"
+    },
+    {
+      "label": "Form 1099-INT threshold for interest paid in the course of a trade or business",
+      "claimed": 600,
+      "unit": "usd",
+      "source": "IRS Instructions for Forms 1099-INT and 1099-OID (Rev. 01/2024), irs.gov/instructions/i1099int, who must file"
+    },
+    {
+      "label": "Washington general usury cap, fixed-percentage prong",
+      "claimed": 12,
+      "unit": "pct",
+      "source": "RCW 19.52.020(1)(a)"
+    },
+    {
+      "label": "Florida civil usury cap, loans of $500,000 or less",
+      "claimed": 18,
+      "unit": "pct",
+      "source": "Fla. Stat. 687.02 and 687.03"
+    },
+    {
+      "label": "Florida criminal usury threshold",
+      "claimed": 25,
+      "unit": "pct",
+      "source": "Fla. Stat. 687.071"
+    },
+    {
+      "label": "Washington limitation period on a written contract, years",
+      "claimed": 6,
+      "unit": "count",
+      "source": "RCW 4.16.040(1)"
+    },
+    {
+      "label": "Option A effective annual rate at 7% nominal, monthly compounding",
+      "claimed": 7.23,
+      "unit": "pct",
+      "source": "(1 + 0.07/12)^12 - 1, in percent"
+    },
+    {
+      "label": "Lowest Option B implied annual return across all 18 cells, gross and net share, all caps",
+      "claimed": 8.62,
+      "unit": "pct",
+      "source": "projects/600-se-101st-str/uncle-mike-options.csv, minimum across columns B_irr_1.3x, B_irr_1.4x, B_irr_1.5x and N_irr_1.4x, in percent; re-derive at least the minimum cell from rules M1 to M15"
+    }
+  ],
+  "createdAt": "2026-10-21T20:48:57.855Z"
+}

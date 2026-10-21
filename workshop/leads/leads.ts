@@ -77,7 +77,78 @@ export function canonicalize(text: string): string {
   return lines.join("\n") + "\n";
 }
 
-export type IndexEntry = { file: string; rows: number; tiers: Record<string, number>; built: string; discreet: boolean; driveUrl: string | null; status: "ok" | "needs-fix"; errors: number };
+/** Pipeline (Kev, 21 Oct 2026): landed (Scout) -> phones (Noah's routine) -> in-crelate (whoever loads) -> moved (to "Uploaded to Crelate"). */
+export const STAGES = ["staged", "landed", "phones", "in-crelate", "moved"] as const;
+export type Stage = (typeof STAGES)[number];
+export const STAGE_STEPS = ["phones", "crelate", "moved"] as const;
+export type StageStep = (typeof STAGE_STEPS)[number];
+
+export type IndexEntry = {
+  file: string; rows: number; tiers: Record<string, number>; built: string; discreet: boolean; driveUrl: string | null; status: "ok" | "needs-fix"; errors: number;
+  /** Drive sheet title, when known ("YYYY-MM-DD · Client · Role · N leads"). The Lead Log falls back to the file name. */
+  title: string | null;
+  stage: Stage;
+  landedAt: string | null; phonesAt: string | null; crelateAt: string | null; movedAt: string | null;
+  /** Free text for the Owner note column. Never a name, a phone or a client's confidential detail. */
+  note: string;
+};
+
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+const FIELD: Record<StageStep, "phonesAt" | "crelateAt" | "movedAt"> = { phones: "phonesAt", crelate: "crelateAt", moved: "movedAt" };
+
+/** The stage is derived from the dates, so the two can never disagree. */
+export function stageOf(e: Pick<IndexEntry, "driveUrl" | "landedAt" | "phonesAt" | "crelateAt" | "movedAt">): Stage {
+  if (e.movedAt) return "moved";
+  if (e.crelateAt) return "in-crelate";
+  if (e.phonesAt) return "phones";
+  return e.landedAt && e.driveUrl ? "landed" : "staged";
+}
+
+/** Marks a sheet as landed (Scout uploaded and linked it). Keeps an earlier landed date. */
+export function markLanded(e: IndexEntry, date: string): IndexEntry {
+  if (!DATE.test(date)) throw new Error(`date "${date}" is not YYYY-MM-DD`);
+  const out = { ...e, landedAt: e.landedAt ?? date };
+  return { ...out, stage: stageOf(out) };
+}
+
+/** Dates one step. Phones needs the sheet landed; moved needs In Crelate first (the sheet only moves after it is loaded). Throws a plain-English reason otherwise. */
+export function setStage(e: IndexEntry, step: StageStep, date: string): IndexEntry {
+  if (!(STAGE_STEPS as readonly string[]).includes(step)) throw new Error(`step must be one of ${STAGE_STEPS.join(", ")}`);
+  if (!DATE.test(date)) throw new Error(`date "${date}" is not YYYY-MM-DD`);
+  if (!e.driveUrl || !e.landedAt) throw new Error(`${e.file} has not landed (no Drive link); run link first`);
+  if (step === "moved" && !e.crelateAt) throw new Error(`${e.file} is not In Crelate yet; a sheet moves to Uploaded to Crelate only after it is loaded`);
+  const out = { ...e, [FIELD[step]]: date };
+  return { ...out, stage: stageOf(out) };
+}
+
+const blank = { title: null, landedAt: null, phonesAt: null, crelateAt: null, movedAt: null, note: "" } as const;
+
+/** A freshly staged entry keeps everything a person or Scout already recorded about the same sheet. */
+export function carryOver(fresh: IndexEntry, prior?: Partial<IndexEntry>): IndexEntry {
+  if (!prior) return fresh;
+  const out = { ...fresh, driveUrl: prior.driveUrl ?? fresh.driveUrl, title: prior.title ?? null, landedAt: prior.landedAt ?? null, phonesAt: prior.phonesAt ?? null, crelateAt: prior.crelateAt ?? null, movedAt: prior.movedAt ?? null, note: prior.note ?? "" };
+  return { ...out, stage: stageOf(out) };
+}
+
+/** Fills the pipeline fields on an entry written before the Lead Log existed. */
+export function upgradeEntry(e: Partial<IndexEntry> & Pick<IndexEntry, "file">, landedDefault: string): IndexEntry {
+  const base = { ...blank, ...e } as IndexEntry;
+  if (base.driveUrl && !base.landedAt) base.landedAt = landedDefault;
+  return { ...base, stage: stageOf(base) };
+}
+
+export const LOG_HEADER = ["Sheet", "Drive link", "Rows", "Landed", "Phones added", "In Crelate", "Moved", "Owner note"] as const;
+
+/** The Lead Log: one row per sheet, status by date. Counts and dates only; no names, no phones. */
+export function leadLogCsv(entries: IndexEntry[]): string {
+  const lines: string[][] = [[...LOG_HEADER]];
+  const sorted = [...entries].sort((a, b) => (a.landedAt ?? "9999").localeCompare(b.landedAt ?? "9999") || a.file.localeCompare(b.file));
+  for (const e of sorted) {
+    const note = e.note || [e.discreet ? "Discreet client: ask Radar before calling" : "", e.status === "needs-fix" ? "Needs fix: Scout is correcting" : ""].filter(Boolean).join("; ");
+    lines.push([e.title ?? e.file.replace(/\.csv$/, ""), e.driveUrl ?? "", String(e.rows), e.landedAt ?? "", e.phonesAt ?? "", e.crelateAt ?? "", e.movedAt ?? "", note]);
+  }
+  return lines.map((l) => l.map(q).join(",")).join("\n") + "\n";
+}
 
 /** Which files are replaced by a newer version beside them, and so are not staged. */
 export function superseded(files: string[]): Map<string, string> {
@@ -97,5 +168,5 @@ export function superseded(files: string[]): Map<string, string> {
 export function entryFor(file: string, text: string): IndexEntry {
   const r = checkSheet(file, text);
   const built = /^(\d{4}-\d{2}-\d{2})/.exec(file)?.[1] ?? /(\d{4}-\d{2}-\d{2})/.exec(file)?.[1] ?? "";
-  return { file, rows: r.rows, tiers: r.tiers, built, discreet: /inl-safety/.test(file), driveUrl: null, status: r.ok ? "ok" : "needs-fix", errors: r.findings.filter((f) => f.level === "error").length };
+  return { file, rows: r.rows, tiers: r.tiers, built, discreet: /inl-safety/.test(file), driveUrl: null, status: r.ok ? "ok" : "needs-fix", errors: r.findings.filter((f) => f.level === "error").length, ...blank, stage: "staged" };
 }
