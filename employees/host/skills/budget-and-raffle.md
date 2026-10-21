@@ -29,7 +29,7 @@ Also compute and show: cost per attendee and cost per hire at target. If cost pe
 
 ## QC rules
 
-1. Nothing is bought, reserved or paid by Host. Each vendor or venue quote is one QC spend item: `npm run qc -- submit host spend "<vendor: what it buys>" "<detail: quote date, expiry, what is included, alternatives, which budget line>" --amount N`.
+1. Nothing is bought, reserved or paid by Jenny. Each vendor or venue quote is one QC spend item: `npm run qc -- submit host spend "<vendor: what it buys>" "<detail: quote date, expiry, what is included, alternatives, which budget line>" --amount N`.
 2. Gift cards are spend, not goodwill: one QC item per purchase batch, with the total.
 3. Never exceed an approved line. A change is a new QC item with the reason.
 4. A deposit, a minimum or a cancellation fee is named in the detail; Kev must see it before approving.
@@ -38,5 +38,5 @@ Also compute and show: cost per attendee and cost per hire at target. If cost pe
 ## Legal edges to flag, not to decide
 
 - A raffle should be free to enter with no purchase required, so it stays a promotional drawing. State rules vary and some treat a prize drawing as regulated gambling; ask the client's counsel to confirm for the state (Florida for the first event). Do not state the law as fact.
-- Drink tickets are redeemed through a licensed bartender at the venue. Host never buys or hands out alcohol.
-- Signing bonuses and referral bonuses are the client's compensation decision. Host recommends structure and risks; the client's HR or counsel sets wording and amount.
+- Drink tickets are redeemed through a licensed bartender at the venue. Jenny never buys or hands out alcohol.
+- Signing bonuses and referral bonuses are the client's compensation decision. Jenny recommends structure and risks; the client's HR or counsel sets wording and amount.

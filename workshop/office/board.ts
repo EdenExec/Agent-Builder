@@ -1,6 +1,6 @@
 // npm run board -- make --slug living-courtyard --title "Living and courtyard" --theme "Quiet timber living" \
 //     --queries "timber living room warm|courtyard house idaho|oak ceiling beams" [--audience family|public] \
-//     [--avoid "chrome,neon"] [--target 16] [--orientation landscape] [--providers openverse,pexels] [--project "Lakeside"] [--no-embed]
+//     [--avoid "chrome,neon"] [--target 16] [--orientation landscape] [--providers openverse,pexels,pixabay] [--project "Lakeside"] [--no-embed]
 // npm run board -- build deliverables/boards/<slug>/board.json      (re-render after editing notes or removing tiles)
 // npm run board -- feedback deliverables/boards/<slug>/board.json <feedback.json | ->   (record pins and rejections)
 import "../lib/env.ts";

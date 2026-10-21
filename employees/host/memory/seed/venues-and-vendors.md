@@ -1,6 +1,6 @@
 # Venues and vendors
 
-Empty on purpose. Host adds a row only from a quote it opened that session and Kev approved through QC (the QC item id goes in the last column). A quote not yet approved lives in the event's `budget.md`, marked UNVERIFIED if it was not opened. Never invent a venue, a price or a contact.
+Empty on purpose. Jenny adds a row only from a quote she opened that session and Kev approved through QC (the QC item id goes in the last column). A quote not yet approved lives in the event's `budget.md`, marked UNVERIFIED if it was not opened. Never invent a venue, a price or a contact.
 
 ## Venues
 

@@ -1,1 +1,2 @@
 - 2026-10-11: Modern ranch with daylight basement/walkout; livestock wanted: sheep, goats, donkey, chickens. Kev, 11 Oct 2026.
+- 2026-10-20: 2026-10-20 Kev's interior-design principles (from a video): (1) prospect/refuge: every main seat has a protected back and a view out; (2) Diderot effect: one new piece triggers upgrading the whole room, so plan the full palette and budget up front; (3) sensory gating: design for sound, rug pad, heavy drapes, tapestries, soft surfaces; (4) mere exposure: repeat a few familiar forms and finishes rather than many novel ones.

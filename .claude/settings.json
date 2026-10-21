@@ -1,5 +1,12 @@
 {
   "permissions": {
+    "allow": [
+      "mcp__Notion"
+    ],
+    "ask": [
+      "mcp__Notion__notion-delete-pages",
+      "mcp__Notion__notion-delete-databases"
+    ],
     "deny": [
       "Bash(npm run qc -- approve*)",
       "Bash(npm run qc -- reject*)",

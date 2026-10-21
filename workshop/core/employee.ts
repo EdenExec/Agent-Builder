@@ -23,6 +23,8 @@ export type EmployeeSpec = {
   autonomy: Partial<Record<ActionKind, Policy>>;
   limits: { maxSpendUsd: number; maxMinutesPerTask: number };
   skills: string[];
+  /** "required": anything this employee sends or publishes must carry a cleared numbers gate (see numbers-gate.ts). */
+  numbers_gate?: "required";
 };
 
 export type Employee = {
@@ -60,6 +62,7 @@ export function validateSpec(spec: any): string[] {
     }
     for (const [k, v] of Object.entries(a)) if (v !== "auto" && v !== "approve") problems.push(`agent.yaml: autonomy.${k} must be "auto" or "approve"`);
   }
+  if (spec?.numbers_gate !== undefined && spec.numbers_gate !== "required") problems.push(`agent.yaml: numbers_gate must be "required" or omitted`);
   const l = spec?.limits;
   if (typeof l?.maxSpendUsd !== "number" || l.maxSpendUsd < 0) problems.push(`agent.yaml: limits.maxSpendUsd must be a number >= 0`);
   if (typeof l?.maxMinutesPerTask !== "number" || l.maxMinutesPerTask <= 0) problems.push(`agent.yaml: limits.maxMinutesPerTask must be a positive number`);

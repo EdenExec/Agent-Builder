@@ -1,0 +1,554 @@
+<title>Round Table</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Round Table (Dean, 21 Oct 2026). A private page for Kev: one closed folder per person, opened one at a time.
+   Look and tokens follow the Eden Office (Marlowe): ink on cream, matte dark at night, Montserrat with IBM Plex Mono for stamps.
+   The page only reads. Radar, Dean and Tally write with ArtifactData. Layout of the database: projects/workforce/round-table.md.
+   Assumptions marked (A) are in the md. Mono face is Marlowe's choice for stamps and counts; the brand rule says Montserrat only (Radar flagged this on the Office). */
+:root{
+  --floor:#F3F0E8; --paper:#FCFBF7; --ink:#141412; --mute:#5E5B54; --line:#D9D4C8; --soft:#EAE6DC;
+  --wall:#141412; --lamp:#F7F0DF; --lens:#D6D1C5;
+  --lift:0 1px 0 rgba(20,20,18,.05),0 3px 8px rgba(20,20,18,.06);
+  --g:#2E8A55; --a:#A8730F; --r:#B03A2E;
+  --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --floor:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B;
+  --wall:#8E897D; --lamp:#221F18; --lens:#2D2B26;
+  --lift:0 1px 0 rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.35);
+  --g:#5FCF8A; --a:#E7B04C; --r:#F07462; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --floor:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B;
+  --wall:#8E897D; --lamp:#221F18; --lens:#2D2B26;
+  --lift:0 1px 0 rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.35);
+  --g:#5FCF8A; --a:#E7B04C; --r:#F07462; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--floor);color:var(--ink);font:400 14px/1.45 var(--sans);-webkit-font-smoothing:antialiased;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 80px}
+button{font:inherit;color:inherit}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.wrap>*{min-width:0}
+.eyebrow{font:500 10.5px/1.2 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* top bar */
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 20px;flex-wrap:wrap;border-bottom:1.5px solid var(--ink);padding-bottom:14px}
+.mark{display:flex;flex-direction:column;gap:6px;min-width:0}
+.mark h1{margin:0;font-weight:800;font-size:clamp(22px,3.4vw,30px);letter-spacing:.14em;line-height:1;text-transform:uppercase}
+.switches{display:flex;gap:6px;flex-wrap:wrap}
+.sw{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--paper);padding:0 12px;min-height:36px;cursor:pointer;
+  font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.sw i{width:18px;height:10px;border:1px solid var(--mute);position:relative;flex:none}
+.sw i::after{content:"";position:absolute;top:1px;left:1px;width:6px;height:6px;background:var(--mute);transition:transform .16s}
+.sw[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
+.sw[aria-pressed="true"] i{border-color:var(--ink)} .sw[aria-pressed="true"] i::after{transform:translateX(8px);background:var(--ink)}
+@media (prefers-reduced-motion:reduce){.sw i::after{transition:none}}
+.notice{padding:8px 12px;border:1px dashed var(--line);font:500 11px/1.4 var(--mono);letter-spacing:.04em;color:var(--mute);background:var(--paper)}
+.notice.share{border-style:solid;border-color:var(--ink);color:var(--ink)}
+.sub{margin:0;font-size:13px;color:var(--mute);max-width:66ch}
+
+/* the light: shape carries the meaning, colour only helps */
+.led{--c:var(--lens);display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--c);flex:none;vertical-align:-1px}
+.led[data-l="green"]{--c:var(--g)}
+.led[data-l="amber"]{--c:var(--a);width:16px;height:6px;border-radius:1px;vertical-align:1px}
+.led[data-l="red"]{--c:var(--r);border-radius:1px;transform:rotate(45deg) scale(.9)}
+.led[data-l="grey"]{background:transparent;box-shadow:inset 0 0 0 2px var(--mute)}
+.led[data-l="none"]{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line);outline:1px dashed var(--line);outline-offset:1px}
+.lw{display:inline-flex;align-items:center;gap:8px;font:500 10.5px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+
+/* landing: closed folders */
+.group{display:flex;flex-direction:column;gap:10px}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.folder{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;cursor:pointer;
+  background:var(--paper);border:1px solid var(--line);box-shadow:var(--lift);padding:20px 16px 16px;margin-top:10px;min-height:76px;min-width:0}
+.folder::before{content:"";position:absolute;top:-9px;left:-1px;width:64px;height:9px;background:var(--paper);border:1px solid var(--line);border-bottom:0}
+.folder:hover{border-color:var(--mute)}
+.folder:active{transform:translateY(1px);box-shadow:none}
+.fname{font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase;overflow-wrap:anywhere;min-width:0}
+.legend{display:flex;gap:8px 18px;flex-wrap:wrap;align-items:center}
+.empty{border:1px dashed var(--line);background:var(--paper);padding:14px;color:var(--mute);font-size:13px}
+
+/* open folder */
+.back{background:none;border:0;cursor:pointer;font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);padding:0;min-height:44px;display:inline-flex;align-items:center;align-self:flex-start;text-decoration:underline;text-underline-offset:4px}
+.open{position:relative;background:var(--paper);border:1px solid var(--ink);box-shadow:var(--lift);margin-top:10px}
+.open::before{content:"";position:absolute;top:-9px;left:-1px;width:64px;height:9px;background:var(--ink)}
+.ohead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px 18px;flex-wrap:wrap;padding:20px 18px 14px;border-bottom:1px solid var(--line)}
+.ohead h2{margin:0;font-weight:800;font-size:clamp(20px,3vw,26px);letter-spacing:.12em;text-transform:uppercase;overflow-wrap:anywhere}
+.ohead .role{font:500 10.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-top:6px}
+.why{font-size:12.5px;color:var(--mute);margin:8px 0 0;max-width:60ch}
+.tabs{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid var(--line)}
+.tab{background:none;border:0;border-bottom:3px solid transparent;cursor:pointer;padding:0 14px;min-height:44px;white-space:nowrap;flex:none;font:500 10.5px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);text-align:left}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink);font-weight:500}
+.panel{padding:18px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.panel>*{min-width:0}
+h3{margin:0;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.stamp{font:500 10.5px/1.4 var(--mono);letter-spacing:.06em;color:var(--mute)}
+.chip{display:inline-block;font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--mute);color:var(--ink);padding:4px 6px;white-space:nowrap}
+.chip.ex{border-style:dashed;color:var(--mute)}
+.chip.warn{border-color:var(--a);color:var(--a)}
+.chip.bad{border-color:var(--r);color:var(--r)}
+.chip.ok{border-color:var(--g);color:var(--g)}
+.row{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center}
+
+/* tables */
+.scroll{overflow-x:auto;border:1px solid var(--line);background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{font:500 10px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:baseline;overflow-wrap:anywhere}
+tr:last-child td{border-bottom:0}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+td small{display:block;color:var(--mute);font:500 10px/1.3 var(--mono);letter-spacing:.04em}
+td:first-child{white-space:nowrap}
+td.dir{font:500 10.5px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.na{color:var(--mute)}
+
+/* scorecard headline */
+.heads{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:12px}
+.tile{border:1px solid var(--line);background:var(--floor);padding:12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tile .big{font-weight:800;font-size:26px;line-height:1;font-variant-numeric:tabular-nums}
+.tile .big small{font-weight:500;font-size:13px;color:var(--mute)}
+.bar{height:6px;background:var(--soft);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--ink);display:block}
+.bar b{position:absolute;top:-3px;bottom:-3px;width:1.5px;background:var(--mute)}
+svg.trend{width:100%;max-width:600px;height:auto;display:block}
+svg.trend text{paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round}
+svg.trend text{font:500 10px var(--mono);fill:var(--mute)}
+svg.trend text.val{fill:var(--ink)}
+svg.trend .std{stroke:var(--mute);stroke-dasharray:4 3;fill:none}
+svg.trend .col{fill:var(--ink)}
+svg.trend .col.part{fill:none;stroke:var(--ink);stroke-dasharray:3 2}
+
+/* coaching, goals, money */
+.note{display:grid;gap:14px;max-width:70ch}
+.note dt{font:500 10px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:3px}
+.note dd{margin:0;font-size:14px}
+.pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label,.field .lab{font:500 10px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.field .box{border:1px solid var(--line);background:var(--floor);padding:9px 10px;font:500 12px/1.3 var(--mono);min-height:38px;overflow-wrap:anywhere}
+.field .box.blank{color:var(--mute);border-style:dashed}
+.money{border:1px solid var(--line);background:var(--floor);padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.money .top2{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.money .fig{font-weight:800;font-size:24px;font-variant-numeric:tabular-nums}
+details{border:1px solid var(--line);background:var(--floor);padding:0 12px}
+summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font:500 10.5px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+details ul{margin:0 0 12px;padding-left:1.1em;display:grid;gap:6px;font-size:13px}
+.foot{display:flex;justify-content:space-between;gap:8px 18px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px;font:500 10px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+a.go{font-weight:700}
+@media (max-width:820px){.sw{min-height:40px}.tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}}
+@media (max-width:480px){th,td{padding:8px 6px}th{font-size:9px;letter-spacing:.04em}td small{white-space:normal}td.dir{font-size:9px;letter-spacing:0}th{padding-inline:4px}td{padding-inline:4px}.tab{padding:0 10px}}
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <div class="mark">
+      <div class="eyebrow">Eden Partner Group &middot; Private to Kev</div>
+      <h1>Round Table</h1>
+    </div>
+    <div class="switches">
+      <button class="sw" id="share" type="button" aria-pressed="false"><i aria-hidden="true"></i>Screen-share</button>
+      <button class="sw" id="theme" type="button" aria-pressed="false"><i aria-hidden="true"></i>Dark</button>
+    </div>
+  </div>
+
+  <div class="notice" id="ex" hidden>Example data. This page is not reading the Round Table database. Names are the team; every figure, note and light below is invented.</div>
+  <div class="notice share" id="sharenote" hidden>Screen-share is on. Coaching notes, revenue, commission and percent to goal are hidden and are not loaded. Folders stay closed until you open one.</div>
+
+  <main id="main" aria-live="polite"></main>
+
+  <div class="foot"><span>Work only &middot; no health, family or age &middot; read-only page</span><span id="status">connecting</span></div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  /* Data contract (the page only reads; Radar, Dean and Tally write with ArtifactData). Full field list: projects/workforce/round-table.md
+     people/{slug}                       name, role, group (headhunter|incoming|ops), sort, light (green|amber|red|grey|none), light_why, light_rule, worksheet_url, updated
+     people/{slug}/scorecards/{weekOf}   week_of, partial, source, rps, rp_days, mps, jos, resumes, screens, ptcs, subs, ftis, referrals, lvms, boxes, box_card_in, pillar
+     people/{slug}/coaching/{weekOf}     week_of, numbers, win, one_change, pillar, ask, next_rep {text, due}
+     people/{slug}/money/{mtd|ytd}       period, as_of, entity, source, gate_id, gate_status (passed|pending|not checked), revenue, commission, pct_to_goal
+     people/{slug}/goals/{targets|ten-five-three-one}   targets: goal_set, label, set_on   |   ten-five-three-one: rows [{span, work, life}], updated
+     people/{slug}/deliverables/{id}     kind (deliverable|jo), title, due, status, ...   (jo: location, role_on_job, since, hub_url)
+     Opening one person subscribes to that person's subcollections only. Screen-share never subscribes to coaching or money. */
+  var STD_RPS = 75, STD_DAY = 15, WIN_BOXES = 38, ROT_DAYS = 14;
+  var $ = function (s) { return document.querySelector(s); };
+  var DAY = 864e5;
+  function h(tag, attrs) {
+    var el = document.createElement(tag), i, k, a = attrs || {};
+    for (k in a) { if (k === 'text') el.textContent = a[k]; else if (a[k] != null && a[k] !== false) el.setAttribute(k, a[k] === true ? '' : a[k]); }
+    for (i = 2; i < arguments.length; i++) { var c = arguments[i]; if (c == null || c === false) continue; el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); }
+    return el;
+  }
+  var isNum = function (v) { return typeof v === 'number' && isFinite(v); };
+  var safeUrl = function (u) { return /^https?:\/\//i.test(String(u || '')) ? String(u) : ''; };
+  var own = function (d) { return Object.assign({ id: d.id }, JSON.parse(JSON.stringify(d.data() || {}))); };
+  function ymd(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function dnum(s) { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(s || '')); return m ? Date.UTC(+m[1], +m[2] - 1, +m[3]) : null; }
+  function daysFrom(s) { var t = dnum(s), n = new Date(); return t == null ? null : Math.round((Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()) - t) / DAY); }
+  function nice(s) { var t = dnum(s); if (t == null) return String(s || ''); var d = new Date(t); return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }); }
+
+  var TABS = [
+    { id: 'score', label: 'Scorecard', secret: false },
+    { id: 'coach', label: 'Coaching', secret: true },
+    { id: 'rev', label: 'Revenue and commission', secret: true },
+    { id: 'pct', label: 'Percent to goal', secret: true },
+    { id: 'ten', label: '10-5-3-1', secret: false },
+    { id: 'del', label: 'Deliverables and JOs', secret: false }
+  ];
+  var LIGHTS = { green: 'On pace', amber: 'Watch', red: 'Act', grey: 'No data', none: 'No light yet' };
+
+  var S = { live: false, db: null, example: true, share: false, people: [], peopleLoaded: false, open: null, tab: 'score', data: {}, loaded: {}, unsubs: [], status: 'example data' };
+  try { S.share = sessionStorage.getItem('rt-share') === '1'; } catch (e) {}
+
+  /* ---------------- example data: invented, relative to today ---------------- */
+  var EX = {};
+  function monday(weeksAgo) { var d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7) - 7 * weeksAgo); return ymd(d); }
+  function plusDays(n) { var d = new Date(); d.setDate(d.getDate() + n); return ymd(d); }
+  var KEYS = ['rps', 'rp_days', 'mps', 'jos', 'resumes', 'screens', 'ptcs', 'subs', 'ftis', 'referrals', 'lvms', 'boxes'];
+  function rows(arr, partialLast) {
+    return arr.map(function (v, i) {
+      var back = arr.length - 1 - i, r = { id: monday(back), week_of: monday(back), partial: !!(partialLast && back === 0), source: 'Example, not from Crelate', pillar: ['Execution', 'Discipline', 'Winning', 'Growth', 'Accountability'][i % 5] };
+      KEYS.forEach(function (k, j) { if (v[j] != null) r[k] = v[j]; });
+      if (v[11] != null) r.box_card_in = true;
+      return r;
+    });
+  }
+  function person(slug, name, role, group, sort, light, why, extra) { return Object.assign({ id: slug, name: name, role: role, group: group, sort: sort, light: light, light_why: why, light_rule: 'Example rule set', updated: ymd(new Date()) }, extra || {}); }
+  function coach(win, change, ask, rep, pillar, numbers) { return [{ id: monday(1), week_of: monday(1), numbers: numbers, win: win, one_change: change, pillar: pillar, ask: ask, next_rep: { text: rep, due: plusDays(2) } }]; }
+  function unsetMoney() { return [{ id: 'mtd', period: 'Month to date', gate_status: 'pending' }, { id: 'ytd', period: 'Year to date', gate_status: 'pending' }]; }
+  function jo(id, title, loc, role, since) { return { id: id, kind: 'jo', title: title, location: loc, role_on_job: role, since: since }; }
+  function dl(id, title, due, status) { return { id: id, kind: 'deliverable', title: title, due: due, status: status }; }
+  function tenFive() { return [{ id: 'ten-five-three-one', updated: ymd(new Date()), rows: [
+    { span: '10 years', work: 'Example: own a desk and a book', life: 'Example headline' },
+    { span: '5 years', work: 'Example: lead searches end to end', life: 'Example headline' },
+    { span: '3 years', work: 'Example: a named client portfolio', life: 'Example headline' },
+    { span: '1 year', work: 'Example: 75 RPs every week', life: 'Example headline' }] }]; }
+  EX.max = { person: person('max', 'Max', 'Headhunter', 'headhunter', 1, 'green', 'Example: 75 RPs or on pace, no overdue deliverable.'), scorecards: rows([[70,3,1,0,5,6,3,6,1,9,2,38],[74,4,0,0,6,7,4,8,1,10,1,39],[78,5,2,0,6,8,4,9,2,12,2,40],[81,5,1,0,7,8,5,9,2,11,3,40],[77,4,1,0,6,7,4,8,1,10,2,39]]),
+    coaching: coach('Example: four submittals went out within two days of the PTC.', 'Example: run the RP block before noon on Tuesday and Thursday.', 'Example: what would make the morning block easier to hold?', 'Example: run Thursday\'s RP block before noon and log every call.', 'Execution', 'Example: RPs above the four-week average, PTCs level.'),
+    money: unsetMoney(), goals: tenFive(), deliverables: [dl('d1', 'Friday 42-box card', plusDays(2), 'open'), dl('d2', 'Wednesday takeaway', plusDays(-5), 'done'), jo('j1', 'Example role A', 'Example metro', 'lead', plusDays(-6)), jo('j2', 'Example role B', 'Example metro', 'co-lead', plusDays(-17))] };
+  EX.evan = { person: person('evan', 'Evan', 'Headhunter', 'headhunter', 2, 'amber', 'Example: a deliverable is due within two days with no update. This week is partial.'), scorecards: rows([[60,2,0,0,7,6,5,3,2,2,0,35],[68,3,0,1,8,7,6,4,2,3,1,37],[72,4,0,0,8,8,7,4,3,2,0,38],[77,5,0,0,9,8,8,5,3,2,0,40],[41,2,0,0,5,4,4,2,1,1,0,null]], true),
+    coaching: coach('Example: PTCs held at the top of the team range three weeks running.', 'Example: log the screen notes the same day.', 'Example: which seat is closest to a submittal?', 'Example: finish the lead sheet for the open role.', 'Discipline', 'Example: RPs level, PTCs up.'),
+    money: unsetMoney(), goals: tenFive(), deliverables: [dl('d1', 'Lead sheet, open role', plusDays(1), 'open'), dl('d2', 'Friday 42-box card', plusDays(2), 'open'), jo('j1', 'Example role C', 'Example metro', 'lead', plusDays(-3))] };
+  EX.noah = { person: person('noah', 'Noah', 'Headhunter', 'headhunter', 3, 'green', 'Example: on pace by the day, no overdue deliverable.'), scorecards: rows([[55,1,0,0,6,2,1,0,0,6,5,33],[63,2,0,0,7,3,2,1,0,7,6,36],[70,3,0,0,6,3,2,1,1,8,6,37],[76,4,0,0,7,4,3,2,1,8,7,39],[79,4,0,0,8,4,3,2,1,9,7,40]]),
+    coaching: coach('Example: RPs rose four weeks running.', 'Example: turn two more RPs a day into screens.', 'Example: where do the calls stall?', 'Example: book three screens from Tuesday\'s calls.', 'Growth', 'Example: RPs up, screens level.'),
+    money: unsetMoney(), goals: tenFive(), deliverables: [dl('d1', 'Wednesday takeaway', plusDays(0), 'open'), jo('j1', 'Example role D', 'Example metro', 'backup', plusDays(-9))] };
+  EX.andrew = { person: person('andrew', 'Andrew (Juicy)', 'Headhunter', 'headhunter', 4, 'amber', 'Example: RPs under 75 for the first week.'), scorecards: rows([[73,4,0,0,4,4,2,1,0,12,60,38],[75,4,0,0,4,5,2,2,0,14,80,39],[72,3,0,0,5,4,3,1,1,13,70,38],[69,3,0,0,4,4,2,1,0,13,75,37],[66,2,0,0,4,3,2,0,0,12,64,36]]),
+    coaching: coach('Example: referrals held steady all five weeks.', 'Example: move voicemail volume into live conversations.', 'Example: what is the first call you dread?', 'Example: ten live RPs before ten o\'clock.', 'Accountability', 'Example: RPs below the four-week average.'),
+    money: unsetMoney(), goals: tenFive(), deliverables: [dl('d1', 'Friday 42-box card', plusDays(2), 'open'), jo('j1', 'Example role E', 'Example metro', 'lead', plusDays(-15))] };
+  EX.bridger = { person: person('bridger', 'Bridger', 'Headhunter, remote', 'headhunter', 5, 'grey', 'Example: the Crelate pull failed, so no light is computed.'), scorecards: [], coaching: [], money: unsetMoney(), goals: [], deliverables: [dl('d1', 'Friday 42-box card', plusDays(2), 'open')] };
+  EX.kyle = { person: person('kyle', 'Kyle Cockell', 'Incoming, accelerated ramp', 'incoming', 6, 'none', 'Not started. The light begins once the first full week is logged.'), scorecards: [], coaching: [], money: unsetMoney(), goals: [],
+    deliverables: [dl('d1', 'Systems checkpoint (proposed date)', '2026-11-06', 'open'), dl('d2', 'Pace checkpoint (proposed date)', '2026-11-13', 'open'), dl('d3', '10-5-3-1 workbook', '2026-10-26', 'open')] };
+  EX.nick = { person: person('nick', 'Nick', 'Operations', 'ops', 7, 'none', 'No light until Kev sets standards for this seat.'), scorecards: rows([[27,1,3,2,0,0,3,0,1,2,0,null],[30,2,2,1,0,0,2,0,1,1,0,null]]), coaching: [], money: unsetMoney(), goals: [], deliverables: [] };
+  var EX_ORDER = ['max', 'evan', 'noah', 'andrew', 'bridger', 'kyle', 'nick'];
+
+  /* ---------------- derived views (display arithmetic only; no pay figure is ever computed here) ---------------- */
+  function bySlug(slug) { return S.people.filter(function (p) { return p.id === slug; })[0]; }
+  function sortedRows(list) { return (list || []).slice().sort(function (a, b) { return String(a.id).localeCompare(String(b.id)); }); }
+  function avg(list, k) { var v = list.map(function (r) { return r[k]; }).filter(isNum); return v.length ? v.reduce(function (a, b) { return a + b; }, 0) / v.length : null; }
+  function fmt(n) { return n == null ? '–' : (Math.round(n * 10) / 10).toString(); }
+  function direction(cur, ref) {
+    if (!isNum(cur) || !isNum(ref)) return 'n/a';
+    if (ref === 0) return cur === 0 ? 'Level' : 'Up';
+    var d = (cur - ref) / ref; return d >= .05 ? 'Up' : d <= -.05 ? 'Down' : 'Level';
+  }
+  var MEASURES = [['rps', 'RPs', 'Standard ' + STD_RPS + ' a week'], ['mps', 'MPs'], ['jos', 'JOs'], ['resumes', 'Resumes'], ['screens', 'Screens'], ['ptcs', 'PTCs'], ['subs', 'Submittals'], ['ftis', 'FTIs'], ['referrals', 'Referrals'], ['lvms', 'LVMs']];
+
+  /* ---------------- renderers ---------------- */
+  function led(l) { return h('span', { class: 'led', 'data-l': LIGHTS[l] ? l : 'none', role: 'img', 'aria-label': LIGHTS[l] || LIGHTS.none }); }
+  function lightWord(l) { return h('span', { class: 'lw' }, led(l), LIGHTS[l] || LIGHTS.none); }
+
+  function landing() {
+    var box = h('div', { class: 'wrap-l', style: 'display:flex;flex-direction:column;gap:22px' });
+    box.appendChild(h('p', { class: 'sub', text: 'Open one folder at a time. Each folder holds that person’s scorecard, coaching, revenue, goals and deliverables. Nothing from another person loads while one is open.' }));
+    if (!S.people.length) {
+      box.appendChild(h('div', { class: 'empty', text: S.live ? (S.peopleLoaded ? 'No folders yet. Radar adds each person once Kev confirms the roster.' : 'Loading folders…') : 'Open this page in Claude to load the Round Table.' }));
+      return box;
+    }
+    var groups = [['headhunter', 'Headhunters'], ['incoming', 'Incoming'], ['lead', 'Leadership'], ['ops', 'Operations']];
+    var known = groups.map(function (g) { return g[0]; });
+    groups.push(['other', 'Other']);
+    groups.forEach(function (g) {
+      var list = S.people.filter(function (p) { return g[0] === 'other' ? known.indexOf(p.group) < 0 : p.group === g[0]; }).sort(function (a, b) { return (a.sort || 99) - (b.sort || 99) || String(a.name).localeCompare(String(b.name)); });
+      if (!list.length) return;
+      var shelf = h('div', { class: 'shelf' });
+      list.forEach(function (p) {
+        var b = h('button', { class: 'folder', type: 'button', 'data-slug': p.id, 'aria-label': (p.name || p.id) + ', ' + (LIGHTS[p.light] || LIGHTS.none) }, h('span', { class: 'fname', text: p.name || p.id }), led(p.light));
+        shelf.appendChild(b);
+      });
+      box.appendChild(h('section', { class: 'group' }, h('div', { class: 'eyebrow', text: g[1] }), shelf));
+    });
+    box.appendChild(h('div', { class: 'legend' }, h('span', { class: 'eyebrow', text: 'Light' }), lightWord('green'), lightWord('amber'), lightWord('red'), lightWord('grey'), lightWord('none')));
+    return box;
+  }
+
+  function sectionNote(text) { return h('p', { class: 'stamp', text: text }); }
+
+  function tScore(p) {
+    var rowsAll = sortedRows(S.data.scorecards), el = h('div', { class: 'panel', role: 'tabpanel' });
+    if (!S.loaded.scorecards && S.live) { el.appendChild(h('div', { class: 'empty', text: 'Loading the scorecard…' })); return el; }
+    if (!rowsAll.length) {
+      el.appendChild(h('div', { class: 'empty', text: p.group === 'incoming' ? 'Not started. The speed measures begin on the first Friday scorecard: days to a first 75-RP week, first PTC, first submittal, first FTI.' : 'No scorecard rows yet. Dean writes a row after each Friday Crelate pull. A call that was not logged does not count.' }));
+      return el;
+    }
+    var last5 = rowsAll.slice(-5), cur = last5[last5.length - 1], prior = rowsAll.slice(0, -1), prev = prior[prior.length - 1];
+    var avg4 = prior.filter(function (r) { return !r.partial; }).slice(-4);
+    el.appendChild(h('div', { class: 'row' }, h('h3', { text: 'Week of ' + nice(cur.week_of || cur.id) }), cur.partial ? h('span', { class: 'chip warn', text: 'Partial week' }) : null,
+      h('span', { class: 'stamp', text: (cur.source || 'Source not stated') + (/crelate/i.test(cur.source || '') ? '' : ' · per Crelate') }), p.light ? lightWord(p.light) : null));
+    var heads = h('div', { class: 'heads' });
+    var pct = isNum(cur.rps) ? Math.min(100, cur.rps / STD_RPS * 100) : 0;
+    heads.appendChild(h('div', { class: 'tile' }, h('div', { class: 'eyebrow', text: 'RPs against the week' }), h('div', { class: 'big' }, fmt(cur.rps), h('small', { text: ' / ' + STD_RPS })),
+      h('div', { class: 'bar', role: 'img', 'aria-label': fmt(cur.rps) + ' of ' + STD_RPS + ' RPs' }, h('i', { style: 'width:' + pct + '%' }))));
+    heads.appendChild(h('div', { class: 'tile' }, h('div', { class: 'eyebrow', text: 'Days at ' + STD_DAY + ' RPs' }), h('div', { class: 'big' }, fmt(cur.rp_days), h('small', { text: ' of 5' }))));
+    heads.appendChild(h('div', { class: 'tile' }, h('div', { class: 'eyebrow', text: '42-box card' }), h('div', { class: 'big' }, isNum(cur.boxes) ? fmt(cur.boxes) : '–', h('small', { text: ' / 42' })),
+      h('span', { class: 'stamp', text: isNum(cur.boxes) ? (cur.boxes >= WIN_BOXES ? 'At or above the win line of ' + WIN_BOXES : 'Below the win line of ' + WIN_BOXES) : (cur.box_card_in ? 'Card in' : 'Card not in') })));
+    el.appendChild(heads);
+    var tb = h('tbody');
+    MEASURES.forEach(function (m) {
+      var a = avg(avg4, m[0]), v = cur[m[0]], dir = direction(v, a);
+      tb.appendChild(h('tr', null, h('td', null, m[1], m[2] ? h('small', { text: m[2] }) : null), h('td', { class: 'num', text: fmt(v) }), h('td', { class: 'num' + (prev && isNum(prev[m[0]]) ? '' : ' na'), text: prev ? fmt(prev[m[0]]) : '–' }),
+        h('td', { class: 'num' + (a == null ? ' na' : ''), text: fmt(a) }), h('td', { class: 'dir', text: dir })));
+    });
+    el.appendChild(h('div', { class: 'scroll' }, h('table', null, h('thead', null, h('tr', null, h('th', { text: 'Measure' }), h('th', { class: 'num', text: 'This week' }), h('th', { class: 'num', text: 'Last week' }), h('th', { class: 'num', text: '4-week avg' }), h('th', { text: 'Trend' }))), tb)));
+    el.appendChild(sectionNote('Four-week average uses the prior complete weeks only (' + avg4.length + ' on file). Trend compares this week with that average; within 5 percent reads Level.' + (cur.pillar ? ' Pillar chosen on the card: ' + cur.pillar + '.' : '')));
+    el.appendChild(h('h3', { text: 'Five-week trend, RPs' }));
+    el.appendChild(trend(last5));
+    var tb2 = h('tbody');
+    last5.slice().reverse().forEach(function (r) {
+      tb2.appendChild(h('tr', null, h('td', null, nice(r.week_of || r.id), r.partial ? h('small', { text: 'partial' }) : null), h('td', { class: 'num', text: fmt(r.rps) }), h('td', { class: 'num', text: fmt(r.rp_days) }), h('td', { class: 'num', text: fmt(r.ptcs) }), h('td', { class: 'num', text: fmt(r.subs) }), h('td', { class: 'num', text: fmt(r.ftis) })));
+    });
+    el.appendChild(h('div', { class: 'scroll' }, h('table', null, h('thead', null, h('tr', null, h('th', { text: 'Week of' }), h('th', { class: 'num', text: 'RPs' }), h('th', { class: 'num', text: '15-RP days' }), h('th', { class: 'num', text: 'PTCs' }), h('th', { class: 'num', text: 'Subs' }), h('th', { class: 'num', text: 'FTIs' }))), tb2)));
+    return el;
+  }
+
+  function trend(list) {
+    var ns = 'http://www.w3.org/2000/svg', W = 520, H = 190, top = 24, bot = 150, max = Math.max(STD_RPS * 1.2, Math.max.apply(null, list.map(function (r) { return isNum(r.rps) ? r.rps : 0; })) * 1.1);
+    var svg = document.createElementNS(ns, 'svg'); svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); svg.setAttribute('class', 'trend'); svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'RPs for the last ' + list.length + ' weeks against the standard of ' + STD_RPS);
+    function y(v) { return bot - (v / max) * (bot - top); }
+    function add(tag, a, txt) { var e = document.createElementNS(ns, tag); for (var k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; svg.appendChild(e); return e; }
+    var slot = (W - 130) / 5, bw = Math.min(54, slot * .55);
+    add('line', { x1: 20, x2: W - 100, y1: y(STD_RPS), y2: y(STD_RPS), class: 'std' });
+    add('text', { x: W - 94, y: y(STD_RPS) + 4, 'text-anchor': 'start' }, 'Standard ' + STD_RPS);
+    list.forEach(function (r, i) {
+      var x = 20 + slot * (i + (5 - list.length) + .5), v = isNum(r.rps) ? r.rps : 0;
+      add('rect', { x: x - bw / 2, y: y(v), width: bw, height: Math.max(1, bot - y(v)), class: 'col' + (r.partial ? ' part' : '') });
+      add('text', { x: x, y: y(v) - 5, 'text-anchor': 'middle', class: 'val' }, isNum(r.rps) ? String(r.rps) : '–');
+      add('text', { x: x, y: bot + 16, 'text-anchor': 'middle' }, nice(r.week_of || r.id));
+      if (r.partial) add('text', { x: x, y: bot + 29, 'text-anchor': 'middle' }, 'partial');
+    });
+    return svg;
+  }
+
+  function tCoach(p) {
+    var el = h('div', { class: 'panel', role: 'tabpanel' }), list = sortedRows(S.data.coaching);
+    if (!S.loaded.coaching && S.live) { el.appendChild(h('div', { class: 'empty', text: 'Loading coaching notes…' })); return el; }
+    el.appendChild(sectionNote('Work only. Prep for Kev, never sent to the recruiter. Scorecards are discussed in person, at the Round Table or one to one.'));
+    if (!list.length) { el.appendChild(h('div', { class: 'empty', text: 'No coaching note yet. Dean writes the first after two full weeks of data.' })); return el; }
+    var n = list[list.length - 1], rep = n.next_rep || {};
+    el.appendChild(h('div', { class: 'row' }, h('h3', { text: 'Last session note' }), h('span', { class: 'stamp', text: 'Week of ' + nice(n.week_of || n.id) })));
+    var dl = h('dl', { class: 'note' });
+    [['Numbers', n.numbers], ['Win', n.win], ['Pillar', n.pillar], ['One change', n.one_change], ['Ask', n.ask]].forEach(function (x) { if (x[1]) dl.appendChild(h('div', null, h('dt', { text: x[0] }), h('dd', { text: x[1] }))); });
+    el.appendChild(dl);
+    el.appendChild(h('div', { class: 'tile', style: 'max-width:70ch' }, h('div', { class: 'eyebrow', text: 'Next rep' }), h('div', { text: rep.text || 'Not set' }), rep.due ? h('span', { class: 'stamp', text: 'By ' + nice(rep.due) }) : null));
+    var earlier = list.slice(0, -1).reverse();
+    if (earlier.length) {
+      var ul = h('ul');
+      earlier.slice(0, 6).forEach(function (e) { ul.appendChild(h('li', { text: nice(e.week_of || e.id) + ': ' + (e.one_change || e.win || 'note') })); });
+      el.appendChild(h('details', null, h('summary', { text: 'Earlier notes (' + earlier.length + ')' }), ul));
+    }
+    return el;
+  }
+
+  function money(label, d) {
+    var ok = d && d.gate_status === 'passed' && d.gate_id && isNum(d.revenue);
+    var usd = function (n) { return isNum(n) ? '$' + Math.round(n).toLocaleString('en-US') : 'not provided'; };
+    var box = h('div', { class: 'money' }, h('div', { class: 'top2' }, h('h3', { text: label }), ok ? h('span', { class: 'chip ok', text: 'Gate passed' }) : h('span', { class: 'chip warn', text: 'Not synced' })));
+    if (ok) {
+      box.appendChild(h('div', { class: 'pairs' }, h('div', { class: 'field' }, h('span', { class: 'lab', text: 'Revenue' }), h('div', { class: 'fig', text: usd(d.revenue) })), h('div', { class: 'field' }, h('span', { class: 'lab', text: 'Commission' }), h('div', { class: 'fig', text: usd(d.commission) }))));
+      box.appendChild(h('div', { class: 'stamp', text: [d.entity, d.source, d.as_of ? 'as of ' + nice(d.as_of) : ''].filter(Boolean).join(' · ') }));
+    } else {
+      box.appendChild(h('div', { class: 'stamp', text: 'Tally has not delivered a checked figure. Nothing is estimated here.' }));
+    }
+    box.appendChild(h('div', { class: 'field' }, h('span', { class: 'lab', text: 'Gate id' }), h('div', { class: 'box' + (d && d.gate_id ? '' : ' blank'), text: d && d.gate_id ? d.gate_id + (ok ? '' : ' (not passed)') : 'none yet' })));
+    return box;
+  }
+  function tRev(p) {
+    var el = h('div', { class: 'panel', role: 'tabpanel' });
+    if (!S.loaded.money && S.live) { el.appendChild(h('div', { class: 'empty', text: 'Loading…' })); return el; }
+    var m = {}; (S.data.money || []).forEach(function (d) { m[d.id] = d; });
+    el.appendChild(sectionNote('Tally computes and gates these figures; Docket re-derives them. A figure shows only after its gate id has passed. Dean computes none of it.'));
+    el.appendChild(h('div', { class: 'pairs' }, money('Month to date', m.mtd), money('Year to date', m.ytd)));
+    el.appendChild(sectionNote('Source and credit rule are Kev’s call: where a placement is credited to a recruiter, and how shared deals split, are open with Tally.'));
+    return el;
+  }
+  function tPct(p) {
+    var el = h('div', { class: 'panel', role: 'tabpanel' });
+    if (!S.loaded.money && S.live) { el.appendChild(h('div', { class: 'empty', text: 'Loading…' })); return el; }
+    var t = (S.data.goals || []).filter(function (d) { return d.id === 'targets'; })[0], y = (S.data.money || []).filter(function (d) { return d.id === 'ytd'; })[0], mo = (S.data.money || []).filter(function (d) { return d.id === 'mtd'; })[0];
+    var set = t && t.goal_set === true;
+    el.appendChild(h('h3', { text: 'Percent to goal' }));
+    if (!set) {
+      el.appendChild(h('div', { class: 'row' }, h('span', { class: 'chip', text: 'Goal not set' })));
+      el.appendChild(h('p', { class: 'sub', text: 'Kev sets each person’s goal. Nothing is shown, and nothing is guessed, until he does.' }));
+      return el;
+    }
+    var ok = y && y.gate_status === 'passed' && y.gate_id && isNum(y.pct_to_goal);
+    el.appendChild(h('div', { class: 'row' }, h('span', { class: 'chip ' + (ok ? 'ok' : 'warn'), text: ok ? 'Gate passed' : 'Not synced' }), h('span', { class: 'stamp', text: (t.label || 'Goal') + (t.set_on ? ' · set ' + nice(t.set_on) : '') })));
+    if (ok) {
+      el.appendChild(h('div', { class: 'tile', style: 'max-width:420px' }, h('div', { class: 'eyebrow', text: 'Year to date' }), h('div', { class: 'big' }, fmt(y.pct_to_goal), h('small', { text: ' % of goal' })),
+        h('div', { class: 'bar' }, h('i', { style: 'width:' + Math.max(0, Math.min(100, y.pct_to_goal)) + '%' })),
+        mo && mo.gate_status === 'passed' && isNum(mo.pct_to_goal) ? h('span', { class: 'stamp', text: 'Month to date ' + fmt(mo.pct_to_goal) + ' %' }) : null));
+    } else {
+      el.appendChild(h('p', { class: 'sub', text: 'The goal is set. The year-to-date figure has not passed Tally’s gate yet.' }));
+    }
+    el.appendChild(h('div', { class: 'field', style: 'max-width:420px' }, h('span', { class: 'lab', text: 'Gate id' }), h('div', { class: 'box' + (y && y.gate_id ? '' : ' blank'), text: y && y.gate_id ? y.gate_id + (ok ? '' : ' (not passed)') : 'none yet' })));
+    return el;
+  }
+
+  function tTen(p) {
+    var el = h('div', { class: 'panel', role: 'tabpanel' });
+    if (!S.loaded.goals && S.live) { el.appendChild(h('div', { class: 'empty', text: 'Loading…' })); return el; }
+    var g = (S.data.goals || []).filter(function (d) { return d.id === 'ten-five-three-one'; })[0], url = safeUrl(p.worksheet_url);
+    el.appendChild(h('div', { class: 'row' }, h('h3', { text: '10-5-3-1 headline goals' }), url ? h('a', { class: 'go', href: url, target: '_blank', rel: 'noopener', text: 'Open the worksheet' }) : h('span', { class: 'chip', text: 'Worksheet link to add' })));
+    el.appendChild(sectionNote('Headlines only. The detail stays in the person’s own worksheet.'));
+    if (!g || !(g.rows || []).length) { el.appendChild(h('div', { class: 'empty', text: 'No headline goals filed yet. They are taken from the worksheet once the person has shared it.' })); return el; }
+    var tb = h('tbody');
+    g.rows.forEach(function (r) { tb.appendChild(h('tr', null, h('td', { text: r.span || '' }), h('td', { text: r.work || '–' }), h('td', { text: r.life || 'In the worksheet' }))); });
+    el.appendChild(h('div', { class: 'scroll' }, h('table', null, h('thead', null, h('tr', null, h('th', { text: 'Horizon' }), h('th', { text: 'Work' }), h('th', { text: 'Life' }))), tb)));
+    return el;
+  }
+
+  function tDel(p) {
+    var el = h('div', { class: 'panel', role: 'tabpanel' });
+    if (!S.loaded.deliverables && S.live) { el.appendChild(h('div', { class: 'empty', text: 'Loading…' })); return el; }
+    var all = S.data.deliverables || [], dls = all.filter(function (d) { return d.kind !== 'jo'; }).sort(function (a, b) { return String(a.due || '9').localeCompare(String(b.due || '9')); }), jos = all.filter(function (d) { return d.kind === 'jo'; });
+    var open = dls.filter(function (d) { return d.status !== 'done'; }).length;
+    el.appendChild(h('div', { class: 'row' }, h('h3', { text: 'Deliverables' }), h('span', { class: 'stamp', text: open + ' open' })));
+    if (!dls.length) el.appendChild(h('div', { class: 'empty', text: 'No deliverables filed.' }));
+    else {
+      var tb = h('tbody');
+      dls.forEach(function (d) {
+        var dd = daysFrom(d.due), done = d.status === 'done', chip = done ? h('span', { class: 'chip ok', text: 'Done' }) : dd != null && dd > 0 ? h('span', { class: 'chip bad', text: 'Overdue' }) : dd != null && dd >= -2 ? h('span', { class: 'chip warn', text: 'Due soon' }) : h('span', { class: 'chip', text: 'Open' });
+        tb.appendChild(h('tr', null, h('td', { text: d.title || '' }), h('td', { text: d.due ? nice(d.due) : 'No date' }), h('td', null, chip)));
+      });
+      el.appendChild(h('div', { class: 'scroll' }, h('table', null, h('thead', null, h('tr', null, h('th', { text: 'Deliverable' }), h('th', { text: 'Due' }), h('th', { text: 'Status' }))), tb)));
+    }
+    el.appendChild(h('div', { class: 'row' }, h('h3', { text: 'Job orders' }), h('span', { class: 'stamp', text: jos.length + ' on the list · client names stay in the Hub' })));
+    if (!jos.length) el.appendChild(h('div', { class: 'empty', text: 'No job orders on this person.' }));
+    else {
+      var tb2 = h('tbody');
+      jos.forEach(function (j) {
+        var n = daysFrom(j.since), standby = /standby/i.test(j.role_on_job || ''), rot = !standby && n != null && n > ROT_DAYS, link = safeUrl(j.hub_url);
+        tb2.appendChild(h('tr', null, h('td', null, j.title || 'JO', j.location ? h('small', { text: j.location }) : null), h('td', { text: j.role_on_job || '' }),
+          h('td', { text: n == null ? 'Start to add' : n < 0 ? 'Starts in ' + (-n) + ' d' : n + ' days' }), h('td', null, rot ? h('span', { class: 'chip bad', text: '14+ days, rotate?' }) : null, link ? h('a', { class: 'go', href: link, target: '_blank', rel: 'noopener', text: ' Hub' }) : null)));
+      });
+      el.appendChild(h('div', { class: 'scroll' }, h('table', null, h('thead', null, h('tr', null, h('th', { text: 'Job order' }), h('th', { text: 'Role on job' }), h('th', { text: 'On job' }), h('th', { text: 'Flag' }))), tb2)));
+    }
+    return el;
+  }
+
+  function folder() {
+    var p = bySlug(S.open), box = h('div', { class: 'wrap-o', style: 'display:flex;flex-direction:column;gap:6px' });
+    box.appendChild(h('button', { class: 'back', id: 'back', type: 'button', text: '← All folders' }));
+    if (!p) { box.appendChild(h('div', { class: 'empty', text: 'That folder is not on the list.' })); return box; }
+    var head = h('div', { class: 'ohead' }, h('div', null, h('h2', { text: p.name || p.id }), h('div', { class: 'role', text: p.role || '' }), p.light_why ? h('p', { class: 'why', text: p.light_why }) : null), h('div', { class: 'row' }, S.example ? h('span', { class: 'chip ex', text: 'Example' }) : null, lightWord(p.light)));
+    var tabs = TABS.filter(function (t) { return !(S.share && t.secret); }), tl = h('div', { class: 'tabs', role: 'tablist', 'aria-label': 'Folder sections' });
+    tabs.forEach(function (t) { tl.appendChild(h('button', { class: 'tab', type: 'button', role: 'tab', id: 'tab-' + t.id, 'data-tab': t.id, 'aria-selected': String(S.tab === t.id), tabindex: S.tab === t.id ? '0' : '-1', text: t.label })); });
+    var body = { score: tScore, coach: tCoach, rev: tRev, pct: tPct, ten: tTen, del: tDel }[S.tab] || tScore;
+    var panel = body(p); panel.setAttribute('aria-labelledby', 'tab-' + S.tab);
+    box.appendChild(h('section', { class: 'open' }, head, tl, panel));
+    return box;
+  }
+
+  /* ---------------- shell ---------------- */
+  function render(focus) {
+    $('#ex').hidden = !S.example;
+    $('#sharenote').hidden = !S.share;
+    $('#share').setAttribute('aria-pressed', String(S.share));
+    $('#status').textContent = S.status;
+    var main = $('#main'); main.textContent = '';
+    main.appendChild(S.open ? folder() : landing());
+    if (focus) { var f = $(focus); if (f) f.focus(); }
+  }
+  function status(t) { S.status = t; var e = $('#status'); if (e) e.textContent = t; }
+
+  function unsubAll() { S.unsubs.forEach(function (u) { try { u(); } catch (e) {} }); S.unsubs = []; }
+  function sections() { return S.share ? ['scorecards', 'goals', 'deliverables'] : ['scorecards', 'coaching', 'money', 'goals', 'deliverables']; }
+  function closeFolder() {
+    unsubAll(); S.open = null; S.data = {}; S.loaded = {}; S.tab = 'score';
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  }
+  function openFolder(slug) {
+    unsubAll(); S.open = slug; S.tab = 'score'; S.data = {}; S.loaded = {};
+    try { history.replaceState(null, '', '#' + slug); } catch (e) {}
+    var keys = sections();
+    if (S.live) {
+      keys.forEach(function (k) {
+        S.unsubs.push(S.db.collection('people/' + slug + '/' + k).onSnapshot(function (s) {
+          if (S.open !== slug) return;
+          S.data[k] = s.docs.map(own); S.loaded[k] = true; render();
+        }, function () { if (S.open !== slug) return; S.data[k] = []; S.loaded[k] = true; status('could not read ' + k); render(); }));
+      });
+    } else if (EX[slug]) {
+      keys.forEach(function (k) { S.data[k] = JSON.parse(JSON.stringify(EX[slug][k] || [])); S.loaded[k] = true; });
+    }
+    render('#tab-score'); window.scrollTo(0, 0);
+  }
+
+  document.addEventListener('click', function (e) {
+    var f = e.target.closest('.folder[data-slug]'); if (f) { openFolder(f.getAttribute('data-slug')); return; }
+    if (e.target.closest('#back')) { closeFolder(); render(); window.scrollTo(0, 0); return; }
+    var t = e.target.closest('.tab[data-tab]'); if (t) { S.tab = t.getAttribute('data-tab'); render('#tab-' + S.tab); }
+  });
+  document.addEventListener('keydown', function (e) {
+    var t = e.target.closest && e.target.closest('.tab[data-tab]'); if (!t || (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft')) return;
+    var tabs = TABS.filter(function (x) { return !(S.share && x.secret); }).map(function (x) { return x.id; }), i = tabs.indexOf(S.tab);
+    S.tab = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; e.preventDefault(); render('#tab-' + S.tab);
+  });
+  $('#share').addEventListener('click', function () {
+    S.share = !S.share; try { sessionStorage.setItem('rt-share', S.share ? '1' : '0'); } catch (e) {}
+    closeFolder(); render();
+  });
+  $('#theme').addEventListener('click', function () {
+    var dark = $('#theme').getAttribute('aria-pressed') !== 'true';
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light'); $('#theme').setAttribute('aria-pressed', String(dark));
+    try { localStorage.setItem('rt-theme', dark ? 'dark' : 'light'); } catch (e) {}
+  });
+  (function initTheme() {
+    var t = null; try { t = localStorage.getItem('rt-theme'); } catch (e) {}
+    var dark = t ? t === 'dark' : !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+    if (t) document.documentElement.setAttribute('data-theme', t);
+    $('#theme').setAttribute('aria-pressed', String(dark));
+  })();
+
+  /* ---------------- boot: example data first, then the database ---------------- */
+  function goLive(db) {
+    S.db = db; S.live = true; S.example = false; S.people = []; S.peopleLoaded = false; closeFolder(); status('live'); render();
+    db.collection('people').onSnapshot(function (s) {
+      S.people = s.docs.map(own); S.peopleLoaded = true; status('live');
+      var want = (location.hash || '').slice(1);
+      if (want && !S.open && bySlug(want)) { openFolder(want); return; }
+      if (S.open && !bySlug(S.open)) closeFolder();
+      render();
+    }, function () { S.peopleLoaded = true; status('could not read people'); render(); });
+  }
+  function boot() {
+    S.people = EX_ORDER.map(function (k) { return EX[k].person; });
+    render();
+    var want = (location.hash || '').slice(1);
+    if (want && EX[want]) openFolder(want);
+    var use = window.claude && typeof window.claude.use === 'function' ? window.claude.use.bind(window.claude) : null;
+    if (!use) return;
+    use('db').then(function (db) { if (db) goLive(db); }, function () {});
+  }
+  boot();
+})();
+</script>

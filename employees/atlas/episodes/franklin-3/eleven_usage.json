@@ -1,0 +1,10 @@
+{
+  "episode": "franklin-3",
+  "characters": 7957,
+  "model": "eleven_multilingual_v2",
+  "voices": {
+    "GUIDE": "PerZoH0r6nxBZXCoIPpv",
+    "KID": "tJHJUEHzOkMoPmJJ5jo2"
+  },
+  "duration_s": 646.164898
+}

@@ -30,6 +30,7 @@ Checked once in a browser at 400px and desktop, light and dark: no sideways scro
 | `clients/{slug}/notes/{id}` | One project note | title, status (active, waiting, done), owner, decision, next [..], links [{title, url}], updated |
 | `clients/{slug}/resources/{id}` | One link | title, kind, url, note, updated |
 | `playbooks/{id}` | An Eden-wide resource | title, kind, url, note, updated |
+| `jobs/{id}` | One job order, across every client (Job Orders folder) | client, client_slug, discreet (true hides the client), role, location, status (active, on-hold, filled, closed), opened, rank, leads [{title, url, count, built}], team [{recruiter, since, role_on_job (lead, co-lead, backup, standby), note}], condition, updated, source |
 
 Slugs are lowercase letters, digits and hyphens (`triton`, `pb-south`).
 
@@ -41,6 +42,22 @@ Declare `capabilities: {db: {rules: [{path: "", read: "view", write: "admin"}]}}
 - Family and KDTW material stays out. Finance stays out.
 - Source and date on every row. A row older than 14 days shows "check with owner".
 - Anyone who can open the hub can read every client in it. The folders protect a screen share, not access: do not share with anyone who should not see all clients.
+
+## Job Orders folder (Kev, 19 October 2026)
+
+Kev: "Build a folder just for Job Orders so we always know what Job Orders are active, where their leads are, and who is on what job. If someone stays on a job more than 2 weeks, we need to be alerted to adjust who is on this."
+
+- **An internal Eden folder.** One closed folder titled "Job Orders" (marked "Internal · Eden only") sits after the client folders. Its head shows no client names, counts or totals. It opens only when clicked: no link anchor and no find-box match opens it.
+- **Screen-share safe.** It shows every client at once, so it is hidden in Screen-share mode, and turning Screen-share mode on closes it. Its rows load only while it is open and are dropped on close or when a client folder opens, so no other client's data sits in the page during a presentation.
+- **What it shows.** A summary (active JOs, assignments past 14 days, JOs with no owner), then active JOs grouped by client (by best rank) or by recruiter. Each JO shows its lead sheet links with counts, who is on it with days on the job, any condition, and the source. On-hold, filled and closed JOs sit in a closed list at the bottom.
+- **Rotate flag.** A team entry more than 14 days past its `since` gets "14+ days, rotate?" and its card turns red. Standby entries (on the job only if a condition is met) are not flagged. Radar's morning brief (`employees/radar/skills/morning-brief.md` step 5) and the Eden Daily build (`stand-up-tomorrow.md` step 1b) list the same assignments under "Rotate?" for Kev's decision.
+- **Discreet clients.** A row with `discreet: true` shows "Client · discreet" everywhere: the client name is kept out of the row itself, and the page also scrubs any trace of it. The INL safety client is one; never write its name into `jobs`, the brief or the paper.
+- **Prometheus vs Promethean.** Prometheus is the Bay Area real-estate investor. Promethean is the NYC and Miami GC, sister company to PB South. Different `client_slug` values: `prometheus`, `promethean`.
+- **Writes.** Radar writes `jobs` with `ArtifactData` (batch for more than a couple, `if_version` on every existing row). A rotation is a new team entry with `since` = the change date; the old entry is removed. Names, roles and links only: no pay, phones or emails.
+
+### Seed (Radar, 19 October 2026)
+
+26 rows from the 19 Oct JO meeting, Kev's answers, the "Who's taking what" Doc and Scout's bucket plan (`employees/scout/sheets/2026-10-19-bucket-refresh-plan.md`). Every `since` is 2026-10-19. 25 active, 1 on hold (Hoffman Houston area supers, not on the 19 Oct list). No owner: Moss Interior Super, Moss Precon, Hoffman Amarillo low-voltage supers. Standby (only if Tim Norton doesn't land the Prometheus Sr PM seat): Andrew on the Triton role to confirm ("NP"), Noah on Megawatt San Jose Sr PM/PX and on Promethean NYC occupied healthcare. To confirm with Kev: the client for Noah's "Supers, Miami" (filed under PB South).
 
 ## Seed (Radar, 12 October)
 

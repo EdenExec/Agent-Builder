@@ -1,0 +1,9 @@
+{
+  "id": "2026-10-19-e4ff61",
+  "status": "pending",
+  "createdAt": "2026-10-19T06:05:09.651Z",
+  "employee": "q",
+  "kind": "write_external",
+  "summary": "CloudTalk 10-row test load: create up to 10 contacts from the first lead sheet",
+  "detail": "Writes to CloudTalk (company 344918) through cloudtalk_create_contact, once, at most 10 contacts, from the first usable sheet Nida sends to radar@ (or a Scout sheet that has phones). Per contact the exact fields are: name, company, title, city, state, website (a real LinkedIn /in/ URL only), source ('Eden lead load YYYY-MM-DD'), phone_numbers (E.164), emails, tags. Tags: Owner <name> (only if the sheet names one), Client <client>, JO <job order>, Lead <date>, TZ <PST|MST|CST|EST>, In Crelate (only if already there), and Q Test Load on all 10. Not read or written: salary, EEO, home address, personal email, home phone. ZoomInfo phones never load. Rows with no phone do not load. Existing CloudTalk contacts are not touched. No messages are sent; the no-phone list goes to Nida as a Gmail draft for Kev. CloudTalk has no delete tool, so undo means deleting the 10 contacts tagged Q Test Load in the CloudTalk screen. The night before, the dry-run summary names the 10 candidates (names and company only) so Kev can reject. Does not approve the standing nightly load, which is a separate QC item after Kev checks the 10. Spec: projects/cloudtalk-nightly/brief.md. Tool: npm run leadplan."
+}

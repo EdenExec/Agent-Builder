@@ -3,7 +3,7 @@ audience: family
 status: draft
 site:
   jurisdiction: "Treasure Valley, ID (candidates: Ada, Canyon, Gem, Elmore counties; parcel not chosen, studies provisional)"
-  views: "River or water frontage wanted; within 50 minutes of Boise airport (BOI)"
+  views: "River, or a pond or irrigation water on site (Kev, 15 Oct 2026); within 50 minutes of Boise airport (BOI)"
   utilities: "Unknown. Likely well and septic on 40+ acres."
   constraints:
     - "Land not bought. No purchase year set."
@@ -36,6 +36,7 @@ budget:
   confidence: rough
 timeline: "Planning through 2027; build a few years out. Land search timing not set."
 assumptions:
+  - "Income from outbuildings is a goal (Kev, 15 Oct 2026): short-term rental rules, zoning and septic capacity are gating checks on any parcel. UNVERIFIED per county."
   - "Budget $1.5M to $3M for land plus build, rough, from Kev 11 Oct 2026. At this range expect smaller acreage, inland or pond water, and phasing (small homes first). UNVERIFIED against current Treasure Valley land prices."
   - "Bedroom and bathroom counts (5 / 4) are my placeholders from the hub's room list: main suite, two guest rooms, kids' rooms. Please correct."
   - "Watch cost per sq ft closely (from the hub); get creative on it."
@@ -44,5 +45,3 @@ assumptions:
   - "Second property, NorCal near Lincoln / Auburn / Grass Valley / Nevada City, is a separate project: small cottage or off-grid RV first, long-term holiday home if the rice farm goes ahead."
 openQuestions:
   - "Land purchase year."
-  - "Is income from outbuildings (guest cottages, short-term stays) a goal or a bonus? It changes zoning and septic."
-  - "River frontage vs. pond or irrigation water: how firm is 'on the water'?"
