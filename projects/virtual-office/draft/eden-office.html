@@ -13,7 +13,7 @@
    Also for Radar: the mono face (IBM Plex Mono) is Marlowe's choice for stamps and counts; the brand rule says Montserrat only. */
 :root{
   --floor:#F3F0E8; --paper:#FCFBF7; --ink:#141412; --mute:#5E5B54; --line:#D9D4C8; --soft:#EAE6DC;
-  --wall:#141412; --lens:#D6D1C5; --sun:rgba(240,206,140,.20); --lamp:#F7F0DF; --veil:rgba(243,240,232,.86);
+  --wall:#141412; --key:#141412; --lens:#D6D1C5; --sun:rgba(240,206,140,.20); --lamp:#F7F0DF; --veil:rgba(243,240,232,.86);
   --lift:0 1px 0 rgba(20,20,18,.05),0 3px 8px rgba(20,20,18,.06);
   --g:#2E8A55; --b:#2F66AE; --r:#B03A2E; --a:#A8730F; --g1:38%; --g2:0%;
   --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
@@ -21,12 +21,12 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --floor:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B;
-  --wall:#8E897D; --lens:#2D2B26; --sun:rgba(255,236,190,.035); --lamp:#221F18; --veil:rgba(18,18,16,.86);
+  --wall:#8E897D; --key:#8E897D; --lens:#2D2B26; --sun:rgba(255,236,190,.035); --lamp:#221F18; --veil:rgba(18,18,16,.86);
   --lift:0 1px 0 rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.35);
   --g:#5FCF8A; --b:#72A6F0; --r:#F07462; --a:#E7B04C; --g1:70%; --g2:30%; color-scheme:dark}}
 :root[data-theme="dark"]{
   --floor:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B;
-  --wall:#8E897D; --lens:#2D2B26; --sun:rgba(255,236,190,.035); --lamp:#221F18; --veil:rgba(18,18,16,.86);
+  --wall:#8E897D; --key:#8E897D; --lens:#2D2B26; --sun:rgba(255,236,190,.035); --lamp:#221F18; --veil:rgba(18,18,16,.86);
   --lift:0 1px 0 rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.35);
   --g:#5FCF8A; --b:#72A6F0; --r:#F07462; --a:#E7B04C; --g1:70%; --g2:30%; color-scheme:dark}
 
@@ -45,13 +45,17 @@ a{color:inherit}
 .mark h1{margin:0;font-weight:800;font-size:clamp(22px,3.4vw,30px);letter-spacing:.14em;line-height:1}
 .clock{font:500 11px/1.3 var(--mono);letter-spacing:.12em;color:var(--mute);text-transform:uppercase}
 .switches{display:flex;gap:6px;flex-wrap:wrap}
-.sw{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--paper);padding:7px 10px;cursor:pointer;
+.sw{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--paper);padding:0 12px;min-height:36px;cursor:pointer;
   font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .sw i{width:18px;height:10px;border:1px solid var(--mute);position:relative;flex:none}
 .sw i::after{content:"";position:absolute;top:1px;left:1px;width:6px;height:6px;background:var(--mute);transition:transform .16s}
 .sw[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
 .sw[aria-pressed="true"] i{border-color:var(--ink)} .sw[aria-pressed="true"] i::after{transform:translateX(8px);background:var(--ink)}
-.sw:focus-visible,.desk:focus-visible,.bench:focus-visible,.key:focus-visible,.smain:focus-visible,.radar-sit:focus-visible,.stand:focus-visible,.mini:focus-visible,a:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sw.act{color:var(--ink);border-color:var(--key);box-shadow:0 2px 0 var(--key);margin-left:6px}
+.sw.act:active{transform:translateY(2px);box-shadow:none}
+.clockrow{display:flex;flex-wrap:wrap;gap:2px 0}
+#sync:not(:empty)::before{content:"\00a0·\00a0"}
+.sw:focus-visible,.golink:focus-visible,.desk:focus-visible,.bench:focus-visible,.key:focus-visible,.smain:focus-visible,.radar-sit:focus-visible,.stand:focus-visible,.mini:focus-visible,a:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .notice{padding:8px 12px;border:1px dashed var(--line);font:500 11px/1.4 var(--mono);letter-spacing:.04em;color:var(--mute);background:var(--paper)}
 
 /* pinned banner: red only, one at a time */
@@ -61,7 +65,7 @@ a{color:inherit}
 
 /* needs-Kev strip */
 .strip{display:flex;flex-direction:column;gap:0;border:1px solid var(--ink);background:var(--paper)}
-.strip-h{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;border-bottom:1px solid var(--line)}
+.strip-h{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 10px;padding:8px 12px;border-bottom:1px solid var(--line)}
 .strip ol{list-style:none;margin:0;padding:0}
 .strip li{border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center}
 .strip li:last-child{border-bottom:0}
@@ -70,11 +74,19 @@ a{color:inherit}
 .smain:disabled{cursor:default}
 .strip .who{font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
 .strip .what{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sacts{display:flex;gap:6px;padding-right:12px;flex-wrap:wrap;justify-content:flex-end}
+.sacts{display:flex;gap:6px 8px;padding-right:12px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
 .sacts .mini{white-space:nowrap}
 .mini{font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);border:1px solid var(--line);background:none;padding:7px 9px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
 .mini:hover{border-color:var(--ink)}
 .mini:disabled{opacity:.45;cursor:default}
+/* polish 1: one weight per job. Boxed = decide; joined group = one choice; underlined text = look or dismiss */
+.mini.primary{border-color:var(--ink)}
+.mini.txt{border-color:transparent;padding-inline:3px;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
+.mini.txt:hover{border-color:transparent;text-decoration-color:var(--ink)}
+.seg{display:inline-flex;flex-wrap:wrap}
+.seg>.mini+.mini{margin-left:-1px}
+.seg>.mini:hover{position:relative;z-index:1}
+.seg.snooze>.mini{border-style:dashed}
 .more{font:500 10.5px/1.3 var(--mono);letter-spacing:.06em;color:var(--mute);padding:8px 12px;border-top:1px solid var(--line)}
 
 /* the floor: a plan drawing */
@@ -83,8 +95,8 @@ a{color:inherit}
   grid-template-columns:repeat(12,minmax(0,1fr));
   grid-template-areas:
    "rec rec rec rec rec rev rev fin fin fin fin fin"
-   "ppl ppl ppl ppl ppl rad rad rad fam fam fam fam"
-   "cli cli cli cli cli rad rad rad fam fam fam fam";
+   "ppl ppl ppl ppl rad rad rad fam fam fam fam fam"
+   "cli cli cli cli cli cli cli fam fam fam fam fam";   /* polish 1: Q's old bay is gone, so Radar sits in row two and Client work runs along the south wall to the door */
   transition:opacity .24s, transform .32s cubic-bezier(.2,.7,.2,1)}
 .floor.sitting{opacity:.28;transform:scale(1.025)}
 .glaze{position:absolute;top:-3px;height:3px;background:var(--floor);border-top:1px solid var(--wall);border-bottom:1px solid var(--wall)}
@@ -94,8 +106,9 @@ a{color:inherit}
 .zone{position:relative;z-index:1;min-width:0;display:flex;flex-direction:column;gap:12px;padding:12px;border:1px dashed var(--line)}
 .zone>.eyebrow{display:flex;justify-content:space-between;gap:8px}
 .z-rec{grid-area:rec} .z-rev{grid-area:rev} .z-fin{grid-area:fin} .z-ppl{grid-area:ppl} .z-cli{grid-area:cli}
-.z-rad{grid-area:rad;border:0;padding:0;justify-content:center}
+.z-rad{grid-area:rad;border:0;padding:0;justify-content:flex-start}
 .z-fam{grid-area:fam;border:2px solid var(--wall);border-left-width:3px;padding:14px}
+.z-fam .bench{margin-top:auto}
 .z-fam::before{content:"";position:absolute;left:-3px;top:38%;height:56px;width:3px;background:var(--floor)}
 .z-cli{border:0;outline:1px solid var(--line);outline-offset:-1px;box-shadow:inset 0 0 0 4px var(--floor),inset 0 0 0 5px var(--line)}
 .desks{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:14px}
@@ -109,10 +122,12 @@ a{color:inherit}
 .desk.lamp{background:var(--lamp)}
 .chair{position:absolute;top:-12px;left:50%;width:30px;height:11px;margin-left:-15px;border:1px solid var(--line);border-bottom:0;border-radius:15px 15px 0 0;background:var(--floor)}
 .plate{font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase;padding-right:44px}
-.role{font:500 10px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.role{font:500 10px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
 .task{font-size:12.5px;line-height:1.35;min-height:2.7em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
-.meta{display:flex;justify-content:space-between;gap:6px;font:500 10px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);border-top:1px solid var(--line);padding-top:6px;margin-top:auto}
+/* meta: two lines reserved on every desk, so the hairlines line up across a row even when a state word wraps */
+.meta{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:6px;min-height:calc(2.4em + 7px);font:500 10px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);border-top:1px solid var(--line);padding-top:6px;margin-top:auto}
 .meta .st{color:var(--ink)}
+.meta>span:last-child{white-space:nowrap;text-align:right}
 .stale{border:1px solid var(--mute);padding:0 3px}
 .papers{position:relative;display:inline-block;width:9px;height:11px;margin-right:9px;vertical-align:-1px}
 .papers i{position:absolute;inset:0;border:1px solid var(--mute);background:var(--paper)}
@@ -156,9 +171,9 @@ a{color:inherit}
 .bench:hover{border-color:var(--mute)}
 .bench b{font-weight:700;font-size:13.5px}
 .bench span{font:500 10px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
-.bench.tall{flex:1;justify-content:flex-end}
-.quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
-.quick .key{text-align:center}
+.bench.tall{flex:1;justify-content:flex-start}
+.quick{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
+.quick .key{text-align:center;border-color:var(--mute);box-shadow:0 2px 0 var(--mute);background:var(--paper)}
 .slot{display:contents}
 .closed{display:none;flex:1;min-height:80px;align-items:center;justify-content:center;text-align:center;
   font:500 10.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);
@@ -177,9 +192,9 @@ a{color:inherit}
 .counts{display:flex;gap:14px;flex-wrap:wrap;font:500 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
 .counts b{color:var(--ink);font-weight:500}
 .keys{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
-.key{background:var(--floor);border:1px solid var(--ink);padding:8px 8px 7px;cursor:pointer;text-align:left;
-  font:500 10px/1.25 var(--mono);letter-spacing:.1em;text-transform:uppercase;box-shadow:0 2px 0 var(--ink);transition:transform .06s,box-shadow .06s;text-decoration:none;display:block}
-.key:active{transform:translateY(2px);box-shadow:0 0 0 var(--ink)}
+.key{background:var(--floor);border:1px solid var(--key);padding:8px 8px 7px;cursor:pointer;text-align:left;color:var(--ink);
+  font:500 10px/1.25 var(--mono);letter-spacing:.1em;text-transform:uppercase;box-shadow:0 2px 0 var(--key);transition:transform .06s,box-shadow .06s;text-decoration:none;display:block}
+.key:active{transform:translateY(2px);box-shadow:0 0 0 var(--key)}
 .key:disabled{opacity:.45;cursor:default;box-shadow:none}
 .out{display:flex;align-items:center;gap:10px;font:500 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
 .tray{position:relative;width:26px;height:18px;border:1px solid var(--mute);flex:none}
@@ -228,7 +243,8 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .msg b{display:block;font:500 9.5px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:2px}
 .chatform{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
 .chatform textarea{min-height:44px}
-.panel-b h3{margin:0;font:500 10.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.panel-b h3{margin:0;font:500 10.5px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.panel-b h3.gap{margin-top:10px;padding-top:12px;border-top:1.5px solid var(--line)}
 .panel-b ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .ticket{border:1px solid var(--line);padding:8px 10px;font-size:13px;overflow-wrap:anywhere}
 .ticket small{display:block;font:500 10px/1.4 var(--mono);color:var(--mute);letter-spacing:.06em}
@@ -237,9 +253,11 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .now{font-size:15px;font-weight:600;overflow-wrap:anywhere;margin:0}
 .item{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 8px;align-items:start;border-top:1px solid var(--line);padding-top:8px;font-size:13px}
 .item>.led{margin-top:4px}
-.item .why{display:block;font:500 10.5px/1.4 var(--mono);color:var(--mute);letter-spacing:.03em}
+.item .why{display:block;font:500 10.5px/1.4 var(--mono);color:var(--mute);letter-spacing:.03em;margin-top:2px}
+.item .rk{font:500 10.5px/1 var(--mono);letter-spacing:.06em;color:var(--mute);margin-right:6px}
+.item .ago{font:500 10.5px/1 var(--mono);letter-spacing:.04em;color:var(--mute);white-space:nowrap}
 .item>.sacts,.item>button,.item>.draft{grid-column:2;justify-self:start;flex-wrap:wrap}
-.item>.sacts{justify-content:flex-start}
+.item>.sacts{justify-content:flex-start;gap:6px 10px}
 .panel-b.wide-tray{grid-template-columns:1.6fr 1fr .9fr}
 .item>.draft{justify-self:stretch;max-height:340px;overflow:auto}
 .item .t{overflow-wrap:anywhere}
@@ -253,7 +271,12 @@ label{display:flex;flex-direction:column;gap:3px;font:500 10px/1.3 var(--mono);l
 select,textarea,input{font:400 14px/1.4 var(--sans);padding:8px;border:1px solid var(--line);background:var(--floor);color:var(--ink);min-width:0;width:100%;letter-spacing:0;text-transform:none}
 textarea{min-height:84px;resize:vertical}
 .panel .key{width:100%}
-.thumb{display:block;max-width:100%;max-height:220px;margin-top:6px;border:1px solid var(--line);object-fit:contain;background:var(--soft)}
+.panel form .key[type="submit"],.chatform .key{width:auto;min-width:120px;text-align:center}
+.golinks{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.golink{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 2px;border-bottom:1px solid var(--line);text-decoration:none;font:500 10.5px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.golink::after{content:"\2197";color:var(--mute)}
+.golink:hover::after{color:var(--ink)}
+.thumb{display:block;align-self:flex-start;width:auto;max-width:100%;max-height:220px;margin-top:6px;border:1px solid var(--line);object-fit:contain;background:var(--soft)}
 
 .dock{display:none;position:fixed;left:0;right:0;bottom:0;z-index:10;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;background:var(--paper);border-top:1.5px solid var(--ink);
   padding:8px max(10px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
@@ -272,10 +295,18 @@ textarea{min-height:84px;resize:vertical}
   .foot{grid-template-columns:minmax(0,1fr)}
   .smain{grid-template-columns:20px minmax(0,1fr);row-gap:2px}
   .strip .who{grid-column:2} .strip .what{grid-column:2;grid-row:2;white-space:normal}
-  .strip li{grid-template-columns:minmax(0,1fr)} .sacts{padding:0 12px 10px}
+  .strip li{grid-template-columns:minmax(0,1fr)} .sacts{padding:0 12px 10px 42px;justify-content:flex-start}
+  .mini{min-height:34px}
+  .switches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+  .sw{min-height:40px;justify-content:center}
+  .sw.act{margin-left:0}
+  .panel-h{gap:6px 12px;padding:14px 16px}
+  .panel-h h2{font-size:18px}
+  .panel-h .stand{margin-left:auto}
+  .panel-h .role{order:5;flex-basis:100%}
   .banner{grid-template-columns:auto minmax(0,1fr)} .banner .sacts{grid-column:1/-1;padding:0}
   .dock{display:grid}
-  .panel-b{grid-template-columns:minmax(0,1fr)}
+  .panel-b,.panel-b.wide-tray{grid-template-columns:minmax(0,1fr)}
   .panel-b section{border-right:0;border-bottom:1px solid var(--line)}
   .sheet{align-items:flex-end;padding:0}
   .panel{max-height:92vh;border-bottom:0}
@@ -290,15 +321,14 @@ textarea{min-height:84px;resize:vertical}
     <div class="mark">
       <span class="eyebrow" id="eyebrow">Eden Partner Group · KDTW Group</span>
       <h1>EDEN: 50K FT.</h1>
-      <span class="clock" id="clock"></span>
-      <span class="clock" id="sync"></span>
+      <div class="clockrow"><span class="clock" id="clock"></span><span class="clock" id="sync"></span></div>
     </div>
     <div class="switches" role="group" aria-label="Floor switches">
       <button class="sw" id="sw-share" aria-pressed="false" title="Hide finance, coaching and family before a screen share"><i></i>Screen share</button>
       <button class="sw" id="sw-still" aria-pressed="false" title="Stop every blink; lights hold steady"><i></i>Still</button>
       <button class="sw" id="sw-notes" aria-pressed="false" title="Show the architect's sightlines and adjacencies"><i></i>Plan notes</button>
       <button class="sw" id="sw-theme" aria-pressed="false" title="Switch light and dark"><i></i>Dark</button>
-      <button class="sw" id="photo-btn" hidden title="Upload photos, PDFs, CSVs or spreadsheets and hand them to an agent">Upload</button>
+      <button class="sw act" id="photo-btn" hidden title="Upload photos, PDFs, CSVs or spreadsheets and hand them to an agent">Upload</button>
       <input type="file" id="photo-in" accept="image/*,application/pdf,.pdf,.csv,text/csv,.xlsx,.xls,.txt,.md,.json" multiple hidden>
     </div>
   </header>
@@ -586,10 +616,12 @@ textarea{min-height:84px;resize:vertical}
   var zzzOpen = {};
   function zzz(acts, i) {
     if (!zzzOpen[i.key]) { var z = h('button', { class: 'mini', text: 'Zzz', title: 'Snooze' }); z.disabled = !S.canWrite; z.addEventListener('click', function (ev) { ev.stopPropagation(); zzzOpen[i.key] = true; S.forceSheet = true; renderAll(); }); acts.appendChild(z); return; }
+    var g = h('span', { class: 'seg snooze', role: 'group', 'aria-label': 'Snooze until' });
     snoozeOptions().forEach(function (o) {
-      var b = h('button', { class: 'mini', text: o[0] }); b.addEventListener('click', function (ev) { ev.stopPropagation(); delete zzzOpen[i.key]; snooze(i, o[1]); }); acts.appendChild(b);
+      var b = h('button', { class: 'mini', text: o[0] }); b.addEventListener('click', function (ev) { ev.stopPropagation(); delete zzzOpen[i.key]; snooze(i, o[1]); }); g.appendChild(b);
     });
-    var c = h('button', { class: 'mini', text: 'Cancel' }); c.addEventListener('click', function (ev) { ev.stopPropagation(); delete zzzOpen[i.key]; S.forceSheet = true; renderAll(); }); acts.appendChild(c);
+    acts.appendChild(g);
+    var c = h('button', { class: 'mini txt', text: 'Cancel' }); c.addEventListener('click', function (ev) { ev.stopPropagation(); delete zzzOpen[i.key]; S.forceSheet = true; renderAll(); }); acts.appendChild(c);
   }
   function snooze(i, until) {
     var doc = { key: i.key, agent: i.agent || null, title: i.title || '', action: 'snooze', until: until.toISOString(), at: new Date().toISOString(), by: 'kev', applied: true };
@@ -625,7 +657,7 @@ textarea{min-height:84px;resize:vertical}
       var main = h('button', { class: 'smain', 'data-id': i.agent }, led(i.light, true), h('span', { class: 'who', text: nameOf(i.agent) }), h('span', { class: 'what', text: i.title }));
       main.setAttribute('aria-label', WORD[i.light] + ', ' + nameOf(i.agent) + ': ' + i.title);
       var acts = h('span', { class: 'sacts' });
-      if (i.link) acts.appendChild(h('a', { class: 'mini', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
+      if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
       zzz(acts, i); if (!zzzOpen[i.key]) acts.appendChild(seenBtn(i));
       ol.appendChild(h('li', null, main, acts));
     });
@@ -771,14 +803,15 @@ textarea{min-height:84px;resize:vertical}
   }
   function itemRow(i) {
     var acts = h('span', { class: 'sacts', style: 'padding:0' });
-    if (i.link) acts.appendChild(h('a', { class: 'mini', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
-    if (i.preview) { var rd = h('button', { class: 'mini', text: openDrafts[i.key] ? 'Hide draft' : 'Read draft' }); rd.addEventListener('click', function () { openDrafts[i.key] = !openDrafts[i.key]; S.forceSheet = true; renderSheet(); }); acts.insertBefore(rd, acts.firstChild); }
+    if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
+    if (i.preview) { var rd = h('button', { class: 'mini txt', text: openDrafts[i.key] ? 'Hide draft' : 'Read draft' }); rd.addEventListener('click', function () { openDrafts[i.key] = !openDrafts[i.key]; S.forceSheet = true; renderSheet(); }); acts.insertBefore(rd, acts.firstChild); }
     var done = h('button', { class: 'mini', text: 'Done', 'data-act': 'done', 'data-key': i.key }); done.disabled = !S.canWrite;
     var fu = h('button', { class: 'mini', text: 'Follow up', 'data-act': 'followup', 'data-key': i.key }); fu.disabled = !S.canWrite;
-    acts.appendChild(done); acts.appendChild(fu);
+    done.className = 'mini primary';
+    acts.appendChild(h('span', { class: 'seg', role: 'group', 'aria-label': 'Decide' }, done, fu));
     zzz(acts, i);
-    if (!i.seen) acts.appendChild(seenBtn(i));
-    var row = h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't' }, (i.rank != null ? '#' + i.rank + ' ' : '') + i.title + ' · ' + ago(i.raisedAt), i.why ? h('small', { class: 'why', text: i.why }) : null), acts);
+    if (!i.seen) { var sn = seenBtn(i); sn.className = 'mini txt'; acts.appendChild(sn); }
+    var row = h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't' }, i.rank != null ? h('span', { class: 'rk', text: '#' + i.rank }) : null, i.title, h('span', { class: 'ago', text: ' · ' + ago(i.raisedAt) }), i.why ? h('small', { class: 'why', text: i.why }) : null), acts);
     if (i.preview && openDrafts[i.key]) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'To: ' + ((i.preview.to || []).join(', ') || 'blank, add before sending') }), '\n' + i.preview.text + '\n\nNothing sends from here. Proof it, then open Superhuman to edit and send.'));
     return row;
   }
@@ -863,13 +896,13 @@ textarea{min-height:84px;resize:vertical}
     var mine = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id; }).sort(function (x, y) { return t(y.createdAt) - t(x.createdAt); }).slice(0, 8);
     var naps = snoozedFor(a.id);
     var answer = a.id === 'host' ? e.items.filter(function (i) { return i.light === 'reply'; }).sort(function (x, y) { return ((x.rank == null ? 99 : x.rank) - (y.rank == null ? 99 : y.rank)) || (t(x.raisedAt) - t(y.raisedAt)); }) : [];
-    var tray = h('section', null, h('h3', { text: 'In tray · ' + (a.openTickets || 0) + ' open' + (naps.length ? ' · ' + naps.length + ' snoozed' : '') }));
+    var tray = h('section');
     if (a.id === 'host') {
       tray.appendChild(h('h3', { text: 'To answer · ranked by Jenny · ' + answer.length }));
       if (answer.length) answer.forEach(function (i) { tray.appendChild(itemRow(i)); });
       else tray.appendChild(h('p', { class: 'small', text: 'Nothing waiting on your reply. Jenny ranks new ones each sweep, with a draft ready in Superhuman.' }));
-      tray.appendChild(h('h3', { text: 'Tickets' }));
     }
+    var th = h('h3', { text: 'In tray · ' + (a.openTickets || 0) + ' open' + (naps.length ? ' · ' + naps.length + ' snoozed' : '') }); if (a.id === 'host') th.className = 'gap'; tray.appendChild(th);
     var ul = h('ul');
     mine.forEach(function (x) {
       var li = h('li', { class: 'ticket' }, x.ask, h('small', { text: x.status + ' · ' + x.priority + (x.due ? ' · due ' + x.due : '') + ' · from Kev · ' + ago(x.createdAt) }));
@@ -912,7 +945,7 @@ textarea{min-height:84px;resize:vertical}
     if (S.assets) { var pb = h('button', { class: 'key', text: 'Upload a file' }); pb.disabled = !S.canWrite; pb.addEventListener('click', function () { pickPhoto(a.id); }); drawer.appendChild(pb); }
     drawer.appendChild(cb); drawer.appendChild(st); drawer.appendChild(ht);
     if (S.formOpen) drawer.appendChild(ticketForm(a.id, false));
-    toolsFor(AGENT_TOOLS[a.id] || ['eden-desk']).forEach(function (x) { drawer.appendChild(toolLink(Object.assign({}, x, { name: 'Open ' + x.name }), 'key')); });
+    var gl = h('div', { class: 'golinks' }); toolsFor(AGENT_TOOLS[a.id] || ['eden-desk']).forEach(function (x) { gl.appendChild(toolLink(Object.assign({}, x, { name: 'Open ' + x.name }), 'golink')); }); if (gl.childNodes.length) drawer.appendChild(gl);
     drawer.appendChild(h('p', { class: 'small', text: S.flash || 'A ticket is delegation, never approval. You stay accountable; sends, spends and publishing still go through QC with the exact action shown.' }));
     body.appendChild(drawer);
     var cw = h('div', { class: 'panel-b one' }); cw.appendChild(chatSection(a)); p.appendChild(cw);
