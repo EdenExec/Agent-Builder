@@ -1,13 +1,117 @@
 [
-  {"id":"hub","name":"Team Hub","kind":"artifact","owner":"radar","url":"https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6","expectedEveryDays":3},
-  {"id":"eden-daily","name":"The Eden Daily","kind":"artifact","owner":"radar","url":"https://claude.ai/artifact/6WCnWouUfZFBXL1FNZMGi2","expectedEveryDays":1},
-  {"id":"day-board","name":"Day Board","kind":"artifact","owner":"radar","url":"https://claude.ai/artifact/4QFTb8NFvWhbc2jg5zD4hc","expectedEveryDays":2},
-  {"id":"workshop","name":"Employee Workshop","kind":"artifact","owner":"radar","url":"https://claude.ai/artifact/8nmNm3TD2MaJzia8tvHFxR","expectedEveryDays":14},
-  {"id":"eden-desk","name":"Eden Desk","kind":"artifact","owner":"radar","url":"https://claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G","expectedEveryDays":7},
-  {"id":"atlas-desk","name":"Atlas Desk","kind":"artifact","owner":"atlas","url":"https://claude.ai/artifact/Hy19F4FNCKe18QHUvRqj6h","expectedEveryDays":7},
-  {"id":"marlowe-desk","name":"Marlowe's Desk","kind":"artifact","owner":"housing-architect","url":"https://claude.ai/artifact/2eHGZMaWKJox5hFGHYWLPo","expectedEveryDays":7},
-  {"id":"org-chart","name":"Org chart","kind":"artifact","owner":"radar","url":"https://claude.ai/artifact/CyZ475DJjbNNaGbfc93nZN","expectedEveryDays":30},
-  {"id":"cloudtalk-nightly","name":"CloudTalk nightly lead load","kind":"routine","owner":"q","routineId":"cloudtalk-nightly","qcId":"2026-10-19-e4ff61","expectedEveryDays":1,"note":"Waits on the 10-row test load approval and a trigger Kev creates."},
-  {"id":"qc-queue","name":"QC queue","kind":"queue","owner":"radar","expectedEveryDays":2,"note":"npm run qc; items waiting on Kev."},
-  {"id":"numbers-gate","name":"Numbers gate","kind":"queue","owner":"tally","expectedEveryDays":14}
+ {
+  "id": "hub",
+  "name": "Team Hub",
+  "kind": "artifact",
+  "owner": "radar",
+  "url": "https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6",
+  "expectedEveryDays": 3
+ },
+ {
+  "id": "eden-daily",
+  "name": "The Eden Daily",
+  "kind": "artifact",
+  "owner": "radar",
+  "url": "https://claude.ai/artifact/6WCnWouUfZFBXL1FNZMGi2",
+  "expectedEveryDays": 1
+ },
+ {
+  "id": "day-board",
+  "name": "Day Board",
+  "kind": "artifact",
+  "owner": "radar",
+  "url": "https://claude.ai/artifact/4QFTb8NFvWhbc2jg5zD4hc",
+  "expectedEveryDays": 2
+ },
+ {
+  "id": "workshop",
+  "name": "Employee Workshop",
+  "kind": "artifact",
+  "owner": "radar",
+  "url": "https://claude.ai/artifact/8nmNm3TD2MaJzia8tvHFxR",
+  "expectedEveryDays": 14
+ },
+ {
+  "id": "eden-desk",
+  "name": "Eden Desk",
+  "kind": "artifact",
+  "owner": "radar",
+  "url": "https://claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G",
+  "expectedEveryDays": 7
+ },
+ {
+  "id": "atlas-desk",
+  "name": "Atlas Desk",
+  "kind": "artifact",
+  "owner": "atlas",
+  "url": "https://claude.ai/artifact/Hy19F4FNCKe18QHUvRqj6h",
+  "expectedEveryDays": 7
+ },
+ {
+  "id": "marlowe-desk",
+  "name": "Marlowe's Desk",
+  "kind": "artifact",
+  "owner": "housing-architect",
+  "url": "https://claude.ai/artifact/2eHGZMaWKJox5hFGHYWLPo",
+  "expectedEveryDays": 7
+ },
+ {
+  "id": "org-chart",
+  "name": "Org chart",
+  "kind": "artifact",
+  "owner": "radar",
+  "url": "https://claude.ai/artifact/CyZ475DJjbNNaGbfc93nZN",
+  "expectedEveryDays": 30
+ },
+ {
+  "id": "cloudtalk-nightly",
+  "name": "CloudTalk nightly lead load",
+  "kind": "routine",
+  "owner": "q",
+  "routineId": "cloudtalk-nightly",
+  "qcId": "2026-10-19-e4ff61",
+  "expectedEveryDays": 1,
+  "note": "Waits on the 10-row test load approval and a trigger Kev creates."
+ },
+ {
+  "id": "qc-queue",
+  "name": "QC queue",
+  "kind": "queue",
+  "owner": "radar",
+  "expectedEveryDays": 2,
+  "note": "npm run qc; items waiting on Kev."
+ },
+ {
+  "id": "numbers-gate",
+  "name": "Numbers gate",
+  "kind": "queue",
+  "owner": "tally",
+  "expectedEveryDays": 14
+ },
+ {
+  "id": "ledger",
+  "name": "Notion ledger",
+  "kind": "doc",
+  "owner": "radar",
+  "url": "https://app.notion.com/p/3ce25d7d12f48110b9f2d1dcda440b90",
+  "expectedEveryDays": 1
+ },
+ {
+  "id": "quickbooks",
+  "name": "QuickBooks",
+  "kind": "doc",
+  "owner": "tally",
+  "url": "https://qbo.intuit.com",
+  "expectedEveryDays": 7,
+  "note": "Read only. Tally must re-authorise first."
+ },
+ {
+  "id": "gusto",
+  "name": "Gusto",
+  "kind": "doc",
+  "owner": "tally",
+  "url": "https://app.gusto.com",
+  "expectedEveryDays": 14,
+  "note": "Read only; never touch payroll."
+ }
 ]
