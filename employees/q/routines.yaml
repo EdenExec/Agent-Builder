@@ -9,7 +9,7 @@ branch: claude/pensive-brown-18gll8
 routines:
   - id: cloudtalk-nightly
     name: "Q · CloudTalk nightly lead load (11pm, Mon-Fri)"
-    trigger_id: trig_012nXYnQ12FvBCZvpR4ExPXz   # created 21 Oct on Kev's Office approval; Kev attaches Gmail + CloudTalk connectors in claude.ai
+    trigger_id: null            # Kev creates the trigger from his account; paste the id here (agent-made triggers carry no connectors: tried 21 Oct)
     cron: "CRON_TZ=America/Los_Angeles 3 23 * * 1-5"
     model: claude-sonnet-5
     skills: [standing-rules, cloudtalk-nightly]

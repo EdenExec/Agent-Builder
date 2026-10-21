@@ -1,1 +1,1 @@
-- 2026-10-21 (Kev, Office chat): approved the CloudTalk 10-row test load and the nightly lead-load trigger. Radar created the nightly trigger the same night (see routines.yaml).
+- 2026-10-21 (Kev, Office chat): approved the CloudTalk 10-row test load and the nightly lead-load trigger. An agent-made trigger carries no connectors (tried and removed 21 Oct), so Kev creates it once from claude.ai with Gmail + CloudTalk; prompt in employees/q/routines/cloudtalk-nightly.md.
