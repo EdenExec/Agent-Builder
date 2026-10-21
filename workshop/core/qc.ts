@@ -19,7 +19,7 @@ export type QcItem = {
   /** Who would receive it, for send_message items. */
   recipients?: string[];
   /** The ready-to-send draft for a send_message item (Radar creates it in Superhuman; Kev sends it there). */
-  draft?: { app: "superhuman"; id: string; subject?: string };
+  draft?: { app: "superhuman"; id: string; threadId?: string; subject?: string };
   status: QcStatus;
   createdAt: string;
   decidedAt?: string;

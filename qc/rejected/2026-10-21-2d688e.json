@@ -1,6 +1,6 @@
 {
   "id": "2026-10-21-2d688e",
-  "status": "pending",
+  "status": "rejected",
   "createdAt": "2026-10-21T16:32:55.228Z",
   "employee": "radar",
   "kind": "send_message",
@@ -8,5 +8,7 @@
   "detail": "Calendar invite (recurring weekly, Mondays 1:00-1:20pm PT, starting Mon 26 Oct 2026; no end date)\nTo: evan@edenexec.com (organizer kev@edenexec.com; no other guests; no Meet link)\nTitle: Job post tune-up · LinkedIn (4 live posts)\nDescription:\nWeekly 20 minutes to tune the four LinkedIn posts that went live 21 Oct (VDC/BIM; Traveling Superintendent; Miami Superintendent; QC oil and gas).\n1. Log this week's row per job: views, applicants, applicants passing the must-haves, qualified and in-market.\n2. Pick one or two levers per job and write down what you changed: split a wide post, retitle, rewrite the first three lines, tighten or loosen screening, boost or pause, or hand Scout an outbound list.\n3. Post a two-line update in the team thread.\nPlaybook: employees/scout/drafts/job-post-watch-plan-2026-10-21.md",
   "recipients": [
     "evan@edenexec.com"
-  ]
+  ],
+  "decidedAt": "2026-10-21T16:37:20.658Z",
+  "note": "superseded: Kev doesn't attend; Evan owns a self-run Monday check and status (see the new item)"
 }

@@ -37,7 +37,7 @@ export type AgentLite = { id: string; name: string; title?: string };
 export type NowFile = { task?: string; since?: string; state?: "working" | "idle" | "blocked"; blockedOn?: string; updated?: string };
 export type LedgerRow = { id?: string; item: string; owner: string; lane?: string; due?: string; status?: string; url?: string };
 /** A message Kev should answer, ranked by Jenny in the inbox sweep. `draft` is her reply waiting in Superhuman Drafts; `preview` its text. */
-export type InboxItem = { agent?: string; title: string; from?: string; why?: string; rank?: number; kind?: "client" | "team" | "candidate"; raisedAt: string; url?: string; draft?: { id: string; subject?: string }; preview?: string };
+export type InboxItem = { agent?: string; title: string; from?: string; why?: string; rank?: number; kind?: "client" | "team" | "candidate"; raisedAt: string; url?: string; draft?: { id: string; threadId?: string; subject?: string }; preview?: string };
 export type CallItem = { who: string; company?: string; at: string; returned?: boolean };
 export type RunResult = { routine: string; agent?: string; lastRunAt?: string; ok: boolean; note?: string };
 export type TicketLite = { id: string; agent: string; status: string; pickedAt?: string; priority?: string };
@@ -110,6 +110,8 @@ function ownerToAgent(owner: string, agents: AgentLite[]): string | undefined {
 
 /** Superhuman's connector gives no per-draft link, so a ready draft opens Superhuman itself; the alert names the subject (Drafts: G then D). */
 export const SUPERHUMAN_URL = "https://mail.superhuman.com/";
+/** A draft opens directly when its thread id is known (create_or_update_draft returns it). */
+export const superhumanLink = (threadId?: string) => (threadId ? `https://mail.superhuman.com/kev@edenexec.com/thread/${threadId}` : SUPERHUMAN_URL);
 /** Kev approves QC items on the Eden Desk approval cards; Radar never approves (project permissions block it). */
 export const EDEN_DESK_URL = "https://claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G";
 
@@ -126,7 +128,7 @@ export function buildAlerts(input: SyncInput): Alert[] {
     const light = overdue ? "urgent" : q.kind === "send_message" ? "review" : "blocked";
     add({
       id: `sync-qc-${q.id}`, agent: q.employee, light, kind: "qc", needsKev: true, raisedAt: q.createdAt, source: `qc/${q.id}`,
-      link: q.draft ? SUPERHUMAN_URL : EDEN_DESK_URL,
+      link: q.draft ? superhumanLink(q.draft.threadId) : EDEN_DESK_URL,
       ...(q.kind === "send_message" ? { preview: { to: q.recipients ?? [], text: String(q.detail ?? "").replace(/\(?\+?\d[\d\s().-]{8,}\d/g, "[number]").slice(0, 4000) } } : {}),
       title: q.draft ? `Draft ready in Superhuman${overdue ? " (waiting 5+ days)" : ""}: ${scrub(q.draft.subject ?? q.summary, 80)}` : `${q.kind.replace("_", " ")}${overdue ? " (waiting 5+ days)" : ""}: ${scrub(q.summary, 80, q.kind === "spend")}`,
     });
@@ -160,7 +162,7 @@ export function buildAlerts(input: SyncInput): Alert[] {
   for (const m of input.inbox ?? []) {
     add({
       id: `sync-inbox-${slug(m.title)}-${isoDay(new Date(m.raisedAt))}`, agent: m.agent ?? "host", light: "reply", kind: "inbox", needsKev: true, raisedAt: m.raisedAt, source: "inbox sweep",
-      link: m.draft ? SUPERHUMAN_URL : m.url, title: `${m.from ? scrub(m.from, 30) + ": " : `Reply${m.kind ? ` (${m.kind})` : ""}: `}${scrub(m.title, 70)}`,
+      link: m.draft ? superhumanLink(m.draft.threadId) : m.url, title: `${m.from ? scrub(m.from, 30) + ": " : `Reply${m.kind ? ` (${m.kind})` : ""}: `}${scrub(m.title, 70)}`,
       ...(m.rank != null ? { rank: m.rank } : {}), ...(m.why ? { why: scrub(m.why, 120) } : {}),
       ...(m.preview ? { preview: { to: m.from ? [m.from] : [], text: String(m.preview).replace(/\(?\+?\d[\d\s().-]{8,}\d/g, "[number]").slice(0, 4000) } } : {}),
     });
