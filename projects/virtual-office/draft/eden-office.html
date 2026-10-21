@@ -234,7 +234,9 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .exact{background:var(--soft);padding:8px;font:400 11.5px/1.45 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;margin-top:6px}
 .log li{font:400 11.5px/1.45 var(--mono);color:var(--mute)} .log li b{color:var(--ink);font-weight:500}
 .now{font-size:15px;font-weight:600;overflow-wrap:anywhere;margin:0}
-.item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;border-top:1px solid var(--line);padding-top:8px;font-size:13px}
+.item{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 8px;align-items:start;border-top:1px solid var(--line);padding-top:8px;font-size:13px}
+.item>.led{margin-top:4px}
+.item>.sacts,.item>button{grid-column:2;justify-self:start;flex-wrap:wrap}
 .item .t{overflow-wrap:anywhere}
 .scroll{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-size:12.5px}
