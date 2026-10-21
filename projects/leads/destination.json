@@ -18,15 +18,52 @@
     "movedBy": "Radar, Drive update_file with parentId; Lead Log gets a Moved date"
   },
   "pipeline": [
-    { "stage": "landed", "owner": "Scout", "done": "sheet built, checked, uploaded to the master folder and linked", "recordedBy": "npm run leads -- link", "logColumn": "Landed" },
-    { "stage": "phones", "owner": "Noah's routine", "done": "Mobile and Mobile source filled from Noah's allowed sources (never ZoomInfo phones)", "recordedBy": "Noah's routine dates Phones added in the Lead Log; npm run leads -- stage-set <file> phones", "logColumn": "Phones added" },
-    { "stage": "in-crelate", "owner": "whoever loads (BPO team or Noah)", "done": "leads loaded into Crelate", "recordedBy": "npm run leads -- stage-set <file> crelate", "logColumn": "In Crelate" },
-    { "stage": "moved", "owner": "Radar", "done": "sheet moved to Uploaded to Crelate", "recordedBy": "Radar, Drive update_file parentId, then npm run leads -- stage-set <file> moved", "logColumn": "Moved" }
+    {
+      "stage": "landed",
+      "owner": "Scout",
+      "done": "sheet built, checked, uploaded to the master folder and linked",
+      "recordedBy": "npm run leads -- link",
+      "logColumn": "Landed"
+    },
+    {
+      "stage": "phones",
+      "owner": "Noah's routine",
+      "done": "Mobile and Mobile source filled from Noah's allowed sources (never ZoomInfo phones)",
+      "recordedBy": "Noah's routine dates Phones added in the Lead Log; npm run leads -- stage-set <file> phones",
+      "logColumn": "Phones added"
+    },
+    {
+      "stage": "in-crelate",
+      "owner": "whoever loads (BPO team or Noah)",
+      "done": "leads loaded into Crelate",
+      "recordedBy": "npm run leads -- stage-set <file> crelate",
+      "logColumn": "In Crelate"
+    },
+    {
+      "stage": "moved",
+      "owner": "Radar",
+      "done": "sheet moved to Uploaded to Crelate",
+      "recordedBy": "Radar, Drive update_file parentId, then npm run leads -- stage-set <file> moved",
+      "logColumn": "Moved"
+    }
   ],
   "leadLog": {
     "what": "One control sheet in the master folder named Lead Log: one row per sheet, status by date. Source: projects/leads/lead-log.csv, rebuilt with npm run leads -- log",
-    "columns": ["Sheet", "Drive link", "Rows", "Landed", "Phones added", "In Crelate", "Moved", "Owner note"],
-    "uploadedBy": "Radar, as a Google Sheet (create-only connector: re-create it, not edit it, when it changes, unless the Google Sheets connector is on)"
+    "columns": [
+      "Sheet",
+      "Drive link",
+      "Rows",
+      "Landed",
+      "Phones added",
+      "In Crelate",
+      "Moved",
+      "Owner note"
+    ],
+    "uploadedBy": "Radar, as a Google Sheet (create-only connector: re-create it, not edit it, when it changes, unless the Google Sheets connector is on)",
+    "name": "Lead Log",
+    "id": "1gqMc-aBqTGrNL7r3Li4qEXrrSplrWfeuw9YIXwoSNoY",
+    "url": "https://docs.google.com/spreadsheets/d/1gqMc-aBqTGrNL7r3Li4qEXrrSplrWfeuw9YIXwoSNoY/edit",
+    "uploaded": "2026-10-21 by Radar from projects/leads/lead-log.csv"
   },
   "repoMirror": "projects/leads/sheets",
   "index": "projects/leads/index.json",
@@ -36,5 +73,11 @@
     "writer": "Radar, from Scout's one-line hand-off"
   },
   "format": "employees/scout/skills/lead-list.md (Columns) plus Mobile and Mobile source at the end",
-  "gate": "npm run leads -- check|stage|verify"
+  "gate": "npm run leads -- check|stage|verify",
+  "supersededFolder": {
+    "name": "Superseded (do not dial)",
+    "id": "1THEbC8Yi1-bzvg6CmuZnPmf1WWTBw1sU",
+    "url": "https://drive.google.com/drive/folders/1THEbC8Yi1-bzvg6CmuZnPmf1WWTBw1sU",
+    "holds": "v1 sheets replaced by a v2 (12, 16, 18 moved 2026-10-21). Never deleted."
+  }
 }
