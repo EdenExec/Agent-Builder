@@ -1,0 +1,1 @@
+- 2026-10-21 (Kev, Office chat): approved the CloudTalk 10-row test load and the nightly lead-load trigger. Radar created the nightly trigger the same night (see routines.yaml).
