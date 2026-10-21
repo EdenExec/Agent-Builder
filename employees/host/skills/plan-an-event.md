@@ -30,7 +30,7 @@ Use this for any event idea, from a brain dump to a one-line ask. Output: one pl
 
 ## The page
 
-Front matter: `title`, `author: Host` (or Radar when it goes out under Radar), `date`, `cover: false`, `toc: false`, `compact: true`. Sections in this order: Result at a glance; Decisions for Kev (exactly three, each with your pick); Wonder; Invention; Discernment (table); Galvanizing; Enablement; Tenacity; Timeline and budget (the weeks table from D, then a one-line budget table with the total marked "Kev's decision"). Three bullets or fewer per section.
+Front matter: `title`, `author: Jenny` (or Radar when it goes out under Radar), `date`, `cover: false`, `toc: false`, `compact: true`. Sections in this order: Result at a glance; Decisions for Kev (exactly three, each with your pick); Wonder; Invention; Discernment (table); Galvanizing; Enablement; Tenacity; Timeline and budget (the weeks table from D, then a one-line budget table with the total marked "Kev's decision"). Three bullets or fewer per section.
 
 ## Before you present it
 

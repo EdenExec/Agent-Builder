@@ -1,0 +1,1421 @@
+<title>COMMAND CENTER</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Eden Office v1 (Q, 21 Oct 2026). Marlowe's floor plan, desk sheet, lights and phone layout (research/marlowe-design.md) on Q's data layer.
+   The only saturated pixels are the indicator lights. Everything else is ink on cream, matte dark at night.
+   KEV TO CONFIRM (Marlowe's three asks, proposed defaults applied):
+     1. Header name: "Eden Partner Group · KDTW Group", Family wing marked KDTW Group.   (alt: KDTW only, or Eden only)
+     2. Blink expiry: a blink holds steady after 30 minutes (BLINK_CAP_MIN in the script).   (alt: blink until seen)
+     3. Theme: follows the device, with a manual Dark/Light switch.                          (alt: dark after sunset)
+   Also for Radar: the mono face (IBM Plex Mono) is Marlowe's choice for stamps and counts; the brand rule says Montserrat only. */
+:root{
+  --floor:#F3F0E8; --paper:#FCFBF7; --ink:#141412; --mute:#5E5B54; --line:#D9D4C8; --soft:#EAE6DC;
+  --wall:#141412; --key:#141412; --lens:#D6D1C5; --sun:rgba(240,206,140,.20); --lamp:#F7F0DF; --veil:rgba(243,240,232,.86);
+  --lift:0 1px 0 rgba(20,20,18,.05),0 3px 8px rgba(20,20,18,.06);
+  --g:#2E8A55; --b:#2F66AE; --r:#B03A2E; --a:#A8730F; --g1:38%; --g2:0%;
+  --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --floor:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B;
+  --wall:#8E897D; --key:#8E897D; --lens:#2D2B26; --sun:rgba(255,236,190,.035); --lamp:#221F18; --veil:rgba(18,18,16,.86);
+  --lift:0 1px 0 rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.35);
+  --g:#5FCF8A; --b:#72A6F0; --r:#F07462; --a:#E7B04C; --g1:70%; --g2:30%; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --floor:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B;
+  --wall:#8E897D; --key:#8E897D; --lens:#2D2B26; --sun:rgba(255,236,190,.035); --lamp:#221F18; --veil:rgba(18,18,16,.86);
+  --lift:0 1px 0 rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.35);
+  --g:#5FCF8A; --b:#72A6F0; --r:#F07462; --a:#E7B04C; --g1:70%; --g2:30%; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--floor);color:var(--ink);font:400 14px/1.45 var(--sans);-webkit-font-smoothing:antialiased;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:24px 96px}
+button{font:inherit;color:inherit}
+a{color:inherit}
+.wrap{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font:500 10.5px/1.2 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+
+/* top bar */
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 20px;flex-wrap:wrap;border-bottom:1.5px solid var(--ink);padding-bottom:14px}
+.mark{display:flex;flex-direction:column;gap:6px;min-width:0}
+.mark h1{margin:0;font-weight:800;font-size:clamp(22px,3.4vw,30px);letter-spacing:.14em;line-height:1}
+.clock{font:500 11px/1.3 var(--mono);letter-spacing:.12em;color:var(--mute);text-transform:uppercase}
+.switches{display:flex;gap:6px;flex-wrap:wrap}
+.sw{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--paper);padding:0 12px;min-height:36px;cursor:pointer;
+  font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.sw i{width:18px;height:10px;border:1px solid var(--mute);position:relative;flex:none}
+.sw i::after{content:"";position:absolute;top:1px;left:1px;width:6px;height:6px;background:var(--mute);transition:transform .16s}
+.sw[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
+.sw[aria-pressed="true"] i{border-color:var(--ink)} .sw[aria-pressed="true"] i::after{transform:translateX(8px);background:var(--ink)}
+.sw.act{color:var(--ink);border-color:var(--key);box-shadow:0 2px 0 var(--key);margin-left:6px}
+.sw.act:active{transform:translateY(2px);box-shadow:none}
+.clockrow{display:flex;flex-wrap:wrap;gap:2px 0}
+#sync:not(:empty)::before{content:"\00a0·\00a0"}
+.sw:focus-visible,.golink:focus-visible,.desk:focus-visible,.bench:focus-visible,.key:focus-visible,.smain:focus-visible,.radar-sit:focus-visible,.stand:focus-visible,.mini:focus-visible,a:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.notice{padding:8px 12px;border:1px dashed var(--line);font:500 11px/1.4 var(--mono);letter-spacing:.04em;color:var(--mute);background:var(--paper)}
+
+/* pinned banner: red only, one at a time */
+.banner{border:2px solid var(--r);background:var(--paper);display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 12px}
+.banner .what{min-width:0;overflow-wrap:anywhere;font-weight:600}
+.banner .sub{font:500 10px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+
+/* needs-Kev strip */
+.strip{display:flex;flex-direction:column;gap:0;border:1px solid var(--ink);background:var(--paper)}
+.strip-h{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 10px;padding:8px 12px;border-bottom:1px solid var(--line)}
+.strip ol{list-style:none;margin:0;padding:0}
+.strip li{border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center}
+.strip li:last-child{border-bottom:0}
+.smain{display:grid;grid-template-columns:22px 92px minmax(0,1fr);align-items:center;gap:10px;padding:10px 12px;background:none;border:0;text-align:left;cursor:pointer;min-width:0}
+.smain:hover{background:var(--soft)}
+.smain:disabled{cursor:default}
+.strip .who{font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.strip .what{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sacts{display:flex;gap:6px 8px;padding-right:12px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+.sacts .mini{white-space:nowrap}
+.mini{font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);border:1px solid var(--line);background:none;padding:7px 9px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.mini:hover{border-color:var(--ink)}
+.mini:disabled{opacity:.45;cursor:default}
+/* polish 1: one weight per job. Boxed = decide; joined group = one choice; underlined text = look or dismiss */
+.mini.primary{border-color:var(--ink)}
+.mini.txt{border-color:transparent;padding-inline:3px;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
+.mini.txt:hover{border-color:transparent;text-decoration-color:var(--ink)}
+.seg{display:inline-flex;flex-wrap:wrap}
+.seg>.mini+.mini{margin-left:-1px}
+.seg>.mini:hover{position:relative;z-index:1}
+.seg.snooze>.mini{border-style:dashed}
+.more{font:500 10.5px/1.3 var(--mono);letter-spacing:.06em;color:var(--mute);padding:8px 12px;border-top:1px solid var(--line)}
+
+/* the floor: a plan drawing */
+.plan{position:relative;padding:18px 0 34px;overflow-x:clip}
+.floor{position:relative;border:3px solid var(--wall);background:var(--floor);padding:22px;display:grid;gap:22px;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  grid-template-areas:
+   "rec rec rec rec rec rev rev fin fin fin fin fin"
+   "ppl ppl ppl ppl rad rad rad fam fam fam fam fam"
+   "cli cli cli cli cli cli cli fam fam fam fam fam";   /* polish 1: Q's old bay is gone, so Radar sits in row two and Client work runs along the south wall to the door */
+  transition:opacity .24s, transform .32s cubic-bezier(.2,.7,.2,1)}
+.floor.sitting{opacity:.28;transform:scale(1.025)}
+.glaze{position:absolute;top:-3px;height:3px;background:var(--floor);border-top:1px solid var(--wall);border-bottom:1px solid var(--wall)}
+.door{position:absolute;bottom:-3px;width:44px;height:3px;background:var(--floor)}
+.door svg{position:absolute;left:0;top:0;width:44px;height:44px;overflow:visible;transform:scaleY(-1)}   /* swings out, as an egress door does, clear of Client work */
+.sun{position:absolute;bottom:0;height:44%;width:26%;background:var(--sun);pointer-events:none;transform-origin:bottom center;z-index:0;transition:left 2s,transform 2s}
+.zone{position:relative;z-index:1;min-width:0;display:flex;flex-direction:column;gap:12px;padding:12px;border:1px dashed var(--line)}
+.zone>.eyebrow{display:flex;justify-content:space-between;gap:8px}
+.z-rec{grid-area:rec} .z-rev{grid-area:rev} .z-fin{grid-area:fin} .z-ppl{grid-area:ppl} .z-cli{grid-area:cli}
+.z-rad{grid-area:rad;border:0;padding:0;justify-content:flex-start}
+.z-fam{grid-area:fam;border:2px solid var(--wall);border-left-width:3px;padding:14px}
+.z-fam .bench{margin-top:auto}
+.z-fam::before{content:"";position:absolute;left:-3px;top:38%;height:56px;width:3px;background:var(--floor)}
+.z-cli{border:0;outline:1px solid var(--line);outline-offset:-1px;box-shadow:inset 0 0 0 4px var(--floor),inset 0 0 0 5px var(--line)}
+.desks{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:14px}
+
+/* the desk object */
+.desk{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:5px;text-align:left;cursor:pointer;
+  background:var(--paper);border:1px solid var(--line);box-shadow:var(--lift);padding:12px 12px 10px;margin-top:12px;min-height:104px;min-width:0;
+  transition:transform .08s,box-shadow .08s}
+.desk:hover{border-color:var(--mute)}
+.desk:active{transform:translateY(1px);box-shadow:none}
+.desk.lamp{background:var(--lamp)}
+.chair{position:absolute;top:-12px;left:50%;width:30px;height:11px;margin-left:-15px;border:1px solid var(--line);border-bottom:0;border-radius:15px 15px 0 0;background:var(--floor)}
+.plate{font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase;padding-right:44px}
+.role{font:500 10px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.task{font-size:12.5px;line-height:1.35;min-height:2.7em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+/* meta: two lines reserved on every desk, so the hairlines line up across a row even when a state word wraps */
+.meta{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:6px;min-height:calc(2.4em + 7px);font:500 10px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);border-top:1px solid var(--line);padding-top:6px;margin-top:auto}
+.meta .st{color:var(--ink)}
+.meta>span:last-child{white-space:nowrap;text-align:right}
+.stale{border:1px solid var(--mute);padding:0 3px}
+.papers{position:relative;display:inline-block;width:9px;height:11px;margin-right:9px;vertical-align:-1px}
+.papers i{position:absolute;inset:0;border:1px solid var(--mute);background:var(--paper)}
+.papers i:nth-child(2){transform:translate(2px,-2px)} .papers i:nth-child(3){transform:translate(4px,-4px)}
+
+/* the light: a lens that is always there, a lit layer that glows and blinks, and a shape that never relies on colour */
+.ledbox{position:absolute;top:11px;right:11px;display:flex;align-items:center;gap:5px}
+.cnt{font:500 9.5px/1 var(--mono);color:var(--mute)}
+.led{--c:var(--lens);position:relative;display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--lens);flex:none}
+.led::before,.led::after{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0}
+.led::before{background:var(--c)}
+.led::after{box-shadow:0 0 6px 1px color-mix(in srgb,var(--c) var(--g1),transparent),0 0 16px 4px color-mix(in srgb,var(--c) var(--g2),transparent)}
+.led[data-s="working"]{--c:var(--g)} .led[data-s="done"]{--c:var(--g)} .led[data-s="reply"]{--c:var(--b)}
+.led[data-s="urgent"]{--c:var(--r)} .led[data-s="blocked"]{--c:var(--a)}
+.led[data-s="idle"]{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line)}
+.led[data-s="done"]{outline:1.5px solid var(--c);outline-offset:2px}
+.led[data-s="reply"]{border-radius:2px}
+.led[data-s="urgent"]{border-radius:1px;transform:rotate(45deg) scale(.92)}
+.led[data-s="blocked"]{width:15px;height:6px;border-radius:1px}
+.led:not([data-s="idle"])::before{opacity:1}
+.led[data-s="working"]::after{animation:breathe 5s ease-in-out infinite;animation-delay:var(--ph,0s)}
+.led[data-s="blocked"]::after{opacity:.75}
+.led[data-s="done"]::before,.led[data-s="done"]::after{animation:b-done 3s infinite;animation-delay:var(--ph,0s)}
+.led[data-s="reply"]::before,.led[data-s="reply"]::after{animation:b-reply 3s infinite;animation-delay:var(--ph,0s)}
+.led[data-s="urgent"]::before,.led[data-s="urgent"]::after{animation:b-urgent 1s infinite;animation-delay:var(--ph,0s)}
+@keyframes breathe{0%,100%{opacity:.25}50%{opacity:.9}}
+@keyframes b-done{0%,20%{opacity:1}20.01%,100%{opacity:0}}
+@keyframes b-reply{0%,5%{opacity:1}5.01%,10%{opacity:0}10.01%,15%{opacity:1}15.01%,100%{opacity:0}}
+@keyframes b-urgent{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+/* looked at, expired, Still, or reduced motion: blinking stops, the light holds steady, the shape and word carry the meaning */
+.held .led::before,.held .led::after,:root.still .led::before,:root.still .led::after{animation:none!important;opacity:1}
+:root.still .led[data-s="working"]::after,.held .led[data-s="working"]::after{opacity:.6}
+@media (prefers-reduced-motion:reduce){
+  .led::before,.led::after{animation:none!important}
+  .led:not([data-s="idle"])::before{opacity:1} .led:not([data-s="idle"])::after{opacity:.6}
+  .floor,.sun,.sw i::after{transition:none!important}
+}
+
+/* benches */
+.bench{display:flex;flex-direction:column;gap:3px;text-align:left;cursor:pointer;text-decoration:none;color:inherit;background:var(--soft);border:1px solid var(--line);padding:10px 12px;min-width:0}
+.bench:hover{border-color:var(--mute)}
+.bench b{font-weight:700;font-size:13.5px}
+.bench span{font:500 10px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.bench.tall{flex:1;justify-content:flex-start}
+.quick{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
+.quick .key{text-align:center;border-color:var(--mute);box-shadow:0 2px 0 var(--mute);background:var(--paper)}
+.slot{display:contents}
+.closed{display:none;flex:1;min-height:80px;align-items:center;justify-content:center;text-align:center;
+  font:500 10.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);
+  background:repeating-linear-gradient(45deg,transparent 0 7px,var(--line) 7px 8px)}
+:root.share .private>:not(.eyebrow){display:none} :root.share .private>.closed{display:flex}
+:root.share .z-fam::before{display:none}
+:root.share .priv{display:none} :root.share .priv-stub{display:flex;min-height:48px}
+
+/* Radar's desk: the principal seat, a credenza at its back, the whole floor ahead */
+.radar{position:relative;background:var(--paper);border:1.5px solid var(--ink);box-shadow:var(--lift);padding:14px;display:flex;flex-direction:column;gap:10px;margin-bottom:22px;cursor:pointer}
+.radar .plate{font-size:15px}
+.radar-sit{display:flex;flex-direction:column;gap:3px;align-items:flex-start;background:none;border:0;padding:0;text-align:left;cursor:pointer}
+.radar::after{content:"";position:absolute;left:12%;right:12%;bottom:-20px;height:9px;border:1px solid var(--line);background:var(--soft)}
+.today{display:grid;grid-template-columns:auto minmax(0,1fr);gap:3px 10px;font-size:12px;margin:0}
+.today dt{font:500 10.5px/1.5 var(--mono);color:var(--mute)} .today dd{margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.counts{display:flex;gap:14px;flex-wrap:wrap;font:500 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.counts b{color:var(--ink);font-weight:500}
+.keys{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.key{background:var(--floor);border:1px solid var(--key);padding:8px 8px 7px;cursor:pointer;text-align:left;color:var(--ink);
+  font:500 10px/1.25 var(--mono);letter-spacing:.1em;text-transform:uppercase;box-shadow:0 2px 0 var(--key);transition:transform .06s,box-shadow .06s;text-decoration:none;display:block}
+.key:active{transform:translateY(2px);box-shadow:0 0 0 var(--key)}
+.key:disabled{opacity:.45;cursor:default;box-shadow:none}
+.out{display:flex;align-items:center;gap:10px;font:500 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.tray{position:relative;width:26px;height:18px;border:1px solid var(--mute);flex:none}
+.tray i{position:absolute;left:3px;right:3px;height:1px;background:var(--mute)}
+
+/* plan furniture */
+.colonnade{position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:space-around;padding-inline:18%}
+.colonnade i{width:9px;height:9px;border:1.5px solid var(--wall);background:var(--floor)}
+.colonnade i.today{background:var(--wall)}
+.pillar{position:absolute;right:0;bottom:2px;font:500 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.north{position:absolute;left:0;bottom:0;display:flex;align-items:center;gap:6px;font:500 10px/1 var(--mono);color:var(--mute)}
+svg.lines{position:absolute;inset:0;pointer-events:none;z-index:3;overflow:visible}
+svg.lines line{stroke:var(--mute);stroke-width:1;stroke-dasharray:3 4}
+svg.lines .pair{stroke:var(--ink);stroke-dasharray:none;stroke-width:1.5}
+svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
+
+.foot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end;border-top:1px solid var(--line);padding-top:14px}
+.legend{display:flex;flex-wrap:wrap;gap:10px 20px}
+.legend span{display:inline-flex;align-items:center;gap:8px;font-size:12px}
+.tblock{display:grid;grid-template-columns:auto auto;border:1px solid var(--ink);font:500 9.5px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.tblock div{padding:5px 8px;border-bottom:1px solid var(--line)} .tblock div:nth-child(odd){color:var(--mute);border-right:1px solid var(--line)}
+.tblock div:nth-last-child(-n+2){border-bottom:0}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tools a{font:500 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:7px 9px;text-decoration:none;background:var(--paper)}
+.tools a:hover{border-color:var(--ink)}
+.small{font:500 10px/1.5 var(--mono);color:var(--mute);letter-spacing:.04em;margin:0}
+
+/* sitting down */
+.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.sheet-bg{position:absolute;inset:0;background:var(--veil)}
+.panel{position:relative;width:min(880px,100%);max-height:100%;overflow:auto;background:var(--paper);border:1.5px solid var(--ink);box-shadow:var(--lift);transform-origin:0 0}
+.panel-h{position:sticky;top:0;background:var(--paper);display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:16px 18px;border-bottom:1.5px solid var(--ink);z-index:1}
+.panel-h .led{width:12px;height:12px}
+.panel-h h2{margin:0;font-weight:800;font-size:20px;letter-spacing:.12em;text-transform:uppercase}
+.panel-h .eyebrow{margin-left:auto;text-align:right}
+.stand{border:1px solid var(--ink);background:none;padding:7px 10px;cursor:pointer;font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.panel-b{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:0}
+.panel-b.one{grid-template-columns:minmax(0,1fr)}
+.panel-b section{padding:16px 18px;border-right:1px solid var(--line);min-width:0;display:flex;flex-direction:column;gap:10px}
+.panel-b section:last-child{border-right:0}
+.chat{border-top:1.5px solid var(--ink)}
+.chatlog{display:flex;flex-direction:column;gap:6px;max-height:280px;overflow:auto}
+.msg{padding:7px 9px;border:1px solid var(--line);font-size:13px;line-height:1.4;overflow-wrap:anywhere;white-space:pre-wrap;max-width:88%;align-self:flex-start;background:var(--paper)}
+.msg.kev{align-self:flex-end;background:var(--soft)}
+.msg b{display:block;font:500 9.5px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:2px}
+.chatform{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:end}
+.mic{min-width:52px}
+.mic[aria-pressed="true"]{background:var(--r);border-color:var(--r);color:var(--paper)}
+.talk{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;background:var(--paper);border:1.5px solid var(--key,var(--ink));box-shadow:0 3px 0 var(--key,var(--ink));padding:16px 18px;transition:transform .06s,box-shadow .06s}
+.talk:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.talk b{display:block;font-weight:800;font-size:17px;letter-spacing:.14em;text-transform:uppercase}
+.talk small{display:block;font:500 10.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-top:3px}
+.talk-led{width:12px;height:12px;border-radius:50%;background:var(--g);box-shadow:0 0 8px 1px color-mix(in srgb,var(--g) 50%,transparent)}
+.talk-go{font-size:22px;line-height:1}
+.toprow{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,300px);gap:14px;align-items:start}
+.nextup{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--paper)}
+.nextup>div{padding:10px 14px;min-width:0}
+.nextup .nowbox{border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:3px}
+.nextup .nowbox b{font-weight:700;font-size:13.5px;line-height:1.3;overflow-wrap:anywhere}
+.nextup .nextlist{display:flex;flex-direction:column;gap:5px}
+.nextup .nx{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;align-items:baseline;font-size:12.5px}
+.nextup .nx .tm{grid-column:1/-1;font:500 10px/1.2 var(--mono);letter-spacing:.06em;color:var(--mute)}
+.nextup .nx .ti{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nextup .nx .in{font:500 10px/1.2 var(--mono);letter-spacing:.06em;color:var(--mute);white-space:nowrap}
+.nextup .nx.first .ti{font-weight:700}
+.nextup .foot2{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:2px}
+.nextup .foot2 a,.nextup .join{font:500 10px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+@media (max-width:820px){.toprow{grid-template-columns:minmax(0,1fr)}}
+.chatform textarea{min-height:44px}
+.panel-b h3{margin:0;font:500 10.5px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.panel-b h3.gap{margin-top:10px;padding-top:12px;border-top:1.5px solid var(--line)}
+.panel-b ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ticket{border:1px solid var(--line);padding:8px 10px;font-size:13px;overflow-wrap:anywhere}
+.ticket small{display:block;font:500 10px/1.4 var(--mono);color:var(--mute);letter-spacing:.06em}
+.ticket>.mini{margin-top:6px;margin-right:8px;padding-inline:0}
+.exact{background:var(--soft);padding:8px;font:400 11.5px/1.45 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;margin-top:6px}
+.log li{font:400 11.5px/1.45 var(--mono);color:var(--mute)} .log li b{color:var(--ink);font-weight:500}
+.now{font-size:15px;font-weight:600;overflow-wrap:anywhere;margin:0}
+.item{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 8px;align-items:start;border-top:1px solid var(--line);padding-top:8px;font-size:13px}
+.item>.led{margin-top:4px}
+.item .why{display:block;font:500 10.5px/1.4 var(--mono);color:var(--mute);letter-spacing:.03em;margin-top:2px}
+.item .rk{font:500 10.5px/1 var(--mono);letter-spacing:.06em;color:var(--mute);margin-right:6px}
+.item .ago{font:500 10.5px/1 var(--mono);letter-spacing:.04em;color:var(--mute);white-space:nowrap}
+.item>.sacts,.item>button,.item>.draft{grid-column:2;justify-self:start;flex-wrap:wrap}
+.item>.sacts{justify-content:flex-start;gap:6px 10px}
+.panel-b.wide-tray{grid-template-columns:1.6fr 1fr .9fr}
+.item>.draft{justify-self:stretch;max-height:340px;overflow:auto}
+.item .t{overflow-wrap:anywhere}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;padding:6px 10px 6px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 10px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+form .full{grid-column:1/-1}
+label{display:flex;flex-direction:column;gap:3px;font:500 10px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+select,textarea,input{font:400 14px/1.4 var(--sans);padding:8px;border:1px solid var(--line);background:var(--floor);color:var(--ink);min-width:0;width:100%;letter-spacing:0;text-transform:none}
+textarea{min-height:84px;resize:vertical}
+.panel .key{width:100%}
+.panel form .key[type="submit"],.chatform .key{width:auto;min-width:120px;text-align:center}
+.golinks{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.golink{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 2px;border-bottom:1px solid var(--line);text-decoration:none;font:500 10.5px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.golink::after{content:"\2197";color:var(--mute)}
+.golink:hover::after{color:var(--ink)}
+.thumb{display:block;align-self:flex-start;width:auto;max-width:100%;max-height:220px;margin-top:6px;border:1px solid var(--line);object-fit:contain;background:var(--soft)}
+
+.dock{display:none;position:fixed;left:0;right:0;bottom:0;z-index:10;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;background:var(--paper);border-top:1.5px solid var(--ink);
+  padding:8px max(10px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
+.dock .key{padding:9px 6px;text-align:center}
+
+@media (max-width:820px){
+  .floor{grid-template-columns:minmax(0,1fr);grid-template-areas:"rad" "rec" "fin" "rev" "ppl" "cli" "fam";padding:14px;gap:14px}
+  .desks{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .desk{min-height:96px;padding:10px}
+  .plate{font-size:12px}
+  .z-rad .keys{display:none}
+  .radar{margin-bottom:18px}
+  .glaze,.door,.sun,svg.lines{display:none}
+  .colonnade{padding-inline:6%} .pillar{position:static;display:block;margin-top:24px;text-align:right}
+  .north{display:none}
+  .foot{grid-template-columns:minmax(0,1fr)}
+  .smain{grid-template-columns:20px minmax(0,1fr);row-gap:2px}
+  .strip .who{grid-column:2} .strip .what{grid-column:2;grid-row:2;white-space:normal}
+  .strip li{grid-template-columns:minmax(0,1fr)} .sacts{padding:0 12px 10px 42px;justify-content:flex-start}
+  .mini{min-height:34px}
+  .switches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+  .sw{min-height:40px;justify-content:center}
+  .sw.act{margin-left:0}
+  .panel-h{gap:6px 12px;padding:14px 16px}
+  .panel-h h2{font-size:18px}
+  .panel-h .stand{margin-left:auto}
+  .panel-h .role{order:5;flex-basis:100%}
+  .chatform{grid-template-columns:minmax(0,1fr) auto auto} .chatform textarea{grid-column:1/-1} .chatform .key{justify-self:end}
+  .banner{grid-template-columns:auto minmax(0,1fr)} .banner .sacts{grid-column:1/-1;padding:0}
+  .dock{display:grid}
+  .panel-b,.panel-b.wide-tray{grid-template-columns:minmax(0,1fr)}
+  .panel-b section{border-right:0;border-bottom:1px solid var(--line)}
+  .sheet{align-items:flex-end;padding:0}
+  .panel{max-height:92vh;border-bottom:0}
+  .panel-h .eyebrow{display:none}
+  #sw-notes{display:none}
+  form{grid-template-columns:1fr}
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="mark">
+      <span class="eyebrow" id="eyebrow">Eden Partner Group · KDTW Group</span>
+      <h1>EDEN: 50K FT.</h1>
+      <div class="clockrow"><span class="clock" id="clock"></span><span class="clock" id="sync"></span></div>
+    </div>
+    <div class="switches" role="group" aria-label="Floor switches">
+      <button class="sw" id="sw-share" aria-pressed="false" title="Hide finance, coaching and family before a screen share"><i></i>Screen share</button>
+      <button class="sw" id="sw-still" aria-pressed="false" title="Stop every blink; lights hold steady"><i></i>Still</button>
+      <button class="sw" id="sw-notes" aria-pressed="false" title="Show the architect's sightlines and adjacencies"><i></i>Plan notes</button>
+      <button class="sw" id="sw-theme" aria-pressed="false" title="Switch light and dark"><i></i>Dark</button>
+      <button class="sw act" id="photo-btn" hidden title="Upload photos, PDFs, CSVs or spreadsheets and hand them to an agent">Upload</button>
+      <input type="file" id="photo-in" accept="image/*,application/pdf,.pdf,.csv,text/csv,.xlsx,.xls,.txt,.md,.json" multiple hidden>
+    </div>
+  </header>
+
+  <button class="talk" id="talk-radar" type="button"><span class="talk-led" aria-hidden="true"></span><span><b>Talk to Radar</b><small>Real two-way, the deep model · type or speak</small></span><span class="talk-go" aria-hidden="true">&rarr;</span></button>
+
+  <div class="notice" id="demo" hidden>Example data. This page is not reading the Office database, so nothing here is real and tickets stay in this tab.</div>
+  <div class="notice" id="stale" hidden></div>
+  <div class="banner" id="banner" hidden></div>
+
+  <div class="toprow">
+    <section class="strip" aria-label="Needs Kev">
+    <div class="strip-h"><span class="eyebrow">Needs Kev · ranked · three at most</span><span class="eyebrow" id="strip-count"></span></div>
+    <ol id="strip"></ol>
+    <div class="more" id="more"></div>
+    </section>
+    <section class="nextup" id="nextup" aria-label="Now and next"></section>
+  </div>
+
+  <div class="plan" id="plan">
+    <div class="floor" id="floor">
+      <span class="glaze" style="left:8%;width:22%"></span><span class="glaze" style="left:38%;width:22%"></span><span class="glaze" style="left:68%;width:22%"></span>
+      <span class="door" style="left:6%"><svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><path d="M0 64 L0 2 M0 2 A62 62 0 0 1 62 64" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/></svg></span>
+      <div class="sun" id="sun" aria-hidden="true"></div>
+      <svg class="lines" id="lines" aria-hidden="true"></svg>
+
+      <section class="zone z-rec" data-zone="rec">
+        <span class="eyebrow"><span>01 · Recruiting desk</span><span>Dean</span></span>
+        <div id="b-rec" class="slot"></div>
+        <div class="closed priv-stub">Coaching bench closed</div>
+        <div class="desks" id="d-rec"></div>
+      </section>
+
+      <section class="zone z-rev private" data-zone="rev">
+        <span class="eyebrow"><span>02 · Revenue</span></span>
+        <div id="b-rev" class="slot"></div>
+        <div class="closed">Closed</div>
+      </section>
+
+      <section class="zone z-fin private" data-zone="fin">
+        <span class="eyebrow"><span>03 · Finance, risk and comms</span><span>Two keys</span></span>
+        <div id="b-fin" class="slot"></div>
+        <div class="desks" id="d-fin"></div>
+        <div class="closed">Closed for screen share</div>
+      </section>
+
+      <section class="zone z-ppl" data-zone="ppl">
+        <span class="eyebrow"><span>04 · People</span><span>Dean</span></span>
+        <div id="b-ppl" class="slot"></div>
+      </section>
+
+
+      <section class="zone z-cli" data-zone="cli">
+        <span class="eyebrow"><span>06 · Client work</span><span>Link only</span></span>
+        <div id="b-cli" class="slot"></div>
+      </section>
+
+      <section class="zone z-rad" data-zone="rad">
+        <div class="radar" id="radar"></div>
+      </section>
+
+      <section class="zone z-fam private" data-zone="fam">
+        <span class="eyebrow"><span>07 · Family office · KDTW Group</span><span>Own wing</span></span>
+        <div class="desks" id="d-fam"></div>
+        <div id="b-fam" class="slot"></div>
+        <div class="closed">Wing closed</div>
+      </section>
+    </div>
+    <div class="colonnade" id="colonnade" aria-hidden="true"></div>
+    <div class="north" aria-hidden="true"><svg width="14" height="18" viewBox="0 0 14 18"><path d="M7 0 L13 17 L7 13 L1 17 Z" fill="currentColor"/></svg>N</div>
+    <div class="pillar" id="pillar"></div>
+  </div>
+
+  <div class="tools" id="tools" aria-label="Tools"></div>
+
+  <footer class="foot">
+    <div class="legend" aria-label="Light legend">
+      <span><i class="led" data-s="urgent"></i>Urgent · diamond, 1 blink a second</span>
+      <span><i class="led" data-s="reply"></i>Reply · square, double flash</span>
+      <span><i class="led" data-s="done"></i>Ready to look · ringed dot, slow flash</span>
+      <span><i class="led" data-s="blocked"></i>Blocked on Kev · bar, steady</span>
+      <span><i class="led" data-s="working"></i>Working · dot, breathing glow</span>
+      <span><i class="led" data-s="idle"></i>Idle · hollow</span>
+    </div>
+    <div class="tblock">
+      <div>Sheet</div><div>A-101 Floor</div>
+      <div>Scale</div><div>1 desk = 1 agent</div>
+      <div>Rev</div><div>21 Oct 2026</div>
+      <div>Drawn</div><div>Marlowe, Q</div>
+    </div>
+  </footer>
+  <p class="small">A mirror of repo and ledger state, not the system of record. Crelate, QuickBooks and the Notion ledger stay the truth. EDEN PARTNER GROUP</p>
+</div>
+
+<nav class="dock" aria-label="Levers">
+  <button class="key" data-lever="wip">WIP<br>report</button>
+  <button class="key" data-lever="status">Status<br>all</button>
+  <button class="key" data-lever="ticket">Hand a<br>ticket</button>
+  <button class="key" data-lever="unused">Shipped<br>unused</button>
+</nav>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <div class="sheet-bg" data-stand></div>
+  <div class="panel" id="panel"></div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  /* Data contract (collections the page reads; it writes only tickets/, seen/, actions/ and chats/{agent}/messages/):
+     agents/{id}  agents/{id}/log/{n}  alerts/{id}  actions/{key}  seen/{key}  tickets/{id}  tools/{id}  benches/{id}  benches/{id}/rows/{rid}  meta/sync  meta/today
+     Spec: projects/virtual-office/research/q-architecture.md */
+  var MIN = 60000, HOUR = 3600000, DAY = 86400000;
+  var WORKING_FRESH_H = 4;
+  var BLINK_CAP_MIN = 30;                    // Kev to confirm (Marlowe ask 2): blinks hold steady after 30 minutes
+  var ORDER = ['urgent', 'reply', 'review', 'blocked', 'working', 'idle'];
+  var WORD = { urgent: 'Urgent', reply: 'Reply', review: 'Ready to look', blocked: 'Blocked on Kev', working: 'Working', idle: 'Idle' };
+  var SHAPE = { urgent: 'urgent', reply: 'reply', review: 'done', blocked: 'blocked', working: 'working', idle: 'idle' };   // Marlowe's data-s names
+  var PILLARS = ['Righteousness', 'Winning', 'Accountability', 'Discipline', 'Transparency', 'Growth', 'Execution'];
+  var loadedAt = Date.now();
+
+  /* Mirrors projects/virtual-office/tools.json (a test keeps the urls in step). Live `tools` docs override by id. */
+  var DEFAULT_TOOLS = [
+    { id: 'hub', name: 'Team Hub', url: 'https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6' },
+    { id: 'eden-daily', name: 'Eden Daily', url: 'https://claude.ai/artifact/6WCnWouUfZFBXL1FNZMGi2' },
+    { id: 'day-board', name: 'Day Board', url: 'https://claude.ai/artifact/4QFTb8NFvWhbc2jg5zD4hc' },
+    { id: 'workshop', name: 'Employee Workshop', url: 'https://claude.ai/artifact/8nmNm3TD2MaJzia8tvHFxR' },
+    { id: 'eden-desk', name: 'Eden Desk', url: 'https://claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G' },
+    { id: 'atlas-desk', name: 'Atlas Desk', url: 'https://claude.ai/artifact/Hy19F4FNCKe18QHUvRqj6h' },
+    { id: 'marlowe-desk', name: "Marlowe's Desk", url: 'https://claude.ai/artifact/2eHGZMaWKJox5hFGHYWLPo' },
+    { id: 'org-chart', name: 'Org chart', url: 'https://claude.ai/artifact/CyZ475DJjbNNaGbfc93nZN' },
+    { id: 'ledger', name: 'Notion ledger', url: 'https://app.notion.com/p/3ce25d7d12f48110b9f2d1dcda440b90' },
+    { id: 'quickbooks', name: 'QuickBooks', url: 'https://qbo.intuit.com' },
+    { id: 'gusto', name: 'Gusto', url: 'https://app.gusto.com' },
+    { id: 'cloudtalk', name: 'CloudTalk phone', url: 'https://phone.cloudtalk.io' },
+    { id: 'crelate', name: 'Crelate', url: 'https://app.crelate.com' },
+    { id: 'round-table', name: 'Round Table', url: 'https://claude.ai/artifact/DTXbu7B6F3B2s8NEnmYdCE' }
+  ];
+  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['round-table', 'hub'], host: ['eden-desk', 'hub'], tally: ['quickbooks', 'gusto', 'hub'], docket: ['quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'] };
+  var BENCH_TOOLS = { recruiting: ['round-table', 'hub'], depth: ['round-table', 'hub'], revenue: ['hub', 'quickbooks'], university: ['hub'], finance: ['quickbooks', 'gusto', 'hub'], client: ['hub', 'cloudtalk', 'crelate'], family: ['atlas-desk', 'marlowe-desk'] };
+  /* Bench skeletons: the floor always has its benches; docs in `benches/` fill in the figures. */
+  var BENCH_DEFS = [
+    { id: 'recruiting', zone: 'rec', title: 'Recruiting floor · Vancouver', sub: 'Coaching · scorecards · deliverables', owner: 'Dean', sensitive: true, cls: 'bench priv' },
+    { id: 'revenue', zone: 'rev', title: 'Revenue', sub: 'Vancouver numbers · Tally + Dean', owner: 'Tally + Dean', sensitive: true, cls: 'bench tall' },
+    { id: 'finance', zone: 'fin', title: 'Finance', sub: 'Cash · invoices · P&L · payroll', owner: 'Tally', sensitive: true, cls: 'bench' },
+    { id: 'depth', zone: 'ppl', title: 'Hiring ramp', sub: 'Depth chart · onboarding', owner: 'Dean', sensitive: true, cls: 'bench priv' },
+    { id: 'university', zone: 'ppl', title: 'Eden University', sub: 'Tracks · Wednesday training', owner: 'Dean', sensitive: false, cls: 'bench' },
+    { id: 'client', zone: 'cli', title: 'Client work', sub: 'Depth charts · leads · phones', owner: 'Radar', sensitive: false, cls: 'bench' },
+    { id: 'family', zone: 'fam', title: 'Home list', sub: 'KDTW Group · family office', owner: 'Radar', sensitive: true, cls: 'bench' }
+  ];
+
+  var S = { live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, tools: {}, logs: {}, chats: {}, assets: null, photo: null, pending: null, sample: null, meta: null, today: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
+  var lastFrom = null;
+
+  /* ---------- helpers ---------- */
+  function $(s, el) { return (el || document).querySelector(s); }
+  function h(tag, attrs) {
+    var e = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) { if (k === 'class') e.className = attrs[k]; else if (k === 'text') e.textContent = attrs[k]; else if (attrs[k] !== false && attrs[k] != null) e.setAttribute(k, attrs[k]); });
+    for (var i = 2; i < arguments.length; i++) { var c = arguments[i]; if (c == null) continue; e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); }
+    return e;
+  }
+  function t(iso) { var n = Date.parse(iso); return isNaN(n) ? 0 : n; }
+  function short(iso) {
+    if (!iso) return 'never'; var d = Date.now() - t(iso);
+    if (d < MIN) return 'now'; if (d < HOUR) return Math.floor(d / MIN) + 'm'; if (d < DAY) return Math.floor(d / HOUR) + 'h'; return Math.floor(d / DAY) + 'd';
+  }
+  function ago(iso) { var s = short(iso); return s === 'now' ? 'just now' : s === 'never' ? 'never' : s + ' ago'; }
+  function led(light, extra) { var i = h('i', { class: 'led', 'data-s': SHAPE[light] }); if (extra) i.setAttribute('aria-hidden', 'true'); return i; }
+  function papers(n) { if (!n) return null; var s = h('span', { class: 'papers', title: n + ' open ticket' + (n > 1 ? 's' : '') }); for (var i = 0; i < Math.min(n, 3); i++) s.appendChild(h('i')); return s; }
+  function sensitiveAgent(id) { return WING.indexOf(id) >= 0 || !!(S.agents[id] && S.agents[id].sensitive); }   // the wing is private whatever a synced doc says
+  function hidden(a) { return S.share && sensitiveAgent(a.id); }
+
+  /* ---------- tools ---------- */
+  function toolMap() {
+    var m = {}; DEFAULT_TOOLS.forEach(function (x) { m[x.id] = x; });
+    Object.keys(S.tools).forEach(function (k) { var x = S.tools[k]; m[x.id || k] = Object.assign({}, m[x.id || k] || {}, x); });
+    return m;
+  }
+  function toolLink(x, cls) {
+    var a = h('a', { href: x.url, target: '_blank', rel: 'noopener', class: cls || 'mini', text: x.name });
+    a.addEventListener('click', function () { markSeen('open-' + x.id); });     // the only usage evidence the Office collects itself
+    return a;
+  }
+  function toolsFor(ids) { var m = toolMap(); return (ids || []).map(function (i) { return m[i]; }).filter(function (x) { return x && x.url; }); }
+
+  /* ---------- lights (page side; the sync script computes the same rule into agents/{id}) ---------- */
+  function isSeen(key) { return !!S.seen[key]; }
+  function ticketHidden(tk) { return S.share && sensitiveAgent(tk.agent); }
+  function agentItems(id) {
+    var out = [];
+    Object.keys(S.alerts).forEach(function (k) {
+      var a = S.alerts[k]; if (a.agent !== id || (S.share && (a.sensitive || sensitiveAgent(a.agent)))) return;
+      if (acted(a.id)) return;                             // Kev marked it done, moved it to follow-up, or snoozed it
+      var seen = isSeen(a.id);
+      if (seen && a.light !== 'urgent') return;           // seen clears everything but red; red holds steady until the source resolves
+      out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link, preview: a.preview, rank: a.rank, why: a.why, kind: a.kind, agent: id });
+    });
+    Object.keys(S.tickets).forEach(function (k) {
+      var tk = S.tickets[k]; if (tk.agent !== id || ticketHidden(tk)) return;
+      var key = 'ticket-' + tk.id + '-' + tk.status;
+      if (acted(key)) return;
+      if ((tk.status === 'blocked' || tk.status === 'gated') && !isSeen(key)) out.push({ light: 'blocked', title: 'Ticket needs you: ' + tk.ask, raisedAt: tk.updatedAt || tk.createdAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
+      if (tk.status === 'done' && !isSeen(key)) out.push({ light: 'review', title: 'Ticket done: ' + tk.ask, raisedAt: tk.doneAt || tk.updatedAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
+    });
+    return out;
+  }
+  function workingState(a) {
+    var ticket = Object.keys(S.tickets).some(function (k) { var x = S.tickets[k]; return x.agent === a.id && (x.status === 'picked' || x.status === 'working') && Date.now() - t(x.pickedAt || x.createdAt) < 6 * HOUR; });
+    var claims = (a.counts && a.counts.working > 0) || ticket;
+    var fresh = Date.now() - t(a.lastHeard) <= WORKING_FRESH_H * HOUR;
+    return { on: claims && (fresh || ticket), stale: claims && !fresh && !ticket };
+  }
+  function effective(a) {
+    var items = agentItems(a.id), counts = {}, w = workingState(a);
+    ORDER.forEach(function (l) { counts[l] = 0; });
+    items.forEach(function (i) { counts[i.light]++; });
+    if (w.on) counts.working = 1;
+    var light = ORDER.filter(function (l) { return counts[l] > 0; })[0] || 'idle';
+    var blinkable = light === 'urgent' || light === 'reply' || light === 'review';
+    var lookedAt = t((S.seen['look-' + a.id] || {}).at);
+    var blink = blinkable && items.some(function (i) {
+      return !i.seen && i.light === light && t(i.raisedAt) > lookedAt && Date.now() < Math.max(t(i.raisedAt), loadedAt) + BLINK_CAP_MIN * MIN;
+    });
+    var others = 0; ORDER.forEach(function (l) { if (l !== light && l !== 'idle') others += counts[l]; });
+    var silent = !!a.lastHeard && Date.now() - t(a.lastHeard) > (a.expectedEveryHours || 96) * HOUR;
+    return { light: light, counts: counts, others: others, held: blinkable && !blink, stale: w.stale || silent, staleWhy: w.stale ? 'Said it was working but has not been heard from in ' + WORKING_FRESH_H + ' hours' : 'Quiet past its usual rhythm', items: items };
+  }
+  function allItems() {
+    var out = [];
+    Object.keys(S.agents).forEach(function (id) { var a = S.agents[id]; if (hidden(a)) return; effective(a).items.forEach(function (i) { out.push(i); }); });
+    return out;
+  }
+
+  /* ---------- next sweep: Radar's hourly sweep runs at :07, 7 to 18, Monday to Friday, Pacific ---------- */
+  var PT = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false });
+  function nextSweep() {
+    var start = Math.ceil(Date.now() / MIN) * MIN;
+    for (var i = 0; i < 8 * 24 * 60; i++) {
+      var p = {}; PT.formatToParts(new Date(start + i * MIN)).forEach(function (x) { p[x.type] = x.value; });
+      var hr = parseInt(p.hour, 10) % 24;
+      if (parseInt(p.minute, 10) === 7 && hr >= 7 && hr <= 18 && ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].indexOf(p.weekday) >= 0) return p.weekday + ' ' + (hr % 12 || 12) + ':07 ' + (hr < 12 ? 'am' : 'pm') + ' PT';
+    }
+    return 'next weekday morning';
+  }
+
+  /* ---------- writes: the page writes only tickets and seen marks, on a user action ---------- */
+  function makeTicket(o) {
+    var id = 't-' + new Date().toISOString().replace(/[-:T]/g, '').slice(0, 12) + '-' + Math.random().toString(36).slice(2, 6);
+    var now = new Date().toISOString();
+    var doc = { id: id, agent: o.agent, ask: o.ask, due: o.due || null, priority: o.priority || 'today', status: 'open', owner: 'kev', createdBy: 'kev', lever: o.lever || null, attachments: o.attachments || null, createdAt: now, updatedAt: now };
+    S.tickets[id] = doc; renderAll();
+    if (S.live && S.db) S.db.doc('tickets/' + id).set(doc).catch(function () { delete S.tickets[id]; S.flash = 'That ticket did not save. Try again.'; renderAll(); });
+    return doc;
+  }
+  var pendingSeen = {};
+  function markSeen(key) {
+    var doc = { at: new Date().toISOString() };
+    S.seen[key] = doc; renderAll();
+    if (S.live && S.db && S.canWrite && !pendingSeen[key]) {
+      pendingSeen[key] = true;                                  // one write at a time per document
+      S.db.doc('seen/' + key).set(doc).catch(function () {}).then(function () { pendingSeen[key] = false; });
+    }
+  }
+
+  /* Done / Follow up on a "Needs you" item: the page records Kev's call; Radar's sweep applies it to the source (QC, ledger, routine) */
+  var pendingAct = {};
+  function markAction(key, action) {
+    var item = allItems().concat(Object.keys(S.agents).reduce(function (o, id) { return o.concat(effective(S.agents[id]).items); }, [])).filter(function (i) { return i.key === key; })[0] || {};
+    var doc = { key: key, agent: item.agent || null, title: item.title || '', action: action, at: new Date().toISOString(), by: 'kev', applied: false };
+    S.actions[key] = doc; renderAll();
+    if (S.live && S.db && S.canWrite && !pendingAct[key]) {
+      pendingAct[key] = true;
+      S.db.doc('actions/' + key).set(doc).catch(function () { delete S.actions[key]; S.flash = 'That did not save. Try again.'; renderAll(); }).then(function () { pendingAct[key] = false; });
+    }
+  }
+  /* Zzz: hides an item until a time, then it comes back on its own. Page-side only; Radar's sweep leaves snoozes alone. */
+  function snoozedFor(id) { return Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return x.agent === id && x.action === 'snooze' && t(x.until) > Date.now(); }).sort(function (x, y) { return t(x.until) - t(y.until); }); }
+  function acted(key) { var x = S.actions[key]; return !!x && (x.action !== 'snooze' || t(x.until) > Date.now()); }
+  function at(d, hh, mm) { var x = new Date(d); x.setHours(hh, mm || 0, 0, 0); return x; }
+  function nextWorkday(d) { var x = new Date(d); do { x.setDate(x.getDate() + 1); } while (x.getDay() === 6); return x; }   // never wakes on the Sabbath
+  function snoozeOptions() {
+    var now = new Date(), opts = [['1 hour', new Date(now.getTime() + HOUR)]];
+    var co = at(now, 17, 30); if (co - now > HOUR) opts.push(['Till check-out 5:30', co]);
+    opts.push(['Tomorrow 7am', at(nextWorkday(now), 7)]);
+    var mon = new Date(now); mon.setDate(mon.getDate() + ((8 - mon.getDay()) % 7 || 7)); opts.push(['Monday 7am', at(mon, 7)]);
+    return opts;
+  }
+  function untilLabel(iso) { var d = new Date(iso); return d.toLocaleDateString('en-US', { weekday: 'short' }) + ' ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
+  var zzzOpen = {};
+  function zzz(acts, i) {
+    if (!zzzOpen[i.key]) { var z = h('button', { class: 'mini', text: 'Zzz', title: 'Snooze' }); z.disabled = !S.canWrite; z.addEventListener('click', function (ev) { ev.stopPropagation(); zzzOpen[i.key] = true; S.forceSheet = true; renderAll(); }); acts.appendChild(z); return; }
+    var g = h('span', { class: 'seg snooze', role: 'group', 'aria-label': 'Snooze until' });
+    snoozeOptions().forEach(function (o) {
+      var b = h('button', { class: 'mini', text: o[0] }); b.addEventListener('click', function (ev) { ev.stopPropagation(); delete zzzOpen[i.key]; snooze(i, o[1]); }); g.appendChild(b);
+    });
+    acts.appendChild(g);
+    var c = h('button', { class: 'mini txt', text: 'Cancel' }); c.addEventListener('click', function (ev) { ev.stopPropagation(); delete zzzOpen[i.key]; S.forceSheet = true; renderAll(); }); acts.appendChild(c);
+  }
+  function snooze(i, until) {
+    var doc = { key: i.key, agent: i.agent || null, title: i.title || '', action: 'snooze', until: until.toISOString(), at: new Date().toISOString(), by: 'kev', applied: true };
+    S.actions[i.key] = doc; S.forceSheet = true; renderAll();
+    if (S.live && S.db && S.canWrite) S.db.doc('actions/' + i.key).set(doc).catch(function () { delete S.actions[i.key]; renderAll(); });
+  }
+  function undoAction(key) {
+    delete S.actions[key]; renderAll();
+    if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).delete().catch(function () {});
+  }
+
+  /* ---------- the strip, the banner ---------- */
+  function seenBtn(item) { var b = h('button', { class: 'mini', text: 'Seen' }); b.disabled = !S.canWrite; b.setAttribute('data-seen', item.key); return b; }
+  function renderBanner() {
+    var b = $('#banner'); b.textContent = '';
+    var reds = allItems().filter(function (i) { return i.light === 'urgent' && !i.seen; }).sort(function (x, y) { return t(x.raisedAt) - t(y.raisedAt); });
+    if (!reds.length) { b.hidden = true; bannerKey = null; return; }
+    b.hidden = false; var f = reds[0]; bannerKey = f.key;   // the strip skips what the banner already holds
+    b.appendChild(led('urgent', true));
+    b.appendChild(h('div', null, h('div', { class: 'what', text: f.title }), h('div', { class: 'sub', text: nameOf(f.agent) + ' · ' + ago(f.raisedAt) + (reds.length > 1 ? ' · ' + (reds.length - 1) + ' more urgent' : '') })));
+    var acts = h('div', { class: 'sacts' }); zzz(acts, f); if (!zzzOpen[f.key]) acts.appendChild(seenBtn(f)); b.appendChild(acts);
+  }
+  function openLabel(url) { return /superhuman\.com/.test(url) ? 'Open in Superhuman' : /5SuFoioujKFV6KgX4dXi3G/.test(url) ? 'Approve in Desk' : 'Open'; }
+  var bannerKey = null;
+  var openDrafts = {};
+  function nameOf(id) { return S.agents[id] ? S.agents[id].name : id; }
+  function renderStrip() {
+    var ol = $('#strip'); ol.textContent = '';
+    var rank = { urgent: 0, reply: 1, review: 2, blocked: 3 };
+    var items = allItems().filter(function (i) { return i.needsKev && !i.seen && rank[i.light] !== undefined && i.key !== bannerKey; })
+      .sort(function (a, b) { return (rank[a.light] - rank[b.light]) || (t(a.raisedAt) - t(b.raisedAt)); });
+    if (!items.length) ol.appendChild(h('li', null, h('button', { class: 'smain', disabled: 'disabled' }, h('span'), h('span', { class: 'who', text: 'Clear' }), h('span', { class: 'what', text: 'Nothing needs you.' }))));
+    items.slice(0, 3).forEach(function (i) {
+      var main = h('button', { class: 'smain', 'data-id': i.agent }, led(i.light, true), h('span', { class: 'who', text: nameOf(i.agent) }), h('span', { class: 'what', text: i.title }));
+      main.setAttribute('aria-label', WORD[i.light] + ', ' + nameOf(i.agent) + ': ' + i.title);
+      var acts = h('span', { class: 'sacts' });
+      if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
+      zzz(acts, i); if (!zzzOpen[i.key]) acts.appendChild(seenBtn(i));
+      ol.appendChild(h('li', null, main, acts));
+    });
+    $('#strip-count').textContent = items.length ? items.length + ' open' : '';
+    var more = $('#more'); more.hidden = items.length <= 3;
+    more.textContent = items.length > 3 ? (items.length - 3) + ' more: ' + items.slice(3).map(function (i) { return nameOf(i.agent) + ' ' + WORD[i.light].toLowerCase(); }).join(' · ') : '';
+  }
+
+  /* ---------- the floor ---------- */
+  var ZONE_OF = { radar: 'rad', recruiting: 'rec', finance: 'fin', family: 'fam', other: 'rec' };
+  var AGENT_ORDER = ['scout', 'dean', 'q', 'tally', 'docket', 'host', 'atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];
+  var WING = ['atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];   // the KDTW wing: private, closes whole under Screen share
+  var SEAT = { q: 'rec', host: 'fin' };   // Kev, 21 Oct: Q takes Host's old seat on the recruiting desk; Jenny (host) sits by Docket
+  function zoneOf(a) { return SEAT[a.id] || (WING.indexOf(a.id) >= 0 ? 'fam' : (ZONE_OF[a.desk] || 'rec')); }
+  function isDusk() { var d = new Date(), x = d.getHours() + d.getMinutes() / 60; return !(x >= 7.5 && x <= 18.5); }
+
+  function deskEl(a) {
+    var e = effective(a), hide = hidden(a), light = hide ? 'idle' : e.light;
+    var btn = h('button', { class: 'desk' + (!hide && e.held ? ' held' : '') + (!hide && isDusk() && light === 'working' ? ' lamp' : ''), 'data-id': a.id });
+    var word = hide ? 'Hidden' : WORD[light];
+    btn.setAttribute('aria-label', a.name + ', ' + word + (hide ? '' : ', ' + (a.task || 'no task posted')) + '. Sit down.');
+    var box = h('span', { class: 'ledbox', 'aria-hidden': 'true' });
+    if (!hide && e.others > 0) box.appendChild(h('span', { class: 'cnt', text: '+' + e.others }));
+    box.appendChild(led(light, true));
+    btn.appendChild(h('span', { class: 'chair', 'aria-hidden': 'true' })); btn.appendChild(box);
+    btn.appendChild(h('span', { class: 'plate', text: a.name })); btn.appendChild(h('span', { class: 'role', text: a.role || '' }));
+    btn.appendChild(h('span', { class: 'task', text: hide ? '' : (a.task || (light === 'idle' ? 'No task posted' : '')) }));
+    var right = h('span'); var p = hide ? null : papers(a.openTickets || 0); if (p) right.appendChild(p);
+    if (!hide && e.stale) right.appendChild(h('span', { class: 'stale', title: e.staleWhy, text: 'Stale' })), right.appendChild(document.createTextNode(' '));
+    if (!hide) right.appendChild(document.createTextNode(short(a.lastHeard)));
+    btn.appendChild(h('span', { class: 'meta' }, h('span', { class: 'st', text: word }), right));
+    return btn;
+  }
+  function radarEl() {
+    var a = S.agents.radar || { id: 'radar', name: 'Radar', role: 'Chief of staff', task: null }, e = effective(a), r = $('#radar'); r.textContent = '';
+    r.className = 'radar' + (e.held ? ' held' : '');
+    r.appendChild(h('span', { class: 'ledbox', 'aria-hidden': 'true' }, e.others > 0 ? h('span', { class: 'cnt', text: '+' + e.others }) : null, led(e.light, true)));
+    var sit = h('button', { class: 'radar-sit', 'data-id': 'radar' }, h('span', { class: 'plate', text: 'Radar' }), h('span', { class: 'role', text: (a.role || 'Chief of staff') + ' · your seat' }));
+    sit.setAttribute('aria-label', 'Radar, ' + WORD[e.light] + '. Sit down.');
+    r.appendChild(sit);
+    var lines = S.share ? [] : ((S.today && S.today.lines) || []);   // calendar lines hide under Screen share
+    if (lines.length) { var dl = h('dl', { class: 'today' }); lines.slice(0, 3).forEach(function (l) { dl.appendChild(h('dt', { text: l.at })); dl.appendChild(h('dd', { text: l.text })); }); r.appendChild(dl); }
+    var c = (S.meta && S.meta.counts) || {}, open = Object.keys(S.tickets).filter(function (k) { return ['open', 'picked', 'working', 'blocked', 'gated'].indexOf(S.tickets[k].status) >= 0; }).length;
+    r.appendChild(h('div', { class: 'counts' }, h('span', null, 'QC ', h('b', { text: String(c.qcPending == null ? '–' : c.qcPending) })), h('span', null, 'Tickets ', h('b', { text: String(open) })), h('span', null, 'Ledger ', h('b', { text: String(c.ledgerOpen == null ? '–' : c.ledgerOpen) }))));
+    var keys = h('div', { class: 'keys' });
+    [['wip', 'WIP report'], ['status', 'Status, all'], ['ticket', 'Hand a ticket'], ['unused', 'Shipped, unused']].forEach(function (k) { keys.appendChild(h('button', { class: 'key', 'data-lever': k[0], text: k[1] })); });
+    r.appendChild(keys);
+    var shipped = Object.keys(S.tickets).filter(function (k) { var x = S.tickets[k]; return x.status === 'done' && x.doneAt && new Date(x.doneAt).toDateString() === new Date().toDateString(); }).length;
+    var tray = h('span', { class: 'tray' }); for (var i = 0; i < Math.min(shipped, 6); i++) tray.appendChild(h('i', { style: 'top:' + (3 + i * 2.4) + 'px' }));
+    r.appendChild(h('div', { class: 'out', title: 'Resets at midnight. Never compared with yesterday.' }, tray, 'Out tray · ' + shipped + ' shipped today'));
+  }
+  function benchEl(def) {
+    var doc = S.benches[def.id] || {}, hide = S.share && def.sensitive;
+    var b = h('button', { class: def.cls, 'data-bench': def.id });
+    b.appendChild(h('b', { text: def.title }));
+    b.appendChild(h('span', { text: hide ? '' : def.sub + (doc.asOf ? ' · updated ' + short(doc.asOf) : ' · not synced') + (doc.example ? ' · example' : '') }));
+    return b;
+  }
+  /* Client work: straight to the depth charts, the job orders and their lead sheets, and the phones. One tap each, no sheet. */
+  function quickRow() {
+    var m = toolMap(), row = h('div', { class: 'quick' });
+    [['Depth charts', 'hub', ''], ['Job orders + leads', 'hub', ''], ['Phones', 'cloudtalk', ''], ['Crelate', 'crelate', '']].forEach(function (q) {
+      var x = m[q[1]]; if (!x || !x.url) return;
+      row.appendChild(toolLink({ id: x.id, name: q[0], url: x.url + q[2] }, 'key'));
+    });
+    return row;
+  }
+  function renderFloor() {
+    var focus = document.activeElement && (document.activeElement.getAttribute('data-id') || document.activeElement.getAttribute('data-bench'));
+    var focusIsBench = document.activeElement && document.activeElement.hasAttribute('data-bench');
+    ['rec', 'fin', 'fam'].forEach(function (z) { $('#d-' + z).textContent = ''; });
+    var list = Object.keys(S.agents).map(function (k) { return S.agents[k]; }).filter(function (a) { return a.id !== 'radar'; })
+      .sort(function (x, y) { var i = AGENT_ORDER.indexOf(x.id), j = AGENT_ORDER.indexOf(y.id); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j); });
+    list.forEach(function (a) { var z = zoneOf(a); if (z === 'rad') z = 'rec'; var box = $('#d-' + z); if (box) box.appendChild(deskEl(a)); });
+    radarEl();
+    ['rec', 'rev', 'fin', 'ppl', 'cli', 'fam'].forEach(function (z) { var box = $('#b-' + z); box.textContent = ''; BENCH_DEFS.filter(function (d) { return d.zone === z; }).forEach(function (d) { box.appendChild(benchEl(d)); }); });
+    $('#b-cli').appendChild(quickRow());
+    if (!S.share) { var rt = toolMap()['round-table']; if (rt) {                 // a bench like its neighbours, but it opens the Round Table page
+      var door = h('a', { class: 'bench', href: rt.url, target: '_blank', rel: 'noopener' }, h('b', { text: 'Round Table' }), h('span', { text: 'Scorecards · coaching · goals · Kev only' }));
+      door.addEventListener('click', function () { markSeen('open-' + rt.id); }); $('#b-ppl').appendChild(door); } }
+    if (focus) { var back = focusIsBench ? $('[data-bench="' + focus + '"]') : $('.desk[data-id="' + focus + '"]'); if (back && back !== document.activeElement && !S.sheet) back.focus(); }
+    phaseLock(); drawNotes();
+  }
+  function renderTools() {
+    var box = $('#tools'); box.textContent = ''; box.appendChild(h('span', { class: 'eyebrow', text: 'Tools' }));
+    toolsFor(['hub', 'eden-daily', 'day-board', 'workshop', 'eden-desk', 'ledger', 'quickbooks', 'gusto']).forEach(function (x) { box.appendChild(toolLink(x, '')); });
+  }
+  /* every blink on the floor shares one clock, so lights flash in unison instead of twinkling */
+  function phaseLock() { var tt = performance.now() / 1000; document.querySelectorAll('.led').forEach(function (l) { l.style.setProperty('--ph', '-' + (tt % 15).toFixed(3) + 's'); }); }
+
+  /* the room keeps time: daylight moves with the hour; the day's pillar is drawn solid on the colonnade */
+  function tick() {
+    var d = new Date(), x = d.getHours() + d.getMinutes() / 60, day = (d.getDay() + 6) % 7;
+    $('#clock').textContent = d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' }).replace(',', '') + ' · ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    $('#pillar').textContent = 'Pillar ' + String(day + 1).padStart(2, '0') + ' · ' + PILLARS[day];
+    var col = $('#colonnade'); col.textContent = ''; PILLARS.forEach(function (p, i) { col.appendChild(h('i', { class: i === day ? 'today' : '', title: p })); });
+    var sun = $('#sun'), lit = x >= 7.5 && x <= 18.5; sun.hidden = !lit;
+    if (lit) { var k = (x - 7.5) / 11; sun.style.left = (8 + k * 62) + '%'; sun.style.transform = 'skewX(' + ((k - .5) * -50) + 'deg)'; }
+  }
+  function drawNotes() {
+    var svg = $('#lines'), on = document.documentElement.classList.contains('notes') && innerWidth > 820; svg.textContent = '';
+    if (!on) return;
+    var NS = 'http://www.w3.org/2000/svg', f = $('#floor').getBoundingClientRect();
+    var c = function (el) { var r = el.getBoundingClientRect(); return [r.left - f.left + r.width / 2, r.top - f.top + r.height / 2]; };
+    var rd = c($('#radar'));
+    function line(x1, y1, x2, y2, cls) { var l = document.createElementNS(NS, 'line'); l.setAttribute('x1', x1); l.setAttribute('y1', y1); l.setAttribute('x2', x2); l.setAttribute('y2', y2); if (cls) l.setAttribute('class', cls); svg.appendChild(l); return l; }
+    document.querySelectorAll('.desk').forEach(function (d) { if (!d.offsetParent) return; var p = c(d); line(rd[0], rd[1], p[0], p[1]); });
+    var ta = $('.desk[data-id="tally"]'), dk = $('.desk[data-id="docket"]');
+    if (ta && dk && ta.offsetParent && dk.offsetParent) { var a = c(ta), b = c(dk); line(a[0], a[1] - 70, b[0], b[1] - 70, 'pair'); var tx = document.createElementNS(NS, 'text'); tx.setAttribute('x', (a[0] + b[0]) / 2 - 30); tx.setAttribute('y', a[1] - 75); tx.textContent = 'TWO KEYS'; svg.appendChild(tx); }
+  }
+
+  /* ---------- the sheet: sit down at a desk, a bench or a lever ---------- */
+  function stateChip(light, e) { return WORD[light] + (e && e.stale ? ' · stale' : ''); }
+  function head(title, light, sub, eyebrow) {
+    var hd = h('div', { class: 'panel-h' });
+    if (light) hd.appendChild(led(light, true));
+    hd.appendChild(h('h2', { id: 'sheet-title', text: title }));
+    if (sub) hd.appendChild(h('span', { class: 'role', text: sub }));
+    hd.appendChild(h('span', { class: 'eyebrow', text: eyebrow || (S.live ? (S.meta ? 'Synced ' + ago(S.meta.syncedAt) : 'Live') : 'Example data') }));
+    hd.appendChild(h('button', { class: 'stand', 'data-stand': '', text: 'Stand up · Esc', title: 'Back to the floor (Esc)' }));
+    return hd;
+  }
+  function ticketForm(agentId, withAgent) {
+    var f = h('form');
+    var sel = h('select', { required: 'required' });
+    Object.keys(S.agents).map(function (k) { return S.agents[k]; }).filter(function (a) { return !hidden(a); }).forEach(function (a) { sel.appendChild(h('option', { value: a.id, text: a.name })); });
+    if (agentId) sel.value = agentId;
+    var ask = h('textarea', { maxlength: '500', required: 'required', placeholder: 'What should they do? No pay, phone numbers or candidate contact details.' });
+    var due = h('input', { type: 'date' });
+    var pr = h('select'); [['today', 'Today'], ['now', 'Now'], ['whenever', 'Whenever']].forEach(function (o) { pr.appendChild(h('option', { value: o[0], text: o[1] })); });
+    if (withAgent) f.appendChild(h('label', null, 'Agent', sel));
+    f.appendChild(h('label', null, 'Priority', pr));
+    f.appendChild(h('label', { class: 'full' }, 'Ask', ask)); f.appendChild(h('label', null, 'Due (optional)', due));
+    var go = h('button', { class: 'key', type: 'submit', text: 'Create ticket' }); go.disabled = !S.canWrite;
+    f.appendChild(h('div', null, go));
+    f.appendChild(h('p', { class: 'small full', text: S.flash || ('Radar picks tickets up in the hourly sweep (next: ' + nextSweep() + '). Say "go" in chat to run one now.') }));
+    f.addEventListener('submit', function (ev) {
+      ev.preventDefault(); if (!ask.value.trim()) return;
+      makeTicket({ agent: withAgent ? sel.value : agentId, ask: ask.value.trim(), priority: pr.value, due: due.value || null });
+      S.flash = 'Created. Radar picks it up in the sweep (next: ' + nextSweep() + ').'; S.formOpen = false; renderSheet();
+    });
+    return f;
+  }
+  function itemRow(i) {
+    var acts = h('span', { class: 'sacts', style: 'padding:0' });
+    if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
+    if (i.preview) { var rd = h('button', { class: 'mini txt', text: openDrafts[i.key] ? 'Hide draft' : 'Read draft' }); rd.addEventListener('click', function () { openDrafts[i.key] = !openDrafts[i.key]; S.forceSheet = true; renderSheet(); }); acts.insertBefore(rd, acts.firstChild); }
+    var done = h('button', { class: 'mini', text: 'Done', 'data-act': 'done', 'data-key': i.key }); done.disabled = !S.canWrite;
+    var fu = h('button', { class: 'mini', text: 'Follow up', 'data-act': 'followup', 'data-key': i.key }); fu.disabled = !S.canWrite;
+    done.className = 'mini primary';
+    acts.appendChild(h('span', { class: 'seg', role: 'group', 'aria-label': 'Decide' }, done, fu));
+    zzz(acts, i);
+    if (!i.seen) { var sn = seenBtn(i); sn.className = 'mini txt'; acts.appendChild(sn); }
+    var row = h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't' }, i.rank != null ? h('span', { class: 'rk', text: '#' + i.rank }) : null, i.title, h('span', { class: 'ago', text: ' · ' + ago(i.raisedAt) }), i.why ? h('small', { class: 'why', text: i.why }) : null), acts);
+    if (i.preview && openDrafts[i.key]) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'To: ' + ((i.preview.to || []).join(', ') || 'blank, add before sending') }), '\n' + i.preview.text + '\n\nNothing sends from here. Proof it, then open Superhuman to edit and send.'));
+    return row;
+  }
+  /* ---------- quick chat: the fast model, briefed with this desk's status; notes save to chats/{agent}/messages ---------- */
+  function chatPrompt(a, text) {
+    var e = effective(a), lines = [];
+    lines.push('You are ' + a.name + ', ' + (a.role || 'an AI employee') + ', one of the AI employees working for Kev Williams (Eden Executive Search and Eden Partner Group; KDTW Group is the family office).');
+    lines.push('This is the quick chat at your desk in Eden Office. Kev pops in for fast decisions and zips back out. Reply in at most four short sentences, plain words, no preamble, no lists unless he asks.');
+    lines.push('HOW THE OFFICE WORKS (say this plainly when asked): You are the quick desk version of ' + a.name + '. The full ' + a.name + ' is the same employee run by Radar, the chief of staff, with the files, tools and connectors; Radar runs it on tickets in the hourly weekday sweep (7am to 6pm Pacific) or right away when Kev says "go" in his chat with Radar. Everything Kev says here is saved and Radar reads it every sweep, files his directions into your memory and acts on them, so Kev never repeats himself. Approvals: Kev approves anything that writes to a live system, spends or publishes on the Eden Desk approval card (the "Approve in Desk" button on the item); a yes in this chat is recorded as his direction and Radar queues the exact item for that one tap. Drafted emails wait in his Superhuman Drafts and he sends them himself.');
+    lines.push('THE TEAM: Radar (chief of staff, runs everyone), Scout (lead research), Dean (scorecards, Eden University), Q (systems and engineering; cuts friction), Jenny (comms director: inbox, client and candidate writing, travel, events), Tally (finance), Docket (contracts and risk, second key on Tally), Atlas (tutor), Marlowe (architect and designer), Keys (the Vancouver rental), Hale (health), Jethro (growth coach, C12), Barny (spiritual advisor).');
+    lines.push('You only know what is below. You cannot see files, email or tools, and you have done no work in this chat, so never say you did, checked or sent anything. You never send, spend or publish. When Kev decides or approves something, restate it as the Direction line and say Radar will queue it; do not ask him to repeat himself or be more specific unless it is genuinely ambiguous. If you do not know something, say so and offer a ticket.');
+    lines.push('When Kev gives you a direction or a decision, end with one line: "Direction: <it, in one sentence>". When it needs real work from the full agent, end with one line: "Ticket: <the ask, in one sentence>".');
+    lines.push('', 'YOUR DESK RIGHT NOW (from the Office, ' + (S.live ? 'live' : 'example data') + '):');
+    lines.push('Status: ' + WORD[e.light] + (e.stale ? ' (stale)' : '') + '. Task: ' + (a.task || 'none posted') + '. Last heard: ' + ago(a.lastHeard) + '.');
+    if (e.items.length) lines.push('Needs Kev: ' + e.items.map(function (i) { return i.title; }).join(' | '));
+    var naps = snoozedFor(a.id); if (naps.length) lines.push('Kev snoozed these (bring them up whenever he asks what you need or what is open): ' + naps.map(function (x) { return x.title + ' (back ' + untilLabel(x.until) + ')'; }).join(' | '));
+    var tk = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id && ['open', 'picked', 'working', 'blocked', 'gated'].indexOf(x.status) >= 0; });
+    if (tk.length) lines.push('Open tickets: ' + tk.map(function (x) { return x.ask + ' (' + x.status + ')'; }).join(' | '));
+    var lg = (S.logs[a.id] || []).slice(0, 5); if (lg.length) lines.push('Recent log: ' + lg.map(function (l) { return l.text; }).join(' | '));
+    if (a.id === 'radar') {
+      lines.push('', 'YOU ARE RADAR IN A REAL CONVERSATION. Kev chose the deep model to think out loud with you. Talk like his chief of staff and battle buddy: result first, plain words, push back when something is off, recommend one option, ask at most one question back. Up to 8 sentences when the topic needs it. Kev is a Christian founder; the Seven Pillars are Righteousness, Winning, Accountability, Discipline, Transparency, Growth, Execution. Saturday is the Sabbath. You can hand any agent a ticket with the make_ticket tool when Kev decides something should happen; say you did. You never send, spend or publish.', '', 'THE WHOLE FLOOR RIGHT NOW:');
+      Object.keys(S.agents).map(function (k) { return S.agents[k]; }).filter(function (x) { return x.id !== 'radar' && !hidden(x); }).forEach(function (x) {
+        var ex = effective(x); lines.push('- ' + x.name + ' (' + (x.role || '') + '): ' + WORD[ex.light] + (ex.stale ? ', stale' : '') + '. Task: ' + (x.task || 'none posted') + '.' + (ex.items.length ? ' Needs Kev: ' + ex.items.slice(0, 8).map(function (i) { return (i.rank != null ? '#' + i.rank + ' ' : '') + i.title; }).join(' | ') : ''));
+      });
+      var openT = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return ['open', 'picked', 'working', 'blocked', 'gated'].indexOf(x.status) >= 0; });
+      if (openT.length) lines.push('Open tickets: ' + openT.slice(0, 15).map(function (x) { return nameOf(x.agent) + ': ' + x.ask + ' (' + x.status + ')'; }).join(' | '));
+      if (S.today && S.today.lines && !S.share) lines.push('Today: ' + S.today.lines.map(function (l) { return l.at + ' ' + l.text; }).join(' | '));
+    }
+    var hist = (S.chats[a.id] || []).slice(-10);
+    if (hist.length) { lines.push('', 'EARLIER IN THIS CHAT:'); hist.forEach(function (m) { lines.push((m.role === 'kev' ? 'Kev: ' : a.name + ': ') + m.text); }); }
+    lines.push('', 'Kev: ' + text, '', a.name + ':');
+    return lines.join('\n');
+  }
+  function saveMsg(agentId, role, text) {
+    var at = new Date().toISOString(), id = at.replace(/[-:.TZ]/g, '') + '-' + role;
+    var doc = { role: role, text: text, at: at, filed: false };
+    (S.chats[agentId] = S.chats[agentId] || []).push(doc);
+    if (S.live && S.db && S.canWrite) S.db.doc('chats/' + agentId + '/messages/' + id).set(doc).catch(function () {});
+  }
+  var CHAT_COPY = { not_granted: 'Chat is off: Claude access was declined for this page. Reload to be asked again.', rate_limited: 'Too many at once. Give it a few seconds.', };
+  function sendChat(a, text) {
+    if (!S.sample || S.pending) return;
+    var prompt = chatPrompt(a, text);
+    saveMsg(a.id, 'kev', text);
+    S.pending = { agent: a.id, text: '' }; S.forceSheet = true; renderSheet();
+    var deep = a.id === 'radar';
+    var tools = deep && S.canWrite ? [{ name: 'make_ticket', description: 'Hand one agent a work ticket in Eden Office. Returns the ticket id. Use only when Kev has decided something should be done. agent is one of: ' + Object.keys(S.agents).join(', ') + '.',
+      inputSchema: { type: 'object', properties: { agent: { type: 'string' }, ask: { type: 'string', description: 'One clear sentence, names and roles only' }, priority: { type: 'string', enum: ['now', 'today', 'whenever'] } }, required: ['agent', 'ask'] },
+      execute: function (inp) { var ag = String(inp.agent || '').toLowerCase(); if (!S.agents[ag] && ag !== 'radar') throw new Error('Unknown agent ' + ag); var tk = makeTicket({ agent: ag, ask: String(inp.ask || '').slice(0, 500), priority: ['now', 'today', 'whenever'].indexOf(inp.priority) >= 0 ? inp.priority : 'today', lever: 'radar-chat' }); return { id: tk.id, agent: ag }; } }] : undefined;
+    S.sample(prompt, { modelTier: deep ? 'complex' : 'quick', cache: false, tools: tools, onText: function (x) {
+      if (!S.pending) return; S.pending.text = x.text; var el = document.getElementById('pendingmsg'); if (el) { el.lastChild.textContent = x.text; var lg = el.parentNode; lg.scrollTop = lg.scrollHeight; }
+    } }).then(function (r) {
+      S.pending = null; saveMsg(a.id, 'agent', (r.text || '').trim()); S.forceSheet = true; renderAll(); focusChat();
+      if (S.voice && window.speechSynthesis) { try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance((r.text || '').replace(/^(Direction|Ticket):.*$/gm, '').trim()); u.rate = 1.05; speechSynthesis.speak(u); } catch (e) {} }
+    }, function (err) {
+      var kept = S.pending && S.pending.text; S.pending = null;
+      if (kept) saveMsg(a.id, 'agent', kept.trim());
+      S.flash = CHAT_COPY[err && err.code] || 'That reply did not come through. Try again.';
+      if (err && err.code === 'not_granted') S.sample = null;
+      S.forceSheet = true; renderAll();
+    });
+  }
+  /* voice: the browser's own speech recognition; the reply is read aloud. Falls back quietly where the viewer blocks the microphone. */
+  var rec = null;
+  function toggleListen(a, ta) {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) return;
+    if (rec) { try { rec.stop(); } catch (e) {} return; }
+    rec = new SR(); rec.lang = 'en-US'; rec.interimResults = true; rec.continuous = false;
+    var said = '';
+    rec.onresult = function (ev) { said = [].map.call(ev.results, function (r) { return r[0].transcript; }).join(' '); var t2 = $('#chat-in'); if (t2) t2.value = said; };
+    rec.onerror = function (ev) { S.flash = ev.error === 'not-allowed' || ev.error === 'service-not-allowed' ? 'The microphone is blocked in this view. Use your keyboard\'s dictation mic instead; it works the same.' : 'Did not catch that. Try again.'; };
+    rec.onend = function () { rec = null; S.listening = false; S.voice = !!said; S.forceSheet = true; renderSheet(); if (said.trim()) { var t3 = $('#chat-in'); if (t3) t3.value = ''; sendChat(a, said.trim()); } };
+    try { rec.start(); S.listening = true; S.flash = 'Listening...'; S.forceSheet = true; renderSheet(); } catch (e) { rec = null; S.flash = 'The microphone is not available here. Use your keyboard\'s dictation mic.'; S.forceSheet = true; renderSheet(); }
+  }
+  function focusChat() { var ta = $('#chat-in'); if (ta) ta.focus(); var lg = $('.chatlog'); if (lg) lg.scrollTop = lg.scrollHeight; }
+  function chatSection(a) {
+    var sec = h('section', { class: 'chat' }, h('h3', { text: a.id === 'radar' ? 'Talk with Radar · deep model' : 'Quick chat with ' + a.name }));
+    if (!S.sample) { sec.appendChild(h('p', { class: 'small', text: 'Chat needs Claude access on this page; it lights up in the Claude viewer. Hand a ticket meanwhile.' })); return sec; }
+    var log = h('div', { class: 'chatlog', 'aria-live': 'polite' });
+    (S.chats[a.id] || []).slice(-14).forEach(function (m) { log.appendChild(h('div', { class: 'msg ' + (m.role === 'kev' ? 'kev' : 'agent') }, h('b', { text: m.role === 'kev' ? 'You' : a.name }), m.text)); });
+    if (S.pending && S.pending.agent === a.id) log.appendChild(h('div', { class: 'msg agent', id: 'pendingmsg' }, h('b', { text: a.name }), S.pending.text || 'Thinking...'));
+    if (!log.childNodes.length) log.appendChild(h('p', { class: 'small', text: 'Quick hits: ask, decide, give direction. ' + a.name + ' knows this desk\'s status and your recent notes here, not the files.' }));
+    sec.appendChild(log);
+    var last = (S.chats[a.id] || []).filter(function (m) { return m.role === 'agent'; }).slice(-1)[0], tm = last && /^Ticket:\s*(.+)$/m.exec(last.text);
+    if (tm && !S.pending) {
+      var mk = h('button', { class: 'mini', text: 'Make it a ticket: ' + tm[1].slice(0, 60) }); mk.disabled = !S.canWrite;
+      mk.addEventListener('click', function () { makeTicket({ agent: a.id, ask: tm[1].trim(), priority: 'today', lever: 'chat' }); mk.textContent = 'Ticket created'; mk.disabled = true; });
+      sec.appendChild(mk);
+    }
+    var f = h('form', { class: 'chatform' }), ta = h('textarea', { id: 'chat-in', maxlength: '1000', placeholder: (a.id === 'radar' ? 'Talk it through with Radar.' : 'Quick note or decision for ' + a.name + '.') + ' Enter sends; Shift+Enter for a new line.', 'aria-label': 'Message ' + a.name });
+    var go = h('button', { class: 'key', type: 'submit', text: S.pending ? '...' : 'Send' }); go.disabled = !!S.pending;
+    ta.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); f.requestSubmit ? f.requestSubmit() : go.click(); } });
+    f.addEventListener('submit', function (ev) { ev.preventDefault(); var v = ta.value.trim(); if (!v) return; ta.value = ''; S.flash = ''; sendChat(a, v); });
+    f.appendChild(ta);
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR) {
+      var mic = h('button', { class: 'key mic', type: 'button', 'aria-pressed': String(!!S.listening), title: 'Speak instead of typing; the reply is read aloud', text: S.listening ? 'Stop' : 'Mic' });
+      mic.addEventListener('click', function () { toggleListen(a, ta); });
+      f.appendChild(mic);
+    }
+    f.appendChild(go); sec.appendChild(f);
+    sec.appendChild(h('p', { class: 'small', text: S.flash || (a.id === 'radar' ? 'Deep model: it thinks before it answers, so give it a few seconds. It sees the whole floor and can hand out tickets. Saved here.' : 'Fast model. Saved here; Radar files the directions into ' + a.name + '\'s memory on the next sweep' + (sensitiveAgent(a.id) ? ' (private notes go to your private Notion page, never the repo).' : '.')) }));
+    return sec;
+  }
+  function watchChat(id) {
+    if (!S.live || !S.db || S.unsub['chat-' + id] || (S.share && sensitiveAgent(id))) return;
+    S.unsub['chat-' + id] = S.db.collection('chats/' + id + '/messages').orderBy('at', 'desc').limit(30).onSnapshot(function (snap) {
+      S.chats[id] = snap.docs.map(function (d) { return d.data(); }).reverse(); renderAll();
+    }, function () { S.unsub['chat-' + id] = null; });
+  }
+
+  function deskSheet(p, a) {
+    var e = effective(a), hide = hidden(a);
+    p.appendChild(head(a.name, hide ? 'idle' : e.light, (a.role || '') + ' · ' + (hide ? 'Hidden' : stateChip(e.light, e)) + ' · heard ' + short(a.lastHeard)));
+    var body = h('div', { class: 'panel-b' + (a.id === 'host' ? ' wide-tray' : '') }); p.appendChild(body);
+    if (hide) { body.className = 'panel-b one'; body.appendChild(h('section', null, h('p', { class: 'small', text: 'Hidden in Screen share mode.' }))); return; }
+    var mine = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id; }).sort(function (x, y) { return t(y.createdAt) - t(x.createdAt); }).slice(0, 8);
+    var naps = snoozedFor(a.id);
+    var answer = a.id === 'host' ? e.items.filter(function (i) { return i.light === 'reply'; }).sort(function (x, y) { return ((x.rank == null ? 99 : x.rank) - (y.rank == null ? 99 : y.rank)) || (t(x.raisedAt) - t(y.raisedAt)); }) : [];
+    var tray = h('section');
+    if (a.id === 'host') {
+      tray.appendChild(h('h3', { text: 'To answer · ranked by Jenny · ' + answer.length }));
+      if (answer.length) answer.forEach(function (i) { tray.appendChild(itemRow(i)); });
+      else tray.appendChild(h('p', { class: 'small', text: 'Nothing waiting on your reply. Jenny ranks new ones each sweep, with a draft ready in Superhuman.' }));
+    }
+    var th = h('h3', { text: 'In tray · ' + (a.openTickets || 0) + ' open' + (naps.length ? ' · ' + naps.length + ' snoozed' : '') }); if (a.id === 'host') th.className = 'gap'; tray.appendChild(th);
+    var ul = h('ul');
+    mine.forEach(function (x) {
+      var li = h('li', { class: 'ticket' }, x.ask, h('small', { text: x.status + ' · ' + x.priority + (x.due ? ' · due ' + x.due : '') + ' · from Kev · ' + ago(x.createdAt) }));
+      (x.attachments || []).forEach(function (f) { if (!f || !f.asset) return; if (/^image\//.test(f.type || 'image/')) li.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f.asset, alt: f.name || 'Photo sent with this ticket' })); else li.appendChild(h('a', { class: 'mini txt', href: '/_blob/' + f.asset, target: '_blank', rel: 'noopener', text: (f.name || 'File') })); });
+      if (x.result && x.result.summary) li.appendChild(h('small', { text: 'Result: ' + x.result.summary }));
+      if (x.proposed) { li.appendChild(h('div', { class: 'exact', text: 'Exact action waiting for your yes (' + x.proposed.kind + '):\n' + x.proposed.exact })); if (x.proposed.link) li.appendChild(h('a', { class: 'mini txt', href: x.proposed.link, target: '_blank', rel: 'noopener', text: 'Decide in the Desk, not here' })); }
+      if (x.result && x.result.link) li.appendChild(h('a', { class: 'mini txt', href: x.result.link, target: '_blank', rel: 'noopener', text: 'Open the result' }));
+      ul.appendChild(li);
+    });
+    naps.forEach(function (x) {
+      var wake = h('button', { class: 'mini', text: 'Wake now', 'data-undo': x.key }); wake.disabled = !S.canWrite;
+      ul.appendChild(h('li', { class: 'ticket' }, x.title, h('small', { text: 'Zzz · back ' + untilLabel(x.until) + ' · snoozed ' + ago(x.at) }), wake));
+    });
+    if (!mine.length && !naps.length) ul.appendChild(h('li', { class: 'small', text: 'Nothing open.' }));
+    tray.appendChild(ul); body.appendChild(tray);
+    var blot = h('section', null, h('h3', { text: 'Blotter · now' }), h('p', { class: 'now', text: a.task || 'No task posted' }));
+    if (a.taskSince) blot.appendChild(h('p', { class: 'small', text: 'Since ' + ago(a.taskSince) + ' · last heard ' + ago(a.lastHeard) }));
+    if (e.stale) blot.appendChild(h('p', { class: 'small', text: 'Stale: ' + e.staleWhy + '.' }));
+    var need = a.id === 'host' ? e.items.filter(function (i) { return i.light !== 'reply'; }) : e.items;
+    if (need.length) { blot.appendChild(h('h3', { text: 'Needs you' })); need.forEach(function (i) { blot.appendChild(itemRow(i)); }); }
+    var later = Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return x.agent === a.id && x.action !== 'snooze' && acted(x.key); }).sort(function (x, y) { return t(y.at) - t(x.at); });
+    if (later.length) {
+      blot.appendChild(h('h3', { text: 'Done and follow-ups' }));
+      later.slice(0, 8).forEach(function (x) {
+        var u = h('button', { class: 'mini', text: 'Undo', 'data-undo': x.key }); u.disabled = !S.canWrite;
+        blot.appendChild(h('div', { class: 'item' }, h('span', { class: 'role', text: x.action === 'done' ? 'Done' : x.action === 'snooze' ? 'Zzz' : 'Follow up' }), h('span', { class: 't', text: x.title + ' · ' + (x.action === 'snooze' ? 'back ' + untilLabel(x.until) : ago(x.at) + (x.applied ? ' · Radar applied it' : ' · Radar applies it next sweep')) }), u));
+      });
+    }
+    blot.appendChild(h('h3', { text: 'Last five' }));
+    var log = (S.logs[a.id] || []).slice(0, 5), lu = h('ul', { class: 'log' });
+    log.forEach(function (l) { lu.appendChild(h('li', null, h('b', { text: ago(l.at) }), ' ' + l.text)); });
+    if (!log.length) lu.appendChild(h('li', { text: 'No log lines yet.' }));
+    blot.appendChild(lu); body.appendChild(blot);
+    var drawer = h('section', null, h('h3', { text: 'Drawer' }));
+    var st = h('button', { class: 'key', text: 'Status report' }); st.disabled = !S.canWrite;
+    st.addEventListener('click', function () { makeTicket({ agent: a.id, ask: 'Status in three lines: working on, done since last status, blocked on Kev. Names and roles only.', priority: 'today', lever: 'status' }); S.flash = 'Status ticket created.'; renderSheet(); });
+    var ht = h('button', { class: 'key', text: S.formOpen ? 'Close ticket form' : 'Hand a ticket' });
+    ht.addEventListener('click', function () { S.formOpen = !S.formOpen; S.flash = ''; renderSheet(); });
+    var cb = h('button', { class: 'key', text: 'Chat' }); cb.addEventListener('click', focusChat);
+    if (S.assets) { var pb = h('button', { class: 'key', text: 'Upload a file' }); pb.disabled = !S.canWrite; pb.addEventListener('click', function () { pickPhoto(a.id); }); drawer.appendChild(pb); }
+    drawer.appendChild(cb); drawer.appendChild(st); drawer.appendChild(ht);
+    if (S.formOpen) drawer.appendChild(ticketForm(a.id, false));
+    var gl = h('div', { class: 'golinks' }); toolsFor(AGENT_TOOLS[a.id] || ['eden-desk']).forEach(function (x) { gl.appendChild(toolLink(Object.assign({}, x, { name: 'Open ' + x.name }), 'golink')); }); if (gl.childNodes.length) drawer.appendChild(gl);
+    drawer.appendChild(h('p', { class: 'small', text: S.flash || 'A ticket is delegation, never approval. You stay accountable; sends, spends and publishing still go through QC with the exact action shown.' }));
+    body.appendChild(drawer);
+    var cw = h('div', { class: 'panel-b one' }); cw.appendChild(chatSection(a)); p.appendChild(cw);
+  }
+  function benchSheet(p, def) {
+    var doc = S.benches[def.id] || {};
+    p.appendChild(head(def.title, null, 'Desk: ' + def.owner + (doc.example ? ' · example figures' : ''), doc.asOf ? 'As of ' + doc.asOf.slice(0, 10) : 'Not synced'));
+    var body = h('div', { class: 'panel-b one' }); p.appendChild(body);
+    var sec = h('section'); body.appendChild(sec);
+    var tiles = doc.tiles || [];
+    if (!tiles.length) sec.appendChild(h('p', { class: 'small', text: 'No figures synced to this bench yet. ' + (doc.source ? '' : 'Its owner writes them through Radar.') }));
+    else {
+      var tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Figure' }), h('th', { text: 'Value' }), h('th', { text: 'Source' }), h('th', { text: 'Check' })));
+      tiles.forEach(function (x) { tb.appendChild(h('tr', null, h('td', { text: x.label }), h('td', { text: String(x.value) + (x.unit ? ' ' + x.unit : '') }), h('td', { text: (x.source || doc.source || '') + (x.asOf ? ' · ' + String(x.asOf).slice(0, 10) : '') }), h('td', { text: x.gate ? 'gate ' + x.gate : (x.needsGate ? 'not checked' : '') }))); });
+      sec.appendChild(h('div', { class: 'scroll' }, tb));
+    }
+    var rows = S.benchRows[def.id] || [];
+    if (rows.length) {
+      sec.appendChild(h('h3', { text: 'Detail' }));
+      var rt = h('table');
+      rows.slice(0, 20).forEach(function (r) { var bits = Object.keys(r).filter(function (k) { return ['id', 'updated', 'section'].indexOf(k) < 0 && /^(string|number|boolean)$/.test(typeof r[k]); }).slice(0, 5).map(function (k) { return k + ': ' + r[k]; }); rt.appendChild(h('tr', null, h('td', { text: r.name || r.section || r.id }), h('td', { text: bits.join(' · ') }))); });
+      sec.appendChild(h('div', { class: 'scroll' }, rt));
+    }
+    var tl = h('div', { class: 'tools' }); toolsFor(BENCH_TOOLS[def.id]).forEach(function (x) { tl.appendChild(toolLink(x, '')); }); sec.appendChild(tl);
+    sec.appendChild(h('p', { class: 'small', text: 'Each figure carries its source and date. Finance figures show a gate id only when the numbers gate passed; otherwise "not checked".' }));
+  }
+
+  function visibleAgents() { return Object.keys(S.agents).map(function (k) { return S.agents[k]; }).filter(function (a) { return !hidden(a); }); }
+  var LEVERS = {
+    wip: { title: 'WIP report', build: function (sec) {
+      sec.appendChild(h('p', { class: 'small', text: 'Built from the Office database now (' + (S.meta ? 'repo synced ' + ago(S.meta.syncedAt) : 'example data') + '). For ledger rows and the Day Board, ask Radar for the full version.' }));
+      var tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Desk' }), h('th', { text: 'Light' }), h('th', { text: 'On it' }), h('th', { text: 'QC' }), h('th', { text: 'Tickets' }), h('th', { text: 'Heard' }))); var lines = [];
+      visibleAgents().forEach(function (a) {
+        var e = effective(a);
+        tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', null, h('span', { text: stateChip(e.light, e) })), h('td', { text: a.task || '' }), h('td', { text: String(a.pendingQc || 0) }), h('td', { text: String(a.openTickets || 0) }), h('td', { text: short(a.lastHeard) })));
+        lines.push(a.name + ': ' + stateChip(e.light, e) + (a.task ? ' · ' + a.task : '') + ' · QC ' + (a.pendingQc || 0) + ' · tickets ' + (a.openTickets || 0) + ' · heard ' + short(a.lastHeard));
+      });
+      sec.appendChild(h('div', { class: 'scroll' }, tb));
+      var row = h('div', { class: 'keys' });
+      var copy = h('button', { class: 'key', text: 'Copy as text' });
+      copy.addEventListener('click', function () { var txt = 'WIP ' + new Date().toISOString().slice(0, 16) + '\n' + lines.join('\n'); (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(function () { copy.textContent = 'Copied'; }, function () { copy.textContent = 'Copy blocked here'; }); });
+      var full = h('button', { class: 'key', text: 'Ask Radar for the full WIP' }); full.disabled = !S.canWrite;
+      full.addEventListener('click', function () { makeTicket({ agent: 'radar', ask: 'Run the full WIP report: ledger by lane, QC, gates, routines, Day Board.', priority: 'today', lever: 'wip' }); full.textContent = 'Ticket created'; full.disabled = true; });
+      row.appendChild(copy); row.appendChild(full); sec.appendChild(row);
+    } },
+    status: { title: 'Status from everyone', build: function (sec) {
+      var quiet = [], tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Desk' }), h('th', { text: 'Status' }), h('th', { text: 'Heard' })));
+      visibleAgents().forEach(function (a) { var e = effective(a), old = Date.now() - t(a.lastHeard) > DAY; if (old) quiet.push(a); tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', { text: a.statusLine || a.task || WORD[e.light] }), h('td', { text: ago(a.lastHeard) + (old ? ' (over a day)' : '') }))); });
+      sec.appendChild(h('p', { class: 'small', text: 'Instant: each desk\'s last posted status. Live roll call: one ticket per desk quiet over a day; each agent answers in three lines (on it, done, blocked on you).' }));
+      sec.appendChild(h('div', { class: 'scroll' }, tb));
+      var go = h('button', { class: 'key', text: quiet.length ? 'Ask the ' + quiet.length + ' quiet desk' + (quiet.length > 1 ? 's' : '') + ' for status' : 'Everyone has been heard from today' }); go.disabled = !quiet.length || !S.canWrite;
+      go.addEventListener('click', function () { quiet.forEach(function (a) { makeTicket({ agent: a.id, ask: 'Status in three lines: working on, done since last status, blocked on Kev. Names and roles only.', priority: 'today', lever: 'status' }); }); go.textContent = quiet.length + ' tickets created'; go.disabled = true; });
+      sec.appendChild(go);
+    } },
+    ticket: { title: 'Hand a ticket', build: function (sec) {
+      sec.appendChild(h('p', { class: 'small', text: 'You stay accountable; the agent is your delegate. Anything it would send, spend or publish waits in QC for your yes, with the exact action shown. A ticket is never approval.' }));
+      sec.appendChild(ticketForm(S.sheet.agent || null, true));
+    } },
+    unused: { title: "What did we ship that we're not using", build: function (sec) {
+      var rows = [], tm = toolMap();
+      Object.keys(tm).forEach(function (k) {
+        var x = tm[k], every = x.expectedEveryDays || 14, clicked = S.seen['open-' + x.id], used = clicked && clicked.at ? clicked.at : null, act = x.lastActivity || null;
+        var last = [used, act].filter(Boolean).sort().pop() || null, why = null;
+        if (x.noTrigger) why = 'Built but never switched on: no trigger exists';
+        else if (x.waitingOnKev) why = 'Waiting on your yes';
+        else if (last && Date.now() - t(last) > 2 * every * DAY) why = 'Quiet for ' + Math.floor((Date.now() - t(last)) / DAY) + ' days (expected every ' + every + ')';
+        else if (!last) why = 'No use recorded yet';
+        if (why) rows.push({ x: x, why: why, evidence: last ? (last === used ? 'Office opens' : 'activity') : 'none' });
+      });
+      sec.appendChild(h('p', { class: 'small', text: 'Evidence is what the Office saw you open, plus activity Radar supplied. "No use recorded" means no evidence either way, not proof of no use. The list gets truer each week.' }));
+      if (!rows.length) { sec.appendChild(h('p', { text: 'Everything shipped shows recent use.' })); return; }
+      var tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Tool' }), h('th', { text: 'Why it is listed' }), h('th', { text: 'Evidence' }), h('th', { text: '' })));
+      rows.forEach(function (r) {
+        var b = h('button', { class: 'mini', text: 'Adopt or retire?' }); b.disabled = !S.canWrite;
+        b.addEventListener('click', function () { makeTicket({ agent: r.x.owner || 'radar', ask: 'Adopt or retire "' + r.x.name + '": ' + r.why + '. Recommend one, with what it costs to keep.', priority: 'whenever', lever: 'unused' }); b.textContent = 'Ticket created'; b.disabled = true; });
+        tb.appendChild(h('tr', null, h('td', { text: r.x.name }), h('td', { text: r.why }), h('td', { text: r.evidence }), h('td', null, b)));
+      });
+      sec.appendChild(h('div', { class: 'scroll' }, tb));
+    } }
+  };
+  /* ---------- photos: snap or pick, shrink to a JPEG, upload to the Office's asset store, hand it to an agent as a ticket ---------- */
+  function pickPhoto(agentId) { S.photoAgent = agentId || 'radar'; var inp = $('#photo-in'); inp.value = ''; inp.click(); }
+  function toJpeg(file) {
+    return new Promise(function (res, rej) {
+      var img = new Image(), u = URL.createObjectURL(file);
+      img.onload = function () {
+        var max = 2000, k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight)), c = document.createElement('canvas');
+        c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u);
+        c.toBlob(function (b) { b ? res(b) : rej(new Error('encode')); }, 'image/jpeg', 0.85);
+      };
+      img.onerror = function () { URL.revokeObjectURL(u); rej(new Error('decode')); };
+      img.src = u;
+    });
+  }
+  /* Uploads: photos (shrunk to JPEG), PDFs, CSVs, text; spreadsheets become one CSV per sheet (the asset store takes no .xlsx). */
+  var TYPES = { pdf: 'application/pdf', csv: 'text/csv', txt: 'text/plain', md: 'text/markdown', json: 'application/json' };
+  function ext(n) { var m = /\.([a-z0-9]+)$/i.exec(n || ''); return m ? m[1].toLowerCase() : ''; }
+  function loadXlsx() {
+    if (window.XLSX) return Promise.resolve(window.XLSX);
+    return new Promise(function (res, rej) { var sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; sc.onload = function () { res(window.XLSX); }; sc.onerror = rej; document.head.appendChild(sc); });
+  }
+  function prepare(file) {          // resolves [{blob, type, name}]
+    var e = ext(file.name);
+    if (/^image\//.test(file.type) || /^(jpe?g|png|heic|heif|gif|webp)$/.test(e)) return toJpeg(file).then(function (b) { return [{ blob: b, type: 'image/jpeg', name: file.name.replace(/\.[^.]+$/, '') + '.jpg' }]; }, function () { return [{ blob: file, type: file.type || 'image/jpeg', name: file.name }]; });
+    if (e === 'xlsx' || e === 'xls') return file.arrayBuffer().then(function (buf) { return loadXlsx().then(function (X) {
+      var wb = X.read(buf, { type: 'array' });
+      return wb.SheetNames.map(function (sn) { return { blob: new Blob([X.utils.sheet_to_csv(wb.Sheets[sn])], { type: 'text/csv' }), type: 'text/csv', name: file.name.replace(/\.[^.]+$/, '') + (wb.SheetNames.length > 1 ? ' - ' + sn : '') + '.csv' }; });
+    }); });
+    var ty = TYPES[e] || file.type; if (!ty) return Promise.reject({ code: 'unsupported_type' });
+    return Promise.resolve([{ blob: file, type: ty, name: file.name }]);
+  }
+  function kb(n) { return n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; }
+  LEVERS.photo = { title: 'Upload for an agent', build: function (sec) {
+    var ph = S.photo; if (!ph) { sec.appendChild(h('p', { class: 'small', text: 'Nothing picked.' })); return; }
+    ph.files.forEach(function (f) {
+      if (/^image\//.test(f.type)) sec.appendChild(h('img', { class: 'thumb', src: f.preview || (f.preview = URL.createObjectURL(f)), alt: f.name }));
+      else sec.appendChild(h('div', { class: 'ticket' }, f.name, h('small', { text: kb(f.size) + (/\.xlsx?$/i.test(f.name) ? ' · each sheet goes over as a CSV' : '') })));
+    });
+    var f = h('form'), sel = h('select');
+    visibleAgents().forEach(function (a) { sel.appendChild(h('option', { value: a.id, text: a.name })); });
+    if (!S.agents.radar) sel.insertBefore(h('option', { value: 'radar', text: 'Radar' }), sel.firstChild);
+    sel.value = ph.agent || 'radar';
+    var note = h('textarea', { maxlength: '500', placeholder: 'What is it, or what should they do? Leave blank and Radar makes sense of it.' });
+    f.appendChild(h('label', null, 'Hand it to', sel)); f.appendChild(h('label', { class: 'full' }, 'Note', note));
+    var go = h('button', { class: 'key', type: 'submit', text: ph.busy ? 'Uploading...' : 'Send' }); go.disabled = !!ph.busy || !S.canWrite;
+    f.appendChild(h('div', null, go));
+    f.appendChild(h('p', { class: 'small full', text: ph.error || 'Photos, PDFs, CSVs, spreadsheets and text, up to 20 MB each. Saved privately in the Office; it becomes a ticket the agent picks up on the next sweep (or say "go" in chat).' }));
+    f.addEventListener('submit', function (ev) {
+      ev.preventDefault(); if (ph.busy) return; ph.busy = true; ph.error = ''; ph.agent = sel.value; var text = note.value.trim(); S.forceSheet = true; renderSheet();
+      Promise.all(ph.files.map(prepare)).then(function (lists) {
+        var parts = [].concat.apply([], lists);
+        return Promise.all(parts.map(function (x) { return S.assets.upload(x.blob, { type: x.type }).then(function (r) { return { asset: r.id, type: r.contentType, name: x.name }; }); }));
+      }).then(function (att) {
+        var what = att.length === 1 ? (/^image\//.test(att[0].type) ? 'this photo' : att[0].name) : 'these ' + att.length + ' files';
+        makeTicket({ agent: ph.agent, ask: text || 'Make sense of ' + what + ' and file ' + (att.length === 1 ? 'it' : 'them') + ' where ' + (att.length === 1 ? 'it belongs.' : 'they belong.'), priority: 'today', lever: 'upload', attachments: att });
+        ph.files.forEach(function (x) { if (x.preview) URL.revokeObjectURL(x.preview); }); S.photo = null; S.flash = 'Sent to ' + nameOf(ph.agent) + '.'; S.sheet = { kind: 'desk', id: ph.agent }; S.forceSheet = true; renderAll();
+      }, function (e) {
+        ph.busy = false; ph.error = (e && e.code === 'unsupported_type') ? 'One of those file types is not supported. Photos, PDFs, CSVs, Excel and text work.' : (e && e.code === 'too_large') ? 'Too big: 20 MB a file.' : 'Upload did not go through' + (e && e.code ? ' (' + e.code + ')' : '') + '. Try again.'; S.forceSheet = true; renderSheet();
+      });
+    });
+    sec.appendChild(f);
+  } };
+  function leverSheet(p, key) {
+    var L = LEVERS[key]; p.appendChild(head(L.title, null, 'Lever'));
+    var body = h('div', { class: 'panel-b one' }), sec = h('section'); body.appendChild(sec); p.appendChild(body); L.build(sec);
+  }
+
+  function renderSheet() {
+    var sheet = $('#sheet'), p = $('#panel');
+    if (!S.sheet) { sheet.hidden = true; return; }
+    var ae = document.activeElement;
+    if (!sheet.hidden && ae && p.contains(ae) && /^(TEXTAREA|INPUT|SELECT)$/.test(ae.tagName) && !S.forceSheet) return;   // never rebuild under someone typing
+    S.forceSheet = false;
+    p.textContent = '';
+    var sh = S.sheet, scrollTop = p.scrollTop;
+    if (sh.kind === 'desk') { var a = sh.id === 'radar' ? (S.agents.radar || { id: 'radar', name: 'Radar', role: 'Chief of staff' }) : S.agents[sh.id]; if (!a) { S.sheet = null; sheet.hidden = true; return; } deskSheet(p, a); }
+    else if (sh.kind === 'bench') { var def = BENCH_DEFS.filter(function (d) { return d.id === sh.id; })[0]; if (!def || (S.share && def.sensitive)) { S.sheet = null; sheet.hidden = true; return; } benchSheet(p, def); }
+    else leverSheet(p, sh.id);
+    p.scrollTop = scrollTop;
+    sheet.hidden = false;
+  }
+  function watchLog(id) {
+    if (!S.live || !S.db || S.unsub['log-' + id] || (S.share && sensitiveAgent(id))) return;
+    S.unsub['log-' + id] = S.db.collection('agents/' + id + '/log').orderBy('at', 'desc').limit(5).onSnapshot(function (snap) { S.logs[id] = snap.docs.map(function (d) { return d.data(); }); renderAll(); }, function () { S.unsub['log-' + id] = null; });
+  }
+  function watchRows(id) {
+    if (!S.live || !S.db || S.unsub['rows-' + id]) return;
+    S.unsub['rows-' + id] = S.db.collection('benches/' + id + '/rows').limit(50).onSnapshot(function (snap) { S.benchRows[id] = snap.docs.map(function (d) { var v = Object.assign({}, d.data()); v.id = d.id; return v; }); renderAll(); }, function () { S.unsub['rows-' + id] = null; });
+  }
+  function unwatch(name) { var u = S.unsub[name]; if (typeof u === 'function') u(); delete S.unsub[name]; }
+  function openSheet(kind, id, from, extra) {
+    var wasOpen = !!S.sheet;
+    S.sheet = Object.assign({ kind: kind, id: id }, extra || {}); S.formOpen = false; S.flash = ''; S.forceSheet = true;
+    lastFrom = from || lastFrom;
+    if (kind === 'desk') { watchLog(id); watchChat(id); markLook(id); }
+    if (kind === 'bench') watchRows(id);
+    $('#floor').classList.add('sitting'); renderSheet();
+    var panel = $('#panel');
+    if (!wasOpen && !reduced.matches && lastFrom && lastFrom.getBoundingClientRect) {                           // sit: the sheet grows out of the desk
+      var r = lastFrom.getBoundingClientRect(), pr = panel.getBoundingClientRect();
+      if (pr.width && pr.height) {
+        panel.animate([{ transform: 'translate(' + (r.left - pr.left) + 'px,' + (r.top - pr.top) + 'px) scale(' + (r.width / pr.width) + ',' + (r.height / pr.height) + ')', opacity: .5 }, { transform: 'none', opacity: 1 }], { duration: 320, easing: 'cubic-bezier(.2,.7,.2,1)' });
+        panel.querySelectorAll('.panel-h > *, .panel-b').forEach(function (el) { el.animate([{ opacity: 0 }, { opacity: 0, offset: .4 }, { opacity: 1 }], { duration: 320 }); });
+      }
+    } else if (!wasOpen) panel.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150 });
+    var sb = $('.stand', panel); if (sb) sb.focus();
+    if (kind === 'desk') { try { history.replaceState(null, '', '#' + id); } catch (e) {} }
+    renderAll();
+  }
+  function stand() {
+    var sheet = $('#sheet'); if (sheet.hidden) return;
+    var done = function () {
+      var sh = S.sheet; S.sheet = null; sheet.hidden = true; $('#floor').classList.remove('sitting');
+      if (sh && sh.kind === 'desk') { unwatch('log-' + sh.id); unwatch('chat-' + sh.id); } if (sh && sh.kind === 'bench') unwatch('rows-' + sh.id);
+      renderAll(); try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+      var back = sh && sh.kind === 'desk' ? ($('.desk[data-id="' + sh.id + '"]') || $('#radar .radar-sit')) : (sh && sh.kind === 'bench' ? $('[data-bench="' + sh.id + '"]') : null);
+      if (back && back.focus) back.focus();
+    };
+    if (reduced.matches) return done();
+    $('#panel').animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(8px)' }], { duration: 200, easing: 'ease-in' }).onfinish = done;
+  }
+  /* sitting at a desk is "I looked": its blink holds steady. Written once per sit, on a user action. */
+  function markLook(id) {
+    var a = S.agents[id]; if (!a) return;
+    var e = effective(a); if (!(e.light === 'urgent' || e.light === 'reply' || e.light === 'review')) return;
+    markSeen('look-' + id);
+  }
+
+  /* ---------- events ---------- */
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  document.addEventListener('click', function (e) {
+    var sb = e.target.closest('[data-seen]'); if (sb) { markSeen(sb.getAttribute('data-seen')); return; }
+    var ab = e.target.closest('[data-act]'); if (ab) { markAction(ab.getAttribute('data-key'), ab.getAttribute('data-act')); return; }
+    var ub = e.target.closest('[data-undo]'); if (ub) { undoAction(ub.getAttribute('data-undo')); return; }
+    var el = e.target.closest('[data-id],[data-stand],.bench,[data-lever],#radar');
+    if (!el) return;
+    if (el.hasAttribute('data-stand')) return stand();
+    if (el.hasAttribute('data-lever')) return openSheet('lever', el.getAttribute('data-lever'), el);
+    if (el.classList.contains('bench')) return openSheet('bench', el.getAttribute('data-bench'), el);
+    if (el.id === 'radar') return openSheet('desk', 'radar', el);
+    var id = el.getAttribute('data-id'); if (id) { var a = S.agents[id]; if (a && hidden(a) && el.classList.contains('smain')) return; openSheet('desk', id, $('.desk[data-id="' + id + '"]') || $('#radar')); }
+  });
+  /* Esc stands up from any desk, bench or lever, even while typing in the chat; captured first so nothing inside the sheet can swallow it */
+  window.addEventListener('keydown', function (e) { if ((e.key === 'Escape' || e.key === 'Esc') && S.sheet) { e.preventDefault(); stand(); } }, true);
+  function toggle(btn, apply, key) {
+    btn.addEventListener('click', function () {
+      var on = btn.getAttribute('aria-pressed') !== 'true'; btn.setAttribute('aria-pressed', String(on)); apply(on);
+      if (key) { try { localStorage.setItem(key, on ? '1' : '0'); } catch (x) {} }
+      renderAll();
+    });
+  }
+  var root = document.documentElement;
+  function setShare(on) {
+    S.share = on; root.classList.toggle('share', on);
+    if (on) {
+      dropSensitive();
+      if (S.sheet && ((S.sheet.kind === 'bench' && BENCH_DEFS.some(function (d) { return d.id === S.sheet.id && d.sensitive; })) || (S.sheet.kind === 'desk' && sensitiveAgent(S.sheet.id)))) { S.sheet = null; $('#sheet').hidden = true; $('#floor').classList.remove('sitting'); }
+    } else attachBenches();
+  }
+  toggle($('#sw-share'), setShare, 'eo-share');
+  toggle($('#sw-still'), function (on) { root.classList.toggle('still', on); }, 'eo-still');
+  toggle($('#sw-notes'), function (on) { root.classList.toggle('notes', on); });
+  toggle($('#sw-theme'), function (on) { root.setAttribute('data-theme', on ? 'dark' : 'light'); });     // follows the device until switched (Kev to confirm)
+  if (matchMedia('(prefers-color-scheme: dark)').matches) $('#sw-theme').setAttribute('aria-pressed', 'true');
+  try {
+    if (localStorage.getItem('eo-still') === '1') { root.classList.add('still'); $('#sw-still').setAttribute('aria-pressed', 'true'); }
+    if (localStorage.getItem('eo-share') === '1') { $('#sw-share').setAttribute('aria-pressed', 'true'); S.share = true; root.classList.add('share'); }
+  } catch (x) {}
+  addEventListener('resize', drawNotes);
+
+  /* ---------- render ---------- */
+  function renderSync() {
+    $('#demo').hidden = S.live;
+    var m = S.meta, st = $('#stale');
+    $('#sync').textContent = S.live ? (m ? 'Synced ' + ago(m.syncedAt) + ' from the repo' : 'Live · waiting for the first sync') : 'Example data';
+    if (S.live && m && Date.now() - t(m.syncedAt) > 3 * HOUR) { st.hidden = false; st.textContent = 'The last sync was ' + ago(m.syncedAt) + '. Lights may be out of date; ask Radar to sync.'; }
+    else if (S.live && m && m.skipped && m.skipped.length) { st.hidden = false; st.textContent = 'Not in the last sync: ' + m.skipped.join('; ') + '.'; }
+    else if (S.live && !S.canWrite) { st.hidden = false; st.textContent = 'Read-only view: tickets and seen marks are off.'; }
+    else st.hidden = true;
+  }
+  /* ---------- now and next: Kev's calendar, live through his Google Calendar connector (read only) ---------- */
+  var tf = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit' });
+  function pad2(n) { return String(n).padStart(2, '0'); }
+  function isoLocal(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) + 'T' + pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds()); }
+  function calEvents() {
+    if (S.cal && S.cal.events) return S.cal.events;
+    var lines = (S.today && S.today.lines) || [], d = new Date();    // fallback: Radar's lines for today, or the example
+    return lines.map(function (l) { var m = /^(\d{1,2}):(\d{2})/.exec(l.at || ''); if (!m) return null; var st = new Date(d); st.setHours(+m[1], +m[2], 0, 0); return { title: l.text, start: st, end: new Date(st.getTime() + 30 * MIN) }; }).filter(Boolean);
+  }
+  function normCal(list) {
+    return (list || []).filter(function (ev) {
+      if (!ev || ev.status === 'cancelled' || !ev.start || !ev.start.dateTime) return false;     // timed events only
+      var me = (ev.attendees || []).filter(function (a) { return a.self; })[0]; return !(me && me.responseStatus === 'declined');
+    }).map(function (ev) {
+      var eps = (ev.conferenceData && ev.conferenceData.entryPoints) || [], vid = eps.filter(function (x) { return x.entryPointType === 'video' && x.uri; })[0];
+      var url = ev.hangoutLink || (vid && vid.uri) || ((String(ev.location || '').match(/https:\/\/\S+/) || [''])[0]);
+      return { title: ev.summary || '(no title)', start: new Date(ev.start.dateTime), end: new Date(ev.end && ev.end.dateTime || ev.start.dateTime), join: /^https:\/\//.test(url || '') ? url : '' };
+    }).sort(function (a, b) { return a.start - b.start; });
+  }
+  function inLabel(ms) { var m = Math.round(ms / MIN); return m < 1 ? 'now' : m < 60 ? 'in ' + m + 'm' : 'in ' + Math.floor(m / 60) + 'h' + (m % 60 ? ' ' + (m % 60) + 'm' : ''); }
+  function renderNext() {
+    var box = $('#nextup'); if (!box) return; box.textContent = '';
+    var now = Date.now(), evs = calEvents(), cur = evs.filter(function (e) { return e.start <= now && e.end > now; })[0], up = evs.filter(function (e) { return e.start > now; }).slice(0, 2);
+    var nb = h('div', { class: 'nowbox' }, h('span', { class: 'eyebrow', text: 'Now' }));
+    var hideT = S.share;                                      // calendar titles carry client names: hidden on a screen share
+    if (cur) { nb.appendChild(h('b', { text: hideT ? 'In an event' : cur.title })); nb.appendChild(h('span', { class: 'small', text: 'until ' + tf.format(cur.end) })); if (cur.join && !hideT) nb.appendChild(h('a', { class: 'join', href: cur.join, target: '_blank', rel: 'noopener', text: 'Join →' })); }
+    else { nb.appendChild(h('b', { text: up[0] ? 'Open until ' + tf.format(up[0].start) : 'Open the rest of the day' }));  }
+    box.appendChild(nb);
+    var nl = h('div', { class: 'nextlist' }, h('span', { class: 'eyebrow', text: 'Next' }));
+    if (!up.length) nl.appendChild(h('span', { class: 'small', text: S.cal && S.cal.error ? S.cal.error : (S.cal ? 'Nothing else today.' : 'Calendar not connected on this page yet.') }));
+    up.forEach(function (e, i) {
+      var row = h('div', { class: 'nx' + (i === 0 ? ' first' : '') }, h('span', { class: 'tm', text: (e.start.toDateString() === new Date().toDateString() ? '' : e.start.toLocaleDateString('en-US', { weekday: 'short' }) + ' ') + tf.format(e.start) }), h('span', { class: 'ti', text: hideT ? 'Event' : e.title }), h('span', { class: 'in', text: inLabel(e.start - now) }));
+      nl.appendChild(row);
+    });
+    var dayb = toolMap()['day-board'];
+    nl.appendChild(h('div', { class: 'foot2' }, h('span', { class: 'small', text: S.cal && S.cal.events ? 'Live' : (S.live ? 'Day lines' : 'Example') }), dayb ? toolLink({ id: dayb.id, name: 'Full day →', url: dayb.url }, '') : null));
+    box.appendChild(nl);
+  }
+  var CAL_COPY = { needs_reauth: 'Google Calendar needs reconnecting in Claude settings.', server_not_connected: 'Google Calendar is not connected in Claude.', approval_required: 'Allow this page to read your calendar when Claude asks.', consent_required: 'Allow this page to read your calendar when Claude asks.', not_in_manifest: 'Calendar not enabled on this page.' };
+  function watchCalendar(mcp) {
+    var d = new Date(), st = new Date(d); st.setHours(0, 0, 0, 0); var en = new Date(st.getTime() + 2 * DAY);
+    S.unsub.cal = mcp.watchTool('Google Calendar', 'list_events', { startTime: isoLocal(st), endTime: isoLocal(en), orderBy: 'startTime', pageSize: 100 }, function (ev) {
+      if (ev.type === 'data') { var p = ev.result && ev.result.payload; if (typeof p === 'string') { try { p = JSON.parse(p); } catch (e) { p = null; } } var list = Array.isArray(p) ? p : (p && Array.isArray(p.events) ? p.events : []); S.cal = { events: normCal(list), at: Date.now() }; }
+      else { var code = ev.error && ev.error.code; S.cal = { events: (S.cal && S.cal.events) || null, error: CAL_COPY[code] || 'Calendar did not answer; trying again.' }; }
+      renderNext();
+    }, { refetchInterval: 60000 });
+  }
+
+  function renderAll() { renderNext(); renderSync(); renderBanner(); renderStrip(); renderFloor(); renderTools(); renderSheet(); }
+
+  /* ---------- example data (clearly labelled; no client names, pay, phones, family or health) ---------- */
+  function exampleData() {
+    var n = Date.now(), iso = function (ago) { return new Date(n - ago).toISOString(); };
+    var SENS = ['tally', 'docket', 'atlas', 'housing-architect', 'keys', 'dean', 'hale', 'jethro', 'barnabas'];
+    function ag(id, name, desk, role, o) { var a = { id: id, name: name, desk: desk, role: role, sensitive: SENS.indexOf(id) >= 0, light: 'idle', counts: {}, task: null, lastHeard: iso(2 * HOUR), pendingQc: 0, openTickets: 0, expectedEveryHours: 96, updated: iso(20 * MIN) }; for (var k in o) a[k] = o[k]; S.agents[id] = a; }
+    ag('radar', 'Radar', 'centre', 'Chief of staff', { task: 'Hourly sweep (example)', counts: { working: 1 }, lastHeard: iso(30 * MIN), expectedEveryHours: 30, openTickets: 2 });
+    ag('scout', 'Scout', 'recruiting', 'Lead research', { task: "Tonight's lead buckets (example)", lastHeard: iso(HOUR), openTickets: 1 });
+    ag('dean', 'Dean', 'recruiting', 'Workforce', { task: 'Friday scorecard prep (example)', lastHeard: iso(5 * HOUR), pendingQc: 1, openTickets: 1 });
+    ag('host', 'Jenny', 'finance', 'Comms director', { lastHeard: iso(8 * DAY) });
+    ag('tally', 'Tally', 'finance', 'Finance', { task: 'Month-end packet (example)', lastHeard: iso(3 * HOUR) });
+    ag('docket', 'Docket', 'finance', 'Counsel and risk', { task: 'Second key on the packet (example)', counts: { working: 1 }, lastHeard: iso(30 * HOUR) });
+    ag('q', 'Q', 'recruiting', 'Engineering', { task: 'Office status feed (example)', counts: { working: 1 }, lastHeard: iso(20 * MIN), pendingQc: 1 });
+    ag('atlas', 'Atlas', 'family', 'Tutor', { lastHeard: iso(2 * DAY) });
+    ag('housing-architect', 'Marlowe', 'family', 'Architect', { task: 'Floor plan (example)', counts: { working: 1 }, lastHeard: iso(HOUR) });
+    ag('keys', 'Keys', 'family', 'Rental ops', { lastHeard: iso(3 * DAY) });
+    ag('hale', 'Hale', 'family', 'Health advisor', { task: 'Example task', counts: { working: 1 }, lastHeard: iso(2 * HOUR) });
+    ag('jethro', 'Jethro', 'family', 'Growth coach', { task: 'Example task', lastHeard: iso(6 * HOUR) });
+    ag('barnabas', 'Barny', 'family', 'Spiritual advisor', { lastHeard: iso(4 * DAY) });
+    function al(id, agent, light, kind, title, ms) { S.alerts[id] = { id: id, agent: agent, light: light, kind: kind, title: title, source: 'example', raisedAt: iso(ms), needsKev: true, sensitive: SENS.indexOf(agent) >= 0 }; }
+    al('e1', 'radar', 'urgent', 'call', 'Missed call: a client contact (example)', 12 * MIN);
+    al('e2', 'scout', 'reply', 'inbox', 'Reply (team): lead sheet question (example)', 40 * MIN);
+    al('j1', 'host', 'reply', 'inbox', 'A client contact: Re: shortlist timing (example)', 25 * MIN); S.alerts.j1.rank = 1; S.alerts.j1.why = 'Client waiting on dates for interviews; draft ready (example)'; S.alerts.j1.link = 'https://mail.superhuman.com/'; S.alerts.j1.preview = { to: ['client (example)'], text: 'Hi there,\n\nThursday or Friday works on our side. (example)' };
+    al('j2', 'host', 'reply', 'inbox', 'A candidate: offer questions (example)', 2 * HOUR); S.alerts.j2.rank = 2; S.alerts.j2.why = 'Candidate deciding this week (example)';
+    al('e3', 'dean', 'review', 'qc', 'send message: draft ready to read (example)', 3 * HOUR);
+    S.alerts.e3.preview = { to: [], text: 'Subject: Next steps (example)\n\nHi there,\n\nThis is where the draft text shows for proofing. (example)' };
+    al('e4', 'tally', 'blocked', 'blocked', 'Blocked: QuickBooks sign-in expired (example)', DAY);
+    al('e5', 'q', 'blocked', 'routine', 'Routine "CloudTalk nightly lead load" has no trigger yet (example)', 2 * DAY);
+    S.tickets = {
+      x1: { id: 'x1', agent: 'scout', ask: 'Refresh a lead bucket (example)', priority: 'today', status: 'working', createdAt: iso(2 * HOUR), pickedAt: iso(HOUR), owner: 'kev' },
+      x2: { id: 'x2', agent: 'dean', ask: 'Draft a day-one page (example)', priority: 'whenever', status: 'gated', createdAt: iso(DAY), owner: 'kev', proposed: { kind: 'send_message', exact: 'To: Kev (review copy)\nSubject: Next steps before you start\n(the exact text appears here, from the QC item)', link: 'https://claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G' } },
+      x3: { id: 'x3', agent: 'q', ask: 'Match missed calls to Crelate (example)', priority: 'now', status: 'done', createdAt: iso(3 * DAY), doneAt: iso(2 * HOUR), owner: 'kev', result: { summary: 'Matched 6 of 8; 2 left unknown (example).', link: 'https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6' } }
+    };
+    S.seen = { 'open-hub': { at: iso(DAY) }, 'open-eden-daily': { at: iso(5 * HOUR) } };
+    S.tools = { nightly: { id: 'nightly', name: 'CloudTalk nightly lead load', noTrigger: true, owner: 'q' } };
+    S.today = { lines: [{ at: '09:00', text: 'Coaching block (example)' }, { at: '11:30', text: 'Client call (example)' }, { at: '14:00', text: 'Wednesday training (example)' }] };
+    function B(id, owner, tiles, source) { S.benches[id] = { id: id, owner: owner, tiles: tiles, source: source, example: true, asOf: iso(HOUR) }; }
+    B('recruiting', 'Dean', [{ label: 'Recruiters on pace', value: '3 of 5' }, { label: 'Deliverables overdue', value: '1' }], 'Crelate, Friday pull');
+    B('depth', 'Dean', [{ label: 'In ramp', value: '1' }, { label: 'Next checkpoint', value: 'Fri 6 Nov' }], 'Dean, new-hire packet');
+    B('revenue', 'Tally + Dean', [{ label: 'Month to date', value: 'not synced', needsGate: true }], 'Hub Rev Report');
+    B('university', 'Dean', [{ label: 'Modules built', value: '0 of 3' }, { label: 'Next Wednesday', value: 'topic to pick' }], 'Dean');
+    B('finance', 'Tally', [{ label: 'Cash on hand', value: 'not synced', needsGate: true }, { label: 'Open invoices', value: 'not synced', needsGate: true }], 'QuickBooks (re-authorise first)');
+    B('client', 'Radar', [{ label: 'Active job orders', value: 'count only' }], 'Hub');
+    B('family', 'Radar', [{ label: 'This week', value: 'lessons and studies' }], 'Atlas Desk, Marlowe\'s Desk');
+    S.logs = { q: [{ at: iso(20 * MIN), text: 'Wired the status feed (example)' }, { at: iso(2 * HOUR), text: 'Ran the dry sync (example)' }] };
+  }
+  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.chats = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.tools = {}; S.logs = {}; S.meta = null; S.today = null; }
+
+  /* ---------- live data: render the example first, then light up when `db` resolves (null after about 10 s: stay on the example) ---------- */
+  function listen(name, fn) {
+    if (S.unsub[name]) return;
+    S.unsub[name] = S.db.collection(name).onSnapshot(function (snap) {
+      var m = {}; snap.docs.forEach(function (d) { var v = d.data(); if (v) { m[d.id] = Object.assign({ id: d.id }, v); } });
+      fn(m); renderAll();
+    }, function () { S.unsub[name] = null; $('#sync').textContent = 'Could not read ' + name; });
+  }
+  function attachBenches() { if (S.live && S.db) listen('benches', function (m) { S.benches = m; }); }
+  function dropSensitive() {                              // like the Hub: other data never sits in the page while presenting
+    unwatch('benches');
+    Object.keys(S.benches).forEach(function (k) { var d = BENCH_DEFS.filter(function (x) { return x.id === k; })[0]; if (!d || d.sensitive) delete S.benches[k]; });
+    S.benchRows = {}; Object.keys(S.unsub).forEach(function (k) { if (k.indexOf('rows-') === 0) unwatch(k); });
+    Object.keys(S.logs).forEach(function (k) { if (sensitiveAgent(k)) { delete S.logs[k]; unwatch('log-' + k); } });
+    Object.keys(S.chats).forEach(function (k) { if (sensitiveAgent(k)) { delete S.chats[k]; unwatch('chat-' + k); } });
+  }
+  function goLive(db) {
+    S.db = db; S.live = true; clearData();
+    listen('agents', function (m) { S.agents = m; });
+    listen('alerts', function (m) { S.alerts = m; });
+    listen('seen', function (m) { S.seen = m; });
+    listen('actions', function (m) { S.actions = m; });
+    listen('tickets', function (m) { S.tickets = m; });
+    listen('tools', function (m) { S.tools = m; });
+    S.unsub.meta = db.doc('meta/sync').onSnapshot(function (s) { S.meta = s.exists ? s.data() : null; renderAll(); }, function () {});
+    S.unsub.today = db.doc('meta/today').onSnapshot(function (s) { S.today = s.exists ? s.data() : null; renderAll(); }, function () {});
+    if (!S.share) attachBenches();
+    renderAll();
+  }
+  function boot() {
+    exampleData(); renderAll(); tick();
+    var use = window.claude && typeof window.claude.use === 'function' ? window.claude.use.bind(window.claude) : function () { return Promise.resolve(null); };
+    use('db').then(function (db) { if (db) goLive(db); }, function () {});
+    use('assets').then(function (a) { if (a) { S.assets = a; $('#photo-btn').hidden = false; renderAll(); } }, function () {});
+    $('#photo-btn').addEventListener('click', function () { pickPhoto(S.sheet && S.sheet.kind === 'desk' ? S.sheet.id : 'radar'); });
+    $('#photo-in').addEventListener('change', function (e) {
+      var files = [].slice.call(e.target.files || []); if (!files.length) return;
+      S.photo = { files: files, agent: S.photoAgent || 'radar' };
+      openSheet('lever', 'photo', $('#photo-btn'));
+    });
+    $('#talk-radar').addEventListener('click', function () { openSheet('desk', 'radar', $('#radar')); setTimeout(focusChat, 350); });
+    use('mcp').then(function (m) { if (m) { S.mcp = m; watchCalendar(m); } }, function () {});
+    use('sample').then(function (fn) { if (fn) { S.sample = fn; renderAll(); } }, function () {});
+    use('user').then(function (u) { if (u && typeof u.can === 'function') return u.can('data.write').then(function (ok) { if (ok === false) { S.canWrite = false; renderAll(); } }); }, function () {}).catch(function () {});
+    setInterval(function () { tick(); renderAll(); }, 30000);
+    var hash = location.hash.slice(1); if (hash && (hash === 'radar' || S.agents[hash])) openSheet('desk', hash, null);
+  }
+  boot();
+})();
+</script>

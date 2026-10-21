@@ -1,0 +1,1 @@
+- 2026-10-21: 2026-10-21: Kev's usage rule: high bill rate, called sparingly, only for Tally double-checks plus the capital-allocation review, important-document editing, and contract review or build. Quick read before full review.

@@ -20,3 +20,12 @@ Open the gate yourself with each number, its source (clause and page) and its un
 - Waiving a gate is Kev's alone (`npm run gate -- waive`), with a reason on the record. You never run it. If a deadline is pressing, ship the packet with the failing number clearly marked and ask Kev.
 - A cleared gate says the numbers matched their sources. It does not say the contract is wise or the forecast is right; keep doing your job.
 - Paste the gate summary line in every hand-off to Radar.
+
+## Office status (Kev, 21 October 2026)
+
+At the start and end of every working session, write `memory/live/now.json` in your employee folder:
+`{"task": "<one line, names and roles only>", "since": "<ISO>", "state": "working|idle|blocked", "blockedOn": "<what Kev must do, or null>", "updated": "<ISO>"}`.
+
+This file drives your desk light and task line on Eden Office (https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW). If the file is missing, your desk reads "No task posted"; if it's over 4 hours old while you claim to be working, your desk shows Stale.
+
+For Hale, Jethro and Barny, the task line stays generic ("Weekly plan", "C12 prep"). Never put health, prayer or coaching content in it.
