@@ -156,6 +156,8 @@ a{color:inherit}
 .bench b{font-weight:700;font-size:13.5px}
 .bench span{font:500 10px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
 .bench.tall{flex:1;justify-content:flex-end}
+.quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.quick .key{text-align:center}
 .slot{display:contents}
 .closed{display:none;flex:1;min-height:80px;align-items:center;justify-content:center;text-align:center;
   font:500 10.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);
@@ -419,10 +421,12 @@ textarea{min-height:84px;resize:vertical}
     { id: 'org-chart', name: 'Org chart', url: 'https://claude.ai/artifact/CyZ475DJjbNNaGbfc93nZN' },
     { id: 'ledger', name: 'Notion ledger', url: 'https://app.notion.com/p/3ce25d7d12f48110b9f2d1dcda440b90' },
     { id: 'quickbooks', name: 'QuickBooks', url: 'https://qbo.intuit.com' },
-    { id: 'gusto', name: 'Gusto', url: 'https://app.gusto.com' }
+    { id: 'gusto', name: 'Gusto', url: 'https://app.gusto.com' },
+    { id: 'cloudtalk', name: 'CloudTalk phone', url: 'https://phone.cloudtalk.io' },
+    { id: 'crelate', name: 'Crelate', url: 'https://app.crelate.com' }
   ];
   var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['hub'], host: ['eden-desk'], tally: ['quickbooks', 'gusto', 'hub'], docket: ['quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'] };
-  var BENCH_TOOLS = { recruiting: ['hub'], depth: ['hub'], revenue: ['hub', 'quickbooks'], university: ['hub'], finance: ['quickbooks', 'gusto', 'hub'], client: ['hub'], family: ['atlas-desk', 'marlowe-desk'] };
+  var BENCH_TOOLS = { recruiting: ['hub'], depth: ['hub'], revenue: ['hub', 'quickbooks'], university: ['hub'], finance: ['quickbooks', 'gusto', 'hub'], client: ['hub', 'cloudtalk', 'crelate'], family: ['atlas-desk', 'marlowe-desk'] };
   /* Bench skeletons: the floor always has its benches; docs in `benches/` fill in the figures. */
   var BENCH_DEFS = [
     { id: 'recruiting', zone: 'rec', title: 'Recruiting floor · Vancouver', sub: 'Coaching · scorecards · deliverables', owner: 'Dean', sensitive: true, cls: 'bench priv' },
@@ -430,7 +434,7 @@ textarea{min-height:84px;resize:vertical}
     { id: 'finance', zone: 'fin', title: 'Finance', sub: 'Cash · invoices · P&L · payroll', owner: 'Tally', sensitive: true, cls: 'bench' },
     { id: 'depth', zone: 'ppl', title: 'Hiring ramp', sub: 'Depth chart · onboarding', owner: 'Dean', sensitive: true, cls: 'bench priv' },
     { id: 'university', zone: 'ppl', title: 'Eden University', sub: 'Tracks · Wednesday training', owner: 'Dean', sensitive: false, cls: 'bench' },
-    { id: 'client', zone: 'cli', title: 'The Hub · Job orders', sub: 'Counts here, names stay in the Hub', owner: 'Radar', sensitive: false, cls: 'bench' },
+    { id: 'client', zone: 'cli', title: 'Client work', sub: 'Depth charts · leads · phones', owner: 'Radar', sensitive: false, cls: 'bench' },
     { id: 'family', zone: 'fam', title: 'Home list', sub: 'KDTW Group · family office', owner: 'Radar', sensitive: true, cls: 'bench' }
   ];
 
@@ -645,6 +649,15 @@ textarea{min-height:84px;resize:vertical}
     b.appendChild(h('span', { text: hide ? '' : def.sub + (doc.asOf ? ' · updated ' + short(doc.asOf) : ' · not synced') + (doc.example ? ' · example' : '') }));
     return b;
   }
+  /* Client work: straight to the depth charts, the job orders and their lead sheets, and the phones. One tap each, no sheet. */
+  function quickRow() {
+    var m = toolMap(), row = h('div', { class: 'quick' });
+    [['Depth charts', 'hub', ''], ['Job orders + leads', 'hub', ''], ['Phones', 'cloudtalk', ''], ['Crelate', 'crelate', '']].forEach(function (q) {
+      var x = m[q[1]]; if (!x || !x.url) return;
+      row.appendChild(toolLink({ id: x.id, name: q[0], url: x.url + q[2] }, 'key'));
+    });
+    return row;
+  }
   function renderFloor() {
     var focus = document.activeElement && (document.activeElement.getAttribute('data-id') || document.activeElement.getAttribute('data-bench'));
     var focusIsBench = document.activeElement && document.activeElement.hasAttribute('data-bench');
@@ -654,6 +667,7 @@ textarea{min-height:84px;resize:vertical}
     list.forEach(function (a) { var z = zoneOf(a); if (z === 'rad') z = 'rec'; var box = $('#d-' + z); if (box) box.appendChild(deskEl(a)); });
     radarEl();
     ['rec', 'rev', 'fin', 'ppl', 'cli', 'fam'].forEach(function (z) { var box = $('#b-' + z); box.textContent = ''; BENCH_DEFS.filter(function (d) { return d.zone === z; }).forEach(function (d) { box.appendChild(benchEl(d)); }); });
+    $('#b-cli').appendChild(quickRow());
     if (focus) { var back = focusIsBench ? $('[data-bench="' + focus + '"]') : $('.desk[data-id="' + focus + '"]'); if (back && back !== document.activeElement && !S.sheet) back.focus(); }
     phaseLock(); drawNotes();
   }

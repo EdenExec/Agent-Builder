@@ -113,5 +113,23 @@
   "url": "https://app.gusto.com",
   "expectedEveryDays": 14,
   "note": "Read only; never touch payroll."
+ },
+ {
+  "id": "cloudtalk",
+  "name": "CloudTalk phone",
+  "kind": "app",
+  "owner": "q",
+  "url": "https://phone.cloudtalk.io",
+  "expectedEveryDays": 1,
+  "note": "Dialer. Get to the phones."
+ },
+ {
+  "id": "crelate",
+  "name": "Crelate",
+  "kind": "app",
+  "owner": "q",
+  "url": "https://app.crelate.com",
+  "expectedEveryDays": 1,
+  "note": "System of record for candidates and activity."
  }
 ]
