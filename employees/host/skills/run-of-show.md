@@ -21,7 +21,7 @@ The run-of-show is the day, minute by minute, with one owner per line. It fits o
 
 - Every line has exactly one owner by name or role. A line with two owners has none.
 - The floor opens within 45 minutes of doors; guests who wait are guests who leave.
-- Speeches total under ten minutes. Culture voices say something true, in their own words; Host drafts a prompt, not a script.
+- Speeches total under ten minutes. Culture voices say something true, in their own words; Jenny drafts a prompt, not a script.
 - Keep a bad-weather and a low-turnout plan: how the room is rearranged if fewer than half RSVPs show (collapse stations, bring the raffle forward), and what is said at the door.
 - Photos only with consent; no candidate's private detail goes on a public post.
 - Safety: first aid and exits known, an alcohol limit enforced by the venue, a named person who ends the evening.

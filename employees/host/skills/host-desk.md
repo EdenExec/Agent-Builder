@@ -1,6 +1,6 @@
-# The Host desk (filing)
+# Jenny's desk (filing)
 
-Host keeps everything for an event in one place so Radar and Kev can find it, and so nothing lives only in a chat.
+Jenny keeps everything for an event, a trip or a post in one place so Radar and Kev can find it, and so nothing lives only in a chat.
 
 ## Files in the repo
 
@@ -16,9 +16,18 @@ Host keeps everything for an event in one place so Radar and Kev can find it, an
 | `scorecard.md` | Targets, actuals, lessons |
 | `debrief.md` | Notes from the evening |
 
+Comms and travel live beside events:
+
+| Path | What |
+|---|---|
+| `comms/plan.md` | The next four weeks of posts and pushes, each with its job, status and QC id (`skills/public-comms.md`) |
+| `comms/posts.md` | Every post Kev published: date, account, link, job, QC id |
+| `comms/sweeps/<yyyy-mm-dd>.md` | Each sweep's hand-over to Radar: counts, QC ids, proposed rows. No draft text, comp or phone numbers |
+| `travel/<yyyy-mm-dd>-<destination>/trip.md` | The trip page: options, itinerary, QC ids, confirmation numbers Kev gives her (`skills/travel.md`). Never a card, passport or loyalty number |
+
 ## Ledger rows (via Radar)
 
-Radar owns the ledger (the Notion Daily Catch-Up Items database, `employees/radar/skills/ledger.md`). Host never writes to it. Host puts rows in `events/<slug>/ledger-rows.md`, one per next action, and tells Radar in its reply. A row has: Item (one line in Kev's words), Category, Lane (Mine, Batch, Waiting on, Scheduled, Someday), Owner (Kev, Nida, Nick, Joel, Recruiters, Ally, Radar, Other), Due, Bill rate (Revenue for hiring events, Enabling for internal ones), Source ("Host plan <slug>"), Next Action (the next physical step and who does it).
+Radar owns the ledger (the Notion Daily Catch-Up Items database, `employees/radar/skills/ledger.md`). Jenny never writes to it. Jenny puts rows in `events/<slug>/ledger-rows.md`, one per next action, and tells Radar in her reply. A row has: Item (one line in Kev's words), Category, Lane (Mine, Batch, Waiting on, Scheduled, Someday), Owner (Kev, Nida, Nick, Joel, Recruiters, Ally, Radar, Other), Due, Bill rate (Revenue for hiring events, Enabling for internal ones), Source ("Jenny plan <slug>", "Jenny trip <slug>", "Jenny sweep <date>"), Next Action (the next physical step and who does it).
 
 - Decisions for Kev go in as Lane Batch with a recommended answer and a default if silent.
 - Dated milestones from the timeline go in as Lane Scheduled.
@@ -26,11 +35,11 @@ Radar owns the ledger (the Notion Daily Catch-Up Items database, `employees/rada
 
 ## Drive folder (one per event)
 
-Radar creates and keeps the Drive folder through the connector: `Events / <yyyy-mm-dd> <event name>` with subfolders Plan, Budget and Quotes, Run of Show, Attendees, Follow-up, Scorecard. Documents go on Eden letterhead (see `employees/_shared/eden-brand.md`). PDFs the connector will not take are dragged in by Kev. Host lists in `events/<slug>/drive.md` what belongs in each subfolder and its repo path, and never shares a folder with anyone outside Eden.
+Radar creates and keeps the Drive folder through the connector: `Events / <yyyy-mm-dd> <event name>` with subfolders Plan, Budget and Quotes, Run of Show, Attendees, Follow-up, Scorecard. Documents go on Eden letterhead (see `employees/_shared/eden-brand.md`). PDFs the connector will not take are dragged in by Kev. Jenny lists in `events/<slug>/drive.md` what belongs in each subfolder and its repo path, and never shares a folder with anyone outside Eden.
 
 ## QC
 
-`npm run qc` lists what is waiting. Host submits items and never runs `approve` or `reject`. Each event file carries the QC ids it created, so the budget can be reconciled at the end.
+`npm run qc` lists what is waiting. Jenny submits items and never runs `approve` or `reject`. Each event file carries the QC ids it created, so the budget can be reconciled at the end.
 
 ## Asking Kev
 

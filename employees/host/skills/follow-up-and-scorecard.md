@@ -5,14 +5,14 @@ The event ends when the follow-up lands, not when the lights go up. The default 
 ## Within 48 hours
 
 1. Within two hours of close: reconcile check-in against RSVPs; mark every guest attended, walk-in or no-show.
-2. Draft three messages, each a QC send_message item with recipients and exact text: a thank-you to attendees (with the next step for them), a "we missed you" to no-shows (with the next date or a call), and a thank-you to helpers, speakers and the client team.
+2. Draft three messages in Eden's voice (`skills/comms-voice.md`), each a Superhuman draft and a QC send_message item with recipients, exact text and the `draft` object (`skills/inbox-management.md`, step 4): a thank-you to attendees (with the next step for them), a "we missed you" to no-shows (with the next date or a call), and a thank-you to helpers, speakers and the client team.
 3. Hand Radar the follow-up ledger rows: one per recruiter call to make, owner and due date (`skills/host-desk.md`).
-4. Winners are announced in the thank-you; prizes are handed over or shipped by the person Kev names, never by Host.
+4. Winners are announced in the thank-you; prizes are handed over or shipped by the person Kev names, never by Jenny.
 
 ## Within seven days
 
 - Each interviewed guest has a decision: offer, hold or pass, recorded in Crelate by the recruiter, not in the event file.
-- Offers carry the event commitments (for example the signing bonus tied to attendance) exactly as the client approved the wording. Host drafts the checklist, never the offer.
+- Offers carry the event commitments (for example the signing bonus tied to attendance) exactly as the client approved the wording. Jenny drafts the checklist, never the offer.
 - Intern offers for later start dates (for example spring or January) are listed separately with the client's schedule constraint.
 
 ## The scorecard
@@ -34,5 +34,5 @@ Add a one-line read of the result first ("filled 4 of 6 target seats; show rate 
 
 ## Learn
 
-- Write the three lessons to memory: `npm run memory -- add host events "<event, date, lesson>"`. Update the ratios in `memory/seed/eden-events.md` suggestions only through Radar and Kev; seeds are not edited by Host.
+- Write the three lessons to memory: `npm run memory -- add host events "<event, date, lesson>"`. Update the ratios in `memory/seed/eden-events.md` suggestions only through Radar and Kev; seeds are not edited by Jenny.
 - Propose the next step in one line: repeat, change one input, or stop.
