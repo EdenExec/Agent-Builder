@@ -1,0 +1,530 @@
+<title>Eden Office</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,700&display=swap">
+<style>
+/* v0 shell (Q, 21 Oct 2026). Structure and data first; Marlowe's mock replaces the look. Floor is grey; colour appears only on lights. */
+:root{--bg:#F6F5F1;--card:#FFFFFF;--ink:#141414;--mute:#5E5C57;--line:#D8D5CC;--soft:#EDEBE5;
+ --red:#A33A32;--blue:#2F5F9A;--green:#33704C;--amber:#A8741A;--idle:#8A8780;--font:'Montserrat','Helvetica Neue',Arial,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141414;--card:#1C1C1B;--ink:#F0EEE8;--mute:#A5A29B;--line:#32312E;--soft:#242422;--red:#E0786E;--blue:#7FA8DB;--green:#6FB68C;--amber:#D9A94E;--idle:#7A7770;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141414;--card:#1C1C1B;--ink:#F0EEE8;--mute:#A5A29B;--line:#32312E;--soft:#242422;--red:#E0786E;--blue:#7FA8DB;--green:#6FB68C;--amber:#D9A94E;--idle:#7A7770;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 14px/1.5 var(--font);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--ink);padding-bottom:10px}
+.org{font-weight:700;letter-spacing:.08em;font-size:.7rem;margin:0}
+h1{font:700 italic 1.6rem/1.1 var(--font);margin:2px 0 0}
+h2{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:0 0 8px;font-weight:600}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--mute)}
+button,.btn{font:inherit;font-size:13px;padding:8px 12px;min-height:36px;border:1px solid var(--ink);background:none;color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+button.solid{background:var(--ink);color:var(--bg)}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,a:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.note{font-size:12px;color:var(--mute);margin:0}
+.notice{padding:8px 12px;border:1px dashed var(--line);font-size:12px;color:var(--mute)}
+.banner{border:2px solid var(--red);padding:10px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.strip{display:flex;flex-direction:column;gap:6px}
+.need{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);padding:8px 12px}
+.need .t{min-width:0;overflow-wrap:anywhere}
+.need .who{font-size:11px;color:var(--mute)}
+.zones{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;align-items:start}
+.zone{display:flex;flex-direction:column;gap:10px;min-width:0}
+.zone.centre{order:0}
+.desk{background:var(--card);border:1px solid var(--line);padding:12px;display:flex;flex-direction:column;align-items:stretch;gap:6px;min-width:0;cursor:pointer;text-align:left;font-weight:400}
+.desk[aria-expanded="true"]{border-color:var(--ink)}
+.desk.big{padding:16px;border-color:var(--ink)}
+.dh{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.dn{font-weight:700;font-size:15px}
+.task{font-size:12.5px;color:var(--mute);overflow-wrap:anywhere;min-height:1.5em}
+.meta{font-size:11px;color:var(--mute);display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);padding:0 6px;font-size:11px;color:var(--mute)}
+.chip.warn{border-color:var(--amber);color:var(--amber)}
+.light{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.03em;white-space:nowrap}
+.light svg{width:16px;height:16px;flex:none}
+.light.urgent{color:var(--red)}.light.reply{color:var(--blue)}.light.review{color:var(--green)}.light.blocked{color:var(--amber)}.light.working{color:var(--green)}.light.idle{color:var(--idle)}
+.light.working svg{filter:drop-shadow(0 0 4px var(--green))}
+.light.stale{color:var(--idle)}
+@keyframes blink{0%{opacity:1}50%{opacity:.08}100%{opacity:1}}
+.blink svg{animation:blink .8s steps(1) infinite}
+@media (prefers-reduced-motion:reduce){.blink svg{animation:none}.blink::after{content:" NEW";font-size:10px}}
+.benches{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.bench{background:var(--soft);border:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.bench b{font-size:13px}
+.tile{display:flex;justify-content:space-between;gap:8px;font-size:12px;border-top:1px solid var(--line);padding-top:4px}
+.tile span:last-child{text-align:right;overflow-wrap:anywhere}
+.levers{display:flex;gap:8px;flex-wrap:wrap}
+.panel{background:var(--card);border:1px solid var(--ink);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.panel h3{margin:0;font-size:15px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;padding:5px 8px 5px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.scroll{overflow-x:auto}
+form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+form .full{grid-column:1/-1}
+label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--mute)}
+select,textarea,input{font:inherit;font-size:14px;padding:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-width:0;width:100%}
+textarea{min-height:84px;resize:vertical}
+.tk{display:flex;flex-direction:column;gap:3px;border-top:1px solid var(--line);padding:8px 0;font-size:12.5px}
+.exact{background:var(--soft);padding:8px;font-size:12px;overflow-wrap:anywhere;white-space:pre-wrap}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.tools a{font-size:12px;border:1px solid var(--line);padding:6px 10px;color:var(--ink);text-decoration:none}
+footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mute);border-top:1px solid var(--line);padding-top:10px}
+@media (max-width:820px){.zones{grid-template-columns:1fr}.zone.centre{order:-1}.need{grid-template-columns:auto 1fr}.need .acts{grid-column:1/-1}form{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div><p class="org">EDEN PARTNER GROUP</p><h1>Eden Office</h1></div>
+    <div class="bar">
+      <span id="sync">Connecting…</span>
+      <button id="share" aria-pressed="false" title="Hides finance, coaching and family">Screen-share</button>
+    </div>
+  </header>
+
+  <div id="demo" class="notice" hidden>Example data. This page is not connected to the Office database, so nothing here is real and tickets are kept in this tab only.</div>
+  <div id="stale" class="notice" hidden></div>
+  <div id="banner" hidden></div>
+
+  <section aria-labelledby="h-need"><h2 id="h-need">Needs Kev</h2><div id="need" class="strip"></div></section>
+
+  <section aria-labelledby="h-floor"><h2 id="h-floor">Floor</h2><div id="floor" class="zones"></div></section>
+
+  <section aria-labelledby="h-levers"><h2 id="h-levers">Levers</h2>
+    <div class="levers">
+      <button data-lever="wip">WIP report</button>
+      <button data-lever="status">Status from everyone</button>
+      <button data-lever="ticket">Hand a ticket</button>
+      <button data-lever="unused">What did we ship that we're not using</button>
+    </div>
+  </section>
+
+  <section id="panel-wrap" hidden><div id="panel" class="panel" role="region" aria-live="polite"></div></section>
+
+  <section aria-labelledby="h-bench"><h2 id="h-bench">Benches</h2><div id="benches" class="benches"></div></section>
+
+  <section aria-labelledby="h-tools"><h2 id="h-tools">Tools</h2><div id="tools" class="tools"></div></section>
+
+  <section aria-labelledby="h-tix"><h2 id="h-tix">Tickets</h2><div id="tickets"></div></section>
+
+  <footer><span>Mirror of repo and ledger state, not the system of record. Crelate, QuickBooks and the Notion ledger stay the truth.</span><span>EDEN PARTNER GROUP</span></footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var MIN = 60000, HOUR = 3600000, DAY = 86400000;
+  var WORKING_FRESH_H = 4, BLINK_CAP_MIN = 30;
+  var ORDER = ['urgent', 'reply', 'review', 'blocked', 'working', 'idle'];
+  var WORD = { urgent: 'Urgent', reply: 'Reply', review: 'Ready to review', blocked: 'Waiting on you', working: 'Working', idle: 'Idle' };
+  var ZONES = [['recruiting', 'Recruiting desk'], ['centre', 'Radar'], ['finance', 'Finance and risk'], ['family', 'Family office']];
+  var loadedAt = Date.now();
+
+  var S = { live: false, share: false, agents: {}, alerts: {}, seen: {}, tickets: {}, benches: {}, tools: {}, reports: {}, meta: null, open: null, lever: null, unsub: {}, db: null };
+
+  /* ---------- helpers ---------- */
+  function $(id) { return document.getElementById(id); }
+  function h(tag, attrs) {
+    var e = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) { if (k === 'class') e.className = attrs[k]; else if (k === 'text') e.textContent = attrs[k]; else e.setAttribute(k, attrs[k]); });
+    for (var i = 2; i < arguments.length; i++) { var c = arguments[i]; if (c == null) continue; e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); }
+    return e;
+  }
+  function t(iso) { var n = Date.parse(iso); return isNaN(n) ? 0 : n; }
+  function ago(iso) {
+    var d = Date.now() - t(iso); if (!iso || d < 0) return 'unknown';
+    if (d < MIN) return 'just now'; if (d < HOUR) return Math.floor(d / MIN) + ' min ago';
+    if (d < DAY) return Math.floor(d / HOUR) + ' h ago'; return Math.floor(d / DAY) + ' d ago';
+  }
+  function svg(light) {
+    var NS = 'http://www.w3.org/2000/svg', s = document.createElementNS(NS, 'svg');
+    s.setAttribute('viewBox', '0 0 16 16'); s.setAttribute('aria-hidden', 'true');
+    function el(n, a) { var x = document.createElementNS(NS, n); Object.keys(a).forEach(function (k) { x.setAttribute(k, a[k]); }); s.appendChild(x); }
+    var C = 'currentColor';
+    if (light === 'urgent') el('path', { d: 'M8 1.5 15 14.5H1Z', fill: C });                                   // triangle
+    else if (light === 'reply') el('path', { d: 'M8 1 15 8 8 15 1 8Z', fill: C });                           // diamond
+    else if (light === 'review') { el('circle', { cx: 8, cy: 8, r: 7, fill: C }); el('path', { d: 'M4.6 8.2 7 10.5 11.5 5.6', stroke: 'var(--card)', 'stroke-width': 1.8, fill: 'none' }); } // disc + check
+    else if (light === 'blocked') { el('rect', { x: 2, y: 2, width: 12, height: 12, fill: C }); el('rect', { x: 5.2, y: 5, width: 2, height: 6, fill: 'var(--card)' }); el('rect', { x: 8.8, y: 5, width: 2, height: 6, fill: 'var(--card)' }); } // square + pause
+    else if (light === 'working') el('circle', { cx: 8, cy: 8, r: 5, fill: C });                              // plain disc, glows
+    else el('circle', { cx: 8, cy: 8, r: 5, fill: 'none', stroke: C, 'stroke-width': 1.6 });                  // ring
+    return s;
+  }
+  function lightEl(light, opts) {
+    opts = opts || {};
+    var w = h('span', { class: 'light ' + light + (opts.blink ? ' blink' : '') + (opts.stale ? ' stale' : ''), 'aria-label': WORD[light] + (opts.stale ? ', not heard from recently' : '') });
+    w.appendChild(svg(light)); w.appendChild(document.createTextNode(opts.stale ? 'Quiet, not trusted' : WORD[light]));
+    return w;
+  }
+
+  /* ---------- light computation (page side; sync computes the same rule into agents/{id}) ---------- */
+  function ticketHidden(tk) { return S.share && S.agents[tk.agent] && S.agents[tk.agent].sensitive; }
+  function isSeen(key) { return !!S.seen[key]; }
+  function visibleAlert(a) { return !(S.share && a.sensitive); }
+  function agentItems(id) {
+    var items = [];
+    Object.keys(S.alerts).forEach(function (k) {
+      var a = S.alerts[k]; if (a.agent !== id || !visibleAlert(a)) return;
+      var seen = isSeen(a.id);
+      if (seen && a.light !== 'urgent') return;               // seen clears everything but red; red goes steady until the source resolves
+      items.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link, agent: id });
+    });
+    Object.keys(S.tickets).forEach(function (k) {
+      var tk = S.tickets[k]; if (tk.agent !== id || ticketHidden(tk)) return;
+      if ((tk.status === 'blocked' || tk.status === 'gated') && !isSeen('ticket-' + tk.id + '-' + tk.status)) items.push({ light: 'blocked', title: 'Ticket needs you: ' + tk.ask, raisedAt: tk.updatedAt || tk.createdAt, key: 'ticket-' + tk.id + '-' + tk.status, needsKev: true, agent: id, link: tk.result && tk.result.link });
+      if (tk.status === 'done' && !isSeen('ticket-' + tk.id + '-done')) items.push({ light: 'review', title: 'Ticket done: ' + tk.ask, raisedAt: tk.doneAt || tk.updatedAt, key: 'ticket-' + tk.id + '-done', needsKev: true, agent: id, link: tk.result && tk.result.link });
+    });
+    return items;
+  }
+  function isWorking(a) {
+    var ticket = Object.keys(S.tickets).some(function (k) { var x = S.tickets[k]; return x.agent === a.id && (x.status === 'picked' || x.status === 'working') && Date.now() - t(x.pickedAt || x.createdAt) < 6 * HOUR; });
+    var claims = (a.counts && a.counts.working > 0) || ticket;
+    var fresh = Date.now() - t(a.lastHeard) <= WORKING_FRESH_H * HOUR;
+    return { on: claims && (fresh || ticket), stale: claims && !fresh && !ticket };
+  }
+  function effective(a) {
+    var items = agentItems(a.id), counts = {}, w = isWorking(a);
+    ORDER.forEach(function (l) { counts[l] = 0; });
+    items.forEach(function (i) { counts[i.light]++; });
+    if (w.on) counts.working = 1;
+    var light = ORDER.filter(function (l) { return counts[l] > 0; })[0] || 'idle';
+    var blink = items.some(function (i) {
+      return !i.seen && (i.light === 'urgent' || i.light === 'reply' || i.light === 'review') && i.light === light &&
+        Date.now() < Math.max(t(i.raisedAt), loadedAt) + BLINK_CAP_MIN * MIN;          // blink stops when seen or after the cap
+    });
+    return { light: light, counts: counts, blink: blink, stale: w.stale, items: items };
+  }
+
+  /* ---------- next sweep (Radar hourly sweep: minute 7, hours 7 to 18, Mon to Fri, Pacific) ---------- */
+  var PT = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false });
+  function nextSweep() {
+    var start = Math.ceil(Date.now() / MIN) * MIN;
+    for (var i = 0; i < 8 * 24 * 60; i++) {
+      var ms = start + i * MIN, p = {}; PT.formatToParts(new Date(ms)).forEach(function (x) { p[x.type] = x.value; });
+      var hr = parseInt(p.hour, 10) % 24, wd = p.weekday;
+      if (parseInt(p.minute, 10) === 7 && hr >= 7 && hr <= 18 && ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].indexOf(wd) >= 0)
+        return wd + ' ' + (hr % 12 || 12) + ':07 ' + (hr < 12 ? 'am' : 'pm') + ' PT';
+    }
+    return 'next weekday morning';
+  }
+
+  /* ---------- sections ---------- */
+  function renderSync() {
+    var m = S.meta, el = $('sync');
+    el.textContent = m ? 'Synced ' + ago(m.syncedAt) + ' from the repo' : (S.live ? 'Waiting for the first sync' : 'Example data');
+    var st = $('stale');
+    if (m && Date.now() - t(m.syncedAt) > 3 * HOUR) { st.hidden = false; st.textContent = 'The last sync was ' + ago(m.syncedAt) + '. Lights may be out of date; ask Radar to sync.'; }
+    else if (m && m.skipped && m.skipped.length) { st.hidden = false; st.textContent = 'Not in the last sync: ' + m.skipped.join('; ') + '.'; }
+    else st.hidden = true;
+  }
+
+  function allItems() {
+    var out = [];
+    Object.keys(S.agents).forEach(function (id) { var a = S.agents[id]; if (S.share && a.sensitive) return; effective(a).items.forEach(function (i) { out.push(i); }); });
+    return out;
+  }
+  function renderBanner() {
+    var reds = allItems().filter(function (i) { return i.light === 'urgent' && !i.seen; }).sort(function (a, b) { return t(a.raisedAt) - t(b.raisedAt); });
+    var b = $('banner'); b.textContent = ''; b.className = '';
+    if (!reds.length) { b.hidden = true; return; }
+    b.hidden = false; b.className = 'banner';
+    var first = reds[0];
+    b.appendChild(h('div', null, lightEl('urgent', { blink: true }), h('div', { text: first.title }), h('div', { class: 'who', text: first.agent + ' · ' + ago(first.raisedAt) + (reds.length > 1 ? ' · ' + (reds.length - 1) + ' more urgent below' : '') })));
+    b.appendChild(bindSeen(seenBtn(first, 'Mark seen'), first));
+  }
+  function seenBtn(item, label) {
+    return h('button', { text: label || 'Seen' });
+  }
+  function bindSeen(btn, item) { btn.addEventListener('click', function () { markSeen(item.key); }); return btn; }
+
+  function renderNeed() {
+    var box = $('need'); box.textContent = '';
+    var rank = { urgent: 0, reply: 1, review: 2, blocked: 3 };
+    var items = allItems().filter(function (i) { return i.needsKev && !i.seen && rank[i.light] !== undefined; })
+      .sort(function (a, b) { return (rank[a.light] - rank[b.light]) || (t(a.raisedAt) - t(b.raisedAt)); });
+    if (!items.length) { box.appendChild(h('div', { class: 'notice', text: 'Nothing needs you right now.' })); return; }
+    items.slice(0, 3).forEach(function (i) {
+      var acts = h('div', { class: 'acts' });
+      if (i.link) { var a = h('a', { class: 'btn', href: i.link, target: '_blank', rel: 'noopener', text: 'Open' }); acts.appendChild(a); acts.appendChild(document.createTextNode(' ')); }
+      acts.appendChild(bindSeen(seenBtn(i, 'Seen'), i));
+      box.appendChild(h('div', { class: 'need' }, lightEl(i.light), h('div', { class: 't' }, i.title, h('div', { class: 'who', text: i.agent + ' · ' + ago(i.raisedAt) })), acts));
+    });
+    if (items.length > 3) box.appendChild(h('p', { class: 'note', text: '+ ' + (items.length - 3) + ' more, shown on the desks below' }));
+  }
+
+  function deskCard(a, big) {
+    var e = effective(a), hide = S.share && a.sensitive;
+    var card = h('button', { class: 'desk' + (big ? ' big' : ''), 'aria-expanded': String(S.open === a.id), 'data-desk': a.id });
+    var total = e.items.length;
+    card.appendChild(h('div', { class: 'dh' }, h('span', { class: 'dn', text: a.name }), lightEl(e.light, { blink: e.blink, stale: e.stale && e.light === 'idle' })));
+    card.appendChild(h('div', { class: 'task', text: hide ? '' : (a.task || (e.light === 'idle' ? 'No task posted' : '')) }));
+    var meta = h('div', { class: 'meta' });
+    var heard = h('span', { text: 'Heard ' + ago(a.lastHeard) });
+    meta.appendChild(heard);
+    if (e.stale) meta.appendChild(h('span', { class: 'chip warn', text: 'stale: not trusted' }));
+    else if (a.lastHeard && Date.now() - t(a.lastHeard) > (a.expectedEveryHours || 96) * HOUR) meta.appendChild(h('span', { class: 'chip warn', text: 'quiet' }));
+    if (!hide) {
+      if (total > 1) meta.appendChild(h('span', { class: 'chip', text: total + ' items' }));
+      if (a.openTickets) meta.appendChild(h('span', { class: 'chip', text: a.openTickets + ' ticket' + (a.openTickets > 1 ? 's' : '') }));
+    }
+    card.appendChild(meta);
+    card.addEventListener('click', function () { S.open = S.open === a.id ? null : a.id; S.lever = null; renderAll(); if (S.open) $('panel-wrap').scrollIntoView({ block: 'nearest' }); });
+    return card;
+  }
+  function renderFloor() {
+    var f = $('floor'); f.textContent = '';
+    var ids = Object.keys(S.agents);
+    ZONES.forEach(function (z) {
+      var mine = ids.map(function (i) { return S.agents[i]; }).filter(function (a) { return (a.desk || 'other') === z[0]; });
+      if (!mine.length) return;
+      var zone = h('div', { class: 'zone ' + z[0] }, h('h2', { text: z[1] }));
+      mine.forEach(function (a) { zone.appendChild(deskCard(a, z[0] === 'centre')); });
+      f.appendChild(zone);
+    });
+  }
+
+  function renderBenches() {
+    var box = $('benches'); box.textContent = '';
+    Object.keys(S.benches).map(function (k) { return S.benches[k]; }).sort(function (a, b) { return (a.sort || 0) - (b.sort || 0); }).forEach(function (b) {
+      if (S.share && b.sensitive) return;
+      var el = h('div', { class: 'bench' }, h('b', { text: b.title }), h('span', { class: 'note', text: 'Desk: ' + (b.owner || 'unassigned') + (b.example ? ' · EXAMPLE figures' : '') }));
+      (b.tiles || []).slice(0, 4).forEach(function (x) {
+        el.appendChild(h('div', { class: 'tile' }, h('span', { text: x.label }), h('span', { text: String(x.value) + (x.gate ? ' · gate ' + x.gate : (x.needsGate ? ' · not checked' : '')) })));
+      });
+      el.appendChild(h('span', { class: 'note', text: (b.source || '') + (b.asOf ? ' · as of ' + b.asOf.slice(0, 10) : '') }));
+      if (b.link) el.appendChild(h('a', { href: b.link, target: '_blank', rel: 'noopener', text: 'Open source', class: 'note' }));
+      box.appendChild(el);
+    });
+  }
+
+  function renderTools() {
+    var box = $('tools'); box.textContent = '';
+    Object.keys(S.tools).forEach(function (k) {
+      var x = S.tools[k]; if (!x.url) return;
+      var a = h('a', { href: x.url, target: '_blank', rel: 'noopener', text: x.name });
+      a.addEventListener('click', function () { markSeen('open-' + x.id); });   // the only usage evidence the Office can collect itself
+      box.appendChild(a);
+    });
+  }
+
+  function renderTickets() {
+    var box = $('tickets'); box.textContent = '';
+    var list = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return !ticketHidden(x); }).sort(function (a, b) { return t(b.createdAt) - t(a.createdAt); }).slice(0, 12);
+    if (!list.length) { box.appendChild(h('div', { class: 'notice', text: 'No tickets yet. Use "Hand a ticket".' })); return; }
+    list.forEach(function (x) {
+      var row = h('div', { class: 'tk' }, h('div', null, h('b', { text: x.agent }), ' · ', x.ask), h('div', { class: 'meta' },
+        h('span', { class: 'chip', text: x.status }), h('span', { text: x.priority + (x.due ? ' · due ' + x.due : '') }), h('span', { text: 'created ' + ago(x.createdAt) })));
+      if (x.result && x.result.summary) row.appendChild(h('div', { class: 'note', text: 'Result: ' + x.result.summary }));
+      if (x.proposed) row.appendChild(h('div', { class: 'exact', text: 'Exact action waiting for your yes (' + x.proposed.kind + '):\n' + x.proposed.exact }));
+      if (x.proposed && x.proposed.link) row.appendChild(h('a', { href: x.proposed.link, target: '_blank', rel: 'noopener', text: 'Approve or decline in the Desk (not here)', class: 'note' }));
+      if (x.result && x.result.link) row.appendChild(h('a', { href: x.result.link, target: '_blank', rel: 'noopener', text: 'Open the result', class: 'note' }));
+      box.appendChild(row);
+    });
+  }
+
+  /* ---------- panels: desk detail and the four levers ---------- */
+  function renderPanel() {
+    var wrap = $('panel-wrap'), p = $('panel'); p.textContent = '';
+    if (S.lever) { wrap.hidden = false; return LEVERS[S.lever](p); }
+    if (S.open && S.agents[S.open]) { wrap.hidden = false; return deskPanel(p, S.agents[S.open]); }
+    wrap.hidden = true;
+  }
+  function deskPanel(p, a) {
+    var e = effective(a), hide = S.share && a.sensitive;
+    p.appendChild(h('h3', { text: a.name + (a.role ? ' · ' + a.role : '') }));
+    if (hide) { p.appendChild(h('p', { class: 'note', text: 'Hidden in Screen-share mode.' })); return; }
+    p.appendChild(h('div', null, lightEl(e.light, { blink: e.blink, stale: e.stale && e.light === 'idle' })));
+    p.appendChild(h('p', { class: 'note', text: (a.task ? 'Task: ' + a.task + (a.taskSince ? ' (since ' + ago(a.taskSince) + ')' : '') : 'No task posted') + ' · last heard ' + ago(a.lastHeard) + ' · synced ' + ago(a.updated) }));
+    if (e.items.length) {
+      var tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Light' }), h('th', { text: 'What' }), h('th', { text: 'Age' }), h('th', { text: '' })));
+      e.items.forEach(function (i) { var td = h('td'); if (i.link) td.appendChild(h('a', { href: i.link, target: '_blank', rel: 'noopener', text: 'Open' })); if (!i.seen) td.appendChild(bindSeen(h('button', { text: 'Seen' }), i)); tb.appendChild(h('tr', null, h('td', null, lightEl(i.light)), h('td', { text: i.title }), h('td', { text: ago(i.raisedAt) }), td)); });
+      p.appendChild(h('div', { class: 'scroll' }, tb));
+    }
+    var log = (S.logs && S.logs[a.id]) || [];
+    if (log.length) { p.appendChild(h('h2', { text: 'Last ' + Math.min(5, log.length) + ' log lines' })); log.slice(0, 5).forEach(function (l) { p.appendChild(h('div', { class: 'note', text: ago(l.at) + ' · ' + l.text })); }); }
+    var b = h('button', { class: 'solid', text: 'Hand ' + a.name + ' a ticket' }); b.addEventListener('click', function () { S.lever = 'ticket'; S.ticketAgent = a.id; renderAll(); });
+    p.appendChild(b);
+  }
+
+  function visibleAgents() { return Object.keys(S.agents).map(function (k) { return S.agents[k]; }).filter(function (a) { return !(S.share && a.sensitive); }); }
+  var LEVERS = {
+    wip: function (p) {
+      p.appendChild(h('h3', { text: 'WIP report' }));
+      p.appendChild(h('p', { class: 'note', text: 'Built from the Office database now (' + (S.meta ? 'repo synced ' + ago(S.meta.syncedAt) : 'example data') + '). For ledger rows and the Day Board, ask Radar for the full version.' }));
+      var tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Desk' }), h('th', { text: 'Light' }), h('th', { text: 'On it' }), h('th', { text: 'QC' }), h('th', { text: 'Tickets' }), h('th', { text: 'Heard' })));
+      var lines = [];
+      visibleAgents().forEach(function (a) {
+        var e = effective(a), task = a.task || '';
+        tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', null, lightEl(e.light, { stale: e.stale && e.light === 'idle' })), h('td', { text: task }), h('td', { text: String(a.pendingQc || 0) }), h('td', { text: String(a.openTickets || 0) }), h('td', { text: ago(a.lastHeard) })));
+        lines.push(a.name + ': ' + WORD[e.light] + (task ? ' · ' + task : '') + ' · QC ' + (a.pendingQc || 0) + ' · tickets ' + (a.openTickets || 0) + ' · heard ' + ago(a.lastHeard));
+      });
+      p.appendChild(h('div', { class: 'scroll' }, tb));
+      var row = h('div', { class: 'levers' });
+      var copy = h('button', { text: 'Copy as text' });
+      copy.addEventListener('click', function () { var txt = 'WIP ' + new Date().toISOString().slice(0, 16) + '\n' + lines.join('\n'); (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(function () { copy.textContent = 'Copied'; }, function () { copy.textContent = 'Copy blocked here'; }); });
+      var full = h('button', { text: 'Ask Radar for the full WIP' }); full.addEventListener('click', function () { makeTicket({ agent: 'radar', ask: 'Run the full WIP report: ledger by lane, QC, gates, routines, Day Board.', priority: 'today', lever: 'wip' }); full.textContent = 'Ticket created'; full.disabled = true; });
+      row.appendChild(copy); row.appendChild(full); p.appendChild(row);
+    },
+    status: function (p) {
+      p.appendChild(h('h3', { text: 'Status from everyone' }));
+      var quiet = [];
+      var tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Desk' }), h('th', { text: 'Status' }), h('th', { text: 'Heard' })));
+      visibleAgents().forEach(function (a) {
+        var e = effective(a), old = Date.now() - t(a.lastHeard) > DAY;
+        if (old) quiet.push(a);
+        tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', { text: a.statusLine || a.task || WORD[e.light] }), h('td', { text: ago(a.lastHeard) + (old ? ' (older than a day)' : '') })));
+      });
+      p.appendChild(h('p', { class: 'note', text: 'Instant: each desk\'s last posted status. Live roll call: one ticket per desk that has been quiet over a day; each agent answers in three lines (on it, done, blocked on you).' }));
+      p.appendChild(h('div', { class: 'scroll' }, tb));
+      var go = h('button', { class: 'solid', text: quiet.length ? 'Ask the ' + quiet.length + ' quiet desk' + (quiet.length > 1 ? 's' : '') + ' for status' : 'Everyone has been heard from today' });
+      go.disabled = !quiet.length;
+      go.addEventListener('click', function () { quiet.forEach(function (a) { makeTicket({ agent: a.id, ask: 'Status in three lines: working on, done since last status, blocked on Kev. Names and roles only.', priority: 'today', lever: 'status' }); }); go.textContent = quiet.length + ' tickets created'; go.disabled = true; });
+      p.appendChild(go);
+    },
+    ticket: function (p) {
+      p.appendChild(h('h3', { text: 'Hand a ticket' }));
+      p.appendChild(h('p', { class: 'note', text: 'You stay accountable; the agent is your delegate. Anything it would send, spend or publish waits in QC for your yes, with the exact action shown. A ticket is never approval.' }));
+      var f = h('form');
+      var sel = h('select', { id: 'f-agent', required: 'required' }); visibleAgents().forEach(function (a) { sel.appendChild(h('option', { value: a.id, text: a.name })); }); if (S.ticketAgent) sel.value = S.ticketAgent;
+      var ask = h('textarea', { id: 'f-ask', maxlength: '500', required: 'required', placeholder: 'What should they do? No pay, phone numbers or candidate contact details.' });
+      var due = h('input', { id: 'f-due', type: 'date' });
+      var pr = h('select', { id: 'f-pri' }); [['today', 'Today'], ['now', 'Now'], ['whenever', 'Whenever']].forEach(function (o) { pr.appendChild(h('option', { value: o[0], text: o[1] })); });
+      f.appendChild(h('label', null, 'Agent', sel)); f.appendChild(h('label', null, 'Priority', pr));
+      f.appendChild(h('label', { class: 'full' }, 'Ask', ask)); f.appendChild(h('label', null, 'Due (optional)', due));
+      var send = h('button', { class: 'solid', type: 'submit', text: 'Create ticket' }); var msg = h('p', { class: 'note full', id: 'f-msg', text: 'Radar picks tickets up in the hourly sweep (next: ' + nextSweep() + '). Say "go" in chat to run one now.' });
+      f.appendChild(h('div', null, send)); f.appendChild(msg);
+      f.addEventListener('submit', function (ev) {
+        ev.preventDefault(); if (!ask.value.trim()) return;
+        makeTicket({ agent: sel.value, ask: ask.value.trim(), priority: pr.value, due: due.value || null });
+        ask.value = ''; msg.textContent = 'Created. Radar picks it up in the sweep (next: ' + nextSweep() + ').';
+      });
+      p.appendChild(f);
+    },
+    unused: function (p) {
+      p.appendChild(h('h3', { text: 'What did we ship that we\'re not using' }));
+      var rows = [];
+      Object.keys(S.tools).forEach(function (k) {
+        var x = S.tools[k], every = x.expectedEveryDays || 14, clicked = S.seen['open-' + x.id], used = clicked && clicked.at ? clicked.at : (clicked || null), act = x.lastActivity || null;
+        var last = [used, act].filter(Boolean).sort().pop() || null, why = null;
+        if (x.routineId && x.noTrigger) why = 'Built but never switched on: no trigger exists';
+        else if (x.waitingOnKev) why = 'Waiting on your yes';
+        else if (last && Date.now() - t(last) > 2 * every * DAY) why = 'Quiet for ' + Math.floor((Date.now() - t(last)) / DAY) + ' days (expected every ' + every + ')';
+        else if (!last) why = 'No use recorded yet';
+        if (why) rows.push({ x: x, why: why, evidence: last ? (last === used ? 'Office opens' : 'activity') : 'none' });
+      });
+      p.appendChild(h('p', { class: 'note', text: 'Evidence is what the Office saw you open, plus activity Radar supplied. "No use recorded" means no evidence either way, not proof of no use. The list gets truer each week.' }));
+      if (!rows.length) { p.appendChild(h('div', { class: 'notice', text: 'Everything shipped shows recent use.' })); return; }
+      var tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Tool' }), h('th', { text: 'Why it is listed' }), h('th', { text: 'Evidence' }), h('th', { text: '' })));
+      rows.forEach(function (r) {
+        var b = h('button', { text: 'Adopt or retire?' }); b.addEventListener('click', function () { makeTicket({ agent: r.x.owner || 'radar', ask: 'Adopt or retire "' + r.x.name + '": ' + r.why + '. Recommend one, with what it costs to keep.', priority: 'whenever', lever: 'unused' }); b.textContent = 'Ticket created'; b.disabled = true; });
+        tb.appendChild(h('tr', null, h('td', { text: r.x.name }), h('td', { text: r.why }), h('td', { text: r.evidence }), h('td', null, b)));
+      });
+      p.appendChild(h('div', { class: 'scroll' }, tb));
+    }
+  };
+
+  /* ---------- writes: the page writes only tickets and seen marks ---------- */
+  function makeTicket(o) {
+    var id = 't-' + new Date().toISOString().replace(/[-:T]/g, '').slice(0, 12) + '-' + Math.random().toString(36).slice(2, 6);
+    var now = new Date().toISOString();
+    var doc = { id: id, agent: o.agent, ask: o.ask, due: o.due || null, priority: o.priority || 'today', status: 'open', owner: 'kev', createdBy: 'kev', lever: o.lever || null, createdAt: now, updatedAt: now };
+    S.tickets[id] = doc; renderAll();
+    if (S.live && S.db) S.db.doc('tickets/' + id).set(doc).catch(function () { delete S.tickets[id]; renderAll(); $('sync').textContent = 'That ticket did not save. Try again.'; });
+  }
+  function markSeen(key) {
+    var doc = { at: new Date().toISOString() };
+    S.seen[key] = doc; renderAll();
+    if (S.live && S.db) S.db.doc('seen/' + key).set(doc).catch(function () {});
+  }
+
+  /* ---------- render ---------- */
+  function renderAll() {
+    renderSync(); renderBanner(); renderNeed(); renderFloor(); renderPanel(); renderBenches(); renderTools(); renderTickets();
+    $('share').setAttribute('aria-pressed', String(S.share));
+    [].forEach.call(document.querySelectorAll('[data-lever]'), function (b) { b.setAttribute('aria-pressed', String(S.lever === b.dataset.lever)); });
+  }
+  [].forEach.call(document.querySelectorAll('[data-lever]'), function (b) {
+    b.addEventListener('click', function () { S.lever = S.lever === b.dataset.lever ? null : b.dataset.lever; S.open = null; renderAll(); if (S.lever) $('panel-wrap').scrollIntoView({ block: 'nearest' }); });
+  });
+  $('share').addEventListener('click', function () {
+    S.share = !S.share;
+    try { localStorage.setItem('office-share', S.share ? '1' : '0'); } catch (e) {}
+    if (S.share) { dropSensitive(); } else { attachBenches(); }
+    renderAll();
+  });
+  try { S.share = localStorage.getItem('office-share') === '1'; } catch (e) {}
+
+  /* ---------- data: live database, or example data ---------- */
+  function listen(name, fn) {
+    var u = S.db.collection(name).onSnapshot(function (snap) { var m = {}; snap.docs.forEach(function (d) { var v = d.data(); if (v) { v.id = v.id || d.id; m[d.id] = v; } }); fn(m); renderAll(); }, function () { $('sync').textContent = 'Could not read ' + name; });
+    S.unsub[name] = u;
+  }
+  function attachBenches() { if (!S.db || S.unsub.benches) return; listen('benches', function (m) { S.benches = m; }); }
+  function dropSensitive() {
+    if (S.unsub.benches && typeof S.unsub.benches === 'function') S.unsub.benches();
+    delete S.unsub.benches;
+    Object.keys(S.benches).forEach(function (k) { if (S.benches[k].sensitive) delete S.benches[k]; });   // like the Hub: other data never sits in the page while presenting
+  }
+  function exampleData() {
+    var n = Date.now(), iso = function (msAgo) { return new Date(n - msAgo).toISOString(); };
+    function ag(id, name, desk, role, o) {
+      var a = { id: id, name: name, desk: desk, role: role, sensitive: ['tally', 'docket', 'atlas', 'housing-architect', 'keys', 'dean'].indexOf(id) >= 0, light: 'idle', counts: {}, task: null, lastHeard: iso(2 * HOUR), pendingQc: 0, openTickets: 0, expectedEveryHours: 96, updated: iso(20 * MIN) };
+      for (var k in o) a[k] = o[k]; S.agents[id] = a;
+    }
+    ag('radar', 'Radar', 'centre', 'Chief of staff', { task: 'Hourly sweep (example)', counts: { working: 1 }, lastHeard: iso(30 * MIN), expectedEveryHours: 30 });
+    ag('scout', 'Scout', 'recruiting', 'Lead researcher', { task: 'Building tonight\'s buckets (example)', lastHeard: iso(HOUR) });
+    ag('q', 'Q', 'recruiting', 'Back-of-house engineer', { task: 'Office status feed (example)', counts: { working: 1 }, lastHeard: iso(20 * MIN), pendingQc: 1 });
+    ag('dean', 'Dean', 'recruiting', 'Workforce development', { task: 'Friday scorecard prep (example)', lastHeard: iso(5 * HOUR), pendingQc: 1 });
+    ag('host', 'Host', 'recruiting', 'Event planner', { lastHeard: iso(8 * DAY) });
+    ag('tally', 'Tally', 'finance', 'Finance analyst', { task: 'Month-end packet (example)', lastHeard: iso(3 * HOUR) });
+    ag('docket', 'Docket', 'finance', 'Counsel and risk', { task: 'Second key on the packet (example)', counts: { working: 1 }, lastHeard: iso(30 * HOUR), expectedEveryHours: 96 });
+    ag('atlas', 'Atlas', 'family', 'Tutor', { lastHeard: iso(2 * DAY) });
+    ag('housing-architect', 'Marlowe', 'family', 'Housing architect', { task: 'Courtyard study (example)', counts: { working: 1 }, lastHeard: iso(HOUR) });
+    ag('keys', 'Keys', 'family', 'Rental operator', { lastHeard: iso(3 * DAY) });
+    function al(id, agent, light, kind, title, ms, needs) { S.alerts[id] = { id: id, agent: agent, light: light, kind: kind, title: title, source: 'example', raisedAt: iso(ms), needsKev: needs, sensitive: S.agents[agent].sensitive }; }
+    al('e1', 'radar', 'urgent', 'call', 'Missed call: A client contact (example)', 12 * MIN, true);
+    al('e2', 'scout', 'reply', 'inbox', 'Reply (team): Evan asked about a lead sheet (example)', 40 * MIN, true);
+    al('e3', 'dean', 'review', 'qc', 'send message: DRAFT intro email ready to read (example)', 3 * HOUR, true);
+    al('e4', 'tally', 'blocked', 'blocked', 'Blocked: QuickBooks sign-in expired (example)', DAY, true);
+    al('e5', 'q', 'blocked', 'routine', 'Routine "CloudTalk nightly lead load" has no trigger yet (example)', 2 * DAY, true);
+    S.meta = null;
+    S.tickets = {
+      'x1': { id: 'x1', agent: 'scout', ask: 'Refresh the Triton Superintendent bucket (example)', priority: 'today', status: 'working', createdAt: iso(2 * HOUR), pickedAt: iso(HOUR), owner: 'kev' },
+      'x2': { id: 'x2', agent: 'dean', ask: 'Draft the Kyle Cockell day-one page (example)', priority: 'whenever', status: 'gated', createdAt: iso(DAY), owner: 'kev', proposed: { kind: 'send_message', exact: 'To: Kev (review copy)\nSubject: Next steps before you start at Eden\n(exact text shown here from the QC item)', link: 'https://claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G' } },
+      'x3': { id: 'x3', agent: 'q', ask: 'Match this week\'s missed calls to Crelate (example)', priority: 'now', status: 'done', createdAt: iso(3 * DAY), doneAt: iso(2 * DAY), owner: 'kev', result: { summary: 'Matched 6 of 8; 2 unknown numbers left as unknown.', link: 'https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6' } }
+    };
+    S.seen = { 'ticket-x3-done': { at: iso(DAY) } };
+    var tools = [['hub', 'Team Hub', 'https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6', 3], ['eden-daily', 'The Eden Daily', 'https://claude.ai/artifact/6WCnWouUfZFBXL1FNZMGi2', 1], ['day-board', 'Day Board', 'https://claude.ai/artifact/4QFTb8NFvWhbc2jg5zD4hc', 2], ['workshop', 'Employee Workshop', 'https://claude.ai/artifact/8nmNm3TD2MaJzia8tvHFxR', 14], ['eden-desk', 'Eden Desk', 'https://claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G', 7]];
+    tools.forEach(function (x) { S.tools[x[0]] = { id: x[0], name: x[1], url: x[2], expectedEveryDays: x[3], owner: 'radar' }; });
+    S.tools.nightly = { id: 'nightly', name: 'CloudTalk nightly lead load', routineId: 'cloudtalk-nightly', noTrigger: true, owner: 'q' };
+    S.seen['open-hub'] = { at: iso(DAY) }; S.seen['open-eden-daily'] = { at: iso(5 * HOUR) };
+    var B = function (id, title, owner, sens, sort, tiles, source, link) { S.benches[id] = { id: id, title: title, owner: owner, sensitive: sens, sort: sort, tiles: tiles, source: source, link: link, example: true, asOf: new Date().toISOString() }; };
+    B('recruiting', 'Recruiting floor', 'Dean', true, 1, [{ label: 'Recruiters on pace', value: '3 of 5 (example)' }, { label: 'Deliverables overdue', value: '1 (example)' }], 'Crelate, Friday pull');
+    B('depth', 'Hiring depth chart', 'Dean', true, 2, [{ label: 'In ramp', value: '1 (example)' }, { label: 'Next checkpoint', value: 'Fri 6 Nov (example)' }], 'Dean, new-hire packet');
+    B('revenue', 'Revenue', 'Tally + Dean', true, 3, [{ label: 'Month to date', value: 'not synced', needsGate: true }], 'Hub Rev Report');
+    B('university', 'Eden University', 'Dean', false, 4, [{ label: 'Modules built', value: '0 of 3 (example)' }, { label: 'Next Wednesday', value: 'topic to pick (example)' }], 'Dean');
+    B('finance', 'Finance', 'Tally', true, 5, [{ label: 'Cash on hand', value: 'not synced', needsGate: true }, { label: 'Open invoices', value: 'not synced', needsGate: true }], 'QuickBooks (re-authorise first)');
+    B('client', 'Client work', 'Radar', false, 6, [{ label: 'Active job orders', value: 'count only (example)' }], 'Hub', 'https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6');
+    B('family', 'Family office', 'Atlas, Marlowe, Keys', true, 7, [{ label: 'This week', value: 'lessons and studies (example)' }], 'Atlas Desk, Marlowe\'s Desk');
+    S.logs = { q: [{ at: iso(20 * MIN), text: 'Wired the status feed (example)' }, { at: iso(2 * HOUR), text: 'Ran the dry sync (example)' }] };
+  }
+
+  function boot() {
+    var db = null;
+    var p = (window.claude && window.claude.use) ? window.claude.use('db') : Promise.resolve(null);
+    p.then(function (d) { db = d; }, function () { db = null; }).then(function () {
+      if (!db) { exampleData(); $('demo').hidden = false; renderAll(); return; }
+      S.live = true; S.db = db;
+      listen('agents', function (m) { S.agents = m; });
+      listen('alerts', function (m) { S.alerts = m; });
+      listen('seen', function (m) { S.seen = m; });
+      listen('tickets', function (m) { S.tickets = m; });
+      listen('tools', function (m) { S.tools = m; });
+      db.doc('meta/sync').onSnapshot(function (s) { S.meta = s.exists ? s.data() : null; renderAll(); }, function () {});
+      if (!S.share) attachBenches();
+      renderAll();
+    });
+  }
+  renderAll();
+  boot();
+  setInterval(renderAll, 30000);
+})();
+</script>

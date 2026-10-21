@@ -22,6 +22,7 @@
     "status": "node workshop/office/desk.ts status",
     "doc": "node workshop/office/doc.ts",
     "radar": "node workshop/office/radar.ts",
+    "office": "node workshop/office/office.ts",
     "leadplan": "node workshop/cloudtalk/cli.ts",
     "ct-routine": "node workshop/cloudtalk/routine.ts"
   },
