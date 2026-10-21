@@ -100,8 +100,8 @@ a{color:inherit}
   transition:opacity .24s, transform .32s cubic-bezier(.2,.7,.2,1)}
 .floor.sitting{opacity:.28;transform:scale(1.025)}
 .glaze{position:absolute;top:-3px;height:3px;background:var(--floor);border-top:1px solid var(--wall);border-bottom:1px solid var(--wall)}
-.door{position:absolute;bottom:-3px;width:64px;height:3px;background:var(--floor)}
-.door svg{position:absolute;left:0;bottom:3px;overflow:visible}
+.door{position:absolute;bottom:-3px;width:44px;height:3px;background:var(--floor)}
+.door svg{position:absolute;left:0;top:0;width:44px;height:44px;overflow:visible;transform:scaleY(-1)}   /* swings out, as an egress door does, clear of Client work */
 .sun{position:absolute;bottom:0;height:44%;width:26%;background:var(--sun);pointer-events:none;transform-origin:bottom center;z-index:0;transition:left 2s,transform 2s}
 .zone{position:relative;z-index:1;min-width:0;display:flex;flex-direction:column;gap:12px;padding:12px;border:1px dashed var(--line)}
 .zone>.eyebrow{display:flex;justify-content:space-between;gap:8px}
@@ -248,6 +248,7 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .panel-b ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .ticket{border:1px solid var(--line);padding:8px 10px;font-size:13px;overflow-wrap:anywhere}
 .ticket small{display:block;font:500 10px/1.4 var(--mono);color:var(--mute);letter-spacing:.06em}
+.ticket>.mini{margin-top:6px;margin-right:8px;padding-inline:0}
 .exact{background:var(--soft);padding:8px;font:400 11.5px/1.45 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;margin-top:6px}
 .log li{font:400 11.5px/1.45 var(--mono);color:var(--mute)} .log li b{color:var(--ink);font-weight:500}
 .now{font-size:15px;font-weight:600;overflow-wrap:anywhere;margin:0}
@@ -304,6 +305,7 @@ textarea{min-height:84px;resize:vertical}
   .panel-h h2{font-size:18px}
   .panel-h .stand{margin-left:auto}
   .panel-h .role{order:5;flex-basis:100%}
+  .chatform{grid-template-columns:minmax(0,1fr)} .chatform .key{justify-self:end}
   .banner{grid-template-columns:auto minmax(0,1fr)} .banner .sacts{grid-column:1/-1;padding:0}
   .dock{display:grid}
   .panel-b,.panel-b.wide-tray{grid-template-columns:minmax(0,1fr)}
@@ -638,19 +640,20 @@ textarea{min-height:84px;resize:vertical}
   function renderBanner() {
     var b = $('#banner'); b.textContent = '';
     var reds = allItems().filter(function (i) { return i.light === 'urgent' && !i.seen; }).sort(function (x, y) { return t(x.raisedAt) - t(y.raisedAt); });
-    if (!reds.length) { b.hidden = true; return; }
-    b.hidden = false; var f = reds[0];
+    if (!reds.length) { b.hidden = true; bannerKey = null; return; }
+    b.hidden = false; var f = reds[0]; bannerKey = f.key;   // the strip skips what the banner already holds
     b.appendChild(led('urgent', true));
     b.appendChild(h('div', null, h('div', { class: 'what', text: f.title }), h('div', { class: 'sub', text: nameOf(f.agent) + ' · ' + ago(f.raisedAt) + (reds.length > 1 ? ' · ' + (reds.length - 1) + ' more urgent' : '') })));
     var acts = h('div', { class: 'sacts' }); zzz(acts, f); if (!zzzOpen[f.key]) acts.appendChild(seenBtn(f)); b.appendChild(acts);
   }
-  function openLabel(url) { return /superhuman\.com/.test(url) ? 'Open in Superhuman' : 'Open'; }
+  function openLabel(url) { return /superhuman\.com/.test(url) ? 'Open in Superhuman' : /5SuFoioujKFV6KgX4dXi3G/.test(url) ? 'Approve in Desk' : 'Open'; }
+  var bannerKey = null;
   var openDrafts = {};
   function nameOf(id) { return S.agents[id] ? S.agents[id].name : id; }
   function renderStrip() {
     var ol = $('#strip'); ol.textContent = '';
     var rank = { urgent: 0, reply: 1, review: 2, blocked: 3 };
-    var items = allItems().filter(function (i) { return i.needsKev && !i.seen && rank[i.light] !== undefined; })
+    var items = allItems().filter(function (i) { return i.needsKev && !i.seen && rank[i.light] !== undefined && i.key !== bannerKey; })
       .sort(function (a, b) { return (rank[a.light] - rank[b.light]) || (t(a.raisedAt) - t(b.raisedAt)); });
     if (!items.length) ol.appendChild(h('li', null, h('button', { class: 'smain', disabled: 'disabled' }, h('span'), h('span', { class: 'who', text: 'Clear' }), h('span', { class: 'what', text: 'Nothing needs you.' }))));
     items.slice(0, 3).forEach(function (i) {
@@ -820,7 +823,9 @@ textarea{min-height:84px;resize:vertical}
     var e = effective(a), lines = [];
     lines.push('You are ' + a.name + ', ' + (a.role || 'an AI employee') + ', one of the AI employees working for Kev Williams (Eden Executive Search and Eden Partner Group; KDTW Group is the family office).');
     lines.push('This is the quick chat at your desk in Eden Office. Kev pops in for fast decisions and zips back out. Reply in at most four short sentences, plain words, no preamble, no lists unless he asks.');
-    lines.push('You only know what is below. You cannot see files, email or tools, and you have done no work in this chat, so never say you did, checked or sent anything. You never send, spend or publish; those wait in Kev\'s approval queue. If you do not know, say so and offer a ticket.');
+    lines.push('HOW THE OFFICE WORKS (say this plainly when asked): You are the quick desk version of ' + a.name + '. The full ' + a.name + ' is the same employee run by Radar, the chief of staff, with the files, tools and connectors; Radar runs it on tickets in the hourly weekday sweep (7am to 6pm Pacific) or right away when Kev says "go" in his chat with Radar. Everything Kev says here is saved and Radar reads it every sweep, files his directions into your memory and acts on them, so Kev never repeats himself. Approvals: Kev approves anything that writes to a live system, spends or publishes on the Eden Desk approval card (the "Approve in Desk" button on the item); a yes in this chat is recorded as his direction and Radar queues the exact item for that one tap. Drafted emails wait in his Superhuman Drafts and he sends them himself.');
+    lines.push('THE TEAM: Radar (chief of staff, runs everyone), Scout (lead research), Dean (scorecards, Eden University), Q (systems and engineering; cuts friction), Jenny (comms director: inbox, client and candidate writing, travel, events), Tally (finance), Docket (contracts and risk, second key on Tally), Atlas (tutor), Marlowe (architect and designer), Keys (the Vancouver rental), Hale (health), Jethro (growth coach, C12), Barny (spiritual advisor).');
+    lines.push('You only know what is below. You cannot see files, email or tools, and you have done no work in this chat, so never say you did, checked or sent anything. You never send, spend or publish. When Kev decides or approves something, restate it as the Direction line and say Radar will queue it; do not ask him to repeat himself or be more specific unless it is genuinely ambiguous. If you do not know something, say so and offer a ticket.');
     lines.push('When Kev gives you a direction or a decision, end with one line: "Direction: <it, in one sentence>". When it needs real work from the full agent, end with one line: "Ticket: <the ask, in one sentence>".');
     lines.push('', 'YOUR DESK RIGHT NOW (from the Office, ' + (S.live ? 'live' : 'example data') + '):');
     lines.push('Status: ' + WORD[e.light] + (e.stale ? ' (stale)' : '') + '. Task: ' + (a.task || 'none posted') + '. Last heard: ' + ago(a.lastHeard) + '.');
@@ -906,10 +911,10 @@ textarea{min-height:84px;resize:vertical}
     var ul = h('ul');
     mine.forEach(function (x) {
       var li = h('li', { class: 'ticket' }, x.ask, h('small', { text: x.status + ' · ' + x.priority + (x.due ? ' · due ' + x.due : '') + ' · from Kev · ' + ago(x.createdAt) }));
-      (x.attachments || []).forEach(function (f) { if (!f || !f.asset) return; if (/^image\//.test(f.type || 'image/')) li.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f.asset, alt: f.name || 'Photo sent with this ticket' })); else li.appendChild(h('a', { class: 'mini', href: '/_blob/' + f.asset, target: '_blank', rel: 'noopener', text: (f.name || 'File') })); });
+      (x.attachments || []).forEach(function (f) { if (!f || !f.asset) return; if (/^image\//.test(f.type || 'image/')) li.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f.asset, alt: f.name || 'Photo sent with this ticket' })); else li.appendChild(h('a', { class: 'mini txt', href: '/_blob/' + f.asset, target: '_blank', rel: 'noopener', text: (f.name || 'File') })); });
       if (x.result && x.result.summary) li.appendChild(h('small', { text: 'Result: ' + x.result.summary }));
-      if (x.proposed) { li.appendChild(h('div', { class: 'exact', text: 'Exact action waiting for your yes (' + x.proposed.kind + '):\n' + x.proposed.exact })); if (x.proposed.link) li.appendChild(h('a', { class: 'mini', href: x.proposed.link, target: '_blank', rel: 'noopener', text: 'Decide in the Desk, not here' })); }
-      if (x.result && x.result.link) li.appendChild(h('a', { class: 'mini', href: x.result.link, target: '_blank', rel: 'noopener', text: 'Open the result' }));
+      if (x.proposed) { li.appendChild(h('div', { class: 'exact', text: 'Exact action waiting for your yes (' + x.proposed.kind + '):\n' + x.proposed.exact })); if (x.proposed.link) li.appendChild(h('a', { class: 'mini txt', href: x.proposed.link, target: '_blank', rel: 'noopener', text: 'Decide in the Desk, not here' })); }
+      if (x.result && x.result.link) li.appendChild(h('a', { class: 'mini txt', href: x.result.link, target: '_blank', rel: 'noopener', text: 'Open the result' }));
       ul.appendChild(li);
     });
     naps.forEach(function (x) {
