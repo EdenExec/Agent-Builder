@@ -80,5 +80,10 @@
     "url": "https://drive.google.com/drive/folders/1THEbC8Yi1-bzvg6CmuZnPmf1WWTBw1sU",
     "holds": "v1 sheets replaced by a v2 (12, 16, 18 moved 2026-10-21). Never deleted."
   },
-  "cadence": "Nightly, weeknights: Scout lands lists by 8pm PT, Noah's routine enriches at 10pm PT, the BPO team uploads to Crelate overnight, Radar moves finished sheets in the first morning sweep. Never Saturday."
+  "cadence": "Nightly, weeknights: Scout lands lists by 8pm PT, Noah's routine enriches at 10pm PT, the BPO team uploads to Crelate overnight, Radar moves finished sheets in the first morning sweep. Never Saturday.",
+  "bpoSop": {
+    "repo": "projects/leads/bpo-nightly-upload-sop.md",
+    "doc": "https://docs.google.com/document/d/1pFKhnI_ZIEX5W1vYuOTLxq6oN_9m_LF_v4cS6nSM6BY/edit",
+    "rule": "Lists load into a bucket in the Crelate Leads / Buckets column, never onto an active JO (Kev, 21 Oct 2026)."
+  }
 }
