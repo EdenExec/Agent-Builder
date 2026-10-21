@@ -58,6 +58,7 @@ Each sweep, after step 5:
 2. **Actions.** `ArtifactData list actions` where `applied` is false. Apply each one Kev tapped:
    - **`done`:** close the source item. A QC item becomes `npm run qc -- reject <id> "handled by Kev outside the queue (Office, <date>)"`; never approve. A ledger row becomes Status Done.
    - **`followup`:** a ledger row with Lane Waiting on, Owner Kev and a due date 7 days out, Source "Eden Office follow-up".
+   - **`snooze`:** leave it alone. The page hides the item until `until`.
    - Then `update` the action with `applied: true` (pin `if_version`).
 3. **Desk chats.** For each agent, `ArtifactData query chats/<agent>/messages` where `filed` is false. File every "Direction:" line Kev agreed to:
    - **Most agents:** `npm run memory -- add <agent> "<date>: <direction>"`.

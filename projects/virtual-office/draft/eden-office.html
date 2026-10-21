@@ -70,7 +70,8 @@ a{color:inherit}
 .smain:disabled{cursor:default}
 .strip .who{font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
 .strip .what{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sacts{display:flex;gap:6px;padding-right:12px}
+.sacts{display:flex;gap:6px;padding-right:12px;flex-wrap:wrap;justify-content:flex-end}
+.sacts .mini{white-space:nowrap}
 .mini{font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);border:1px solid var(--line);background:none;padding:7px 9px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
 .mini:hover{border-color:var(--ink)}
 .mini:disabled{opacity:.45;cursor:default}
@@ -483,7 +484,7 @@ textarea{min-height:84px;resize:vertical}
     var out = [];
     Object.keys(S.alerts).forEach(function (k) {
       var a = S.alerts[k]; if (a.agent !== id || (S.share && (a.sensitive || sensitiveAgent(a.agent)))) return;
-      if (S.actions[a.id]) return;                         // Kev marked it done or moved it to follow-up
+      if (acted(a.id)) return;                             // Kev marked it done, moved it to follow-up, or snoozed it
       var seen = isSeen(a.id);
       if (seen && a.light !== 'urgent') return;           // seen clears everything but red; red holds steady until the source resolves
       out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link, preview: a.preview, agent: id });
@@ -491,7 +492,7 @@ textarea{min-height:84px;resize:vertical}
     Object.keys(S.tickets).forEach(function (k) {
       var tk = S.tickets[k]; if (tk.agent !== id || ticketHidden(tk)) return;
       var key = 'ticket-' + tk.id + '-' + tk.status;
-      if (S.actions[key]) return;
+      if (acted(key)) return;
       if ((tk.status === 'blocked' || tk.status === 'gated') && !isSeen(key)) out.push({ light: 'blocked', title: 'Ticket needs you: ' + tk.ask, raisedAt: tk.updatedAt || tk.createdAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
       if (tk.status === 'done' && !isSeen(key)) out.push({ light: 'review', title: 'Ticket done: ' + tk.ask, raisedAt: tk.doneAt || tk.updatedAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
     });
@@ -566,6 +567,31 @@ textarea{min-height:84px;resize:vertical}
       S.db.doc('actions/' + key).set(doc).catch(function () { delete S.actions[key]; S.flash = 'That did not save. Try again.'; renderAll(); }).then(function () { pendingAct[key] = false; });
     }
   }
+  /* Zzz: hides an item until a time, then it comes back on its own. Page-side only; Radar's sweep leaves snoozes alone. */
+  function acted(key) { var x = S.actions[key]; return !!x && (x.action !== 'snooze' || t(x.until) > Date.now()); }
+  function at(d, hh, mm) { var x = new Date(d); x.setHours(hh, mm || 0, 0, 0); return x; }
+  function nextWorkday(d) { var x = new Date(d); do { x.setDate(x.getDate() + 1); } while (x.getDay() === 6); return x; }   // never wakes on the Sabbath
+  function snoozeOptions() {
+    var now = new Date(), opts = [['1 hour', new Date(now.getTime() + HOUR)]];
+    var co = at(now, 17, 30); if (co - now > HOUR) opts.push(['Till check-out 5:30', co]);
+    opts.push(['Tomorrow 7am', at(nextWorkday(now), 7)]);
+    var mon = new Date(now); mon.setDate(mon.getDate() + ((8 - mon.getDay()) % 7 || 7)); opts.push(['Monday 7am', at(mon, 7)]);
+    return opts;
+  }
+  function untilLabel(iso) { var d = new Date(iso); return d.toLocaleDateString('en-US', { weekday: 'short' }) + ' ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
+  var zzzOpen = {};
+  function zzz(acts, i) {
+    if (!zzzOpen[i.key]) { var z = h('button', { class: 'mini', text: 'Zzz', title: 'Snooze' }); z.disabled = !S.canWrite; z.addEventListener('click', function (ev) { ev.stopPropagation(); zzzOpen[i.key] = true; S.forceSheet = true; renderAll(); }); acts.appendChild(z); return; }
+    snoozeOptions().forEach(function (o) {
+      var b = h('button', { class: 'mini', text: o[0] }); b.addEventListener('click', function (ev) { ev.stopPropagation(); delete zzzOpen[i.key]; snooze(i, o[1]); }); acts.appendChild(b);
+    });
+    var c = h('button', { class: 'mini', text: 'Cancel' }); c.addEventListener('click', function (ev) { ev.stopPropagation(); delete zzzOpen[i.key]; S.forceSheet = true; renderAll(); }); acts.appendChild(c);
+  }
+  function snooze(i, until) {
+    var doc = { key: i.key, agent: i.agent || null, title: i.title || '', action: 'snooze', until: until.toISOString(), at: new Date().toISOString(), by: 'kev', applied: true };
+    S.actions[i.key] = doc; S.forceSheet = true; renderAll();
+    if (S.live && S.db && S.canWrite) S.db.doc('actions/' + i.key).set(doc).catch(function () { delete S.actions[i.key]; renderAll(); });
+  }
   function undoAction(key) {
     delete S.actions[key]; renderAll();
     if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).delete().catch(function () {});
@@ -580,7 +606,7 @@ textarea{min-height:84px;resize:vertical}
     b.hidden = false; var f = reds[0];
     b.appendChild(led('urgent', true));
     b.appendChild(h('div', null, h('div', { class: 'what', text: f.title }), h('div', { class: 'sub', text: nameOf(f.agent) + ' · ' + ago(f.raisedAt) + (reds.length > 1 ? ' · ' + (reds.length - 1) + ' more urgent' : '') })));
-    var acts = h('div', { class: 'sacts' }); acts.appendChild(seenBtn(f)); b.appendChild(acts);
+    var acts = h('div', { class: 'sacts' }); zzz(acts, f); if (!zzzOpen[f.key]) acts.appendChild(seenBtn(f)); b.appendChild(acts);
   }
   function openLabel(url) { return /superhuman\.com/.test(url) ? 'Open in Superhuman' : 'Open'; }
   var openDrafts = {};
@@ -596,7 +622,7 @@ textarea{min-height:84px;resize:vertical}
       main.setAttribute('aria-label', WORD[i.light] + ', ' + nameOf(i.agent) + ': ' + i.title);
       var acts = h('span', { class: 'sacts' });
       if (i.link) acts.appendChild(h('a', { class: 'mini', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
-      acts.appendChild(seenBtn(i));
+      zzz(acts, i); if (!zzzOpen[i.key]) acts.appendChild(seenBtn(i));
       ol.appendChild(h('li', null, main, acts));
     });
     $('#strip-count').textContent = items.length ? items.length + ' open' : '';
@@ -742,6 +768,7 @@ textarea{min-height:84px;resize:vertical}
     var done = h('button', { class: 'mini', text: 'Done', 'data-act': 'done', 'data-key': i.key }); done.disabled = !S.canWrite;
     var fu = h('button', { class: 'mini', text: 'Follow up', 'data-act': 'followup', 'data-key': i.key }); fu.disabled = !S.canWrite;
     acts.appendChild(done); acts.appendChild(fu);
+    zzz(acts, i);
     if (!i.seen) acts.appendChild(seenBtn(i));
     var row = h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't', text: i.title + ' · ' + ago(i.raisedAt) }), acts);
     if (i.preview && openDrafts[i.key]) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'To: ' + ((i.preview.to || []).join(', ') || 'blank, add before sending') }), '\n' + i.preview.text + '\n\nNothing sends from here. Proof it, then open Superhuman to edit and send.'));
@@ -839,12 +866,12 @@ textarea{min-height:84px;resize:vertical}
     if (a.taskSince) blot.appendChild(h('p', { class: 'small', text: 'Since ' + ago(a.taskSince) + ' · last heard ' + ago(a.lastHeard) }));
     if (e.stale) blot.appendChild(h('p', { class: 'small', text: 'Stale: ' + e.staleWhy + '.' }));
     if (e.items.length) { blot.appendChild(h('h3', { text: 'Needs you' })); e.items.forEach(function (i) { blot.appendChild(itemRow(i)); }); }
-    var later = Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return x.agent === a.id; }).sort(function (x, y) { return t(y.at) - t(x.at); });
+    var later = Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return x.agent === a.id && acted(x.key); }).sort(function (x, y) { return t(y.at) - t(x.at); });
     if (later.length) {
-      blot.appendChild(h('h3', { text: 'Done and follow-ups' }));
+      blot.appendChild(h('h3', { text: 'Done, follow-ups and snoozed' }));
       later.slice(0, 8).forEach(function (x) {
         var u = h('button', { class: 'mini', text: 'Undo', 'data-undo': x.key }); u.disabled = !S.canWrite;
-        blot.appendChild(h('div', { class: 'item' }, h('span', { class: 'role', text: x.action === 'done' ? 'Done' : 'Follow up' }), h('span', { class: 't', text: x.title + ' · ' + ago(x.at) + (x.applied ? ' · Radar applied it' : ' · Radar applies it next sweep') }), u));
+        blot.appendChild(h('div', { class: 'item' }, h('span', { class: 'role', text: x.action === 'done' ? 'Done' : x.action === 'snooze' ? 'Zzz' : 'Follow up' }), h('span', { class: 't', text: x.title + ' · ' + (x.action === 'snooze' ? 'back ' + untilLabel(x.until) : ago(x.at) + (x.applied ? ' · Radar applied it' : ' · Radar applies it next sweep')) }), u));
       });
     }
     blot.appendChild(h('h3', { text: 'Last five' }));
