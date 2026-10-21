@@ -55,6 +55,8 @@ Kev, 21 Oct: every ready draft gets a Superhuman link, so he can send it from Su
 
 Each sweep, after step 5:
 1. **Tickets.** `ArtifactData list tickets`. For each `open` ticket, set it to `picked`, run the agent and write back `done` with `result {summary, link}`. If the work would send, spend or publish, set it to `gated` with `proposed {kind, exact}` and the QC id. A ticket is delegation, never approval.
+   - **Photo tickets:** a ticket with `attachments: [{asset}]` carries a photo Kev took. Fetch each one with `Artifact read` (the Office url, `path` = the asset id), Read the saved image, then do the ask.
+   - **Blank-note photos:** with no ask beyond "make sense of it", Radar decides where the photo belongs: a ledger row, an agent's ticket, the Hub (names and roles only), or a note to Kev.
 2. **Actions.** `ArtifactData list actions` where `applied` is false. Apply each one Kev tapped:
    - **`done`:** close the source item. A QC item becomes `npm run qc -- reject <id> "handled by Kev outside the queue (Office, <date>)"`; never approve. A ledger row becomes Status Done.
    - **`followup`:** a ledger row with Lane Waiting on, Owner Kev and a due date 7 days out, Source "Eden Office follow-up".
