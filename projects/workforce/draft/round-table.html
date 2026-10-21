@@ -270,7 +270,7 @@ a.go{font-weight:700}
       box.appendChild(h('div', { class: 'empty', text: S.live ? (S.peopleLoaded ? 'No folders yet. Radar adds each person once Kev confirms the roster.' : 'Loading folders…') : 'Open this page in Claude to load the Round Table.' }));
       return box;
     }
-    var groups = [['headhunter', 'Headhunters'], ['incoming', 'Incoming'], ['ops', 'Operations']];
+    var groups = [['lead', 'Leadership'], ['headhunter', 'Headhunters'], ['incoming', 'Incoming'], ['ops', 'Operations']];
     var known = groups.map(function (g) { return g[0]; });
     groups.push(['other', 'Other']);
     groups.forEach(function (g) {
