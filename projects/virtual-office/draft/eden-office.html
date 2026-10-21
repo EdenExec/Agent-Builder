@@ -237,7 +237,10 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .now{font-size:15px;font-weight:600;overflow-wrap:anywhere;margin:0}
 .item{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 8px;align-items:start;border-top:1px solid var(--line);padding-top:8px;font-size:13px}
 .item>.led{margin-top:4px}
+.item .why{display:block;font:500 10.5px/1.4 var(--mono);color:var(--mute);letter-spacing:.03em}
 .item>.sacts,.item>button,.item>.draft{grid-column:2;justify-self:start;flex-wrap:wrap}
+.item>.sacts{justify-content:flex-start}
+.panel-b.wide-tray{grid-template-columns:1.6fr 1fr .9fr}
 .item>.draft{justify-self:stretch;max-height:340px;overflow:auto}
 .item .t{overflow-wrap:anywhere}
 .scroll{overflow-x:auto}
@@ -486,7 +489,7 @@ textarea{min-height:84px;resize:vertical}
       if (acted(a.id)) return;                             // Kev marked it done, moved it to follow-up, or snoozed it
       var seen = isSeen(a.id);
       if (seen && a.light !== 'urgent') return;           // seen clears everything but red; red holds steady until the source resolves
-      out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link, preview: a.preview, agent: id });
+      out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link, preview: a.preview, rank: a.rank, why: a.why, kind: a.kind, agent: id });
     });
     Object.keys(S.tickets).forEach(function (k) {
       var tk = S.tickets[k]; if (tk.agent !== id || ticketHidden(tk)) return;
@@ -771,7 +774,7 @@ textarea{min-height:84px;resize:vertical}
     acts.appendChild(done); acts.appendChild(fu);
     zzz(acts, i);
     if (!i.seen) acts.appendChild(seenBtn(i));
-    var row = h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't', text: i.title + ' · ' + ago(i.raisedAt) }), acts);
+    var row = h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't' }, (i.rank != null ? '#' + i.rank + ' ' : '') + i.title + ' · ' + ago(i.raisedAt), i.why ? h('small', { class: 'why', text: i.why }) : null), acts);
     if (i.preview && openDrafts[i.key]) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'To: ' + ((i.preview.to || []).join(', ') || 'blank, add before sending') }), '\n' + i.preview.text + '\n\nNothing sends from here. Proof it, then open Superhuman to edit and send.'));
     return row;
   }
@@ -851,11 +854,19 @@ textarea{min-height:84px;resize:vertical}
   function deskSheet(p, a) {
     var e = effective(a), hide = hidden(a);
     p.appendChild(head(a.name, hide ? 'idle' : e.light, (a.role || '') + ' · ' + (hide ? 'Hidden' : stateChip(e.light, e)) + ' · heard ' + short(a.lastHeard)));
-    var body = h('div', { class: 'panel-b' }); p.appendChild(body);
+    var body = h('div', { class: 'panel-b' + (a.id === 'host' ? ' wide-tray' : '') }); p.appendChild(body);
     if (hide) { body.className = 'panel-b one'; body.appendChild(h('section', null, h('p', { class: 'small', text: 'Hidden in Screen share mode.' }))); return; }
     var mine = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id; }).sort(function (x, y) { return t(y.createdAt) - t(x.createdAt); }).slice(0, 8);
     var naps = snoozedFor(a.id);
-    var tray = h('section', null, h('h3', { text: 'In tray · ' + (a.openTickets || 0) + ' open' + (naps.length ? ' · ' + naps.length + ' snoozed' : '') })); var ul = h('ul');
+    var answer = a.id === 'host' ? e.items.filter(function (i) { return i.light === 'reply'; }).sort(function (x, y) { return ((x.rank == null ? 99 : x.rank) - (y.rank == null ? 99 : y.rank)) || (t(x.raisedAt) - t(y.raisedAt)); }) : [];
+    var tray = h('section', null, h('h3', { text: 'In tray · ' + (a.openTickets || 0) + ' open' + (naps.length ? ' · ' + naps.length + ' snoozed' : '') }));
+    if (a.id === 'host') {
+      tray.appendChild(h('h3', { text: 'To answer · ranked by Jenny · ' + answer.length }));
+      if (answer.length) answer.forEach(function (i) { tray.appendChild(itemRow(i)); });
+      else tray.appendChild(h('p', { class: 'small', text: 'Nothing waiting on your reply. Jenny ranks new ones each sweep, with a draft ready in Superhuman.' }));
+      tray.appendChild(h('h3', { text: 'Tickets' }));
+    }
+    var ul = h('ul');
     mine.forEach(function (x) {
       var li = h('li', { class: 'ticket' }, x.ask, h('small', { text: x.status + ' · ' + x.priority + (x.due ? ' · due ' + x.due : '') + ' · from Kev · ' + ago(x.createdAt) }));
       (x.attachments || []).forEach(function (f) { if (f && f.asset) li.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f.asset, alt: 'Photo sent with this ticket' })); });
@@ -873,7 +884,8 @@ textarea{min-height:84px;resize:vertical}
     var blot = h('section', null, h('h3', { text: 'Blotter · now' }), h('p', { class: 'now', text: a.task || 'No task posted' }));
     if (a.taskSince) blot.appendChild(h('p', { class: 'small', text: 'Since ' + ago(a.taskSince) + ' · last heard ' + ago(a.lastHeard) }));
     if (e.stale) blot.appendChild(h('p', { class: 'small', text: 'Stale: ' + e.staleWhy + '.' }));
-    if (e.items.length) { blot.appendChild(h('h3', { text: 'Needs you' })); e.items.forEach(function (i) { blot.appendChild(itemRow(i)); }); }
+    var need = a.id === 'host' ? e.items.filter(function (i) { return i.light !== 'reply'; }) : e.items;
+    if (need.length) { blot.appendChild(h('h3', { text: 'Needs you' })); need.forEach(function (i) { blot.appendChild(itemRow(i)); }); }
     var later = Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return x.agent === a.id && x.action !== 'snooze' && acted(x.key); }).sort(function (x, y) { return t(y.at) - t(x.at); });
     if (later.length) {
       blot.appendChild(h('h3', { text: 'Done and follow-ups' }));
@@ -1156,6 +1168,8 @@ textarea{min-height:84px;resize:vertical}
     function al(id, agent, light, kind, title, ms) { S.alerts[id] = { id: id, agent: agent, light: light, kind: kind, title: title, source: 'example', raisedAt: iso(ms), needsKev: true, sensitive: SENS.indexOf(agent) >= 0 }; }
     al('e1', 'radar', 'urgent', 'call', 'Missed call: a client contact (example)', 12 * MIN);
     al('e2', 'scout', 'reply', 'inbox', 'Reply (team): lead sheet question (example)', 40 * MIN);
+    al('j1', 'host', 'reply', 'inbox', 'A client contact: Re: shortlist timing (example)', 25 * MIN); S.alerts.j1.rank = 1; S.alerts.j1.why = 'Client waiting on dates for interviews; draft ready (example)'; S.alerts.j1.link = 'https://mail.superhuman.com/'; S.alerts.j1.preview = { to: ['client (example)'], text: 'Hi there,\n\nThursday or Friday works on our side. (example)' };
+    al('j2', 'host', 'reply', 'inbox', 'A candidate: offer questions (example)', 2 * HOUR); S.alerts.j2.rank = 2; S.alerts.j2.why = 'Candidate deciding this week (example)';
     al('e3', 'dean', 'review', 'qc', 'send message: draft ready to read (example)', 3 * HOUR);
     S.alerts.e3.preview = { to: [], text: 'Subject: Next steps (example)\n\nHi there,\n\nThis is where the draft text shows for proofing. (example)' };
     al('e4', 'tally', 'blocked', 'blocked', 'Blocked: QuickBooks sign-in expired (example)', DAY);

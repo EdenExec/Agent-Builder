@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { buildFeed, buildAlerts, buildAgents, findUnused, planWrites, chunk, scrub, type SyncInput } from "./office.ts";
+import { buildFeed, buildAlerts, buildAgents, findUnused, planWrites, chunk, scrub, type SyncInput, SUPERHUMAN_URL } from "./office.ts";
 import type { QcItem } from "./qc.ts";
 import type { GateRecord } from "./numbers-gate.ts";
 
@@ -28,10 +28,20 @@ describe("office lights", () => {
     assert.equal(a.length, 1);
     assert.equal(a[0]!.light, "blocked");
   });
+  test("inbox replies land on Jenny's desk by default, ranked, with her draft linked to Superhuman", () => {
+    const a = buildAlerts(base({ inbox: [{ title: "Re: shortlist", from: "A Client", rank: 1, why: "Waiting on dates", raisedAt: "2026-10-21T17:00:00Z", draft: { id: "d1" }, preview: "Hi, call me at (555) 123-4567" }] }));
+    const r = a.find((x) => x.kind === "inbox")!;
+    assert.equal(r.agent, "host");
+    assert.equal(r.rank, 1);
+    assert.equal(r.link, SUPERHUMAN_URL);
+    assert.ok(r.title.startsWith("A Client: "));
+    assert.ok(!r.preview!.text.includes("555"));
+  });
+
   test("priority: urgent beats reply beats review beats blocked beats working", () => {
     const input = base({
       qc: [qcItem({ id: "r", employee: "radar", kind: "send_message" })],
-      inbox: [{ title: "Evan: submittal question", kind: "team", raisedAt: "2026-10-21T17:00:00Z" }],
+      inbox: [{ agent: "radar", title: "Evan: submittal question", kind: "team", raisedAt: "2026-10-21T17:00:00Z" }],
       nowFiles: { radar: { state: "working", task: "Sweep", updated: "2026-10-21T17:30:00Z" } },
     });
     const radar = () => buildAgents(input, buildAlerts(input)).find((x) => x.id === "radar")!;

@@ -64,3 +64,14 @@ Jenny may: read everything, label and move threads, archive clear noise, draft r
 ## Draft age (Kev, 8 October 2026)
 
 Kev wants his drafts out faster. Each hand-over includes drafts waiting on Kev and the oldest draft's age. Radar escalates a draft older than 24 hours onto the paper and older than 72 hours as an interrupt; Jenny keeps the drafts short enough that he can send them from his phone.
+
+## The "To answer" list on Jenny's desk (Kev, 21 October 2026)
+
+Kev: "Jenny could organize most important messages I need to respond to here."
+
+After each sweep, Jenny hands Radar one ranked list of the threads only Kev can answer:
+- **Ranking:** 1 means answer first. Clients waiting on a decision or dates come first, then candidates deciding this week, then team, then the rest.
+- **Format:** each entry is `{title, from, why, rank, kind, raisedAt, draft: {id, subject}, preview}`.
+  - `why` is one line: what's at stake and what the draft says.
+  - `preview` is the text of her draft reply.
+- **Sync:** Radar passes the list as `npm run office -- sync --inbox <file>`. Each entry shows on Jenny's desk under "To answer · ranked by Jenny" with "Read draft", "Open in Superhuman", Done, Follow up and Zzz. Keep it to the ones that matter, never the whole inbox.

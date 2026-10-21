@@ -3,7 +3,7 @@
 // npm run office -- sync [--out .office-outbox]      write batch-<n>.json files (each {"writes":[...]}, at most 50) for Radar to push
 //   optional inputs Radar gathers in a connector session, each a JSON file:
 //   --ledger rows.json     [{id,item,owner,lane,due,status,url}]   from the saved view "Radar · All open"
-//   --inbox replies.json   [{agent?,title,kind?,raisedAt,url?}]    replies Kev owes, from the inbox sweep (names only, no bodies)
+//   --inbox replies.json   [{agent?,title,from?,why?,rank?,kind?,raisedAt,url?,draft?,preview?}]  replies Kev owes, ranked by Jenny (preview = her draft reply)
 //   --calls missed.json    [{who,company?,at,returned?}]           ranked missed calls (no phone numbers)
 //   --runs runs.json       [{routine,agent?,lastRunAt?,ok,note?}]  last result of each routine
 //   --tickets tickets.json [{id,agent,status,pickedAt?,priority?}] ArtifactData query of the tickets collection

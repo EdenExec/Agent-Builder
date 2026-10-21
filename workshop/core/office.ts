@@ -36,7 +36,8 @@ export const SENSITIVE_AGENTS = new Set(["tally", "docket", "atlas", "housing-ar
 export type AgentLite = { id: string; name: string; title?: string };
 export type NowFile = { task?: string; since?: string; state?: "working" | "idle" | "blocked"; blockedOn?: string; updated?: string };
 export type LedgerRow = { id?: string; item: string; owner: string; lane?: string; due?: string; status?: string; url?: string };
-export type InboxItem = { agent?: string; title: string; kind?: "client" | "team" | "candidate"; raisedAt: string; url?: string };
+/** A message Kev should answer, ranked by Jenny in the inbox sweep. `draft` is her reply waiting in Superhuman Drafts; `preview` its text. */
+export type InboxItem = { agent?: string; title: string; from?: string; why?: string; rank?: number; kind?: "client" | "team" | "candidate"; raisedAt: string; url?: string; draft?: { id: string; subject?: string }; preview?: string };
 export type CallItem = { who: string; company?: string; at: string; returned?: boolean };
 export type RunResult = { routine: string; agent?: string; lastRunAt?: string; ok: boolean; note?: string };
 export type TicketLite = { id: string; agent: string; status: string; pickedAt?: string; priority?: string };
@@ -73,6 +74,9 @@ export type Alert = {
   link?: string;
   /** send_message items: the draft to proof in the Office before opening Superhuman (phone numbers removed). */
   preview?: { to: string[]; text: string };
+  /** Inbox replies: Jenny's rank (1 = answer first) and her one-line why. */
+  rank?: number;
+  why?: string;
 };
 
 export type AgentDoc = {
@@ -152,7 +156,12 @@ export function buildAlerts(input: SyncInput): Alert[] {
   }
 
   for (const m of input.inbox ?? []) {
-    add({ id: `sync-inbox-${slug(m.title)}-${isoDay(new Date(m.raisedAt))}`, agent: m.agent ?? "radar", light: "reply", kind: "inbox", needsKev: true, raisedAt: m.raisedAt, source: "inbox sweep", link: m.url, title: `Reply${m.kind ? ` (${m.kind})` : ""}: ${scrub(m.title, 70)}` });
+    add({
+      id: `sync-inbox-${slug(m.title)}-${isoDay(new Date(m.raisedAt))}`, agent: m.agent ?? "host", light: "reply", kind: "inbox", needsKev: true, raisedAt: m.raisedAt, source: "inbox sweep",
+      link: m.draft ? SUPERHUMAN_URL : m.url, title: `${m.from ? scrub(m.from, 30) + ": " : `Reply${m.kind ? ` (${m.kind})` : ""}: `}${scrub(m.title, 70)}`,
+      ...(m.rank != null ? { rank: m.rank } : {}), ...(m.why ? { why: scrub(m.why, 120) } : {}),
+      ...(m.preview ? { preview: { to: m.from ? [m.from] : [], text: String(m.preview).replace(/\(?\+?\d[\d\s().-]{8,}\d/g, "[number]").slice(0, 4000) } } : {}),
+    });
   }
   for (const c of input.calls ?? []) {
     if (c.returned) continue;
