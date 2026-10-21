@@ -236,7 +236,8 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .now{font-size:15px;font-weight:600;overflow-wrap:anywhere;margin:0}
 .item{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 8px;align-items:start;border-top:1px solid var(--line);padding-top:8px;font-size:13px}
 .item>.led{margin-top:4px}
-.item>.sacts,.item>button{grid-column:2;justify-self:start;flex-wrap:wrap}
+.item>.sacts,.item>button,.item>.draft{grid-column:2;justify-self:start;flex-wrap:wrap}
+.item>.draft{justify-self:stretch;max-height:340px;overflow:auto}
 .item .t{overflow-wrap:anywhere}
 .scroll{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-size:12.5px}
@@ -485,7 +486,7 @@ textarea{min-height:84px;resize:vertical}
       if (S.actions[a.id]) return;                         // Kev marked it done or moved it to follow-up
       var seen = isSeen(a.id);
       if (seen && a.light !== 'urgent') return;           // seen clears everything but red; red holds steady until the source resolves
-      out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link, agent: id });
+      out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link, preview: a.preview, agent: id });
     });
     Object.keys(S.tickets).forEach(function (k) {
       var tk = S.tickets[k]; if (tk.agent !== id || ticketHidden(tk)) return;
@@ -581,7 +582,8 @@ textarea{min-height:84px;resize:vertical}
     b.appendChild(h('div', null, h('div', { class: 'what', text: f.title }), h('div', { class: 'sub', text: nameOf(f.agent) + ' · ' + ago(f.raisedAt) + (reds.length > 1 ? ' · ' + (reds.length - 1) + ' more urgent' : '') })));
     var acts = h('div', { class: 'sacts' }); acts.appendChild(seenBtn(f)); b.appendChild(acts);
   }
-  function openLabel(url) { return /superhuman\.com/.test(url) ? 'Send in Superhuman' : 'Open'; }
+  function openLabel(url) { return /superhuman\.com/.test(url) ? 'Open in Superhuman' : 'Open'; }
+  var openDrafts = {};
   function nameOf(id) { return S.agents[id] ? S.agents[id].name : id; }
   function renderStrip() {
     var ol = $('#strip'); ol.textContent = '';
@@ -709,7 +711,7 @@ textarea{min-height:84px;resize:vertical}
     hd.appendChild(h('h2', { id: 'sheet-title', text: title }));
     if (sub) hd.appendChild(h('span', { class: 'role', text: sub }));
     hd.appendChild(h('span', { class: 'eyebrow', text: eyebrow || (S.live ? (S.meta ? 'Synced ' + ago(S.meta.syncedAt) : 'Live') : 'Example data') }));
-    hd.appendChild(h('button', { class: 'stand', 'data-stand': '', text: 'Stand up' }));
+    hd.appendChild(h('button', { class: 'stand', 'data-stand': '', text: 'Stand up · Esc', title: 'Back to the floor (Esc)' }));
     return hd;
   }
   function ticketForm(agentId, withAgent) {
@@ -736,11 +738,14 @@ textarea{min-height:84px;resize:vertical}
   function itemRow(i) {
     var acts = h('span', { class: 'sacts', style: 'padding:0' });
     if (i.link) acts.appendChild(h('a', { class: 'mini', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
+    if (i.preview) { var rd = h('button', { class: 'mini', text: openDrafts[i.key] ? 'Hide draft' : 'Read draft' }); rd.addEventListener('click', function () { openDrafts[i.key] = !openDrafts[i.key]; S.forceSheet = true; renderSheet(); }); acts.insertBefore(rd, acts.firstChild); }
     var done = h('button', { class: 'mini', text: 'Done', 'data-act': 'done', 'data-key': i.key }); done.disabled = !S.canWrite;
     var fu = h('button', { class: 'mini', text: 'Follow up', 'data-act': 'followup', 'data-key': i.key }); fu.disabled = !S.canWrite;
     acts.appendChild(done); acts.appendChild(fu);
     if (!i.seen) acts.appendChild(seenBtn(i));
-    return h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't', text: i.title + ' · ' + ago(i.raisedAt) }), acts);
+    var row = h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't', text: i.title + ' · ' + ago(i.raisedAt) }), acts);
+    if (i.preview && openDrafts[i.key]) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'To: ' + ((i.preview.to || []).join(', ') || 'blank, add before sending') }), '\n' + i.preview.text + '\n\nNothing sends from here. Proof it, then open Superhuman to edit and send.'));
+    return row;
   }
   /* ---------- quick chat: the fast model, briefed with this desk's status; notes save to chats/{agent}/messages ---------- */
   function chatPrompt(a, text) {
@@ -1016,7 +1021,8 @@ textarea{min-height:84px;resize:vertical}
     if (el.id === 'radar') return openSheet('desk', 'radar', el);
     var id = el.getAttribute('data-id'); if (id) { var a = S.agents[id]; if (a && hidden(a) && el.classList.contains('smain')) return; openSheet('desk', id, $('.desk[data-id="' + id + '"]') || $('#radar')); }
   });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') stand(); });
+  /* Esc stands up from any desk, bench or lever, even while typing in the chat; captured first so nothing inside the sheet can swallow it */
+  window.addEventListener('keydown', function (e) { if ((e.key === 'Escape' || e.key === 'Esc') && S.sheet) { e.preventDefault(); stand(); } }, true);
   function toggle(btn, apply, key) {
     btn.addEventListener('click', function () {
       var on = btn.getAttribute('aria-pressed') !== 'true'; btn.setAttribute('aria-pressed', String(on)); apply(on);
@@ -1077,6 +1083,7 @@ textarea{min-height:84px;resize:vertical}
     al('e1', 'radar', 'urgent', 'call', 'Missed call: a client contact (example)', 12 * MIN);
     al('e2', 'scout', 'reply', 'inbox', 'Reply (team): lead sheet question (example)', 40 * MIN);
     al('e3', 'dean', 'review', 'qc', 'send message: draft ready to read (example)', 3 * HOUR);
+    S.alerts.e3.preview = { to: [], text: 'Subject: Next steps (example)\n\nHi there,\n\nThis is where the draft text shows for proofing. (example)' };
     al('e4', 'tally', 'blocked', 'blocked', 'Blocked: QuickBooks sign-in expired (example)', DAY);
     al('e5', 'q', 'blocked', 'routine', 'Routine "CloudTalk nightly lead load" has no trigger yet (example)', 2 * DAY);
     S.tickets = {

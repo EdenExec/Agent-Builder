@@ -71,6 +71,8 @@ export type Alert = {
   /** Hidden under Screen-share. */
   sensitive: boolean;
   link?: string;
+  /** send_message items: the draft to proof in the Office before opening Superhuman (phone numbers removed). */
+  preview?: { to: string[]; text: string };
 };
 
 export type AgentDoc = {
@@ -119,6 +121,7 @@ export function buildAlerts(input: SyncInput): Alert[] {
     add({
       id: `sync-qc-${q.id}`, agent: q.employee, light, kind: "qc", needsKev: true, raisedAt: q.createdAt, source: `qc/${q.id}`,
       ...(q.draft ? { link: SUPERHUMAN_URL } : {}),
+      ...(q.kind === "send_message" ? { preview: { to: q.recipients ?? [], text: String(q.detail ?? "").replace(/\(?\+?\d[\d\s().-]{8,}\d/g, "[number]").slice(0, 4000) } } : {}),
       title: q.draft ? `Draft ready in Superhuman${overdue ? " (waiting 5+ days)" : ""}: ${scrub(q.draft.subject ?? q.summary, 80)}` : `${q.kind.replace("_", " ")}${overdue ? " (waiting 5+ days)" : ""}: ${scrub(q.summary, 80, q.kind === "spend")}`,
     });
   }
