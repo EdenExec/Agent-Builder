@@ -83,8 +83,8 @@ a{color:inherit}
   grid-template-columns:repeat(12,minmax(0,1fr));
   grid-template-areas:
    "rec rec rec rec rec rev rev fin fin fin fin fin"
-   "ppl ppl ppl q   q   rad rad rad fam fam fam fam"
-   "cli cli cli q   q   rad rad rad fam fam fam fam";
+   "ppl ppl ppl ppl ppl rad rad rad fam fam fam fam"
+   "cli cli cli cli cli rad rad rad fam fam fam fam";
   transition:opacity .24s, transform .32s cubic-bezier(.2,.7,.2,1)}
 .floor.sitting{opacity:.28;transform:scale(1.025)}
 .glaze{position:absolute;top:-3px;height:3px;background:var(--floor);border-top:1px solid var(--wall);border-bottom:1px solid var(--wall)}
@@ -93,7 +93,7 @@ a{color:inherit}
 .sun{position:absolute;bottom:0;height:44%;width:26%;background:var(--sun);pointer-events:none;transform-origin:bottom center;z-index:0;transition:left 2s,transform 2s}
 .zone{position:relative;z-index:1;min-width:0;display:flex;flex-direction:column;gap:12px;padding:12px;border:1px dashed var(--line)}
 .zone>.eyebrow{display:flex;justify-content:space-between;gap:8px}
-.z-rec{grid-area:rec} .z-rev{grid-area:rev} .z-fin{grid-area:fin} .z-ppl{grid-area:ppl} .z-q{grid-area:q} .z-cli{grid-area:cli}
+.z-rec{grid-area:rec} .z-rev{grid-area:rev} .z-fin{grid-area:fin} .z-ppl{grid-area:ppl} .z-cli{grid-area:cli}
 .z-rad{grid-area:rad;border:0;padding:0;justify-content:center}
 .z-fam{grid-area:fam;border:2px solid var(--wall);border-left-width:3px;padding:14px}
 .z-fam::before{content:"";position:absolute;left:-3px;top:38%;height:56px;width:3px;background:var(--floor)}
@@ -257,7 +257,7 @@ textarea{min-height:84px;resize:vertical}
 .dock .key{padding:9px 6px;text-align:center}
 
 @media (max-width:820px){
-  .floor{grid-template-columns:minmax(0,1fr);grid-template-areas:"rad" "rec" "fin" "rev" "ppl" "q" "cli" "fam";padding:14px;gap:14px}
+  .floor{grid-template-columns:minmax(0,1fr);grid-template-areas:"rad" "rec" "fin" "rev" "ppl" "cli" "fam";padding:14px;gap:14px}
   .desks{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .desk{min-height:96px;padding:10px}
   .plate{font-size:12px}
@@ -331,7 +331,7 @@ textarea{min-height:84px;resize:vertical}
       </section>
 
       <section class="zone z-fin private" data-zone="fin">
-        <span class="eyebrow"><span>03 · Finance and risk</span><span>Two keys</span></span>
+        <span class="eyebrow"><span>03 · Finance, risk and comms</span><span>Two keys</span></span>
         <div id="b-fin" class="slot"></div>
         <div class="desks" id="d-fin"></div>
         <div class="closed">Closed for screen share</div>
@@ -342,10 +342,6 @@ textarea{min-height:84px;resize:vertical}
         <div id="b-ppl" class="slot"></div>
       </section>
 
-      <section class="zone z-q" data-zone="q">
-        <span class="eyebrow"><span>05 · Engineering</span></span>
-        <div class="desks" id="d-q"></div>
-      </section>
 
       <section class="zone z-cli" data-zone="cli">
         <span class="eyebrow"><span>06 · Client work</span><span>Link only</span></span>
@@ -432,7 +428,7 @@ textarea{min-height:84px;resize:vertical}
     { id: 'cloudtalk', name: 'CloudTalk phone', url: 'https://phone.cloudtalk.io' },
     { id: 'crelate', name: 'Crelate', url: 'https://app.crelate.com' }
   ];
-  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['hub'], host: ['eden-desk'], tally: ['quickbooks', 'gusto', 'hub'], docket: ['quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'] };
+  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['hub'], host: ['eden-desk', 'hub'], tally: ['quickbooks', 'gusto', 'hub'], docket: ['quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'] };
   var BENCH_TOOLS = { recruiting: ['hub'], depth: ['hub'], revenue: ['hub', 'quickbooks'], university: ['hub'], finance: ['quickbooks', 'gusto', 'hub'], client: ['hub', 'cloudtalk', 'crelate'], family: ['atlas-desk', 'marlowe-desk'] };
   /* Bench skeletons: the floor always has its benches; docs in `benches/` fill in the figures. */
   var BENCH_DEFS = [
@@ -635,10 +631,11 @@ textarea{min-height:84px;resize:vertical}
   }
 
   /* ---------- the floor ---------- */
-  var ZONE_OF = { q: 'q', radar: 'rad', recruiting: 'rec', finance: 'fin', family: 'fam', other: 'rec' };
-  var AGENT_ORDER = ['scout', 'dean', 'host', 'tally', 'docket', 'q', 'atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];
+  var ZONE_OF = { radar: 'rad', recruiting: 'rec', finance: 'fin', family: 'fam', other: 'rec' };
+  var AGENT_ORDER = ['scout', 'dean', 'q', 'tally', 'docket', 'host', 'atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];
   var WING = ['atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];   // the KDTW wing: private, closes whole under Screen share
-  function zoneOf(a) { return a.id === 'q' ? 'q' : (WING.indexOf(a.id) >= 0 ? 'fam' : (ZONE_OF[a.desk] || 'rec')); }
+  var SEAT = { q: 'rec', host: 'fin' };   // Kev, 21 Oct: Q takes Host's old seat on the recruiting desk; Jenny (host) sits by Docket
+  function zoneOf(a) { return SEAT[a.id] || (WING.indexOf(a.id) >= 0 ? 'fam' : (ZONE_OF[a.desk] || 'rec')); }
   function isDusk() { var d = new Date(), x = d.getHours() + d.getMinutes() / 60; return !(x >= 7.5 && x <= 18.5); }
 
   function deskEl(a) {
@@ -695,7 +692,7 @@ textarea{min-height:84px;resize:vertical}
   function renderFloor() {
     var focus = document.activeElement && (document.activeElement.getAttribute('data-id') || document.activeElement.getAttribute('data-bench'));
     var focusIsBench = document.activeElement && document.activeElement.hasAttribute('data-bench');
-    ['rec', 'fin', 'q', 'fam'].forEach(function (z) { $('#d-' + z).textContent = ''; });
+    ['rec', 'fin', 'fam'].forEach(function (z) { $('#d-' + z).textContent = ''; });
     var list = Object.keys(S.agents).map(function (k) { return S.agents[k]; }).filter(function (a) { return a.id !== 'radar'; })
       .sort(function (x, y) { var i = AGENT_ORDER.indexOf(x.id), j = AGENT_ORDER.indexOf(y.id); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j); });
     list.forEach(function (a) { var z = zoneOf(a); if (z === 'rad') z = 'rec'; var box = $('#d-' + z); if (box) box.appendChild(deskEl(a)); });
@@ -1146,7 +1143,7 @@ textarea{min-height:84px;resize:vertical}
     ag('radar', 'Radar', 'centre', 'Chief of staff', { task: 'Hourly sweep (example)', counts: { working: 1 }, lastHeard: iso(30 * MIN), expectedEveryHours: 30, openTickets: 2 });
     ag('scout', 'Scout', 'recruiting', 'Lead research', { task: "Tonight's lead buckets (example)", lastHeard: iso(HOUR), openTickets: 1 });
     ag('dean', 'Dean', 'recruiting', 'Workforce', { task: 'Friday scorecard prep (example)', lastHeard: iso(5 * HOUR), pendingQc: 1, openTickets: 1 });
-    ag('host', 'Host', 'recruiting', 'Events', { lastHeard: iso(8 * DAY) });
+    ag('host', 'Jenny', 'finance', 'Comms director', { lastHeard: iso(8 * DAY) });
     ag('tally', 'Tally', 'finance', 'Finance', { task: 'Month-end packet (example)', lastHeard: iso(3 * HOUR) });
     ag('docket', 'Docket', 'finance', 'Counsel and risk', { task: 'Second key on the packet (example)', counts: { working: 1 }, lastHeard: iso(30 * HOUR) });
     ag('q', 'Q', 'recruiting', 'Engineering', { task: 'Office status feed (example)', counts: { working: 1 }, lastHeard: iso(20 * MIN), pendingQc: 1 });

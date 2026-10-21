@@ -27,7 +27,7 @@ export const DEFAULT_EXPECTED_EVERY_HOURS = 96;
 
 export type Desk = "centre" | "recruiting" | "finance" | "family" | "other";
 export const DESKS: Record<string, Desk> = {
-  radar: "centre", scout: "recruiting", q: "recruiting", dean: "recruiting", host: "recruiting",
+  radar: "centre", scout: "recruiting", q: "recruiting", dean: "recruiting", host: "finance",
   tally: "finance", docket: "finance", atlas: "family", "housing-architect": "family", keys: "family", hale: "family", jethro: "family", barnabas: "family",
 };
 /** Hidden or blanked under the Screen-share switch: finance, family and the coaching desk. */
