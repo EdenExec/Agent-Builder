@@ -152,7 +152,7 @@ a{color:inherit}
 }
 
 /* benches */
-.bench{display:flex;flex-direction:column;gap:3px;text-align:left;cursor:pointer;background:var(--soft);border:1px solid var(--line);padding:10px 12px;min-width:0}
+.bench{display:flex;flex-direction:column;gap:3px;text-align:left;cursor:pointer;text-decoration:none;color:inherit;background:var(--soft);border:1px solid var(--line);padding:10px 12px;min-width:0}
 .bench:hover{border-color:var(--mute)}
 .bench b{font-weight:700;font-size:13.5px}
 .bench span{font:500 10px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
@@ -703,7 +703,9 @@ textarea{min-height:84px;resize:vertical}
     radarEl();
     ['rec', 'rev', 'fin', 'ppl', 'cli', 'fam'].forEach(function (z) { var box = $('#b-' + z); box.textContent = ''; BENCH_DEFS.filter(function (d) { return d.zone === z; }).forEach(function (d) { box.appendChild(benchEl(d)); }); });
     $('#b-cli').appendChild(quickRow());
-    if (!S.share) { var rt = toolMap()['round-table']; if (rt) { var door = h('div', { class: 'quick' }); door.appendChild(toolLink({ id: rt.id, name: 'Round Table · scorecards + coaching', url: rt.url }, 'key')); door.firstChild.style.gridColumn = '1 / -1'; $('#b-ppl').appendChild(door); } }
+    if (!S.share) { var rt = toolMap()['round-table']; if (rt) {                 // a bench like its neighbours, but it opens the Round Table page
+      var door = h('a', { class: 'bench', href: rt.url, target: '_blank', rel: 'noopener' }, h('b', { text: 'Round Table' }), h('span', { text: 'Scorecards · coaching · goals · Kev only' }));
+      door.addEventListener('click', function () { markSeen('open-' + rt.id); }); $('#b-ppl').appendChild(door); } }
     if (focus) { var back = focusIsBench ? $('[data-bench="' + focus + '"]') : $('.desk[data-id="' + focus + '"]'); if (back && back !== document.activeElement && !S.sheet) back.focus(); }
     phaseLock(); drawNotes();
   }
