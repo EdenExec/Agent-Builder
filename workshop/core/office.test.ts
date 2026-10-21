@@ -84,9 +84,9 @@ describe("staleness: a green glow on a dead agent is the worst lie", () => {
 });
 
 describe("privacy", () => {
-  test("the three KDTW wing desks (Hale, Cadence, Barnabas) sit in the family wing and are always sensitive", () => {
-    const f = buildFeed(base({ agents: [...agents, { id: "hale", name: "Hale" }, { id: "cadence", name: "Cadence" }, { id: "barnabas", name: "Barnabas" }] }));
-    for (const id of ["hale", "cadence", "barnabas"]) {
+  test("the three KDTW wing desks (Hale, Jethro, Barnabas) sit in the family wing and are always sensitive", () => {
+    const f = buildFeed(base({ agents: [...agents, { id: "hale", name: "Hale" }, { id: "jethro", name: "Jethro" }, { id: "barnabas", name: "Barnabas" }] }));
+    for (const id of ["hale", "jethro", "barnabas"]) {
       const a = f.agents.find((x) => x.id === id)!;
       assert.equal(a.desk, "family");
       assert.equal(a.sensitive, true);
@@ -162,6 +162,6 @@ describe("the page", () => {
   test("the page names the three wing desks as sensitive", async () => {
     const { readFileSync } = await import("node:fs");
     const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
-    for (const id of ["hale", "cadence", "barnabas"]) assert.ok(html.includes(`'${id}'`), id);
+    for (const id of ["hale", "jethro", "barnabas"]) assert.ok(html.includes(`'${id}'`), id);
   });
 });

@@ -20,7 +20,7 @@ One book at a time, never a stack. The plan lives in `projects/growth/reading-pl
 1. Start from need, not a list: the alignment area most Behind, a Forum counsel line, a coaching theme.
 2. Prefer what C12 itself uses or recommends, and proven leadership books Kev's peers would recognise. Give one pick and one alternative, each with two lines on why it fits now and how long it takes.
 3. If Kev already owns or is reading something, that wins.
-4. Buying the book (print, Kindle, Audible) is a `spend` QC item with the vendor and amount: `npm run qc -- submit cadence spend "Buy <title> (Kindle)" "<link, format, why now>" --amount <n>`. Never buy.
+4. Buying the book (print, Kindle, Audible) is a `spend` QC item with the vendor and amount: `npm run qc -- submit jethro spend "Buy <title> (Kindle)" "<link, format, why now>" --amount <n>`. Never buy.
 
 ## Note to practice (weekly, Friday)
 
@@ -32,7 +32,7 @@ For the chapters read that week, one line each:
 | Where it applies | A specific place in Eden or at home this coming week |
 | The rep | One action with a day ("Wednesday Headhunter Training: open with the five-minute review the book suggests") |
 
-The rep becomes a proposed ledger row handed to Radar (format in `c12-follow-through.md`, Source "Reading <title> · Cadence"). If a rep is for the team (a training change), Dean prepares the material; Kev decides.
+The rep becomes a proposed ledger row handed to Radar (format in `c12-follow-through.md`, Source "Reading <title> · Jethro"). If a rep is for the team (a training change), Dean prepares the material; Kev decides.
 
 ## Training beyond books
 

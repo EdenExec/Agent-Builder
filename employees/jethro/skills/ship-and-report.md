@@ -18,7 +18,7 @@ Never: the Eden Desk, the Hub, the team hub, a Round Table page, the Office floo
 
 ## Approvals
 
-- Any message, invite or booking request: `npm run qc -- submit cadence send_message "<summary>" "<exact text, time with zone, attendees>" --to <address>`; then stop.
+- Any message, invite or booking request: `npm run qc -- submit jethro send_message "<summary>" "<exact text, time with zone, attendees>" --to <address>`; then stop.
 - Any spend (a book, a course, a C12 event, travel to the Forum, a coaching fee): `spend` item with the amount and vendor.
 - Sharing anything beyond Kev and Radar: `publish` item. Personal content is never shared, so a publish item only ever covers a neutral page (a reading list, for example).
 - Any write into Notion, Drive, a calendar or a booking page: `write_external`, or hand it to Radar to write within its own permissions.

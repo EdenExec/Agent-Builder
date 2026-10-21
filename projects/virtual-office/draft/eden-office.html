@@ -388,8 +388,8 @@ textarea{min-height:84px;resize:vertical}
 <script>
 (function () {
   'use strict';
-  /* Data contract (collections the page reads; it writes only tickets/ and seen/):
-     agents/{id}  agents/{id}/log/{n}  alerts/{id}  seen/{key}  tickets/{id}  tools/{id}  benches/{id}  benches/{id}/rows/{rid}  meta/sync  meta/today
+  /* Data contract (collections the page reads; it writes only tickets/, seen/ and actions/):
+     agents/{id}  agents/{id}/log/{n}  alerts/{id}  actions/{key}  seen/{key}  tickets/{id}  tools/{id}  benches/{id}  benches/{id}/rows/{rid}  meta/sync  meta/today
      Spec: projects/virtual-office/research/q-architecture.md */
   var MIN = 60000, HOUR = 3600000, DAY = 86400000;
   var WORKING_FRESH_H = 4;
@@ -414,7 +414,7 @@ textarea{min-height:84px;resize:vertical}
     { id: 'quickbooks', name: 'QuickBooks', url: 'https://qbo.intuit.com' },
     { id: 'gusto', name: 'Gusto', url: 'https://app.gusto.com' }
   ];
-  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['hub'], host: ['eden-desk'], tally: ['quickbooks', 'gusto', 'hub'], docket: ['quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], cadence: ['eden-desk'], barnabas: ['eden-desk'] };
+  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['hub'], host: ['eden-desk'], tally: ['quickbooks', 'gusto', 'hub'], docket: ['quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'] };
   var BENCH_TOOLS = { recruiting: ['hub'], depth: ['hub'], revenue: ['hub', 'quickbooks'], university: ['hub'], finance: ['quickbooks', 'gusto', 'hub'], client: ['hub'], family: ['atlas-desk', 'marlowe-desk'] };
   /* Bench skeletons: the floor always has its benches; docs in `benches/` fill in the figures. */
   var BENCH_DEFS = [
@@ -427,7 +427,7 @@ textarea{min-height:84px;resize:vertical}
     { id: 'family', zone: 'fam', title: 'Home list', sub: 'KDTW Group · family office', owner: 'Radar', sensitive: true, cls: 'bench' }
   ];
 
-  var S = { live: false, canWrite: true, share: false, agents: {}, alerts: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, tools: {}, logs: {}, meta: null, today: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
+  var S = { live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, tools: {}, logs: {}, meta: null, today: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
   var lastFrom = null;
 
   /* ---------- helpers ---------- */
@@ -469,6 +469,7 @@ textarea{min-height:84px;resize:vertical}
     var out = [];
     Object.keys(S.alerts).forEach(function (k) {
       var a = S.alerts[k]; if (a.agent !== id || (S.share && (a.sensitive || sensitiveAgent(a.agent)))) return;
+      if (S.actions[a.id]) return;                         // Kev marked it done or moved it to follow-up
       var seen = isSeen(a.id);
       if (seen && a.light !== 'urgent') return;           // seen clears everything but red; red holds steady until the source resolves
       out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link, agent: id });
@@ -476,6 +477,7 @@ textarea{min-height:84px;resize:vertical}
     Object.keys(S.tickets).forEach(function (k) {
       var tk = S.tickets[k]; if (tk.agent !== id || ticketHidden(tk)) return;
       var key = 'ticket-' + tk.id + '-' + tk.status;
+      if (S.actions[key]) return;
       if ((tk.status === 'blocked' || tk.status === 'gated') && !isSeen(key)) out.push({ light: 'blocked', title: 'Ticket needs you: ' + tk.ask, raisedAt: tk.updatedAt || tk.createdAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
       if (tk.status === 'done' && !isSeen(key)) out.push({ light: 'review', title: 'Ticket done: ' + tk.ask, raisedAt: tk.doneAt || tk.updatedAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
     });
@@ -539,6 +541,22 @@ textarea{min-height:84px;resize:vertical}
     }
   }
 
+  /* Done / Follow up on a "Needs you" item: the page records Kev's call; Radar's sweep applies it to the source (QC, ledger, routine) */
+  var pendingAct = {};
+  function markAction(key, action) {
+    var item = allItems().concat(Object.keys(S.agents).reduce(function (o, id) { return o.concat(effective(S.agents[id]).items); }, [])).filter(function (i) { return i.key === key; })[0] || {};
+    var doc = { key: key, agent: item.agent || null, title: item.title || '', action: action, at: new Date().toISOString(), by: 'kev', applied: false };
+    S.actions[key] = doc; renderAll();
+    if (S.live && S.db && S.canWrite && !pendingAct[key]) {
+      pendingAct[key] = true;
+      S.db.doc('actions/' + key).set(doc).catch(function () { delete S.actions[key]; S.flash = 'That did not save. Try again.'; renderAll(); }).then(function () { pendingAct[key] = false; });
+    }
+  }
+  function undoAction(key) {
+    delete S.actions[key]; renderAll();
+    if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).delete().catch(function () {});
+  }
+
   /* ---------- the strip, the banner ---------- */
   function seenBtn(item) { var b = h('button', { class: 'mini', text: 'Seen' }); b.disabled = !S.canWrite; b.setAttribute('data-seen', item.key); return b; }
   function renderBanner() {
@@ -572,8 +590,8 @@ textarea{min-height:84px;resize:vertical}
 
   /* ---------- the floor ---------- */
   var ZONE_OF = { q: 'q', radar: 'rad', recruiting: 'rec', finance: 'fin', family: 'fam', other: 'rec' };
-  var AGENT_ORDER = ['scout', 'dean', 'host', 'tally', 'docket', 'q', 'atlas', 'housing-architect', 'keys', 'hale', 'cadence', 'barnabas'];
-  var WING = ['atlas', 'housing-architect', 'keys', 'hale', 'cadence', 'barnabas'];   // the KDTW wing: private, closes whole under Screen share
+  var AGENT_ORDER = ['scout', 'dean', 'host', 'tally', 'docket', 'q', 'atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];
+  var WING = ['atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];   // the KDTW wing: private, closes whole under Screen share
   function zoneOf(a) { return a.id === 'q' ? 'q' : (WING.indexOf(a.id) >= 0 ? 'fam' : (ZONE_OF[a.desk] || 'rec')); }
   function isDusk() { var d = new Date(), x = d.getHours() + d.getMinutes() / 60; return !(x >= 7.5 && x <= 18.5); }
 
@@ -694,6 +712,9 @@ textarea{min-height:84px;resize:vertical}
   function itemRow(i) {
     var acts = h('span', { class: 'sacts', style: 'padding:0' });
     if (i.link) acts.appendChild(h('a', { class: 'mini', href: i.link, target: '_blank', rel: 'noopener', text: 'Open' }));
+    var done = h('button', { class: 'mini', text: 'Done', 'data-act': 'done', 'data-key': i.key }); done.disabled = !S.canWrite;
+    var fu = h('button', { class: 'mini', text: 'Follow up', 'data-act': 'followup', 'data-key': i.key }); fu.disabled = !S.canWrite;
+    acts.appendChild(done); acts.appendChild(fu);
     if (!i.seen) acts.appendChild(seenBtn(i));
     return h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't', text: i.title + ' · ' + ago(i.raisedAt) }), acts);
   }
@@ -717,6 +738,14 @@ textarea{min-height:84px;resize:vertical}
     if (a.taskSince) blot.appendChild(h('p', { class: 'small', text: 'Since ' + ago(a.taskSince) + ' · last heard ' + ago(a.lastHeard) }));
     if (e.stale) blot.appendChild(h('p', { class: 'small', text: 'Stale: ' + e.staleWhy + '.' }));
     if (e.items.length) { blot.appendChild(h('h3', { text: 'Needs you' })); e.items.forEach(function (i) { blot.appendChild(itemRow(i)); }); }
+    var later = Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return x.agent === a.id; }).sort(function (x, y) { return t(y.at) - t(x.at); });
+    if (later.length) {
+      blot.appendChild(h('h3', { text: 'Done and follow-ups' }));
+      later.slice(0, 8).forEach(function (x) {
+        var u = h('button', { class: 'mini', text: 'Undo', 'data-undo': x.key }); u.disabled = !S.canWrite;
+        blot.appendChild(h('div', { class: 'item' }, h('span', { class: 'role', text: x.action === 'done' ? 'Done' : 'Follow up' }), h('span', { class: 't', text: x.title + ' · ' + ago(x.at) + (x.applied ? ' · Radar applied it' : ' · Radar applies it next sweep') }), u));
+      });
+    }
     blot.appendChild(h('h3', { text: 'Last five' }));
     var log = (S.logs[a.id] || []).slice(0, 5), lu = h('ul', { class: 'log' });
     log.forEach(function (l) { lu.appendChild(h('li', null, h('b', { text: ago(l.at) }), ' ' + l.text)); });
@@ -879,6 +908,8 @@ textarea{min-height:84px;resize:vertical}
   var reduced = matchMedia('(prefers-reduced-motion: reduce)');
   document.addEventListener('click', function (e) {
     var sb = e.target.closest('[data-seen]'); if (sb) { markSeen(sb.getAttribute('data-seen')); return; }
+    var ab = e.target.closest('[data-act]'); if (ab) { markAction(ab.getAttribute('data-key'), ab.getAttribute('data-act')); return; }
+    var ub = e.target.closest('[data-undo]'); if (ub) { undoAction(ub.getAttribute('data-undo')); return; }
     var el = e.target.closest('[data-id],[data-stand],.bench,[data-lever],#radar');
     if (!el) return;
     if (el.hasAttribute('data-stand')) return stand();
@@ -929,7 +960,7 @@ textarea{min-height:84px;resize:vertical}
   /* ---------- example data (clearly labelled; no client names, pay, phones, family or health) ---------- */
   function exampleData() {
     var n = Date.now(), iso = function (ago) { return new Date(n - ago).toISOString(); };
-    var SENS = ['tally', 'docket', 'atlas', 'housing-architect', 'keys', 'dean', 'hale', 'cadence', 'barnabas'];
+    var SENS = ['tally', 'docket', 'atlas', 'housing-architect', 'keys', 'dean', 'hale', 'jethro', 'barnabas'];
     function ag(id, name, desk, role, o) { var a = { id: id, name: name, desk: desk, role: role, sensitive: SENS.indexOf(id) >= 0, light: 'idle', counts: {}, task: null, lastHeard: iso(2 * HOUR), pendingQc: 0, openTickets: 0, expectedEveryHours: 96, updated: iso(20 * MIN) }; for (var k in o) a[k] = o[k]; S.agents[id] = a; }
     ag('radar', 'Radar', 'centre', 'Chief of staff', { task: 'Hourly sweep (example)', counts: { working: 1 }, lastHeard: iso(30 * MIN), expectedEveryHours: 30, openTickets: 2 });
     ag('scout', 'Scout', 'recruiting', 'Lead research', { task: "Tonight's lead buckets (example)", lastHeard: iso(HOUR), openTickets: 1 });
@@ -942,7 +973,7 @@ textarea{min-height:84px;resize:vertical}
     ag('housing-architect', 'Marlowe', 'family', 'Architect', { task: 'Floor plan (example)', counts: { working: 1 }, lastHeard: iso(HOUR) });
     ag('keys', 'Keys', 'family', 'Rental ops', { lastHeard: iso(3 * DAY) });
     ag('hale', 'Hale', 'family', 'Health advisor', { task: 'Example task', counts: { working: 1 }, lastHeard: iso(2 * HOUR) });
-    ag('cadence', 'Cadence', 'family', 'Growth coach', { task: 'Example task', lastHeard: iso(6 * HOUR) });
+    ag('jethro', 'Jethro', 'family', 'Growth coach', { task: 'Example task', lastHeard: iso(6 * HOUR) });
     ag('barnabas', 'Barny', 'family', 'Spiritual advisor', { lastHeard: iso(4 * DAY) });
     function al(id, agent, light, kind, title, ms) { S.alerts[id] = { id: id, agent: agent, light: light, kind: kind, title: title, source: 'example', raisedAt: iso(ms), needsKev: true, sensitive: SENS.indexOf(agent) >= 0 }; }
     al('e1', 'radar', 'urgent', 'call', 'Missed call: a client contact (example)', 12 * MIN);
@@ -968,7 +999,7 @@ textarea{min-height:84px;resize:vertical}
     B('family', 'Radar', [{ label: 'This week', value: 'lessons and studies' }], 'Atlas Desk, Marlowe\'s Desk');
     S.logs = { q: [{ at: iso(20 * MIN), text: 'Wired the status feed (example)' }, { at: iso(2 * HOUR), text: 'Ran the dry sync (example)' }] };
   }
-  function clearData() { S.agents = {}; S.alerts = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.tools = {}; S.logs = {}; S.meta = null; S.today = null; }
+  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.tools = {}; S.logs = {}; S.meta = null; S.today = null; }
 
   /* ---------- live data: render the example first, then light up when `db` resolves (null after about 10 s: stay on the example) ---------- */
   function listen(name, fn) {
@@ -990,6 +1021,7 @@ textarea{min-height:84px;resize:vertical}
     listen('agents', function (m) { S.agents = m; });
     listen('alerts', function (m) { S.alerts = m; });
     listen('seen', function (m) { S.seen = m; });
+    listen('actions', function (m) { S.actions = m; });
     listen('tickets', function (m) { S.tickets = m; });
     listen('tools', function (m) { S.tools = m; });
     S.unsub.meta = db.doc('meta/sync').onSnapshot(function (s) { S.meta = s.exists ? s.data() : null; renderAll(); }, function () {});

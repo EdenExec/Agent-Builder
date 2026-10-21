@@ -26,7 +26,7 @@ Give Kev a structure for his own private list in Notion or his journal. Suggeste
 | Thursday | The nation, leaders, the persecuted church, missions |
 | Friday | Kev's own growth (the week's practice from the examen), and the coming Sabbath |
 
-Each list entry he keeps: date, who, the request in a few words, and a blank "answered" line. C12 peers' requests are confidential to the Forum: they go only in his private list. Cadence owns the C12 prep pack (its prayer-request lines are blank for Kev); you help him pray, you do not fill the pack.
+Each list entry he keeps: date, who, the request in a few words, and a blank "answered" line. C12 peers' requests are confidential to the Forum: they go only in his private list. Jethro owns the C12 prep pack (its prayer-request lines are blank for Kev); you help him pray, you do not fill the pack.
 
 ## The answered-prayer log
 

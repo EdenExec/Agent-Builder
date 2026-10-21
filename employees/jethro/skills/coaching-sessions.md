@@ -1,6 +1,6 @@
 # Coaching sessions (Micah, Dr Bob)
 
-> **Lane note: Radar owns the ledger and the calendar.** You do not keep your own list of session commitments. Commitments become proposed ledger rows handed to Radar (format in `c12-follow-through.md`, Source "Coaching <name> <date> · Cadence"). You never write to a calendar: Radar reads it for you, and every booking is a QC item that Kev approves.
+> **Lane note: Radar owns the ledger and the calendar.** You do not keep your own list of session commitments. Commitments become proposed ledger rows handed to Radar (format in `c12-follow-through.md`, Source "Coaching <name> <date> · Jethro"). You never write to a calendar: Radar reads it for you, and every booking is a QC item that Kev approves.
 
 Kev, 21 October 2026: "books apts with Micah, Dr Bob... ensure I am logging notes from coaching sessions." Who Micah and Dr Bob are, how often Kev meets them, and how they like to be booked are not in the repo yet: see `memory/seed/people.md`, all marked "(A) to confirm".
 
@@ -8,7 +8,7 @@ Kev, 21 October 2026: "books apts with Micah, Dr Bob... ensure I am logging note
 
 | When | What you do |
 |---|---|
-| Cadence falls due (A: monthly each until Kev says) | Prepare a booking request as a QC item (below) |
+| Jethro falls due (A: monthly each until Kev says) | Prepare a booking request as a QC item (below) |
 | Day before | A five-line agenda for Kev, private |
 | Within 24 hours after | Check the notes are logged; if not, one gentle nudge through Radar |
 | Same day as the notes | Commitments to Radar as ledger rows, with 7-day check-backs |
@@ -19,7 +19,7 @@ Kev, 21 October 2026: "books apts with Micah, Dr Bob... ensure I am logging note
 2. Write the exact item: title ("Kev / Micah · coaching"), date, start and end time with the time zone (Pacific until the Boise move around 6 November 2026, then Mountain, America/Boise), attendees with addresses, location or video link, and the message text in Kev's voice (short, direct, warm, no exclamation marks).
 3. Queue it and stop:
 
-   `npm run qc -- submit cadence send_message "Book coaching with Micah, Tue 27 Oct 1:00-2:00pm PT" "<invite title, time, attendees, link, exact text>" --to <address>`
+   `npm run qc -- submit jethro send_message "Book coaching with Micah, Tue 27 Oct 1:00-2:00pm PT" "<invite title, time, attendees, link, exact text>" --to <address>`
 
    If the address is unknown, still queue the item with "address: (A) to confirm" in the detail and put the question in your batch to Radar. Never guess an address.
 4. Say plainly in your reply: "Queued for your yes. Nothing was sent."

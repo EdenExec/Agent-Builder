@@ -34,10 +34,10 @@ Kev, 21 October 2026: "read my notes after C12 forums and enact change." The For
    Item: <change, Kev's words where possible>
    Category: Formation (or the work category if it plainly lands in Eden)
    Lane: Mine | Scheduled | Waiting on
-   Owner: Kev | Radar | <person>   (the ledger has no Cadence owner; Source names you)
+   Owner: Kev | Radar | <person>   (the ledger has no Jethro owner; Source names you)
    Due: <start or first-step date>
    Bill rate: Formation (Enabling if it changes how Eden runs)
-   Source: C12 Forum <date> · Cadence
+   Source: C12 Forum <date> · Jethro
    Next Action: <first step, who does it>
    ```
 

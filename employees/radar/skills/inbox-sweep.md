@@ -43,3 +43,13 @@ Kev: "All incoming calls in CloudTalk should just route to one number, the Googl
 2. Match each caller's number and name against Crelate (API key or Nida's weekly contact export), Superhuman contacts and signatures, the lead sheets and the ledger. Unknown numbers stay "unknown", never guessed.
 3. Rank: clients with an open job order and candidates in process (offer, interview, submittal) first, then warm leads, then new names, then vendors and spam. One line each: who, company, what they want (from the transcript), why it ranks there, and the number to dial.
 4. Put the ranked call-backs at the top of the hit list's Work section and on the paper; spam and robocalls are dropped and counted, not listed.
+
+## Eden Office (Kev, 21 October 2026)
+
+Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW (brief: `projects/virtual-office/brief.md`). Each sweep, after step 5:
+1. **Tickets.** `ArtifactData list tickets`. For each `open` ticket, set it to `picked`, run the agent and write back `done` with `result {summary, link}`. If the work would send, spend or publish, set it to `gated` with `proposed {kind, exact}` and the QC id. A ticket is delegation, never approval.
+2. **Actions.** `ArtifactData list actions` where `applied` is false. Apply each one Kev tapped:
+   - **`done`:** close the source item. A QC item becomes `npm run qc -- reject <id> "handled by Kev outside the queue (Office, <date>)"`; never approve. A ledger row becomes Status Done.
+   - **`followup`:** a ledger row with Lane Waiting on, Owner Kev and a due date 7 days out, Source "Eden Office follow-up".
+   - Then `update` the action with `applied: true` (pin `if_version`).
+3. **Sync.** `npm run office -- sync`, then push `.office-outbox/batch-*.json` with one `batch`.
