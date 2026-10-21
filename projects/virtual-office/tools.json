@@ -131,5 +131,14 @@
   "url": "https://app.crelate.com",
   "expectedEveryDays": 1,
   "note": "System of record for candidates and activity."
+ },
+ {
+  "id": "round-table",
+  "name": "Round Table",
+  "kind": "artifact",
+  "owner": "dean",
+  "url": "https://claude.ai/artifact/DTXbu7B6F3B2s8NEnmYdCE",
+  "expectedEveryDays": 7,
+  "note": "Kev only: a folder per recruiter (scorecard, coaching, revenue and commission, percent to goal, 10-5-3-1)."
  }
 ]

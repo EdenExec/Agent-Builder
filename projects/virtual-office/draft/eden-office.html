@@ -298,8 +298,8 @@ textarea{min-height:84px;resize:vertical}
       <button class="sw" id="sw-still" aria-pressed="false" title="Stop every blink; lights hold steady"><i></i>Still</button>
       <button class="sw" id="sw-notes" aria-pressed="false" title="Show the architect's sightlines and adjacencies"><i></i>Plan notes</button>
       <button class="sw" id="sw-theme" aria-pressed="false" title="Switch light and dark"><i></i>Dark</button>
-      <button class="sw" id="photo-btn" hidden title="Snap or pick a photo and hand it to an agent">Photo</button>
-      <input type="file" id="photo-in" accept="image/*" capture="environment" hidden>
+      <button class="sw" id="photo-btn" hidden title="Upload photos, PDFs, CSVs or spreadsheets and hand them to an agent">Upload</button>
+      <input type="file" id="photo-in" accept="image/*,application/pdf,.pdf,.csv,text/csv,.xlsx,.xls,.txt,.md,.json" multiple hidden>
     </div>
   </header>
 
@@ -429,10 +429,11 @@ textarea{min-height:84px;resize:vertical}
     { id: 'quickbooks', name: 'QuickBooks', url: 'https://qbo.intuit.com' },
     { id: 'gusto', name: 'Gusto', url: 'https://app.gusto.com' },
     { id: 'cloudtalk', name: 'CloudTalk phone', url: 'https://phone.cloudtalk.io' },
-    { id: 'crelate', name: 'Crelate', url: 'https://app.crelate.com' }
+    { id: 'crelate', name: 'Crelate', url: 'https://app.crelate.com' },
+    { id: 'round-table', name: 'Round Table', url: 'https://claude.ai/artifact/DTXbu7B6F3B2s8NEnmYdCE' }
   ];
-  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['hub'], host: ['eden-desk', 'hub'], tally: ['quickbooks', 'gusto', 'hub'], docket: ['quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'] };
-  var BENCH_TOOLS = { recruiting: ['hub'], depth: ['hub'], revenue: ['hub', 'quickbooks'], university: ['hub'], finance: ['quickbooks', 'gusto', 'hub'], client: ['hub', 'cloudtalk', 'crelate'], family: ['atlas-desk', 'marlowe-desk'] };
+  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['round-table', 'hub'], host: ['eden-desk', 'hub'], tally: ['quickbooks', 'gusto', 'hub'], docket: ['quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'] };
+  var BENCH_TOOLS = { recruiting: ['round-table', 'hub'], depth: ['round-table', 'hub'], revenue: ['hub', 'quickbooks'], university: ['hub'], finance: ['quickbooks', 'gusto', 'hub'], client: ['hub', 'cloudtalk', 'crelate'], family: ['atlas-desk', 'marlowe-desk'] };
   /* Bench skeletons: the floor always has its benches; docs in `benches/` fill in the figures. */
   var BENCH_DEFS = [
     { id: 'recruiting', zone: 'rec', title: 'Recruiting floor · Vancouver', sub: 'Coaching · scorecards · deliverables', owner: 'Dean', sensitive: true, cls: 'bench priv' },
@@ -702,6 +703,7 @@ textarea{min-height:84px;resize:vertical}
     radarEl();
     ['rec', 'rev', 'fin', 'ppl', 'cli', 'fam'].forEach(function (z) { var box = $('#b-' + z); box.textContent = ''; BENCH_DEFS.filter(function (d) { return d.zone === z; }).forEach(function (d) { box.appendChild(benchEl(d)); }); });
     $('#b-cli').appendChild(quickRow());
+    if (!S.share) { var rt = toolMap()['round-table']; if (rt) { var door = h('div', { class: 'quick' }); door.appendChild(toolLink({ id: rt.id, name: 'Round Table · scorecards + coaching', url: rt.url }, 'key')); door.firstChild.style.gridColumn = '1 / -1'; $('#b-ppl').appendChild(door); } }
     if (focus) { var back = focusIsBench ? $('[data-bench="' + focus + '"]') : $('.desk[data-id="' + focus + '"]'); if (back && back !== document.activeElement && !S.sheet) back.focus(); }
     phaseLock(); drawNotes();
   }
@@ -869,7 +871,7 @@ textarea{min-height:84px;resize:vertical}
     var ul = h('ul');
     mine.forEach(function (x) {
       var li = h('li', { class: 'ticket' }, x.ask, h('small', { text: x.status + ' · ' + x.priority + (x.due ? ' · due ' + x.due : '') + ' · from Kev · ' + ago(x.createdAt) }));
-      (x.attachments || []).forEach(function (f) { if (f && f.asset) li.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f.asset, alt: 'Photo sent with this ticket' })); });
+      (x.attachments || []).forEach(function (f) { if (!f || !f.asset) return; if (/^image\//.test(f.type || 'image/')) li.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f.asset, alt: f.name || 'Photo sent with this ticket' })); else li.appendChild(h('a', { class: 'mini', href: '/_blob/' + f.asset, target: '_blank', rel: 'noopener', text: (f.name || 'File') })); });
       if (x.result && x.result.summary) li.appendChild(h('small', { text: 'Result: ' + x.result.summary }));
       if (x.proposed) { li.appendChild(h('div', { class: 'exact', text: 'Exact action waiting for your yes (' + x.proposed.kind + '):\n' + x.proposed.exact })); if (x.proposed.link) li.appendChild(h('a', { class: 'mini', href: x.proposed.link, target: '_blank', rel: 'noopener', text: 'Decide in the Desk, not here' })); }
       if (x.result && x.result.link) li.appendChild(h('a', { class: 'mini', href: x.result.link, target: '_blank', rel: 'noopener', text: 'Open the result' }));
@@ -905,7 +907,7 @@ textarea{min-height:84px;resize:vertical}
     var ht = h('button', { class: 'key', text: S.formOpen ? 'Close ticket form' : 'Hand a ticket' });
     ht.addEventListener('click', function () { S.formOpen = !S.formOpen; S.flash = ''; renderSheet(); });
     var cb = h('button', { class: 'key', text: 'Chat' }); cb.addEventListener('click', focusChat);
-    if (S.assets) { var pb = h('button', { class: 'key', text: 'Send a photo' }); pb.disabled = !S.canWrite; pb.addEventListener('click', function () { pickPhoto(a.id); }); drawer.appendChild(pb); }
+    if (S.assets) { var pb = h('button', { class: 'key', text: 'Upload a file' }); pb.disabled = !S.canWrite; pb.addEventListener('click', function () { pickPhoto(a.id); }); drawer.appendChild(pb); }
     drawer.appendChild(cb); drawer.appendChild(st); drawer.appendChild(ht);
     if (S.formOpen) drawer.appendChild(ticketForm(a.id, false));
     toolsFor(AGENT_TOOLS[a.id] || ['eden-desk']).forEach(function (x) { drawer.appendChild(toolLink(Object.assign({}, x, { name: 'Open ' + x.name }), 'key')); });
@@ -1004,9 +1006,30 @@ textarea{min-height:84px;resize:vertical}
       img.src = u;
     });
   }
-  LEVERS.photo = { title: 'Photo for an agent', build: function (sec) {
-    var ph = S.photo; if (!ph) { sec.appendChild(h('p', { class: 'small', text: 'No photo picked.' })); return; }
-    sec.appendChild(h('img', { class: 'thumb', src: ph.preview, alt: 'The photo you picked' }));
+  /* Uploads: photos (shrunk to JPEG), PDFs, CSVs, text; spreadsheets become one CSV per sheet (the asset store takes no .xlsx). */
+  var TYPES = { pdf: 'application/pdf', csv: 'text/csv', txt: 'text/plain', md: 'text/markdown', json: 'application/json' };
+  function ext(n) { var m = /\.([a-z0-9]+)$/i.exec(n || ''); return m ? m[1].toLowerCase() : ''; }
+  function loadXlsx() {
+    if (window.XLSX) return Promise.resolve(window.XLSX);
+    return new Promise(function (res, rej) { var sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; sc.onload = function () { res(window.XLSX); }; sc.onerror = rej; document.head.appendChild(sc); });
+  }
+  function prepare(file) {          // resolves [{blob, type, name}]
+    var e = ext(file.name);
+    if (/^image\//.test(file.type) || /^(jpe?g|png|heic|heif|gif|webp)$/.test(e)) return toJpeg(file).then(function (b) { return [{ blob: b, type: 'image/jpeg', name: file.name.replace(/\.[^.]+$/, '') + '.jpg' }]; }, function () { return [{ blob: file, type: file.type || 'image/jpeg', name: file.name }]; });
+    if (e === 'xlsx' || e === 'xls') return file.arrayBuffer().then(function (buf) { return loadXlsx().then(function (X) {
+      var wb = X.read(buf, { type: 'array' });
+      return wb.SheetNames.map(function (sn) { return { blob: new Blob([X.utils.sheet_to_csv(wb.Sheets[sn])], { type: 'text/csv' }), type: 'text/csv', name: file.name.replace(/\.[^.]+$/, '') + (wb.SheetNames.length > 1 ? ' - ' + sn : '') + '.csv' }; });
+    }); });
+    var ty = TYPES[e] || file.type; if (!ty) return Promise.reject({ code: 'unsupported_type' });
+    return Promise.resolve([{ blob: file, type: ty, name: file.name }]);
+  }
+  function kb(n) { return n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; }
+  LEVERS.photo = { title: 'Upload for an agent', build: function (sec) {
+    var ph = S.photo; if (!ph) { sec.appendChild(h('p', { class: 'small', text: 'Nothing picked.' })); return; }
+    ph.files.forEach(function (f) {
+      if (/^image\//.test(f.type)) sec.appendChild(h('img', { class: 'thumb', src: f.preview || (f.preview = URL.createObjectURL(f)), alt: f.name }));
+      else sec.appendChild(h('div', { class: 'ticket' }, f.name, h('small', { text: kb(f.size) + (/\.xlsx?$/i.test(f.name) ? ' · each sheet goes over as a CSV' : '') })));
+    });
     var f = h('form'), sel = h('select');
     visibleAgents().forEach(function (a) { sel.appendChild(h('option', { value: a.id, text: a.name })); });
     if (!S.agents.radar) sel.insertBefore(h('option', { value: 'radar', text: 'Radar' }), sel.firstChild);
@@ -1015,14 +1038,18 @@ textarea{min-height:84px;resize:vertical}
     f.appendChild(h('label', null, 'Hand it to', sel)); f.appendChild(h('label', { class: 'full' }, 'Note', note));
     var go = h('button', { class: 'key', type: 'submit', text: ph.busy ? 'Uploading...' : 'Send' }); go.disabled = !!ph.busy || !S.canWrite;
     f.appendChild(h('div', null, go));
-    f.appendChild(h('p', { class: 'small full', text: ph.error || 'Saved privately in the Office. It becomes a ticket; the agent reads it on the next sweep (or say "go" in chat).' }));
+    f.appendChild(h('p', { class: 'small full', text: ph.error || 'Photos, PDFs, CSVs, spreadsheets and text, up to 20 MB each. Saved privately in the Office; it becomes a ticket the agent picks up on the next sweep (or say "go" in chat).' }));
     f.addEventListener('submit', function (ev) {
       ev.preventDefault(); if (ph.busy) return; ph.busy = true; ph.error = ''; ph.agent = sel.value; var text = note.value.trim(); S.forceSheet = true; renderSheet();
-      toJpeg(ph.file).catch(function () { return ph.file; }).then(function (blob) { return S.assets.upload(blob, blob.type ? undefined : { type: 'image/jpeg' }); }).then(function (r) {
-        makeTicket({ agent: ph.agent, ask: text || 'Make sense of this photo and file it where it belongs.', priority: 'today', lever: 'photo', attachments: [{ asset: r.id, type: r.contentType }] });
-        URL.revokeObjectURL(ph.preview); S.photo = null; S.flash = 'Photo sent to ' + nameOf(ph.agent) + '.'; S.sheet = { kind: 'desk', id: ph.agent }; S.forceSheet = true; renderAll();
+      Promise.all(ph.files.map(prepare)).then(function (lists) {
+        var parts = [].concat.apply([], lists);
+        return Promise.all(parts.map(function (x) { return S.assets.upload(x.blob, { type: x.type }).then(function (r) { return { asset: r.id, type: r.contentType, name: x.name }; }); }));
+      }).then(function (att) {
+        var what = att.length === 1 ? (/^image\//.test(att[0].type) ? 'this photo' : att[0].name) : 'these ' + att.length + ' files';
+        makeTicket({ agent: ph.agent, ask: text || 'Make sense of ' + what + ' and file ' + (att.length === 1 ? 'it' : 'them') + ' where ' + (att.length === 1 ? 'it belongs.' : 'they belong.'), priority: 'today', lever: 'upload', attachments: att });
+        ph.files.forEach(function (x) { if (x.preview) URL.revokeObjectURL(x.preview); }); S.photo = null; S.flash = 'Sent to ' + nameOf(ph.agent) + '.'; S.sheet = { kind: 'desk', id: ph.agent }; S.forceSheet = true; renderAll();
       }, function (e) {
-        ph.busy = false; ph.error = (e && e.code === 'unsupported_type') ? 'That file type is not supported. Try a JPEG or PNG.' : 'Upload did not go through' + (e && e.code ? ' (' + e.code + ')' : '') + '. Try again.'; S.forceSheet = true; renderSheet();
+        ph.busy = false; ph.error = (e && e.code === 'unsupported_type') ? 'One of those file types is not supported. Photos, PDFs, CSVs, Excel and text work.' : (e && e.code === 'too_large') ? 'Too big: 20 MB a file.' : 'Upload did not go through' + (e && e.code ? ' (' + e.code + ')' : '') + '. Try again.'; S.forceSheet = true; renderSheet();
       });
     });
     sec.appendChild(f);
@@ -1230,8 +1257,8 @@ textarea{min-height:84px;resize:vertical}
     use('assets').then(function (a) { if (a) { S.assets = a; $('#photo-btn').hidden = false; renderAll(); } }, function () {});
     $('#photo-btn').addEventListener('click', function () { pickPhoto(S.sheet && S.sheet.kind === 'desk' ? S.sheet.id : 'radar'); });
     $('#photo-in').addEventListener('change', function (e) {
-      var file = e.target.files && e.target.files[0]; if (!file) return;
-      S.photo = { file: file, preview: URL.createObjectURL(file), agent: S.photoAgent || 'radar' };
+      var files = [].slice.call(e.target.files || []); if (!files.length) return;
+      S.photo = { files: files, agent: S.photoAgent || 'radar' };
       openSheet('lever', 'photo', $('#photo-btn'));
     });
     use('sample').then(function (fn) { if (fn) { S.sample = fn; renderAll(); } }, function () {});
