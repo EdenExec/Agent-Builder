@@ -241,7 +241,15 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .msg{padding:7px 9px;border:1px solid var(--line);font-size:13px;line-height:1.4;overflow-wrap:anywhere;white-space:pre-wrap;max-width:88%;align-self:flex-start;background:var(--paper)}
 .msg.kev{align-self:flex-end;background:var(--soft)}
 .msg b{display:block;font:500 9.5px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:2px}
-.chatform{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
+.chatform{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:end}
+.mic{min-width:52px}
+.mic[aria-pressed="true"]{background:var(--r);border-color:var(--r);color:var(--paper)}
+.talk{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;background:var(--paper);border:1.5px solid var(--key,var(--ink));box-shadow:0 3px 0 var(--key,var(--ink));padding:16px 18px;transition:transform .06s,box-shadow .06s}
+.talk:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.talk b{display:block;font-weight:800;font-size:17px;letter-spacing:.14em;text-transform:uppercase}
+.talk small{display:block;font:500 10.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-top:3px}
+.talk-led{width:12px;height:12px;border-radius:50%;background:var(--g);box-shadow:0 0 8px 1px color-mix(in srgb,var(--g) 50%,transparent)}
+.talk-go{font-size:22px;line-height:1}
 .chatform textarea{min-height:44px}
 .panel-b h3{margin:0;font:500 10.5px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
 .panel-b h3.gap{margin-top:10px;padding-top:12px;border-top:1.5px solid var(--line)}
@@ -305,7 +313,7 @@ textarea{min-height:84px;resize:vertical}
   .panel-h h2{font-size:18px}
   .panel-h .stand{margin-left:auto}
   .panel-h .role{order:5;flex-basis:100%}
-  .chatform{grid-template-columns:minmax(0,1fr)} .chatform .key{justify-self:end}
+  .chatform{grid-template-columns:minmax(0,1fr) auto auto} .chatform textarea{grid-column:1/-1} .chatform .key{justify-self:end}
   .banner{grid-template-columns:auto minmax(0,1fr)} .banner .sacts{grid-column:1/-1;padding:0}
   .dock{display:grid}
   .panel-b,.panel-b.wide-tray{grid-template-columns:minmax(0,1fr)}
@@ -334,6 +342,8 @@ textarea{min-height:84px;resize:vertical}
       <input type="file" id="photo-in" accept="image/*,application/pdf,.pdf,.csv,text/csv,.xlsx,.xls,.txt,.md,.json" multiple hidden>
     </div>
   </header>
+
+  <button class="talk" id="talk-radar" type="button"><span class="talk-led" aria-hidden="true"></span><span><b>Talk to Radar</b><small>Real two-way, the deep model · type or speak</small></span><span class="talk-go" aria-hidden="true">&rarr;</span></button>
 
   <div class="notice" id="demo" hidden>Example data. This page is not reading the Office database, so nothing here is real and tickets stay in this tab.</div>
   <div class="notice" id="stale" hidden></div>
@@ -834,6 +844,15 @@ textarea{min-height:84px;resize:vertical}
     var tk = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id && ['open', 'picked', 'working', 'blocked', 'gated'].indexOf(x.status) >= 0; });
     if (tk.length) lines.push('Open tickets: ' + tk.map(function (x) { return x.ask + ' (' + x.status + ')'; }).join(' | '));
     var lg = (S.logs[a.id] || []).slice(0, 5); if (lg.length) lines.push('Recent log: ' + lg.map(function (l) { return l.text; }).join(' | '));
+    if (a.id === 'radar') {
+      lines.push('', 'YOU ARE RADAR IN A REAL CONVERSATION. Kev chose the deep model to think out loud with you. Talk like his chief of staff and battle buddy: result first, plain words, push back when something is off, recommend one option, ask at most one question back. Up to 8 sentences when the topic needs it. Kev is a Christian founder; the Seven Pillars are Righteousness, Winning, Accountability, Discipline, Transparency, Growth, Execution. Saturday is the Sabbath. You can hand any agent a ticket with the make_ticket tool when Kev decides something should happen; say you did. You never send, spend or publish.', '', 'THE WHOLE FLOOR RIGHT NOW:');
+      Object.keys(S.agents).map(function (k) { return S.agents[k]; }).filter(function (x) { return x.id !== 'radar' && !hidden(x); }).forEach(function (x) {
+        var ex = effective(x); lines.push('- ' + x.name + ' (' + (x.role || '') + '): ' + WORD[ex.light] + (ex.stale ? ', stale' : '') + '. Task: ' + (x.task || 'none posted') + '.' + (ex.items.length ? ' Needs Kev: ' + ex.items.slice(0, 8).map(function (i) { return (i.rank != null ? '#' + i.rank + ' ' : '') + i.title; }).join(' | ') : ''));
+      });
+      var openT = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return ['open', 'picked', 'working', 'blocked', 'gated'].indexOf(x.status) >= 0; });
+      if (openT.length) lines.push('Open tickets: ' + openT.slice(0, 15).map(function (x) { return nameOf(x.agent) + ': ' + x.ask + ' (' + x.status + ')'; }).join(' | '));
+      if (S.today && S.today.lines && !S.share) lines.push('Today: ' + S.today.lines.map(function (l) { return l.at + ' ' + l.text; }).join(' | '));
+    }
     var hist = (S.chats[a.id] || []).slice(-10);
     if (hist.length) { lines.push('', 'EARLIER IN THIS CHAT:'); hist.forEach(function (m) { lines.push((m.role === 'kev' ? 'Kev: ' : a.name + ': ') + m.text); }); }
     lines.push('', 'Kev: ' + text, '', a.name + ':');
@@ -851,10 +870,15 @@ textarea{min-height:84px;resize:vertical}
     var prompt = chatPrompt(a, text);
     saveMsg(a.id, 'kev', text);
     S.pending = { agent: a.id, text: '' }; S.forceSheet = true; renderSheet();
-    S.sample(prompt, { modelTier: 'quick', cache: false, onText: function (x) {
+    var deep = a.id === 'radar';
+    var tools = deep && S.canWrite ? [{ name: 'make_ticket', description: 'Hand one agent a work ticket in Eden Office. Returns the ticket id. Use only when Kev has decided something should be done. agent is one of: ' + Object.keys(S.agents).join(', ') + '.',
+      inputSchema: { type: 'object', properties: { agent: { type: 'string' }, ask: { type: 'string', description: 'One clear sentence, names and roles only' }, priority: { type: 'string', enum: ['now', 'today', 'whenever'] } }, required: ['agent', 'ask'] },
+      execute: function (inp) { var ag = String(inp.agent || '').toLowerCase(); if (!S.agents[ag] && ag !== 'radar') throw new Error('Unknown agent ' + ag); var tk = makeTicket({ agent: ag, ask: String(inp.ask || '').slice(0, 500), priority: ['now', 'today', 'whenever'].indexOf(inp.priority) >= 0 ? inp.priority : 'today', lever: 'radar-chat' }); return { id: tk.id, agent: ag }; } }] : undefined;
+    S.sample(prompt, { modelTier: deep ? 'complex' : 'quick', cache: false, tools: tools, onText: function (x) {
       if (!S.pending) return; S.pending.text = x.text; var el = document.getElementById('pendingmsg'); if (el) { el.lastChild.textContent = x.text; var lg = el.parentNode; lg.scrollTop = lg.scrollHeight; }
     } }).then(function (r) {
       S.pending = null; saveMsg(a.id, 'agent', (r.text || '').trim()); S.forceSheet = true; renderAll(); focusChat();
+      if (S.voice && window.speechSynthesis) { try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance((r.text || '').replace(/^(Direction|Ticket):.*$/gm, '').trim()); u.rate = 1.05; speechSynthesis.speak(u); } catch (e) {} }
     }, function (err) {
       var kept = S.pending && S.pending.text; S.pending = null;
       if (kept) saveMsg(a.id, 'agent', kept.trim());
@@ -863,9 +887,21 @@ textarea{min-height:84px;resize:vertical}
       S.forceSheet = true; renderAll();
     });
   }
+  /* voice: the browser's own speech recognition; the reply is read aloud. Falls back quietly where the viewer blocks the microphone. */
+  var rec = null;
+  function toggleListen(a, ta) {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) return;
+    if (rec) { try { rec.stop(); } catch (e) {} return; }
+    rec = new SR(); rec.lang = 'en-US'; rec.interimResults = true; rec.continuous = false;
+    var said = '';
+    rec.onresult = function (ev) { said = [].map.call(ev.results, function (r) { return r[0].transcript; }).join(' '); var t2 = $('#chat-in'); if (t2) t2.value = said; };
+    rec.onerror = function (ev) { S.flash = ev.error === 'not-allowed' || ev.error === 'service-not-allowed' ? 'The microphone is blocked in this view. Use your keyboard\'s dictation mic instead; it works the same.' : 'Did not catch that. Try again.'; };
+    rec.onend = function () { rec = null; S.listening = false; S.voice = !!said; S.forceSheet = true; renderSheet(); if (said.trim()) { var t3 = $('#chat-in'); if (t3) t3.value = ''; sendChat(a, said.trim()); } };
+    try { rec.start(); S.listening = true; S.flash = 'Listening...'; S.forceSheet = true; renderSheet(); } catch (e) { rec = null; S.flash = 'The microphone is not available here. Use your keyboard\'s dictation mic.'; S.forceSheet = true; renderSheet(); }
+  }
   function focusChat() { var ta = $('#chat-in'); if (ta) ta.focus(); var lg = $('.chatlog'); if (lg) lg.scrollTop = lg.scrollHeight; }
   function chatSection(a) {
-    var sec = h('section', { class: 'chat' }, h('h3', { text: 'Quick chat with ' + a.name }));
+    var sec = h('section', { class: 'chat' }, h('h3', { text: a.id === 'radar' ? 'Talk with Radar · deep model' : 'Quick chat with ' + a.name }));
     if (!S.sample) { sec.appendChild(h('p', { class: 'small', text: 'Chat needs Claude access on this page; it lights up in the Claude viewer. Hand a ticket meanwhile.' })); return sec; }
     var log = h('div', { class: 'chatlog', 'aria-live': 'polite' });
     (S.chats[a.id] || []).slice(-14).forEach(function (m) { log.appendChild(h('div', { class: 'msg ' + (m.role === 'kev' ? 'kev' : 'agent') }, h('b', { text: m.role === 'kev' ? 'You' : a.name }), m.text)); });
@@ -878,12 +914,19 @@ textarea{min-height:84px;resize:vertical}
       mk.addEventListener('click', function () { makeTicket({ agent: a.id, ask: tm[1].trim(), priority: 'today', lever: 'chat' }); mk.textContent = 'Ticket created'; mk.disabled = true; });
       sec.appendChild(mk);
     }
-    var f = h('form', { class: 'chatform' }), ta = h('textarea', { id: 'chat-in', maxlength: '1000', placeholder: 'Quick note or decision for ' + a.name + '. Enter sends; Shift+Enter for a new line.', 'aria-label': 'Message ' + a.name });
+    var f = h('form', { class: 'chatform' }), ta = h('textarea', { id: 'chat-in', maxlength: '1000', placeholder: (a.id === 'radar' ? 'Talk it through with Radar.' : 'Quick note or decision for ' + a.name + '.') + ' Enter sends; Shift+Enter for a new line.', 'aria-label': 'Message ' + a.name });
     var go = h('button', { class: 'key', type: 'submit', text: S.pending ? '...' : 'Send' }); go.disabled = !!S.pending;
     ta.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); f.requestSubmit ? f.requestSubmit() : go.click(); } });
     f.addEventListener('submit', function (ev) { ev.preventDefault(); var v = ta.value.trim(); if (!v) return; ta.value = ''; S.flash = ''; sendChat(a, v); });
-    f.appendChild(ta); f.appendChild(go); sec.appendChild(f);
-    sec.appendChild(h('p', { class: 'small', text: S.flash || ('Fast model. Saved here; Radar files the directions into ' + a.name + '\'s memory on the next sweep' + (sensitiveAgent(a.id) ? ' (private notes go to your private Notion page, never the repo).' : '.')) }));
+    f.appendChild(ta);
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR) {
+      var mic = h('button', { class: 'key mic', type: 'button', 'aria-pressed': String(!!S.listening), title: 'Speak instead of typing; the reply is read aloud', text: S.listening ? 'Stop' : 'Mic' });
+      mic.addEventListener('click', function () { toggleListen(a, ta); });
+      f.appendChild(mic);
+    }
+    f.appendChild(go); sec.appendChild(f);
+    sec.appendChild(h('p', { class: 'small', text: S.flash || (a.id === 'radar' ? 'Deep model: it thinks before it answers, so give it a few seconds. It sees the whole floor and can hand out tickets. Saved here.' : 'Fast model. Saved here; Radar files the directions into ' + a.name + '\'s memory on the next sweep' + (sensitiveAgent(a.id) ? ' (private notes go to your private Notion page, never the repo).' : '.')) }));
     return sec;
   }
   function watchChat(id) {
@@ -1301,6 +1344,7 @@ textarea{min-height:84px;resize:vertical}
       S.photo = { files: files, agent: S.photoAgent || 'radar' };
       openSheet('lever', 'photo', $('#photo-btn'));
     });
+    $('#talk-radar').addEventListener('click', function () { openSheet('desk', 'radar', $('#radar')); setTimeout(focusChat, 350); });
     use('sample').then(function (fn) { if (fn) { S.sample = fn; renderAll(); } }, function () {});
     use('user').then(function (u) { if (u && typeof u.can === 'function') return u.can('data.write').then(function (ok) { if (ok === false) { S.canWrite = false; renderAll(); } }); }, function () {}).catch(function () {});
     setInterval(function () { tick(); renderAll(); }, 30000);
