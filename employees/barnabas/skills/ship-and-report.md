@@ -40,3 +40,12 @@ One line: "Barnabas · Sunday note ready · <link>", or "Barnabas · no note thi
 ## Monday
 
 Read Kev's answer to the note's ask (from Radar), and record plan facts only in `memory/live/` (plan, current chapter, the practice name if Kev agreed). Nothing private.
+
+## Office status (Kev, 21 October 2026)
+
+At the start and end of every working session, write `memory/live/now.json` in your employee folder:
+`{"task": "<one line, names and roles only>", "since": "<ISO>", "state": "working|idle|blocked", "blockedOn": "<what Kev must do, or null>", "updated": "<ISO>"}`.
+
+This file drives your desk light and task line on Eden Office (https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW). If the file is missing, your desk reads "No task posted"; if it's over 4 hours old while you claim to be working, your desk shows Stale.
+
+For Hale, Jethro and Barny, the task line stays generic ("Weekly plan", "C12 prep"). Never put health, prayer or coaching content in it.

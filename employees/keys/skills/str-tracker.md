@@ -38,3 +38,12 @@ Before the pro forma or a monthly summary goes to Kev, open a gate (`npm run gat
 ## Monthly rhythm (once live)
 
 Day 3: reconcile platform payouts to booking revenue rows. Day 5: one-page month summary (revenue, occupancy, ADR, costs by category, net, against the pro forma).
+
+## Office status (Kev, 21 October 2026)
+
+At the start and end of every working session, write `memory/live/now.json` in your employee folder:
+`{"task": "<one line, names and roles only>", "since": "<ISO>", "state": "working|idle|blocked", "blockedOn": "<what Kev must do, or null>", "updated": "<ISO>"}`.
+
+This file drives your desk light and task line on Eden Office (https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW). If the file is missing, your desk reads "No task posted"; if it's over 4 hours old while you claim to be working, your desk shows Stale.
+
+For Hale, Jethro and Barny, the task line stays generic ("Weekly plan", "C12 prep"). Never put health, prayer or coaching content in it.

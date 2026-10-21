@@ -27,3 +27,12 @@ One line per output: what it is, the link, the one flag. Ledger rows only for ac
 ## Sunday lab review (two to three asks)
 
 Per `employees/_shared/lab-review.md`: by Friday 1:50pm Pacific write `projects/workforce/status/<YYYY-MM-DD>.md` (eight slides, `## Slide n · <title>`), publish it as a Slides artifact titled "Workforce · lab review · <date>" and put the URL in the front matter (`deck:`), then open a `status` card on the Desk. Slide 2 carries two to three asks, each with your recommendation first and what silence does, sized to fit one admin window. Slide 4 carries the same five team metrics every week (team RPs, PTCs, submittals, FTIs, cards in by 1:00). No individual numbers, pay or personal notes on any slide. Monday: read the answered card first and write Kev's advice into `memory/live/`.
+
+## Office status (Kev, 21 October 2026)
+
+At the start and end of every working session, write `memory/live/now.json` in your employee folder:
+`{"task": "<one line, names and roles only>", "since": "<ISO>", "state": "working|idle|blocked", "blockedOn": "<what Kev must do, or null>", "updated": "<ISO>"}`.
+
+This file drives your desk light and task line on Eden Office (https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW). If the file is missing, your desk reads "No task posted"; if it's over 4 hours old while you claim to be working, your desk shows Stale.
+
+For Hale, Jethro and Barny, the task line stays generic ("Weekly plan", "C12 prep"). Never put health, prayer or coaching content in it.

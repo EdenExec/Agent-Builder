@@ -39,3 +39,12 @@ Personal numbers are walked with Kev in the private store, not on a slide or a s
 ## Before anything leaves Hale
 
 Score it against `rubrics/health-work.md`. Then grep it: no measurement, symptom, result, medication, diagnosis, child detail or identifier in anything bound for the repo, QC, Radar or a slide.
+
+## Office status (Kev, 21 October 2026)
+
+At the start and end of every working session, write `memory/live/now.json` in your employee folder:
+`{"task": "<one line, names and roles only>", "since": "<ISO>", "state": "working|idle|blocked", "blockedOn": "<what Kev must do, or null>", "updated": "<ISO>"}`.
+
+This file drives your desk light and task line on Eden Office (https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW). If the file is missing, your desk reads "No task posted"; if it's over 4 hours old while you claim to be working, your desk shows Stale.
+
+For Hale, Jethro and Barny, the task line stays generic ("Weekly plan", "C12 prep"). Never put health, prayer or coaching content in it.

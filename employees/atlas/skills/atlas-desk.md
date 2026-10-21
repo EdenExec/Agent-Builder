@@ -86,3 +86,10 @@ One page, one URL. At 740px and wider (iPad portrait and up) every tab shows in 
 ## Picture guides
 
 A lesson can carry `guide`: a claude.ai artifact URL for a visual companion (cards, diagrams). The lesson card shows a "Picture guide" button next to Listen. The first one is the Chess Field Guide (https://claude.ai/artifact/4CZut4F6M57NsZgdeSTXT8) on `ep3-chess`, built by `employees/atlas/episodes/chess/guide/build_guide.py`. It has six piece trading cards (2.5 x 3.5 in when printed) plus setup, check, checkmate, stalemate, castling and the four-move trap. The printable copy is `chess-field-guide.pdf`.
+
+## Office status (Kev, 21 October 2026)
+
+At the start and end of every working session, write `memory/live/now.json` in your employee folder:
+`{"task": "<one line>", "since": "<ISO>", "state": "working|idle|blocked", "blockedOn": "<what Kev must do, or null>", "updated": "<ISO>"}`.
+
+This file drives your desk light on Eden Office. Keep the task line free of anything about the children's details or family matters.
