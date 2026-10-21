@@ -568,6 +568,7 @@ textarea{min-height:84px;resize:vertical}
     }
   }
   /* Zzz: hides an item until a time, then it comes back on its own. Page-side only; Radar's sweep leaves snoozes alone. */
+  function snoozedFor(id) { return Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return x.agent === id && x.action === 'snooze' && t(x.until) > Date.now(); }).sort(function (x, y) { return t(x.until) - t(y.until); }); }
   function acted(key) { var x = S.actions[key]; return !!x && (x.action !== 'snooze' || t(x.until) > Date.now()); }
   function at(d, hh, mm) { var x = new Date(d); x.setHours(hh, mm || 0, 0, 0); return x; }
   function nextWorkday(d) { var x = new Date(d); do { x.setDate(x.getDate() + 1); } while (x.getDay() === 6); return x; }   // never wakes on the Sabbath
@@ -784,6 +785,7 @@ textarea{min-height:84px;resize:vertical}
     lines.push('', 'YOUR DESK RIGHT NOW (from the Office, ' + (S.live ? 'live' : 'example data') + '):');
     lines.push('Status: ' + WORD[e.light] + (e.stale ? ' (stale)' : '') + '. Task: ' + (a.task || 'none posted') + '. Last heard: ' + ago(a.lastHeard) + '.');
     if (e.items.length) lines.push('Needs Kev: ' + e.items.map(function (i) { return i.title; }).join(' | '));
+    var naps = snoozedFor(a.id); if (naps.length) lines.push('Kev snoozed these (bring them up whenever he asks what you need or what is open): ' + naps.map(function (x) { return x.title + ' (back ' + untilLabel(x.until) + ')'; }).join(' | '));
     var tk = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id && ['open', 'picked', 'working', 'blocked', 'gated'].indexOf(x.status) >= 0; });
     if (tk.length) lines.push('Open tickets: ' + tk.map(function (x) { return x.ask + ' (' + x.status + ')'; }).join(' | '));
     var lg = (S.logs[a.id] || []).slice(0, 5); if (lg.length) lines.push('Recent log: ' + lg.map(function (l) { return l.text; }).join(' | '));
@@ -852,7 +854,8 @@ textarea{min-height:84px;resize:vertical}
     var body = h('div', { class: 'panel-b' }); p.appendChild(body);
     if (hide) { body.className = 'panel-b one'; body.appendChild(h('section', null, h('p', { class: 'small', text: 'Hidden in Screen share mode.' }))); return; }
     var mine = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id; }).sort(function (x, y) { return t(y.createdAt) - t(x.createdAt); }).slice(0, 8);
-    var tray = h('section', null, h('h3', { text: 'In tray · ' + (a.openTickets || 0) + ' open' })); var ul = h('ul');
+    var naps = snoozedFor(a.id);
+    var tray = h('section', null, h('h3', { text: 'In tray · ' + (a.openTickets || 0) + ' open' + (naps.length ? ' · ' + naps.length + ' snoozed' : '') })); var ul = h('ul');
     mine.forEach(function (x) {
       var li = h('li', { class: 'ticket' }, x.ask, h('small', { text: x.status + ' · ' + x.priority + (x.due ? ' · due ' + x.due : '') + ' · from Kev · ' + ago(x.createdAt) }));
       if (x.result && x.result.summary) li.appendChild(h('small', { text: 'Result: ' + x.result.summary }));
@@ -860,15 +863,19 @@ textarea{min-height:84px;resize:vertical}
       if (x.result && x.result.link) li.appendChild(h('a', { class: 'mini', href: x.result.link, target: '_blank', rel: 'noopener', text: 'Open the result' }));
       ul.appendChild(li);
     });
-    if (!mine.length) ul.appendChild(h('li', { class: 'small', text: 'Nothing open.' }));
+    naps.forEach(function (x) {
+      var wake = h('button', { class: 'mini', text: 'Wake now', 'data-undo': x.key }); wake.disabled = !S.canWrite;
+      ul.appendChild(h('li', { class: 'ticket' }, x.title, h('small', { text: 'Zzz · back ' + untilLabel(x.until) + ' · snoozed ' + ago(x.at) }), wake));
+    });
+    if (!mine.length && !naps.length) ul.appendChild(h('li', { class: 'small', text: 'Nothing open.' }));
     tray.appendChild(ul); body.appendChild(tray);
     var blot = h('section', null, h('h3', { text: 'Blotter · now' }), h('p', { class: 'now', text: a.task || 'No task posted' }));
     if (a.taskSince) blot.appendChild(h('p', { class: 'small', text: 'Since ' + ago(a.taskSince) + ' · last heard ' + ago(a.lastHeard) }));
     if (e.stale) blot.appendChild(h('p', { class: 'small', text: 'Stale: ' + e.staleWhy + '.' }));
     if (e.items.length) { blot.appendChild(h('h3', { text: 'Needs you' })); e.items.forEach(function (i) { blot.appendChild(itemRow(i)); }); }
-    var later = Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return x.agent === a.id && acted(x.key); }).sort(function (x, y) { return t(y.at) - t(x.at); });
+    var later = Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return x.agent === a.id && x.action !== 'snooze' && acted(x.key); }).sort(function (x, y) { return t(y.at) - t(x.at); });
     if (later.length) {
-      blot.appendChild(h('h3', { text: 'Done, follow-ups and snoozed' }));
+      blot.appendChild(h('h3', { text: 'Done and follow-ups' }));
       later.slice(0, 8).forEach(function (x) {
         var u = h('button', { class: 'mini', text: 'Undo', 'data-undo': x.key }); u.disabled = !S.canWrite;
         blot.appendChild(h('div', { class: 'item' }, h('span', { class: 'role', text: x.action === 'done' ? 'Done' : x.action === 'snooze' ? 'Zzz' : 'Follow up' }), h('span', { class: 't', text: x.title + ' · ' + (x.action === 'snooze' ? 'back ' + untilLabel(x.until) : ago(x.at) + (x.applied ? ' · Radar applied it' : ' · Radar applies it next sweep')) }), u));
