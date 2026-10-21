@@ -27,14 +27,14 @@
     },
     {
       "stage": "phones",
-      "owner": "Noah's routine",
-      "done": "Mobile and Mobile source filled from Noah's allowed sources (never ZoomInfo phones)",
+      "owner": "Noah's nightly routine (10pm PT, ZoomInfo enrichment on Noah's seat)",
+      "done": "Mobile and Mobile source filled by ZoomInfo enrichment (Kev, 21 Oct 2026); Mobile source = ZoomInfo or ZoomInfo direct",
       "recordedBy": "Noah's routine dates Phones added in the Lead Log; npm run leads -- stage-set <file> phones",
       "logColumn": "Phones added"
     },
     {
       "stage": "in-crelate",
-      "owner": "whoever loads (BPO team or Noah)",
+      "owner": "BPO team (Nida), from the master folder, every sheet with Phones added dated",
       "done": "leads loaded into Crelate",
       "recordedBy": "npm run leads -- stage-set <file> crelate",
       "logColumn": "In Crelate"
@@ -79,5 +79,6 @@
     "id": "1THEbC8Yi1-bzvg6CmuZnPmf1WWTBw1sU",
     "url": "https://drive.google.com/drive/folders/1THEbC8Yi1-bzvg6CmuZnPmf1WWTBw1sU",
     "holds": "v1 sheets replaced by a v2 (12, 16, 18 moved 2026-10-21). Never deleted."
-  }
+  },
+  "cadence": "Nightly, weeknights: Scout lands lists by 8pm PT, Noah's routine enriches at 10pm PT, the BPO team uploads to Crelate overnight, Radar moves finished sheets in the first morning sweep. Never Saturday."
 }

@@ -1,31 +1,33 @@
-# Noah's phones routine (paste into Claude as a daily scheduled task, weekdays)
+# Noah's nightly enrichment routine (paste into Claude as a scheduled task)
 
-Connectors to turn on in your Claude first: **Google Drive** and **Google Sheets** (so it can edit cells), plus **Crelate** if you have it. Without Google Sheets it cannot write; it will tell you and stop.
+Kev, 21 Oct 2026: "we get the leads list to the drive, noah enriches them, then the BPO team uploads them to crelate. We should be doing this every night or as often as possible." Noah fills cell phones with **ZoomInfo enrichment** on his own ZoomInfo seat.
+
+Connectors to turn on in your Claude first: **ZoomInfo**, **Google Drive** and **Google Sheets** (Sheets lets it edit cells; without it the routine says so and stops). Schedule: **every weeknight at 10:00pm Pacific**, after Scout's lists land. Never Saturday.
 
 ## Paste this
 
 ```
-Every weekday morning, add cell phone numbers to Eden's new lead sheets.
+Every weeknight, enrich Eden's new lead sheets with cell phone numbers from ZoomInfo.
 
-1. Open the Google Sheet named "Lead Log" in the Drive folder "JO Meeting · Lead Buckets · Mon Oct 19" (https://drive.google.com/drive/folders/1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9). Work only on rows where "Landed" has a date and "Phones added" is blank. If there are none, say "nothing new" and stop.
+1. Open the Google Sheet "Lead Log" in the Drive folder https://drive.google.com/drive/folders/1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9. Work only on rows where "Landed" has a date and "Phones added" is blank. If there are none, say "nothing new" and stop.
 
 2. For each such row, open the sheet in its "Drive link" column. If the last two columns are not "Mobile" and "Mobile source", add those two headers at the end. Change nothing else: no other column, no row order, no deleted rows.
 
-3. Fill Mobile only from these sources: Crelate (the candidate's existing record), my own calls today, or the candidate telling me. Never use a ZoomInfo phone. Never spend enrichment credits or use any paid lookup. If I do not have a number from one of those sources, leave Mobile blank.
+3. For each row with a blank Mobile, enrich the person in ZoomInfo by name and company (use the LinkedIn URL to confirm it is the right person). Write their mobile number in Mobile and "ZoomInfo" in Mobile source. If ZoomInfo has no mobile, write their direct dial instead with "ZoomInfo direct" as the source. If it has neither, leave Mobile blank and write "none in ZoomInfo" in Mobile source.
 
-4. For every number you write, write where it came from in "Mobile source": Crelate, call, or candidate. No source, no number. Skip any row Crelate marks do-not-contact. Skip rows in a "referral asks only" block. If the Owner note says discreet client, do not look anyone up; leave it for me.
+4. To save credits: never enrich a row that already has a Mobile, never enrich the same person twice, and skip rows in a "referral asks only" block. If the Lead Log Owner note says discreet client, skip that sheet and leave it for me.
 
-5. When the pass on a sheet is done, put today's date (YYYY-MM-DD) in "Phones added" on that sheet's row in the Lead Log, and write in Owner note how many rows got a number out of the total (counts only, no names).
+5. When a sheet is done, put today's date (YYYY-MM-DD) in "Phones added" on its Lead Log row, and write in Owner note: numbers found out of total rows, and credits used (counts only, no names or numbers).
 
 Rules that never change:
-- Never move, rename, copy, delete or share a sheet, and never share one outside Eden. Do not touch the "Uploaded to Crelate" folder.
-- Never put a phone number anywhere except the Mobile column of that sheet: not in the Lead Log, an email, a chat or a note.
+- ZoomInfo numbers are for Eden's own recruiting only: the sheet and Crelate. Never put a number in an email, a chat, the Lead Log or anywhere outside Eden.
+- Never move, rename, copy, delete or share a sheet. The BPO team uploads to Crelate from the master folder; Radar moves finished sheets.
 - If a sheet looks wrong (missing columns, odd rows), write what you saw in the Lead Log Owner note and move on. Do not fix it by making a copy.
-- At the end, tell me in three lines: sheets worked, numbers added, anything skipped and why.
+- At the end, tell me in three lines: sheets worked, numbers found out of rows, credits used, anything skipped and why.
 ```
 
 ## Why it is built this way
 
 - The Lead Log is the only thing the routine reads first, so it never has to scan folders.
-- The date in "Phones added" is the whole hand-off. The next person (loading into Crelate) and Radar read dates, not folders.
-- A reload of the same role arrives as a new sheet with a new Landed date, so the routine picks it up by itself.
+- The date in "Phones added" is the hand-off: the BPO team uploads every sheet with Phones added dated and In Crelate blank, then dates In Crelate. Radar moves it to Uploaded to Crelate.
+- A reload of the same role arrives as a new sheet with a new Landed date, so the routine picks it up by itself and never re-buys a number.
