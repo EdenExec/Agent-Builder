@@ -52,4 +52,9 @@ Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW (brief: `projects/virt
    - **`done`:** close the source item. A QC item becomes `npm run qc -- reject <id> "handled by Kev outside the queue (Office, <date>)"`; never approve. A ledger row becomes Status Done.
    - **`followup`:** a ledger row with Lane Waiting on, Owner Kev and a due date 7 days out, Source "Eden Office follow-up".
    - Then `update` the action with `applied: true` (pin `if_version`).
-3. **Sync.** `npm run office -- sync`, then push `.office-outbox/batch-*.json` with one `batch`.
+3. **Desk chats.** For each agent, `ArtifactData query chats/<agent>/messages` where `filed` is false. File every "Direction:" line Kev agreed to:
+   - **Most agents:** `npm run memory -- add <agent> "<date>: <direction>"`.
+   - **Hale, Jethro and Barny:** that agent's private Notion page, never the repo.
+   - Then `update` each message with `filed: true`.
+   A "Ticket:" line Kev did not turn into a ticket stays a suggestion.
+4. **Sync.** `npm run office -- sync`, then push `.office-outbox/batch-*.json` with one `batch`.

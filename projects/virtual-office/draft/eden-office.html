@@ -218,6 +218,13 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .panel-b.one{grid-template-columns:minmax(0,1fr)}
 .panel-b section{padding:16px 18px;border-right:1px solid var(--line);min-width:0;display:flex;flex-direction:column;gap:10px}
 .panel-b section:last-child{border-right:0}
+.chat{border-top:1.5px solid var(--ink)}
+.chatlog{display:flex;flex-direction:column;gap:6px;max-height:280px;overflow:auto}
+.msg{padding:7px 9px;border:1px solid var(--line);font-size:13px;line-height:1.4;overflow-wrap:anywhere;white-space:pre-wrap;max-width:88%;align-self:flex-start;background:var(--paper)}
+.msg.kev{align-self:flex-end;background:var(--soft)}
+.msg b{display:block;font:500 9.5px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:2px}
+.chatform{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
+.chatform textarea{min-height:44px}
 .panel-b h3{margin:0;font:500 10.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
 .panel-b ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .ticket{border:1px solid var(--line);padding:8px 10px;font-size:13px;overflow-wrap:anywhere}
@@ -388,7 +395,7 @@ textarea{min-height:84px;resize:vertical}
 <script>
 (function () {
   'use strict';
-  /* Data contract (collections the page reads; it writes only tickets/, seen/ and actions/):
+  /* Data contract (collections the page reads; it writes only tickets/, seen/, actions/ and chats/{agent}/messages/):
      agents/{id}  agents/{id}/log/{n}  alerts/{id}  actions/{key}  seen/{key}  tickets/{id}  tools/{id}  benches/{id}  benches/{id}/rows/{rid}  meta/sync  meta/today
      Spec: projects/virtual-office/research/q-architecture.md */
   var MIN = 60000, HOUR = 3600000, DAY = 86400000;
@@ -427,7 +434,7 @@ textarea{min-height:84px;resize:vertical}
     { id: 'family', zone: 'fam', title: 'Home list', sub: 'KDTW Group · family office', owner: 'Radar', sensitive: true, cls: 'bench' }
   ];
 
-  var S = { live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, tools: {}, logs: {}, meta: null, today: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
+  var S = { live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, tools: {}, logs: {}, chats: {}, pending: null, sample: null, meta: null, today: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
   var lastFrom = null;
 
   /* ---------- helpers ---------- */
@@ -718,6 +725,78 @@ textarea{min-height:84px;resize:vertical}
     if (!i.seen) acts.appendChild(seenBtn(i));
     return h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't', text: i.title + ' · ' + ago(i.raisedAt) }), acts);
   }
+  /* ---------- quick chat: the fast model, briefed with this desk's status; notes save to chats/{agent}/messages ---------- */
+  function chatPrompt(a, text) {
+    var e = effective(a), lines = [];
+    lines.push('You are ' + a.name + ', ' + (a.role || 'an AI employee') + ', one of the AI employees working for Kev Williams (Eden Executive Search and Eden Partner Group; KDTW Group is the family office).');
+    lines.push('This is the quick chat at your desk in Eden Office. Kev pops in for fast decisions and zips back out. Reply in at most four short sentences, plain words, no preamble, no lists unless he asks.');
+    lines.push('You only know what is below. You cannot see files, email or tools, and you have done no work in this chat, so never say you did, checked or sent anything. You never send, spend or publish; those wait in Kev\'s approval queue. If you do not know, say so and offer a ticket.');
+    lines.push('When Kev gives you a direction or a decision, end with one line: "Direction: <it, in one sentence>". When it needs real work from the full agent, end with one line: "Ticket: <the ask, in one sentence>".');
+    lines.push('', 'YOUR DESK RIGHT NOW (from the Office, ' + (S.live ? 'live' : 'example data') + '):');
+    lines.push('Status: ' + WORD[e.light] + (e.stale ? ' (stale)' : '') + '. Task: ' + (a.task || 'none posted') + '. Last heard: ' + ago(a.lastHeard) + '.');
+    if (e.items.length) lines.push('Needs Kev: ' + e.items.map(function (i) { return i.title; }).join(' | '));
+    var tk = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id && ['open', 'picked', 'working', 'blocked', 'gated'].indexOf(x.status) >= 0; });
+    if (tk.length) lines.push('Open tickets: ' + tk.map(function (x) { return x.ask + ' (' + x.status + ')'; }).join(' | '));
+    var lg = (S.logs[a.id] || []).slice(0, 5); if (lg.length) lines.push('Recent log: ' + lg.map(function (l) { return l.text; }).join(' | '));
+    var hist = (S.chats[a.id] || []).slice(-10);
+    if (hist.length) { lines.push('', 'EARLIER IN THIS CHAT:'); hist.forEach(function (m) { lines.push((m.role === 'kev' ? 'Kev: ' : a.name + ': ') + m.text); }); }
+    lines.push('', 'Kev: ' + text, '', a.name + ':');
+    return lines.join('\n');
+  }
+  function saveMsg(agentId, role, text) {
+    var at = new Date().toISOString(), id = at.replace(/[-:.TZ]/g, '') + '-' + role;
+    var doc = { role: role, text: text, at: at, filed: false };
+    (S.chats[agentId] = S.chats[agentId] || []).push(doc);
+    if (S.live && S.db && S.canWrite) S.db.doc('chats/' + agentId + '/messages/' + id).set(doc).catch(function () {});
+  }
+  var CHAT_COPY = { not_granted: 'Chat is off: Claude access was declined for this page. Reload to be asked again.', rate_limited: 'Too many at once. Give it a few seconds.', };
+  function sendChat(a, text) {
+    if (!S.sample || S.pending) return;
+    var prompt = chatPrompt(a, text);
+    saveMsg(a.id, 'kev', text);
+    S.pending = { agent: a.id, text: '' }; S.forceSheet = true; renderSheet();
+    S.sample(prompt, { modelTier: 'quick', cache: false, onText: function (x) {
+      if (!S.pending) return; S.pending.text = x.text; var el = document.getElementById('pendingmsg'); if (el) { el.lastChild.textContent = x.text; var lg = el.parentNode; lg.scrollTop = lg.scrollHeight; }
+    } }).then(function (r) {
+      S.pending = null; saveMsg(a.id, 'agent', (r.text || '').trim()); S.forceSheet = true; renderAll(); focusChat();
+    }, function (err) {
+      var kept = S.pending && S.pending.text; S.pending = null;
+      if (kept) saveMsg(a.id, 'agent', kept.trim());
+      S.flash = CHAT_COPY[err && err.code] || 'That reply did not come through. Try again.';
+      if (err && err.code === 'not_granted') S.sample = null;
+      S.forceSheet = true; renderAll();
+    });
+  }
+  function focusChat() { var ta = $('#chat-in'); if (ta) ta.focus(); var lg = $('.chatlog'); if (lg) lg.scrollTop = lg.scrollHeight; }
+  function chatSection(a) {
+    var sec = h('section', { class: 'chat' }, h('h3', { text: 'Quick chat with ' + a.name }));
+    if (!S.sample) { sec.appendChild(h('p', { class: 'small', text: 'Chat needs Claude access on this page; it lights up in the Claude viewer. Hand a ticket meanwhile.' })); return sec; }
+    var log = h('div', { class: 'chatlog', 'aria-live': 'polite' });
+    (S.chats[a.id] || []).slice(-14).forEach(function (m) { log.appendChild(h('div', { class: 'msg ' + (m.role === 'kev' ? 'kev' : 'agent') }, h('b', { text: m.role === 'kev' ? 'You' : a.name }), m.text)); });
+    if (S.pending && S.pending.agent === a.id) log.appendChild(h('div', { class: 'msg agent', id: 'pendingmsg' }, h('b', { text: a.name }), S.pending.text || 'Thinking...'));
+    if (!log.childNodes.length) log.appendChild(h('p', { class: 'small', text: 'Quick hits: ask, decide, give direction. ' + a.name + ' knows this desk\'s status and your recent notes here, not the files.' }));
+    sec.appendChild(log);
+    var last = (S.chats[a.id] || []).filter(function (m) { return m.role === 'agent'; }).slice(-1)[0], tm = last && /^Ticket:\s*(.+)$/m.exec(last.text);
+    if (tm && !S.pending) {
+      var mk = h('button', { class: 'mini', text: 'Make it a ticket: ' + tm[1].slice(0, 60) }); mk.disabled = !S.canWrite;
+      mk.addEventListener('click', function () { makeTicket({ agent: a.id, ask: tm[1].trim(), priority: 'today', lever: 'chat' }); mk.textContent = 'Ticket created'; mk.disabled = true; });
+      sec.appendChild(mk);
+    }
+    var f = h('form', { class: 'chatform' }), ta = h('textarea', { id: 'chat-in', maxlength: '1000', placeholder: 'Quick note or decision for ' + a.name + '. Enter sends; Shift+Enter for a new line.', 'aria-label': 'Message ' + a.name });
+    var go = h('button', { class: 'key', type: 'submit', text: S.pending ? '...' : 'Send' }); go.disabled = !!S.pending;
+    ta.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); f.requestSubmit ? f.requestSubmit() : go.click(); } });
+    f.addEventListener('submit', function (ev) { ev.preventDefault(); var v = ta.value.trim(); if (!v) return; ta.value = ''; S.flash = ''; sendChat(a, v); });
+    f.appendChild(ta); f.appendChild(go); sec.appendChild(f);
+    sec.appendChild(h('p', { class: 'small', text: S.flash || ('Fast model. Saved here; Radar files the directions into ' + a.name + '\'s memory on the next sweep' + (sensitiveAgent(a.id) ? ' (private notes go to your private Notion page, never the repo).' : '.')) }));
+    return sec;
+  }
+  function watchChat(id) {
+    if (!S.live || !S.db || S.unsub['chat-' + id] || (S.share && sensitiveAgent(id))) return;
+    S.unsub['chat-' + id] = S.db.collection('chats/' + id + '/messages').orderBy('at', 'desc').limit(30).onSnapshot(function (snap) {
+      S.chats[id] = snap.docs.map(function (d) { return d.data(); }).reverse(); renderAll();
+    }, function () { S.unsub['chat-' + id] = null; });
+  }
+
   function deskSheet(p, a) {
     var e = effective(a), hide = hidden(a);
     p.appendChild(head(a.name, hide ? 'idle' : e.light, (a.role || '') + ' · ' + (hide ? 'Hidden' : stateChip(e.light, e)) + ' · heard ' + short(a.lastHeard)));
@@ -756,11 +835,13 @@ textarea{min-height:84px;resize:vertical}
     st.addEventListener('click', function () { makeTicket({ agent: a.id, ask: 'Status in three lines: working on, done since last status, blocked on Kev. Names and roles only.', priority: 'today', lever: 'status' }); S.flash = 'Status ticket created.'; renderSheet(); });
     var ht = h('button', { class: 'key', text: S.formOpen ? 'Close ticket form' : 'Hand a ticket' });
     ht.addEventListener('click', function () { S.formOpen = !S.formOpen; S.flash = ''; renderSheet(); });
-    drawer.appendChild(st); drawer.appendChild(ht);
+    var cb = h('button', { class: 'key', text: 'Chat' }); cb.addEventListener('click', focusChat);
+    drawer.appendChild(cb); drawer.appendChild(st); drawer.appendChild(ht);
     if (S.formOpen) drawer.appendChild(ticketForm(a.id, false));
     toolsFor(AGENT_TOOLS[a.id] || ['eden-desk']).forEach(function (x) { drawer.appendChild(toolLink(Object.assign({}, x, { name: 'Open ' + x.name }), 'key')); });
     drawer.appendChild(h('p', { class: 'small', text: S.flash || 'A ticket is delegation, never approval. You stay accountable; sends, spends and publishing still go through QC with the exact action shown.' }));
     body.appendChild(drawer);
+    var cw = h('div', { class: 'panel-b one' }); cw.appendChild(chatSection(a)); p.appendChild(cw);
   }
   function benchSheet(p, def) {
     var doc = S.benches[def.id] || {};
@@ -870,7 +951,7 @@ textarea{min-height:84px;resize:vertical}
     var wasOpen = !!S.sheet;
     S.sheet = Object.assign({ kind: kind, id: id }, extra || {}); S.formOpen = false; S.flash = ''; S.forceSheet = true;
     lastFrom = from || lastFrom;
-    if (kind === 'desk') { watchLog(id); markLook(id); }
+    if (kind === 'desk') { watchLog(id); watchChat(id); markLook(id); }
     if (kind === 'bench') watchRows(id);
     $('#floor').classList.add('sitting'); renderSheet();
     var panel = $('#panel');
@@ -889,7 +970,7 @@ textarea{min-height:84px;resize:vertical}
     var sheet = $('#sheet'); if (sheet.hidden) return;
     var done = function () {
       var sh = S.sheet; S.sheet = null; sheet.hidden = true; $('#floor').classList.remove('sitting');
-      if (sh && sh.kind === 'desk') unwatch('log-' + sh.id); if (sh && sh.kind === 'bench') unwatch('rows-' + sh.id);
+      if (sh && sh.kind === 'desk') { unwatch('log-' + sh.id); unwatch('chat-' + sh.id); } if (sh && sh.kind === 'bench') unwatch('rows-' + sh.id);
       renderAll(); try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
       var back = sh && sh.kind === 'desk' ? ($('.desk[data-id="' + sh.id + '"]') || $('#radar .radar-sit')) : (sh && sh.kind === 'bench' ? $('[data-bench="' + sh.id + '"]') : null);
       if (back && back.focus) back.focus();
@@ -999,7 +1080,7 @@ textarea{min-height:84px;resize:vertical}
     B('family', 'Radar', [{ label: 'This week', value: 'lessons and studies' }], 'Atlas Desk, Marlowe\'s Desk');
     S.logs = { q: [{ at: iso(20 * MIN), text: 'Wired the status feed (example)' }, { at: iso(2 * HOUR), text: 'Ran the dry sync (example)' }] };
   }
-  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.tools = {}; S.logs = {}; S.meta = null; S.today = null; }
+  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.chats = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.tools = {}; S.logs = {}; S.meta = null; S.today = null; }
 
   /* ---------- live data: render the example first, then light up when `db` resolves (null after about 10 s: stay on the example) ---------- */
   function listen(name, fn) {
@@ -1015,6 +1096,7 @@ textarea{min-height:84px;resize:vertical}
     Object.keys(S.benches).forEach(function (k) { var d = BENCH_DEFS.filter(function (x) { return x.id === k; })[0]; if (!d || d.sensitive) delete S.benches[k]; });
     S.benchRows = {}; Object.keys(S.unsub).forEach(function (k) { if (k.indexOf('rows-') === 0) unwatch(k); });
     Object.keys(S.logs).forEach(function (k) { if (sensitiveAgent(k)) { delete S.logs[k]; unwatch('log-' + k); } });
+    Object.keys(S.chats).forEach(function (k) { if (sensitiveAgent(k)) { delete S.chats[k]; unwatch('chat-' + k); } });
   }
   function goLive(db) {
     S.db = db; S.live = true; clearData();
@@ -1033,6 +1115,7 @@ textarea{min-height:84px;resize:vertical}
     exampleData(); renderAll(); tick();
     var use = window.claude && typeof window.claude.use === 'function' ? window.claude.use.bind(window.claude) : function () { return Promise.resolve(null); };
     use('db').then(function (db) { if (db) goLive(db); }, function () {});
+    use('sample').then(function (fn) { if (fn) { S.sample = fn; renderAll(); } }, function () {});
     use('user').then(function (u) { if (u && typeof u.can === 'function') return u.can('data.write').then(function (ok) { if (ok === false) { S.canWrite = false; renderAll(); } }); }, function () {}).catch(function () {});
     setInterval(function () { tick(); renderAll(); }, 30000);
     var hash = location.hash.slice(1); if (hash && (hash === 'radar' || S.agents[hash])) openSheet('desk', hash, null);
