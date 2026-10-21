@@ -17,7 +17,7 @@ Runs weekdays, every hour from 7am to 6pm Pacific. Silent: no message to Kev unl
 | Team | Recruiters, Nida, Nick, Joel | Ledger row only if it asks Kev something. Otherwise leave it. |
 | Noise | Newsletters, notifications, marketing, receipts already filed, Coaching Briefs older than today, calendar acceptances | Archive (`update_thread`, remove INBOX). Count it. |
 
-3. **Draft, never send.** Stage 1 drafts only. Stage 2 and 3 rules are in `trust-ramp.md`. A draft must read as Kev: short, direct, warm, no filler. Use `instructions`, not `body`, so the writer keeps his style.
+3. **Draft, never send. Jenny writes (Kev, 21 Oct 2026).** Written comms with clients, candidates, vendors and the public are Jenny's: follow `employees/host/skills/inbox-management.md` and `comms-voice.md` for every draft, and label her threads `Jenny/Swept`. Radar keeps classification for the ledger, interrupts, strategy and the team. Each draft becomes a `send_message` QC item carrying the `draft` field. Stage 1 drafts only. Stage 2 and 3 rules are in `trust-ramp.md`. A draft must read as Kev: short, direct, warm, no filler. Use `instructions`, not `body`, so the writer keeps his style.
 4. **Mark.** Apply a Superhuman label `Radar/Swept` to every thread handled so the next sweep skips it. Ledger rows carry Source = "<subject> from <sender>, <date>".
 5. **Log.** Append one line to the sweep log row in the ledger ("Radar sweep · <date>", Category Other, Lane Scheduled, Owner Radar): hour, archived count, drafts written, rows created, interrupts sent. One row per day, updated each hour, Status Done at 6pm.
 

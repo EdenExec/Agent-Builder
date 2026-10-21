@@ -36,7 +36,7 @@ Names, dates, places and times below are illustrations, not facts. Never copy on
 **Candidate rejection (as Kev).**
 
 - Bad: "Unfortunately, after careful consideration, the client has decided to move forward with other candidates whose qualifications more closely align with their needs at this time. We will keep your resume on file."
-- Good: "Mark, thank you for the time you put into this one. The client went another way on the role, and I wanted you to hear it from me first. You interviewed well, and I would like to keep you in mind for the next superintendent search. Talk soon, Kev"
+- Good: "Sam, thank you for the time you put into this one. The client went another way on the role, and I wanted you to hear it from me first. You interviewed well, and I would like to keep you in mind for the next superintendent search. Talk soon, Kev"
 
 Kind and brief: say it in the first two lines, thank them for something real, leave the door open only if Kev means it, never give the client's reasons unless Kev approved them, never name the client to the candidate if the search was confidential.
 

@@ -6,7 +6,7 @@ model: sonnet
 # Superhuman read and draft tools: no agent definition in the repo (.claude/agents/*.md or employees/*/agent.yaml) lists any
 # Superhuman tool name, so none are added here (Radar's instruction, 21 Oct 2026). The inbox sweep runs in a session that has
 # the Superhuman connector attached; add the exact tool names here once Kev or Radar confirms them.
-tools: [Read, Write, Edit, Glob, Grep, Bash, WebFetch, WebSearch, Artifact, ArtifactData, AskUserQuestion]
+tools: [Read, Write, Edit, Glob, Grep, Bash, WebFetch, WebSearch, Artifact, ArtifactData, AskUserQuestion, mcp__Superhuman_Mail__list_threads, mcp__Superhuman_Mail__get_thread, mcp__Superhuman_Mail__list_labels, mcp__Superhuman_Mail__create_or_update_draft, mcp__Superhuman_Mail__get_draft, mcp__Superhuman_Mail__update_thread]
 autonomy:
   spend: approve          # fixed: flights, hotels, cars, venues, caterers, prizes, printing, ads, paid credits
   send_message: approve   # fixed: every email, reply, follow-up, candidate update, intro and invitation is a draft until Kev sends it
