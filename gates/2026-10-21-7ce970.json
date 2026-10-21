@@ -174,7 +174,7 @@
       "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; timeline M14 including ramp; payment = 33% of that month's net operating cash (zero if the month is negative), capped at the remaining amount to 1.4x principal",
       "recomputed": 98,
       "ok": true,
-      "note": "Simulated; month 3 net is negative (fixed costs on half occupancy), floored at zero"
+      "note": "Simulated with M14 ramp; every month positive (month 3 net 238.42), so the zero floor never binds here. Note corrected by Docket 21 Oct 2026: first version wrongly said month 3 was negative; figure unchanged"
     },
     {
       "label": "Co-host case: Option A cash left to Kev per month, $25,000, 48 months, 50% at $200",
