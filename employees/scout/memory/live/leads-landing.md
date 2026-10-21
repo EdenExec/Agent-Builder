@@ -1,0 +1,1 @@
+- 2026-10-21: 2026-10-21 (Kev via Q): every lead sheet lands in one place: Drive folder and repo mirror named in projects/leads/destination.json, through npm run leads -- stage, upload, link. Mobile and Mobile source are the last two columns; never a ZoomInfo phone. Folder is provisional until Kev names the leads artifact.

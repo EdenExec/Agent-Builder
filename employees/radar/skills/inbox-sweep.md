@@ -4,6 +4,8 @@ Runs weekdays, every hour from 7am to 6pm Pacific. Silent: no message to Kev unl
 
 ## Steps
 
+0. **Eden Office first, every sweep.** Run the four Office steps in "Eden Office" below (tickets, actions, desk chats, sync) before the inbox. Never defer them to the check-out.
+
 1. **Pull.** `list_threads` with `labels: ["INBOX"]`, newest first, up to 50, plus the Important split explicitly. Skip threads already handled this day (Radar labels them, see step 4).
 2. **Classify each thread** into one action:
 
@@ -53,12 +55,19 @@ Kev, 21 Oct: every ready draft gets a Superhuman link, so he can send it from Su
 - Then Radar writes `"draft": {"app": "superhuman", "id": "<draft_id>", "subject": "<subject>"}` onto the QC item, and the Office shows a "Send in Superhuman" button.
 - Radar never sends the draft itself.
 
-Each sweep, after step 5:
-1. **Tickets.** `ArtifactData list tickets`. For each `open` ticket, set it to `picked`, run the agent and write back `done` with `result {summary, link}`. If the work would send, spend or publish, set it to `gated` with `proposed {kind, exact}` and the QC id. A ticket is delegation, never approval.
+**Every sweep runs these Office steps first, before the inbox, and never skips them** (Kev, 21 Oct 2026: "I see open tickets for the agents to be working on but don't see them taking action"). The 21 Oct afternoon sweeps deferred them "to the check-out" and 15 tickets sat all day; that is not allowed. An Office ticket is Kev handing work across the desk: it beats inbox triage. If the hour runs short, cut the inbox, not the tickets.
+
+1. **Tickets.** `ArtifactData list tickets`. Any ticket still `open` gets worked this sweep:
+   - First close exact duplicates (same agent, same ask, minutes apart) as `done` with `result.summary` "Duplicate of <id>".
+   - Set the rest to `picked` with `pickedAt` (pin `if_version`) so the desk lights green on the floor.
+   - Run each agent with the Agent tool (`subagent_type` = the ticket's agent, in the background, all at once). Tell it the ticket id and ask, to write files without committing, and to update its `memory/live/now.json`. If the Agent tool is not available in the routine, do the work as Radar from that agent's playbooks.
+   - A ticket for Radar is Radar's own work this sweep.
+   - Write back `done` with `result {summary, link}` when the agent returns. If the work would send, spend or publish, set it to `gated` with `proposed {kind, exact}` and the QC id. Drafts for Kev go into Superhuman Drafts and the link goes in `result.link`. A ticket is delegation, never approval.
+   - A ticket `picked` for more than 2 hours with no result gets re-run or a `result.summary` naming what blocks it.
    - **Upload tickets:** a ticket with `attachments: [{asset, type, name}]` carries a photo, PDF, CSV or text file Kev uploaded. A spreadsheet arrives as one CSV per sheet. Fetch each one with `Artifact read` (the Office url, `path` = the asset id), Read the saved image, then do the ask.
    - **Blank-note photos:** with no ask beyond "make sense of it", Radar decides where the photo belongs: a ledger row, an agent's ticket, the Hub (names and roles only), or a note to Kev.
 2. **Actions.** `ArtifactData list actions` where `applied` is false. Apply each one Kev tapped:
-   - **`done`:** close the source item. A QC item becomes `npm run qc -- reject <id> "handled by Kev outside the queue (Office, <date>)"`; never approve. A ledger row becomes Status Done.
+   - **`done`:** close the source item. A QC item becomes `npm run qc -- reject <id> "handled by Kev outside the queue (Office, <date>)"`; never approve. If that command is denied (it was on 21 Oct for spend items), leave the QC item for Kev to close on the Eden Desk and say so in the sweep log. A ledger row becomes Status Done.
    - **`followup`:** a ledger row with Lane Waiting on, Owner Kev and a due date 7 days out, Source "Eden Office follow-up".
    - **`snooze`:** leave it alone. The page hides the item until `until`.
    - Then `update` the action with `applied: true` (pin `if_version`).
@@ -67,4 +76,4 @@ Each sweep, after step 5:
    - **Hale, Jethro and Barny:** that agent's private Notion page, never the repo.
    - Then `update` each message with `filed: true`.
    A "Ticket:" line Kev did not turn into a ticket stays a suggestion.
-4. **Sync.** `npm run office -- sync`, then push `.office-outbox/batch-*.json` with one `batch`.
+4. **Sync.** Save the tickets (`ArtifactData list tickets` with `out_dir`), join them into one JSON array, and run `npm run office -- sync --tickets <that file>` so each desk counts its open tickets and lights green while one is picked. Then push `.office-outbox/batch-*.json` with one `batch`.

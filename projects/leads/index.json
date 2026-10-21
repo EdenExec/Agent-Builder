@@ -1,0 +1,284 @@
+{
+  "note": "Repo mirror of the sheets the leads artifact reads. Internal, Eden only. Written by npm run leads -- stage.",
+  "sheets": [
+    {
+      "file": "2026-10-19-hoffman-amarillo-low-voltage-supers.csv",
+      "rows": 77,
+      "tiers": {
+        "1": 12,
+        "2": 62,
+        "3": 3
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-hoffman-boise-pm-pe.csv",
+      "rows": 70,
+      "tiers": {
+        "1": 55,
+        "2": 15
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-hoffman-houston-area-supers.csv",
+      "rows": 40,
+      "tiers": {
+        "1": 12,
+        "2": 23,
+        "3": 5
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-inl-safety-manager-idaho-falls-v2.csv",
+      "rows": 89,
+      "tiers": {
+        "1": 20,
+        "2": 55,
+        "3": 14
+      },
+      "built": "2026-10-19",
+      "discreet": true,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-megawatt-project-manager-quincy-wa-v2.csv",
+      "rows": 288,
+      "tiers": {
+        "1": 145,
+        "2": 112,
+        "3": 31
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-megawatt-senior-pm-or-project-executive-san-jose-ca.csv",
+      "rows": 119,
+      "tiers": {
+        "1": 99,
+        "2": 19,
+        "3": 1
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-moss-interior-superintendent.csv",
+      "rows": 34,
+      "tiers": {
+        "1": 6,
+        "2": 25,
+        "3": 3
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-moss-preconstruction-manager.csv",
+      "rows": 44,
+      "tiers": {
+        "1": 27,
+        "2": 15,
+        "3": 2
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-moss-vdc-bim-fort-lauderdale.csv",
+      "rows": 26,
+      "tiers": {
+        "1": 10,
+        "2": 10,
+        "3": 6
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-pb-south-wpb-field-engineer.csv",
+      "rows": 60,
+      "tiers": {
+        "1": 38,
+        "2": 19,
+        "3": 3
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-pb-south-wpb-safety.csv",
+      "rows": 77,
+      "tiers": {
+        "1": 36,
+        "2": 23,
+        "3": 18
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-prometheus-sr-construction-manager-retail-ti.csv",
+      "rows": 38,
+      "tiers": {
+        "1": 26,
+        "2": 10,
+        "3": 2
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-triton-project-manager-west-palm-beach.csv",
+      "rows": 130,
+      "tiers": {
+        "1": 112,
+        "2": 12,
+        "3": 6
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-triton-supers-miami-wpb.csv",
+      "rows": 57,
+      "tiers": {
+        "1": 24,
+        "2": 31,
+        "3": 2
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-vmg-project-engineers-dc.csv",
+      "rows": 107,
+      "tiers": {
+        "1": 96,
+        "2": 6,
+        "3": 5
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-vmg-project-executive-baltimore-dc.csv",
+      "rows": 131,
+      "tiers": {
+        "1": 120,
+        "2": 10,
+        "3": 1
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-vmg-project-managers-dc.csv",
+      "rows": 82,
+      "tiers": {
+        "1": 70,
+        "2": 8,
+        "3": 4
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-vmg-superintendents-dc.csv",
+      "rows": 96,
+      "tiers": {
+        "1": 87,
+        "2": 9
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "2026-10-19-vmg-vdc-manager-reston.csv",
+      "rows": 28,
+      "tiers": {
+        "1": 23,
+        "2": 4,
+        "3": 1
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    },
+    {
+      "file": "sofla-estimating-procurement-2026-10-12-v2.csv",
+      "rows": 63,
+      "tiers": {
+        "1": 34,
+        "2": 24,
+        "3": 1,
+        "?": 4
+      },
+      "built": "2026-10-12",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0
+    }
+  ]
+}

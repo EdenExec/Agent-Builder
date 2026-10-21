@@ -1,0 +1,19 @@
+{
+  "status": "provisional: Kev has not yet named the leads artifact; this is the folder Scout already uses and the Hub's Job Orders rows already link into",
+  "driveFolder": {
+    "name": "JO Meeting · Lead Buckets · Mon Oct 19",
+    "id": "1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9",
+    "url": "https://drive.google.com/drive/folders/1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9",
+    "sheetTitle": "NN · Client · Role · N leads",
+    "kind": "Google Sheet, one per role, internal Eden only"
+  },
+  "repoMirror": "projects/leads/sheets",
+  "index": "projects/leads/index.json",
+  "hubIndex": {
+    "artifact": "https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6",
+    "path": "jobs/{id}.leads[] = {title, url, count, built}",
+    "writer": "Radar, from Scout's one-line hand-off"
+  },
+  "format": "employees/scout/skills/lead-list.md (Columns) plus Mobile and Mobile source at the end",
+  "gate": "npm run leads -- check|stage"
+}
