@@ -18,3 +18,5 @@ Whichever he picks, record here only the choice, the date and the link so the ne
 - Which clinicians the family uses now and after the move (stored privately once known).
 - Whether Weight and Drinks stay on the Eden Daily habit tracker or move to Hale's private scorecard.
 - Whether Ally wants her own section.
+
+- 2026-10-21 (Kev): sensitive data in Notion is fine. Private logs go to Kev's private Notion page for this employee (never a teamspace); the repo still holds playbooks only. Writing to that private page is allowed without a QC item; any other external write still goes through QC.

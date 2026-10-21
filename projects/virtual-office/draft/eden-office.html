@@ -943,7 +943,7 @@ textarea{min-height:84px;resize:vertical}
     ag('keys', 'Keys', 'family', 'Rental ops', { lastHeard: iso(3 * DAY) });
     ag('hale', 'Hale', 'family', 'Health advisor', { task: 'Example task', counts: { working: 1 }, lastHeard: iso(2 * HOUR) });
     ag('cadence', 'Cadence', 'family', 'Growth coach', { task: 'Example task', lastHeard: iso(6 * HOUR) });
-    ag('barnabas', 'Barnabas', 'family', 'Spiritual advisor', { lastHeard: iso(4 * DAY) });
+    ag('barnabas', 'Barny', 'family', 'Spiritual advisor', { lastHeard: iso(4 * DAY) });
     function al(id, agent, light, kind, title, ms) { S.alerts[id] = { id: id, agent: agent, light: light, kind: kind, title: title, source: 'example', raisedAt: iso(ms), needsKev: true, sensitive: SENS.indexOf(agent) >= 0 }; }
     al('e1', 'radar', 'urgent', 'call', 'Missed call: a client contact (example)', 12 * MIN);
     al('e2', 'scout', 'reply', 'inbox', 'Reply (team): lead sheet question (example)', 40 * MIN);
