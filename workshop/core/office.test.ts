@@ -84,6 +84,14 @@ describe("staleness: a green glow on a dead agent is the worst lie", () => {
 });
 
 describe("privacy", () => {
+  test("the three KDTW wing desks (Hale, Cadence, Barnabas) sit in the family wing and are always sensitive", () => {
+    const f = buildFeed(base({ agents: [...agents, { id: "hale", name: "Hale" }, { id: "cadence", name: "Cadence" }, { id: "barnabas", name: "Barnabas" }] }));
+    for (const id of ["hale", "cadence", "barnabas"]) {
+      const a = f.agents.find((x) => x.id === id)!;
+      assert.equal(a.desk, "family");
+      assert.equal(a.sensitive, true);
+    }
+  });
   test("scrub removes emails, phone numbers and amounts, and truncates", () => {
     assert.equal(scrub("Mail kyle@example.com or call (509) 555-0134 about $85,000 base"), "Mail [email] or call [number] about [amount] base");
     assert.equal(scrub("Plan $22/month", 90, true), "Plan $22/month");
@@ -141,5 +149,19 @@ describe("write plan", () => {
     const t = buildFeed(base({ qc: [qcItem({ id: "pend" })], routines: [{ id: "n", name: "N", agent: "q", trigger_id: null }] }), [{ id: "x", name: "X", kind: "routine", owner: "q", routineId: "n", qcId: "pend" }]);
     assert.deepEqual([(t.docs["tools/x"] as any).noTrigger, (t.docs["tools/x"] as any).waitingOnKev], [true, true]);
     assert.ok(!/api[_-]?key|secret|password/i.test(JSON.stringify(f.docs)));
+  });
+});
+
+describe("the page", () => {
+  test("every tool url in tools.json is in the page, so the floor links to what exists", async () => {
+    const { readFileSync } = await import("node:fs");
+    const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
+    const tools = JSON.parse(readFileSync("projects/virtual-office/tools.json", "utf8")) as { id: string; url?: string }[];
+    for (const t of tools.filter((x) => x.url)) assert.ok(html.includes(t.url!), `${t.id} ${t.url} missing from eden-office.html`);
+  });
+  test("the page names the three wing desks as sensitive", async () => {
+    const { readFileSync } = await import("node:fs");
+    const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
+    for (const id of ["hale", "cadence", "barnabas"]) assert.ok(html.includes(`'${id}'`), id);
   });
 });

@@ -156,6 +156,7 @@ a{color:inherit}
 .bench b{font-weight:700;font-size:13.5px}
 .bench span{font:500 10px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
 .bench.tall{flex:1;justify-content:flex-end}
+.slot{display:contents}
 .closed{display:none;flex:1;min-height:80px;align-items:center;justify-content:center;text-align:center;
   font:500 10.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);
   background:repeating-linear-gradient(45deg,transparent 0 7px,var(--line) 7px 8px)}
@@ -302,27 +303,27 @@ textarea{min-height:84px;resize:vertical}
 
       <section class="zone z-rec" data-zone="rec">
         <span class="eyebrow"><span>01 · Recruiting desk</span><span>Dean</span></span>
-        <div id="b-rec" style="display:contents"></div>
+        <div id="b-rec" class="slot"></div>
         <div class="closed priv-stub">Coaching bench closed</div>
         <div class="desks" id="d-rec"></div>
       </section>
 
       <section class="zone z-rev private" data-zone="rev">
         <span class="eyebrow"><span>02 · Revenue</span></span>
-        <div id="b-rev" style="display:contents"></div>
+        <div id="b-rev" class="slot"></div>
         <div class="closed">Closed</div>
       </section>
 
       <section class="zone z-fin private" data-zone="fin">
         <span class="eyebrow"><span>03 · Finance and risk</span><span>Two keys</span></span>
-        <div id="b-fin" style="display:contents"></div>
+        <div id="b-fin" class="slot"></div>
         <div class="desks" id="d-fin"></div>
         <div class="closed">Closed for screen share</div>
       </section>
 
       <section class="zone z-ppl" data-zone="ppl">
         <span class="eyebrow"><span>04 · People</span><span>Dean</span></span>
-        <div id="b-ppl" style="display:contents"></div>
+        <div id="b-ppl" class="slot"></div>
       </section>
 
       <section class="zone z-q" data-zone="q">
@@ -332,7 +333,7 @@ textarea{min-height:84px;resize:vertical}
 
       <section class="zone z-cli" data-zone="cli">
         <span class="eyebrow"><span>06 · Client work</span><span>Link only</span></span>
-        <div id="b-cli" style="display:contents"></div>
+        <div id="b-cli" class="slot"></div>
       </section>
 
       <section class="zone z-rad" data-zone="rad">
@@ -342,7 +343,7 @@ textarea{min-height:84px;resize:vertical}
       <section class="zone z-fam private" data-zone="fam">
         <span class="eyebrow"><span>07 · Family office · KDTW Group</span><span>Own wing</span></span>
         <div class="desks" id="d-fam"></div>
-        <div id="b-fam" style="display:contents"></div>
+        <div id="b-fam" class="slot"></div>
         <div class="closed">Wing closed</div>
       </section>
     </div>
@@ -413,17 +414,17 @@ textarea{min-height:84px;resize:vertical}
     { id: 'quickbooks', name: 'QuickBooks', url: 'https://qbo.intuit.com' },
     { id: 'gusto', name: 'Gusto', url: 'https://app.gusto.com' }
   ];
-  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['hub'], host: ['eden-desk'], tally: ['quickbooks', 'gusto', 'hub'], docket: ['quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'] };
+  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['hub'], host: ['eden-desk'], tally: ['quickbooks', 'gusto', 'hub'], docket: ['quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], cadence: ['eden-desk'], barnabas: ['eden-desk'] };
   var BENCH_TOOLS = { recruiting: ['hub'], depth: ['hub'], revenue: ['hub', 'quickbooks'], university: ['hub'], finance: ['quickbooks', 'gusto', 'hub'], client: ['hub'], family: ['atlas-desk', 'marlowe-desk'] };
   /* Bench skeletons: the floor always has its benches; docs in `benches/` fill in the figures. */
   var BENCH_DEFS = [
     { id: 'recruiting', zone: 'rec', title: 'Recruiting floor · Vancouver', sub: 'Coaching · scorecards · deliverables', owner: 'Dean', sensitive: true, cls: 'bench priv' },
     { id: 'revenue', zone: 'rev', title: 'Revenue', sub: 'Vancouver numbers · Tally + Dean', owner: 'Tally + Dean', sensitive: true, cls: 'bench tall' },
     { id: 'finance', zone: 'fin', title: 'Finance', sub: 'Cash · invoices · P&L · payroll', owner: 'Tally', sensitive: true, cls: 'bench' },
-    { id: 'depth', zone: 'ppl', title: 'Hiring ramp', sub: 'Depth chart · onboarding', owner: 'Dean', sensitive: true, cls: 'bench' },
+    { id: 'depth', zone: 'ppl', title: 'Hiring ramp', sub: 'Depth chart · onboarding', owner: 'Dean', sensitive: true, cls: 'bench priv' },
     { id: 'university', zone: 'ppl', title: 'Eden University', sub: 'Tracks · Wednesday training', owner: 'Dean', sensitive: false, cls: 'bench' },
     { id: 'client', zone: 'cli', title: 'The Hub · Job orders', sub: 'Counts here, names stay in the Hub', owner: 'Radar', sensitive: false, cls: 'bench' },
-    { id: 'family', zone: 'fam', title: 'Home list', sub: 'KDTW Group · Atlas, Marlowe, Keys', owner: 'Radar', sensitive: true, cls: 'bench' }
+    { id: 'family', zone: 'fam', title: 'Home list', sub: 'KDTW Group · family office', owner: 'Radar', sensitive: true, cls: 'bench' }
   ];
 
   var S = { live: false, canWrite: true, share: false, agents: {}, alerts: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, tools: {}, logs: {}, meta: null, today: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
@@ -445,8 +446,8 @@ textarea{min-height:84px;resize:vertical}
   function ago(iso) { var s = short(iso); return s === 'now' ? 'just now' : s === 'never' ? 'never' : s + ' ago'; }
   function led(light, extra) { var i = h('i', { class: 'led', 'data-s': SHAPE[light] }); if (extra) i.setAttribute('aria-hidden', 'true'); return i; }
   function papers(n) { if (!n) return null; var s = h('span', { class: 'papers', title: n + ' open ticket' + (n > 1 ? 's' : '') }); for (var i = 0; i < Math.min(n, 3); i++) s.appendChild(h('i')); return s; }
-  function sensitiveAgent(id) { return !!(S.agents[id] && S.agents[id].sensitive); }
-  function hidden(a) { return S.share && a.sensitive; }
+  function sensitiveAgent(id) { return WING.indexOf(id) >= 0 || !!(S.agents[id] && S.agents[id].sensitive); }   // the wing is private whatever a synced doc says
+  function hidden(a) { return S.share && sensitiveAgent(a.id); }
 
   /* ---------- tools ---------- */
   function toolMap() {
@@ -467,7 +468,7 @@ textarea{min-height:84px;resize:vertical}
   function agentItems(id) {
     var out = [];
     Object.keys(S.alerts).forEach(function (k) {
-      var a = S.alerts[k]; if (a.agent !== id || (S.share && a.sensitive)) return;
+      var a = S.alerts[k]; if (a.agent !== id || (S.share && (a.sensitive || sensitiveAgent(a.agent)))) return;
       var seen = isSeen(a.id);
       if (seen && a.light !== 'urgent') return;           // seen clears everything but red; red holds steady until the source resolves
       out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link, agent: id });
@@ -571,8 +572,9 @@ textarea{min-height:84px;resize:vertical}
 
   /* ---------- the floor ---------- */
   var ZONE_OF = { q: 'q', radar: 'rad', recruiting: 'rec', finance: 'fin', family: 'fam', other: 'rec' };
-  var AGENT_ORDER = ['scout', 'dean', 'host', 'tally', 'docket', 'q', 'atlas', 'housing-architect', 'keys'];
-  function zoneOf(a) { return a.id === 'q' ? 'q' : (ZONE_OF[a.desk] || 'rec'); }
+  var AGENT_ORDER = ['scout', 'dean', 'host', 'tally', 'docket', 'q', 'atlas', 'housing-architect', 'keys', 'hale', 'cadence', 'barnabas'];
+  var WING = ['atlas', 'housing-architect', 'keys', 'hale', 'cadence', 'barnabas'];   // the KDTW wing: private, closes whole under Screen share
+  function zoneOf(a) { return a.id === 'q' ? 'q' : (WING.indexOf(a.id) >= 0 ? 'fam' : (ZONE_OF[a.desk] || 'rec')); }
   function isDusk() { var d = new Date(), x = d.getHours() + d.getMinutes() / 60; return !(x >= 7.5 && x <= 18.5); }
 
   function deskEl(a) {
@@ -927,7 +929,7 @@ textarea{min-height:84px;resize:vertical}
   /* ---------- example data (clearly labelled; no client names, pay, phones, family or health) ---------- */
   function exampleData() {
     var n = Date.now(), iso = function (ago) { return new Date(n - ago).toISOString(); };
-    var SENS = ['tally', 'docket', 'atlas', 'housing-architect', 'keys', 'dean'];
+    var SENS = ['tally', 'docket', 'atlas', 'housing-architect', 'keys', 'dean', 'hale', 'cadence', 'barnabas'];
     function ag(id, name, desk, role, o) { var a = { id: id, name: name, desk: desk, role: role, sensitive: SENS.indexOf(id) >= 0, light: 'idle', counts: {}, task: null, lastHeard: iso(2 * HOUR), pendingQc: 0, openTickets: 0, expectedEveryHours: 96, updated: iso(20 * MIN) }; for (var k in o) a[k] = o[k]; S.agents[id] = a; }
     ag('radar', 'Radar', 'centre', 'Chief of staff', { task: 'Hourly sweep (example)', counts: { working: 1 }, lastHeard: iso(30 * MIN), expectedEveryHours: 30, openTickets: 2 });
     ag('scout', 'Scout', 'recruiting', 'Lead research', { task: "Tonight's lead buckets (example)", lastHeard: iso(HOUR), openTickets: 1 });
@@ -939,6 +941,9 @@ textarea{min-height:84px;resize:vertical}
     ag('atlas', 'Atlas', 'family', 'Tutor', { lastHeard: iso(2 * DAY) });
     ag('housing-architect', 'Marlowe', 'family', 'Architect', { task: 'Floor plan (example)', counts: { working: 1 }, lastHeard: iso(HOUR) });
     ag('keys', 'Keys', 'family', 'Rental ops', { lastHeard: iso(3 * DAY) });
+    ag('hale', 'Hale', 'family', 'Health advisor', { task: 'Example task', counts: { working: 1 }, lastHeard: iso(2 * HOUR) });
+    ag('cadence', 'Cadence', 'family', 'Growth coach', { task: 'Example task', lastHeard: iso(6 * HOUR) });
+    ag('barnabas', 'Barnabas', 'family', 'Spiritual advisor', { lastHeard: iso(4 * DAY) });
     function al(id, agent, light, kind, title, ms) { S.alerts[id] = { id: id, agent: agent, light: light, kind: kind, title: title, source: 'example', raisedAt: iso(ms), needsKev: true, sensitive: SENS.indexOf(agent) >= 0 }; }
     al('e1', 'radar', 'urgent', 'call', 'Missed call: a client contact (example)', 12 * MIN);
     al('e2', 'scout', 'reply', 'inbox', 'Reply (team): lead sheet question (example)', 40 * MIN);
