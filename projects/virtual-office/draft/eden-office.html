@@ -575,6 +575,7 @@ textarea{min-height:84px;resize:vertical}
     b.appendChild(h('div', null, h('div', { class: 'what', text: f.title }), h('div', { class: 'sub', text: nameOf(f.agent) + ' · ' + ago(f.raisedAt) + (reds.length > 1 ? ' · ' + (reds.length - 1) + ' more urgent' : '') })));
     var acts = h('div', { class: 'sacts' }); acts.appendChild(seenBtn(f)); b.appendChild(acts);
   }
+  function openLabel(url) { return /superhuman\.com/.test(url) ? 'Send in Superhuman' : 'Open'; }
   function nameOf(id) { return S.agents[id] ? S.agents[id].name : id; }
   function renderStrip() {
     var ol = $('#strip'); ol.textContent = '';
@@ -586,7 +587,7 @@ textarea{min-height:84px;resize:vertical}
       var main = h('button', { class: 'smain', 'data-id': i.agent }, led(i.light, true), h('span', { class: 'who', text: nameOf(i.agent) }), h('span', { class: 'what', text: i.title }));
       main.setAttribute('aria-label', WORD[i.light] + ', ' + nameOf(i.agent) + ': ' + i.title);
       var acts = h('span', { class: 'sacts' });
-      if (i.link) acts.appendChild(h('a', { class: 'mini', href: i.link, target: '_blank', rel: 'noopener', text: 'Open' }));
+      if (i.link) acts.appendChild(h('a', { class: 'mini', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
       acts.appendChild(seenBtn(i));
       ol.appendChild(h('li', null, main, acts));
     });
@@ -718,7 +719,7 @@ textarea{min-height:84px;resize:vertical}
   }
   function itemRow(i) {
     var acts = h('span', { class: 'sacts', style: 'padding:0' });
-    if (i.link) acts.appendChild(h('a', { class: 'mini', href: i.link, target: '_blank', rel: 'noopener', text: 'Open' }));
+    if (i.link) acts.appendChild(h('a', { class: 'mini', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
     var done = h('button', { class: 'mini', text: 'Done', 'data-act': 'done', 'data-key': i.key }); done.disabled = !S.canWrite;
     var fu = h('button', { class: 'mini', text: 'Follow up', 'data-act': 'followup', 'data-key': i.key }); fu.disabled = !S.canWrite;
     acts.appendChild(done); acts.appendChild(fu);

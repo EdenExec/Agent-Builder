@@ -46,7 +46,14 @@ Kev: "All incoming calls in CloudTalk should just route to one number, the Googl
 
 ## Eden Office (Kev, 21 October 2026)
 
-Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW (brief: `projects/virtual-office/brief.md`). Each sweep, after step 5:
+Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW (brief: `projects/virtual-office/brief.md`).
+
+Kev, 21 Oct: every ready draft gets a Superhuman link, so he can send it from Superhuman.
+- **Any agent's `send_message` QC item:** Radar creates the Superhuman draft (`create_or_update_draft`, recipients filled when known).
+- Then Radar writes `"draft": {"app": "superhuman", "id": "<draft_id>", "subject": "<subject>"}` onto the QC item, and the Office shows a "Send in Superhuman" button.
+- Radar never sends the draft itself.
+
+Each sweep, after step 5:
 1. **Tickets.** `ArtifactData list tickets`. For each `open` ticket, set it to `picked`, run the agent and write back `done` with `result {summary, link}`. If the work would send, spend or publish, set it to `gated` with `proposed {kind, exact}` and the QC id. A ticket is delegation, never approval.
 2. **Actions.** `ArtifactData list actions` where `applied` is false. Apply each one Kev tapped:
    - **`done`:** close the source item. A QC item becomes `npm run qc -- reject <id> "handled by Kev outside the queue (Office, <date>)"`; never approve. A ledger row becomes Status Done.

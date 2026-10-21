@@ -102,6 +102,9 @@ function ownerToAgent(owner: string, agents: AgentLite[]): string | undefined {
   return agents.find((a) => a.id === o || a.name.toLowerCase() === o)?.id;
 }
 
+/** Superhuman's connector gives no per-draft link, so a ready draft opens Superhuman itself; the alert names the subject (Drafts: G then D). */
+export const SUPERHUMAN_URL = "https://mail.superhuman.com/";
+
 export function buildAlerts(input: SyncInput): Alert[] {
   const { now } = input;
   const out: Alert[] = [];
@@ -115,7 +118,8 @@ export function buildAlerts(input: SyncInput): Alert[] {
     const light = overdue ? "urgent" : q.kind === "send_message" ? "review" : "blocked";
     add({
       id: `sync-qc-${q.id}`, agent: q.employee, light, kind: "qc", needsKev: true, raisedAt: q.createdAt, source: `qc/${q.id}`,
-      title: `${q.kind.replace("_", " ")}${overdue ? " (waiting 5+ days)" : ""}: ${scrub(q.summary, 80, q.kind === "spend")}`,
+      ...(q.draft ? { link: SUPERHUMAN_URL } : {}),
+      title: q.draft ? `Draft ready in Superhuman${overdue ? " (waiting 5+ days)" : ""}: ${scrub(q.draft.subject ?? q.summary, 80)}` : `${q.kind.replace("_", " ")}${overdue ? " (waiting 5+ days)" : ""}: ${scrub(q.summary, 80, q.kind === "spend")}`,
     });
   }
 
