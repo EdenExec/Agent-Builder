@@ -95,3 +95,43 @@ A confidential general contractor is hiring a VDC / BIM professional to lead vir
 - Pay range (none stated, none included)
 - Remote policy: fully remote allowed, or hybrid with travel?
 - Which client this is for; the draft keeps it confidential
+
+---
+
+## 3. Traveling Superintendent, MEP / data center / low voltage
+
+**Title:** Traveling Superintendent, MEP / Data Center / Low Voltage
+**Company line:** Eden Executive Search, hiring for a confidential contractor
+**Location:** Travel across projects in every U.S. time zone (home base flexible)
+**Type:** Full-time, direct hire
+
+### Post
+
+A confidential contractor has active projects in every U.S. time zone and needs Superintendents who travel to where the work is. If you have run MEP, data center or low voltage scopes in the field and want to move from project to project, this role is for you.
+
+**What you will do**
+- Run field operations on MEP, data center or low voltage scopes: sequencing, manpower, trade coordination and safety
+- Start up projects, and step in to stabilize ones that need a strong field lead
+- Work with the project team on look-aheads, inspections, commissioning support and closeout
+- Travel to project sites; expect to be away from home during assignments
+
+**What we are looking for**
+- Superintendent experience on MEP, data center, mission-critical or low voltage projects
+- Comfort leading trade partners and holding a schedule
+- OSHA 30; a clean safety record
+- Willing to travel to any time zone for assignments
+
+**To apply:** Easy Apply, or send your resume and the types of projects you have run.
+
+### Screening questions
+1. Years as a Superintendent (number)
+2. Scope you have run: MEP / Data center / Low voltage / Other (pick all). Must-have: at least one of MEP, data center or low voltage
+3. Have you run a data center or mission-critical build? (Yes/No)
+4. Are you willing to travel to any time zone for project assignments? (Yes/No) Must-have: Yes
+5. Are you legally authorized to work in the United States? (Yes/No) Must-have: Yes
+
+### Open items for Kev
+- Travel terms: per diem, lodging, rotation (days out, days home)
+- Pay range (none stated, none included)
+- Number of seats, and which client or clients this serves (draft keeps it confidential)
+- Whether to treat MEP, data center and low voltage as one post or three
