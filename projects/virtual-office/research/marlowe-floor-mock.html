@@ -83,7 +83,7 @@ button{font:inherit;color:inherit}
 .z-fam{grid-area:fam;border:2px solid var(--wall);border-left-width:3px;padding:14px}
 .z-fam::before{content:"";position:absolute;left:-3px;top:38%;height:56px;width:3px;background:var(--floor)} /* the wing's door */
 .z-cli{border:0;outline:1px solid var(--line);outline-offset:-1px;box-shadow:inset 0 0 0 4px var(--floor),inset 0 0 0 5px var(--line)} /* glass partition */
-.desks{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:14px}
+.desks{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:14px}
 
 /* the desk object */
 .desk{position:relative;display:flex;flex-direction:column;gap:5px;text-align:left;cursor:pointer;
@@ -100,9 +100,9 @@ button{font:inherit;color:inherit}
 .meta .st{color:var(--ink)}
 .stale{border:1px solid var(--mute);padding:0 3px}
 /* paper on the desk: open tickets as stacked sheets */
-.papers{position:absolute;right:12px;bottom:30px;width:15px;height:19px}
+.papers{position:relative;display:inline-block;width:9px;height:11px;margin-right:9px;vertical-align:-1px}
 .papers i{position:absolute;inset:0;border:1px solid var(--mute);background:var(--paper)}
-.papers i:nth-child(2){transform:translate(-3px,-3px)} .papers i:nth-child(3){transform:translate(-6px,-6px)}
+.papers i:nth-child(2){transform:translate(2px,-2px)} .papers i:nth-child(3){transform:translate(4px,-4px)}
 
 /* the light: a lens that is always there, a lit layer that glows and blinks, and a shape that never relies on colour */
 .ledbox{position:absolute;top:11px;right:11px;display:flex;align-items:center;gap:5px}
@@ -380,8 +380,8 @@ function deskHTML(a){
     <span class="chair" aria-hidden="true"></span>
     <span class="ledbox" aria-hidden="true">${a.also?`<span class="cnt">+${a.also}</span>`:""}${led(a.s)}</span>
     <span class="plate">${esc(a.name)}</span><span class="role">${esc(a.role)}</span>
-    <span class="task">${esc(a.task)}</span>${papers(a.tickets)}
-    <span class="meta"><span class="st">${WORD[a.s]}${seen.has(a.id)&&RANK[a.s]>=3?" · seen":""}</span><span>${a.stale?`<span class="stale">Stale</span> `:""}${a.heard}</span></span>
+    <span class="task">${esc(a.task)}</span>
+    <span class="meta"><span class="st">${WORD[a.s]}${seen.has(a.id)&&RANK[a.s]>=3?" · seen":""}</span><span>${papers(a.tickets)}${a.stale?`<span class="stale">Stale</span> `:""}${a.heard}</span></span>
   </button>`;
 }
 function radarHTML(){
@@ -438,7 +438,7 @@ function drawNotes(){
   const [rx, ry] = c($("#radar"));
   let out = "";
   document.querySelectorAll(".desk").forEach(d => { if (!d.offsetParent) return; const [x,y] = c(d); out += `<line x1="${rx}" y1="${ry}" x2="${x}" y2="${y}"/>`; });
-  const t = $('[data-id="tally"]'), k = $('[data-id="docket"]');
+  const t = $('.desk[data-id="tally"]'), k = $('.desk[data-id="docket"]');
   if (t && k && t.offsetParent){ const [x1,y1]=c(t),[x2,y2]=c(k); out += `<line class="pair" x1="${x1}" y1="${y1-58}" x2="${x2}" y2="${y2-58}"/><text x="${(x1+x2)/2-30}" y="${y1-63}">TWO KEYS</text>`; }
   svg.innerHTML = out;
 }
