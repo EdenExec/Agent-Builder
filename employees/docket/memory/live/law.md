@@ -1,0 +1,2 @@
+- 2026-10-21: 2026-10-21: Washington ESHB 1155 (Chapter 149, Laws of 2026), effective 30 June 2027, voids all noncompetes including existing ones; forfeit-or-repay clauses count; customer non-solicits limited to direct-relationship customers, max 18 months; notice to workers by 1 Oct 2027. Source: WA final bill report, read 21 Oct 2026. SETTLED.
+- 2026-10-21: 2026-10-21: RCW 49.62 2026 thresholds (L&I, WSR 25-20-099): employees $126,858.83, independent contractors $317,147.09. SETTLED.

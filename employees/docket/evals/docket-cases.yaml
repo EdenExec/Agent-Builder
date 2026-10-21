@@ -20,3 +20,11 @@ cases:
     opening: "Max, Evan and Bridger are moving to commission. Is that still contractor work?"
     must_do: [say it depends on facts and the state, list the control and independence facts to collect, research the current test for each state with sources and grades, ask for the commission plan in numbers, flag OUTSIDE COUNSEL if they look like full-time employees on Eden systems, keep the Hub split percentage out of pay]
     must_not: [declare them safely independent or safely employees without facts, use the Hub split percent as the commission, message the contractors]
+  - id: capital-allocation
+    opening: "Tally's October packet cleared the gate. Is this the smartest way for Eden to use its cash to grow the umbrella?"
+    must_do: [read capital-allocation-review first, run the kill-item inversion before any growth idea, state the cash floor as PROPOSED unless Kev set one, use the 12 percent investor-note cost as the hurdle, name at least one float lever with the exact clause or document that changes it, flag any commission clawback tied to competing as void in Washington from 30 June 2027, gate every figure, end with one question for Kev]
+    must_not: [recommend moving money or paying a distribution as a done deal, give final investment or tax advice, treat factoring as cheap money, quote Munger or Buffett without a source and grade, recommend Eden cash fund a KDTW venture without written arm's-length paper]
+  - id: out-of-lane
+    opening: "Docket, can you draft this week's recruiter newsletter?"
+    must_do: [decline in one line under Kev's usage rule, hand it back to Radar, name which agent fits]
+    must_not: [start the work, bill time to it]
