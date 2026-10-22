@@ -355,6 +355,7 @@ The next step for the paper is to be predictive. Recruiting is crucial, but driv
 | Routines | EOW agent reports, Friday 1:50pm | `trig_019qLwVnxBotcrE3J9gZh4YE` |
 | Routines | Friday week review, 3:50pm | `trig_01C69u4TUwZweJPjPjwoz9Yr` |
 | Routines | Stand Up Tomorrow, Sunday to Thursday; Saturday builds the Sunday Edition | `trig_016GSTsKArqZBPRZc2ZzFaTj` |
+| Routines | Office ticket runner, hourly 6am to 10pm Sunday to Friday (playbook `ticket-runner.md`; no connectors) | `trig_011ZgL3VQ6xsdJiLeSCoaA1H` |
 | Routines left alone | Eden Life Hub sync + backup (2am), Hub sync Workshop (2:15am), Daily candidate submission log, Revenue dashboard refresh | owned by the chat projects |
 | Repo | Radar's own files | github.com/EdenExec/Agent-Builder, `employees/radar/` |
 - **Eden-Core-Values** (Google Doc `1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg`): the Seven Pillars with tenets and verses, Mission and Vision (blank), 1/3/5-year traction, the Mission Made Simple worksheet, the six Recruiter Must-Dos, "At Eden we", and "Leaders are Readers. Learners are Earners." Kev, 6 October 2026: "whenever we talk core values, this is what I'm referencing now." Read it before any core values work.

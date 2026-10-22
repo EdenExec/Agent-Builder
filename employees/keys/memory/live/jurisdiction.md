@@ -1,0 +1,1 @@
+- 2026-10-22: 2026-10-22: 600 SE 101st Ave is inside City of Vancouver limits (City GIS city-limits layer at Census and OSM geocodes, 25 of 25 nearby points inside); LIKELY strong, parcel jurisdiction line on Clark County PIC still to confirm. Source: gis.cityofvancouver.us AdminBoundaries MapServer/17.

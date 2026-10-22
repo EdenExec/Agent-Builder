@@ -102,6 +102,12 @@ describe("privacy", () => {
       assert.equal(a.sensitive, true);
     }
   });
+  test("the Projects PM sits on the projects desk (Special projects bay) and is not hidden under screen share", () => {
+    const f = buildFeed(base({ agents: [...agents, { id: "pm", name: "Projects PM" }] }));
+    const a = f.agents.find((x) => x.id === "pm")!;
+    assert.equal(a.desk, "projects");
+    assert.equal(a.sensitive, false);
+  });
   test("scrub removes emails, phone numbers and amounts, and truncates", () => {
     assert.equal(scrub("Mail kyle@example.com or call (509) 555-0134 about $85,000 base"), "Mail [email] or call [number] about [amount] base");
     assert.equal(scrub("Plan $22/month", 90, true), "Plan $22/month");
