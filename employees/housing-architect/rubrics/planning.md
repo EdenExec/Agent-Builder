@@ -4,7 +4,7 @@ Score each 0, 1, 2. Pass line: 16 of 20, with no zero.
 
 1. Summary and recommendation come first.
 2. Area schedule reconciles to the target within stated tolerance, with circulation included.
-3. Adjacency and zoning logic explained.
+3. Adjacency and zoning logic explained, with a quiet-room check (which rooms need quiet, what noise sources sit next to or above them, and the fix).
 4. Options differ in a real way and a recommendation is justified.
 5. Every rule has a value, source URL, date opened, and verified flag.
 6. Nothing is stated from memory as fact; unverified items name who to ask.
