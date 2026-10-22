@@ -135,6 +135,15 @@ export function slaFindings(tickets, now) {
   return out;
 }
 
+/** What closing this ticket scored: {points, base, onClock, sameDay, date}, or null if it is not a done ticket. */
+export function ticketScore(t) {
+  var c = parse(t.createdAt), dn = parse(t.doneAt) || parse(t.updatedAt);
+  if (t.status !== 'done' || c == null || dn == null) return null;
+  var pk = pickupAt(t), dl = addRunnerMinutes(c, SLA_PICKUP_MIN), date = pacificDate(dn);
+  var onClock = (pk == null ? dn : pk) <= dl, sameDay = pacificDate(c) === date, base = t.priority === 'today' ? POINTS.today : POINTS.other;
+  return { points: base + (onClock ? POINTS.onClock : 0) + (sameDay ? POINTS.sameDay : 0), base: base, onClock: onClock, sameDay: sameDay, date: date };
+}
+
 function median(xs) {
   if (!xs.length) return null;
   var s = xs.slice().sort(function (a, b) { return a - b; }), m = s.length >> 1;
@@ -158,12 +167,10 @@ export function buildGame(input) {
     if (f != null) { var fd = pacificDate(f); failEvents.push({ id: t.id, agent: t.agent, date: fd }); D(fd).fails++; D(fd).points += POINTS.fail; }
     if (pk != null) pickups.push({ agent: t.agent, date: pacificDate(pk), minutes: runnerMinutes(c, pk) });
     if (t.status === 'done') {
-      var dn = parse(t.doneAt) || parse(t.updatedAt); if (dn == null) return;
-      var dd = pacificDate(dn); if (isSabbath(dd) || dn > now) return;
-      var onClock = (pk == null ? dn : pk) <= dl, sameDay = cd === dd;
-      var pts = (t.priority === 'today' ? POINTS.today : POINTS.other) + (onClock ? POINTS.onClock : 0) + (sameDay ? POINTS.sameDay : 0);
-      closedEvents.push({ id: t.id, agent: t.agent, date: dd, points: pts, onClock: onClock, sameDay: sameDay, minutes: (dn - c) / 60000 });
-      D(dd).closed++; D(dd).points += pts;
+      var sc = ticketScore(t), dn = parse(t.doneAt) || parse(t.updatedAt);
+      if (!sc || dn > now || isSabbath(sc.date)) return;
+      closedEvents.push({ id: t.id, agent: t.agent, date: sc.date, points: sc.points, onClock: sc.onClock, sameDay: sc.sameDay, minutes: (dn - c) / 60000 });
+      D(sc.date).closed++; D(sc.date).points += sc.points;
     }
   });
   var kevEvents = 0;

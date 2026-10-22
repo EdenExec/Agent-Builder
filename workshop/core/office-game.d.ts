@@ -44,6 +44,7 @@ export function pickupAt(t: GameTicket): number | null;
 export function failDeadline(t: GameTicket): number | null;
 export function failedAt(t: GameTicket, now: number): number | null;
 export function slaState(t: GameTicket, now: number): SlaState;
+export function ticketScore(t: GameTicket): { points: number; base: number; onClock: boolean; sameDay: boolean; date: string } | null;
 export function slaFindings(tickets: GameTicket[], now: number): SlaFinding[];
 export function buildGame(input: { now: number; tickets?: GameTicket[]; actions?: GameAction[]; qcByDay?: Record<string, number> }): Game;
 export function mergeRecords(live: Records, prior?: Partial<Records> | null): Records;
