@@ -4,3 +4,4 @@
 - 2026-10-15: 2026-10-15: Kev said (via Radar, 5 Oct) he will add Unsplash and Pexels keys; check env before each board.
 - 2026-10-15: 2026-10-15: Water: river OR pond/irrigation water on site is acceptable. Outbuilding income is a goal, plan for it from day one (Kev, 15 Oct 2026).
 - 2026-10-15: 2026-10-15: Orangery board: Pixabay and Openverse returned weak results (fruit, historic palm houses). Kev chose a written spec plus plan sketch instead (projects/eden-ranch-idaho/orangery-spec.md). Rebuild board when Unsplash works.
+- 2026-10-22: 2026-10-22: Kev approved adding his four interior-design principles to the Idaho ranch brief as design rules, and a required quiet-room check in every plan (skill and rubric updated).

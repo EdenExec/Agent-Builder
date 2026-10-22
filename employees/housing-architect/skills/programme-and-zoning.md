@@ -23,3 +23,7 @@ You are not a code official. This study identifies what to check and records wha
 Write `deliverables/<slug>/planning/study.md` with front matter (`title`, `subtitle`, `author: Marlowe`, `date`), then run `npm run doc -- deliverables/<slug>/planning/study.md --pdf`. It lints the Eden writing rules and produces the branded document. Fix every warning or say why it stands.
 
 Structure: executive summary first (result and recommendation in 3 bullets), then the area schedule and rules table as tables, the option comparison as a table, open questions last. Page break between divisible sections. State plainly: "Not a compliance determination."
+
+## Quiet-room check (required in every plan, Kev 22 Oct 2026)
+
+Add a short table to the study: each room that needs quiet (main suite, office, kids' rooms, orangery seating), the noise sources next to or above it (bar, hitting bay, mechanical room, garage, shop, kitchen), and the fix (separation, damped floor, door and drape, soft surfaces). Also check prospect and refuge for each main seat. Mark any acoustic rating UNVERIFIED and name the engineer or consultant to ask.
