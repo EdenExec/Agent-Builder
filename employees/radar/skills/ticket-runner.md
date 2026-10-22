@@ -22,7 +22,9 @@ Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW · Saturday is the Sab
    - Drafts for Kev: this routine has no Superhuman connector, so it saves the draft text in the repo and puts the path in `result.link`. The next inbox sweep moves it into Superhuman Drafts.
    - A ticket is delegation, never approval.
 6. **Unstick.** A ticket `picked` or `working` for more than 2 hours with no result gets re-run once. If it fails again, it is `blocked` with `blockedOn` naming exactly what is missing (Kev, a connector, a person).
-7. **Ship.** Commit the agents' files with the message "Ticket runner <date> <hour>: <n> closed" and the session trailer. Push to both branches (`claude/pensive-brown-18gll8` and `workshop/phase-0`); if the push is rejected, fetch, merge and push again.
+7. **Ship.** Commit the agents' files with the message "Ticket runner <date> <hour>: <n> closed" and the session trailer. Push to both branches (`claude/pensive-brown-18gll8` and `workshop/phase-0`); if the push is rejected as non-fast-forward, fetch, merge and push again.
+   - **If the push is refused with a 403** ("not in this session's authorized repositories"), stop trying: this run was started without the repo attached. Put each deliverable's full text in its ticket's `result.body` (markdown, up to 20,000 characters) so nothing is lost, add "repo copy not pushed" to the summary, and log it in `friction.md`. The next live Radar session commits it from there. (22 Oct 2026: the test run hit this; the fix is Kev re-creating the routine in claude.ai with the repo attached.)
+   - Never redo work another session already did: if the ticket's result or the repo shows it done, close it with that result.
 8. **Refresh the floor.**
    1. Write `versions.json` from step 1 (`{"agents/q": 3, "meta/sync": 2, ...}`).
    2. Re-list `tickets` into the dump so the sync sees this run's closes.
