@@ -38,8 +38,9 @@ budget:
   low: 1500000
   high: 3000000
   confidence: rough
-timeline: "Planning through 2027; build a few years out. Land search timing not set."
+timeline: "Planning through 2027; build a few years out. Land purchase around 2028 (Kev, 22 Oct 2026, a guess)."
 assumptions:
+  - "Land purchase around 2028 is Kev's rough guess. Land prices, county rules and short-term-rental rules will be rechecked closer to purchase; anything cited now may be stale by then."
   - "The four design rules come from Kev's interior-design notes of 20 Oct 2026 and are added to a draft brief on his go-ahead of 22 Oct 2026. Every plan gets a quiet-room check."
   - "Income from outbuildings is a goal (Kev, 15 Oct 2026): short-term rental rules, zoning and septic capacity are gating checks on any parcel. UNVERIFIED per county."
   - "Budget $1.5M to $3M for land plus build, rough, from Kev 11 Oct 2026. At this range expect smaller acreage, inland or pond water, and phasing (small homes first). UNVERIFIED against current Treasure Valley land prices."
@@ -48,5 +49,4 @@ assumptions:
   - "40+ acres, compound on 5 to 10 acres, rest for ranch and farming (from the hub)."
   - "HQ stays near Boise; this ranch is the primary home, hospitality-capable."
   - "Second property, NorCal near Lincoln / Auburn / Grass Valley / Nevada City, is a separate project: small cottage or off-grid RV first, long-term holiday home if the rice farm goes ahead."
-openQuestions:
-  - "Land purchase year."
+openQuestions: []
