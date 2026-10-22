@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { buildFeed, buildAlerts, buildAgents, findUnused, planWrites, chunk, scrub, type SyncInput, SUPERHUMAN_URL } from "./office.ts";
+import { buildFeed, buildAlerts, buildAgents, findUnused, planWrites, chunk, scrub, qcApprovalsByDay, DESKS, type SyncInput, SUPERHUMAN_URL } from "./office.ts";
 import type { QcItem } from "./qc.ts";
 import type { GateRecord } from "./numbers-gate.ts";
 
@@ -168,6 +168,82 @@ describe("write plan", () => {
   });
 });
 
+describe("the ticket SLA on the desks (Kev, 22 Oct 2026)", () => {
+  // now is Wed 21 Oct 2026, 11:00am Pacific (18:00Z): a working day, inside runner hours.
+  const ago = (min: number) => new Date(now.getTime() - min * 60000).toISOString();
+  const tix = (o: object) => ({ id: "t1", agent: "scout", status: "open", priority: "today", ask: "Build the PB South lead list", createdAt: ago(130), ...o });
+  test("an open ticket past 60 minutes raises an urgent alert on its agent's desk with the wait and the ask", () => {
+    const a = buildAlerts(base({ tickets: [tix({})] })).filter((x) => x.kind === "sla");
+    assert.equal(a.length, 1);
+    assert.deepEqual([a[0]!.agent, a[0]!.light, a[0]!.needsKev, a[0]!.id], ["scout", "urgent", false, "sync-fail-t1"]);
+    assert.equal(a[0]!.title, "Ticket waiting 2h 10m: Build the PB South lead list");
+    const long = buildAlerts(base({ tickets: [tix({ ask: "Call a@b.com about $90,000 " + "x".repeat(100) })] })).find((x) => x.kind === "sla")!;
+    assert.ok(!/@|90,000/.test(long.title) && long.title.length <= "Ticket waiting 2h 10m: ".length + 60);
+  });
+  test("59 minutes, picked-up, done and gated tickets raise nothing", () => {
+    const a = buildAlerts(base({ tickets: [tix({ id: "a", createdAt: ago(59) }), tix({ id: "b", status: "done", pickedAt: ago(100), doneAt: ago(10) }), tix({ id: "c", status: "gated", pickedAt: ago(100) }), tix({ id: "d", status: "picked", pickedAt: ago(30) })] }));
+    assert.equal(a.filter((x) => x.kind === "sla").length, 0);
+  });
+  test("picked or working more than 4 hours with no result is a STALL: amber, on the agent's desk", () => {
+    const a = buildAlerts(base({ tickets: [tix({ id: "s", status: "working", createdAt: ago(400), pickedAt: ago(300), agent: "q" })] })).find((x) => x.kind === "sla")!;
+    assert.deepEqual([a.id, a.light, a.agent], ["sync-stall-s", "blocked", "q"]);
+    assert.match(a.title, /^Ticket stalled 5h 0m: /);
+    const done = buildAlerts(base({ tickets: [tix({ id: "s", status: "working", createdAt: ago(400), pickedAt: ago(300), result: { summary: "ok" } })] }));
+    assert.equal(done.length, 0);
+  });
+  test("nothing on Saturday", () => {
+    const sat = new Date("2026-10-24T19:00:00Z");
+    const a = buildAlerts(base({ now: sat, tickets: [tix({ createdAt: new Date(sat.getTime() - 5 * 3600000).toISOString() })] }));
+    assert.equal(a.length, 0);
+  });
+  test("the FAIL turns the desk red, and the count and the game reach meta/sync and meta/records", () => {
+    const input = base({ tickets: [tix({}), tix({ id: "t2", agent: "q", status: "done", createdAt: ago(100), pickedAt: ago(90), doneAt: ago(20) })], actions: [{ action: "done", at: ago(10) }] });
+    const f = buildFeed(input);
+    assert.equal(f.agents.find((x) => x.id === "scout")!.light, "urgent");
+    const sync = f.docs["meta/sync"] as any;
+    assert.equal(sync.counts.fails, 1);
+    assert.equal(sync.counts.stalls, 0);
+    assert.deepEqual([sync.game.day.points, sync.game.day.closed, sync.game.day.fails, sync.game.day.kev], [6 - 3 + 2, 1, 1, 1]);
+    assert.equal(sync.game.openNow, 1);
+    assert.ok(!/Build the PB South/.test(JSON.stringify(sync)), "no ticket text in the game block");
+    const rec = f.docs["meta/records"] as any;
+    assert.equal(rec.mostClosedDay.n, 1);
+    assert.ok(!f.skipped.some((x) => /tickets/.test(x)));
+  });
+  test("records already on file only advance", () => {
+    const f = buildFeed(base({ tickets: [tix({ status: "done", pickedAt: ago(100), doneAt: ago(20) })] }), [], {}, {}, { mostClosedDay: { n: 9, date: "2026-09-01", on: "2026-09-01" }, bestWeek: { points: 1, weekOf: "2026-10-18", on: "2026-10-19" }, longestStreak: { days: 0, on: null } });
+    const rec = f.docs["meta/records"] as any;
+    assert.equal(rec.mostClosedDay.n, 9);
+    assert.ok(rec.bestWeek.points >= 5);
+  });
+  test("without tickets the sync says so and writes no game and no records", () => {
+    const f = buildFeed(base());
+    assert.equal((f.docs["meta/sync"] as any).game, null);
+    assert.equal((f.docs["meta/sync"] as any).counts.fails, null);
+    assert.equal("meta/records" in f.docs, false);
+  });
+  test("a FAIL alert that stops being true is deleted on the next sync", () => {
+    const first = buildFeed(base({ tickets: [tix({})] }));
+    const ex = Object.fromEntries(Object.entries(first.docs).map(([k, v]) => [k, { version: 1, data: v }]));
+    const next = buildFeed(base({ tickets: [tix({ status: "picked", pickedAt: ago(5) })] }));
+    const ops = planWrites(next.docs, ex);
+    assert.ok(ops.some((o) => o.op === "delete" && o.doc_id === "sync-fail-t1"));
+  });
+  test("meta/sync is always rewritten, so 'Synced Nm ago' on the page keeps moving even when nothing else changed", () => {
+    const f = buildFeed(base());
+    const later = buildFeed(base({ now: new Date(now.getTime() + 3600000) }));
+    const ex = Object.fromEntries(Object.entries(f.docs).map(([k, v]) => [k, { version: 2, data: v }]));
+    const ops = planWrites(later.docs, ex);
+    assert.ok(ops.some((o) => o.collection === "meta" && o.doc_id === "sync" && o.if_version === 2));
+    assert.ok(!ops.some((o) => o.collection === "agents"), "unchanged agents are still skipped");
+  });
+  test("Kev's QC approvals count by Pacific day", () => {
+    const q = [qcItem({ id: "a", status: "approved", decidedAt: "2026-10-21T17:00:00Z" }), qcItem({ id: "b", status: "approved", decidedAt: "2026-10-21T14:00:00Z" }), qcItem({ id: "c", status: "pending" }), qcItem({ id: "d", status: "rejected", decidedAt: "2026-10-21T17:00:00Z" })];
+    assert.deepEqual(qcApprovalsByDay(q, now), { "2026-10-21": 2 });
+  });
+  test("the Projects PM sits on its own desk", () => { assert.equal(DESKS.pm, "projects"); });
+});
+
 describe("the page", () => {
   test("every tool url in tools.json is in the page, so the floor links to what exists", async () => {
     const { readFileSync } = await import("node:fs");
@@ -179,5 +255,25 @@ describe("the page", () => {
     const { readFileSync } = await import("node:fs");
     const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
     for (const id of ["hale", "jethro", "barnabas"]) assert.ok(html.includes(`'${id}'`), id);
+  });
+  test("the game core in the page is a verbatim copy of workshop/core/office-game.js (run `npm run office -- build-page` if this fails)", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { buildGameBlock, currentGameBlock } = await import("../office/page-game.ts");
+    const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
+    assert.equal(currentGameBlock(html), buildGameBlock(readFileSync("workshop/core/office-game.js", "utf8")));
+  });
+  test("the page's copy of the core gives the same answers as the sync's", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { currentGameBlock } = await import("../office/page-game.ts");
+    const core = await import("./office-game.js");
+    const Game = new Function(currentGameBlock(readFileSync("projects/virtual-office/draft/eden-office.html", "utf8"))! + "; return Game;")();
+    const t = { id: "t", agent: "scout", status: "open", createdAt: "2026-10-21T15:00:00Z", priority: "today" };
+    assert.deepEqual(Game.slaState(t, now.getTime()), core.slaState(t, now.getTime()));
+    assert.deepEqual(Game.buildGame({ now: now.getTime(), tickets: [t] }), core.buildGame({ now: now.getTime(), tickets: [t] }));
+  });
+  test("the page has the board, the line, the sound switch, the Special projects bay and the pm desk", async () => {
+    const { readFileSync } = await import("node:fs");
+    const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
+    for (const id of ['id="board"', 'id="line"', 'id="sw-sound"', 'id="d-spc"', "projects: 'spc'", "pm: ['eden-desk']", "eo-sound", "visibilitychange"]) assert.ok(html.includes(id), id);
   });
 });
