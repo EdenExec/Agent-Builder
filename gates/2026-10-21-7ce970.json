@@ -1,0 +1,201 @@
+{
+  "id": "2026-10-21-7ce970",
+  "subject": "KDTW family note options for the Vancouver rental: rates, payments, payback months, IRR",
+  "preparer": "tally",
+  "checker": "docket",
+  "status": "passed",
+  "items": [
+    {
+      "label": "AFR short-term, annual compounding, October 2026",
+      "claimed": 4.25,
+      "unit": "pct",
+      "source": "Rev. Rul. 2026-19 Table 1, short-term AFR row, annual column (irs.gov/pub/irs-drop/rr-26-19.pdf)",
+      "recomputed": 4.25,
+      "ok": true,
+      "note": "Read Rev. Rul. 2026-19 PDF from irs.gov 21 Oct 2026, Table 1 short-term AFR annual. Monthly-compounding column is 4.17%."
+    },
+    {
+      "label": "AFR mid-term, annual compounding, October 2026",
+      "claimed": 4.61,
+      "unit": "pct",
+      "source": "Rev. Rul. 2026-19 Table 1, mid-term AFR row (not 110% or 120%), annual column",
+      "recomputed": 4.61,
+      "ok": true,
+      "note": "Rev. Rul. 2026-19 Table 1 mid-term AFR annual, irs.gov 21 Oct 2026. For a monthly-pay note the monthly column (4.52%) is the like-for-like; AFR is fixed in the month the loan is made, not October."
+    },
+    {
+      "label": "Gross booking revenue per month, 60% occupancy at $250",
+      "claimed": 4562.5,
+      "unit": "usd",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; steady state (month 5 onward, 100% of target occupancy), revenue basis cash, lodging tax pass-through (net zero); nights = (365/12) x occupancy, gross = nights x nightly rate",
+      "recomputed": 4562.5,
+      "ok": true,
+      "note": "(365/12) x 0.60 x 250 = 4,562.50"
+    },
+    {
+      "label": "Net operating cash per month, 50% occupancy at $200",
+      "claimed": 1126.84,
+      "unit": "usd",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; steady state (month 5 onward, 100% of target occupancy), revenue basis cash, lodging tax pass-through (net zero); net operating cash per M15, before any note payment, management $0",
+      "recomputed": 1126.84,
+      "ok": true,
+      "note": "gross 3,041.67 less 11.75% platform, 1.5% B&O, 5% reserve, (nights/3) x 125 cleaning, 5/night supplies, 650 fixed. Excludes mortgage, property tax, HOA, income tax (M13): not free cash to Kev."
+    },
+    {
+      "label": "Net operating cash per month, 60% occupancy at $250",
+      "claimed": 2228.18,
+      "unit": "usd",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; steady state (month 5 onward, 100% of target occupancy), revenue basis cash, lodging tax pass-through (net zero); net operating cash per M15, before any note payment, management $0",
+      "recomputed": 2228.18,
+      "ok": true,
+      "note": "Same M15 build; unrounded nights 18.25"
+    },
+    {
+      "label": "Net operating cash per month, 70% occupancy at $300",
+      "claimed": 3578.17,
+      "unit": "usd",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; steady state (month 5 onward, 100% of target occupancy), revenue basis cash, lodging tax pass-through (net zero); net operating cash per M15, before any note payment, management $0",
+      "recomputed": 3578.17,
+      "ok": true,
+      "note": "Same M15 build; above every public comp, best case only"
+    },
+    {
+      "label": "Net operating cash per month, 50% at $200, with management 15% of gross",
+      "claimed": 670.59,
+      "unit": "usd",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; steady state (month 5 onward, 100% of target occupancy), revenue basis cash, lodging tax pass-through (net zero); net operating cash per M15 less management at 15% of gross (M12 sensitivity)",
+      "recomputed": 670.59,
+      "ok": true,
+      "note": "1,126.84 less 456.25. Keys' co-host quote is 15% of room revenue after fees with a 300 floor: 15% of gross is conservative; the 300 floor would bind for six months"
+    },
+    {
+      "label": "Option A monthly payment, $25,000, 48 months",
+      "claimed": 598.66,
+      "unit": "usd",
+      "source": "Option A proposed terms: 7% a year fixed, interest monthly at one twelfth of the annual rate, 48 equal level payments, first at the end of month 1",
+      "recomputed": 598.66,
+      "ok": true,
+      "note": "PMT(0.07/12, 48, 25000) = 598.6561"
+    },
+    {
+      "label": "Option A monthly payment, $50,000, 48 months",
+      "claimed": 1197.31,
+      "unit": "usd",
+      "source": "Same definition as the $25,000 note: 7% fixed, monthly, 48 equal level payments",
+      "recomputed": 1197.31,
+      "ok": true,
+      "note": "PMT(0.07/12, 48, 50000) = 1,197.3122"
+    },
+    {
+      "label": "Option A monthly payment, $50,000, 60 months",
+      "claimed": 990.06,
+      "unit": "usd",
+      "source": "Same definition at 60 level monthly payments (Recommendation paragraph and the Option A 60-month sentence)",
+      "recomputed": 990.06,
+      "ok": true,
+      "note": "PMT(0.07/12, 60, 50000) = 990.0599; total interest 9,403.60"
+    },
+    {
+      "label": "Option A total interest over the term, $25,000, 48 months",
+      "claimed": 3735.49,
+      "unit": "usd",
+      "source": "Option A proposed terms: sum of the 48 level payments less principal, payment not rounded before summing",
+      "recomputed": 3735.49,
+      "ok": true,
+      "note": "48 x 598.6561 - 25,000 = 3,735.49"
+    },
+    {
+      "label": "Option A cash left to Kev per month, $50,000, 48 months, 50% occupancy at $200, steady state",
+      "claimed": -70.47,
+      "unit": "usd",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; steady state (month 5 onward, 100% of target occupancy), revenue basis cash, lodging tax pass-through (net zero); net operating cash less the Option A payment (negative if short)",
+      "recomputed": -70.47,
+      "ok": true,
+      "note": "1,126.84 - 1,197.31"
+    },
+    {
+      "label": "Option A Kev cumulative cash after note payments, months 1 to 12, $50,000, 50% at $200",
+      "claimed": -4431.97,
+      "unit": "usd",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; timeline M14 (setup months 1 and 2 earn nothing, months 3 and 4 at 50% and 75% of target occupancy, fixed costs from month 3); sum over months 1 to 12 of net operating cash less the note payment, which is paid every month from month 1",
+      "recomputed": -4431.97,
+      "ok": true,
+      "note": "M14 ramp: m1-2 zero ops, m3 50%, m4 75% of target, fixed costs from m3; 12 payments of 1,197.31"
+    },
+    {
+      "label": "Option B monthly share paid, $25,000, 60% at $250, steady state",
+      "claimed": 730,
+      "unit": "usd",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; steady state (month 5 onward, 100% of target occupancy), revenue basis cash, lodging tax pass-through (net zero); 16% of gross booking revenue",
+      "recomputed": 730,
+      "ok": true,
+      "note": "0.16 x 4,562.50"
+    },
+    {
+      "label": "Option B months to repay 1.4x, $25,000, 16% of gross, 60% at $250",
+      "claimed": 51,
+      "unit": "count",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; timeline M14 including ramp; monthly payment = 16% of that month's gross, capped at the remaining amount to 1.4x principal; months counted from funding at month 0 to the month the cap is reached",
+      "recomputed": 51,
+      "ok": true,
+      "note": "Simulated with M14 ramp, last payment trimmed to cap"
+    },
+    {
+      "label": "Option B months to repay 1.3x, $25,000, 16% of gross, 50% at $200",
+      "claimed": 70,
+      "unit": "count",
+      "source": "Same rule, cap 1.3x principal",
+      "recomputed": 70,
+      "ok": true,
+      "note": "Same simulation"
+    },
+    {
+      "label": "Option B months to repay 1.5x, $25,000, 16% of gross, 70% at $300",
+      "claimed": 40,
+      "unit": "count",
+      "source": "Same rule, cap 1.5x principal",
+      "recomputed": 40,
+      "ok": true,
+      "note": "Same simulation"
+    },
+    {
+      "label": "Option B implied IRR at 1.4x, $25,000, 16% of gross, 60% at $250",
+      "claimed": 16.82,
+      "unit": "pct",
+      "source": "Same rule; cash flows: minus principal at month 0, the monthly payments at month ends, final payment trimmed to the cap; monthly internal rate converted to effective annual as (1 + monthly rate)^12 - 1; stated in percent",
+      "recomputed": 16.82,
+      "ok": true,
+      "note": "Monthly IRR by bisection on simulated flows, (1+r)^12-1 = 16.82%"
+    },
+    {
+      "label": "Option B net-share months to repay 1.4x, $25,000, 33% of net operating cash, 50% at $200",
+      "claimed": 98,
+      "unit": "count",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; timeline M14 including ramp; payment = 33% of that month's net operating cash (zero if the month is negative), capped at the remaining amount to 1.4x principal",
+      "recomputed": 98,
+      "ok": true,
+      "note": "Simulated with M14 ramp; every month positive (month 3 net 238.42), so the zero floor never binds here. Note corrected by Docket 21 Oct 2026: first version wrongly said month 3 was negative; figure unchanged"
+    },
+    {
+      "label": "Co-host case: Option A cash left to Kev per month, $25,000, 48 months, 50% at $200",
+      "claimed": 71.93,
+      "unit": "usd",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; steady state (month 5 onward), net operating cash per M15 less management at 15% of gross, less the Option A monthly payment",
+      "recomputed": 71.93,
+      "ok": true,
+      "note": "670.59 - 598.66"
+    },
+    {
+      "label": "Co-host case: Option B cash left to Kev per month, $50,000 at 32% of gross, 50% at $200",
+      "claimed": -302.74,
+      "unit": "usd",
+      "source": "Model rules M1 to M15 and the Option A and Option B 'Proposed terms' in projects/600-se-101st-str/uncle-mike-options.md; steady state (month 5 onward), net operating cash per M15 less management at 15% of gross, less 32% of that month's gross booking revenue",
+      "recomputed": -302.74,
+      "ok": true,
+      "note": "670.59 - 0.32 x 3,041.67"
+    }
+  ],
+  "createdAt": "2026-10-21T20:41:43.536Z",
+  "checkedBy": "docket",
+  "closedAt": "2026-10-21T20:43:54.146Z"
+}

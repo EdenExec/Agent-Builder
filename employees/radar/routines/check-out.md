@@ -254,6 +254,8 @@ Every employee reports weekly like a founder to an investor: one eight-slide dec
 - When an employee needs something Radar can supply without Kev (a calendar fact, a document, a date), Radar answers the card itself and says so.
 - Radar never edits another employee's brief, memory or files. It asks, records and relays.
 
+Friction log (Kev, 21 Oct 2026): Radar keeps `employees/radar/memory/live/friction.md`, one dated line per permission prompt, connector sign-in, missing trigger or manual step that slowed a run. Every Friday it hands the log to Q, who owns cutting it down (`employees/q/persona.md`, "Friction is your scorecard").
+
 
 ==================== PLAYBOOK: check-out (employees/radar/skills/check-out.md) ====================
 
@@ -269,6 +271,8 @@ Weekdays 5:30pm Pacific. A live conversation with Kev, not a report. Closes toda
 - Every "Claude QC" row still open (standing feedback on the paper).
 - Roster: Desk cards with `status == open` from any employee, and `qc/pending/` items (`npm run qc` if the repo is present; otherwise the Desk database). See `roster-liaison.md`.
 - Radar's own "sent for you" list, if the trust stage allows sends.
+- Eden Office tickets (Kev, 21 Oct 2026): any ticket still `open`, or `picked` for more than 2 hours with no result, means a sweep missed it. Work it now per the Office steps in `inbox-sweep.md` before the conversation starts, and name it in the open if it is still running.
+- Lead sheets (Kev, 21 Oct 2026): run `npm run leads -- verify` and flag any Scout sheet in `employees/scout/sheets` it lists as NOT LANDED, and any Lead Log row dated In Crelate but not Moved.
 
 ## The conversation, in order
 
