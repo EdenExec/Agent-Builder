@@ -274,6 +274,6 @@ describe("the page", () => {
   test("the page has the board, the line, the sound switch, the Special projects bay and the pm desk", async () => {
     const { readFileSync } = await import("node:fs");
     const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
-    for (const id of ['id="board"', 'id="line"', 'id="sw-sound"', 'id="d-spc"', "projects: 'spc'", "pm: ['eden-desk']", "eo-sound", "visibilitychange"]) assert.ok(html.includes(id), id);
+    for (const id of ['id="board"', 'id="line"', 'id="sw-sound"', 'id="d-spx"', "pm: 'spx'", "pm: ['staffing-doc', 'hub']", "eo-sound", "visibilitychange"]) assert.ok(html.includes(id), id);
   });
 });

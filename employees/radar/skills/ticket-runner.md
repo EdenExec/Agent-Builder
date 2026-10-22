@@ -26,9 +26,9 @@ Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW · Saturday is the Sab
    - **If the push is refused with a 403** ("not in this session's authorized repositories"), stop trying: this run was started without the repo attached. Put each deliverable's full text in its ticket's `result.body` (markdown, up to 20,000 characters) so nothing is lost, add "repo copy not pushed" to the summary, and log it in `friction.md`. The next live Radar session commits it from there. (22 Oct 2026: the test run hit this; the fix is Kev re-creating the routine in claude.ai with the repo attached.)
    - Never redo work another session already did: if the ticket's result or the repo shows it done, close it with that result.
 8. **Refresh the floor.**
-   1. Write `versions.json` from step 1 (`{"agents/q": 3, "meta/sync": 2, ...}`).
-   2. Re-list `tickets` into the dump so the sync sees this run's closes.
-   3. Run `npm run office-prep -- in <dump> versions.json`, then `npm run office -- sync --tickets <dump>/tickets.json --existing <dump>/existing.json --out <outbox>`, then `npm run office-prep -- out <outbox> <dump> <dest>`.
+   1. Write `versions.json` from step 1 (`{"agents/q": 3, "meta/sync": 2, "meta/records": 1, ...}`). Every agents, alerts and meta document needs its version, `meta/records` included.
+   2. Re-list `tickets` (done ones too) and `actions` into the dump so the sync sees this run's closes and Kev's taps. Those two feed the scoreboard (points, FAILs, streak, records).
+   3. Run `npm run office-prep -- in <dump> versions.json`, then `npm run office -- sync --tickets <dump>/tickets.json --actions <dump>/actions.json --existing <dump>/existing.json --out <outbox>`, then `npm run office-prep -- out <outbox> <dump> <dest>`.
    4. Push `<dest>/writes.json` with `ArtifactData batch`. Drop the `agents/host` write when no `--inbox` was passed, so Jenny's reply light survives.
 9. **Log.** One line to `employees/radar/memory/live/runner-log.md`: time, picked, closed, gated, blocked, FAILs found (open over 60 minutes at the start of the run). Any FAIL also gets a line in `friction.md` saying why it sat.
 
