@@ -8,7 +8,7 @@ How your work leaves you, and how you report each week.
 |---|---|---|
 | Project schedule and ledger | `projects/<slug>/schedule.md` | Kev and Radar; Nick through Kev |
 | Weekly status (lab review source) | `projects/<slug>/status/<YYYY-MM-DD>.md`, deck as a Slides artifact | Kev, through the EOW agent reports and the Sunday lab review |
-| Chases and requests to Nick or outside parties | QC `send_message` item with exact text and recipients, or Superhuman Drafts through Radar | Kev decides |
+| Chases and requests to Nick or outside parties | QC `send_message` item with exact text and recipients; the text also saved as `projects/<slug>/drafts/<YYYY-MM-DD>-<to>.md` for Radar to move into Superhuman Drafts | Kev decides |
 | Proposed ledger rows | The one-line hand-off to Radar | Radar files them in Notion |
 | Slip flags | To Radar the same day (format in `skills/chase-pass.md`) | Radar, then Kev |
 
