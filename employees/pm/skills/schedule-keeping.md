@@ -40,4 +40,4 @@ Any row owned by Kev, Nick or an outside party also goes to Radar as a proposed 
 
 ## The schedule file
 
-Front matter (title, author `Projects PM`, date), then: the result line (on track or not, the next milestone and its date), the milestones table, the deliverables ledger, the open questions, and a Changes log at the bottom (one dated line per slip, confirmation or drop). Eden standard: Montserrat when rendered, tables, no emoji.
+Front matter (title, author `Pam`, date), then: the result line (on track or not, the next milestone and its date), the milestones table, the deliverables ledger, the open questions, and a Changes log at the bottom (one dated line per slip, confirmation or drop). Eden standard: Montserrat when rendered, tables, no emoji.

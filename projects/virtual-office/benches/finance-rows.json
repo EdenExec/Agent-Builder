@@ -5,7 +5,8 @@
     "owed": "$55,000",
     "status": "past due, 72 days late",
     "due": "2026-08-12",
-    "expected": "2026-11-15"
+    "expected": "2026-11-15",
+    "kev": "Kev: paying soon?"
   },
   {
     "id": "62059",
@@ -13,7 +14,8 @@
     "owed": "$35,200",
     "status": "past due, 9 days late",
     "due": "2026-10-14",
-    "expected": "2026-10-30"
+    "expected": "2026-10-30",
+    "kev": "Kev: paying soon"
   },
   {
     "id": "62060",
@@ -21,7 +23,8 @@
     "owed": "$37,000",
     "status": "past due, 9 days late",
     "due": "2026-10-14",
-    "expected": "2026-10-30"
+    "expected": "2026-10-30",
+    "kev": "Kev: client on the fence about the candidate; at risk"
   },
   {
     "id": "62061",
@@ -37,7 +40,8 @@
     "owed": "$7,500",
     "status": "past due, 7 days late",
     "due": "2026-10-16",
-    "expected": "2026-10-16"
+    "expected": "2026-10-16",
+    "kev": "Kev: PB South always pays late"
   },
   {
     "id": "62064",
@@ -53,7 +57,8 @@
     "owed": "$29,700",
     "status": "invoiced",
     "due": "2026-12-01",
-    "expected": "2026-12-01"
+    "expected": "2026-12-01",
+    "kev": "Kev: PB South always pays late"
   },
   {
     "id": "62057",
@@ -61,15 +66,17 @@
     "owed": "$6,750",
     "status": "invoiced",
     "due": "2026-12-23",
-    "expected": "2026-12-23"
+    "expected": "2026-12-23",
+    "kev": "Kev: PB South always pays late"
   },
   {
     "id": "62054",
     "name": "Megawatt · General Superintendent",
     "owed": "$45,000",
-    "status": "not yet invoiced",
+    "status": "moved to 2027",
     "due": "not invoiced",
-    "expected": "2026-11-15"
+    "expected": "2026-11-15",
+    "kev": "Kev: moved to 2027; Kev to call him to confirm Megawatt"
   },
   {
     "id": "62062",
@@ -93,7 +100,8 @@
     "owed": "$45,000",
     "status": "not yet invoiced",
     "due": "2026-12-10",
-    "expected": "2026-12-25"
+    "expected": "2026-12-25",
+    "kev": "Kev: PB South always pays late"
   },
   {
     "id": "62066",
@@ -101,7 +109,8 @@
     "owed": "$33,300",
     "status": "not yet invoiced",
     "due": "2026-12-17",
-    "expected": "2027-01-01"
+    "expected": "2027-01-01",
+    "kev": "Kev: PB South always pays late"
   },
   {
     "id": "62065",
@@ -109,6 +118,7 @@
     "owed": "$33,300",
     "status": "not yet invoiced",
     "due": "2026-12-18",
-    "expected": "2027-01-02"
+    "expected": "2027-01-02",
+    "kev": "Kev: PB South always pays late"
   }
 ]

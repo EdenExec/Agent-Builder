@@ -15,7 +15,7 @@
     {
       "label": "Owed to us · past due",
       "value": "$158,700 · 6 invoices, oldest 72 days late",
-      "source": "EPG Cash Pulse invoice list (Hub Rev Report), updated 17 Oct; not booked in QuickBooks yet. Docket: 5 invoices due 14 to 16 Oct ($103,700) may have been paid since 17 Oct; check the bank before chasing",
+      "source": "EPG Cash Pulse invoice list (Hub Rev Report), updated 17 Oct; not booked in QuickBooks yet. Kev, 23 Oct: the discreet client is paying soon, VMG is on the fence about its candidate (at risk), PB South always pays late",
       "asOf": "2026-10-17",
       "needsGate": false,
       "gate": "2026-10-23-82862f"
@@ -30,8 +30,8 @@
     },
     {
       "label": "Coming · starts not yet invoiced",
-      "value": "$232,100 · 6 placements",
-      "source": "EPG Cash Pulse invoice list (Hub Rev Report), updated 17 Oct; not booked in QuickBooks yet",
+      "value": "$187,100 · 5 placements (+$45,000 Megawatt start moved to 2027)",
+      "source": "EPG Cash Pulse invoice list (Hub Rev Report), updated 17 Oct; not booked in QuickBooks yet. Gate 82862f checked $232,100; Kev moved the Megawatt General Superintendent ($45,000, no start date) to 2027 on 23 Oct",
       "asOf": "2026-10-17",
       "needsGate": false,
       "gate": "2026-10-23-82862f"

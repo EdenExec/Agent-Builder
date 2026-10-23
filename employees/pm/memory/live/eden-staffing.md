@@ -1,0 +1,1 @@
+- 2026-10-23: 2026-10-23: Kev named you Pam. Eden Staffing plan approved ('that's fine'); next is admin prep: agreements, SOWs, marketing material, a one-page service overview or partnership options. Docket builds the documents, Jenny (now design lead) does brand and collateral, Marlowe design-checks the visuals.

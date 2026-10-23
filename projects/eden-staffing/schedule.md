@@ -1,8 +1,8 @@
 ---
 title: Eden Staffing · launch schedule
-subtitle: Next 30 days, before launch, before investors · 22 October 2026
-author: Projects PM
-date: 2026-10-22
+subtitle: Next 30 days, admin and brand, before launch, before investors · 23 October 2026
+author: Pam
+date: 2026-10-23
 toc: false
 cover: false
 ---
@@ -13,15 +13,16 @@ cover: false
 
 - **Status: drafted, not yet confirmed.** Every row has a date, one owner and one next action; owners and dates marked (A) are the PM's proposals until Kev confirms them on Monday 26 Oct.
 - **Next milestone:** M1, plan confirmed, Fri 30 Oct. It needs Kev's answers to the three open questions (ES-02).
+- **Added 23 Oct:** Admin and brand workstream (AB-01 to AB-10, M6 to M8) from Kev's 23 Oct direction. Docket drafts the legal set, Jenny the brand set, Marlowe checks design; Pam holds the dates. All AB dates are proposed (A).
 - **Source:** Kev's doc "Eden Staffing - Initial" (Google Doc `1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I`), read 22 Oct 2026. The doc's figures are planning estimates and stay in the doc.
 
 ## This week (week of 26 Oct)
 
 | Day | Milestone line |
 |---|---|
-| Mon 26 Oct | Kev confirms owners and dates (ES-01); trades list asked of Nick (ES-03) |
-| Wed 28 Oct | Open questions answered (ES-02); chase pass |
-| Fri 30 Oct | Provider and adviser shortlists in (ES-05, ES-06); fix list done (ES-07); M1 |
+| Mon 26 Oct | Kev confirms owners and dates, AB rows included (ES-01); trades list asked of Nick (ES-03) |
+| Wed 28 Oct | Open questions answered (ES-02); chase pass: Docket drafts (AB-01) and Jenny's contact sheet (AB-04) |
+| Fri 30 Oct | Provider and adviser shortlists in (ES-05, ES-06); fix list done (ES-07); Docket first drafts (AB-01); names and marks contact sheet (AB-04); M1 |
 
 ## Milestones (next 30 days: 22 Oct to 20 Nov)
 
@@ -32,6 +33,9 @@ cover: false
 | M3 | Advisers engaged | Staffing-specialist broker and employment attorney engaged; drafting under way | Fri 20 Nov (A) | Kev |
 | M4 | Commission plan v2 tested | True-GP plan written and pressure-tested with two recruiters | Fri 13 Nov (A) | Kev |
 | M5 | Real numbers | Unit economics on real quotes, gate cleared; next 30 days dated | Fri 20 Nov (A) | Tally |
+| M6 | Admin drafts decided | Docket's first drafts in and Kev's decisions from the issues memo made | Fri 6 Nov (A) | Kev |
+| M7 | Name and mark chosen and checked | Kev picks from Marlowe-checked options and Docket's name check is back | Fri 13 Nov (A) | Kev |
+| M8 | Admin and brand kit complete | Service overview, partnership sheet and brand sheet done; attorney and broker review back on the legal drafts | Fri 4 Dec (A) | Kev |
 
 ## Deliverables ledger: next 30 days
 
@@ -53,6 +57,23 @@ cover: false
 | ES-14 | Unit economics updated with real quotes, numbers gate cleared | M5 | Tally | Wed 18 Nov (A) | Not started | Radar opens an Office ticket for Tally when ES-11 lands; Docket is checker | | Next 30 Days, move 1 |
 | ES-15 | Attorney drafting under way: entity, client agreement, worker arbitration agreement, FCRA forms | M3 | Employment attorney (through Kev) | Fri 20 Nov (A) | Waiting on | Kev agrees scope and timeline at engagement (ES-09) | Wed 18 Nov | Next 30 Days, move 2 |
 | ES-16 | 30-day review; Before launch rows confirmed with dates | M5 | PM | Fri 20 Nov | Not started | PM drafts it in the Friday status for the EOW agent reports | | PM |
+
+## Admin and brand workstream (added 23 Oct; all dates proposed)
+
+Kev, 23 Oct: "We need to get prepared on the admin side. We need agreements, statements of work, marketing material, 1 page service overview or partnership options." Docket drafts in `projects/eden-staffing/legal/`; Jenny builds in `projects/eden-staffing/brand/`; Marlowe checks design before Kev sees it.
+
+| ID | Deliverable | Milestone | Owner | Due | Status | Next action | Chase | Source |
+|---|---|---|---|---|---|---|---|---|
+| AB-01 | First drafts from Docket: staffing services agreement, SOW template, partnership-options term sheet, EOR vetting checklist, issues memo | M6 | Docket | Fri 30 Oct (A) | Waiting on | Docket saves the five drafts in `legal/`; PM chases by Office ticket through Radar | Wed 28 Oct | Kev, 23 Oct |
+| AB-02 | Kev's decisions from Docket's issues memo (ranked list, each with Docket's pick) | M6 | Kev | Wed 4 Nov (A) | Not started | Radar puts the memo's ranked questions in front of Kev at his next admin window; Docket review on any legal answer | | Kev, 23 Oct; depends on AB-01 |
+| AB-03 | Attorney and broker review of Docket's drafts back with comments | M8 | Kev | Wed 2 Dec (A) | Not started | Kev engages the attorney and broker (ES-09; any retainer or fee is a spend item for Kev) and sends them the drafts after AB-02 | | Kev, 23 Oct; ES-09, ES-15, BL-05 |
+| AB-04 | Names and marks contact sheet: brand name options with logo marks | M7 | Jenny | Fri 30 Oct (A) | Waiting on | Jenny saves the sheet in `brand/`; PM chases by Office ticket through Radar | Wed 28 Oct | Kev, 23 Oct |
+| AB-05 | Marlowe's design check on the contact sheet | M7 | Marlowe | Tue 3 Nov (A) | Not started | Radar opens an Office ticket for Marlowe the day AB-04 lands | | Kev, 23 Oct |
+| AB-06 | Kev picks a name and mark | M7 | Kev | Fri 6 Nov (A) | Not started | Radar puts the checked sheet in front of Kev with Marlowe's notes; Kev names first and second choice | | Kev, 23 Oct; depends on AB-05 |
+| AB-07 | Docket's name check on the pick (entity-name and trademark screen; attorney confirms before filing) | M7 | Docket | Wed 11 Nov (A) | Not started | Radar opens an Office ticket for Docket the day AB-06 is picked; Kev uses the second choice if the first fails | | Kev, 23 Oct; depends on AB-06 |
+| AB-08 | One-page service overview for clients, built from Docket's term sheet | M8 | Jenny | Wed 18 Nov (A) | Not started | Jenny starts when AB-01 and AB-07 are in; Marlowe checks before Kev sees it | | Kev, 23 Oct; depends on AB-01, AB-07 |
+| AB-09 | Partnership-options sheet (one page) | M8 | Jenny (A) | Fri 20 Nov (A) | Not started | Jenny designs it from the term sheet once Kev has decided the options (AB-02); Marlowe checks | | Kev, 23 Oct; depends on AB-02 |
+| AB-10 | Brand sheet: logo use, colors, type, name usage | M8 | Jenny (A) | Fri 20 Nov (A) | Not started | Jenny builds it from the chosen name and mark (AB-06); Marlowe checks | | Kev, 23 Oct; depends on AB-06 |
 
 ## Before launch (proposed; confirmed at the 20 Nov review)
 
@@ -90,8 +111,13 @@ cover: false
 
 - All messages to Nick, providers, brokers and attorneys are drafts for Kev. Money, legal and offer rows are Kev's.
 - No date falls on a Saturday. Holidays planned around: Thanksgiving 26 Nov, Christmas 25 Dec, New Year's Day 1 Jan.
-- Agent owners (Tally, Docket, Q) are chased by Office ticket through Radar.
+- Agent owners (Tally, Docket, Q, Jenny, Marlowe) are chased by Office ticket through Radar.
+- **Pam and Docket on the legal rows (AB-01, AB-02, AB-03, AB-07):** Docket holds the content, Pam holds the date and the chase. The Wednesday pass carries one Office ticket to Docket covering all legal rows. Any legal answer Kev gives goes back to Docket for review before it is relied on.
+- **Marketing stays draft:** the service overview, partnership sheet and brand sheet carry no prices, pay plans or client names, and nothing goes to a client or prospect before AB-03 comes back and Kev says yes.
+- **Docket load on Fri 30 Oct:** ES-06 (shortlists) and AB-01 (five drafts) land the same day. PM's pick: ES-06 first, since it gates M3; AB-01 slips only through the slip rule.
+- **Rows for Radar to file (Kev-owned):** AB-02, AB-03, AB-06, with owner, due and next action as above, Source "PM <ID>".
 
 ## Changes log
 
 - 2026-10-22: Schedule drafted from Kev's doc (Next 30 Days, What I'd Change, Fix List, Open Questions). All owners and dates proposed (A).
+- 2026-10-23: Admin and brand workstream added (AB-01 to AB-10, M6 to M8) on Kev's direction. All owners and dates proposed (A), to be confirmed at the Monday 26 Oct batch with ES-01.
