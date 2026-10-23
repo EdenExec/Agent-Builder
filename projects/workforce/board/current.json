@@ -1,0 +1,1186 @@
+{
+  "schema": 1,
+  "generated_at": "2026-10-23T03:46:46.540Z",
+  "as_of": "Thu 22 Oct 2026, 8:46 PM PT",
+  "source": "Crelate API v3, read-only (Crelate stays the system of record)",
+  "week": {
+    "start": "2026-10-18",
+    "through": "2026-10-22",
+    "partial": true,
+    "label": "Sun 18 Oct to Thu 22 Oct",
+    "note": "Weeks run Sunday to Saturday, Pacific. A week in progress is compared with last week to the same point, not with last week's full total."
+  },
+  "last_week": {
+    "start": "2026-10-11",
+    "end": "2026-10-17",
+    "same_point_through": "2026-10-16T03:46:46.540Z",
+    "label": "Sun 11 Oct to Sat 17 Oct"
+  },
+  "goals": {
+    "rps_per_day": 15,
+    "rps_week": 75,
+    "mps_per_day": 20,
+    "mps_week": 100,
+    "accelerator_per_quarter": 25000,
+    "recruiters_counted": 6,
+    "recruiters_in_goal": 5,
+    "rps_team_week": 375,
+    "mps_team_week": 500,
+    "accelerator_team_quarter": 125000,
+    "quarter": "Q4 2026",
+    "other_goals": "Resumes, PTCs, submittals, FTIs and offers: goal not set."
+  },
+  "metric_notes": {
+    "rps": "Recruiting calls logged, counted as activities.",
+    "mps": "Crelate MP activity, unique contacts per recruiter. Kev's 20-a-day meaningful-connection goal is applied to it; meaningful connections are also tallied on the call sheet, which Crelate does not see.",
+    "resumes": "Resumes received, unique contacts.",
+    "ptcs": "Presented to client, unique contacts.",
+    "subs": "Submittal and Files, unique contacts.",
+    "ftis": "First-time interviews, unique contacts.",
+    "offers": "Contacts moved into an Offer stage on a job, by the person who moved them."
+  },
+  "team": {
+    "this": {
+      "rps": 284,
+      "mps": 4,
+      "resumes": 17,
+      "ptcs": 20,
+      "subs": 14,
+      "ftis": 6,
+      "offers": 0
+    },
+    "last_same": {
+      "rps": 322,
+      "mps": 4,
+      "resumes": 26,
+      "ptcs": 9,
+      "subs": 13,
+      "ftis": 5,
+      "offers": 1
+    },
+    "last_full": {
+      "rps": 350,
+      "mps": 4,
+      "resumes": 32,
+      "ptcs": 17,
+      "subs": 15,
+      "ftis": 6,
+      "offers": 1
+    }
+  },
+  "desk": {
+    "this": {
+      "rps": 329,
+      "mps": 14,
+      "resumes": 21,
+      "ptcs": 27,
+      "subs": 14,
+      "ftis": 8,
+      "offers": 0
+    },
+    "last_same": {
+      "rps": 361,
+      "mps": 10,
+      "resumes": 26,
+      "ptcs": 20,
+      "subs": 14,
+      "ftis": 12,
+      "offers": 1
+    },
+    "last_full": {
+      "rps": 392,
+      "mps": 10,
+      "resumes": 33,
+      "ptcs": 34,
+      "subs": 16,
+      "ftis": 14,
+      "offers": 1
+    }
+  },
+  "recruiters": [
+    {
+      "slug": "max",
+      "name": "Max",
+      "role": "Headhunter",
+      "group": "recruiter",
+      "status": "active",
+      "start": null,
+      "in_goal": true,
+      "this": {
+        "rps": 51,
+        "mps": 4,
+        "resumes": 2,
+        "ptcs": 3,
+        "subs": 5,
+        "ftis": 1,
+        "offers": 0
+      },
+      "last_same": {
+        "rps": 68,
+        "mps": 3,
+        "resumes": 6,
+        "ptcs": 4,
+        "subs": 9,
+        "ftis": 1,
+        "offers": 0
+      },
+      "last_full": {
+        "rps": 74,
+        "mps": 3,
+        "resumes": 6,
+        "ptcs": 4,
+        "subs": 10,
+        "ftis": 1,
+        "offers": 0
+      },
+      "rp_days_at_15": 2,
+      "rp_by_day": {
+        "2026-10-22": 17,
+        "2026-10-21": 7,
+        "2026-10-20": 11,
+        "2026-10-19": 16
+      },
+      "revenue_qtd": null,
+      "pct_to_accelerator": null
+    },
+    {
+      "slug": "evan",
+      "name": "Evan",
+      "role": "Headhunter",
+      "group": "recruiter",
+      "status": "active",
+      "start": null,
+      "in_goal": true,
+      "this": {
+        "rps": 58,
+        "mps": 0,
+        "resumes": 4,
+        "ptcs": 7,
+        "subs": 1,
+        "ftis": 2,
+        "offers": 0
+      },
+      "last_same": {
+        "rps": 63,
+        "mps": 0,
+        "resumes": 7,
+        "ptcs": 2,
+        "subs": 3,
+        "ftis": 2,
+        "offers": 0
+      },
+      "last_full": {
+        "rps": 73,
+        "mps": 0,
+        "resumes": 10,
+        "ptcs": 8,
+        "subs": 4,
+        "ftis": 3,
+        "offers": 0
+      },
+      "rp_days_at_15": 2,
+      "rp_by_day": {
+        "2026-10-22": 17,
+        "2026-10-21": 16,
+        "2026-10-20": 12,
+        "2026-10-19": 13
+      },
+      "revenue_qtd": null,
+      "pct_to_accelerator": null
+    },
+    {
+      "slug": "noah",
+      "name": "Noah",
+      "role": "Headhunter",
+      "group": "recruiter",
+      "status": "active",
+      "start": null,
+      "in_goal": true,
+      "this": {
+        "rps": 67,
+        "mps": 0,
+        "resumes": 4,
+        "ptcs": 5,
+        "subs": 7,
+        "ftis": 0,
+        "offers": 0
+      },
+      "last_same": {
+        "rps": 58,
+        "mps": 0,
+        "resumes": 6,
+        "ptcs": 1,
+        "subs": 0,
+        "ftis": 0,
+        "offers": 0
+      },
+      "last_full": {
+        "rps": 64,
+        "mps": 0,
+        "resumes": 8,
+        "ptcs": 1,
+        "subs": 0,
+        "ftis": 0,
+        "offers": 0
+      },
+      "rp_days_at_15": 3,
+      "rp_by_day": {
+        "2026-10-22": 20,
+        "2026-10-21": 15,
+        "2026-10-20": 14,
+        "2026-10-19": 18
+      },
+      "revenue_qtd": null,
+      "pct_to_accelerator": null
+    },
+    {
+      "slug": "andrew",
+      "name": "Andrew",
+      "role": "Headhunter",
+      "group": "recruiter",
+      "status": "active",
+      "start": null,
+      "in_goal": true,
+      "this": {
+        "rps": 47,
+        "mps": 0,
+        "resumes": 0,
+        "ptcs": 1,
+        "subs": 0,
+        "ftis": 0,
+        "offers": 0
+      },
+      "last_same": {
+        "rps": 70,
+        "mps": 0,
+        "resumes": 4,
+        "ptcs": 1,
+        "subs": 1,
+        "ftis": 0,
+        "offers": 1
+      },
+      "last_full": {
+        "rps": 76,
+        "mps": 0,
+        "resumes": 4,
+        "ptcs": 2,
+        "subs": 1,
+        "ftis": 0,
+        "offers": 1
+      },
+      "rp_days_at_15": 1,
+      "rp_by_day": {
+        "2026-10-22": 17,
+        "2026-10-21": 14,
+        "2026-10-20": 6,
+        "2026-10-19": 10
+      },
+      "revenue_qtd": null,
+      "pct_to_accelerator": null
+    },
+    {
+      "slug": "bridger",
+      "name": "Bridger",
+      "role": "Headhunter, remote",
+      "group": "recruiter",
+      "status": "active",
+      "start": null,
+      "in_goal": true,
+      "this": {
+        "rps": 61,
+        "mps": 0,
+        "resumes": 7,
+        "ptcs": 4,
+        "subs": 1,
+        "ftis": 3,
+        "offers": 0
+      },
+      "last_same": {
+        "rps": 63,
+        "mps": 1,
+        "resumes": 3,
+        "ptcs": 1,
+        "subs": 0,
+        "ftis": 2,
+        "offers": 0
+      },
+      "last_full": {
+        "rps": 63,
+        "mps": 1,
+        "resumes": 4,
+        "ptcs": 2,
+        "subs": 0,
+        "ftis": 2,
+        "offers": 0
+      },
+      "rp_days_at_15": 3,
+      "rp_by_day": {
+        "2026-10-22": 15,
+        "2026-10-21": 16,
+        "2026-10-20": 16,
+        "2026-10-19": 14
+      },
+      "revenue_qtd": null,
+      "pct_to_accelerator": null
+    },
+    {
+      "slug": "kunji",
+      "name": "Kunji",
+      "role": "Trainee",
+      "group": "recruiter",
+      "status": "active",
+      "start": null,
+      "in_goal": false,
+      "this": {
+        "rps": 0,
+        "mps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "subs": 0,
+        "ftis": 0,
+        "offers": 0
+      },
+      "last_same": {
+        "rps": 0,
+        "mps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "subs": 0,
+        "ftis": 0,
+        "offers": 0
+      },
+      "last_full": {
+        "rps": 0,
+        "mps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "subs": 0,
+        "ftis": 0,
+        "offers": 0
+      },
+      "rp_days_at_15": 0,
+      "rp_by_day": {},
+      "revenue_qtd": null,
+      "pct_to_accelerator": null
+    },
+    {
+      "slug": "kyle",
+      "name": "Kyle",
+      "role": "Incoming, Boise",
+      "group": "recruiter",
+      "status": "starts",
+      "start": "2026-11-02",
+      "in_goal": false,
+      "this": {
+        "rps": 0,
+        "mps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "subs": 0,
+        "ftis": 0,
+        "offers": 0
+      },
+      "last_same": {
+        "rps": 0,
+        "mps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "subs": 0,
+        "ftis": 0,
+        "offers": 0
+      },
+      "last_full": {
+        "rps": 0,
+        "mps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "subs": 0,
+        "ftis": 0,
+        "offers": 0
+      },
+      "rp_days_at_15": 0,
+      "rp_by_day": {},
+      "revenue_qtd": null,
+      "pct_to_accelerator": null
+    }
+  ],
+  "leadership": [
+    {
+      "slug": "nick",
+      "name": "Nick",
+      "role": "Operations",
+      "group": "leadership",
+      "status": "active",
+      "start": null,
+      "in_goal": false,
+      "this": {
+        "rps": 27,
+        "mps": 6,
+        "resumes": 2,
+        "ptcs": 3,
+        "subs": 0,
+        "ftis": 2,
+        "offers": 0
+      },
+      "last_same": {
+        "rps": 27,
+        "mps": 3,
+        "resumes": 0,
+        "ptcs": 1,
+        "subs": 0,
+        "ftis": 1,
+        "offers": 0
+      },
+      "last_full": {
+        "rps": 27,
+        "mps": 3,
+        "resumes": 0,
+        "ptcs": 3,
+        "subs": 0,
+        "ftis": 1,
+        "offers": 0
+      },
+      "rp_days_at_15": 0,
+      "rp_by_day": {
+        "2026-10-21": 7,
+        "2026-10-20": 7,
+        "2026-10-19": 13
+      },
+      "revenue_qtd": null,
+      "pct_to_accelerator": null
+    },
+    {
+      "slug": "kev",
+      "name": "Kev",
+      "role": "Founder",
+      "group": "leadership",
+      "status": "active",
+      "start": null,
+      "in_goal": false,
+      "this": {
+        "rps": 18,
+        "mps": 4,
+        "resumes": 2,
+        "ptcs": 4,
+        "subs": 0,
+        "ftis": 0,
+        "offers": 0
+      },
+      "last_same": {
+        "rps": 12,
+        "mps": 3,
+        "resumes": 0,
+        "ptcs": 10,
+        "subs": 1,
+        "ftis": 6,
+        "offers": 0
+      },
+      "last_full": {
+        "rps": 15,
+        "mps": 3,
+        "resumes": 1,
+        "ptcs": 14,
+        "subs": 1,
+        "ftis": 7,
+        "offers": 0
+      },
+      "rp_days_at_15": 0,
+      "rp_by_day": {
+        "2026-10-22": 1,
+        "2026-10-21": 6,
+        "2026-10-19": 11
+      },
+      "revenue_qtd": null,
+      "pct_to_accelerator": null
+    }
+  ],
+  "jos": [
+    {
+      "id": "0683c27b-fdda-450e-a788-cdde0800ee81",
+      "num": 7934,
+      "name": "PB South - Assistant Superintendents - Project X or WPB",
+      "column": "RETAINED",
+      "this": {
+        "rps": 10,
+        "resumes": 1,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 7,
+        "resumes": 1,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "max",
+        "evan",
+        "andrew"
+      ]
+    },
+    {
+      "id": "66cc230a-c697-41ed-b54d-eede0803d9f2",
+      "num": 8041,
+      "name": "Megawatt - Bay Area Electrical",
+      "column": "TOP",
+      "this": {
+        "rps": 7,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "noah",
+        "andrew"
+      ]
+    },
+    {
+      "id": "e153d4e5-8579-4781-84d4-b4cc0104ee18",
+      "num": 8426,
+      "name": "Baker - INL Safety Managers - NKF 9/22/26",
+      "column": "TOP",
+      "this": {
+        "rps": 5,
+        "resumes": 1,
+        "ptcs": 4,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 4,
+        "resumes": 3,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "evan",
+        "noah"
+      ]
+    },
+    {
+      "id": "572fc520-ba9c-4aba-866f-eadd0801ff9e",
+      "num": 5278,
+      "name": "PB South - City Place Supers",
+      "column": "RETAINED",
+      "this": {
+        "rps": 3,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 4,
+        "resumes": 0,
+        "ptcs": 2,
+        "ftis": 2
+      },
+      "people": [
+        "evan",
+        "andrew",
+        "nick",
+        "kev"
+      ]
+    },
+    {
+      "id": "856ae6c4-0cc4-4cd4-a14e-09df08033bf4",
+      "num": 8409,
+      "name": "PB South - MEP Supers",
+      "column": "RETAINED",
+      "this": {
+        "rps": 3,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 2,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "andrew",
+        "kev"
+      ]
+    },
+    {
+      "id": "6f02f6fb-5f5a-4007-a95e-b4dd0116d971",
+      "num": 8809,
+      "name": "Hoffman Boise PE's",
+      "column": "GO NOW",
+      "this": {
+        "rps": 2,
+        "resumes": 4,
+        "ptcs": 0,
+        "ftis": 1
+      },
+      "last": {
+        "rps": 9,
+        "resumes": 1,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "bridger",
+        "kev"
+      ]
+    },
+    {
+      "id": "c258e58c-3531-4c57-8ecf-b4c800f0d6f8",
+      "num": 8424,
+      "name": "Triton Construction - MEP Super/Engineer",
+      "column": "RETAINED",
+      "this": {
+        "rps": 2,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 6,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "evan",
+        "andrew",
+        "nick",
+        "kev"
+      ]
+    },
+    {
+      "id": "37d2fc57-d073-4aca-a8dc-17de0804544a",
+      "num": 6182,
+      "name": "PB South APMs and PEs",
+      "column": "RETAINED",
+      "this": {
+        "rps": 2,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 2,
+        "resumes": 0,
+        "ptcs": 4,
+        "ftis": 0
+      },
+      "people": [
+        "evan",
+        "kev"
+      ]
+    },
+    {
+      "id": "7ce579f2-c9c0-4c61-ace5-e0de080362ea",
+      "num": 7953,
+      "name": "Megawatt - MEP - Nor CAL",
+      "column": "TOP",
+      "this": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 2,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "andrew"
+      ]
+    },
+    {
+      "id": "476ce384-509c-4603-a939-b4cd0018a388",
+      "num": 8781,
+      "name": "PB South- Field Engineers EVAN",
+      "column": "RETAINED",
+      "this": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 2,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "evan"
+      ]
+    },
+    {
+      "id": "474eb6c5-993e-4e5a-9fa8-d7de08031d0b",
+      "num": 7943,
+      "name": "PB SOUTH- General Super - WPB",
+      "column": "RETAINED",
+      "this": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 2,
+        "ftis": 0
+      },
+      "people": [
+        "evan",
+        "andrew",
+        "kev"
+      ]
+    },
+    {
+      "id": "9996f96d-565a-4ed5-b843-68de0802f0b5",
+      "num": 7304,
+      "name": "Megawatt - MEP Managers",
+      "column": "Typical",
+      "this": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "andrew"
+      ]
+    },
+    {
+      "id": "8e7f587e-7d95-4c4f-b6c7-68de08030c0a",
+      "num": 7306,
+      "name": "Megawatt - PMs",
+      "column": "TOP",
+      "this": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "max"
+      ]
+    },
+    {
+      "id": "12dfc7fd-828b-497f-b771-6dde08031f1f",
+      "num": 7364,
+      "name": "Megawatt - Asst Supers",
+      "column": "Typical",
+      "this": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "noah"
+      ]
+    },
+    {
+      "id": "cb02dde1-c7f4-446a-82ed-b1de0803b534",
+      "num": 7866,
+      "name": "MW Supers (EV)",
+      "column": "Typical",
+      "this": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "noah"
+      ]
+    },
+    {
+      "id": "b51ed4f6-5af6-427e-9569-e6de08006a64",
+      "num": 7970,
+      "name": "PB South- APM",
+      "column": "RETAINED",
+      "this": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "evan"
+      ]
+    },
+    {
+      "id": "bb2d96af-ae5e-483a-a6e2-f7de0804d7b6",
+      "num": 8047,
+      "name": "Baker - SoFlo MPCs",
+      "column": "Typical",
+      "this": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "evan"
+      ]
+    },
+    {
+      "id": "04e5dfa8-c329-40dc-b653-07df0802ebe3",
+      "num": 8066,
+      "name": "PB South- Miami PX",
+      "column": "TOP",
+      "this": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "nick"
+      ]
+    },
+    {
+      "id": "e09fc828-de09-4fa0-89ec-b4ce00170b44",
+      "num": 8788,
+      "name": "Triton - Purchasing + Procurement",
+      "column": "RETAINED",
+      "this": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 24,
+        "resumes": 4,
+        "ptcs": 6,
+        "ftis": 0
+      },
+      "people": [
+        "max",
+        "kev"
+      ]
+    },
+    {
+      "id": "05264db8-fab7-4b2e-922d-b4de00dfadb6",
+      "num": 8810,
+      "name": "PB South- Safety Manager - Project X",
+      "column": "RETAINED",
+      "this": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 5,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 8,
+        "resumes": 1,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "evan",
+        "kev"
+      ]
+    },
+    {
+      "id": "b9dedb6a-6ae4-445b-8645-b4c001097236",
+      "num": 8415,
+      "name": "Triton Construction - Miami Super",
+      "column": "RETAINED",
+      "this": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 3,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "andrew",
+        "nick"
+      ]
+    },
+    {
+      "id": "4bd9f3f3-329d-40dd-937c-c0de0803b224",
+      "num": 7901,
+      "name": "Megawatt PM's RENO",
+      "column": "Typical",
+      "this": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 2,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "andrew"
+      ]
+    },
+    {
+      "id": "a7e1f23c-9fe6-420d-a024-68de080309bf",
+      "num": 7305,
+      "name": "Megawatt - Supers",
+      "column": "TOP",
+      "this": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "nick"
+      ]
+    },
+    {
+      "id": "c6a97e64-7c0c-45e7-aa97-74de08035db9",
+      "num": 7463,
+      "name": "PB South - General 2",
+      "column": "RETAINED",
+      "this": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "andrew"
+      ]
+    },
+    {
+      "id": "2d755dd0-9862-42ff-b740-90de0802eebb",
+      "num": 7807,
+      "name": "Megawatt - Precon Bucket",
+      "column": "Typical",
+      "this": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "nick"
+      ]
+    },
+    {
+      "id": "f35251ab-c666-4ee4-b582-bcde0803c205",
+      "num": 7890,
+      "name": "VMG APMS",
+      "column": "TOP",
+      "this": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "nick"
+      ]
+    },
+    {
+      "id": "4a1cc5ad-2305-4015-8e79-07df0802fbe5",
+      "num": 8067,
+      "name": "PB South - Project Executive - Project X",
+      "column": "RETAINED",
+      "this": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "kev"
+      ]
+    },
+    {
+      "id": "902f2682-af76-466c-9fc0-b4e2011b9590",
+      "num": 8864,
+      "name": "PB South - Controller - Propject X",
+      "column": "RETAINED",
+      "this": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 1,
+        "resumes": 0,
+        "ptcs": 2,
+        "ftis": 0
+      },
+      "people": [
+        "noah",
+        "kev"
+      ]
+    },
+    {
+      "id": "afdece4f-0e43-4796-b551-b4db0155b774",
+      "num": 8806,
+      "name": "PB South- Cost Engineer - Project X",
+      "column": "RETAINED",
+      "this": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 0,
+        "resumes": 1,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "max"
+      ]
+    }
+  ],
+  "jos_other": {
+    "label": "Not on an active JO (buckets, portals, filled, closed)",
+    "this": {
+      "rps": 204,
+      "resumes": 11,
+      "ptcs": 17,
+      "ftis": 6
+    },
+    "last": {
+      "rps": 249,
+      "resumes": 15,
+      "ptcs": 16,
+      "ftis": 11
+    }
+  },
+  "jos_none": {
+    "label": "No job attached",
+    "this": {
+      "rps": 81,
+      "resumes": 4,
+      "ptcs": 1,
+      "ftis": 1
+    },
+    "last": {
+      "rps": 61,
+      "resumes": 7,
+      "ptcs": 2,
+      "ftis": 1
+    }
+  },
+  "jos_meta": {
+    "active_jobs_counted_from": "RETAINED, TOP, GO NOW and Typical columns",
+    "active_total": 58,
+    "with_activity": 29,
+    "jobs_read": 70
+  },
+  "revenue": {
+    "hub": {
+      "status": "hub figure, not gated by Tally",
+      "billings_ytd": 1069928,
+      "pct_to_goal": 45.53,
+      "to_goal": 1280072,
+      "as_of": "read Thu 22 Oct 2026; Hub sheet last edited Fri 16 Oct 2026",
+      "source": "Hub sheet, The Hub tab, Annual Billings"
+    },
+    "recruiters": {
+      "status": "not synced",
+      "why": "The Rev Report tab was not available as a full export. Re-run with --rev-csv <export of the 2026 Rev Report tab>.",
+      "quarter": "Q4 2026"
+    }
+  },
+  "counts_meta": {
+    "activities_read": 894,
+    "stage_jobs_read": 70
+  },
+  "notes": [
+    "1 activity row(s) dated in the future were ignored.",
+    "285 of 329 RPs this week (87%) are not on an active JO: 81 have no job attached, 204 sit on buckets, portals or closed jobs."
+  ]
+}

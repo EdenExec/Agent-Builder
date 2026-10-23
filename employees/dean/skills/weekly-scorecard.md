@@ -37,3 +37,7 @@ The pack is Eden Partner Group: header EDEN PARTNER GROUP with "Weekly Scorecard
 ## Hand-off
 
 Write the final week's row to `projects/workforce/scorecard-trend.md`, give Radar a three-line summary (headhunter RPs against 375, that is 5 x 75, the biggest mover, the one flag), and queue any draft email for Kev through QC. You do not email the team the pack; Kev hands it out at the Round Table.
+
+## The Round Table board (Q, 23 Oct 2026)
+
+Fridays, refresh the team board at the top of the Round Table with `npm run recruiting-board -- --out projects/workforce/board/current.json` (read-only Crelate pull, Sunday to now against last week to the same point, by active JO; add `--rev-csv <export of the 2026 Rev Report tab>` for per-recruiter revenue). Radar writes the file to the artifact as `board/current`; details in `projects/workforce/round-table.md`.

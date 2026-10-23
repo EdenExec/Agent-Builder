@@ -27,6 +27,7 @@
     "leadplan": "node workshop/cloudtalk/cli.ts",
     "ct-routine": "node workshop/cloudtalk/routine.ts",
     "leads": "node workshop/leads/cli.ts",
+    "recruiting-board": "node workshop/workforce/cli.ts",
     "office-prep": "node workshop/office/office-prep.ts"
   },
   "dependencies": {

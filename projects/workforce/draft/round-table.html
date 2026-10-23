@@ -11,6 +11,7 @@
 :root{
   --floor:#F3F0E8; --paper:#FCFBF7; --ink:#141412; --mute:#5E5B54; --line:#D9D4C8; --soft:#EAE6DC;
   --wall:#141412; --lamp:#F7F0DF; --lens:#D6D1C5;
+  --bd:#141412; --bd-fg:#F3F0E8; --bd-mute:#A59F92; --bd-line:#34322C;
   --lift:0 1px 0 rgba(20,20,18,.05),0 3px 8px rgba(20,20,18,.06);
   --g:#2E8A55; --a:#A8730F; --r:#B03A2E;
   --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
@@ -19,11 +20,13 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --floor:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B;
   --wall:#8E897D; --lamp:#221F18; --lens:#2D2B26;
+  --bd:#0A0A09; --bd-fg:#F3F0E8; --bd-mute:#A59F92; --bd-line:#2D2B26;
   --lift:0 1px 0 rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.35);
   --g:#5FCF8A; --a:#E7B04C; --r:#F07462; color-scheme:dark}}
 :root[data-theme="dark"]{
   --floor:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B;
   --wall:#8E897D; --lamp:#221F18; --lens:#2D2B26;
+  --bd:#0A0A09; --bd-fg:#F3F0E8; --bd-mute:#A59F92; --bd-line:#2D2B26;
   --lift:0 1px 0 rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.35);
   --g:#5FCF8A; --a:#E7B04C; --r:#F07462; color-scheme:dark}
 
@@ -145,6 +148,75 @@ details ul{margin:0 0 12px;padding-left:1.1em;display:grid;gap:6px;font-size:13p
 a.go{font-weight:700}
 @media (max-width:820px){.sw{min-height:40px}.tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}}
 @media (max-width:480px){th,td{padding:8px 6px}th{font-size:9px;letter-spacing:.04em}td small{white-space:normal}td.dir{font-size:9px;letter-spacing:0}th{padding-inline:4px}td{padding-inline:4px}.tab{padding:0 10px}}
+
+/* THE BOARD for the recruiting team (Kev, 23 Oct 2026). Look and rules follow the Command Center's board and leaderboard
+   (projects/virtual-office/draft/eden-office.html): matte black strip in both themes, cream numerals, hairlines, mono stamps; the only
+   colour is muted state. Numbers come from Crelate (read-only); every figure carries its source and as-of stamp. */
+.board{background:var(--bd);color:var(--bd-fg);border:1px solid var(--bd-line);box-shadow:var(--lift)}
+.board-h{display:flex;justify-content:space-between;align-items:center;gap:6px 14px;flex-wrap:wrap;padding:9px 14px;border-bottom:1px solid var(--bd-line)}
+.board-h .eyebrow{color:var(--bd-mute)}
+.board-h .eyebrow b{color:var(--bd-fg);font-weight:500}
+.board-meta{display:flex;align-items:center;gap:6px 12px;flex-wrap:wrap}
+.board-meta .sync{font:500 10.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bd-mute)}
+.board-meta .chip{border-color:var(--bd-mute);color:var(--bd-fg)}
+.board-meta .chip.warn{border-color:#E7B04C;color:#E7B04C}
+.board-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.cell{display:flex;flex-direction:column;gap:5px;padding:14px 14px 13px;border-right:1px solid var(--bd-line);border-bottom:1px solid var(--bd-line);min-width:0}
+.cell:nth-child(4n){border-right:0}
+.cell:nth-child(n+5){border-bottom:0}
+.cell .k{font:500 9.5px/1.25 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--bd-mute)}
+.cell .v{font:700 clamp(26px,3.1vw,36px)/1 var(--sans);letter-spacing:.01em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cell .v small{font:500 12px var(--mono);letter-spacing:.06em;color:var(--bd-mute);margin-left:4px}
+.cell .s{font:500 10px/1.4 var(--mono);letter-spacing:.04em;color:var(--bd-mute);overflow-wrap:anywhere}
+.cell .s b{color:var(--bd-fg);font-weight:500}
+.cell.warn .v{color:#E7B04C}
+.gbar{height:3px;background:var(--bd-line);position:relative;margin:2px 0 1px}
+.gbar i{position:absolute;inset:0 auto 0 0;background:var(--bd-fg);display:block}
+.board-note{padding:8px 14px;border-top:1px solid var(--bd-line);font:500 10px/1.55 var(--mono);letter-spacing:.04em;color:var(--bd-mute)}
+.lb{border:1px solid var(--line);background:var(--paper)}
+.lb>summary{cursor:pointer;list-style:none;padding:0 14px;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--mute)}
+.lb>summary::-webkit-details-marker{display:none}
+.lb>summary::after{content:"+";font:500 12px var(--mono);color:var(--mute)} .lb[open]>summary::after{content:"\2212"}
+.lb>summary:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.lb{padding:0}
+.lb-body{border-top:1px solid var(--line);padding:12px 14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.golf{font-size:12.5px}
+.golf th,.golf td{padding:6px 8px 6px 0;white-space:nowrap}
+.golf th{padding-left:0}
+.golf th.n,.golf td.n{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:12px}
+.golf td.nm,.golf th.nm{position:sticky;left:0;background:var(--paper);z-index:1;padding-left:10px}
+.golf td.nm{font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.golf td.nm .pos{font:500 11px var(--mono);color:var(--mute);letter-spacing:0;display:inline-block;min-width:2.2em;font-weight:500}
+.golf td.nm small{display:block;margin-left:2.2em;white-space:nowrap;text-transform:none;letter-spacing:.02em;font-weight:500}
+.golf tr.us td{border-top:1.5px solid var(--ink);font-weight:700}
+.golf tr.us td.nm{background:var(--paper)}
+.golf tr.lead td{color:var(--mute)}
+.golf tr.lead td.nm{color:var(--mute);font-weight:600}
+.golf tr.gap td{border-top:1.5px solid var(--ink)}
+.golf td small{display:block;white-space:nowrap;font:500 10px/1.3 var(--mono);color:var(--mute);letter-spacing:.02em}
+.golf .rpbar{height:3px;background:var(--soft);margin-top:3px;min-width:40px}
+.golf .rpbar i{display:block;height:100%;background:var(--ink)}
+.golf button.srt{background:none;border:0;padding:0;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;min-height:32px}
+.golf button.srt:hover,.golf th[aria-sort] button.srt{color:var(--ink)}
+.golf th[aria-sort] button.srt::after{content:" \25BE"}
+.golf td.dir{font-size:10.5px}
+.golf td.na{white-space:normal;min-width:54px;font-size:10.5px;line-height:1.25}
+.jo-wrap{display:flex;flex-direction:column;gap:8px}
+.jo td:first-child{white-space:normal;min-width:200px}
+.jo td.col{font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.jo tr.sum td{border-top:1.5px solid var(--ink);font-weight:700}
+.jo tr.sub td{color:var(--mute)}
+.wip{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.slot{border:1px dashed var(--line);background:var(--paper);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.slot.full{border-style:solid;border-color:var(--ink)}
+.slot .who{font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.slot p{margin:0;font-size:12.5px;color:var(--mute)}
+@media (max-width:820px){
+  .board-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cell:nth-child(4n){border-right:1px solid var(--bd-line)} .cell:nth-child(2n){border-right:0}
+  .cell:nth-child(n+5){border-bottom:1px solid var(--bd-line)} .cell:nth-child(n+7){border-bottom:0}
+}
+@media (max-width:480px){.cell{padding:12px 12px 11px}.golf th,.golf td{padding-right:8px}.lb-body{padding:10px}}
 </style>
 
 <div class="wrap">
@@ -159,14 +231,15 @@ a.go{font-weight:700}
     </div>
   </div>
 
-  <div class="notice" id="ex" hidden>Example data. This page is not reading the Round Table database. Names are the team; every figure, note and light below is invented.</div>
+  <div class="notice" id="ex" hidden>The folders below show example data: every figure, note and light inside a folder is invented. The board above is real and dated; it comes from the snapshot built into this page until the Round Table database loads.</div>
   <div class="notice share" id="sharenote" hidden>Screen-share is on. Coaching notes, revenue, commission and percent to goal are hidden and are not loaded. Folders stay closed until you open one.</div>
 
   <main id="main" aria-live="polite"></main>
 
-  <div class="foot"><span>Work only &middot; no health, family or age &middot; read-only page</span><span id="status">connecting</span></div>
+  <div class="foot"><span>Work only &middot; no health, family or age &middot; read-only page &middot; numbers from Crelate, read-only</span><span id="status">connecting</span></div>
 </div>
 
+<script type="application/json" id="board-snapshot">{"schema":1,"generated_at":"2026-10-23T03:46:46.540Z","as_of":"Thu 22 Oct 2026, 8:46 PM PT","source":"Crelate API v3, read-only (Crelate stays the system of record)","week":{"start":"2026-10-18","through":"2026-10-22","partial":true,"label":"Sun 18 Oct to Thu 22 Oct","note":"Weeks run Sunday to Saturday, Pacific. A week in progress is compared with last week to the same point, not with last week's full total."},"last_week":{"start":"2026-10-11","end":"2026-10-17","same_point_through":"2026-10-16T03:46:46.540Z","label":"Sun 11 Oct to Sat 17 Oct"},"goals":{"rps_per_day":15,"rps_week":75,"mps_per_day":20,"mps_week":100,"accelerator_per_quarter":25000,"recruiters_counted":6,"recruiters_in_goal":5,"rps_team_week":375,"mps_team_week":500,"accelerator_team_quarter":125000,"quarter":"Q4 2026","other_goals":"Resumes, PTCs, submittals, FTIs and offers: goal not set."},"metric_notes":{"rps":"Recruiting calls logged, counted as activities.","mps":"Crelate MP activity, unique contacts per recruiter. Kev's 20-a-day meaningful-connection goal is applied to it; meaningful connections are also tallied on the call sheet, which Crelate does not see.","resumes":"Resumes received, unique contacts.","ptcs":"Presented to client, unique contacts.","subs":"Submittal and Files, unique contacts.","ftis":"First-time interviews, unique contacts.","offers":"Contacts moved into an Offer stage on a job, by the person who moved them."},"team":{"this":{"rps":284,"mps":4,"resumes":17,"ptcs":20,"subs":14,"ftis":6,"offers":0},"last_same":{"rps":322,"mps":4,"resumes":26,"ptcs":9,"subs":13,"ftis":5,"offers":1},"last_full":{"rps":350,"mps":4,"resumes":32,"ptcs":17,"subs":15,"ftis":6,"offers":1}},"desk":{"this":{"rps":329,"mps":14,"resumes":21,"ptcs":27,"subs":14,"ftis":8,"offers":0},"last_same":{"rps":361,"mps":10,"resumes":26,"ptcs":20,"subs":14,"ftis":12,"offers":1},"last_full":{"rps":392,"mps":10,"resumes":33,"ptcs":34,"subs":16,"ftis":14,"offers":1}},"recruiters":[{"slug":"max","name":"Max","role":"Headhunter","group":"recruiter","status":"active","start":null,"in_goal":true,"this":{"rps":51,"mps":4,"resumes":2,"ptcs":3,"subs":5,"ftis":1,"offers":0},"last_same":{"rps":68,"mps":3,"resumes":6,"ptcs":4,"subs":9,"ftis":1,"offers":0},"last_full":{"rps":74,"mps":3,"resumes":6,"ptcs":4,"subs":10,"ftis":1,"offers":0},"rp_days_at_15":2,"rp_by_day":{"2026-10-22":17,"2026-10-21":7,"2026-10-20":11,"2026-10-19":16},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"evan","name":"Evan","role":"Headhunter","group":"recruiter","status":"active","start":null,"in_goal":true,"this":{"rps":58,"mps":0,"resumes":4,"ptcs":7,"subs":1,"ftis":2,"offers":0},"last_same":{"rps":63,"mps":0,"resumes":7,"ptcs":2,"subs":3,"ftis":2,"offers":0},"last_full":{"rps":73,"mps":0,"resumes":10,"ptcs":8,"subs":4,"ftis":3,"offers":0},"rp_days_at_15":2,"rp_by_day":{"2026-10-22":17,"2026-10-21":16,"2026-10-20":12,"2026-10-19":13},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"noah","name":"Noah","role":"Headhunter","group":"recruiter","status":"active","start":null,"in_goal":true,"this":{"rps":67,"mps":0,"resumes":4,"ptcs":5,"subs":7,"ftis":0,"offers":0},"last_same":{"rps":58,"mps":0,"resumes":6,"ptcs":1,"subs":0,"ftis":0,"offers":0},"last_full":{"rps":64,"mps":0,"resumes":8,"ptcs":1,"subs":0,"ftis":0,"offers":0},"rp_days_at_15":3,"rp_by_day":{"2026-10-22":20,"2026-10-21":15,"2026-10-20":14,"2026-10-19":18},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"andrew","name":"Andrew","role":"Headhunter","group":"recruiter","status":"active","start":null,"in_goal":true,"this":{"rps":47,"mps":0,"resumes":0,"ptcs":1,"subs":0,"ftis":0,"offers":0},"last_same":{"rps":70,"mps":0,"resumes":4,"ptcs":1,"subs":1,"ftis":0,"offers":1},"last_full":{"rps":76,"mps":0,"resumes":4,"ptcs":2,"subs":1,"ftis":0,"offers":1},"rp_days_at_15":1,"rp_by_day":{"2026-10-22":17,"2026-10-21":14,"2026-10-20":6,"2026-10-19":10},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"bridger","name":"Bridger","role":"Headhunter, remote","group":"recruiter","status":"active","start":null,"in_goal":true,"this":{"rps":61,"mps":0,"resumes":7,"ptcs":4,"subs":1,"ftis":3,"offers":0},"last_same":{"rps":63,"mps":1,"resumes":3,"ptcs":1,"subs":0,"ftis":2,"offers":0},"last_full":{"rps":63,"mps":1,"resumes":4,"ptcs":2,"subs":0,"ftis":2,"offers":0},"rp_days_at_15":3,"rp_by_day":{"2026-10-22":15,"2026-10-21":16,"2026-10-20":16,"2026-10-19":14},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"kunji","name":"Kunji","role":"Trainee","group":"recruiter","status":"active","start":null,"in_goal":false,"this":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"last_same":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"last_full":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"rp_days_at_15":0,"rp_by_day":{},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"kyle","name":"Kyle","role":"Incoming, Boise","group":"recruiter","status":"starts","start":"2026-11-02","in_goal":false,"this":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"last_same":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"last_full":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"rp_days_at_15":0,"rp_by_day":{},"revenue_qtd":null,"pct_to_accelerator":null}],"leadership":[{"slug":"nick","name":"Nick","role":"Operations","group":"leadership","status":"active","start":null,"in_goal":false,"this":{"rps":27,"mps":6,"resumes":2,"ptcs":3,"subs":0,"ftis":2,"offers":0},"last_same":{"rps":27,"mps":3,"resumes":0,"ptcs":1,"subs":0,"ftis":1,"offers":0},"last_full":{"rps":27,"mps":3,"resumes":0,"ptcs":3,"subs":0,"ftis":1,"offers":0},"rp_days_at_15":0,"rp_by_day":{"2026-10-21":7,"2026-10-20":7,"2026-10-19":13},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"kev","name":"Kev","role":"Founder","group":"leadership","status":"active","start":null,"in_goal":false,"this":{"rps":18,"mps":4,"resumes":2,"ptcs":4,"subs":0,"ftis":0,"offers":0},"last_same":{"rps":12,"mps":3,"resumes":0,"ptcs":10,"subs":1,"ftis":6,"offers":0},"last_full":{"rps":15,"mps":3,"resumes":1,"ptcs":14,"subs":1,"ftis":7,"offers":0},"rp_days_at_15":0,"rp_by_day":{"2026-10-22":1,"2026-10-21":6,"2026-10-19":11},"revenue_qtd":null,"pct_to_accelerator":null}],"jos":[{"id":"0683c27b-fdda-450e-a788-cdde0800ee81","num":7934,"name":"PB South - Assistant Superintendents - Project X or WPB","column":"RETAINED","this":{"rps":10,"resumes":1,"ptcs":0,"ftis":0},"last":{"rps":7,"resumes":1,"ptcs":0,"ftis":0},"people":["max","evan","andrew"]},{"id":"66cc230a-c697-41ed-b54d-eede0803d9f2","num":8041,"name":"Megawatt - Bay Area Electrical","column":"TOP","this":{"rps":7,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["noah","andrew"]},{"id":"e153d4e5-8579-4781-84d4-b4cc0104ee18","num":8426,"name":"Baker - INL Safety Managers - NKF 9/22/26","column":"TOP","this":{"rps":5,"resumes":1,"ptcs":4,"ftis":0},"last":{"rps":4,"resumes":3,"ptcs":0,"ftis":0},"people":["evan","noah"]},{"id":"572fc520-ba9c-4aba-866f-eadd0801ff9e","num":5278,"name":"PB South - City Place Supers","column":"RETAINED","this":{"rps":3,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":4,"resumes":0,"ptcs":2,"ftis":2},"people":["evan","andrew","nick","kev"]},{"id":"856ae6c4-0cc4-4cd4-a14e-09df08033bf4","num":8409,"name":"PB South - MEP Supers","column":"RETAINED","this":{"rps":3,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew","kev"]},{"id":"6f02f6fb-5f5a-4007-a95e-b4dd0116d971","num":8809,"name":"Hoffman Boise PE's","column":"GO NOW","this":{"rps":2,"resumes":4,"ptcs":0,"ftis":1},"last":{"rps":9,"resumes":1,"ptcs":0,"ftis":0},"people":["bridger","kev"]},{"id":"c258e58c-3531-4c57-8ecf-b4c800f0d6f8","num":8424,"name":"Triton Construction - MEP Super/Engineer","column":"RETAINED","this":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":6,"resumes":0,"ptcs":0,"ftis":0},"people":["evan","andrew","nick","kev"]},{"id":"37d2fc57-d073-4aca-a8dc-17de0804544a","num":6182,"name":"PB South APMs and PEs","column":"RETAINED","this":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":2,"resumes":0,"ptcs":4,"ftis":0},"people":["evan","kev"]},{"id":"7ce579f2-c9c0-4c61-ace5-e0de080362ea","num":7953,"name":"Megawatt - MEP - Nor CAL","column":"TOP","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew"]},{"id":"476ce384-509c-4603-a939-b4cd0018a388","num":8781,"name":"PB South- Field Engineers EVAN","column":"RETAINED","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"people":["evan"]},{"id":"474eb6c5-993e-4e5a-9fa8-d7de08031d0b","num":7943,"name":"PB SOUTH- General Super - WPB","column":"RETAINED","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":2,"ftis":0},"people":["evan","andrew","kev"]},{"id":"9996f96d-565a-4ed5-b843-68de0802f0b5","num":7304,"name":"Megawatt - MEP Managers","column":"Typical","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew"]},{"id":"8e7f587e-7d95-4c4f-b6c7-68de08030c0a","num":7306,"name":"Megawatt - PMs","column":"TOP","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["max"]},{"id":"12dfc7fd-828b-497f-b771-6dde08031f1f","num":7364,"name":"Megawatt - Asst Supers","column":"Typical","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["noah"]},{"id":"cb02dde1-c7f4-446a-82ed-b1de0803b534","num":7866,"name":"MW Supers (EV)","column":"Typical","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["noah"]},{"id":"b51ed4f6-5af6-427e-9569-e6de08006a64","num":7970,"name":"PB South- APM","column":"RETAINED","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["evan"]},{"id":"bb2d96af-ae5e-483a-a6e2-f7de0804d7b6","num":8047,"name":"Baker - SoFlo MPCs","column":"Typical","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["evan"]},{"id":"04e5dfa8-c329-40dc-b653-07df0802ebe3","num":8066,"name":"PB South- Miami PX","column":"TOP","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["nick"]},{"id":"e09fc828-de09-4fa0-89ec-b4ce00170b44","num":8788,"name":"Triton - Purchasing + Procurement","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":24,"resumes":4,"ptcs":6,"ftis":0},"people":["max","kev"]},{"id":"05264db8-fab7-4b2e-922d-b4de00dfadb6","num":8810,"name":"PB South- Safety Manager - Project X","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":5,"ftis":0},"last":{"rps":8,"resumes":1,"ptcs":0,"ftis":0},"people":["evan","kev"]},{"id":"b9dedb6a-6ae4-445b-8645-b4c001097236","num":8415,"name":"Triton Construction - Miami Super","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":3,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew","nick"]},{"id":"4bd9f3f3-329d-40dd-937c-c0de0803b224","num":7901,"name":"Megawatt PM's RENO","column":"Typical","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew"]},{"id":"a7e1f23c-9fe6-420d-a024-68de080309bf","num":7305,"name":"Megawatt - Supers","column":"TOP","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"people":["nick"]},{"id":"c6a97e64-7c0c-45e7-aa97-74de08035db9","num":7463,"name":"PB South - General 2","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew"]},{"id":"2d755dd0-9862-42ff-b740-90de0802eebb","num":7807,"name":"Megawatt - Precon Bucket","column":"Typical","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"people":["nick"]},{"id":"f35251ab-c666-4ee4-b582-bcde0803c205","num":7890,"name":"VMG APMS","column":"TOP","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"people":["nick"]},{"id":"4a1cc5ad-2305-4015-8e79-07df0802fbe5","num":8067,"name":"PB South - Project Executive - Project X","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"people":["kev"]},{"id":"902f2682-af76-466c-9fc0-b4e2011b9590","num":8864,"name":"PB South - Controller - Propject X","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":2,"ftis":0},"people":["noah","kev"]},{"id":"afdece4f-0e43-4796-b551-b4db0155b774","num":8806,"name":"PB South- Cost Engineer - Project X","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":1,"ptcs":0,"ftis":0},"people":["max"]}],"jos_other":{"label":"Not on an active JO (buckets, portals, filled, closed)","this":{"rps":204,"resumes":11,"ptcs":17,"ftis":6},"last":{"rps":249,"resumes":15,"ptcs":16,"ftis":11}},"jos_none":{"label":"No job attached","this":{"rps":81,"resumes":4,"ptcs":1,"ftis":1},"last":{"rps":61,"resumes":7,"ptcs":2,"ftis":1}},"jos_meta":{"active_jobs_counted_from":"RETAINED, TOP, GO NOW and Typical columns","active_total":58,"with_activity":29,"jobs_read":70},"revenue":{"hub":{"status":"hub figure, not gated by Tally","billings_ytd":1069928,"pct_to_goal":45.53,"to_goal":1280072,"as_of":"read Thu 22 Oct 2026; Hub sheet last edited Fri 16 Oct 2026","source":"Hub sheet, The Hub tab, Annual Billings"},"recruiters":{"status":"not synced","why":"The Rev Report tab was not available as a full export. Re-run with --rev-csv <export of the 2026 Rev Report tab>.","quarter":"Q4 2026"}},"counts_meta":{"activities_read":894,"stage_jobs_read":70},"notes":["1 activity row(s) dated in the future were ignored.","285 of 329 RPs this week (87%) are not on an active JO: 81 have no job attached, 204 sit on buckets, portals or closed jobs."]}</script>
 <script>
 (function () {
   'use strict';
@@ -177,7 +250,10 @@ a.go{font-weight:700}
      people/{slug}/money/{mtd|ytd}       period, as_of, entity, source, gate_id, gate_status (passed|pending|not checked), revenue, commission, pct_to_goal
      people/{slug}/goals/{targets|ten-five-three-one}   targets: goal_set, label, set_on   |   ten-five-three-one: rows [{span, work, life}], updated
      people/{slug}/deliverables/{id}     kind (deliverable|jo), title, due, status, ...   (jo: location, role_on_job, since, hub_url)
-     Opening one person subscribes to that person's subcollections only. Screen-share never subscribes to coaching or money. */
+     Opening one person subscribes to that person's subcollections only. Screen-share never subscribes to coaching or money.
+     THE BOARD (23 Oct 2026), landing page only, read-only:
+     board/current   the whole board document built by workshop/workforce/recruiting-board.ts (team, recruiters, leadership, jos, revenue, notes). The page falls back to the dated JSON snapshot embedded above (#board-snapshot) until this document exists.
+     wip/{slug}-{weekOf}   one weekly WIP report: slug, week_of, title, received, url (https), note (one line). The newest per slug fills that recruiter's slot. */
   var STD_RPS = 75, STD_DAY = 15, WIN_BOXES = 38, ROT_DAYS = 14;
   var $ = function (s) { return document.querySelector(s); };
   var DAY = 864e5;
@@ -205,7 +281,7 @@ a.go{font-weight:700}
   ];
   var LIGHTS = { green: 'On pace', amber: 'Watch', red: 'Act', grey: 'No data', none: 'No light yet' };
 
-  var S = { live: false, db: null, example: true, share: false, people: [], peopleLoaded: false, open: null, tab: 'score', data: {}, loaded: {}, unsubs: [], status: 'example data' };
+  var S = { board: null, boardSrc: 'none', wip: [], det: { lb: true, jo: true, jorest: false, wip: true }, lbSort: 'rps', live: false, db: null, example: true, share: false, people: [], peopleLoaded: false, open: null, tab: 'score', data: {}, loaded: {}, unsubs: [], status: 'example data' };
   try { S.share = sessionStorage.getItem('rt-share') === '1'; } catch (e) {}
 
   /* ---------------- example data: invented, relative to today ---------------- */
@@ -265,8 +341,213 @@ a.go{font-weight:700}
   function led(l) { return h('span', { class: 'led', 'data-l': LIGHTS[l] ? l : 'none', role: 'img', 'aria-label': LIGHTS[l] || LIGHTS.none }); }
   function lightWord(l) { return h('span', { class: 'lw' }, led(l), LIGHTS[l] || LIGHTS.none); }
 
+
+  /* ---------------- the board (Kev, 23 Oct 2026) ---------------- */
+  var BKEYS = [['rps', 'RPs'], ['mps', 'MPs'], ['resumes', 'Resumes'], ['ptcs', 'PTCs'], ['subs', 'Submittals'], ['ftis', 'FTIs'], ['offers', 'Offers']];
+  var JO_COLS = [['rps', 'RPs'], ['resumes', 'Resumes'], ['ptcs', 'PTCs'], ['ftis', 'FTIs']];
+  function snapshot() { try { var el = document.getElementById('board-snapshot'); return el ? JSON.parse(el.textContent) : null; } catch (e) { return null; } }
+  function pickBoard(live) {
+    var snap = snapshot();
+    if (live && live.generated_at && (!snap || String(live.generated_at) >= String(snap.generated_at))) { S.board = live; S.boardSrc = 'live'; }
+    else if (snap) { S.board = snap; S.boardSrc = 'snapshot'; }
+  }
+  function int(n) { return isNum(n) ? Math.round(n).toLocaleString('en-US') : '–'; }
+  function usd(n) { return isNum(n) ? '$' + Math.round(n).toLocaleString('en-US') : 'not synced'; }
+  function delta(cur, ref) {
+    if (!isNum(cur) || !isNum(ref)) return 'no comparison';
+    if (ref === 0) return cur === 0 ? '– Level' : '▲ Up from 0';
+    var d = direction(cur, ref), p = Math.round(Math.abs((cur - ref) / ref) * 100);
+    return d === 'Up' ? '▲ Up ' + p + '%' : d === 'Down' ? '▼ Down ' + p + '%' : '– Level';
+  }
+  function dirWord(cur, ref) { return !isNum(cur) || !isNum(ref) ? 'n/a' : direction(cur, ref); }
+  function cell(k, v, small, lines, pct, cls) {
+    var c = h('div', { class: 'cell' + (cls ? ' ' + cls : '') }, h('span', { class: 'k', text: k }), h('b', { class: 'v' }, String(v), small ? h('small', { text: small }) : null));
+    if (isNum(pct)) c.appendChild(h('div', { class: 'gbar', role: 'img', 'aria-label': Math.round(pct) + ' percent of the goal' }, h('i', { style: 'width:' + Math.max(0, Math.min(100, pct)) + '%' })));
+    (lines || []).forEach(function (l) { if (l) c.appendChild(h('span', { class: 's', text: l })); });
+    return c;
+  }
+  function boardCells(B) {
+    var T = B.team.this, L = B.team.last_same, F = B.team.last_full, G = B.goals, grid = h('div', { class: 'board-grid' });
+    function act(key, label, goal, goalText) {
+      var lines = ['Last week to this point ' + int(L[key]) + ' · ' + delta(T[key], L[key]), 'Last week in full ' + int(F[key]), goal ? int(Math.round(T[key] / goal * 100)) + '% of the ' + goalText : 'Goal not set'];
+      return cell(label, int(T[key]), goal ? '/ ' + int(goal) : '', lines, goal ? T[key] / goal * 100 : null);
+    }
+    grid.appendChild(act('rps', 'RPs · week to date', G.rps_team_week, G.rps_per_day + ' a day, ' + G.rps_week + ' a week, ' + G.recruiters_in_goal + ' recruiters'));
+    grid.appendChild(act('mps', 'MPs · week to date', G.mps_team_week, G.mps_per_day + ' a day, ' + G.mps_week + ' a week each'));
+    grid.appendChild(act('resumes', 'Resumes'));
+    grid.appendChild(act('ptcs', 'PTCs'));
+    grid.appendChild(act('subs', 'Submittals'));
+    grid.appendChild(act('ftis', 'FTIs'));
+    var rv = B.revenue || {}, rr = rv.recruiters || {}, placed = rr.status === 'from Rev Report export';
+    grid.appendChild(cell('Offers · placements', int(T.offers), '', ['Last week to this point ' + int(L.offers) + ' · ' + delta(T.offers, L.offers), 'Last week in full ' + int(F.offers),
+      placed ? 'Placements: ' + int(rr.placements_week) + ' this week, ' + int(rr.placements_qtd) + ' in ' + rr.quarter : 'Placements: not synced (needs the Rev Report export)'], null));
+    var hub = rv.hub || {}, ok = isNum(hub.billings_ytd) && !S.share;
+    var rl = [];
+    if (S.share) rl.push('Hidden while screen-share is on');
+    else if (isNum(hub.billings_ytd)) {
+      rl.push((isNum(hub.pct_to_goal) ? hub.pct_to_goal + '% of the annual goal' : '') + (isNum(hub.to_goal) ? ' · ' + usd(hub.to_goal) + ' to go' : ''));
+      rl.push('Hub, ' + (hub.as_of || 'date not stated') + ' · not gated by Tally');
+    } else rl.push('Not synced');
+    rl.push(rr.status === 'from Rev Report export' ? 'Per recruiter: see the leaderboard' : 'Per recruiter vs ' + usd(G.accelerator_per_quarter) + ' a quarter: not synced');
+    grid.appendChild(cell('Billed · year to date', ok ? usd(hub.billings_ytd) : (S.share ? '••••' : '–'), '', rl, ok && isNum(hub.pct_to_goal) ? hub.pct_to_goal : null, ok ? '' : 'warn'));
+    return grid;
+  }
+  function stampText(B) {
+    return (S.boardSrc === 'live' ? 'Live from the Round Table database' : 'Snapshot built into the page') + ' · Crelate as of ' + (B.as_of || 'unknown');
+  }
+  function renderBoardBlock() {
+    var B = S.board, box = h('section', { class: 'board', 'aria-label': 'The board: recruiting team' });
+    if (!B) {
+      box.appendChild(h('div', { class: 'board-h' }, h('span', { class: 'eyebrow', text: 'The board · recruiting team' })));
+      box.appendChild(h('div', { class: 'board-note', text: 'No board data yet. Dean’s Friday run (npm run recruiting-board) writes board/current; until then nothing is shown and nothing is guessed.' }));
+      return box;
+    }
+    box.appendChild(h('div', { class: 'board-h' },
+      h('span', { class: 'eyebrow' }, 'The board · ', h('b', { text: 'recruiting team' }), ' · ' + B.week.label),
+      h('span', { class: 'board-meta' }, h('span', { class: 'sync', text: stampText(B) }), B.week.partial ? h('span', { class: 'chip warn', text: 'Week in progress' }) : null)));
+    box.appendChild(boardCells(B));
+    var G = B.goals;
+    box.appendChild(h('div', { class: 'board-note', text: 'Totals are the recruiters (Max, Evan, Noah, Andrew, Bridger, and Kunji’s activity); the goal counts ' + G.recruiters_in_goal + ' of them at ' + G.rps_week + ' RPs a week. Nick and Kev sit below the line on the leaderboard. This week is compared with last week to the same point in the week, and last week in full is shown beneath. Weeks run Sunday to Saturday, Pacific. MPs are Crelate’s MP activity; the 20-a-day meaningful connections are also kept on the call sheet, which Crelate does not see. Source: ' + B.source + '.' }));
+    return box;
+  }
+  function lbValue(p, k) {
+    if (k === 'revenue') return isNum(p.revenue_qtd) ? p.revenue_qtd : -1;
+    if (k === 'pct') return isNum(p.pct_to_accelerator) ? p.pct_to_accelerator : -1;
+    return p.this ? p.this[k] || 0 : 0;
+  }
+  function renderLeaderboard() {
+    var B = S.board, det = h('details', { class: 'lb', id: 'lb', 'data-det': 'lb' }), k = S.lbSort;
+    if (S.det.lb) det.setAttribute('open', '');
+    det.appendChild(h('summary', null, h('span', { class: 'eyebrow', text: 'Leaderboard · this week · ranked by ' + (BKEYS.concat([['revenue', 'revenue'], ['pct', '% to $25k']]).filter(function (x) { return x[0] === k; })[0] || ['', 'RPs'])[1] })));
+    var body = h('div', { class: 'lb-body' });
+    if (!B) { body.appendChild(h('div', { class: 'empty', text: 'No board data yet.' })); det.appendChild(body); return det; }
+    var acc = (B.goals.accelerator_per_quarter || 25000), G = B.goals;
+    var started = B.recruiters.filter(function (p) { return p.status === 'active'; }), notYet = B.recruiters.filter(function (p) { return p.status !== 'active'; });
+    started = started.slice().sort(function (a, b) { return (lbValue(b, k) - lbValue(a, k)) || (b.this.rps - a.this.rps); });
+    var showRev = !S.share;
+    var cols = BKEYS.map(function (x) { return [x[0], x[1]]; });
+    var thead = h('tr', null, h('th', { class: 'nm', text: 'Recruiter' }));
+    cols.forEach(function (c) { thead.appendChild(h('th', Object.assign({ class: 'n' }, k === c[0] ? { 'aria-sort': 'descending' } : {}), h('button', { class: 'srt', type: 'button', 'data-sort': c[0], title: 'Rank by ' + c[1], text: c[1] }))); });
+    if (showRev) {
+      thead.appendChild(h('th', Object.assign({ class: 'n' }, k === 'revenue' ? { 'aria-sort': 'descending' } : {}), h('button', { class: 'srt', type: 'button', 'data-sort': 'revenue', title: 'Rank by revenue this quarter', text: 'Billed QTD' })));
+      thead.appendChild(h('th', Object.assign({ class: 'n' }, k === 'pct' ? { 'aria-sort': 'descending' } : {}), h('button', { class: 'srt', type: 'button', 'data-sort': 'pct', title: 'Percent of the ' + usd(acc) + ' a quarter accelerator', text: '% to $25k' })));
+    }
+    thead.appendChild(h('th', { text: 'Trend' }));
+    var tb = h('tbody');
+    function numCell(p, c) {
+      var v = p.this[c[0]];
+      if (c[0] === 'rps') {
+        var inGoal = p.in_goal, pc = isNum(v) ? Math.min(100, v / G.rps_week * 100) : 0;
+        return h('td', { class: 'n' }, int(v), inGoal ? h('small', { text: Math.round(v / G.rps_week * 100) + '% · ' + p.rp_days_at_15 + ' d at ' + G.rps_per_day, title: Math.round(v / G.rps_week * 100) + '% of ' + G.rps_week + ' a week; ' + p.rp_days_at_15 + ' day(s) at ' + G.rps_per_day + ' or more' }) : null, inGoal ? h('div', { class: 'rpbar', role: 'img', 'aria-label': Math.round(pc) + ' percent of ' + G.rps_week + ' RPs' }, h('i', { style: 'width:' + pc + '%' })) : null);
+      }
+      return h('td', { class: 'n', text: int(v) });
+    }
+    function row(p, pos, cls, sub) {
+      var tr = h('tr', { class: cls || '' }), nm = h('td', { class: 'nm' }, pos ? h('span', { class: 'pos', text: pos }) : null, p.name, sub ? h('small', { text: sub }) : null);
+      tr.appendChild(nm);
+      cols.forEach(function (c) { tr.appendChild(numCell(p, c)); });
+      if (showRev) {
+        tr.appendChild(h('td', { class: 'n' + (isNum(p.revenue_qtd) ? '' : ' na'), text: isNum(p.revenue_qtd) ? usd(p.revenue_qtd) : 'not synced' }));
+        tr.appendChild(h('td', { class: 'n' + (isNum(p.pct_to_accelerator) ? '' : ' na'), text: isNum(p.pct_to_accelerator) ? p.pct_to_accelerator + '%' : 'not synced' }));
+      }
+      tr.appendChild(h('td', { class: 'dir', text: p.status !== 'active' ? '–' : dirWord(p.this.rps, p.last_same.rps) === 'n/a' ? '–' : delta(p.this.rps, p.last_same.rps), title: 'RPs this week against last week to the same point (' + int(p.last_same.rps) + ')' }));
+      return tr;
+    }
+    started.forEach(function (p, i) {
+      var v = lbValue(p, k), tie = started.some(function (x, j) { return j !== i && lbValue(x, k) === v; }), first = started.map(function (x) { return lbValue(x, k); }).indexOf(v) + 1;
+      var sub = !p.in_goal ? (p.role === 'Trainee' ? 'Trainee · not in goal' : '') : '';
+      tb.appendChild(row(p, (tie ? 'T' : '') + first, '', sub));
+    });
+    notYet.forEach(function (p) { var tr = row(p, '', 'lead', p.status === 'starts' ? 'Starts ' + nice(p.start) : 'No Crelate user yet'); tb.appendChild(tr); });
+    // totals for the recruiters
+    var us = h('tr', { class: 'us' }, h('td', { class: 'nm', text: 'Us' }));
+    cols.forEach(function (c) { us.appendChild(h('td', { class: 'n', text: int(B.team.this[c[0]]) })); });
+    if (showRev) { us.appendChild(h('td', { class: 'n na', text: 'not synced' })); us.appendChild(h('td', { class: 'n na', text: 'not synced' })); }
+    us.appendChild(h('td', { class: 'dir', text: delta(B.team.this.rps, B.team.last_same.rps) }));
+    tb.appendChild(us);
+    (B.leadership || []).forEach(function (p, i) { tb.appendChild(row(p, '', 'lead' + (i === 0 ? ' gap' : ''), i === 0 ? 'Leadership · not in the goal' : '')); });
+    body.appendChild(h('div', { class: 'scroll' }, h('table', { class: 'golf' }, h('thead', null, thead), tb)));
+    body.appendChild(sectionNote('Ranked by ' + ((BKEYS.concat([['revenue', 'billed this quarter'], ['pct', 'percent to $25k']]).filter(function (x) { return x[0] === k; })[0] || ['', 'RPs'])[1]) + ' (tap a column to re-rank). Counted by Dean’s rules: RPs are calls logged; MPs, resumes, PTCs, submittals and FTIs are unique contacts per person. Trend is RPs against last week to the same point; within 5 percent reads Level. ' +
+      (showRev ? 'Billed QTD and % to $25k come from the Hub Rev Report recruiter and split columns; not synced until the full Rev Report export is supplied. Never estimated here.' : 'Revenue columns are hidden while screen-share is on.')));
+    det.appendChild(body); return det;
+  }
+  function joName(j) { return S.share ? 'JO ' + (j.num == null ? '' : j.num) : (j.name || 'JO') + (j.num != null ? ' · #' + j.num : ''); }
+  function renderJos() {
+    var B = S.board, det = h('details', { class: 'lb', id: 'jo', 'data-det': 'jo' });
+    if (S.det.jo) det.setAttribute('open', '');
+    det.appendChild(h('summary', null, h('span', { class: 'eyebrow', text: 'By active JO · this week · RPs, resumes, PTCs, FTIs' })));
+    var body = h('div', { class: 'lb-body' });
+    if (!B) { body.appendChild(h('div', { class: 'empty', text: 'No board data yet.' })); det.appendChild(body); return det; }
+    var M = B.jos_meta || {}, jos = B.jos || [];
+    body.appendChild(h('p', { class: 'sub', text: 'Counted by active JO, per Kev’s 21 Oct rule: one JO per client opportunity and role, shared by every recruiter, with each recruiter’s activity logged on it. Active JOs are the RETAINED, TOP, GO NOW and Typical columns (' + int(M.active_total) + ' today); ' + int(M.with_activity) + ' had activity in the last two weeks.' }));
+    function head() { var tr = h('tr', null, h('th', { text: 'Job order' }), h('th', { text: 'Column' })); JO_COLS.forEach(function (c) { tr.appendChild(h('th', { class: 'n', text: c[1] })); }); tr.appendChild(h('th', { class: 'n', text: 'Last wk RPs' })); tr.appendChild(h('th', { text: 'Working it' })); return h('thead', null, tr); }
+    var names = {}; (B.recruiters || []).concat(B.leadership || []).forEach(function (p) { names[p.slug] = p.name; });
+    function jrow(j) {
+      var tr = h('tr', null, h('td', { text: joName(j) }), h('td', { class: 'col', text: j.column || '' }));
+      JO_COLS.forEach(function (c) { tr.appendChild(h('td', { class: 'n', text: int(j.this[c[0]]) })); });
+      tr.appendChild(h('td', { class: 'n', text: int(j.last.rps) }));
+      tr.appendChild(h('td', { text: (j.people || []).map(function (s) { return names[s] || s; }).join(', ') || '–' }));
+      return tr;
+    }
+    function tbl(list, foot) { var tb = h('tbody'); list.forEach(function (j) { tb.appendChild(jrow(j)); }); if (foot) foot(tb); return h('div', { class: 'scroll' }, h('table', { class: 'jo' }, head(), tb)); }
+    var top = jos.slice(0, 12), rest = jos.slice(12);
+    var tot = { rps: 0, resumes: 0, ptcs: 0, ftis: 0, lrps: 0 };
+    jos.forEach(function (j) { JO_COLS.forEach(function (c) { tot[c[0]] += j.this[c[0]] || 0; }); tot.lrps += j.last.rps || 0; });
+    function sumRow(tb, label, x, cls, lastRps) {
+      var tr = h('tr', { class: cls }, h('td', { text: label }), h('td'));
+      JO_COLS.forEach(function (c) { tr.appendChild(h('td', { class: 'n', text: int(x[c[0]]) })); });
+      tr.appendChild(h('td', { class: 'n', text: int(lastRps) })); tr.appendChild(h('td')); tb.appendChild(tr);
+    }
+    function foot(tb) {
+      sumRow(tb, 'On active JOs (all ' + int(jos.length) + ' with activity)', tot, 'sum', tot.lrps);
+      sumRow(tb, (B.jos_other || {}).label || 'Other jobs', (B.jos_other || {}).this || {}, 'sub', ((B.jos_other || {}).last || {}).rps);
+      sumRow(tb, (B.jos_none || {}).label || 'No job attached', (B.jos_none || {}).this || {}, 'sub', ((B.jos_none || {}).last || {}).rps);
+    }
+    if (!jos.length) body.appendChild(h('div', { class: 'empty', text: 'No activity on an active JO this week.' }));
+    else {
+      body.appendChild(tbl(top, rest.length ? null : foot));
+      if (rest.length) {
+        var d2 = h('details', { 'data-det': 'jorest', id: 'jorest' }); if (S.det.jorest) d2.setAttribute('open', '');
+        d2.appendChild(h('summary', { text: 'The other ' + rest.length + ' active JOs with activity, and the totals' }));
+        d2.appendChild(h('div', { style: 'padding-bottom:12px' }, tbl(rest, foot)));
+        body.appendChild(d2);
+      }
+    }
+    var note = (B.notes || []).filter(function (n) { return /not on an active JO/.test(n); })[0];
+    body.appendChild(sectionNote((note ? note + ' ' : '') + 'Each recruiter’s work is counted once per contact inside a JO, so these lines add up to the leaderboard totals for Max through Kev. Source: ' + B.source + ', ' + (B.as_of || '') + '.'));
+    det.appendChild(body); return det;
+  }
+  function latestWip(slug) {
+    return S.wip.filter(function (r) { return r.slug === slug; }).sort(function (a, b) { return String(b.week_of || '').localeCompare(String(a.week_of || '')) || String(b.received || '').localeCompare(String(a.received || '')); })[0];
+  }
+  function renderWip() {
+    var B = S.board, det = h('details', { class: 'lb', id: 'wip', 'data-det': 'wip' });
+    if (S.det.wip) det.setAttribute('open', '');
+    det.appendChild(h('summary', null, h('span', { class: 'eyebrow', text: 'WIP reports · one slot per recruiter' })));
+    var body = h('div', { class: 'lb-body' });
+    body.appendChild(h('p', { class: 'sub', text: 'Each recruiter’s weekly WIP report is filed in their slot the day it arrives. Nothing has arrived yet, so the slots are empty. A slot shows the newest report, its week and the date received.' }));
+    var grid = h('div', { class: 'wip' }), list = B ? B.recruiters : [];
+    list.forEach(function (p) {
+      var r = latestWip(p.slug), link = r ? safeUrl(r.url) : '';
+      var s = h('div', { class: 'slot' + (r ? ' full' : '') }, h('span', { class: 'who', text: p.name }));
+      if (r) {
+        s.appendChild(h('div', { text: r.title || 'WIP report' }));
+        s.appendChild(h('span', { class: 'stamp', text: 'Week of ' + nice(r.week_of) + (r.received ? ' · received ' + nice(r.received) : '') }));
+        if (r.note && !S.share) s.appendChild(h('p', { text: r.note }));
+        if (link) s.appendChild(h('a', { class: 'go', href: link, target: '_blank', rel: 'noopener', text: 'Open the report' }));
+      } else {
+        s.appendChild(h('p', { text: p.status === 'starts' ? 'Starts ' + nice(p.start) + '. No WIP report yet.' : 'No WIP report yet. ' + p.name + '’s first weekly report will appear here.' }));
+      }
+      grid.appendChild(s);
+    });
+    body.appendChild(list.length ? grid : h('div', { class: 'empty', text: 'No recruiters on the board yet.' }));
+    det.appendChild(body); return det;
+  }
+
   function landing() {
     var box = h('div', { class: 'wrap-l', style: 'display:flex;flex-direction:column;gap:22px' });
+    box.appendChild(renderBoardBlock()); box.appendChild(renderLeaderboard()); box.appendChild(renderJos()); box.appendChild(renderWip());
+    box.appendChild(h('div', { class: 'eyebrow', text: 'Folders · one per person' }));
     box.appendChild(h('p', { class: 'sub', text: 'Open one folder at a time. Each folder holds that person’s scorecard, coaching, revenue, goals and deliverables. Nothing from another person loads while one is open.' }));
     if (!S.people.length) {
       box.appendChild(h('div', { class: 'empty', text: S.live ? (S.peopleLoaded ? 'No folders yet. Radar adds each person once Kev confirms the roster.' : 'Loading folders…') : 'Open this page in Claude to load the Round Table.' }));
@@ -505,9 +786,11 @@ a.go{font-weight:700}
 
   document.addEventListener('click', function (e) {
     var f = e.target.closest('.folder[data-slug]'); if (f) { openFolder(f.getAttribute('data-slug')); return; }
+    var so = e.target.closest('.srt[data-sort]'); if (so) { S.lbSort = so.getAttribute('data-sort'); render(); return; }
     if (e.target.closest('#back')) { closeFolder(); render(); window.scrollTo(0, 0); return; }
     var t = e.target.closest('.tab[data-tab]'); if (t) { S.tab = t.getAttribute('data-tab'); render('#tab-' + S.tab); }
   });
+  document.addEventListener('toggle', function (e) { var d = e.target; if (d && d.getAttribute && d.getAttribute('data-det')) S.det[d.getAttribute('data-det')] = d.open; }, true);
   document.addEventListener('keydown', function (e) {
     var t = e.target.closest && e.target.closest('.tab[data-tab]'); if (!t || (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft')) return;
     var tabs = TABS.filter(function (x) { return !(S.share && x.secret); }).map(function (x) { return x.id; }), i = tabs.indexOf(S.tab);
@@ -532,6 +815,11 @@ a.go{font-weight:700}
   /* ---------------- boot: example data first, then the database ---------------- */
   function goLive(db) {
     S.db = db; S.live = true; S.example = false; S.people = []; S.peopleLoaded = false; closeFolder(); status('live'); render();
+    db.collection('board').onSnapshot(function (s) {
+      var cur = s.docs.map(own).filter(function (d) { return d.id === 'current'; })[0];
+      pickBoard(cur || null); render();
+    }, function () { status('could not read board'); });
+    db.collection('wip').onSnapshot(function (s) { S.wip = s.docs.map(own); render(); }, function () {});
     db.collection('people').onSnapshot(function (s) {
       S.people = s.docs.map(own); S.peopleLoaded = true; status('live');
       var want = (location.hash || '').slice(1);
@@ -542,6 +830,7 @@ a.go{font-weight:700}
   }
   function boot() {
     S.people = EX_ORDER.map(function (k) { return EX[k].person; });
+    pickBoard(null);
     render();
     var want = (location.hash || '').slice(1);
     if (want && EX[want]) openFolder(want);
