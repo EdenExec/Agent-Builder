@@ -354,7 +354,14 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .panel-b ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .ticket{border:1px solid var(--line);padding:8px 10px;font-size:13px;overflow-wrap:anywhere}
 .ticket small{display:block;font:500 10px/1.4 var(--mono);color:var(--mute);letter-spacing:.06em}
-.ticket>.mini{margin-top:6px;margin-right:8px;padding-inline:0}
+.ticket>.mini,.tkd>.mini{margin-top:6px;margin-right:8px;padding-inline:0}
+.tkd>summary{cursor:pointer;list-style:none;display:flex;flex-direction:column;gap:2px}
+.tkd>summary::-webkit-details-marker{display:none}
+.tkd>summary .tt{font-weight:600}
+.tkd>summary .tt::before{content:"+\00a0";font:500 11px var(--mono);color:var(--mute)} .tkd[open]>summary .tt::before{content:"\2212\00a0"}
+.tkd>summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.tkd .ask{margin:6px 0 0;font-size:13px}
+.tkd>small{display:block;font:500 10px/1.4 var(--mono);color:var(--mute);letter-spacing:.06em}
 .exact{background:var(--soft);padding:8px;font:400 11.5px/1.45 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;margin-top:6px}
 .log li{font:400 11.5px/1.45 var(--mono);color:var(--mute)} .log li b{color:var(--ink);font-weight:500}
 .now{font-size:15px;font-weight:600;overflow-wrap:anywhere;margin:0}
@@ -897,8 +904,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     { id: 'round-table', name: 'Round Table', url: 'https://claude.ai/artifact/DTXbu7B6F3B2s8NEnmYdCE' },
     { id: 'staffing-doc', name: 'Eden Staffing doc', url: 'https://docs.google.com/document/d/1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I/edit' }
   ];
-  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['round-table', 'hub'], host: ['eden-desk', 'hub'], tally: ['quickbooks', 'gusto', 'hub'], docket: ['quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'], pm: ['staffing-doc', 'hub'] };
-  var BENCH_TOOLS = { recruiting: ['round-table', 'hub'], depth: ['round-table', 'hub'], revenue: ['hub', 'quickbooks'], university: ['hub'], finance: ['quickbooks', 'gusto', 'hub'], client: ['hub', 'cloudtalk', 'crelate'], family: ['atlas-desk', 'marlowe-desk'], projects: ['staffing-doc', 'hub'] };
+  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['round-table', 'hub'], host: ['eden-desk', 'hub'], tally: ['cash-pulse', 'quickbooks', 'gusto', 'hub'], docket: ['cash-pulse', 'quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'], pm: ['staffing-doc', 'hub'] };
+  var BENCH_TOOLS = { recruiting: ['round-table', 'hub'], depth: ['round-table', 'hub'], revenue: ['cash-pulse', 'hub', 'quickbooks'], university: ['hub'], finance: ['cash-pulse', 'quickbooks', 'gusto', 'hub'], client: ['hub', 'cloudtalk', 'crelate'], family: ['atlas-desk', 'marlowe-desk'], projects: ['staffing-doc', 'hub'] };
   /* Bench skeletons: the floor always has its benches; docs in `benches/` fill in the figures. */
   var BENCH_DEFS = [
     { id: 'recruiting', zone: 'rec', title: 'Recruiting floor · Vancouver', sub: 'Coaching · scorecards · deliverables', owner: 'Dean', sensitive: true, cls: 'bench priv' },
@@ -960,7 +967,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       if (acted(a.id)) return;                             // Kev marked it done, moved it to follow-up, or snoozed it
       var seen = isSeen(a.id);
       if (seen && a.light !== 'urgent') return;           // seen clears everything but red; red holds steady until the source resolves
-      out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link, preview: a.preview, rank: a.rank, why: a.why, kind: a.kind, agent: id });
+      var rel = a.link ? null : relatedTicket(a);
+      out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link || (rel && rel.result && rel.result.link) || null, preview: a.preview, rank: a.rank, why: a.why, kind: a.kind, agent: id, found: rel && rel.result && rel.result.summary ? { text: rel.result.summary, from: rel.id } : null });
     });
     Object.keys(S.tickets).forEach(function (k) {
       var tk = S.tickets[k]; if (tk.agent !== id || ticketHidden(tk)) return;
@@ -972,6 +980,18 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       if (tk.status === 'done' && !isSeen(key)) out.push({ light: 'review', title: 'Ticket done: ' + tk.ask, raisedAt: tk.doneAt || tk.updatedAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
     });
     return out;
+  }
+  /* An alert that arrives with no link (a gate that cleared, a blocker) still has its work somewhere: the ticket that produced it.
+     Match a gate by its id in the ticket's result ("Gate 7ce970 PASSED"), else take the same agent's latest finished ticket from the day before the alert. */
+  function relatedTicket(a) {
+    var tks = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.agent && x.result && (x.result.summary || x.result.link); });
+    if (!tks.length) return null;
+    var gid = /([0-9a-f]{6,})$/i.exec(String(a.source || a.id || ''));
+    if (gid) { var g = tks.filter(function (x) { return String(x.result.summary || '').toLowerCase().indexOf(gid[1].toLowerCase()) >= 0; })[0]; if (g) return g; }
+    if (a.kind !== 'gate') return null;
+    var at = t(a.raisedAt);
+    return tks.filter(function (x) { var d = t(x.doneAt || x.updatedAt); return x.lever !== 'status' && d && Math.abs(d - at) < DAY; })
+      .sort(function (x, y) { return Math.abs(t(x.doneAt || x.updatedAt) - at) - Math.abs(t(y.doneAt || y.updatedAt) - at); })[0] || null;
   }
   function workingState(a) {
     var ticket = Object.keys(S.tickets).some(function (k) { var x = S.tickets[k]; return x.agent === a.id && (x.status === 'picked' || x.status === 'working') && Date.now() - t(x.pickedAt || x.createdAt) < 6 * HOUR; });
@@ -1368,7 +1388,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       recruiting: { name: 'Recruiting', agents: ['scout', 'dean', 'q', 'host'], benches: ['recruiting', 'depth', 'client', 'round-table'], tools: ['crelate', 'cloudtalk', 'round-table', 'hub'] },
       client: { name: 'Client delivery', agents: ['scout', 'host'], benches: ['client'], tools: ['hub', 'cloudtalk', 'crelate'] },
       people: { name: 'People and hiring', agents: ['dean'], benches: ['depth', 'university', 'round-table'], tools: ['round-table', 'hub'] },
-      money: { name: 'Revenue and finance', agents: ['tally', 'docket'], benches: ['revenue', 'finance'], tools: ['quickbooks', 'gusto', 'hub'], sensitive: true },
+      money: { name: 'Revenue and finance', agents: ['tally', 'docket'], benches: ['revenue', 'finance'], tools: ['cash-pulse', 'quickbooks', 'gusto', 'hub'], sensitive: true },
       projects: { name: 'Special projects', agents: ['pm'], benches: ['projects'], tools: ['staffing-doc', 'hub'] },
       family: { name: 'Family office', agents: WING, benches: ['family'], tools: ['atlas-desk', 'marlowe-desk'], sensitive: true }
     };
@@ -1427,7 +1447,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   }
   function renderTools() {
     var box = $('#tools'); box.textContent = ''; box.appendChild(h('span', { class: 'eyebrow', text: 'Tools' }));
-    toolsFor(['hub', 'eden-daily', 'day-board', 'workshop', 'eden-desk', 'ledger', 'quickbooks', 'gusto']).forEach(function (x) { box.appendChild(toolLink(x, '')); });
+    toolsFor(['hub', 'eden-daily', 'day-board', 'workshop', 'eden-desk', 'ledger', 'cash-pulse', 'quickbooks', 'gusto'].filter(function (id) { return !(S.share && id === 'cash-pulse'); })).forEach(function (x) { box.appendChild(toolLink(x, '')); });
   }
   /* every blink on the floor shares one clock, so lights flash in unison instead of twinkling */
   function phaseLock() { var tt = performance.now() / 1000; document.querySelectorAll('.led').forEach(function (l) { l.style.setProperty('--ph', '-' + (tt % 15).toFixed(3) + 's'); }); }
@@ -1490,6 +1510,12 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var acts = h('span', { class: 'sacts', style: 'padding:0' });
     if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: linkUrl(i.link), target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
     if (i.preview) { var rd = h('button', { class: 'mini txt', text: openDrafts[i.key] ? 'Hide draft' : 'Read draft' }); rd.addEventListener('click', function () { openDrafts[i.key] = !openDrafts[i.key]; S.forceSheet = true; renderSheet(); }); acts.insertBefore(rd, acts.firstChild); }
+    if (!i.link && !i.preview && !i.found && i.kind !== 'sla') {
+      var asked = Object.keys(S.tickets).some(function (k) { var x = S.tickets[k]; return x.lever === 'brief' && x.ask.indexOf(i.title) >= 0 && x.status !== 'done'; });
+      var br = h('button', { class: 'mini txt', text: asked ? 'Brief asked for' : 'Brief me', title: 'Nothing to open yet: ask ' + nameOf(i.agent) + ' for a link and a five-line summary' }); br.disabled = asked || !S.canWrite;
+      br.addEventListener('click', function () { makeTicket({ agent: i.agent, ask: 'Brief Kev on this, which reached him with nothing to open: "' + i.title + '". Put the full result at a link on the item and give him five lines: what it is, what you recommend, and the decisions you need from him.', priority: 'today', lever: 'brief' }); S.forceSheet = true; renderSheet(); });
+      acts.appendChild(br);
+    }
     var done = h('button', { class: 'mini', text: 'Done', 'data-act': 'done', 'data-key': i.key }); done.disabled = !S.canWrite;
     var fu = h('button', { class: 'mini', text: 'Follow up', 'data-act': 'followup', 'data-key': i.key }); fu.disabled = !S.canWrite;
     done.className = 'mini primary';
@@ -1497,6 +1523,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     zzz(acts, i);
     if (!i.seen) { var sn = seenBtn(i); sn.className = 'mini txt'; acts.appendChild(sn); }
     var row = h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't' }, i.rank != null ? h('span', { class: 'rk', text: '#' + i.rank }) : null, i.title, h('span', { class: 'ago', text: ' · ' + ago(i.raisedAt) }), i.why ? h('small', { class: 'why', text: i.why }) : null), acts);
+    if (i.found) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'What ' + nameOf(i.agent) + ' found' }), '\n' + i.found.text + '\n\nFrom ticket ' + i.found.from + '. Done is your yes; Follow up sends it back with a question.'));
     if (i.preview && openDrafts[i.key]) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'To: ' + ((i.preview.to || []).join(', ') || 'blank, add before sending') }), '\n' + i.preview.text + '\n\nNothing sends from here. Proof it, then open Superhuman to edit and send.'));
     return row;
   }
@@ -1516,6 +1543,11 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var tk = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id && ['open', 'picked', 'working', 'blocked', 'gated'].indexOf(x.status) >= 0; });
     if (tk.length) lines.push('Open tickets: ' + tk.map(function (x) { return x.ask + ' (' + x.status + ')'; }).join(' | '));
     var lg = (S.logs[a.id] || []).slice(0, 5); if (lg.length) lines.push('Recent log: ' + lg.map(function (l) { return l.text; }).join(' | '));
+    if (['tally', 'docket', 'radar'].indexOf(a.id) >= 0 && !S.share) {   // Kev, 21 Oct: "Tally should be linked to the cash flow artifact"
+      ['finance', 'revenue'].forEach(function (id) { var b = S.benches[id]; if (b && !b.example && b.tiles && b.tiles.length) lines.push(id.charAt(0).toUpperCase() + id.slice(1) + ' bench (as of ' + String(b.asOf || '').slice(0, 10) + '): ' + b.tiles.map(function (x) { return x.label + ' ' + x.value + (x.gate && !x.needsGate ? ' (gate ' + x.gate + ')' : ' (not yet checked)'); }).join(' | ')); });
+      var cp = toolMap()['cash-pulse'];
+      lines.push('Cash flow detail lives in EPG Cash Pulse' + (cp && cp.url ? ' (' + cp.url + ')' : '') + ': bank lines by month, the Q4 cash forecast and Rev Report placements with expected cash dates. If Kev asks for a figure that is not above, say it is not on the floor yet, point him to Cash Pulse, and offer a ticket for Tally to pull it from QuickBooks.');
+    }
     if (a.id === 'radar') {
       lines.push('', 'YOU ARE RADAR IN A REAL CONVERSATION. Kev chose the deep model to think out loud with you. Talk like his chief of staff and battle buddy: result first, plain words, push back when something is off, recommend one option, ask at most one question back. Up to 8 sentences when the topic needs it. Kev is a Christian founder; the Seven Pillars are Righteousness, Winning, Accountability, Discipline, Transparency, Growth, Execution. Saturday is the Sabbath. You can hand any agent a ticket with the make_ticket tool when Kev decides something should happen; say you did. You never send, spend or publish.', '', 'THE WHOLE FLOOR RIGHT NOW:');
       Object.keys(S.agents).map(function (k) { return S.agents[k]; }).filter(function (x) { return x.id !== 'radar' && !hidden(x); }).forEach(function (x) {
@@ -1609,12 +1641,22 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     }, function () { S.unsub['chat-' + id] = null; });
   }
 
+  var trayOpen = {};
+  /* A tray ticket's title: its own title if it has one, else the result's first sentence once done, else the ask's, cut at a word near 72 characters. */
+  function smartTitle(x) {
+    if (x.title) return x.title;
+    var s = String((x.status === 'done' && x.result && x.result.summary) || x.ask || '').replace(/\s+/g, ' ').trim(), m = /^(.{12,90}?)[.!?;:](\s|$)/.exec(s);
+    s = m ? m[1] : s;
+    return s.length > 72 ? s.slice(0, 71).replace(/\s+\S*$/, '') + '\u2026' : s;
+  }
   function deskSheet(p, a) {
     var e = effective(a), hide = hidden(a);
     p.appendChild(head(a.name, hide ? 'idle' : e.light, (a.role || '') + ' · ' + (hide ? 'Hidden' : stateChip(e.light, e)) + ' · heard ' + short(a.lastHeard)));
     var body = h('div', { class: 'panel-b' + (a.id === 'host' ? ' wide-tray' : '') }); p.appendChild(body);
     if (hide) { body.className = 'panel-b one'; body.appendChild(h('section', null, h('p', { class: 'small', text: 'Hidden in Screen share mode.' }))); return; }
-    var mine = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id; }).sort(function (x, y) { return t(y.createdAt) - t(x.createdAt); }).slice(0, 8);
+    var TRAY_RANK = { gated: 0, blocked: 0, open: 1, picked: 1, working: 1 };
+    var mine = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id; })
+      .sort(function (x, y) { var rx = TRAY_RANK[x.status], ry = TRAY_RANK[y.status]; return ((rx == null ? 2 : rx) - (ry == null ? 2 : ry)) || (t(y.createdAt) - t(x.createdAt)); }).slice(0, 8);
     var naps = snoozedFor(a.id);
     var answer = a.id === 'host' ? e.items.filter(function (i) { return i.light === 'reply'; }).sort(function (x, y) { return ((x.rank == null ? 99 : x.rank) - (y.rank == null ? 99 : y.rank)) || (t(x.raisedAt) - t(y.raisedAt)); }) : [];
     var tray = h('section');
@@ -1626,12 +1668,17 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var th = h('h3', { text: 'In tray · ' + (a.openTickets || 0) + ' open' + (naps.length ? ' · ' + naps.length + ' snoozed' : '') }); if (a.id === 'host') th.className = 'gap'; tray.appendChild(th);
     var ul = h('ul');
     mine.forEach(function (x) {
-      var li = h('li', { class: 'ticket' }, x.ask, h('small', { text: x.status + ' · ' + x.priority + (x.due ? ' · due ' + x.due : '') + ' · from Kev · ' + ago(x.createdAt) }));
+      // Kev, 22 Oct: tray tickets collapse under a smart title. Waiting on Kev opens by itself; a toggle survives the live re-render.
+      var li = h('li', { class: 'ticket' }), d = h('details', { class: 'tkd' });
+      d.open = trayOpen[x.id] != null ? trayOpen[x.id] : (x.status === 'gated' || x.status === 'blocked');
+      d.addEventListener('toggle', function () { trayOpen[x.id] = d.open; });
+      d.appendChild(h('summary', null, h('span', { class: 'tt', text: smartTitle(x) }), h('small', { text: x.status + ' · ' + x.priority + (x.due ? ' · due ' + x.due : '') + ' · from Kev · ' + ago(x.createdAt) })));
+      d.appendChild(h('p', { class: 'ask', text: x.ask })); li.appendChild(d); li = d;
       (x.attachments || []).forEach(function (f) { if (!f || !f.asset) return; if (/^image\//.test(f.type || 'image/')) li.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f.asset, alt: f.name || 'Photo sent with this ticket' })); else li.appendChild(h('a', { class: 'mini txt', href: '/_blob/' + f.asset, target: '_blank', rel: 'noopener', text: (f.name || 'File') })); });
       if (x.result && x.result.summary) li.appendChild(h('small', { text: 'Result: ' + x.result.summary }));
       if (x.proposed) { li.appendChild(h('div', { class: 'exact', text: 'Exact action waiting for your yes (' + x.proposed.kind + '):\n' + x.proposed.exact })); if (x.proposed.link) li.appendChild(h('a', { class: 'mini txt', href: linkUrl(x.proposed.link), target: '_blank', rel: 'noopener', text: 'Decide in the Desk, not here' })); }
       if (x.result && x.result.link) li.appendChild(h('a', { class: 'mini txt', href: linkUrl(x.result.link), target: '_blank', rel: 'noopener', text: 'Open the result' }));
-      ul.appendChild(li);
+      ul.appendChild(li.parentNode);
     });
     naps.forEach(function (x) {
       var wake = h('button', { class: 'mini', text: 'Wake now', 'data-undo': x.key }); wake.disabled = !S.canWrite;
