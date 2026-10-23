@@ -102,16 +102,16 @@ describe("lead pipeline: landed -> phones -> in-crelate -> moved", () => {
     const up = upgradeEntry(old, "2026-10-21");
     assert.deepEqual([up.stage, up.landedAt, up.phonesAt, up.note], ["landed", "2026-10-21", null, ""]);
   });
-  test("the Lead Log has the eight columns, one row per sheet, dates by step, and no names or phones", () => {
+  test("the Lead Log has the nine columns, one row per sheet, dates by step, and no names or phones", () => {
     const a = setStage(setStage(landed(), "phones", "2026-10-22"), "crelate", "2026-10-23");
     const b = { ...entryFor("2026-10-19-inl-safety-manager-idaho-falls-v2.csv", `${H}\n${row()}\n`), driveUrl: "https://docs.google.com/spreadsheets/d/inl/edit", landedAt: "2026-10-20" } as IndexEntry;
     const rows = parseCsv(leadLogCsv([a, b]));
     assert.deepEqual(rows[0], [...LOG_HEADER]);
-    assert.deepEqual(rows[0], ["Sheet", "Drive link", "Rows", "Landed", "Phones added", "In Crelate", "Moved", "Owner note"]);
+    assert.deepEqual(rows[0], ["Ref", "Sheet", "Drive link", "Rows", "Landed", "Phones added", "In Crelate", "Moved", "Owner note"]);
     assert.equal(rows.length, 3);
-    assert.equal(rows[1]![0], "2026-10-19-inl-safety-manager-idaho-falls-v2");
-    assert.match(rows[1]![7]!, /Discreet client/);
-    assert.deepEqual(rows[2]!.slice(2, 7), ["1", "2026-10-21", "2026-10-22", "2026-10-23", ""]);
+    assert.equal(rows[1]![1], "2026-10-19-inl-safety-manager-idaho-falls-v2");
+    assert.match(rows[1]![8]!, /Discreet client/);
+    assert.deepEqual(rows[2]!.slice(3, 8), ["1", "2026-10-21", "2026-10-22", "2026-10-23", ""]);
     assert.ok(!/Pat Example|208-/.test(leadLogCsv([a, b])));
   });
 });
