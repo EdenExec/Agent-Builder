@@ -6,7 +6,7 @@ Kev, 23 Oct 2026, asked for three things:
 - the cards delivered to him as a PDF at the end of the day, with any PIP delivered too.
 
 Round Table: https://claude.ai/artifact/DTXbu7B6F3B2s8NEnmYdCE. Each folder opens on "This week's card":
-- clickable daily, weekly and core-value boxes;
+- clickable daily, weekly and core-value boxes (43 scored boxes: 35 daily, 8 weekly; Kev added "Push your job orders forward" and the three autopsy questions on 23 Oct);
 - the recruiter's notes;
 - Kev's coach section: coaching notes, needs, advice, his own score and a "Needs a PIP" box.
 

@@ -44,7 +44,7 @@ Fridays, refresh the team board at the top of the Round Table with `npm run recr
 
 ## The live card (Kev, 23 Oct 2026)
 
-The 42-box card now lives in each person's Round Table folder ("This week's card"). It has clickable daily, weekly and core-value boxes, the recruiter's notes, and Kev's coach section with his score and a "Needs a PIP" box. Everything saves as Kev taps.
+The card (43 boxes since 23 Oct: 35 daily, 8 weekly, with "Push your job orders forward" added) now lives in each person's Round Table folder ("This week's card"). It has clickable daily, weekly and core-value boxes, the recruiter's notes, and Kev's coach section with his score and a "Needs a PIP" box. Everything saves as Kev taps.
 
 Fridays:
 - 9:55am PT: a fresh Crelate pull.
