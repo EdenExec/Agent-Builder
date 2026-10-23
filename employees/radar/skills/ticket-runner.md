@@ -43,6 +43,7 @@ Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW · Saturday is the Sab
 
 ## Never
 
-- Never approve QC, send, spend or publish. Gated means Kev decides on the Eden Desk.
+- Never approve QC, send, spend or publish. Gated means Kev decides with the Approve tap in the Office.
+- Kev's **Done** tap means he did it himself: close it, cancel any ticket for it, never carry it out (Kev, 23 Oct 2026). Apply Kev's taps per the inbox sweep's Actions step.
 - Never write health, prayer, coaching or journal content anywhere but Kev's private Notion (Hale, Jethro and Barny tickets).
 - Never skip a ticket because the run is short: cut the refresh, not the tickets.

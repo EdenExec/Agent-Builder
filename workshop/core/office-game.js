@@ -10,7 +10,7 @@
 //   STALL  a ticket `picked` or `working` for more than 4 runner hours with no result.
 //   A ticket that was picked up late stays a FAIL on the day it crossed 60 minutes (-3), so the streak and the score are honest history.
 //   Points  closed ticket: 3 if priority is "today", else 2. +1 picked within 60 runner minutes. +2 closed the same Pacific day it was filed.
-//           Kev's own moves: 2 each (a Done or Follow up tap, a QC approval). FAIL: -3.
+//           Kev's own moves: 2 each (a Done, Follow up or Approve tap, a QC approval). FAIL: -3.
 //   Streak  consecutive working days (Sun to Fri, Saturday skipped without breaking it) with zero FAILs, counted from the first ticket on record.
 
 var TZ = 'America/Los_Angeles';
@@ -175,7 +175,7 @@ export function buildGame(input) {
   });
   var kevEvents = 0;
   actions.forEach(function (a) {
-    if (!a || (a.action !== 'done' && a.action !== 'followup')) return;
+    if (!a || (a.action !== 'done' && a.action !== 'followup' && a.action !== 'approve')) return;   // approve: Kev's own yes in the Office (23 Oct)
     var at = parse(a.at); if (at == null) return;
     var d = pacificDate(at); if (isSabbath(d)) return;
     D(d).kev++; D(d).points += POINTS.kevMove; kevEvents++;

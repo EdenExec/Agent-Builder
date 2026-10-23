@@ -629,7 +629,7 @@ var Game = (function () {
 //   STALL  a ticket `picked` or `working` for more than 4 runner hours with no result.
 //   A ticket that was picked up late stays a FAIL on the day it crossed 60 minutes (-3), so the streak and the score are honest history.
 //   Points  closed ticket: 3 if priority is "today", else 2. +1 picked within 60 runner minutes. +2 closed the same Pacific day it was filed.
-//           Kev's own moves: 2 each (a Done or Follow up tap, a QC approval). FAIL: -3.
+//           Kev's own moves: 2 each (a Done, Follow up or Approve tap, a QC approval). FAIL: -3.
 //   Streak  consecutive working days (Sun to Fri, Saturday skipped without breaking it) with zero FAILs, counted from the first ticket on record.
 
 var TZ = 'America/Los_Angeles';
@@ -794,7 +794,7 @@ function buildGame(input) {
   });
   var kevEvents = 0;
   actions.forEach(function (a) {
-    if (!a || (a.action !== 'done' && a.action !== 'followup')) return;
+    if (!a || (a.action !== 'done' && a.action !== 'followup' && a.action !== 'approve')) return;   // approve: Kev's own yes in the Office (23 Oct)
     var at = parse(a.at); if (at == null) return;
     var d = pacificDate(at); if (isSabbath(d)) return;
     D(d).kev++; D(d).points += POINTS.kevMove; kevEvents++;
@@ -1122,7 +1122,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var b = h('button', { class: 'tk held' + (st !== 'ok' ? ' ' + st : ''), type: 'button', 'data-tk': tk.id, 'data-tk-agent': tk.agent });
     b.appendChild(tkTop(tk, st, light));
     b.appendChild(h('span', { class: 'tk-ask', text: tk.ask || '' }));
-    b.appendChild(h('span', { class: 'tk-meta', text: (tk.createdAt ? 'Filed ' + clockLabel(t(tk.createdAt)) + ' · ' : '') + (tk.priority || 'today') + (tk.status === 'gated' && tk.proposed ? ' · exact action waits in the Desk' : '') + (f && f.state === 'fail' ? ' · the 60 minutes ran out ' + ago(new Date(f.since).toISOString()) : '') }));
+    b.appendChild(h('span', { class: 'tk-meta', text: (tk.createdAt ? 'Filed ' + clockLabel(t(tk.createdAt)) + ' · ' : '') + (tk.priority || 'today') + (tk.status === 'gated' && tk.proposed ? ' · waiting on your Approve' : '') + (f && f.state === 'fail' ? ' · the 60 minutes ran out ' + ago(new Date(f.since).toISOString()) : '') }));
     return b;
   }
   var AC = null;
@@ -1280,7 +1280,12 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     b.appendChild(h('div', null, h('div', { class: 'what', text: f.title }), h('div', { class: 'sub', text: nameOf(f.agent) + ' · ' + ago(f.raisedAt) + (reds.length > 1 ? ' · ' + (reds.length - 1) + ' more urgent' : '') })));
     if (f.kind !== 'sla') { var acts = h('div', { class: 'sacts' }); zzz(acts, f); if (!zzzOpen[f.key]) acts.appendChild(seenBtn(f)); b.appendChild(acts); }   // a FAIL clears when the ticket is picked up, not when it is dismissed
   }
-  function openLabel(url) { return /github\.com|^(?!https?:)/.test(url || '') ? 'Open the file' : /superhuman\.com/.test(url) ? 'Open in Superhuman' : /5SuFoioujKFV6KgX4dXi3G/.test(url) ? 'Approve in Desk' : 'Open'; }
+  function openLabel(url) { return /github\.com|^(?!https?:)/.test(url || '') ? 'Open the file' : /superhuman\.com/.test(url) ? 'Open in Superhuman' : 'Open'; }
+  /* The Eden Desk has no approval cards (Kev, 23 Oct), so a link that only points there is dropped; approval is the Approve tap. */
+  function usefulLink(url) { return url && !/5SuFoioujKFV6KgX4dXi3G/.test(url) ? url : null; }
+  /* Kev, 23 Oct: "Done" means I did it myself, close it, nobody acts on it. Approval is its own tap, only on items an agent would carry out
+     for him (a QC item that is not a draft he sends himself, a gated ticket). */
+  function needsApproval(i) { return (i.kind === 'qc' && !i.preview) || /^ticket-.+-gated$/.test(i.key || ''); }
   var bannerKey = null;
   var openDrafts = {};
   function nameOf(id) { return S.agents[id] ? S.agents[id].name : id; }
@@ -1296,7 +1301,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       var main = h('button', { class: 'smain', 'data-id': i.agent }, led(i.light, true), h('span', { class: 'who', text: nameOf(i.agent) }), h('span', { class: 'what', text: i.title }));
       main.setAttribute('aria-label', WORD[i.light] + ', ' + nameOf(i.agent) + ': ' + i.title);
       var acts = h('span', { class: 'sacts' });
-      if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: linkUrl(i.link), target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
+      if (usefulLink(i.link)) acts.appendChild(h('a', { class: 'mini txt', href: linkUrl(i.link), target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
       zzz(acts, i); if (!zzzOpen[i.key]) acts.appendChild(seenBtn(i));
       ol.appendChild(h('li', null, main, acts));
     });
@@ -1508,22 +1513,25 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   function itemRow(i) {
     if (i.kind === 'sla') return h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't' }, i.title, h('span', { class: 'ago', text: ' · ' + ago(i.raisedAt) }), h('small', { class: 'why', text: i.light === 'urgent' ? 'Waiting for pickup past 60 minutes of runner time. It clears when the ticket is picked up.' : 'Picked up, no result after 4 hours of runner time.' })));
     var acts = h('span', { class: 'sacts', style: 'padding:0' });
-    if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: linkUrl(i.link), target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
+    if (usefulLink(i.link)) acts.appendChild(h('a', { class: 'mini txt', href: linkUrl(i.link), target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
     if (i.preview) { var rd = h('button', { class: 'mini txt', text: openDrafts[i.key] ? 'Hide draft' : 'Read draft' }); rd.addEventListener('click', function () { openDrafts[i.key] = !openDrafts[i.key]; S.forceSheet = true; renderSheet(); }); acts.insertBefore(rd, acts.firstChild); }
-    if (!i.link && !i.preview && !i.found && i.kind !== 'sla') {
+    if (!usefulLink(i.link) && !i.preview && !i.found && i.kind !== 'sla' && !needsApproval(i)) {
       var asked = Object.keys(S.tickets).some(function (k) { var x = S.tickets[k]; return x.lever === 'brief' && x.ask.indexOf(i.title) >= 0 && x.status !== 'done'; });
       var br = h('button', { class: 'mini txt', text: asked ? 'Brief asked for' : 'Brief me', title: 'Nothing to open yet: ask ' + nameOf(i.agent) + ' for a link and a five-line summary' }); br.disabled = asked || !S.canWrite;
       br.addEventListener('click', function () { makeTicket({ agent: i.agent, ask: 'Brief Kev on this, which reached him with nothing to open: "' + i.title + '". Put the full result at a link on the item and give him five lines: what it is, what you recommend, and the decisions you need from him.', priority: 'today', lever: 'brief' }); S.forceSheet = true; renderSheet(); });
       acts.appendChild(br);
     }
-    var done = h('button', { class: 'mini', text: 'Done', 'data-act': 'done', 'data-key': i.key }); done.disabled = !S.canWrite;
-    var fu = h('button', { class: 'mini', text: 'Follow up', 'data-act': 'followup', 'data-key': i.key }); fu.disabled = !S.canWrite;
-    done.className = 'mini primary';
-    acts.appendChild(h('span', { class: 'seg', role: 'group', 'aria-label': 'Decide' }, done, fu));
+    var appr = needsApproval(i);
+    var done = h('button', { class: appr ? 'mini' : 'mini primary', text: appr ? 'Did it myself' : 'Done', title: 'You handled it yourself. The item closes and no agent acts on it.', 'data-act': 'done', 'data-key': i.key }); done.disabled = !S.canWrite;
+    var fu = h('button', { class: 'mini', text: 'Follow up', title: 'Send it back with a question', 'data-act': 'followup', 'data-key': i.key }); fu.disabled = !S.canWrite;
+    var seg = h('span', { class: 'seg', role: 'group', 'aria-label': 'Decide' });
+    if (appr) { var ok = h('button', { class: 'mini primary', text: 'Approve', title: 'Your yes: the agent carries out exactly the action shown', 'data-act': 'approve', 'data-key': i.key }); ok.disabled = !S.canWrite; seg.appendChild(ok); }
+    seg.appendChild(done); seg.appendChild(fu); acts.appendChild(seg);
     zzz(acts, i);
     if (!i.seen) { var sn = seenBtn(i); sn.className = 'mini txt'; acts.appendChild(sn); }
     var row = h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't' }, i.rank != null ? h('span', { class: 'rk', text: '#' + i.rank }) : null, i.title, h('span', { class: 'ago', text: ' · ' + ago(i.raisedAt) }), i.why ? h('small', { class: 'why', text: i.why }) : null), acts);
-    if (i.found) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'What ' + nameOf(i.agent) + ' found' }), '\n' + i.found.text + '\n\nFrom ticket ' + i.found.from + '. Done is your yes; Follow up sends it back with a question.'));
+    if (i.found) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'What ' + nameOf(i.agent) + ' found' }), '\n' + i.found.text + '\n\nFrom ticket ' + i.found.from + '. Done means you have dealt with it; Follow up sends it back with a question.'));
+    if (appr) { var tk0 = /^ticket-(.+)-gated$/.exec(i.key || ''), px = tk0 && S.tickets[tk0[1]] && S.tickets[tk0[1]].proposed; row.appendChild(h('small', { class: 'why', style: 'grid-column:2', text: (px ? 'Approve sends exactly this (' + px.kind + '): ' + String(px.exact).slice(0, 300) + '. ' : 'Approve is your yes for exactly the action named above. ') + 'Did it myself closes it with no agent action.' })); }
     if (i.preview && openDrafts[i.key]) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'To: ' + ((i.preview.to || []).join(', ') || 'blank, add before sending') }), '\n' + i.preview.text + '\n\nNothing sends from here. Proof it, then open Superhuman to edit and send.'));
     return row;
   }
@@ -1532,7 +1540,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var e = effective(a), lines = [];
     lines.push('You are ' + a.name + ', ' + (a.role || 'an AI employee') + ', one of the AI employees working for Kev Williams (Eden Executive Search and Eden Partner Group; KDTW Group is the family office).');
     lines.push('This is the quick chat at your desk in Eden Office. Kev pops in for fast decisions and zips back out. Reply in at most four short sentences, plain words, no preamble, no lists unless he asks.');
-    lines.push('HOW THE OFFICE WORKS (say this plainly when asked): You are the quick desk version of ' + a.name + '. The full ' + a.name + ' is the same employee run by Radar, the chief of staff, with the files, tools and connectors; Radar runs it on tickets in the hourly weekday sweep (7am to 6pm Pacific) or right away when Kev says "go" in his chat with Radar. Everything Kev says here is saved and Radar reads it every sweep, files his directions into your memory and acts on them, so Kev never repeats himself. Approvals: Kev approves anything that writes to a live system, spends or publishes on the Eden Desk approval card (the "Approve in Desk" button on the item); a yes in this chat is recorded as his direction and Radar queues the exact item for that one tap. Drafted emails wait in his Superhuman Drafts and he sends them himself.');
+    lines.push('HOW THE OFFICE WORKS (say this plainly when asked): You are the quick desk version of ' + a.name + '. The full ' + a.name + ' is the same employee run by Radar, the chief of staff, with the files, tools and connectors; Radar runs it on tickets in the hourly weekday sweep (7am to 6pm Pacific) or right away when Kev says "go" in his chat with Radar. Everything Kev says here is saved and Radar reads it every sweep, files his directions into your memory and acts on them, so Kev never repeats himself. Approvals: anything that writes to a live system, spends or publishes waits for Kev\'s Approve tap on the item in the Office, which shows the exact action. "Done" on an item means Kev did it himself: it closes and no agent acts on it, so never treat Done as a go-ahead. A yes in this chat is recorded as his direction; the item still waits for his Approve tap. Drafted emails wait in his Superhuman Drafts and he sends them himself.');
     lines.push('THE TEAM: Radar (chief of staff, runs everyone), Scout (lead research), Dean (scorecards, Eden University; weekly scorecards are graded on PDF and uploaded through Upload, and Dean files each one to that person’s Round Table folder as the record; each recruiter’s goal is the $25k-per-quarter accelerator, credited by the recruiter and split columns of the Hub Rev Report, with annual totals tracked behind the scenes), Q (systems and engineering; cuts friction), Jenny (comms director: inbox, client and candidate writing, travel, events; no exclamation marks in anything she writes; travel defaults to the cheapest refundable option), Tally (finance), Docket (contracts and risk, second key on Tally), Projects PM (special projects inside Eden Partner Group, now the Eden Staffing temp-staffing launch with Nick; chases admin deliverables and reports to Radar), Atlas (tutor), Marlowe (architect and designer), Keys (the Vancouver rental), Hale (health), Jethro (growth coach, C12), Barny (spiritual advisor).');
     lines.push('You only know what is below. You cannot see files, email or tools, and you have done no work in this chat, so never say you did, checked or sent anything. You never send, spend or publish. When Kev decides or approves something, restate it as the Direction line and say Radar will queue it; do not ask him to repeat himself or be more specific unless it is genuinely ambiguous. If you do not know something, say so and offer a ticket.');
     lines.push('When Kev gives you a direction or a decision, end with one line: "Direction: <it, in one sentence>". When it needs real work from the full agent, end with one line: "Ticket: <the ask, in one sentence>".');
@@ -1676,7 +1684,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       d.appendChild(h('p', { class: 'ask', text: x.ask })); li.appendChild(d); li = d;
       (x.attachments || []).forEach(function (f) { if (!f || !f.asset) return; if (/^image\//.test(f.type || 'image/')) li.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f.asset, alt: f.name || 'Photo sent with this ticket' })); else li.appendChild(h('a', { class: 'mini txt', href: '/_blob/' + f.asset, target: '_blank', rel: 'noopener', text: (f.name || 'File') })); });
       if (x.result && x.result.summary) li.appendChild(h('small', { text: 'Result: ' + x.result.summary }));
-      if (x.proposed) { li.appendChild(h('div', { class: 'exact', text: 'Exact action waiting for your yes (' + x.proposed.kind + '):\n' + x.proposed.exact })); if (x.proposed.link) li.appendChild(h('a', { class: 'mini txt', href: linkUrl(x.proposed.link), target: '_blank', rel: 'noopener', text: 'Decide in the Desk, not here' })); }
+      if (x.proposed) { li.appendChild(h('div', { class: 'exact', text: 'Exact action waiting for your yes (' + x.proposed.kind + '):\n' + x.proposed.exact })); li.appendChild(h('small', { text: 'Approve it under Needs you; Did it myself if you already handled it.' })); }
       if (x.result && x.result.link) li.appendChild(h('a', { class: 'mini txt', href: linkUrl(x.result.link), target: '_blank', rel: 'noopener', text: 'Open the result' }));
       ul.appendChild(li.parentNode);
     });
@@ -1696,7 +1704,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       blot.appendChild(h('h3', { text: 'Done and follow-ups' }));
       later.slice(0, 8).forEach(function (x) {
         var u = h('button', { class: 'mini', text: 'Undo', 'data-undo': x.key }); u.disabled = !S.canWrite;
-        blot.appendChild(h('div', { class: 'item' }, h('span', { class: 'role', text: x.action === 'done' ? 'Done' : x.action === 'snooze' ? 'Zzz' : 'Follow up' }), h('span', { class: 't', text: x.title + ' · ' + (x.action === 'snooze' ? 'back ' + untilLabel(x.until) : ago(x.at) + (x.applied ? ' · Radar applied it' : ' · Radar applies it next sweep')) }), u));
+        blot.appendChild(h('div', { class: 'item' }, h('span', { class: 'role', text: x.action === 'done' ? 'Done' : x.action === 'approve' ? 'Approved' : x.action === 'snooze' ? 'Zzz' : 'Follow up' }), h('span', { class: 't', text: x.title + ' · ' + (x.action === 'snooze' ? 'back ' + untilLabel(x.until) : ago(x.at) + (x.applied ? ' · Radar applied it' : ' · Radar applies it next sweep')) }), u));
       });
     }
     blot.appendChild(h('h3', { text: 'Last five' }));
