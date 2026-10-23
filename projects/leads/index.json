@@ -399,12 +399,33 @@
       "stage": "landed"
     },
     {
+      "title": null,
+      "landedAt": null,
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
       "file": "2026-10-23-dfw-superintendents.csv",
       "rows": 197,
       "tiers": {
         "1": 180,
         "2": 1,
         "3": 16
+      },
+      "built": "2026-10-23",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0,
+      "stage": "staged"
+    },
+    {
+      "file": "2026-10-23-socal-concrete-pm.csv",
+      "rows": 132,
+      "tiers": {
+        "1": 63,
+        "2": 67,
+        "3": 2
       },
       "built": "2026-10-23",
       "discreet": false,

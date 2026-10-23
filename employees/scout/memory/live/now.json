@@ -1,7 +1,8 @@
 {
-  "task": "t-202610230509-sr33: DFW superintendent lead list (Kev via Radar: lead gen, leads folder, Noah to enrich) and research note for the Eden Daily",
-  "since": "2026-10-23T05:09:00Z",
-  "state": "list built and staged (197 rows, check PASS); NOT uploaded to Drive (no Drive tool in this run); Crelate dedupe not run",
-  "blockedOn": "Radar/Q: upload employees/scout/leads/2026-10-23-dfw-superintendents.csv to master folder 1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9, then npm run leads -- link; Kev: no job order named, DFW picked as uncovered core market, redirect if wanted",
-  "updated": "2026-10-23T06:00:00Z"
+  "task": "t-202610230706-pqcn: Pruter Construction, SoCal commercial concrete PM leads (EL-021) and call prep on Serena Riordan and Kristi Pruter for the Eden Daily",
+  "since": "2026-10-23T07:06:00Z",
+  "state": "EL-021 built (132 rows, check PASS, staged); Drive upload in progress; call prep written at employees/scout/reports/2026-10-23-pruter-call-prep.md and handed to Radar for the 23 Oct paper",
+  "blockedOn": "none; DFW superintendent list (t-202610230509-sr33) was the wrong ask, not landed",
+  "next": "second pull: GC self-perform concrete divisions, Conco/Morley/Webcor SoCal, small OC/IE concrete teams",
+  "updated": "2026-10-23T07:30:00Z"
 }
