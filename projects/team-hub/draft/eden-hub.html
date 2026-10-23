@@ -448,7 +448,8 @@ dialog.jod::backdrop{background:var(--shade)}
   const isStandby=p=>/standby/i.test(String(p.role_on_job||''));
   const overdue=p=>!isStandby(p)&&(dayNum(p.since)||0)>ROT_DAYS;
   // a discreet client never shows its name: every text field of that row is scrubbed too
-  const discreet=j=>!!j.discreet||/baker/i.test(String(j.client||'')+' '+String(j.client_slug||''));
+  // Kev, 23 Oct: Baker and INL are fine to name on the Team Hub; only a row flagged discreet hides its client
+  const discreet=j=>!!j.discreet;
   const jt=(j,s)=>{const t=s==null?'':String(s);return discreet(j)?t.replace(/baker[a-z]*/gi,'Client · discreet'):t};
   const jClient=j=>discreet(j)?'Client · discreet':(j.client||'Client to name');
   const jKey=j=>discreet(j)?'discreet':(j.client_slug||slugOf(j.client));

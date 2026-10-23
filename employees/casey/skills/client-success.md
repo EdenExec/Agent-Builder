@@ -46,5 +46,5 @@ The day before (from `mcp__Google_Calendar__list_events`, or a ticket), write `p
 ## Rules
 
 - Names, role and status only on the Hub, the board post and the review. No pay, comp, phones, emails or home addresses.
-- Baker and the INL work are "Client · discreet" everywhere; Moss is referral-only.
+- **Baker and INL.** Baker Concrete, including the INL work, may be named on the Team Hub (Kev, 23 Oct 2026: "put Baker INL stuff, no problem"): `client: "Baker Concrete"`, `client_slug: "baker"`, no `discreet` flag. Outside the Hub it stays "Client · discreet": never in anything a client sees, on a screen share, in client-facing paper or in a deck. `discreet: true` still exists for any client Kev asks to keep unnamed on the Hub.
 - Never send, book or publish; Saturday is the Sabbath.
