@@ -144,6 +144,31 @@ svg.trend .col.part{fill:none;stroke:var(--ink);stroke-dasharray:3 2}
 .grid5 td.lab,.grid5 th.lab{text-align:left}
 .grid5 td.lab small{display:block;font:500 10px/1.3 var(--mono);color:var(--mute)}
 .grid5 td.strong{font-weight:700}
+.grid5 td.lab{white-space:normal;min-width:150px}
+.grid5 td.lab small{white-space:normal}
+/* weekly must-dos (23 Oct): box first so it never scrolls out of reach; Kev's questions wrap under the item */
+.must td{text-align:left;vertical-align:top;padding:9px 6px}
+.must td.tick{width:44px;text-align:center}
+.must td.lab{min-width:0}
+.must td.lab small{margin-top:4px;line-height:1.5}
+.must td.lab small span{display:block}
+/* earlier cards (23 Oct): every past week with Kev's notes, newest first */
+.past{display:flex;flex-direction:column;gap:10px}
+.past details{background:var(--paper)}
+.past summary{justify-content:space-between;gap:10px;flex-wrap:wrap;text-transform:none;letter-spacing:.04em}
+.past summary b{font:800 15px/1 var(--sans);color:var(--ink);letter-spacing:0}
+.past .pb{padding:4px 0 14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.past .pb div{min-width:0}
+.past .pb span{display:block;font:500 10px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:3px}
+.past .pb p{margin:0;font-size:13.5px;white-space:pre-line;overflow-wrap:anywhere}
+.past .pb .k{grid-column:1/-1;border-top:1px dashed var(--line);padding-top:10px}
+.spark{display:flex;align-items:flex-end;gap:10px;min-height:78px;padding:8px 0 0;overflow-x:auto}
+.spark div{display:flex;flex-direction:column;align-items:center;gap:4px;flex:none;width:46px}
+.spark i{display:block;width:24px;background:var(--ink)}
+.spark i.under{background:var(--a)}
+.spark b{font:600 11px/1 var(--mono)}
+.spark small{font:500 9.5px/1 var(--mono);color:var(--mute);white-space:nowrap}
+@media (max-width:480px){.grid5 td.lab{min-width:0;font-size:12.5px}.grid5 th,.grid5 td{padding:5px 2px}.grid5 th.lab{white-space:normal}.livecard .bx{width:30px;height:30px}.must td.tick{width:38px}.grid5 td.num{white-space:nowrap;font-size:11px}}
 .bx{width:30px;height:30px;border:1.5px solid var(--ink);background:var(--paper);cursor:pointer;font:700 14px/1 var(--sans);color:var(--ink);padding:0;display:inline-flex;align-items:center;justify-content:center}
 .bx[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .bx.short[aria-pressed="true"]{background:var(--a);border-color:var(--a)}
@@ -660,7 +685,9 @@ a.go{font-weight:700}
     delete c.id; S.edit = { slug: S.open, week_of: wk, card: c }; return c;
   }
   function boxes(c) { var n = 0; (c.d || []).concat(c.w || []).forEach(function (b) { if (b) n++; }); return n; }
-  function cardScore(c) { return isNum(c.kev_score) ? c.kev_score : Math.round(boxes(c) / CARD_BOXES * 100); }
+  /* cards before the week of 19 Oct were 42 boxes (no 'Push your job orders forward'), so they score out of 42 */
+  function cardTotal(c) { return String(c.week_of || c.id || '9') < '2026-10-19' ? 42 : CARD_BOXES; }
+  function cardScore(c) { return isNum(c.kev_score) ? c.kev_score : Math.round(boxes(c) / cardTotal(c) * 100); }
   var saveT = null, saveState = '';
   function saveCard(now) {
     if (!S.edit) return; var e = S.edit; clearTimeout(saveT);
@@ -724,14 +751,19 @@ a.go{font-weight:700}
     var dh = h('tr', null, h('th', { class: 'lab', text: 'Daily · check out Mon\u2013Thu 4:30 · Fri 1:00' })); DAYS.forEach(function (d) { dh.appendChild(h('th', { text: d })); }); dh.appendChild(h('th', { text: '\u2713' }));
     el.appendChild(h('div', { class: 'scroll' }, h('table', { class: 'grid5' }, h('thead', null, dh), dt)));
     // weekly 7 and core values 21
-    var wt = h('tbody'); WEEKLY_ORDER.forEach(function (i) { var m = WEEKLY[i], on = !!(c.w || [])[i]; if (!c.w) c.w = []; wt.appendChild(h('tr', null, h('td', { class: 'lab' }, m, (WEEKLY_ASK[i] || []).length ? h('small', { text: WEEKLY_ASK[i].join(' ') }) : null), h('td', null, h('button', { class: 'bx', type: 'button', 'data-k': 'w', 'data-i': String(i), 'aria-pressed': String(on), 'aria-label': m, text: on ? '\u2713' : '' })))); });
+    var wt = h('tbody'); if (!c.w) c.w = [];
+    WEEKLY_ORDER.forEach(function (i) {
+      var m = WEEKLY[i], on = !!c.w[i], ask = WEEKLY_ASK[i] || [], sm = null;
+      if (ask.length) { sm = h('small'); ask.forEach(function (q) { sm.appendChild(h('span', { text: q })); }); }
+      wt.appendChild(h('tr', null, h('td', { class: 'tick' }, h('button', { class: 'bx', type: 'button', 'data-k': 'w', 'data-i': String(i), 'aria-pressed': String(on), 'aria-label': m, text: on ? '\u2713' : '' })), h('td', { class: 'lab' }, m, sm)));
+    });
     var vt = h('tbody'); PILLARS.forEach(function (m, i) {
       var row = h('tr', null, h('td', { class: 'lab', text: m }));
       ['Lived it', 'Fell short', 'Next week'].forEach(function (lab, j) { var k = i * 3 + j, on = !!c.cv[k]; row.appendChild(h('td', null, h('button', { class: 'bx' + (j === 1 ? ' short' : ''), type: 'button', 'data-k': 'cv', 'data-i': String(k), 'aria-pressed': String(on), 'aria-label': m + ', ' + lab, text: on ? '\u2713' : '' }))); });
       vt.appendChild(row);
     });
     el.appendChild(h('div', { class: 'two' },
-      h('div', { class: 'scroll' }, h('table', { class: 'grid5' }, h('thead', null, h('tr', null, h('th', { class: 'lab', text: 'Weekly must-dos' }), h('th', { text: '\u2713' }))), wt)),
+      h('div', { class: 'scroll' }, h('table', { class: 'grid5 must' }, h('thead', null, h('tr', null, h('th', { text: '\u2713' }), h('th', { class: 'lab', text: 'Weekly must-dos' }))), wt)),
       h('div', { class: 'scroll' }, h('table', { class: 'grid5' }, h('thead', null, h('tr', null, h('th', { class: 'lab', text: 'Core values' }), h('th', { text: 'Lived it' }), h('th', { text: 'Fell short' }), h('th', { text: 'Next wk' }))), vt))));
     // score
     var bx = boxes(c), sc = cardScore(c);
@@ -753,7 +785,26 @@ a.go{font-weight:700}
       el.appendChild(co);
     }
     el.appendChild(sectionNote('Every box and note saves as you go. Crelate refreshes at 9:55am PT on Fridays; the cards come to you as a PDF at the end of the day.'));
+    el.appendChild(pastCards(list.filter(function (x) { return x.id < wk; })));
     return el;
+  }
+  /* earlier cards: the score trend week over week, then each past card's notes (Kev's coaching notes hidden on screen-share) */
+  function pastCards(past) {
+    var box = h('div', { class: 'past' }, h('h3', { text: 'Earlier cards' }));
+    if (!past.length) { box.appendChild(h('div', { class: 'empty', text: 'No earlier cards yet. Each Friday\u2019s card lands here once the week turns.' })); return box; }
+    var sp = h('div', { class: 'spark', role: 'img', 'aria-label': 'Card score by week: ' + past.map(function (c) { return nice(c.id) + ' ' + cardScore(c) + '%'; }).join(', ') });
+    past.slice(-8).forEach(function (c) { var v = cardScore(c); sp.appendChild(h('div', null, h('b', { text: v + '%' }), h('i', { class: v < 90 ? 'under' : '', style: 'height:' + Math.max(3, Math.round(v * .5)) + 'px' }), h('small', { text: nice(c.id) }))); });
+    box.appendChild(sp);
+    past.slice().reverse().forEach(function (c, n) {
+      var v = cardScore(c), d = h('details', n === 0 ? { open: true } : null);
+      d.appendChild(h('summary', null, h('span', null, 'Week of ' + nice(c.id)), h('span', null, h('b', { text: v + '%' }), ' \u00b7 ' + boxes(c) + ' / ' + cardTotal(c) + ' boxes' + (isNum(c.kev_score) ? ' \u00b7 your score' : '') + (isNum(c.burnout) ? ' \u00b7 burn-out ' + c.burnout : '') + (v < 90 ? ' \u00b7 under 90%' : ' \u00b7 win'))));
+      var pb = h('div', { class: 'pb' }), any = false;
+      [['lived_out', 'Where I lived it out'], ['autopsy', 'Autopsy'], ['wins', 'Wins and blockers'], ['next_week', 'Next week I will']].forEach(function (f) { if (c[f[0]]) { any = true; pb.appendChild(h('div', null, h('span', { text: f[1] }), h('p', { text: c[f[0]] }))); } });
+      if (!S.share) [['coach_notes', 'Coaching notes'], ['needs', 'Needs'], ['advice', 'Advice'], ['pip_reason', 'PIP: why']].forEach(function (f) { if (c[f[0]]) { any = true; pb.appendChild(h('div', { class: 'k' }, h('span', { text: f[1] + ' \u00b7 Kev only' }), h('p', { text: c[f[0]] }))); } });
+      if (!any) pb.appendChild(h('p', { class: 'stamp', text: 'No notes on this card.' }));
+      d.appendChild(pb); box.appendChild(d);
+    });
+    return box;
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('.livecard .bx[data-k]'); if (!b || !S.edit) return;
