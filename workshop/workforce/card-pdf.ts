@@ -8,7 +8,7 @@ import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { execFileSync } from "node:child_process";
 
-export type Card = { d?: boolean[]; w?: boolean[]; cv?: boolean[]; kev_score?: number; burnout?: number; pip?: boolean; pip_reason?: string; lived_out?: string; autopsy?: string; wins?: string; next_week?: string; coach_notes?: string; needs?: string; advice?: string; updated?: string };
+export type Card = { d?: boolean[]; w?: boolean[]; cv?: boolean[]; kev_score?: number; burnout?: number; pip?: boolean; pip_reason?: string; lived_out?: string; autopsy?: string; wins?: string; next_week?: string; coach_notes?: string; needs?: string; advice?: string; updated?: string; week_of?: string };
 type Person = { id: string; name?: string; role?: string; group?: string; sort?: number };
 type Counts = Partial<Record<"rps" | "mps" | "resumes" | "ptcs" | "subs" | "ftis", number>>;
 type BoardRow = { slug: string; this?: Counts; last_same?: Counts; last_full?: Counts; rp_by_day?: Record<string, number> };
@@ -22,7 +22,9 @@ export const CARD_BOXES = 35 + WEEKLY.length;
 export const PILLARS = ["Righteousness", "Winning", "Accountability", "Discipline", "Transparency", "Growth", "Execution"];
 
 export const boxes = (c: Card) => [...(c.d ?? []), ...(c.w ?? [])].filter(Boolean).length;
-export const score = (c: Card) => (typeof c.kev_score === "number" ? c.kev_score : Math.round((boxes(c) / CARD_BOXES) * 100));
+// Cards before the week of 19 Oct were 42 boxes (no "Push your job orders forward"), so they score out of 42, as on the live card.
+export const cardTotal = (c: Card) => (String(c.week_of ?? "9") < "2026-10-19" ? 42 : CARD_BOXES);
+export const score = (c: Card) => (typeof c.kev_score === "number" ? c.kev_score : Math.round((boxes(c) / cardTotal(c)) * 100));
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]!);
 const tick = (b?: boolean) => `<span class="bx${b ? " on" : ""}">${b ? "✓" : ""}</span>`;
@@ -50,7 +52,7 @@ function personPage(p: Person, c: Card, row: BoardRow | undefined, prev: Card | 
   const fld = (label: string, v?: string) => `<div class="fld"><b>${label}</b><p>${esc(v) || "<span class=mute>—</span>"}</p></div>`;
   return `<section class="page">
 <header><span>EDEN PARTNER GROUP</span><span>Weekly Scorecard · Round Table · week of ${esc(week)}</span></header>
-<div class="ph"><h1>${esc(p.name ?? p.id)}</h1><span class="role">${esc(p.role ?? "")}</span><span class="sc">${score(c)}%<small>${typeof c.kev_score === "number" ? " Kev's score" : ` ${boxes(c)} / ${CARD_BOXES} boxes`}</small></span>${c.pip ? '<span class="pipflag">PIP</span>' : ""}</div>
+<div class="ph"><h1>${esc(p.name ?? p.id)}</h1><span class="role">${esc(p.role ?? "")}</span><span class="sc">${score(c)}%<small>${typeof c.kev_score === "number" ? " Kev's score" : ` ${boxes(c)} / ${cardTotal(c)} boxes`}</small></span>${c.pip ? '<span class="pipflag">PIP</span>' : ""}</div>
 <table><tr><th class=l>Crelate</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>RPs</th><th>MPs</th><th>Resumes</th><th>PTCs</th><th>Subs</th><th>FTIs</th></tr>
 <tr><td class=l>This week</td>${[0, 1, 2, 3, 4].map((i) => `<td${(dayOf(i) ?? 0) >= 15 ? " class=b" : ""}>${n(dayOf(i))}</td>`).join("")}<td class=b>${n(t.rps)} / 75</td><td>${n(t.mps)}</td><td>${n(t.resumes)}</td><td>${n(t.ptcs)}</td><td>${n(t.subs)}</td><td>${n(t.ftis)}</td></tr>
 <tr><td class=l>Last wk, same point</td><td colspan=5></td><td>${n(l.rps)}</td><td>${n(l.mps)}</td><td>${n(l.resumes)}</td><td>${n(l.ptcs)}</td><td>${n(l.subs)}</td><td>${n(l.ftis)}</td></tr></table>
@@ -86,7 +88,7 @@ function teamPage(rows: { p: Person; c: Card; w: string[] }[], week: string, asO
   return `<section class="page"><header><span>EDEN PARTNER GROUP</span><span>Weekly Scorecard · Round Table</span></header>
 <h1>Round Table · week of ${esc(week)}</h1><p class="role">Crelate ${esc(asOf)} · cards as saved by Kev</p>
 <table class="team"><tr><th class=l>Name</th><th>Card</th><th>Boxes</th><th>Burn-out</th><th>PIP</th><th class=l>Watch</th></tr>
-${rows.map(({ p, c, w }) => `<tr><td class=l><b>${esc(p.name ?? p.id)}</b></td><td>${boxes(c) || typeof c.kev_score === "number" ? `${score(c)}%` : "–"}</td><td>${boxes(c) ? `${boxes(c)} / ${CARD_BOXES}` : "–"}</td><td>${n(c.burnout)}</td><td>${c.pip ? "<b style=color:#B03A2E>PIP</b>" : ""}</td><td class=l>${esc(w.join(" "))}</td></tr>`).join("")}</table>
+${rows.map(({ p, c, w }) => `<tr><td class=l><b>${esc(p.name ?? p.id)}</b></td><td>${boxes(c) || typeof c.kev_score === "number" ? `${score(c)}%` : "–"}</td><td>${boxes(c) ? `${boxes(c)} / ${cardTotal(c)}` : "–"}</td><td>${n(c.burnout)}</td><td>${c.pip ? "<b style=color:#B03A2E>PIP</b>" : ""}</td><td class=l>${esc(w.join(" "))}</td></tr>`).join("")}</table>
 <footer><span>edenpartnergroup.com</span><span>Team</span><span>EDEN PARTNER GROUP</span></footer></section>`;
 }
 
