@@ -82,5 +82,11 @@
     "name": "Barny",
     "session": "session_01Bb8T7ZJX5HwgGEhww9MN5P",
     "url": "https://claude.ai/code/session_01Bb8T7ZJX5HwgGEhww9MN5P"
+  },
+  "casey": {
+    "id": "casey",
+    "name": "Casey",
+    "session": "session_01Ep3HKBB1EzzeBw8Zh2Ndks",
+    "url": "https://claude.ai/code/session_01Ep3HKBB1EzzeBw8Zh2Ndks"
   }
 }

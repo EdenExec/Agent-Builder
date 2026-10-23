@@ -248,6 +248,15 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .cell.bump .v{animation:bump 1.1s ease-out}
 @keyframes bump{0%{opacity:.35}100%{opacity:1}}
 .cell.pts{background:rgba(243,240,232,.04)}
+/* Kev, 23 Oct: the counts are doors. Open now and Oldest waiting take you to the tickets on the line; FAILs to the failing card. */
+.cell[data-go]{cursor:pointer;transition:background .15s}
+.cell[data-go]:hover{background:rgba(243,240,232,.07)}
+.cell[data-go] .k::after{content:"\00a0\2193";opacity:.7}
+.cell[data-go]:focus-visible{outline:2px solid var(--bd-fg);outline-offset:-2px}
+.line.ping{animation:ping 1.2s ease-out}
+.tk.ping{outline:2px solid var(--ink);outline-offset:2px}
+@keyframes ping{0%{box-shadow:0 0 0 0 var(--ink)}100%{box-shadow:0 0 0 10px transparent}}
+@media (prefers-reduced-motion:reduce){.line.ping{animation:none}}
 .board-rest{padding:18px 16px;display:flex;flex-direction:column;gap:6px}
 .board-rest b{font:700 15px/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase}
 .board-note{padding:8px 14px;border-top:1px solid var(--bd-line);font:500 10px/1.5 var(--mono);letter-spacing:.04em;color:var(--bd-mute)}
@@ -938,7 +947,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   ];
   /* Kev, 23 Oct: every agent has its own Claude Code session (full skills, files and history). Desk buttons and the org chart open it.
      Mirrors projects/virtual-office/sessions.json; live `sessions/{agent}` docs override. */
-  var DEFAULT_SESSIONS = {"radar":"https://claude.ai/code/session_012ech5hw2f8wh5988FWa92Z","host":"https://claude.ai/code/session_01HWXpQMMCrS1aHrLGE4iPN9","scout":"https://claude.ai/code/session_019m7KAzB12uW2aRsT2iVTsa","dean":"https://claude.ai/code/session_01VTzuVbujV9WkkNEL1uTxC3","q":"https://claude.ai/code/session_01NaV6afr4cxChSyMxf4QjCS","pm":"https://claude.ai/code/session_01NmQm57E8JzXPM5yhiivmWp","tally":"https://claude.ai/code/session_01QjJJfHL3pbHoRFQYyP5gRj","docket":"https://claude.ai/code/session_01LKexcLmbP1uHLF2QuAEEJK","atlas":"https://claude.ai/code/session_019WiV7BNnqiAwEFE1fid2qq","housing-architect":"https://claude.ai/code/session_01DrdWBy2LzD2hVrTfxgF2wL","keys":"https://claude.ai/code/session_01YT6ywzc4eEs4VZMxo8Dhkf","hale":"https://claude.ai/code/session_01QfufmucSF1Kvw417paHgCT","jethro":"https://claude.ai/code/session_019kpA2jTPA59tgNxwEQLsbp","barnabas":"https://claude.ai/code/session_01Bb8T7ZJX5HwgGEhww9MN5P"};
+  var DEFAULT_SESSIONS = {"radar":"https://claude.ai/code/session_012ech5hw2f8wh5988FWa92Z","host":"https://claude.ai/code/session_01HWXpQMMCrS1aHrLGE4iPN9","scout":"https://claude.ai/code/session_019m7KAzB12uW2aRsT2iVTsa","dean":"https://claude.ai/code/session_01VTzuVbujV9WkkNEL1uTxC3","q":"https://claude.ai/code/session_01NaV6afr4cxChSyMxf4QjCS","pm":"https://claude.ai/code/session_01NmQm57E8JzXPM5yhiivmWp","tally":"https://claude.ai/code/session_01QjJJfHL3pbHoRFQYyP5gRj","docket":"https://claude.ai/code/session_01LKexcLmbP1uHLF2QuAEEJK","atlas":"https://claude.ai/code/session_019WiV7BNnqiAwEFE1fid2qq","housing-architect":"https://claude.ai/code/session_01DrdWBy2LzD2hVrTfxgF2wL","keys":"https://claude.ai/code/session_01YT6ywzc4eEs4VZMxo8Dhkf","hale":"https://claude.ai/code/session_01QfufmucSF1Kvw417paHgCT","jethro":"https://claude.ai/code/session_019kpA2jTPA59tgNxwEQLsbp","barnabas":"https://claude.ai/code/session_01Bb8T7ZJX5HwgGEhww9MN5P","casey":"https://claude.ai/code/session_01Ep3HKBB1EzzeBw8Zh2Ndks"};
   function sessionUrl(id) { var x = S.sessions && S.sessions[id]; return (x && x.url) || DEFAULT_SESSIONS[id] || null; }
   var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['round-table', 'hub'], host: ['eden-desk', 'hub'], tally: ['cash-pulse', 'quickbooks', 'gusto', 'hub'], docket: ['cash-pulse', 'quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'], pm: ['staffing-doc', 'hub'], casey: ['hub', 'crelate'] };
   var BENCH_TOOLS = { recruiting: ['round-table', 'hub'], depth: ['round-table', 'hub'], revenue: ['cash-pulse', 'hub', 'quickbooks'], university: ['hub'], finance: ['cash-pulse', 'quickbooks', 'gusto', 'hub'], client: ['hub', 'cloudtalk', 'crelate'], family: ['atlas-desk', 'marlowe-desk'], projects: ['staffing-doc', 'hub'] };
@@ -1081,10 +1090,19 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   }
   function syncWarn() { return S.live && S.meta && Date.now() - t(S.meta.syncedAt) > 2 * HOUR; }    // amber after two hours
 
-  function cell(k, v, s, cls, id) {
+  function cell(k, v, s, cls, id, go) {
     var vv = h('b', { class: 'v' }); if (typeof v === 'string' || typeof v === 'number') vv.textContent = String(v); else if (v) vv.appendChild(v);
     if (id) vv.id = id;
-    return h('div', { class: 'cell' + (cls ? ' ' + cls : '') }, h('span', { class: 'k', text: k }), vv, h('span', { class: 's', text: s || '' }));
+    var c = h('div', { class: 'cell' + (cls ? ' ' + cls : '') }, h('span', { class: 'k', text: k }), vv, h('span', { class: 's', text: s || '' }));
+    if (go) { c.setAttribute('data-go', go); c.setAttribute('role', 'button'); c.setAttribute('tabindex', '0'); c.setAttribute('aria-label', k + ': ' + vv.textContent + '. Go to the tickets.'); }
+    return c;
+  }
+  /* a board count is a door: scroll to the line and put focus on the ticket it counts */
+  function goBoard(sel) {
+    var line = $('#line'), card = sel && sel !== '#line' ? $(sel) : $('#tks .tk'), smooth = !reduced.matches && !root.classList.contains('still');
+    (card || line).scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: card ? 'center' : 'start' });
+    line.classList.remove('ping'); void line.offsetWidth; line.classList.add('ping'); setTimeout(function () { line.classList.remove('ping'); }, 1300);
+    if (card) { card.classList.add('ping'); setTimeout(function () { card.classList.remove('ping'); }, 1600); try { card.focus({ preventScroll: true }); } catch (e) { card.focus(); } }
   }
   var lastPts = null;
   function renderBoard() {
@@ -1103,13 +1121,13 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     if (lastPts !== null && day.points > lastPts) pts.className += ' bump';
     lastPts = day.points; grid.appendChild(pts);
     grid.appendChild(cell('Closed today', day.closed, "Kev's moves: " + (day.kev + day.qc)));
-    grid.appendChild(cell('Open now', g.openNow, openWait + ' waiting for pickup'));
+    grid.appendChild(cell('Open now', g.openNow, openWait + ' waiting for pickup', '', null, g.openNow ? '#line' : null));
     var o = g.oldest, oc = '', sec = 0, who = '—';
     if (o) { sec = waitedSec(t(o.createdAt), Date.now()); who = (S.share && sensitiveAgent(o.agent) ? 'Private desk' : nameOf(o.agent)) + ' · filed ' + clockLabel(t(o.createdAt)); oc = sec > 60 * 60 ? 'bad' : sec > 45 * 60 ? 'warn' : ''; }
-    var oc2 = cell('Oldest waiting', o ? hms(sec) : '—', o ? who + (Game.isRunnerTime(Date.now()) ? '' : ' · clock paused') : 'Nothing waiting', oc, 'b-oldest');
+    var oc2 = cell('Oldest waiting', o ? hms(sec) : '—', o ? who + (Game.isRunnerTime(Date.now()) ? '' : ' · clock paused') : 'Nothing waiting', oc, 'b-oldest', o && !(S.share && sensitiveAgent(o.agent)) ? '.tk[data-tk="' + o.id + '"]' : null);
     if (o) oc2.querySelector('.v').setAttribute('data-from', String(t(o.createdAt)));
     grid.appendChild(oc2);
-    grid.appendChild(cell('FAILs today', day.fails, day.fails ? '−3 each · picked up after 60 min' : 'Ticket open past 60 min', day.fails ? 'bad' : ''));
+    grid.appendChild(cell('FAILs today', day.fails, day.fails ? '−3 each · picked up after 60 min' : 'Ticket open past 60 min', day.fails ? 'bad' : '', null, $('#tks .tk.fail') || Object.keys(d.sla).some(function (k) { return d.sla[k].state === 'fail'; }) ? '.tk.fail' : null));
     var mp = g.medianPickupMin;
     grid.appendChild(cell('Median pickup', mp == null ? '—' : Math.round(mp), 'minutes, this week · goal under 60', ''));
     grid.appendChild(cell('Streak', g.streak, 'working days, no FAIL'));
@@ -2081,6 +2099,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   /* ---------- events ---------- */
   var reduced = matchMedia('(prefers-reduced-motion: reduce)');
   document.addEventListener('click', function (e) {
+    var gb = e.target.closest('[data-go]'); if (gb) { goBoard(gb.getAttribute('data-go')); return; }
     var sb = e.target.closest('[data-seen]'); if (sb) { markSeen(sb.getAttribute('data-seen')); return; }
     var ab = e.target.closest('[data-act]'); if (ab) { markAction(ab.getAttribute('data-key'), ab.getAttribute('data-act')); return; }
     var ub = e.target.closest('[data-undo]'); if (ub) { undoAction(ub.getAttribute('data-undo')); return; }
@@ -2095,6 +2114,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   });
   /* Esc stands up from any desk, bench or lever, even while typing in the chat; captured first so nothing inside the sheet can swallow it */
   window.addEventListener('keydown', function (e) { if ((e.key === 'Escape' || e.key === 'Esc') && S.sheet) { e.preventDefault(); stand(); } }, true);
+  document.addEventListener('keydown', function (e) { var gb = e.target && e.target.closest && e.target.closest('[data-go]'); if (gb && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); goBoard(gb.getAttribute('data-go')); } });
   function toggle(btn, apply, key) {
     btn.addEventListener('click', function () {
       var on = btn.getAttribute('aria-pressed') !== 'true'; btn.setAttribute('aria-pressed', String(on)); apply(on);
