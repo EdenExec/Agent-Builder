@@ -13,9 +13,33 @@
       "needsGate": false
     },
     {
-      "label": "Open AR (QuickBooks only)",
+      "label": "Owed to us · past due",
+      "value": "$158,700 · 6 invoices, oldest 72 days late",
+      "source": "EPG Cash Pulse invoice list (Hub Rev Report), updated 17 Oct; not booked in QuickBooks yet",
+      "asOf": "2026-10-17",
+      "needsGate": true,
+      "gate": "2026-10-23-82862f"
+    },
+    {
+      "label": "Owed to us · invoiced, not yet due",
+      "value": "$36,450 · 2 invoices",
+      "source": "EPG Cash Pulse invoice list (Hub Rev Report), updated 17 Oct; not booked in QuickBooks yet",
+      "asOf": "2026-10-17",
+      "needsGate": true,
+      "gate": "2026-10-23-82862f"
+    },
+    {
+      "label": "Coming · starts not yet invoiced",
+      "value": "$232,100 · 6 placements",
+      "source": "EPG Cash Pulse invoice list (Hub Rev Report), updated 17 Oct; not booked in QuickBooks yet",
+      "asOf": "2026-10-17",
+      "needsGate": true,
+      "gate": "2026-10-23-82862f"
+    },
+    {
+      "label": "Open AR in QuickBooks",
       "value": "$0",
-      "source": "QuickBooks AR aging; the Hub's $55,000 past-due is not booked",
+      "source": "QuickBooks AR aging; the invoices above are not booked (Joel)",
       "asOf": "2026-10-23",
       "gate": "2026-10-23-9f1d0b",
       "needsGate": false
