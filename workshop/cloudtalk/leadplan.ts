@@ -220,11 +220,13 @@ export function titleCase(slug: string): string {
 const CLIENT_SLUGS: [string, string][] = [
   ["pb-south", "PB South"],
   ["prometheus", "Prometheus"],
+  ["megawatt", "Megawatt"],
   ["hoffman", "Hoffman"],
   ["triton", "Triton"],
   ["moss", "Moss"],
   ["baker", "Baker"],
   ["vmg", "VMG"],
+  ["inl", "Baker"], // INL safety JO: the client is Baker (discreet)
 ];
 
 export function fromFileName(file: string): { date?: string; client?: string; role?: string } {

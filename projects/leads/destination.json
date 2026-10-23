@@ -2,7 +2,9 @@
   "status": "permanent (Kev, 21 Oct 2026): the master folder keeps its name and id; Uploaded to Crelate is its subfolder",
   "driveFolder": {
     "role": "master: every lead sheet lands here, the same folder every load",
-    "name": "JO Meeting · Lead Buckets · Mon Oct 19",
+    "name": "Leads Buckets",
+    "formerName": "JO Meeting · Lead Buckets · Mon Oct 19 (renamed in Drive by 22 Oct; same id)",
+    "confirmedBy": "Kev, 23 Oct 2026: the lead buckets are here",
     "id": "1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9",
     "url": "https://drive.google.com/drive/folders/1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9",
     "sheetTitle": "NN · Client · Role · N leads",
