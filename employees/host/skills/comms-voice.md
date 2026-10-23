@@ -62,3 +62,9 @@ Kind and brief: say it in the first two lines, thank them for something real, le
 ## Before it goes to QC
 
 Read it aloud as Kev would on a call. Cut the first sentence if the second works alone. Check names, dates and attachments against the thread. Then the QC item (`skills/inbox-management.md`, "Queue the draft").
+
+## Calendar invites to clients (Kev, 23 Oct 2026)
+
+- Title: "<Meeting type>: <Client> & Eden Exec". Client first, Eden Exec second, the meeting type up front. Example: "Zoom: Pruter Construction & Eden Exec".
+- Description: one or two lines on the purpose, the join link and meeting ID, then end with "If you have any trouble joining, give me a shout." and Kev's cell on the very last line: "Kev · 503-545-7075".
+- Client calls use Kev's own Zoom room (ID 530 401 3689). Take off the auto-added Google Meet link.
