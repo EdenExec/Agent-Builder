@@ -55,6 +55,19 @@ Kev: "Build a folder just for Job Orders so we always know what Job Orders are a
 - **Prometheus vs Promethean.** Prometheus is the Bay Area real-estate investor. Promethean is the NYC and Miami GC, sister company to PB South. Different `client_slug` values: `prometheus`, `promethean`.
 - **Writes.** Radar writes `jobs` with `ArtifactData` (batch for more than a couple, `if_version` on every existing row). A rotation is a new team entry with `since` = the change date; the old entry is removed. Names, roles and links only: no pay, phones or emails.
 
+### Board fields and Casey (Kev, 23 October 2026)
+
+Casey, the Client Care Manager (`employees/casey/`), now owns the job-order board and the depth charts; Radar and Scout still write when a playbook says so. New on `jobs`:
+
+| Field | Meaning |
+|---|---|
+| `status` | Adds `killed` (Kev pulled the JO). Killed rows are never deleted; the reason goes in `board_note` |
+| `board_note` | Kev's latest instruction on the JO, close to his words |
+| `depth` | `[{client_slug, chart, seat}]`, linking the JO to seats on that client's depth chart (`seat` matches `seats[].seat`) |
+| `scout` | `{requested, at, status}`: queued, briefed, landed |
+
+`scout_queue/{id}` is written when a JO is added on the board; Casey briefs Scout from it (a `scout` ticket on the Command Center) and marks it briefed. `clients/{slug}/meetings/{id}` holds client meeting notes. Write rules and the voice-note intake: `employees/casey/skills/hub-board.md` and `voice-note-intake.md`.
+
 ### Seed (Radar, 19 October 2026)
 
 26 rows from the 19 Oct JO meeting, Kev's answers, the "Who's taking what" Doc and Scout's bucket plan (`employees/scout/sheets/2026-10-19-bucket-refresh-plan.md`). Every `since` is 2026-10-19. 25 active, 1 on hold (Hoffman Houston area supers, not on the 19 Oct list). No owner: Moss Interior Super, Moss Precon, Hoffman Amarillo low-voltage supers. Standby (only if Tim Norton doesn't land the Prometheus Sr PM seat): Andrew on the Triton role to confirm ("NP"), Noah on Megawatt San Jose Sr PM/PX and on Promethean NYC occupied healthcare. To confirm with Kev: the client for Noah's "Supers, Miami" (filed under PB South).
