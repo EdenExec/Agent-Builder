@@ -3,106 +3,140 @@
   "subject": "Pruter Construction retained search agreement check (23 Oct 2026): fee, installments, range, terms",
   "preparer": "docket",
   "checker": "tally",
-  "status": "open",
+  "status": "passed",
   "items": [
     {
       "label": "Estimated fee at estimated base",
       "claimed": 37500,
       "unit": "usd",
-      "source": "Draft Fee Structure: rate x estimated first-year base (both stated in the draft and in projects/recruiter-desk/pruter/search-brief.md 'Terms Kev proposed')"
+      "source": "Draft Fee Structure: rate x estimated first-year base (both stated in the draft and in projects/recruiter-desk/pruter/search-brief.md 'Terms Kev proposed')",
+      "recomputed": 37500,
+      "ok": true
     },
     {
       "label": "Retainer (first installment)",
       "claimed": 12500,
       "unit": "usd",
-      "source": "Draft First Installment: one-third of the estimated fee"
+      "source": "Draft First Installment: one-third of the estimated fee",
+      "recomputed": 12500,
+      "ok": true
     },
     {
       "label": "Two-installment balance at estimated base",
       "claimed": 25000,
       "unit": "usd",
-      "source": "Draft Final Installment: rate x base minus the retainer, at the estimated base"
+      "source": "Draft Final Installment: rate x base minus the retainer, at the estimated base",
+      "recomputed": 25000,
+      "ok": true
     },
     {
       "label": "Fee at bottom of client range",
       "claimed": 35000,
       "unit": "usd",
-      "source": "Rate x low end of base range in search-brief 'Terms Kev proposed' (transcript line 1391)"
+      "source": "Rate x low end of base range in search-brief 'Terms Kev proposed' (transcript line 1391)",
+      "recomputed": 35000,
+      "ok": true
     },
     {
       "label": "Fee at top of client range",
       "claimed": 55000,
       "unit": "usd",
-      "source": "Rate x high end of base range in search-brief 'Terms Kev proposed' (transcript line 1391)"
+      "source": "Rate x high end of base range in search-brief 'Terms Kev proposed' (transcript line 1391)",
+      "recomputed": 55000,
+      "ok": true
     },
     {
       "label": "Two-installment balance at bottom of range",
       "claimed": 22500,
       "unit": "usd",
-      "source": "Fee at low end of range minus the retainer"
+      "source": "Fee at low end of range minus the retainer",
+      "recomputed": 22500,
+      "ok": true
     },
     {
       "label": "Two-installment balance at top of range",
       "claimed": 42500,
       "unit": "usd",
-      "source": "Fee at high end of range minus the retainer"
+      "source": "Fee at high end of range minus the retainer",
+      "recomputed": 42500,
+      "ok": true
     },
     {
       "label": "Thirds model: second installment",
       "claimed": 12500,
       "unit": "usd",
-      "source": "agreement-check.md redline 1: one-third of the estimated fee, due on shortlist"
+      "source": "agreement-check.md redline 1: one-third of the estimated fee, due on shortlist",
+      "recomputed": 12500,
+      "ok": true
     },
     {
       "label": "Thirds model: final installment at estimated base",
       "claimed": 12500,
       "unit": "usd",
-      "source": "Actual fee at estimated base minus two one-third installments of the estimated fee"
+      "source": "Actual fee at estimated base minus two one-third installments of the estimated fee",
+      "recomputed": 12500,
+      "ok": true
     },
     {
       "label": "Thirds model: final installment at bottom of range",
       "claimed": 10000,
       "unit": "usd",
-      "source": "Fee at low end of range minus two one-third installments of the estimated fee"
+      "source": "Fee at low end of range minus two one-third installments of the estimated fee",
+      "recomputed": 10000,
+      "ok": true
     },
     {
       "label": "Thirds model: final installment at top of range",
       "claimed": 30000,
       "unit": "usd",
-      "source": "Fee at high end of range minus two one-third installments of the estimated fee"
+      "source": "Fee at high end of range minus two one-third installments of the estimated fee",
+      "recomputed": 30000,
+      "ok": true
     },
     {
       "label": "Refund window in draft",
       "claimed": 10,
       "unit": "days",
-      "source": "Draft retainer bullet: working days after Eden receives the retainer"
+      "source": "Draft retainer bullet: working days after Eden receives the retainer",
+      "recomputed": 10,
+      "ok": true
     },
     {
       "label": "Guarantee period in draft",
       "claimed": 120,
       "unit": "days",
-      "source": "Draft Replacement Guarantee bullets 1 and 2: days from start date"
+      "source": "Draft Replacement Guarantee bullets 1 and 2: days from start date",
+      "recomputed": 120,
+      "ok": true
     },
     {
       "label": "Guarantee payment condition in draft",
       "claimed": 20,
       "unit": "days",
-      "source": "Draft Replacement Guarantee bullets 1 and 3: Net terms / days from invoice date"
+      "source": "Draft Replacement Guarantee bullets 1 and 3: Net terms / days from invoice date",
+      "recomputed": 20,
+      "ok": true
     },
     {
       "label": "Balance payment term in draft",
       "claimed": 30,
       "unit": "days",
-      "source": "Draft Final Installment: days after the candidate's start date"
+      "source": "Draft Final Installment: days after the candidate's start date",
+      "recomputed": 30,
+      "ok": true
     },
     {
       "label": "Candidate tail in draft",
       "claimed": 365,
       "unit": "days",
-      "source": "Draft Safeguards bullet 1: period after Eden submits a candidate (stated as one year)"
+      "source": "Draft Safeguards bullet 1: period after Eden submits a candidate (stated as one year)",
+      "recomputed": 365,
+      "ok": true
     }
   ],
   "createdAt": "2026-10-23T18:54:00.737Z",
   "doc": "projects/recruiter-desk/pruter/agreement-check.md",
-  "ask": "Two installments or thirds; refund trigger; fee floor"
+  "ask": "Two installments or thirds; refund trigger; fee floor",
+  "checkedBy": "tally",
+  "closedAt": "2026-10-23T19:03:34.029Z"
 }
