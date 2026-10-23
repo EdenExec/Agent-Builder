@@ -1,0 +1,100 @@
+{
+  "id": "2026-10-23-20b564",
+  "subject": "Eden Staffing legal drafts 01-05 (23 Oct 2026): plan-doc and statutory figures",
+  "preparer": "docket",
+  "checker": "tally",
+  "status": "open",
+  "items": [
+    {
+      "label": "Employer's liability limit",
+      "claimed": 1000000,
+      "unit": "usd",
+      "source": "Kev plan doc 'Eden Staffing - Intitial' (Google Doc 1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I), tab 'Route, Risk & Break-Even', Insurance Burden table, row 'Workers comp and employer's liability', column 'Limit to carry' (EL limit). Used in 01 agreement s.10.1"
+    },
+    {
+      "label": "GL limit per occurrence",
+      "claimed": 1000000,
+      "unit": "usd",
+      "source": "Kev plan doc 'Eden Staffing - Intitial' (Google Doc 1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I), tab 'Route, Risk & Break-Even', Insurance Burden table, row 'General liability', column 'Limit to carry', per-occurrence figure. Used in 01 s.10.1"
+    },
+    {
+      "label": "GL aggregate limit",
+      "claimed": 2000000,
+      "unit": "usd",
+      "source": "Kev plan doc 'Eden Staffing - Intitial' (Google Doc 1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I), tab 'Route, Risk & Break-Even', Insurance Burden table, row 'General liability', column 'Limit to carry', aggregate figure. Used in 01 s.10.1"
+    },
+    {
+      "label": "Umbrella limit",
+      "claimed": 5000000,
+      "unit": "usd",
+      "source": "Kev plan doc 'Eden Staffing - Intitial' (Google Doc 1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I), tab 'Route, Risk & Break-Even', Insurance Burden table, row 'Umbrella / excess', column 'Limit to carry' (base figure, not megaprojects). Used in 01 s.10.1"
+    },
+    {
+      "label": "Staffing E&O limit",
+      "claimed": 1000000,
+      "unit": "usd",
+      "source": "Kev plan doc 'Eden Staffing - Intitial' (Google Doc 1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I), tab 'Route, Risk & Break-Even', Insurance Burden table, row 'Staffing professional liability (E&O)', column 'Limit to carry'. Used in 01 s.10.1"
+    },
+    {
+      "label": "EPLI limit",
+      "claimed": 1000000,
+      "unit": "usd",
+      "source": "Kev plan doc 'Eden Staffing - Intitial' (Google Doc 1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I), tab 'Route, Risk & Break-Even', Insurance Burden table, row 'EPLI with third-party coverage', column 'Limit to carry'. Used in 01 s.10.1"
+    },
+    {
+      "label": "Crime fidelity limit",
+      "claimed": 250000,
+      "unit": "usd",
+      "source": "Kev plan doc 'Eden Staffing - Intitial' (Google Doc 1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I), tab 'Route, Risk & Break-Even', Insurance Burden table, row 'Crime / third-party fidelity', column 'Limit to carry'. Used in 01 s.10.1"
+    },
+    {
+      "label": "Hired and non-owned auto limit",
+      "claimed": 1000000,
+      "unit": "usd",
+      "source": "Kev plan doc 'Eden Staffing - Intitial' (Google Doc 1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I), tab 'Route, Risk & Break-Even', Insurance Burden table, row 'Cyber and hired/non-owned auto' (limit applies to each). Used in 01 s.10.1"
+    },
+    {
+      "label": "Plan payment terms, shortest",
+      "claimed": 15,
+      "unit": "days",
+      "source": "Kev plan doc 'Eden Staffing - Intitial' (Google Doc 1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I), tab 'Route, Risk & Break-Even', Liability Protection Plan, Contracts paragraph, net terms range, low end. Used in 05 memo decision 2"
+    },
+    {
+      "label": "Plan payment terms, longest",
+      "claimed": 30,
+      "unit": "days",
+      "source": "Kev plan doc 'Eden Staffing - Intitial' (Google Doc 1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I), tab 'Route, Risk & Break-Even', Liability Protection Plan, Contracts paragraph, net terms range, high end. Used in 05 memo decision 2"
+    },
+    {
+      "label": "BaaS switch headcount",
+      "claimed": 27,
+      "unit": "count",
+      "source": "Kev plan doc 'Eden Staffing - Intitial' (Google Doc 1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I), tab 'Route, Risk & Break-Even', Route: EOR vs BaaS, workers on assignment at which to move to BaaS. Used in 04 checklist section F heading"
+    },
+    {
+      "label": "Oregon CLC bond, small contractor",
+      "claimed": 10000,
+      "unit": "usd",
+      "source": "ORS 658.415(3)(a), 2025 edition, oregonlegislature.gov/bills_laws/ors/ors658.html: bond for a labor contractor with the smaller employee band. Used in 04 checklist B4"
+    },
+    {
+      "label": "Oregon CLC bond, larger contractor",
+      "claimed": 30000,
+      "unit": "usd",
+      "source": "ORS 658.415(3)(b), 2025 edition: bond for the larger employee band (before any commissioner reduction under 658.416). Used in 04 checklist B4"
+    },
+    {
+      "label": "Oregon CLC bond band ceiling",
+      "claimed": 20,
+      "unit": "count",
+      "source": "ORS 658.415(3)(a), 2025 edition: maximum employees for the smaller bond band. Used in 04 checklist B4"
+    },
+    {
+      "label": "Florida E-Verify employee threshold",
+      "claimed": 25,
+      "unit": "count",
+      "source": "Fla. Stat. 448.095 (private employers), and plan doc Regulatory Map, Florida row. Used in 04 checklist B1 and 05 memo item 7"
+    }
+  ],
+  "createdAt": "2026-10-23T06:20:15.345Z"
+}
