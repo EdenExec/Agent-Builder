@@ -968,7 +968,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       var seen = isSeen(a.id);
       if (seen && a.light !== 'urgent') return;           // seen clears everything but red; red holds steady until the source resolves
       var rel = a.link ? null : relatedTicket(a);
-      out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link || (rel && rel.result && rel.result.link) || null, preview: a.preview, rank: a.rank, why: a.why, kind: a.kind, agent: id, found: rel && rel.result && rel.result.summary ? { text: rel.result.summary, from: rel.id } : null });
+      out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link || (rel && rel.result && rel.result.link) || null, preview: a.preview, rank: a.rank, why: a.why, kind: a.kind, proposed: a.proposed || null, agent: id, found: rel && rel.result && rel.result.summary ? { text: rel.result.summary, from: rel.id } : null });
     });
     Object.keys(S.tickets).forEach(function (k) {
       var tk = S.tickets[k]; if (tk.agent !== id || ticketHidden(tk)) return;
@@ -1227,9 +1227,9 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
 
   /* Done / Follow up on a "Needs you" item: the page records Kev's call; Radar's sweep applies it to the source (QC, ledger, routine) */
   var pendingAct = {};
-  function markAction(key, action) {
+  function markAction(key, action, extra) {
     var item = allItems().concat(Object.keys(S.agents).reduce(function (o, id) { return o.concat(effective(S.agents[id]).items); }, [])).filter(function (i) { return i.key === key; })[0] || {};
-    var doc = { key: key, agent: item.agent || null, title: item.title || '', action: action, at: new Date().toISOString(), by: 'kev', applied: false };
+    var doc = Object.assign({ key: key, agent: item.agent || null, title: item.title || '', action: action, at: new Date().toISOString(), by: 'kev', applied: false }, extra || {});
     S.actions[key] = doc; renderAll();
     if (S.live && S.db && S.canWrite && !pendingAct[key]) {
       pendingAct[key] = true;
@@ -1285,6 +1285,14 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   function usefulLink(url) { return url && !/5SuFoioujKFV6KgX4dXi3G/.test(url) ? url : null; }
   /* Kev, 23 Oct: "Done" means I did it myself, close it, nobody acts on it. Approval is its own tap, only on items an agent would carry out
      for him (a QC item that is not a draft he sends himself, a gated ticket). */
+  var approveOpen = {};
+  function clip1(x, n) { x = String(x || '').replace(/\s+/g, ' ').trim(); return x.length > n ? x.slice(0, n - 1) + '\u2026' : x; }
+  /* What Kev approves: the alert's own (a QC item) or the gated ticket's. Only one with a QC id and a fingerprint can be approved,
+     because Radar's office-approve check refuses anything else (and anything changed after the tap). */
+  function approvalOf(i) {
+    var tk0 = /^ticket-(.+)-gated$/.exec(i.key || ''), px = i.proposed || (tk0 && S.tickets[tk0[1]] && S.tickets[tk0[1]].proposed) || null;
+    return px && px.qc && px.hash && px.exact ? px : null;
+  }
   function needsApproval(i) { return (i.kind === 'qc' && !i.preview) || /^ticket-.+-gated$/.test(i.key || ''); }
   var bannerKey = null;
   var openDrafts = {};
@@ -1525,13 +1533,21 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var done = h('button', { class: appr ? 'mini' : 'mini primary', text: appr ? 'Did it myself' : 'Done', title: 'You handled it yourself. The item closes and no agent acts on it.', 'data-act': 'done', 'data-key': i.key }); done.disabled = !S.canWrite;
     var fu = h('button', { class: 'mini', text: 'Follow up', title: 'Send it back with a question', 'data-act': 'followup', 'data-key': i.key }); fu.disabled = !S.canWrite;
     var seg = h('span', { class: 'seg', role: 'group', 'aria-label': 'Decide' });
-    if (appr) { var ok = h('button', { class: 'mini primary', text: 'Approve', title: 'Your yes: the agent carries out exactly the action shown', 'data-act': 'approve', 'data-key': i.key }); ok.disabled = !S.canWrite; seg.appendChild(ok); }
-    seg.appendChild(done); seg.appendChild(fu); acts.appendChild(seg);
+    var px = appr ? approvalOf(i) : null;
+    if (appr && approveOpen[i.key] && px) {        // second tap: the confirm names the exact action; only this saves the yes
+      var yes = h('button', { class: 'mini primary', text: 'Confirm: ' + clip1(px.exact, 70) }); yes.disabled = !S.canWrite;
+      yes.addEventListener('click', function () { delete approveOpen[i.key]; markAction(i.key, 'approve', { confirmed: true, qc: px.qc, hash: px.hash, exact: px.exact }); S.forceSheet = true; renderSheet(); });
+      var no = h('button', { class: 'mini txt', text: 'Cancel' }); no.addEventListener('click', function () { delete approveOpen[i.key]; S.forceSheet = true; renderSheet(); });
+      acts.appendChild(yes); acts.appendChild(no);
+    } else {
+      if (appr) { var ok = h('button', { class: 'mini primary', text: 'Approve', title: px ? 'Your yes for exactly the action shown. A second tap confirms.' : 'Waiting for the next sync to show the exact action' }); ok.disabled = !S.canWrite || !px; ok.addEventListener('click', function () { approveOpen[i.key] = true; S.forceSheet = true; renderSheet(); }); seg.appendChild(ok); }
+      seg.appendChild(done); seg.appendChild(fu); acts.appendChild(seg);
+    }
     zzz(acts, i);
     if (!i.seen) { var sn = seenBtn(i); sn.className = 'mini txt'; acts.appendChild(sn); }
     var row = h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't' }, i.rank != null ? h('span', { class: 'rk', text: '#' + i.rank }) : null, i.title, h('span', { class: 'ago', text: ' · ' + ago(i.raisedAt) }), i.why ? h('small', { class: 'why', text: i.why }) : null), acts);
     if (i.found) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'What ' + nameOf(i.agent) + ' found' }), '\n' + i.found.text + '\n\nFrom ticket ' + i.found.from + '. Done means you have dealt with it; Follow up sends it back with a question.'));
-    if (appr) { var tk0 = /^ticket-(.+)-gated$/.exec(i.key || ''), px = tk0 && S.tickets[tk0[1]] && S.tickets[tk0[1]].proposed; row.appendChild(h('small', { class: 'why', style: 'grid-column:2', text: (px ? 'Approve sends exactly this (' + px.kind + '): ' + String(px.exact).slice(0, 300) + '. ' : 'Approve is your yes for exactly the action named above. ') + 'Did it myself closes it with no agent action.' })); }
+    if (appr) row.appendChild(h('div', { class: 'exact', style: 'grid-column:2' }, h('b', { text: px ? 'Approve carries out exactly this, once:' : 'The exact action shows here after the next sync.' }), px ? '\n' + px.exact : '', '\n\nDid it myself closes it with no agent action.'));
     if (i.preview && openDrafts[i.key]) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'To: ' + ((i.preview.to || []).join(', ') || 'blank, add before sending') }), '\n' + i.preview.text + '\n\nNothing sends from here. Proof it, then open Superhuman to edit and send.'));
     return row;
   }
@@ -2136,7 +2152,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     al('e5', 'q', 'blocked', 'routine', 'Routine "CloudTalk nightly lead load" has no trigger yet (example)', 2 * DAY);
     S.tickets = {
       x1: { id: 'x1', agent: 'scout', ask: 'Refresh a lead bucket (example)', priority: 'today', status: 'working', createdAt: iso(2 * HOUR), pickedAt: iso(HOUR), owner: 'kev' },
-      x2: { id: 'x2', agent: 'dean', ask: 'Draft a day-one page (example)', priority: 'whenever', status: 'gated', createdAt: iso(DAY), owner: 'kev', proposed: { kind: 'send_message', exact: 'To: Kev (review copy)\nSubject: Next steps before you start\n(the exact text appears here, from the QC item)', link: 'https://claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G' } },
+      x2: { id: 'x2', agent: 'dean', ask: 'Draft a day-one page (example)', priority: 'whenever', status: 'gated', createdAt: iso(DAY), owner: 'kev', proposed: { kind: 'send_message', exact: 'To: Kev (review copy)\nSubject: Next steps before you start\n(the exact text appears here, from the QC item)', qc: 'example', hash: 'example' } },
       x3: { id: 'x3', agent: 'q', ask: 'Match missed calls to Crelate (example)', priority: 'now', status: 'done', createdAt: iso(3 * DAY), pickedAt: iso(3 * DAY - 10 * MIN), doneAt: iso(2 * HOUR), owner: 'kev', result: { summary: 'Matched 6 of 8; 2 left unknown (example).', link: 'https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6' } }
     };
     /* tickets for the board: closed today, a FAIL, a STALL, and a few past days (all invented) */

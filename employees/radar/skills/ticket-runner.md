@@ -18,7 +18,7 @@ Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW · Saturday is the Sab
    Wait for them all to return.
 5. **Write results back.**
    - Finished work: `done` with `result {summary, link}`. The summary is written for Kev: lead with the outcome, then any decision he owes.
-   - Work that would send, spend or publish: `gated` with `proposed {kind, exact}` and the QC id (`npm run qc -- submit`).
+   - Work that would send, spend or publish: `npm run qc -- submit`, then `gated` with `proposed` set to exactly what `npm run qc -- exact <id>` prints (`{kind, exact, hash, qc}`). Kev approves it with two taps in the Office; without the `hash` and `qc` his Approve button stays off.
    - Drafts for Kev: this routine has no Superhuman connector, so it saves the draft text in the repo and puts the path in `result.link`. The next inbox sweep moves it into Superhuman Drafts.
    - A ticket is delegation, never approval.
 6. **Unstick.** A ticket `picked` or `working` for more than 2 hours with no result gets re-run once. If it fails again, it is `blocked` with `blockedOn` naming exactly what is missing (Kev, a connector, a person).

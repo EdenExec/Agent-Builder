@@ -2,7 +2,7 @@
 // inputs Radar gathers in a connector session (ledger view, inbox sweep, missed calls, routine runs, tickets) into the
 // documents the Office page reads. Pure functions: no network, no writes. The CLI (workshop/office/office.ts) does the I/O.
 // Spec: projects/virtual-office/research/q-architecture.md
-import type { QcItem } from "./qc.ts";
+import { qcExact, approvalHash, type QcItem } from "./qc.ts";
 import type { GateRecord } from "./numbers-gate.ts";
 import { buildGame, mergeRecords, pacificDate, slaFindings, slaTitle, type GameAction, type Records } from "./office-game.js";
 
@@ -83,6 +83,8 @@ export type Alert = {
   /** Inbox replies: Jenny's rank (1 = answer first) and her one-line why. */
   rank?: number;
   why?: string;
+  /** Items an agent would carry out for Kev: the exact action shown above Approve, and the fingerprint his two-tap Approve saves. */
+  proposed?: { kind: string; exact: string; hash: string; qc: string };
 };
 
 export type AgentDoc = {
@@ -145,6 +147,7 @@ export function buildAlerts(input: SyncInput): Alert[] {
     add({
       id: `sync-qc-${q.id}`, agent: q.employee, light, kind: "qc", needsKev: true, raisedAt: q.createdAt, source: `qc/${q.id}`,
       link: q.draft ? superhumanLink(q.draft.threadId) : EDEN_DESK_URL,
+      ...(!q.draft ? { proposed: { kind: q.kind, exact: qcExact(q).slice(0, 600), hash: approvalHash(q), qc: q.id } } : {}),
       ...(q.kind === "send_message" ? { preview: { to: q.recipients ?? [], text: String(q.detail ?? "").replace(/\(?\+?\d[\d\s().-]{8,}\d/g, "[number]").slice(0, 4000) } } : {}),
       title: q.draft ? `Draft ready in Superhuman${overdue ? " (waiting 5+ days)" : ""}: ${scrub(q.draft.subject ?? q.summary, 80)}` : `${q.kind.replace("_", " ")}${overdue ? " (waiting 5+ days)" : ""}: ${scrub(q.summary, 80, q.kind === "spend")}`,
     });

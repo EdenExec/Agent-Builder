@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { buildFeed, buildAlerts, buildAgents, findUnused, planWrites, chunk, scrub, qcApprovalsByDay, DESKS, type SyncInput, SUPERHUMAN_URL } from "./office.ts";
 import type { QcItem } from "./qc.ts";
 import type { GateRecord } from "./numbers-gate.ts";
+import { approvalHash } from "./qc.ts";
 
 const now = new Date("2026-10-21T18:00:00Z");
 const agents = [
@@ -18,6 +19,13 @@ describe("office lights", () => {
     const a = buildAlerts(base({ qc: [qcItem({ id: "a", employee: "dean", kind: "send_message" }), qcItem({ id: "b", kind: "spend" }), qcItem({ id: "c", kind: "spend", createdAt: "2026-10-10T00:00:00Z" })] }));
     assert.deepEqual(Object.fromEntries(a.map((x) => [x.id, x.light])), { "sync-qc-a": "review", "sync-qc-b": "blocked", "sync-qc-c": "urgent" });
     assert.ok(a.every((x) => x.needsKev));
+  });
+  test("a QC item an agent would carry out carries the exact action and fingerprint for Kev's two-tap Approve; a draft does not", () => {
+    const spend = { id: "q1", employee: "keys", kind: "spend" as const, summary: "Deposit", detail: "d", amountUsd: 300, status: "pending" as const, createdAt: "2026-10-21T10:00:00Z" };
+    const draft = { ...spend, id: "q2", kind: "send_message" as const, recipients: ["a@b.co"], draft: { app: "superhuman" as const, id: "d1" } };
+    const [a, b] = buildAlerts(base({ qc: [spend, draft] }));
+    assert.deepEqual(a!.proposed, { kind: "spend", exact: "spend $300: Deposit", hash: approvalHash(spend), qc: "q1" });
+    assert.equal(b!.proposed, undefined);
   });
   test("a cleared gate opens its write-up and says what Kev decides (Kev, 23 Oct: no dead ends)", () => {
     const withDoc = buildAlerts(base({ gates: [gate({ id: "d", doc: "projects/x/options.md", ask: "Take option A?" })] }))[0]!;

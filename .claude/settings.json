@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "mcp__Notion"
+      "mcp__Notion",
+      "Bash(npm run qc -- office-approve*)"
     ],
     "ask": [
       "mcp__Notion__notion-delete-pages",
