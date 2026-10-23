@@ -944,6 +944,10 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     a.addEventListener('click', function () { markSeen('open-' + x.id); });     // the only usage evidence the Office collects itself
     return a;
   }
+  /* Result links: the sync sometimes writes a repo path ("employees/dean/drafts/x.md") instead of a URL, and a bare path opens nothing inside
+     the artifact frame. Any link that is not already http(s) or mailto is treated as a path in the Agent-Builder repo and opened on GitHub. */
+  var REPO_BLOB = 'https://github.com/EdenExec/Agent-Builder/blob/claude/pensive-brown-18gll8/';
+  function linkUrl(u) { u = String(u == null ? '' : u).trim(); if (!u) return ''; if (/^(https?:|mailto:)/i.test(u) || /^\/_blob\//.test(u)) return u; return REPO_BLOB + u.replace(/^\.?\/+/, ''); }
   function toolsFor(ids) { var m = toolMap(); return (ids || []).map(function (i) { return m[i]; }).filter(function (x) { return x && x.url; }); }
 
   /* ---------- lights (page side; the sync script computes the same rule into agents/{id}) ---------- */
@@ -1256,7 +1260,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     b.appendChild(h('div', null, h('div', { class: 'what', text: f.title }), h('div', { class: 'sub', text: nameOf(f.agent) + ' · ' + ago(f.raisedAt) + (reds.length > 1 ? ' · ' + (reds.length - 1) + ' more urgent' : '') })));
     if (f.kind !== 'sla') { var acts = h('div', { class: 'sacts' }); zzz(acts, f); if (!zzzOpen[f.key]) acts.appendChild(seenBtn(f)); b.appendChild(acts); }   // a FAIL clears when the ticket is picked up, not when it is dismissed
   }
-  function openLabel(url) { return /superhuman\.com/.test(url) ? 'Open in Superhuman' : /5SuFoioujKFV6KgX4dXi3G/.test(url) ? 'Approve in Desk' : 'Open'; }
+  function openLabel(url) { return /github\.com|^(?!https?:)/.test(url || '') ? 'Open the file' : /superhuman\.com/.test(url) ? 'Open in Superhuman' : /5SuFoioujKFV6KgX4dXi3G/.test(url) ? 'Approve in Desk' : 'Open'; }
   var bannerKey = null;
   var openDrafts = {};
   function nameOf(id) { return S.agents[id] ? S.agents[id].name : id; }
@@ -1272,7 +1276,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       var main = h('button', { class: 'smain', 'data-id': i.agent }, led(i.light, true), h('span', { class: 'who', text: nameOf(i.agent) }), h('span', { class: 'what', text: i.title }));
       main.setAttribute('aria-label', WORD[i.light] + ', ' + nameOf(i.agent) + ': ' + i.title);
       var acts = h('span', { class: 'sacts' });
-      if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
+      if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: linkUrl(i.link), target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
       zzz(acts, i); if (!zzzOpen[i.key]) acts.appendChild(seenBtn(i));
       ol.appendChild(h('li', null, main, acts));
     });
@@ -1484,7 +1488,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   function itemRow(i) {
     if (i.kind === 'sla') return h('div', { class: 'item' }, led(i.light, true), h('span', { class: 't' }, i.title, h('span', { class: 'ago', text: ' · ' + ago(i.raisedAt) }), h('small', { class: 'why', text: i.light === 'urgent' ? 'Waiting for pickup past 60 minutes of runner time. It clears when the ticket is picked up.' : 'Picked up, no result after 4 hours of runner time.' })));
     var acts = h('span', { class: 'sacts', style: 'padding:0' });
-    if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: i.link, target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
+    if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: linkUrl(i.link), target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
     if (i.preview) { var rd = h('button', { class: 'mini txt', text: openDrafts[i.key] ? 'Hide draft' : 'Read draft' }); rd.addEventListener('click', function () { openDrafts[i.key] = !openDrafts[i.key]; S.forceSheet = true; renderSheet(); }); acts.insertBefore(rd, acts.firstChild); }
     var done = h('button', { class: 'mini', text: 'Done', 'data-act': 'done', 'data-key': i.key }); done.disabled = !S.canWrite;
     var fu = h('button', { class: 'mini', text: 'Follow up', 'data-act': 'followup', 'data-key': i.key }); fu.disabled = !S.canWrite;
@@ -1625,8 +1629,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       var li = h('li', { class: 'ticket' }, x.ask, h('small', { text: x.status + ' · ' + x.priority + (x.due ? ' · due ' + x.due : '') + ' · from Kev · ' + ago(x.createdAt) }));
       (x.attachments || []).forEach(function (f) { if (!f || !f.asset) return; if (/^image\//.test(f.type || 'image/')) li.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f.asset, alt: f.name || 'Photo sent with this ticket' })); else li.appendChild(h('a', { class: 'mini txt', href: '/_blob/' + f.asset, target: '_blank', rel: 'noopener', text: (f.name || 'File') })); });
       if (x.result && x.result.summary) li.appendChild(h('small', { text: 'Result: ' + x.result.summary }));
-      if (x.proposed) { li.appendChild(h('div', { class: 'exact', text: 'Exact action waiting for your yes (' + x.proposed.kind + '):\n' + x.proposed.exact })); if (x.proposed.link) li.appendChild(h('a', { class: 'mini txt', href: x.proposed.link, target: '_blank', rel: 'noopener', text: 'Decide in the Desk, not here' })); }
-      if (x.result && x.result.link) li.appendChild(h('a', { class: 'mini txt', href: x.result.link, target: '_blank', rel: 'noopener', text: 'Open the result' }));
+      if (x.proposed) { li.appendChild(h('div', { class: 'exact', text: 'Exact action waiting for your yes (' + x.proposed.kind + '):\n' + x.proposed.exact })); if (x.proposed.link) li.appendChild(h('a', { class: 'mini txt', href: linkUrl(x.proposed.link), target: '_blank', rel: 'noopener', text: 'Decide in the Desk, not here' })); }
+      if (x.result && x.result.link) li.appendChild(h('a', { class: 'mini txt', href: linkUrl(x.result.link), target: '_blank', rel: 'noopener', text: 'Open the result' }));
       ul.appendChild(li);
     });
     naps.forEach(function (x) {

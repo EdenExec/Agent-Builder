@@ -19,6 +19,17 @@ describe("office lights", () => {
     assert.deepEqual(Object.fromEntries(a.map((x) => [x.id, x.light])), { "sync-qc-a": "review", "sync-qc-b": "blocked", "sync-qc-c": "urgent" });
     assert.ok(a.every((x) => x.needsKev));
   });
+  test("a cleared gate opens its write-up and says what Kev decides (Kev, 23 Oct: no dead ends)", () => {
+    const withDoc = buildAlerts(base({ gates: [gate({ id: "d", doc: "projects/x/options.md", ask: "Take option A?" })] }))[0]!;
+    assert.equal(withDoc.link, "https://github.com/EdenExec/Agent-Builder/blob/claude/pensive-brown-18gll8/projects/x/options.md");
+    assert.equal(withDoc.why, "Your call: Take option A?");
+    const tickets = [{ id: "t1", agent: "tally", status: "done", doneAt: "2026-10-21T11:00:00Z", result: { summary: "Options memo, gate t-gate passed", link: "https://example.com/memo" } }];
+    const fromTicket = buildAlerts(base({ gates: [gate({ id: "t-gate" })], tickets }))[0]!;
+    assert.equal(fromTicket.link, "https://example.com/memo");
+    const bare = buildAlerts(base({ gates: [gate({ id: "none" })] }))[0]!;
+    assert.equal(bare.link, undefined);
+    assert.match(bare.why ?? "", /Ask for the write-up/);
+  });
   test("a recently cleared gate lights its preparer; an old one does not; a failed one is red and not for Kev", () => {
     const a = buildAlerts(base({ gates: [gate({ id: "new" }), gate({ id: "old", closedAt: "2026-10-10T00:00:00Z" }), gate({ id: "bad", status: "failed", preparer: "dean" })] }));
     assert.deepEqual(a.map((x) => [x.id, x.agent, x.light, x.needsKev]), [["sync-gate-new", "tally", "review", true], ["sync-gate-bad", "dean", "urgent", false]]);

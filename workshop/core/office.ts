@@ -121,6 +121,16 @@ export const superhumanLink = (threadId?: string) => (threadId ? `https://mail.s
 /** Kev approves QC items on the Eden Desk approval cards; Radar never approves (project permissions block it). */
 export const EDEN_DESK_URL = "https://claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G";
 
+/** Results and write-ups often live in the repo; a bare path opens nothing in the Office, so it becomes a GitHub link on Radar's branch. */
+export const REPO_BLOB = "https://github.com/EdenExec/Agent-Builder/blob/claude/pensive-brown-18gll8/";
+export const repoLink = (u?: string | null) => { const v = (u ?? "").trim(); return !v ? undefined : /^(https?:|mailto:)/i.test(v) ? v : REPO_BLOB + v.replace(/^\.?\/+/, ""); };
+
+/** The preparer's finished ticket that names this gate (its result summary or link mentions the gate id), newest first. */
+function gateTicket(g: { id: string; preparer: string }, tickets: TicketLite[]): TicketLite | undefined {
+  return tickets.filter((t) => t.agent === g.preparer && t.result?.link && `${t.result.summary ?? ""} ${t.result.link}`.includes(g.id))
+    .sort((a, b) => (b.doneAt ?? b.updatedAt ?? "").localeCompare(a.doneAt ?? a.updatedAt ?? ""))[0];
+}
+
 export function buildAlerts(input: SyncInput): Alert[] {
   const { now } = input;
   const out: Alert[] = [];
@@ -144,7 +154,14 @@ export function buildAlerts(input: SyncInput): Alert[] {
     if (g.status === "failed") {
       add({ id: `sync-gate-${g.id}`, agent: g.preparer, light: "urgent", kind: "gate", needsKev: false, raisedAt: g.closedAt ?? g.createdAt, source: `gates/${g.id}`, title: `Numbers gate failed: ${scrub(g.subject, 70)}` });
     } else if (g.status === "passed" && g.closedAt && ageMs(g.closedAt, now) <= GATE_RECENT_DAYS * DAY) {
-      add({ id: `sync-gate-${g.id}`, agent: g.preparer, light: "review", kind: "gate", needsKev: true, raisedAt: g.closedAt, source: `gates/${g.id}`, title: `Cleared the gate, ready for you: ${scrub(g.subject, 70)}` });
+      // Kev, 23 Oct 2026: "this notification doesn't take me anywhere". The alert opens the write-up (the gate's doc, else the preparer's
+      // finished ticket that names the gate) and says what he decides; Done means decided, Follow up sends it back.
+      const link = repoLink(g.doc ?? gateTicket(g, input.tickets ?? [])?.result?.link);
+      add({
+        id: `sync-gate-${g.id}`, agent: g.preparer, light: "review", kind: "gate", needsKev: true, raisedAt: g.closedAt, source: `gates/${g.id}`,
+        ...(link ? { link } : {}), title: `Cleared the gate, ready for you: ${scrub(g.subject, 70)}`,
+        why: g.ask ? `Your call: ${scrub(g.ask, 140)}` : `${g.items.length} of ${g.items.length} figures re-derived by ${g.checkedBy ?? g.checker}. ${link ? "Read it, then" : "Ask for the write-up, then"} tap Done when decided, Follow up to send it back.`,
+      });
     }
   }
 
