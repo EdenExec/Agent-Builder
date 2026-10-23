@@ -67,4 +67,5 @@ Read it aloud as Kev would on a call. Cut the first sentence if the second works
 
 - Title: "<Meeting type>: <Client> & Eden Exec". Client first, Eden Exec second, the meeting type up front. Example: "Zoom: Pruter Construction & Eden Exec".
 - Description: one or two lines on the purpose, the join link and meeting ID, then end with "If you have any trouble joining, give me a shout." and Kev's cell on the very last line: "Kev · 503-545-7075".
-- Client calls use Kev's own Zoom room (ID 530 401 3689). Take off the auto-added Google Meet link.
+- Every invite uses Eden HQ, Kev's personal Zoom: https://us06web.zoom.us/j/5304013689?pwd=CG3CQX7Qd7zugQjpuBhO8HPc52L9UG.1 (ID 530 401 3689). The old Interview Room is retired. Take off the auto-added Google Meet link.
+- Kev's cell is 503-545-7075 (confirmed 23 Oct).
