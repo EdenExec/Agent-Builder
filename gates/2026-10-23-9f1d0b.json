@@ -3,46 +3,66 @@
   "subject": "Office revenue and finance benches, 2026-10-23",
   "preparer": "tally",
   "checker": "docket",
-  "status": "open",
+  "status": "passed",
   "items": [
     {
       "label": "EPG revenue, month to date",
       "claimed": 0,
       "unit": "usd",
-      "source": "QuickBooks Online, company Eden Partner Group, Profit and Loss report, 2026-10-01 to 2026-10-23, line 'Total Income' (Income section only; excludes Other Income). The MCP P&L tool has no cash/accrual switch, so state the basis your own run shows."
+      "source": "QuickBooks Online, company Eden Partner Group, Profit and Loss report, 2026-10-01 to 2026-10-23, line 'Total Income' (Income section only; excludes Other Income). The MCP P&L tool has no cash/accrual switch, so state the basis your own run shows.",
+      "recomputed": 0,
+      "ok": true,
+      "note": "QBO P&L 2026-10-01..2026-10-23 via MCP text tool: Total Income $0.00 (Income section empty; tool output does not state basis). Expenses 38,880.77 booked, so period is live, income simply not booked."
     },
     {
       "label": "EPG revenue, year to date",
       "claimed": 578728,
       "unit": "usd",
-      "source": "QuickBooks Online, company Eden Partner Group, Profit and Loss report, 2026-01-01 to 2026-10-23, line 'Total Income' (Income section only; excludes Other Income such as Owner Compensation). Same basis caveat as month to date."
+      "source": "QuickBooks Online, company Eden Partner Group, Profit and Loss report, 2026-01-01 to 2026-10-23, line 'Total Income' (Income section only; excludes Other Income such as Owner Compensation). Same basis caveat as month to date.",
+      "recomputed": 578728,
+      "ok": true,
+      "note": "QBO P&L 2026-01-01..2026-10-23 via MCP text tool: Total Income 578,728.00 = Sales 519,628 + Services 59,100. Other Income (Owner Compensation -60,000) excluded. Basis not stated by tool; AR and AP both zero, so cash/accrual gap on income is unlikely to be material."
     },
     {
       "label": "EPG open AR, total",
       "claimed": 0,
       "unit": "usd",
-      "source": "QuickBooks Online, company Eden Partner Group, A/R Aging Summary as of 2026-10-23, report total across all customers and all buckets (accrual report; no cash version exists)."
+      "source": "QuickBooks Online, company Eden Partner Group, A/R Aging Summary as of 2026-10-23, report total across all customers and all buckets (accrual report; no cash version exists).",
+      "recomputed": 0,
+      "ok": true,
+      "note": "QBO A/R Aging Summary as of 2026-10-23: status no_data, no outstanding receivables. Balance sheet (cash) also shows AR 0.00."
     },
     {
       "label": "EPG open AR, 31+ days overdue",
       "claimed": 0,
       "unit": "usd",
-      "source": "QuickBooks Online, company Eden Partner Group, A/R Aging Summary as of 2026-10-23, sum of the 31-60, 61-90 and 91+ day buckets across all customers."
+      "source": "QuickBooks Online, company Eden Partner Group, A/R Aging Summary as of 2026-10-23, sum of the 31-60, 61-90 and 91+ day buckets across all customers.",
+      "recomputed": 0,
+      "ok": true,
+      "note": "QBO A/R Aging Summary as of 2026-10-23: no_data, so 31-60 + 61-90 + 91+ = 0."
     },
     {
       "label": "EPG open AP, total",
       "claimed": 0,
       "unit": "usd",
-      "source": "QuickBooks Online, company Eden Partner Group, A/P Aging Summary as of 2026-10-23, report total across all vendors and all buckets (accrual report)."
+      "source": "QuickBooks Online, company Eden Partner Group, A/P Aging Summary as of 2026-10-23, report total across all vendors and all buckets (accrual report).",
+      "recomputed": 0,
+      "ok": true,
+      "note": "QBO A/P Aging Summary as of 2026-10-23: status no_data, no unpaid vendor balances. Balance sheet (cash) also shows AP 0.00."
     },
     {
       "label": "EPG cash on hand",
       "claimed": 238674,
       "unit": "usd",
-      "source": "QuickBooks Online, company Eden Partner Group, Balance Sheet, cash basis, as of 2026-10-23, line 'Bank Accounts' (sum of the bank accounts; excludes Other Current Assets, loans to others and other assets). Rounded to whole dollars."
+      "source": "QuickBooks Online, company Eden Partner Group, Balance Sheet, cash basis, as of 2026-10-23, line 'Bank Accounts' (sum of the bank accounts; excludes Other Current Assets, loans to others and other assets). Rounded to whole dollars.",
+      "recomputed": 238674,
+      "ok": true,
+      "note": "QBO Balance Sheet, cash basis, as of 2026-10-23: Bank Accounts 238,673.68 (two Chase accounts), rounded to 238,674. Excludes Loans to others 1,500 and Other Assets 15,000."
     }
   ],
   "createdAt": "2026-10-23T05:35:22.507Z",
   "doc": "projects/virtual-office/benches/revenue.json",
-  "ask": "Nothing to decide: the Revenue bench is live. Flag anything that looks wrong."
+  "ask": "Nothing to decide: the Revenue bench is live. Flag anything that looks wrong.",
+  "checkedBy": "docket",
+  "closedAt": "2026-10-23T05:36:12.119Z"
 }

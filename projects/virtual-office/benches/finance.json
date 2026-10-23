@@ -1,32 +1,39 @@
 {
   "id": "finance",
   "owner": "Tally",
-  "source": "QuickBooks (EPG)",
-  "asOf": "2026-10-23T05:35:22Z",
+  "source": "QuickBooks (EPG), checked by Docket",
+  "asOf": "2026-10-23T05:40:00Z",
   "tiles": [
     {
       "label": "Cash on hand",
       "value": "$238,674",
-      "source": "QuickBooks Balance Sheet (EPG), cash basis, bank accounts, as of 23 Oct",
+      "source": "QuickBooks balance sheet, cash basis, two bank accounts",
       "asOf": "2026-10-23",
       "gate": "2026-10-23-9f1d0b",
-      "needsGate": true
+      "needsGate": false
     },
     {
-      "label": "Open AR",
+      "label": "Open AR (QuickBooks only)",
       "value": "$0",
-      "source": "QuickBooks A/R Aging Summary (EPG), accrual report, as of 23 Oct",
+      "source": "QuickBooks AR aging; the Hub's $55,000 past-due is not booked",
       "asOf": "2026-10-23",
       "gate": "2026-10-23-9f1d0b",
-      "needsGate": true
+      "needsGate": false
     },
     {
       "label": "Open AP",
       "value": "$0",
-      "source": "QuickBooks A/P Aging Summary (EPG), accrual report, as of 23 Oct",
+      "source": "QuickBooks AP aging",
       "asOf": "2026-10-23",
       "gate": "2026-10-23-9f1d0b",
-      "needsGate": true
+      "needsGate": false
+    },
+    {
+      "label": "Books to clean up (Joel)",
+      "value": "4 items",
+      "source": "Aug to Oct invoices not booked; Jul and Sep receipts not booked as income; Sep payroll still open; equity split looks off",
+      "asOf": "2026-10-23",
+      "needsGate": false
     },
     {
       "label": "Cash flow detail",

@@ -1,40 +1,40 @@
 {
   "id": "revenue",
   "owner": "Tally + Docket",
-  "source": "QuickBooks (EPG), cash basis where the tool allows; P&L basis unconfirmed",
-  "asOf": "2026-10-23T05:35:22Z",
+  "source": "QuickBooks (EPG), checked by Docket",
+  "asOf": "2026-10-23T05:40:00Z",
   "tiles": [
     {
-      "label": "Revenue \u00b7 month to date",
-      "value": "$0",
-      "source": "QuickBooks P&L (EPG), basis unconfirmed: tool has no cash switch, 1 Oct to 23 Oct",
+      "label": "Revenue · month to date",
+      "value": "Not yet booked ($0 in QuickBooks)",
+      "source": "QuickBooks P&L, 1 to 23 Oct. October income is not entered yet; expenses are, so Oct reads as a loss until it is",
       "asOf": "2026-10-23",
       "gate": "2026-10-23-9f1d0b",
-      "needsGate": true
+      "needsGate": false
     },
     {
-      "label": "Revenue \u00b7 year to date",
+      "label": "Revenue · year to date (QuickBooks-booked)",
       "value": "$578,728",
-      "source": "QuickBooks P&L (EPG), basis unconfirmed: tool has no cash switch, 1 Jan to 23 Oct",
+      "source": "QuickBooks P&L, 1 Jan to 23 Oct. The bank shows $620,378 of receipts through Sep: about $41.6K in Jul and Sep is not booked as income yet (Joel)",
       "asOf": "2026-10-23",
       "gate": "2026-10-23-9f1d0b",
-      "needsGate": true
+      "needsGate": false
     },
     {
-      "label": "Open AR \u00b7 31+ days: $0",
+      "label": "Open AR (QuickBooks only)",
       "value": "$0",
-      "source": "QuickBooks A/R Aging Summary (EPG), accrual report, as of 23 Oct",
+      "source": "QuickBooks AR aging. No invoices booked Aug to Oct; Cash Pulse and the Hub show a $55,000 past-due receivable that is not in QuickBooks (Joel)",
       "asOf": "2026-10-23",
       "gate": "2026-10-23-9f1d0b",
-      "needsGate": true
+      "needsGate": false
     },
     {
       "label": "Cash on hand",
       "value": "$238,674",
-      "source": "QuickBooks Balance Sheet (EPG), cash basis, bank accounts, as of 23 Oct",
+      "source": "QuickBooks balance sheet, cash basis, two bank accounts",
       "asOf": "2026-10-23",
       "gate": "2026-10-23-9f1d0b",
-      "needsGate": true
+      "needsGate": false
     }
   ]
 }
