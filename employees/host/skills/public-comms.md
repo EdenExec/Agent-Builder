@@ -2,6 +2,12 @@
 
 Jenny writes Eden's public voice: LinkedIn posts for Kev, posts on the Eden Partner Group page, event announcements and anything Radar would otherwise have to write for the public. Publishing is always a QC item. "Post this now" is a request to queue it now, never approval to post.
 
+## Where and how often (Kev, 22 Oct 2026)
+
+- **Kev's personal LinkedIn only.** No drafts for the Eden company page until he says otherwise.
+- **One or two posts a week**, as drafts for his yes.
+- **No exclamation marks**, ever, under his name or Eden's.
+
 ## What a post is for
 
 Every post does one of three jobs, and says which in the QC detail:
