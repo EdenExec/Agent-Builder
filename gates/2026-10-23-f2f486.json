@@ -1,0 +1,173 @@
+{
+  "id": "2026-10-23-f2f486",
+  "subject": "Boise internships review, 1099 memo, offer templates, training (23 Oct 2026): statutory figures and illustrations",
+  "preparer": "docket",
+  "checker": "tally",
+  "status": "open",
+  "items": [
+    {
+      "label": "Idaho and federal minimum wage per hour",
+      "claimed": 7.25,
+      "unit": "usd",
+      "source": "Idaho Code 44-1502(1), legislature.idaho.gov; cited in docket-review s.1 and both offer templates"
+    },
+    {
+      "label": "Idaho under-20 opportunity wage per hour",
+      "claimed": 4.25,
+      "unit": "usd",
+      "source": "Idaho Code 44-1502(3)"
+    },
+    {
+      "label": "Opportunity wage window",
+      "claimed": 90,
+      "unit": "days",
+      "source": "Idaho Code 44-1502(3), consecutive calendar days of employment"
+    },
+    {
+      "label": "Final pay outer limit after separation",
+      "claimed": 10,
+      "unit": "days",
+      "source": "Idaho Code 45-606(1), weekends and holidays excluded"
+    },
+    {
+      "label": "Final pay on written request, hours",
+      "claimed": 48,
+      "unit": "count",
+      "source": "Idaho Code 45-606(1), hours after receipt of written request"
+    },
+    {
+      "label": "Max lag from pay period end to payday",
+      "claimed": 15,
+      "unit": "days",
+      "source": "Idaho Code 45-608(2)"
+    },
+    {
+      "label": "Idaho late-wage penalty cap",
+      "claimed": 750,
+      "unit": "usd",
+      "source": "Idaho Code 45-607, maximum penalty"
+    },
+    {
+      "label": "Idaho late-wage penalty cap if paid before lien",
+      "claimed": 500,
+      "unit": "usd",
+      "source": "Idaho Code 45-607, reduced cap where wages paid in full before a 45-620 lien"
+    },
+    {
+      "label": "Idaho treble damages multiplier",
+      "claimed": 3,
+      "unit": "count",
+      "source": "Idaho Code 45-615, multiple of unpaid wages"
+    },
+    {
+      "label": "Idaho wage claim limitation, years",
+      "claimed": 2,
+      "unit": "count",
+      "source": "Idaho Code 45-614, general period"
+    },
+    {
+      "label": "FLSA limitation willful, years",
+      "claimed": 3,
+      "unit": "count",
+      "source": "29 USC 255(a), willful violation"
+    },
+    {
+      "label": "FLSA CMP repeated or willful per violation",
+      "claimed": 2515,
+      "unit": "usd",
+      "source": "29 CFR 578.3(a), current eCFR/LII text; DOL notice 27 May 2026 (91 FR, doc 2026-10456) on no 2026 adjustment"
+    },
+    {
+      "label": "3509(a) income tax withholding rate",
+      "claimed": 1.5,
+      "unit": "pct",
+      "source": "26 USC 3509(a)(1)"
+    },
+    {
+      "label": "3509(a) employee FICA share rate",
+      "claimed": 20,
+      "unit": "pct",
+      "source": "26 USC 3509(a)(2), percent of employee FICA"
+    },
+    {
+      "label": "1099-NEC threshold for 2026 payments",
+      "claimed": 2000,
+      "unit": "usd",
+      "source": "OBBBA (2025) change to IRC 6041; IRS 2026 Form 1099-NEC instructions"
+    },
+    {
+      "label": "WA pay transparency employer threshold",
+      "claimed": 15,
+      "unit": "count",
+      "source": "RCW 49.58.110(3), employees"
+    },
+    {
+      "label": "WA posting statutory damages maximum",
+      "claimed": 5000,
+      "unit": "usd",
+      "source": "RCW 49.58.110(4)-(5), per violation upper bound"
+    },
+    {
+      "label": "Idaho Human Rights Act employer threshold",
+      "claimed": 5,
+      "unit": "count",
+      "source": "Idaho Code 67-5902, employees for each working day in 20+ weeks"
+    },
+    {
+      "label": "Idaho WC uninsured add-on",
+      "claimed": 10,
+      "unit": "pct",
+      "source": "Idaho Code 72-210, percent of total compensation"
+    },
+    {
+      "label": "Illustration: intern annual pay",
+      "claimed": 20000,
+      "unit": "usd",
+      "source": "docket-1099 s.2 assumptions: 1,000 hours at the assumed hourly rate stated there, plus the assumed commission stated there"
+    },
+    {
+      "label": "Illustration: employer FICA",
+      "claimed": 1530,
+      "unit": "usd",
+      "source": "Illustration pay x combined employer FICA rate (6.2% OASDI + 1.45% Medicare, IRS Pub 15)"
+    },
+    {
+      "label": "Illustration: 3509(a) add-on",
+      "claimed": 606,
+      "unit": "usd",
+      "source": "Illustration pay x 3509(a)(1) rate, plus 3509(a)(2) rate x employee FICA (7.65% of pay)"
+    },
+    {
+      "label": "Illustration: 3509(b) doubled add-on",
+      "claimed": 1212,
+      "unit": "usd",
+      "source": "Same as 3509(a) add-on at 3509(b) rates (3% and 40%)"
+    },
+    {
+      "label": "Illustration: five interns, employer FICA plus 3509(a)",
+      "claimed": 10680,
+      "unit": "usd",
+      "source": "5 x (illustration employer FICA + illustration 3509(a) add-on)"
+    },
+    {
+      "label": "OT example: regular rate",
+      "claimed": 25,
+      "unit": "usd",
+      "source": "docket-1099 s.3: 45 hours at $15 plus $450 commission in the week; regular rate = total straight-time pay / hours (29 CFR 778.117)"
+    },
+    {
+      "label": "OT example: overtime premium",
+      "claimed": 62.5,
+      "unit": "usd",
+      "source": "0.5 x regular rate x hours over 40, same week"
+    },
+    {
+      "label": "OT example: total weekly pay",
+      "claimed": 1187.5,
+      "unit": "usd",
+      "source": "Straight-time pay plus commission plus overtime premium, same week"
+    }
+  ],
+  "createdAt": "2026-10-23T15:49:47.471Z",
+  "doc": "projects/workforce/boise-internships/docket-1099-and-offer-letters-2026-10-23.md"
+}

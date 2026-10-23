@@ -1,13 +1,23 @@
 {
-  "updated": "2026-10-23T15:40:00Z",
-  "on": "Boise hiring JDs drafted (internship program, 4 pathways + Remote/Hybrid Recruiter)",
+  "updated": "2026-10-23T16:10:00Z",
+  "on": "Docket liability review of Boise JDs done; must-fix posting lines applied to the doc",
   "doc": "https://claude.ai/artifact/3n2h6vUU7UsMMYk13rw61L",
-  "ticket": "t-202610231519-aedg (done)",
+  "ticket": "t-202610231545-kqvm (done); t-202610231519-aedg (done)",
   "waitingOnKev": [
     "Pay ranges for each pathway and the recruiter base",
     "Sales Intern stipend + commission terms (Docket to confirm minimum-wage coverage)",
     "Referral bonus amount, hours, start date, application link, benefits",
-    "Where to post (my pick: Boise State Handshake, then Indeed, LinkedIn); posting is a QC publish item"
+    "Where to post (my pick: Boise State Handshake, then Indeed, LinkedIn); posting is a QC publish item",
+    "Employer entity (EPG or EES) for intern payroll",
+    "Sales Intern commission: % of fee or flat per placement",
+    "States remote recruiters may work from",
+    "Outside employment counsel call (commission plans, screening/FCRA, existing 1099 team)",
+    "Tally numbers gate 2026-10-23-f2f486 open 0/27"
   ],
-  "next": "When blanks are filled, queue each posting as a QC publish item"
+  "next": "When blanks are filled, queue each posting as a QC publish item",
+  "docket": [
+    "projects/workforce/boise-internships/docket-review-2026-10-23.md",
+    "projects/workforce/boise-internships/docket-1099-and-offer-letters-2026-10-23.md",
+    "projects/workforce/boise-internships/intern-compliance-training.md"
+  ]
 }
