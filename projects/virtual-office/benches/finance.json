@@ -15,9 +15,9 @@
     {
       "label": "Owed to us · past due",
       "value": "$158,700 · 6 invoices, oldest 72 days late",
-      "source": "EPG Cash Pulse invoice list (Hub Rev Report), updated 17 Oct; not booked in QuickBooks yet",
+      "source": "EPG Cash Pulse invoice list (Hub Rev Report), updated 17 Oct; not booked in QuickBooks yet. Docket: 5 invoices due 14 to 16 Oct ($103,700) may have been paid since 17 Oct; check the bank before chasing",
       "asOf": "2026-10-17",
-      "needsGate": true,
+      "needsGate": false,
       "gate": "2026-10-23-82862f"
     },
     {
@@ -25,7 +25,7 @@
       "value": "$36,450 · 2 invoices",
       "source": "EPG Cash Pulse invoice list (Hub Rev Report), updated 17 Oct; not booked in QuickBooks yet",
       "asOf": "2026-10-17",
-      "needsGate": true,
+      "needsGate": false,
       "gate": "2026-10-23-82862f"
     },
     {
@@ -33,7 +33,7 @@
       "value": "$232,100 · 6 placements",
       "source": "EPG Cash Pulse invoice list (Hub Rev Report), updated 17 Oct; not booked in QuickBooks yet",
       "asOf": "2026-10-17",
-      "needsGate": true,
+      "needsGate": false,
       "gate": "2026-10-23-82862f"
     },
     {
