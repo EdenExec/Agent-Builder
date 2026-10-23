@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Round Table</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -640,22 +641,26 @@ a.go{font-weight:700}
   }
 
   /* ---------------- the live card (Kev, 23 Oct 2026) ----------------
-     people/{slug}/cards/{weekOf}  week_of (Monday), d (35 daily boxes, row by row Mon-Fri), w (7 weekly), cv (21: lived, fell short, next week per pillar),
+     people/{slug}/cards/{weekOf}  week_of (Monday), d (35 daily boxes, row by row Mon-Fri), w (8 weekly; w[7] is 'Push your job orders forward', added 23 Oct), cv (21: lived, fell short, next week per pillar),
        lived_out, autopsy, wins, next_week, burnout (1-10), coach_notes, needs, advice, kev_score (0-100, overrides the box score), pip, pip_reason, updated, updated_by
      Kev is the only writer (the db rule is admin). Every tap and every pause in typing saves. */
   var DAILY = [['Executing on the weekly plan', 'Worked the plan, not the inbox'], ['Don\u2019t chase the day', '15 RPs, on track by noon'], ['Activity / Inventory / Skill', 'JOs to required resumes; depth chart owned'], ['Power Hours hit', 'Power Hours taken seriously'], ['Reviewed my work', 'End-of-day admin + check-out'], ['Calendar set for tomorrow', 'Tomorrow booked before leaving'], ['Showed up sharp', '5 min early is the minimum']];
-  var WEEKLY = ['Audit your inventory', 'Build your own book', 'Autopsy your week', 'Grew toward my next role', 'Replied in a timely manner', 'Took training seriously', 'Sharp all week'];
+  /* 'Push your job orders forward' added 23 Oct (Kev). It is stored last (w[7]) so ticks already saved keep their boxes, and shown second, under the inventory audit. */
+  var WEEKLY = ['Audit your inventory', 'Build your own book', 'Autopsy your week', 'Grew toward my next role', 'Replied in a timely manner', 'Took training seriously', 'Sharp all week', 'Push your job orders forward'];
+  var WEEKLY_ORDER = [0, 7, 1, 2, 3, 4, 5, 6];
+  var WEEKLY_ASK = { 2: ['Are you building your depth charts?', 'Are you pulling out MPCs to market?', 'Are you telling the truth and feel good about the work?'] };
+  var CARD_BOXES = 35 + WEEKLY.length;
   var PILLARS = ['Righteousness', 'Winning', 'Accountability', 'Discipline', 'Transparency', 'Growth', 'Execution'];
   var DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
   function weekOfNow() { var d = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return ymd(d); }
-  function blankCard(wk) { var a = function (n) { var x = []; for (var i = 0; i < n; i++) x.push(false); return x; }; return { week_of: wk, d: a(35), w: a(7), cv: a(21) }; }
+  function blankCard(wk) { var a = function (n) { var x = []; for (var i = 0; i < n; i++) x.push(false); return x; }; return { week_of: wk, d: a(35), w: a(WEEKLY.length), cv: a(21) }; }
   function cardFor(wk) {
     if (S.edit && S.edit.week_of === wk && S.edit.slug === S.open) return S.edit.card;
     var doc = (S.data.cards || []).filter(function (c) { return c.id === wk; })[0], c = Object.assign(blankCard(wk), doc ? JSON.parse(JSON.stringify(doc)) : {});
     delete c.id; S.edit = { slug: S.open, week_of: wk, card: c }; return c;
   }
   function boxes(c) { var n = 0; (c.d || []).concat(c.w || []).forEach(function (b) { if (b) n++; }); return n; }
-  function cardScore(c) { return isNum(c.kev_score) ? c.kev_score : Math.round(boxes(c) / 42 * 100); }
+  function cardScore(c) { return isNum(c.kev_score) ? c.kev_score : Math.round(boxes(c) / CARD_BOXES * 100); }
   var saveT = null, saveState = '';
   function saveCard(now) {
     if (!S.edit) return; var e = S.edit; clearTimeout(saveT);
@@ -719,7 +724,7 @@ a.go{font-weight:700}
     var dh = h('tr', null, h('th', { class: 'lab', text: 'Daily · check out Mon\u2013Thu 4:30 · Fri 1:00' })); DAYS.forEach(function (d) { dh.appendChild(h('th', { text: d })); }); dh.appendChild(h('th', { text: '\u2713' }));
     el.appendChild(h('div', { class: 'scroll' }, h('table', { class: 'grid5' }, h('thead', null, dh), dt)));
     // weekly 7 and core values 21
-    var wt = h('tbody'); WEEKLY.forEach(function (m, i) { var on = !!c.w[i]; wt.appendChild(h('tr', null, h('td', { class: 'lab', text: m }), h('td', null, h('button', { class: 'bx', type: 'button', 'data-k': 'w', 'data-i': String(i), 'aria-pressed': String(on), 'aria-label': m, text: on ? '\u2713' : '' })))); });
+    var wt = h('tbody'); WEEKLY_ORDER.forEach(function (i) { var m = WEEKLY[i], on = !!(c.w || [])[i]; if (!c.w) c.w = []; wt.appendChild(h('tr', null, h('td', { class: 'lab' }, m, (WEEKLY_ASK[i] || []).length ? h('small', { text: WEEKLY_ASK[i].join(' ') }) : null), h('td', null, h('button', { class: 'bx', type: 'button', 'data-k': 'w', 'data-i': String(i), 'aria-pressed': String(on), 'aria-label': m, text: on ? '\u2713' : '' })))); });
     var vt = h('tbody'); PILLARS.forEach(function (m, i) {
       var row = h('tr', null, h('td', { class: 'lab', text: m }));
       ['Lived it', 'Fell short', 'Next week'].forEach(function (lab, j) { var k = i * 3 + j, on = !!c.cv[k]; row.appendChild(h('td', null, h('button', { class: 'bx' + (j === 1 ? ' short' : ''), type: 'button', 'data-k': 'cv', 'data-i': String(k), 'aria-pressed': String(on), 'aria-label': m + ', ' + lab, text: on ? '\u2713' : '' }))); });
@@ -730,7 +735,7 @@ a.go{font-weight:700}
       h('div', { class: 'scroll' }, h('table', { class: 'grid5' }, h('thead', null, h('tr', null, h('th', { class: 'lab', text: 'Core values' }), h('th', { text: 'Lived it' }), h('th', { text: 'Fell short' }), h('th', { text: 'Next wk' }))), vt))));
     // score
     var bx = boxes(c), sc = cardScore(c);
-    el.appendChild(h('div', { class: 'card-h' }, h('span', { class: 'score' }, String(bx), h('small', { text: '/ 42 boxes' })), h('span', { class: 'score' }, sc + '%', h('small', { text: isNum(c.kev_score) ? 'your score' : 'win at 90%' })), sc >= 90 ? h('span', { class: 'chip ok', text: 'Win' }) : (bx || isNum(c.kev_score) ? h('span', { class: 'chip warn', text: 'Under 90%' }) : null),
+    el.appendChild(h('div', { class: 'card-h' }, h('span', { class: 'score' }, String(bx), h('small', { text: '/ ' + CARD_BOXES + ' boxes' })), h('span', { class: 'score' }, sc + '%', h('small', { text: isNum(c.kev_score) ? 'your score' : 'win at 90%' })), sc >= 90 ? h('span', { class: 'chip ok', text: 'Win' }) : (bx || isNum(c.kev_score) ? h('span', { class: 'chip warn', text: 'Under 90%' }) : null),
       prev ? h('span', { class: 'stamp', text: 'Last week: ' + cardScore(prev) + '%' + (isNum(prev.kev_score) ? ' (your score)' : '') }) : null));
     // the recruiter's side
     var fld = function (key, label, ph) { return h('label', { class: 'fld' }, h('span', { text: label }), h('textarea', { 'data-f': key, id: 'f-' + key, placeholder: ph || '', text: c[key] || '' })); };
@@ -999,3 +1004,5 @@ a.go{font-weight:700}
   boot();
 })();
 </script>
+
+</body></html>

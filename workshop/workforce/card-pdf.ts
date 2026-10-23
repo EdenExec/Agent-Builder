@@ -14,11 +14,15 @@ type Counts = Partial<Record<"rps" | "mps" | "resumes" | "ptcs" | "subs" | "ftis
 type BoardRow = { slug: string; this?: Counts; last_same?: Counts; last_full?: Counts; rp_by_day?: Record<string, number> };
 
 export const DAILY = ["Executing on the weekly plan", "Don’t chase the day", "Activity / Inventory / Skill", "Power Hours hit", "Reviewed my work", "Calendar set for tomorrow", "Showed up sharp"];
-export const WEEKLY = ["Audit your inventory", "Build your own book", "Autopsy your week", "Grew toward my next role", "Replied in a timely manner", "Took training seriously", "Sharp all week"];
+// "Push your job orders forward" added 23 Oct (Kev). Stored last (w[7]) so saved ticks keep their boxes; shown second, as on the live card.
+export const WEEKLY = ["Audit your inventory", "Build your own book", "Autopsy your week", "Grew toward my next role", "Replied in a timely manner", "Took training seriously", "Sharp all week", "Push your job orders forward"];
+export const WEEKLY_ORDER = [0, 7, 1, 2, 3, 4, 5, 6];
+export const WEEKLY_ASK: Record<number, string[]> = { 2: ["Are you building your depth charts?", "Are you pulling out MPCs to market?", "Are you telling the truth and feel good about the work?"] };
+export const CARD_BOXES = 35 + WEEKLY.length;
 export const PILLARS = ["Righteousness", "Winning", "Accountability", "Discipline", "Transparency", "Growth", "Execution"];
 
 export const boxes = (c: Card) => [...(c.d ?? []), ...(c.w ?? [])].filter(Boolean).length;
-export const score = (c: Card) => (typeof c.kev_score === "number" ? c.kev_score : Math.round((boxes(c) / 42) * 100));
+export const score = (c: Card) => (typeof c.kev_score === "number" ? c.kev_score : Math.round((boxes(c) / CARD_BOXES) * 100));
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]!);
 const tick = (b?: boolean) => `<span class="bx${b ? " on" : ""}">${b ? "✓" : ""}</span>`;
@@ -46,14 +50,14 @@ function personPage(p: Person, c: Card, row: BoardRow | undefined, prev: Card | 
   const fld = (label: string, v?: string) => `<div class="fld"><b>${label}</b><p>${esc(v) || "<span class=mute>—</span>"}</p></div>`;
   return `<section class="page">
 <header><span>EDEN PARTNER GROUP</span><span>Weekly Scorecard · Round Table · week of ${esc(week)}</span></header>
-<div class="ph"><h1>${esc(p.name ?? p.id)}</h1><span class="role">${esc(p.role ?? "")}</span><span class="sc">${score(c)}%<small>${typeof c.kev_score === "number" ? " Kev's score" : ` ${boxes(c)} / 42 boxes`}</small></span>${c.pip ? '<span class="pipflag">PIP</span>' : ""}</div>
+<div class="ph"><h1>${esc(p.name ?? p.id)}</h1><span class="role">${esc(p.role ?? "")}</span><span class="sc">${score(c)}%<small>${typeof c.kev_score === "number" ? " Kev's score" : ` ${boxes(c)} / ${CARD_BOXES} boxes`}</small></span>${c.pip ? '<span class="pipflag">PIP</span>' : ""}</div>
 <table><tr><th class=l>Crelate</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>RPs</th><th>MPs</th><th>Resumes</th><th>PTCs</th><th>Subs</th><th>FTIs</th></tr>
 <tr><td class=l>This week</td>${[0, 1, 2, 3, 4].map((i) => `<td${(dayOf(i) ?? 0) >= 15 ? " class=b" : ""}>${n(dayOf(i))}</td>`).join("")}<td class=b>${n(t.rps)} / 75</td><td>${n(t.mps)}</td><td>${n(t.resumes)}</td><td>${n(t.ptcs)}</td><td>${n(t.subs)}</td><td>${n(t.ftis)}</td></tr>
 <tr><td class=l>Last wk, same point</td><td colspan=5></td><td>${n(l.rps)}</td><td>${n(l.mps)}</td><td>${n(l.resumes)}</td><td>${n(l.ptcs)}</td><td>${n(l.subs)}</td><td>${n(l.ftis)}</td></tr></table>
 ${w.length ? `<div class="watch"><b>Watch</b><ul>${w.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
 <table class=grid><tr><th class=l>Daily</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>✓</th></tr>
 ${DAILY.map((m, i) => `<tr><td class=l>${m}</td>${[0, 1, 2, 3, 4].map((j) => `<td>${tick(c.d?.[i * 5 + j])}</td>`).join("")}<td>${[0, 1, 2, 3, 4].filter((j) => c.d?.[i * 5 + j]).length}/5</td></tr>`).join("")}</table>
-<div class="two"><table class=grid><tr><th class=l>Weekly</th><th>✓</th></tr>${WEEKLY.map((m, i) => `<tr><td class=l>${m}</td><td>${tick(c.w?.[i])}</td></tr>`).join("")}</table>
+<div class="two"><table class=grid><tr><th class=l>Weekly</th><th>✓</th></tr>${WEEKLY_ORDER.map((i) => `<tr><td class=l>${WEEKLY[i]}${WEEKLY_ASK[i] ? `<small>${WEEKLY_ASK[i].join(" ")}</small>` : ""}</td><td>${tick(c.w?.[i])}</td></tr>`).join("")}</table>
 <table class=grid><tr><th class=l>Core values</th><th>Lived it</th><th>Fell short</th><th>Next wk</th></tr>${PILLARS.map((m, i) => `<tr><td class=l>${m}</td>${[0, 1, 2].map((j) => `<td>${tick(c.cv?.[i * 3 + j])}</td>`).join("")}</tr>`).join("")}</table></div>
 <div class="three">${fld("Where I lived it out", c.lived_out)}${fld("Autopsy", c.autopsy)}${fld("Wins and blockers", c.wins)}${fld("Next week I will", c.next_week)}${fld("Burn-out (1–10)", typeof c.burnout === "number" ? String(c.burnout) : "")}</div>
 <div class="coach"><b class="eb">Coach · Kev only</b><div class="three">${fld("Coaching notes", c.coach_notes)}${fld("Needs", c.needs)}${fld("Advice", c.advice)}</div>${c.pip ? fld("PIP: why", c.pip_reason) : ""}</div>
@@ -67,6 +71,7 @@ header,footer{display:flex;justify-content:space-between;font:600 8.5px/1 'Monts
 footer{border-bottom:0;border-top:1px solid #D9D4C8;padding-top:6px;margin-top:auto;color:#5E5B54}
 .ph{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}h1{margin:0;font-size:24px;font-weight:800}.role{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#5E5B54}
 .sc{margin-left:auto;font-size:22px;font-weight:800}.sc small{font-size:9px;font-weight:500;color:#5E5B54;margin-left:4px}
+td.l small{display:block;font-size:7.5px;color:#5E5B54;font-weight:500}
 .pipflag{border:1.5px solid #B03A2E;color:#B03A2E;font-weight:800;letter-spacing:.2em;padding:2px 6px}
 table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid #D9D4C8;padding:3px 4px;text-align:center;font-size:9.5px}
 th{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#5E5B54}.l{text-align:left}td.b{font-weight:700}
@@ -81,7 +86,7 @@ function teamPage(rows: { p: Person; c: Card; w: string[] }[], week: string, asO
   return `<section class="page"><header><span>EDEN PARTNER GROUP</span><span>Weekly Scorecard · Round Table</span></header>
 <h1>Round Table · week of ${esc(week)}</h1><p class="role">Crelate ${esc(asOf)} · cards as saved by Kev</p>
 <table class="team"><tr><th class=l>Name</th><th>Card</th><th>Boxes</th><th>Burn-out</th><th>PIP</th><th class=l>Watch</th></tr>
-${rows.map(({ p, c, w }) => `<tr><td class=l><b>${esc(p.name ?? p.id)}</b></td><td>${boxes(c) || typeof c.kev_score === "number" ? `${score(c)}%` : "–"}</td><td>${boxes(c) ? `${boxes(c)} / 42` : "–"}</td><td>${n(c.burnout)}</td><td>${c.pip ? "<b style=color:#B03A2E>PIP</b>" : ""}</td><td class=l>${esc(w.join(" "))}</td></tr>`).join("")}</table>
+${rows.map(({ p, c, w }) => `<tr><td class=l><b>${esc(p.name ?? p.id)}</b></td><td>${boxes(c) || typeof c.kev_score === "number" ? `${score(c)}%` : "–"}</td><td>${boxes(c) ? `${boxes(c)} / ${CARD_BOXES}` : "–"}</td><td>${n(c.burnout)}</td><td>${c.pip ? "<b style=color:#B03A2E>PIP</b>" : ""}</td><td class=l>${esc(w.join(" "))}</td></tr>`).join("")}</table>
 <footer><span>edenpartnergroup.com</span><span>Team</span><span>EDEN PARTNER GROUP</span></footer></section>`;
 }
 
