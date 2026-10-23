@@ -131,6 +131,35 @@ svg.trend .col.part{fill:none;stroke:var(--ink);stroke-dasharray:3 2}
 
 /* coaching, goals, money */
 .note{display:grid;gap:14px;max-width:70ch}
+/* the live card (Kev, 23 Oct): every box, pillar and note is tappable and saves itself */
+.card-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px}
+.watch{border:1.5px solid var(--a);background:var(--paper);padding:10px 12px;display:flex;flex-direction:column;gap:5px}
+.watch.ok{border-color:var(--g)}
+.watch b{font:500 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.watch li{font-size:13px;line-height:1.4}
+.watch ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+.grid5{width:100%;border-collapse:collapse;font-size:13px}
+.grid5 th,.grid5 td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:center}
+.grid5 td.lab,.grid5 th.lab{text-align:left}
+.grid5 td.lab small{display:block;font:500 10px/1.3 var(--mono);color:var(--mute)}
+.grid5 td.strong{font-weight:700}
+.bx{width:30px;height:30px;border:1.5px solid var(--ink);background:var(--paper);cursor:pointer;font:700 14px/1 var(--sans);color:var(--ink);padding:0;display:inline-flex;align-items:center;justify-content:center}
+.bx[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.bx.short[aria-pressed="true"]{background:var(--a);border-color:var(--a)}
+.bx:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.bx:disabled{opacity:.5;cursor:default}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fld span{font:500 10px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.fld textarea,.fld input{font:400 14px/1.45 var(--sans);color:var(--ink);background:var(--paper);border:1px solid var(--line);padding:8px;min-height:64px;width:100%;resize:vertical}
+.fld input{min-height:0}
+.fld textarea:focus,.fld input:focus{outline:2px solid var(--ink);outline-offset:0;border-color:var(--ink)}
+.coach{border:1.5px solid var(--ink);padding:14px;display:flex;flex-direction:column;gap:12px}
+.score{font:800 34px/1 var(--sans);font-variant-numeric:tabular-nums}
+.score small{font:500 12px var(--mono);color:var(--mute);margin-left:4px}
+.saved{font:500 10.5px/1.2 var(--mono);color:var(--mute)}
+.pip{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pip.on{border:1.5px solid var(--r);padding:10px}
 .note dt{font:500 10px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:3px}
 .note dd{margin:0;font-size:14px}
 .pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
@@ -236,7 +265,7 @@ a.go{font-weight:700}
 
   <main id="main" aria-live="polite"></main>
 
-  <div class="foot"><span>Work only &middot; no health, family or age &middot; read-only page &middot; numbers from Crelate, read-only</span><span id="status">connecting</span></div>
+  <div class="foot"><span>Work only &middot; no health, family or age &middot; cards save as you tap &middot; numbers from Crelate, read-only</span><span id="status">connecting</span></div>
 </div>
 
 <script type="application/json" id="board-snapshot">{"schema":1,"generated_at":"2026-10-23T03:46:46.540Z","as_of":"Thu 22 Oct 2026, 8:46 PM PT","source":"Crelate API v3, read-only (Crelate stays the system of record)","week":{"start":"2026-10-18","through":"2026-10-22","partial":true,"label":"Sun 18 Oct to Thu 22 Oct","note":"Weeks run Sunday to Saturday, Pacific. A week in progress is compared with last week to the same point, not with last week's full total."},"last_week":{"start":"2026-10-11","end":"2026-10-17","same_point_through":"2026-10-16T03:46:46.540Z","label":"Sun 11 Oct to Sat 17 Oct"},"goals":{"rps_per_day":15,"rps_week":75,"mps_per_day":20,"mps_week":100,"accelerator_per_quarter":25000,"recruiters_counted":6,"recruiters_in_goal":5,"rps_team_week":375,"mps_team_week":500,"accelerator_team_quarter":125000,"quarter":"Q4 2026","other_goals":"Resumes, PTCs, submittals, FTIs and offers: goal not set."},"metric_notes":{"rps":"Recruiting calls logged, counted as activities.","mps":"Crelate MP activity, unique contacts per recruiter. Kev's 20-a-day meaningful-connection goal is applied to it; meaningful connections are also tallied on the call sheet, which Crelate does not see.","resumes":"Resumes received, unique contacts.","ptcs":"Presented to client, unique contacts.","subs":"Submittal and Files, unique contacts.","ftis":"First-time interviews, unique contacts.","offers":"Contacts moved into an Offer stage on a job, by the person who moved them."},"team":{"this":{"rps":284,"mps":4,"resumes":17,"ptcs":20,"subs":14,"ftis":6,"offers":0},"last_same":{"rps":322,"mps":4,"resumes":26,"ptcs":9,"subs":13,"ftis":5,"offers":1},"last_full":{"rps":350,"mps":4,"resumes":32,"ptcs":17,"subs":15,"ftis":6,"offers":1}},"desk":{"this":{"rps":329,"mps":14,"resumes":21,"ptcs":27,"subs":14,"ftis":8,"offers":0},"last_same":{"rps":361,"mps":10,"resumes":26,"ptcs":20,"subs":14,"ftis":12,"offers":1},"last_full":{"rps":392,"mps":10,"resumes":33,"ptcs":34,"subs":16,"ftis":14,"offers":1}},"recruiters":[{"slug":"max","name":"Max","role":"Headhunter","group":"recruiter","status":"active","start":null,"in_goal":true,"this":{"rps":51,"mps":4,"resumes":2,"ptcs":3,"subs":5,"ftis":1,"offers":0},"last_same":{"rps":68,"mps":3,"resumes":6,"ptcs":4,"subs":9,"ftis":1,"offers":0},"last_full":{"rps":74,"mps":3,"resumes":6,"ptcs":4,"subs":10,"ftis":1,"offers":0},"rp_days_at_15":2,"rp_by_day":{"2026-10-22":17,"2026-10-21":7,"2026-10-20":11,"2026-10-19":16},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"evan","name":"Evan","role":"Headhunter","group":"recruiter","status":"active","start":null,"in_goal":true,"this":{"rps":58,"mps":0,"resumes":4,"ptcs":7,"subs":1,"ftis":2,"offers":0},"last_same":{"rps":63,"mps":0,"resumes":7,"ptcs":2,"subs":3,"ftis":2,"offers":0},"last_full":{"rps":73,"mps":0,"resumes":10,"ptcs":8,"subs":4,"ftis":3,"offers":0},"rp_days_at_15":2,"rp_by_day":{"2026-10-22":17,"2026-10-21":16,"2026-10-20":12,"2026-10-19":13},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"noah","name":"Noah","role":"Headhunter","group":"recruiter","status":"active","start":null,"in_goal":true,"this":{"rps":67,"mps":0,"resumes":4,"ptcs":5,"subs":7,"ftis":0,"offers":0},"last_same":{"rps":58,"mps":0,"resumes":6,"ptcs":1,"subs":0,"ftis":0,"offers":0},"last_full":{"rps":64,"mps":0,"resumes":8,"ptcs":1,"subs":0,"ftis":0,"offers":0},"rp_days_at_15":3,"rp_by_day":{"2026-10-22":20,"2026-10-21":15,"2026-10-20":14,"2026-10-19":18},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"andrew","name":"Andrew","role":"Headhunter","group":"recruiter","status":"active","start":null,"in_goal":true,"this":{"rps":47,"mps":0,"resumes":0,"ptcs":1,"subs":0,"ftis":0,"offers":0},"last_same":{"rps":70,"mps":0,"resumes":4,"ptcs":1,"subs":1,"ftis":0,"offers":1},"last_full":{"rps":76,"mps":0,"resumes":4,"ptcs":2,"subs":1,"ftis":0,"offers":1},"rp_days_at_15":1,"rp_by_day":{"2026-10-22":17,"2026-10-21":14,"2026-10-20":6,"2026-10-19":10},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"bridger","name":"Bridger","role":"Headhunter, remote","group":"recruiter","status":"active","start":null,"in_goal":true,"this":{"rps":61,"mps":0,"resumes":7,"ptcs":4,"subs":1,"ftis":3,"offers":0},"last_same":{"rps":63,"mps":1,"resumes":3,"ptcs":1,"subs":0,"ftis":2,"offers":0},"last_full":{"rps":63,"mps":1,"resumes":4,"ptcs":2,"subs":0,"ftis":2,"offers":0},"rp_days_at_15":3,"rp_by_day":{"2026-10-22":15,"2026-10-21":16,"2026-10-20":16,"2026-10-19":14},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"kunji","name":"Kunji","role":"Trainee","group":"recruiter","status":"active","start":null,"in_goal":false,"this":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"last_same":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"last_full":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"rp_days_at_15":0,"rp_by_day":{},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"kyle","name":"Kyle","role":"Incoming, Boise","group":"recruiter","status":"starts","start":"2026-11-02","in_goal":false,"this":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"last_same":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"last_full":{"rps":0,"mps":0,"resumes":0,"ptcs":0,"subs":0,"ftis":0,"offers":0},"rp_days_at_15":0,"rp_by_day":{},"revenue_qtd":null,"pct_to_accelerator":null}],"leadership":[{"slug":"nick","name":"Nick","role":"Operations","group":"leadership","status":"active","start":null,"in_goal":false,"this":{"rps":27,"mps":6,"resumes":2,"ptcs":3,"subs":0,"ftis":2,"offers":0},"last_same":{"rps":27,"mps":3,"resumes":0,"ptcs":1,"subs":0,"ftis":1,"offers":0},"last_full":{"rps":27,"mps":3,"resumes":0,"ptcs":3,"subs":0,"ftis":1,"offers":0},"rp_days_at_15":0,"rp_by_day":{"2026-10-21":7,"2026-10-20":7,"2026-10-19":13},"revenue_qtd":null,"pct_to_accelerator":null},{"slug":"kev","name":"Kev","role":"Founder","group":"leadership","status":"active","start":null,"in_goal":false,"this":{"rps":18,"mps":4,"resumes":2,"ptcs":4,"subs":0,"ftis":0,"offers":0},"last_same":{"rps":12,"mps":3,"resumes":0,"ptcs":10,"subs":1,"ftis":6,"offers":0},"last_full":{"rps":15,"mps":3,"resumes":1,"ptcs":14,"subs":1,"ftis":7,"offers":0},"rp_days_at_15":0,"rp_by_day":{"2026-10-22":1,"2026-10-21":6,"2026-10-19":11},"revenue_qtd":null,"pct_to_accelerator":null}],"jos":[{"id":"0683c27b-fdda-450e-a788-cdde0800ee81","num":7934,"name":"PB South - Assistant Superintendents - Project X or WPB","column":"RETAINED","this":{"rps":10,"resumes":1,"ptcs":0,"ftis":0},"last":{"rps":7,"resumes":1,"ptcs":0,"ftis":0},"people":["max","evan","andrew"]},{"id":"66cc230a-c697-41ed-b54d-eede0803d9f2","num":8041,"name":"Megawatt - Bay Area Electrical","column":"TOP","this":{"rps":7,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["noah","andrew"]},{"id":"e153d4e5-8579-4781-84d4-b4cc0104ee18","num":8426,"name":"Baker - INL Safety Managers - NKF 9/22/26","column":"TOP","this":{"rps":5,"resumes":1,"ptcs":4,"ftis":0},"last":{"rps":4,"resumes":3,"ptcs":0,"ftis":0},"people":["evan","noah"]},{"id":"572fc520-ba9c-4aba-866f-eadd0801ff9e","num":5278,"name":"PB South - City Place Supers","column":"RETAINED","this":{"rps":3,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":4,"resumes":0,"ptcs":2,"ftis":2},"people":["evan","andrew","nick","kev"]},{"id":"856ae6c4-0cc4-4cd4-a14e-09df08033bf4","num":8409,"name":"PB South - MEP Supers","column":"RETAINED","this":{"rps":3,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew","kev"]},{"id":"6f02f6fb-5f5a-4007-a95e-b4dd0116d971","num":8809,"name":"Hoffman Boise PE's","column":"GO NOW","this":{"rps":2,"resumes":4,"ptcs":0,"ftis":1},"last":{"rps":9,"resumes":1,"ptcs":0,"ftis":0},"people":["bridger","kev"]},{"id":"c258e58c-3531-4c57-8ecf-b4c800f0d6f8","num":8424,"name":"Triton Construction - MEP Super/Engineer","column":"RETAINED","this":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":6,"resumes":0,"ptcs":0,"ftis":0},"people":["evan","andrew","nick","kev"]},{"id":"37d2fc57-d073-4aca-a8dc-17de0804544a","num":6182,"name":"PB South APMs and PEs","column":"RETAINED","this":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":2,"resumes":0,"ptcs":4,"ftis":0},"people":["evan","kev"]},{"id":"7ce579f2-c9c0-4c61-ace5-e0de080362ea","num":7953,"name":"Megawatt - MEP - Nor CAL","column":"TOP","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew"]},{"id":"476ce384-509c-4603-a939-b4cd0018a388","num":8781,"name":"PB South- Field Engineers EVAN","column":"RETAINED","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"people":["evan"]},{"id":"474eb6c5-993e-4e5a-9fa8-d7de08031d0b","num":7943,"name":"PB SOUTH- General Super - WPB","column":"RETAINED","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":2,"ftis":0},"people":["evan","andrew","kev"]},{"id":"9996f96d-565a-4ed5-b843-68de0802f0b5","num":7304,"name":"Megawatt - MEP Managers","column":"Typical","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew"]},{"id":"8e7f587e-7d95-4c4f-b6c7-68de08030c0a","num":7306,"name":"Megawatt - PMs","column":"TOP","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["max"]},{"id":"12dfc7fd-828b-497f-b771-6dde08031f1f","num":7364,"name":"Megawatt - Asst Supers","column":"Typical","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["noah"]},{"id":"cb02dde1-c7f4-446a-82ed-b1de0803b534","num":7866,"name":"MW Supers (EV)","column":"Typical","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["noah"]},{"id":"b51ed4f6-5af6-427e-9569-e6de08006a64","num":7970,"name":"PB South- APM","column":"RETAINED","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["evan"]},{"id":"bb2d96af-ae5e-483a-a6e2-f7de0804d7b6","num":8047,"name":"Baker - SoFlo MPCs","column":"Typical","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["evan"]},{"id":"04e5dfa8-c329-40dc-b653-07df0802ebe3","num":8066,"name":"PB South- Miami PX","column":"TOP","this":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"people":["nick"]},{"id":"e09fc828-de09-4fa0-89ec-b4ce00170b44","num":8788,"name":"Triton - Purchasing + Procurement","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":24,"resumes":4,"ptcs":6,"ftis":0},"people":["max","kev"]},{"id":"05264db8-fab7-4b2e-922d-b4de00dfadb6","num":8810,"name":"PB South- Safety Manager - Project X","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":5,"ftis":0},"last":{"rps":8,"resumes":1,"ptcs":0,"ftis":0},"people":["evan","kev"]},{"id":"b9dedb6a-6ae4-445b-8645-b4c001097236","num":8415,"name":"Triton Construction - Miami Super","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":3,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew","nick"]},{"id":"4bd9f3f3-329d-40dd-937c-c0de0803b224","num":7901,"name":"Megawatt PM's RENO","column":"Typical","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":2,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew"]},{"id":"a7e1f23c-9fe6-420d-a024-68de080309bf","num":7305,"name":"Megawatt - Supers","column":"TOP","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"people":["nick"]},{"id":"c6a97e64-7c0c-45e7-aa97-74de08035db9","num":7463,"name":"PB South - General 2","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"people":["andrew"]},{"id":"2d755dd0-9862-42ff-b740-90de0802eebb","num":7807,"name":"Megawatt - Precon Bucket","column":"Typical","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"people":["nick"]},{"id":"f35251ab-c666-4ee4-b582-bcde0803c205","num":7890,"name":"VMG APMS","column":"TOP","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"people":["nick"]},{"id":"4a1cc5ad-2305-4015-8e79-07df0802fbe5","num":8067,"name":"PB South - Project Executive - Project X","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":0,"ftis":0},"people":["kev"]},{"id":"902f2682-af76-466c-9fc0-b4e2011b9590","num":8864,"name":"PB South - Controller - Propject X","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":1,"resumes":0,"ptcs":2,"ftis":0},"people":["noah","kev"]},{"id":"afdece4f-0e43-4796-b551-b4db0155b774","num":8806,"name":"PB South- Cost Engineer - Project X","column":"RETAINED","this":{"rps":0,"resumes":0,"ptcs":0,"ftis":0},"last":{"rps":0,"resumes":1,"ptcs":0,"ftis":0},"people":["max"]}],"jos_other":{"label":"Not on an active JO (buckets, portals, filled, closed)","this":{"rps":204,"resumes":11,"ptcs":17,"ftis":6},"last":{"rps":249,"resumes":15,"ptcs":16,"ftis":11}},"jos_none":{"label":"No job attached","this":{"rps":81,"resumes":4,"ptcs":1,"ftis":1},"last":{"rps":61,"resumes":7,"ptcs":2,"ftis":1}},"jos_meta":{"active_jobs_counted_from":"RETAINED, TOP, GO NOW and Typical columns","active_total":58,"with_activity":29,"jobs_read":70},"revenue":{"hub":{"status":"hub figure, not gated by Tally","billings_ytd":1069928,"pct_to_goal":45.53,"to_goal":1280072,"as_of":"read Thu 22 Oct 2026; Hub sheet last edited Fri 16 Oct 2026","source":"Hub sheet, The Hub tab, Annual Billings"},"recruiters":{"status":"not synced","why":"The Rev Report tab was not available as a full export. Re-run with --rev-csv <export of the 2026 Rev Report tab>.","quarter":"Q4 2026"}},"counts_meta":{"activities_read":894,"stage_jobs_read":70},"notes":["1 activity row(s) dated in the future were ignored.","285 of 329 RPs this week (87%) are not on an active JO: 81 have no job attached, 204 sit on buckets, portals or closed jobs."]}</script>
@@ -272,7 +301,8 @@ a.go{font-weight:700}
   function nice(s) { var t = dnum(s); if (t == null) return String(s || ''); var d = new Date(t); return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }); }
 
   var TABS = [
-    { id: 'score', label: 'Scorecard', secret: false },
+    { id: 'card', label: "This week's card", secret: false },
+    { id: 'score', label: 'Numbers and trend', secret: false },
     { id: 'coach', label: 'Coaching', secret: true },
     { id: 'rev', label: 'Revenue and commission', secret: true },
     { id: 'pct', label: 'Percent to goal', secret: true },
@@ -609,6 +639,132 @@ a.go{font-weight:700}
     return el;
   }
 
+  /* ---------------- the live card (Kev, 23 Oct 2026) ----------------
+     people/{slug}/cards/{weekOf}  week_of (Monday), d (35 daily boxes, row by row Mon-Fri), w (7 weekly), cv (21: lived, fell short, next week per pillar),
+       lived_out, autopsy, wins, next_week, burnout (1-10), coach_notes, needs, advice, kev_score (0-100, overrides the box score), pip, pip_reason, updated, updated_by
+     Kev is the only writer (the db rule is admin). Every tap and every pause in typing saves. */
+  var DAILY = [['Executing on the weekly plan', 'Worked the plan, not the inbox'], ['Don\u2019t chase the day', '15 RPs, on track by noon'], ['Activity / Inventory / Skill', 'JOs to required resumes; depth chart owned'], ['Power Hours hit', 'Power Hours taken seriously'], ['Reviewed my work', 'End-of-day admin + check-out'], ['Calendar set for tomorrow', 'Tomorrow booked before leaving'], ['Showed up sharp', '5 min early is the minimum']];
+  var WEEKLY = ['Audit your inventory', 'Build your own book', 'Autopsy your week', 'Grew toward my next role', 'Replied in a timely manner', 'Took training seriously', 'Sharp all week'];
+  var PILLARS = ['Righteousness', 'Winning', 'Accountability', 'Discipline', 'Transparency', 'Growth', 'Execution'];
+  var DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+  function weekOfNow() { var d = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return ymd(d); }
+  function blankCard(wk) { var a = function (n) { var x = []; for (var i = 0; i < n; i++) x.push(false); return x; }; return { week_of: wk, d: a(35), w: a(7), cv: a(21) }; }
+  function cardFor(wk) {
+    if (S.edit && S.edit.week_of === wk && S.edit.slug === S.open) return S.edit.card;
+    var doc = (S.data.cards || []).filter(function (c) { return c.id === wk; })[0], c = Object.assign(blankCard(wk), doc ? JSON.parse(JSON.stringify(doc)) : {});
+    delete c.id; S.edit = { slug: S.open, week_of: wk, card: c }; return c;
+  }
+  function boxes(c) { var n = 0; (c.d || []).concat(c.w || []).forEach(function (b) { if (b) n++; }); return n; }
+  function cardScore(c) { return isNum(c.kev_score) ? c.kev_score : Math.round(boxes(c) / 42 * 100); }
+  var saveT = null, saveState = '';
+  function saveCard(now) {
+    if (!S.edit) return; var e = S.edit; clearTimeout(saveT);
+    var go = function () {
+      if (!S.live || !S.db) { saveState = 'Example: not saved'; paintSaved(); return; }
+      var doc = Object.assign({}, e.card, { week_of: e.week_of, boxes: boxes(e.card), score: cardScore(e.card), updated: new Date().toISOString(), updated_by: 'kev' });
+      saveState = 'Saving…'; paintSaved();
+      S.db.doc('people/' + e.slug + '/cards/' + e.week_of).set(doc).then(function () { saveState = 'Saved ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); paintSaved(); }, function () { saveState = 'Did not save. Check your connection and tap again.'; paintSaved(); });
+    };
+    if (now) go(); else saveT = setTimeout(go, 700);
+  }
+  function paintSaved() { var el = document.getElementById('card-saved'); if (el) el.textContent = saveState; }
+  function boardRow(slug) { var b = S.board || {}; return (b.recruiters || []).concat(b.leadership || []).filter(function (r) { return r.slug === slug; })[0] || null; }
+  /* what to watch: this week's Crelate pace against last week to the same point, the standard, and last week's card */
+  function watchList(p, c, prevCard) {
+    var r = boardRow(p.id), out = [];
+    if (r && r.in_goal !== false) {
+      var t = r.this || {}, l = r.last_same || {};
+      var dn = function (k, label) { if (isNum(t[k]) && isNum(l[k]) && l[k] > 0 && t[k] < l[k] * .85) out.push(label + ' down ' + Math.round((1 - t[k] / l[k]) * 100) + '% on last week to the same point (' + t[k] + ' vs ' + l[k] + ').'); };
+      dn('rps', 'RPs'); dn('ptcs', 'PTCs'); dn('subs', 'Submittals'); dn('ftis', 'FTIs');
+      var days = Object.keys(r.rp_by_day || {}).length;
+      if (days && isNum(r.rp_days_at_15) && r.rp_days_at_15 < days) out.push('Hit 15 RPs on ' + r.rp_days_at_15 + ' of ' + days + ' days logged so far.');
+      if (isNum(t.rps) && isNum(l.rps) && t.rps < STD_RPS && (S.board && S.board.week && !S.board.week.partial)) out.push('Finished under the 75-RP standard (' + t.rps + ').');
+    }
+    var sc = cardScore(c), any = boxes(c) > 0 || isNum(c.kev_score);
+    if (any && sc < 90) out.push('Card at ' + sc + '%, under the 90% win line.');
+    if (prevCard && (isNum(prevCard.kev_score) || boxes(prevCard) > 0) && cardScore(prevCard) < 90 && any && sc < 90) out.push('Two weeks in a row under 90%: time for a PIP conversation?');
+    return out;
+  }
+  function tCard(p) {
+    var el = h('div', { class: 'panel livecard', role: 'tabpanel' }), wk = weekOfNow();
+    if (!S.loaded.cards && S.live) { el.appendChild(h('div', { class: 'empty', text: 'Loading the card…' })); return el; }
+    var c = cardFor(wk), list = sortedRows(S.data.cards), prev = list.filter(function (x) { return x.id < wk; }).slice(-1)[0] || null, r = boardRow(p.id);
+    var ro = !S.live && !S.example ? true : false;
+    el.appendChild(h('div', { class: 'card-h' }, h('h3', { text: 'Week of ' + nice(wk) }), h('span', { class: 'stamp', text: S.board && S.board.as_of ? 'Crelate as of ' + S.board.as_of : 'Crelate not pulled yet' }), h('span', { class: 'saved', id: 'card-saved', text: saveState })));
+    // Crelate strip
+    if (r) {
+      var t = r.this || {}, l = r.last_full || {}, ls = r.last_same || {}, tb = h('tbody'), byDay = r.rp_by_day || {}, dk = Object.keys(byDay).sort();
+      var dayCells = DAYS.map(function (d, i) { var k = dk.filter(function (x) { return new Date(x + 'T12:00:00Z').getUTCDay() === i + 1; })[0], v = k ? byDay[k] : null; return h('td', { class: 'num' + (isNum(v) && v >= STD_DAY ? ' strong' : ''), text: isNum(v) ? String(v) : '–' }); });
+      var tr = h('tr', null, h('td', { class: 'lab', text: 'RPs by day' })); dayCells.forEach(function (x) { tr.appendChild(x); }); tb.appendChild(tr);
+      var hdr = h('tr', null, h('th', { class: 'lab', text: 'Crelate' })); DAYS.forEach(function (d) { hdr.appendChild(h('th', { text: d })); });
+      el.appendChild(h('div', { class: 'scroll' }, h('table', { class: 'grid5' }, h('thead', null, hdr), tb)));
+      var mt = h('tbody');
+      [['rps', 'RPs'], ['mps', 'MPs'], ['resumes', 'Resumes'], ['ptcs', 'PTCs'], ['subs', 'Submittals'], ['ftis', 'FTIs']].forEach(function (m) {
+        var v = t[m[0]], same = ls[m[0]], arrow = isNum(v) && isNum(same) ? (v > same ? '\u2191' : v < same ? '\u2193' : '=') : '';
+        mt.appendChild(h('tr', null, h('td', { class: 'lab', text: m[1] }), h('td', { class: 'num', text: fmt(v) + (m[0] === 'rps' ? ' / 75' : '') }), h('td', { class: 'num', text: fmt(same) }), h('td', { class: 'num', text: fmt(l[m[0]]) }), h('td', { text: arrow })));
+      });
+      el.appendChild(h('div', { class: 'scroll' }, h('table', { class: 'grid5' }, h('thead', null, h('tr', null, h('th', { class: 'lab', text: 'Week over week' }), h('th', { text: 'This week' }), h('th', { text: 'Last wk, same point' }), h('th', { text: 'Last wk, full' }), h('th', { text: '' }))), mt)));
+    } else el.appendChild(h('div', { class: 'empty', text: 'No Crelate row for this person on the board yet.' }));
+    // what to watch
+    var wl = watchList(p, c, prev), wb = h('div', { class: 'watch' + (wl.length ? '' : ' ok') }, h('b', { text: wl.length ? 'Watch' : 'Nothing to watch yet' }));
+    if (wl.length) { var ul = h('ul'); wl.forEach(function (x) { ul.appendChild(h('li', { text: x })); }); wb.appendChild(ul); }
+    el.appendChild(wb);
+    // daily 35
+    var dt = h('tbody');
+    DAILY.forEach(function (m, i) {
+      var row = h('tr', null, h('td', { class: 'lab' }, m[0], h('small', { text: m[1] }))), n = 0;
+      DAYS.forEach(function (d, j) { var k = i * 5 + j, on = !!c.d[k]; if (on) n++; row.appendChild(h('td', null, h('button', { class: 'bx', type: 'button', 'data-k': 'd', 'data-i': String(k), 'aria-pressed': String(on), 'aria-label': m[0] + ', ' + d, text: on ? '\u2713' : '' }))); });
+      row.appendChild(h('td', { class: 'num', text: n + '/5' })); dt.appendChild(row);
+    });
+    var dh = h('tr', null, h('th', { class: 'lab', text: 'Daily · check out Mon\u2013Thu 4:30 · Fri 1:00' })); DAYS.forEach(function (d) { dh.appendChild(h('th', { text: d })); }); dh.appendChild(h('th', { text: '\u2713' }));
+    el.appendChild(h('div', { class: 'scroll' }, h('table', { class: 'grid5' }, h('thead', null, dh), dt)));
+    // weekly 7 and core values 21
+    var wt = h('tbody'); WEEKLY.forEach(function (m, i) { var on = !!c.w[i]; wt.appendChild(h('tr', null, h('td', { class: 'lab', text: m }), h('td', null, h('button', { class: 'bx', type: 'button', 'data-k': 'w', 'data-i': String(i), 'aria-pressed': String(on), 'aria-label': m, text: on ? '\u2713' : '' })))); });
+    var vt = h('tbody'); PILLARS.forEach(function (m, i) {
+      var row = h('tr', null, h('td', { class: 'lab', text: m }));
+      ['Lived it', 'Fell short', 'Next week'].forEach(function (lab, j) { var k = i * 3 + j, on = !!c.cv[k]; row.appendChild(h('td', null, h('button', { class: 'bx' + (j === 1 ? ' short' : ''), type: 'button', 'data-k': 'cv', 'data-i': String(k), 'aria-pressed': String(on), 'aria-label': m + ', ' + lab, text: on ? '\u2713' : '' }))); });
+      vt.appendChild(row);
+    });
+    el.appendChild(h('div', { class: 'two' },
+      h('div', { class: 'scroll' }, h('table', { class: 'grid5' }, h('thead', null, h('tr', null, h('th', { class: 'lab', text: 'Weekly must-dos' }), h('th', { text: '\u2713' }))), wt)),
+      h('div', { class: 'scroll' }, h('table', { class: 'grid5' }, h('thead', null, h('tr', null, h('th', { class: 'lab', text: 'Core values' }), h('th', { text: 'Lived it' }), h('th', { text: 'Fell short' }), h('th', { text: 'Next wk' }))), vt))));
+    // score
+    var bx = boxes(c), sc = cardScore(c);
+    el.appendChild(h('div', { class: 'card-h' }, h('span', { class: 'score' }, String(bx), h('small', { text: '/ 42 boxes' })), h('span', { class: 'score' }, sc + '%', h('small', { text: isNum(c.kev_score) ? 'your score' : 'win at 90%' })), sc >= 90 ? h('span', { class: 'chip ok', text: 'Win' }) : (bx || isNum(c.kev_score) ? h('span', { class: 'chip warn', text: 'Under 90%' }) : null),
+      prev ? h('span', { class: 'stamp', text: 'Last week: ' + cardScore(prev) + '%' + (isNum(prev.kev_score) ? ' (your score)' : '') }) : null));
+    // the recruiter's side
+    var fld = function (key, label, ph) { return h('label', { class: 'fld' }, h('span', { text: label }), h('textarea', { 'data-f': key, id: 'f-' + key, placeholder: ph || '', text: c[key] || '' })); };
+    el.appendChild(h('div', { class: 'two' }, fld('lived_out', 'Where I lived it out this week'), fld('autopsy', 'Autopsy: what I\u2019d do differently'), fld('wins', 'Wins and blockers'), fld('next_week', 'Next week I will'),
+      h('label', { class: 'fld' }, h('span', { text: 'Burn-out (1 fried \u2013 10 fresh)' }), h('input', { type: 'number', min: '1', max: '10', step: '1', 'data-f': 'burnout', id: 'f-burnout', value: isNum(c.burnout) ? String(c.burnout) : '' }))));
+    // Kev's side
+    if (!S.share) {
+      var co = h('div', { class: 'coach' }, h('div', { class: 'eyebrow', text: 'Coach · Kev only, never sent to the recruiter' }));
+      co.appendChild(h('div', { class: 'two' }, fld('coach_notes', 'Coaching notes'), fld('needs', 'Needs'), fld('advice', 'Advice'),
+        h('label', { class: 'fld' }, h('span', { text: 'Your score (%), overrides the box count' }), h('input', { type: 'number', min: '0', max: '100', step: '1', 'data-f': 'kev_score', id: 'f-kev_score', value: isNum(c.kev_score) ? String(c.kev_score) : '' }))));
+      var pipOn = !!c.pip;
+      co.appendChild(h('div', { class: 'pip' + (pipOn ? ' on' : '') }, h('button', { class: 'bx short', type: 'button', 'data-k': 'pip', 'aria-pressed': String(pipOn), 'aria-label': 'Needs a PIP', text: pipOn ? '\u2713' : '' }), h('b', { text: 'Needs a PIP' }),
+        h('span', { class: 'stamp', text: pipOn ? 'Dean drafts the PIP and Docket checks the wording; it comes to you with the end-of-day PDF. Nothing goes to the recruiter.' : 'Tick it and Dean drafts one for you to review today.' })));
+      if (pipOn) co.appendChild(fld('pip_reason', 'Why, in your words', 'The standard missed, by how much, for how long'));
+      el.appendChild(co);
+    }
+    el.appendChild(sectionNote('Every box and note saves as you go. Crelate refreshes at 9:55am PT on Fridays; the cards come to you as a PDF at the end of the day.'));
+    return el;
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.livecard .bx[data-k]'); if (!b || !S.edit) return;
+    var k = b.getAttribute('data-k'), c = S.edit.card;
+    if (k === 'pip') c.pip = !c.pip; else { var i = +b.getAttribute('data-i'); c[k][i] = !c[k][i]; }
+    saveCard(true); render();
+    var back = document.querySelector('.livecard .bx[data-k="' + k + '"]' + (k === 'pip' ? '' : '[data-i="' + b.getAttribute('data-i') + '"]')); if (back) back.focus();
+  });
+  document.addEventListener('input', function (e) {
+    var f = e.target.closest && e.target.closest('.livecard [data-f]'); if (!f || !S.edit) return;
+    var key = f.getAttribute('data-f'), v = f.value;
+    if (key === 'burnout' || key === 'kev_score') { var n = v === '' ? null : Math.max(0, Math.min(key === 'burnout' ? 10 : 100, Math.round(+v))); if (n == null || !isFinite(n)) delete S.edit.card[key]; else S.edit.card[key] = n; }
+    else S.edit.card[key] = v;
+    saveCard(false);
+  });
+  document.addEventListener('change', function (e) { var f = e.target.closest && e.target.closest('.livecard [data-f]'); if (f && (f.getAttribute('data-f') === 'kev_score' || f.getAttribute('data-f') === 'burnout')) { saveCard(true); render(); } });
   function trend(list) {
     var ns = 'http://www.w3.org/2000/svg', W = 520, H = 190, top = 24, bot = 150, max = Math.max(STD_RPS * 1.2, Math.max.apply(null, list.map(function (r) { return isNum(r.rps) ? r.rps : 0; })) * 1.1);
     var svg = document.createElementNS(ns, 'svg'); svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); svg.setAttribute('class', 'trend'); svg.setAttribute('role', 'img');
@@ -743,7 +899,7 @@ a.go{font-weight:700}
     var head = h('div', { class: 'ohead' }, h('div', null, h('h2', { text: p.name || p.id }), h('div', { class: 'role', text: p.role || '' }), p.light_why ? h('p', { class: 'why', text: p.light_why }) : null), h('div', { class: 'row' }, S.example ? h('span', { class: 'chip ex', text: 'Example' }) : null, lightWord(p.light)));
     var tabs = TABS.filter(function (t) { return !(S.share && t.secret); }), tl = h('div', { class: 'tabs', role: 'tablist', 'aria-label': 'Folder sections' });
     tabs.forEach(function (t) { tl.appendChild(h('button', { class: 'tab', type: 'button', role: 'tab', id: 'tab-' + t.id, 'data-tab': t.id, 'aria-selected': String(S.tab === t.id), tabindex: S.tab === t.id ? '0' : '-1', text: t.label })); });
-    var body = { score: tScore, coach: tCoach, rev: tRev, pct: tPct, ten: tTen, del: tDel }[S.tab] || tScore;
+    var body = { card: tCard, score: tScore, coach: tCoach, rev: tRev, pct: tPct, ten: tTen, del: tDel }[S.tab] || tScore;
     var panel = body(p); panel.setAttribute('aria-labelledby', 'tab-' + S.tab);
     box.appendChild(h('section', { class: 'open' }, head, tl, panel));
     return box;
@@ -762,26 +918,28 @@ a.go{font-weight:700}
   function status(t) { S.status = t; var e = $('#status'); if (e) e.textContent = t; }
 
   function unsubAll() { S.unsubs.forEach(function (u) { try { u(); } catch (e) {} }); S.unsubs = []; }
-  function sections() { return S.share ? ['scorecards', 'goals', 'deliverables'] : ['scorecards', 'coaching', 'money', 'goals', 'deliverables']; }
+  function sections() { return S.share ? ['scorecards', 'cards', 'goals', 'deliverables'] : ['scorecards', 'cards', 'coaching', 'money', 'goals', 'deliverables']; }
   function closeFolder() {
-    unsubAll(); S.open = null; S.data = {}; S.loaded = {}; S.tab = 'score';
+    unsubAll(); S.open = null; S.data = {}; S.loaded = {}; S.tab = 'card';
     try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
   }
   function openFolder(slug) {
-    unsubAll(); S.open = slug; S.tab = 'score'; S.data = {}; S.loaded = {};
+    unsubAll(); S.open = slug; S.tab = 'card'; S.data = {}; S.loaded = {}; S.edit = null;
     try { history.replaceState(null, '', '#' + slug); } catch (e) {}
     var keys = sections();
     if (S.live) {
       keys.forEach(function (k) {
         S.unsubs.push(S.db.collection('people/' + slug + '/' + k).onSnapshot(function (s) {
           if (S.open !== slug) return;
-          S.data[k] = s.docs.map(own); S.loaded[k] = true; render();
+          S.data[k] = s.docs.map(own); S.loaded[k] = true;
+          var ae = document.activeElement; if (k === 'cards' && ae && ae.closest && ae.closest('.livecard') && /^(TEXTAREA|INPUT)$/.test(ae.tagName)) return;   // never rebuild under typing
+          render();
         }, function () { if (S.open !== slug) return; S.data[k] = []; S.loaded[k] = true; status('could not read ' + k); render(); }));
       });
     } else if (EX[slug]) {
       keys.forEach(function (k) { S.data[k] = JSON.parse(JSON.stringify(EX[slug][k] || [])); S.loaded[k] = true; });
     }
-    render('#tab-score'); window.scrollTo(0, 0);
+    render('#tab-card'); window.scrollTo(0, 0);
   }
 
   document.addEventListener('click', function (e) {
