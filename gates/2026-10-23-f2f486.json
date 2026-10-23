@@ -3,171 +3,254 @@
   "subject": "Boise internships review, 1099 memo, offer templates, training (23 Oct 2026): statutory figures and illustrations",
   "preparer": "docket",
   "checker": "tally",
-  "status": "open",
+  "status": "passed",
   "items": [
     {
       "label": "Idaho and federal minimum wage per hour",
       "claimed": 7.25,
       "unit": "usd",
-      "source": "Idaho Code 44-1502(1), legislature.idaho.gov; cited in docket-review s.1 and both offer templates"
+      "source": "Idaho Code 44-1502(1), legislature.idaho.gov; cited in docket-review s.1 and both offer templates",
+      "recomputed": 7.25,
+      "ok": true,
+      "note": "Idaho Code 44-1502(1) page read 23 Oct"
     },
     {
       "label": "Idaho under-20 opportunity wage per hour",
       "claimed": 4.25,
       "unit": "usd",
-      "source": "Idaho Code 44-1502(3)"
+      "source": "Idaho Code 44-1502(3)",
+      "recomputed": 4.25,
+      "ok": true,
+      "note": "44-1502(3) page read"
     },
     {
       "label": "Opportunity wage window",
       "claimed": 90,
       "unit": "days",
-      "source": "Idaho Code 44-1502(3), consecutive calendar days of employment"
+      "source": "Idaho Code 44-1502(3), consecutive calendar days of employment",
+      "recomputed": 90,
+      "ok": true,
+      "note": "44-1502(3): 90 consecutive calendar days"
     },
     {
       "label": "Final pay outer limit after separation",
       "claimed": 10,
       "unit": "days",
-      "source": "Idaho Code 45-606(1), weekends and holidays excluded"
+      "source": "Idaho Code 45-606(1), weekends and holidays excluded",
+      "recomputed": 10,
+      "ok": true,
+      "note": "45-606(1) page read; earlier of next payday or 10 days, weekends/holidays excluded"
     },
     {
       "label": "Final pay on written request, hours",
       "claimed": 48,
       "unit": "count",
-      "source": "Idaho Code 45-606(1), hours after receipt of written request"
+      "source": "Idaho Code 45-606(1), hours after receipt of written request",
+      "recomputed": 48,
+      "ok": true,
+      "note": "45-606(1) page read; weekends/holidays excluded"
     },
     {
       "label": "Max lag from pay period end to payday",
       "claimed": 15,
       "unit": "days",
-      "source": "Idaho Code 45-608(2)"
+      "source": "Idaho Code 45-608(2)",
+      "recomputed": 15,
+      "ok": true,
+      "note": "45-608(2) page read"
     },
     {
       "label": "Idaho late-wage penalty cap",
       "claimed": 750,
       "unit": "usd",
-      "source": "Idaho Code 45-607, maximum penalty"
+      "source": "Idaho Code 45-607, maximum penalty",
+      "recomputed": 750,
+      "ok": true,
+      "note": "45-607 page read"
     },
     {
       "label": "Idaho late-wage penalty cap if paid before lien",
       "claimed": 500,
       "unit": "usd",
-      "source": "Idaho Code 45-607, reduced cap where wages paid in full before a 45-620 lien"
+      "source": "Idaho Code 45-607, reduced cap where wages paid in full before a 45-620 lien",
+      "recomputed": 500,
+      "ok": true,
+      "note": "45-607 page read"
     },
     {
       "label": "Idaho treble damages multiplier",
       "claimed": 3,
       "unit": "count",
-      "source": "Idaho Code 45-615, multiple of unpaid wages"
+      "source": "Idaho Code 45-615, multiple of unpaid wages",
+      "recomputed": 3,
+      "ok": true,
+      "note": "45-615(2) page read; greater of unpaid wages plus penalties or 3x"
     },
     {
       "label": "Idaho wage claim limitation, years",
       "claimed": 2,
       "unit": "count",
-      "source": "Idaho Code 45-614, general period"
+      "source": "Idaho Code 45-614, general period",
+      "recomputed": 2,
+      "ok": true,
+      "note": "45-614 page read; 12 months applies to extra-pay claims after wages paid"
     },
     {
       "label": "FLSA limitation willful, years",
       "claimed": 3,
       "unit": "count",
-      "source": "29 USC 255(a), willful violation"
+      "source": "29 USC 255(a), willful violation",
+      "recomputed": 3,
+      "ok": true,
+      "note": "29 USC 255(a) page read"
     },
     {
       "label": "FLSA CMP repeated or willful per violation",
       "claimed": 2515,
       "unit": "usd",
-      "source": "29 CFR 578.3(a), current eCFR/LII text; DOL notice 27 May 2026 (91 FR, doc 2026-10456) on no 2026 adjustment"
+      "source": "29 CFR 578.3(a), current eCFR/LII text; DOL notice 27 May 2026 (91 FR, doc 2026-10456) on no 2026 adjustment",
+      "recomputed": 2515,
+      "ok": true,
+      "note": "Matches 29 CFR 578.3(a)(2) on LII (last amended 90 FR 1861, 10 Jan 2025). The 2026 no-adjustment notice (91 FR 2026-10456) not opened at primary; only secondary sources"
     },
     {
       "label": "3509(a) income tax withholding rate",
       "claimed": 1.5,
       "unit": "pct",
-      "source": "26 USC 3509(a)(1)"
+      "source": "26 USC 3509(a)(1)",
+      "recomputed": 1.5,
+      "ok": true,
+      "note": "26 USC 3509(a) page read"
     },
     {
       "label": "3509(a) employee FICA share rate",
       "claimed": 20,
       "unit": "pct",
-      "source": "26 USC 3509(a)(2), percent of employee FICA"
+      "source": "26 USC 3509(a)(2), percent of employee FICA",
+      "recomputed": 20,
+      "ok": true,
+      "note": "26 USC 3509(a) page read"
     },
     {
       "label": "1099-NEC threshold for 2026 payments",
       "claimed": 2000,
       "unit": "usd",
-      "source": "OBBBA (2025) change to IRC 6041; IRS 2026 Form 1099-NEC instructions"
+      "source": "OBBBA (2025) change to IRC 6041; IRS 2026 Form 1099-NEC instructions",
+      "recomputed": 2000,
+      "ok": true,
+      "note": "IRS pages via search: OBBBA 6041 base 2000 after 2025; Pub 1099 / IRB"
     },
     {
       "label": "WA pay transparency employer threshold",
       "claimed": 15,
       "unit": "count",
-      "source": "RCW 49.58.110(3), employees"
+      "source": "RCW 49.58.110(3), employees",
+      "recomputed": 15,
+      "ok": true,
+      "note": "RCW 49.58.110(3) page read"
     },
     {
       "label": "WA posting statutory damages maximum",
       "claimed": 5000,
       "unit": "usd",
-      "source": "RCW 49.58.110(4)-(5), per violation upper bound"
+      "source": "RCW 49.58.110(4)-(5), per violation upper bound",
+      "recomputed": 5000,
+      "ok": true,
+      "note": "RCW 49.58.110(4)-(5) range 100-5000"
     },
     {
       "label": "Idaho Human Rights Act employer threshold",
       "claimed": 5,
       "unit": "count",
-      "source": "Idaho Code 67-5902, employees for each working day in 20+ weeks"
+      "source": "Idaho Code 67-5902, employees for each working day in 20+ weeks",
+      "recomputed": 5,
+      "ok": true,
+      "note": "67-5902 page read"
     },
     {
       "label": "Idaho WC uninsured add-on",
       "claimed": 10,
       "unit": "pct",
-      "source": "Idaho Code 72-210, percent of total compensation"
+      "source": "Idaho Code 72-210, percent of total compensation",
+      "recomputed": 10,
+      "ok": true,
+      "note": "72-210 page read"
     },
     {
       "label": "Illustration: intern annual pay",
       "claimed": 20000,
       "unit": "usd",
-      "source": "docket-1099 s.2 assumptions: 1,000 hours at the assumed hourly rate stated there, plus the assumed commission stated there"
+      "source": "docket-1099 s.2 assumptions: 1,000 hours at the assumed hourly rate stated there, plus the assumed commission stated there",
+      "recomputed": 20000,
+      "ok": true,
+      "note": "1000h x 15 + 5000 commission per doc s.2"
     },
     {
       "label": "Illustration: employer FICA",
       "claimed": 1530,
       "unit": "usd",
-      "source": "Illustration pay x combined employer FICA rate (6.2% OASDI + 1.45% Medicare, IRS Pub 15)"
+      "source": "Illustration pay x combined employer FICA rate (6.2% OASDI + 1.45% Medicare, IRS Pub 15)",
+      "recomputed": 1530,
+      "ok": true,
+      "note": "20000 x 7.65%"
     },
     {
       "label": "Illustration: 3509(a) add-on",
       "claimed": 606,
       "unit": "usd",
-      "source": "Illustration pay x 3509(a)(1) rate, plus 3509(a)(2) rate x employee FICA (7.65% of pay)"
+      "source": "Illustration pay x 3509(a)(1) rate, plus 3509(a)(2) rate x employee FICA (7.65% of pay)",
+      "recomputed": 606,
+      "ok": true,
+      "note": "300 + 20% x 1530 = 606"
     },
     {
       "label": "Illustration: 3509(b) doubled add-on",
       "claimed": 1212,
       "unit": "usd",
-      "source": "Same as 3509(a) add-on at 3509(b) rates (3% and 40%)"
+      "source": "Same as 3509(a) add-on at 3509(b) rates (3% and 40%)",
+      "recomputed": 1212,
+      "ok": true,
+      "note": "600 + 40% x 1530"
     },
     {
       "label": "Illustration: five interns, employer FICA plus 3509(a)",
       "claimed": 10680,
       "unit": "usd",
-      "source": "5 x (illustration employer FICA + illustration 3509(a) add-on)"
+      "source": "5 x (illustration employer FICA + illustration 3509(a) add-on)",
+      "recomputed": 10680,
+      "ok": true,
+      "note": "5 x (1530+606)"
     },
     {
       "label": "OT example: regular rate",
       "claimed": 25,
       "unit": "usd",
-      "source": "docket-1099 s.3: 45 hours at $15 plus $450 commission in the week; regular rate = total straight-time pay / hours (29 CFR 778.117)"
+      "source": "docket-1099 s.3: 45 hours at $15 plus $450 commission in the week; regular rate = total straight-time pay / hours (29 CFR 778.117)",
+      "recomputed": 25,
+      "ok": true,
+      "note": "(675+450)/45; 29 CFR 778.117 page read"
     },
     {
       "label": "OT example: overtime premium",
       "claimed": 62.5,
       "unit": "usd",
-      "source": "0.5 x regular rate x hours over 40, same week"
+      "source": "0.5 x regular rate x hours over 40, same week",
+      "recomputed": 62.5,
+      "ok": true,
+      "note": "0.5 x 25 x 5"
     },
     {
       "label": "OT example: total weekly pay",
       "claimed": 1187.5,
       "unit": "usd",
-      "source": "Straight-time pay plus commission plus overtime premium, same week"
+      "source": "Straight-time pay plus commission plus overtime premium, same week",
+      "recomputed": 1187.5,
+      "ok": true,
+      "note": "1125 + 62.5"
     }
   ],
   "createdAt": "2026-10-23T15:49:47.471Z",
-  "doc": "projects/workforce/boise-internships/docket-1099-and-offer-letters-2026-10-23.md"
+  "doc": "projects/workforce/boise-internships/docket-1099-and-offer-letters-2026-10-23.md",
+  "checkedBy": "tally",
+  "closedAt": "2026-10-23T18:21:32.330Z"
 }
