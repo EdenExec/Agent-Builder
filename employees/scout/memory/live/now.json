@@ -1,7 +1,7 @@
 {
-  "task": "t-202610212029-w1o6: land all lead sheets in the master Drive folder (1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9) and projects/leads, linked, so Noah can add cell phones",
-  "since": "2026-10-21T20:29:00Z",
-  "state": "done-with-gap: 20 of 20 sheets staged, linked and verify OK; Hoffman Amarillo State/Time Zone fixed (30 rows, company HQ, flagged in Note); 18 pre-existing Drive copies lack the Mobile and Mobile source columns and cannot be edited with the Drive connector",
-  "blockedOn": "Kev decision: re-create the 18 existing Drive sheets as v2 copies with Mobile columns (changes Hub links), or Noah adds the two columns by hand; also confirm master folder name and the 'Uploaded to Crelate' subfolder 1ToXMnrgReSVHyTS24PT4WEh498VDa8Kk",
-  "updated": "2026-10-21T20:48:00Z"
+  "task": "t-202610230509-sr33: DFW superintendent lead list (Kev via Radar: lead gen, leads folder, Noah to enrich) and research note for the Eden Daily",
+  "since": "2026-10-23T05:09:00Z",
+  "state": "list built and staged (197 rows, check PASS); NOT uploaded to Drive (no Drive tool in this run); Crelate dedupe not run",
+  "blockedOn": "Radar/Q: upload employees/scout/leads/2026-10-23-dfw-superintendents.csv to master folder 1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9, then npm run leads -- link; Kev: no job order named, DFW picked as uncovered core market, redirect if wanted",
+  "updated": "2026-10-23T06:00:00Z"
 }
