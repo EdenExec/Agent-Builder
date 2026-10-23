@@ -1,0 +1,40 @@
+{
+  "id": "revenue",
+  "owner": "Tally + Docket",
+  "source": "QuickBooks (EPG), cash basis where the tool allows; P&L basis unconfirmed",
+  "asOf": "2026-10-23T05:35:22Z",
+  "tiles": [
+    {
+      "label": "Revenue \u00b7 month to date",
+      "value": "$0",
+      "source": "QuickBooks P&L (EPG), basis unconfirmed: tool has no cash switch, 1 Oct to 23 Oct",
+      "asOf": "2026-10-23",
+      "gate": "2026-10-23-9f1d0b",
+      "needsGate": true
+    },
+    {
+      "label": "Revenue \u00b7 year to date",
+      "value": "$578,728",
+      "source": "QuickBooks P&L (EPG), basis unconfirmed: tool has no cash switch, 1 Jan to 23 Oct",
+      "asOf": "2026-10-23",
+      "gate": "2026-10-23-9f1d0b",
+      "needsGate": true
+    },
+    {
+      "label": "Open AR \u00b7 31+ days: $0",
+      "value": "$0",
+      "source": "QuickBooks A/R Aging Summary (EPG), accrual report, as of 23 Oct",
+      "asOf": "2026-10-23",
+      "gate": "2026-10-23-9f1d0b",
+      "needsGate": true
+    },
+    {
+      "label": "Cash on hand",
+      "value": "$238,674",
+      "source": "QuickBooks Balance Sheet (EPG), cash basis, bank accounts, as of 23 Oct",
+      "asOf": "2026-10-23",
+      "gate": "2026-10-23-9f1d0b",
+      "needsGate": true
+    }
+  ]
+}

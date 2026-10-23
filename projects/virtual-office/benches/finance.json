@@ -1,0 +1,39 @@
+{
+  "id": "finance",
+  "owner": "Tally",
+  "source": "QuickBooks (EPG)",
+  "asOf": "2026-10-23T05:35:22Z",
+  "tiles": [
+    {
+      "label": "Cash on hand",
+      "value": "$238,674",
+      "source": "QuickBooks Balance Sheet (EPG), cash basis, bank accounts, as of 23 Oct",
+      "asOf": "2026-10-23",
+      "gate": "2026-10-23-9f1d0b",
+      "needsGate": true
+    },
+    {
+      "label": "Open AR",
+      "value": "$0",
+      "source": "QuickBooks A/R Aging Summary (EPG), accrual report, as of 23 Oct",
+      "asOf": "2026-10-23",
+      "gate": "2026-10-23-9f1d0b",
+      "needsGate": true
+    },
+    {
+      "label": "Open AP",
+      "value": "$0",
+      "source": "QuickBooks A/P Aging Summary (EPG), accrual report, as of 23 Oct",
+      "asOf": "2026-10-23",
+      "gate": "2026-10-23-9f1d0b",
+      "needsGate": true
+    },
+    {
+      "label": "Cash flow detail",
+      "value": "EPG Cash Pulse",
+      "source": "https://claude.ai/artifact/LxaFb1CvQgqcsrMn5KXie7",
+      "asOf": "2026-09-30",
+      "needsGate": false
+    }
+  ]
+}

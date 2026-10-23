@@ -1,0 +1,48 @@
+{
+  "id": "2026-10-23-9f1d0b",
+  "subject": "Office revenue and finance benches, 2026-10-23",
+  "preparer": "tally",
+  "checker": "docket",
+  "status": "open",
+  "items": [
+    {
+      "label": "EPG revenue, month to date",
+      "claimed": 0,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, Profit and Loss report, 2026-10-01 to 2026-10-23, line 'Total Income' (Income section only; excludes Other Income). The MCP P&L tool has no cash/accrual switch, so state the basis your own run shows."
+    },
+    {
+      "label": "EPG revenue, year to date",
+      "claimed": 578728,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, Profit and Loss report, 2026-01-01 to 2026-10-23, line 'Total Income' (Income section only; excludes Other Income such as Owner Compensation). Same basis caveat as month to date."
+    },
+    {
+      "label": "EPG open AR, total",
+      "claimed": 0,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, A/R Aging Summary as of 2026-10-23, report total across all customers and all buckets (accrual report; no cash version exists)."
+    },
+    {
+      "label": "EPG open AR, 31+ days overdue",
+      "claimed": 0,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, A/R Aging Summary as of 2026-10-23, sum of the 31-60, 61-90 and 91+ day buckets across all customers."
+    },
+    {
+      "label": "EPG open AP, total",
+      "claimed": 0,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, A/P Aging Summary as of 2026-10-23, report total across all vendors and all buckets (accrual report)."
+    },
+    {
+      "label": "EPG cash on hand",
+      "claimed": 238674,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, Balance Sheet, cash basis, as of 2026-10-23, line 'Bank Accounts' (sum of the bank accounts; excludes Other Current Assets, loans to others and other assets). Rounded to whole dollars."
+    }
+  ],
+  "createdAt": "2026-10-23T05:35:22.507Z",
+  "doc": "projects/virtual-office/benches/revenue.json",
+  "ask": "Nothing to decide: the Revenue bench is live. Flag anything that looks wrong."
+}
