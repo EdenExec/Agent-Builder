@@ -581,8 +581,9 @@ textarea{min-height:84px;resize:vertical}
 
 
       <section class="zone z-cli" data-zone="cli">
-        <span class="eyebrow"><span>06 · Client work</span><span>Link only</span></span>
+        <span class="eyebrow"><span>06 · Client work</span><span>Casey</span></span>
         <div id="b-cli" class="slot"></div>
+        <div class="desks" id="d-cli"></div>
       </section>
 
       <section class="zone z-spx" data-zone="spx">
@@ -1376,7 +1377,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   var ZONE_OF = { radar: 'rad', recruiting: 'rec', finance: 'fin', family: 'fam', other: 'rec' };
   var AGENT_ORDER = ['scout', 'casey', 'dean', 'q', 'pm', 'tally', 'docket', 'host', 'atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];
   var WING = ['atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];   // the KDTW wing: private, closes whole under Screen share
-  var SEAT = { q: 'rec', host: 'fin', pm: 'spx' };   // pm: the special projects PM, Kev 21 Oct; side projects inside EPG, reports to Radar
+  var SEAT = { q: 'rec', host: 'fin', pm: 'spx', casey: 'cli' };   // casey: Client Care Manager, Kev 23 Oct: a desk in Client work, over the job-order board   // pm: the special projects PM, Kev 21 Oct; side projects inside EPG, reports to Radar
     // Kev, 21 Oct: Q takes Host's old seat on the recruiting desk; Jenny (host) sits by Docket
   function zoneOf(a) { return SEAT[a.id] || (WING.indexOf(a.id) >= 0 ? 'fam' : (ZONE_OF[a.desk] || 'rec')); }
   function isDusk() { var d = new Date(), x = d.getHours() + d.getMinutes() / 60; return !(x >= 7.5 && x <= 18.5); }
@@ -1435,7 +1436,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   function renderFloor() {
     var focus = document.activeElement && (document.activeElement.getAttribute('data-id') || document.activeElement.getAttribute('data-bench'));
     var focusIsBench = document.activeElement && document.activeElement.hasAttribute('data-bench');
-    ['rec', 'fin', 'fam', 'spx'].forEach(function (z) { $('#d-' + z).textContent = ''; });
+    ['rec', 'fin', 'fam', 'spx', 'cli'].forEach(function (z) { $('#d-' + z).textContent = ''; });
     var list = Object.keys(S.agents).map(function (k) { return S.agents[k]; }).filter(function (a) { return a.id !== 'radar'; })
       .sort(function (x, y) { var i = AGENT_ORDER.indexOf(x.id), j = AGENT_ORDER.indexOf(y.id); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j); });
     list.forEach(function (a) { var z = zoneOf(a); if (z === 'rad') z = 'rec'; var box = $('#d-' + z); if (box) box.appendChild(deskEl(a)); });
