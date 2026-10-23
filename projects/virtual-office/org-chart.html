@@ -1,0 +1,105 @@
+<title>Eden Agent Org Chart</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: Kev, then Radar, then the departments as rows of bubbles hung from one spine. Every bubble opens that agent's own Claude Code session.
+   Eden's look (workshop/brand/eden.ts): ink on cream, matte dark at night, colour only for state. */
+:root{
+  --bg:#F3F0E8; --paper:#FCFBF7; --ink:#141412; --mute:#5E5B54; --line:#D9D4C8; --soft:#EAE6DC; --live:#2E8A55;
+  --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B; --live:#5FCF8A; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B; --live:#5FCF8A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:500 14px/1.45 var(--sans);-webkit-font-smoothing:antialiased;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:28px 56px}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:0}
+.eyebrow{font:500 10.5px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+header{width:100%;display:flex;justify-content:space-between;align-items:flex-end;gap:10px 20px;flex-wrap:wrap;border-bottom:1.5px solid var(--ink);padding-bottom:12px;margin-bottom:26px}
+h1{margin:0;font-weight:800;font-size:clamp(22px,3.6vw,30px);letter-spacing:.12em;text-transform:uppercase;line-height:1.1;text-wrap:balance}
+.back{font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:1px solid var(--ink);padding:9px 12px;box-shadow:0 2px 0 var(--ink)}
+.back:active{transform:translateY(2px);box-shadow:none}
+.hint{width:100%;margin:-14px 0 22px;color:var(--mute);font-size:13px}
+
+/* a bubble: a round initial, the name, the title. The whole bubble is the link. */
+.b{display:inline-grid;grid-template-columns:40px minmax(0,1fr);align-items:center;gap:10px;padding:7px 16px 7px 7px;border:1.5px solid var(--ink);border-radius:999px;background:var(--paper);color:var(--ink);text-decoration:none;min-width:0;max-width:100%;transition:transform .08s,box-shadow .08s;box-shadow:0 2px 0 var(--ink)}
+.b:hover{background:var(--soft)}
+.b:active{transform:translateY(2px);box-shadow:none}
+.b:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.b i{width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font:800 15px/1 var(--sans);font-style:normal;position:relative}
+.b i::after{content:"";position:absolute;right:-1px;bottom:-1px;width:10px;height:10px;border-radius:50%;background:var(--live);border:2px solid var(--paper)}
+.b b{display:block;font-weight:800;font-size:14px;letter-spacing:.08em;text-transform:uppercase;line-height:1.15}
+.b small{display:block;font:500 10.5px/1.3 var(--mono);letter-spacing:.04em;color:var(--mute);overflow-wrap:anywhere}
+.b.top{background:var(--ink);color:var(--paper)} .b.top i{background:var(--paper);color:var(--ink)} .b.top i::after{display:none} .b.top small{color:var(--paper);opacity:.7}
+.b.private i{background:var(--soft);color:var(--ink);border:1.5px solid var(--ink)}
+
+.stem{width:1.5px;height:22px;background:var(--ink)}
+.spine{width:100%;display:flex;flex-direction:column;gap:18px;border-top:1.5px solid var(--ink);padding-top:22px}
+.dept{display:grid;grid-template-columns:190px minmax(0,1fr);gap:8px 18px;align-items:start;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.dept:last-child{border-bottom:0}
+.dept h2{margin:6px 0 0;font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.dept h2 + .eyebrow{display:block;margin-top:4px;letter-spacing:.06em;text-transform:none;font-size:11px}
+.row{display:flex;flex-wrap:wrap;gap:12px;min-width:0}
+footer{width:100%;margin-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:700px){.dept{grid-template-columns:minmax(0,1fr)} .dept h2{margin:0}}
+@media (prefers-reduced-motion:reduce){.b{transition:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div><span class="eyebrow">Eden Partner Group · KDTW Group</span><h1>The Eden agent team</h1></div>
+    <a class="back" href="https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW" target="_blank" rel="noopener">Back to the Command Center</a>
+  </header>
+  <p class="hint">Tap anyone to open their own session, with their full skills, files and history. Work one-on-one there, then come back to the Command Center to keep tabs on everyone.</p>
+
+  <a class="b top" href="https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW" target="_blank" rel="noopener"><i>K</i><span><b>Kev</b><small>Founder · approves every send, spend and signature</small></span></a>
+  <div class="stem"></div>
+  <a class="b" href="https://claude.ai/code/session_012ech5hw2f8wh5988FWa92Z" target="_blank" rel="noopener"><i>R</i><span><b>Radar</b><small>Chief of staff · runs the team</small></span></a>
+  <div class="stem"></div>
+
+  <section class="spine" aria-label="Departments">
+    <div class="dept">
+      <div><h2>Recruiting desk</h2><span class="eyebrow">Leads, people, systems</span></div>
+      <div class="row">
+        <a class="b" href="https://claude.ai/code/session_019m7KAzB12uW2aRsT2iVTsa" target="_blank" rel="noopener"><i>S</i><span><b>Scout</b><small>Lead research</small></span></a>
+        <a class="b" href="https://claude.ai/code/session_01VTzuVbujV9WkkNEL1uTxC3" target="_blank" rel="noopener"><i>D</i><span><b>Dean</b><small>Workforce · scorecards</small></span></a>
+        <a class="b" href="https://claude.ai/code/session_01NaV6afr4cxChSyMxf4QjCS" target="_blank" rel="noopener"><i>Q</i><span><b>Q</b><small>Software engineer</small></span></a>
+      </div>
+    </div>
+    <div class="dept">
+      <div><h2>Comms and brand</h2><span class="eyebrow">Voice, inbox, design</span></div>
+      <div class="row">
+        <a class="b" href="https://claude.ai/code/session_01HWXpQMMCrS1aHrLGE4iPN9" target="_blank" rel="noopener"><i>J</i><span><b>Jenny</b><small>Comms director · design lead</small></span></a>
+      </div>
+    </div>
+    <div class="dept">
+      <div><h2>Finance and risk</h2><span class="eyebrow">Two keys on every number</span></div>
+      <div class="row">
+        <a class="b" href="https://claude.ai/code/session_01QjJJfHL3pbHoRFQYyP5gRj" target="_blank" rel="noopener"><i>T</i><span><b>Tally</b><small>Finance analyst</small></span></a>
+        <a class="b" href="https://claude.ai/code/session_01LKexcLmbP1uHLF2QuAEEJK" target="_blank" rel="noopener"><i>D</i><span><b>Docket</b><small>Counsel and risk</small></span></a>
+      </div>
+    </div>
+    <div class="dept">
+      <div><h2>Special projects</h2><span class="eyebrow">Side projects inside EPG</span></div>
+      <div class="row">
+        <a class="b" href="https://claude.ai/code/session_01NmQm57E8JzXPM5yhiivmWp" target="_blank" rel="noopener"><i>P</i><span><b>Pam</b><small>Projects PM · Eden Staffing</small></span></a>
+      </div>
+    </div>
+    <div class="dept">
+      <div><h2>Family office</h2><span class="eyebrow">KDTW Group · private</span></div>
+      <div class="row">
+        <a class="b" href="https://claude.ai/code/session_019WiV7BNnqiAwEFE1fid2qq" target="_blank" rel="noopener"><i>A</i><span><b>Atlas</b><small>Tutor · researcher</small></span></a>
+        <a class="b" href="https://claude.ai/code/session_01DrdWBy2LzD2hVrTfxgF2wL" target="_blank" rel="noopener"><i>M</i><span><b>Marlowe</b><small>Architect · design check</small></span></a>
+        <a class="b" href="https://claude.ai/code/session_01YT6ywzc4eEs4VZMxo8Dhkf" target="_blank" rel="noopener"><i>K</i><span><b>Keys</b><small>Rental operator</small></span></a>
+        <a class="b private" href="https://claude.ai/code/session_01QfufmucSF1Kvw417paHgCT" target="_blank" rel="noopener"><i>H</i><span><b>Hale</b><small>Health advisor</small></span></a>
+        <a class="b private" href="https://claude.ai/code/session_019kpA2jTPA59tgNxwEQLsbp" target="_blank" rel="noopener"><i>J</i><span><b>Jethro</b><small>Growth coach</small></span></a>
+        <a class="b private" href="https://claude.ai/code/session_01Bb8T7ZJX5HwgGEhww9MN5P" target="_blank" rel="noopener"><i>B</i><span><b>Barny</b><small>Spiritual advisor</small></span></a>
+      </div>
+    </div>
+  </section>
+
+  <footer><span class="eyebrow">14 agents · 1 front door · nothing sent, spent or signed without Kev</span><span class="eyebrow">Rev 23 Oct 2026</span></footer>
+</div>
