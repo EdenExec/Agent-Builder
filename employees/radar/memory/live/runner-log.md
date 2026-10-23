@@ -7,3 +7,4 @@
 - 2026-10-22 18:44 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0 (no open tickets; floor refresh skipped, nothing changed)
 - 2026-10-23T02:44Z: picked 0, closed 0, gated 0 new (1 existing awaiting Kev), blocked 0, FAILs 0. Queue empty.
 - 2026-10-23T03:44Z: picked 0, closed 0, gated 0 new (1 existing awaiting Kev), blocked 0, FAILs 0. Queue empty, no voice tickets; floor refresh skipped, nothing changed.
+- 2026-10-22 21:45 PT (Fri 04:45 UTC): picked 1, closed 0, gated 0, blocked 1 (k714 Dean, needs Serena's email), FAILs 0. Refresh/cockpit skipped this run.
