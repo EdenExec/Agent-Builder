@@ -1,0 +1,329 @@
+{
+  "about": "The left-hand column of the Finds map: physical finds and a few ancient texts outside the Bible, in rough date order. Each link says how the find touches an event. Seeded 24 October 2026 by Barnabas from memory of standard reference works (Hoffmeier, Kitchen, Mykytiuk, the museum catalogues). Facts here are CONSENSUS unless a link is graded DISPUTED; reverify a detail before Kev teaches it.",
+  "linkTypes": {
+    "names": "Names a person the Bible names",
+    "confirms": "Confirms an event, custom or detail of the text",
+    "setting": "Shows the place or world the text describes was real",
+    "parallel": "A parallel story or claimed link, not confirmation"
+  },
+  "finds": [
+    { "id": "enuma", "name": "Enuma Elish tablets", "when": "c. 1100 BC copies of an older text", "year": -1100, "kind": "text", "place": "Nineveh and other sites, Iraq", "nowAt": "British Museum, London",
+      "summary": "The Babylonian creation epic. The god Marduk builds the world from the body of a defeated sea goddess. It is a parallel that sharpens the contrast with Genesis 1: one God, no rivals, creating by his word.",
+      "links": [ { "to": "creation", "type": "parallel", "grade": "CONSENSUS", "note": "Shared ancient Near Eastern backdrop, very different theology." } ] },
+
+    { "id": "gilgamesh", "name": "Gilgamesh Flood Tablet (Tablet XI)", "when": "7th century BC copy of an older story", "year": -650, "kind": "text", "place": "Library of Ashurbanipal, Nineveh", "nowAt": "British Museum, London",
+      "summary": "Utnapishtim survives a great flood in a boat, sends out birds and offers a sacrifice. When George Smith read it in 1872 it caused a sensation for its closeness to Genesis 6-9.",
+      "links": [ { "to": "flood", "type": "parallel", "grade": "CONSENSUS", "note": "A parallel memory of a flood; not physical evidence." } ] },
+
+    { "id": "atrahasis", "name": "Atrahasis Epic", "when": "c. 1700 BC (Old Babylonian copies)", "year": -1700, "kind": "text", "place": "Sippar and other sites, Iraq", "nowAt": "British Museum and other collections",
+      "summary": "An older Mesopotamian story that runs from the making of humans to a flood sent by the gods. Like Genesis 1-9, it moves from creation to flood in one sweep.",
+      "links": [ { "to": "creation", "type": "parallel", "grade": "CONSENSUS", "note": "Creation-to-flood structure, as in Genesis." }, { "to": "flood", "type": "parallel", "grade": "CONSENSUS", "note": "A flood hero is warned and builds a boat." } ] },
+
+    { "id": "kinglist", "name": "Sumerian King List (Weld-Blundell Prism)", "when": "c. 1800 BC", "year": -1800, "kind": "text", "place": "Larsa, Iraq", "nowAt": "Ashmolean Museum, Oxford",
+      "summary": "Lists kings before the flood with enormous reigns, then a break: 'after the flood swept over'. It shows Mesopotamia remembered a dividing flood, and long lives before it, as in Genesis 5.",
+      "links": [ { "to": "flood", "type": "parallel", "grade": "CONSENSUS", "note": "Kings before and after a flood." } ] },
+
+    { "id": "ur", "name": "Ur: Royal Cemetery and ziggurat", "when": "c. 2600-2000 BC", "year": -2100, "kind": "site", "place": "Tell el-Muqayyar, southern Iraq", "nowAt": "Finds at the Penn Museum, the British Museum and the Iraq Museum",
+      "summary": "Leonard Woolley's dig (1922-34) showed Ur as a wealthy city with a great stepped temple tower. Genesis names it as Abram's starting point.",
+      "links": [ { "to": "babel", "type": "setting", "grade": "CONSENSUS", "note": "A real ziggurat of the kind Genesis 11 describes." }, { "to": "patriarchs", "type": "setting", "grade": "CONSENSUS", "note": "Ur was real and great (Genesis 11:31). Whether Abram's Ur is this southern city or a northern one is debated." } ] },
+
+    { "id": "ebla", "name": "Ebla tablets", "when": "c. 2400-2300 BC", "year": -2350, "kind": "text", "place": "Tell Mardikh, Syria", "nowAt": "Museums of Idlib and Aleppo, Syria",
+      "summary": "About 17,000 tablets and fragments from an early Syrian kingdom. Early claims that they named Sodom, Gomorrah and biblical figures were later withdrawn.",
+      "links": [ { "to": "patriarchs", "type": "parallel", "grade": "DISPUTED", "note": "Early sensational readings did not hold up. Kept here only as a caution." } ] },
+
+    { "id": "mari", "name": "Mari tablets", "when": "18th century BC", "year": -1770, "kind": "text", "place": "Tell Hariri, Syria", "nowAt": "Louvre, and museums in Aleppo and Damascus",
+      "summary": "About 25,000 tablets from a royal archive. They name towns called Nahor and Haran in the region Genesis gives for Abraham's family, and describe tribal herders moving between towns.",
+      "links": [ { "to": "patriarchs", "type": "setting", "grade": "CONSENSUS", "note": "Haran and Nahor as real places (Genesis 11:31; 24:10). Abraham is not named." } ] },
+
+    { "id": "nuzi", "name": "Nuzi tablets", "when": "15th century BC", "year": -1450, "kind": "text", "place": "Yorgan Tepe, near Kirkuk, Iraq", "nowAt": "Harvard Semitic Museum and the Iraq Museum",
+      "summary": "Family law contracts once read as close matches for customs in Genesis, such as a servant bearing an heir for a childless wife.",
+      "links": [ { "to": "patriarchs", "type": "parallel", "grade": "DISPUTED", "note": "Many early parallels were overstated. A few still hold." } ] },
+
+    { "id": "benihasan", "name": "Beni Hasan tomb painting", "when": "c. 1890 BC", "year": -1890, "kind": "artifact", "place": "Tomb of Khnumhotep II, Middle Egypt", "nowAt": "In place in the tomb",
+      "summary": "Shows a party of 37 Asiatics (Aamu) led by a chief called Abisha entering Egypt with goods, donkeys and colourful robes.",
+      "links": [ { "to": "patriarchs", "type": "setting", "grade": "CONSENSUS", "note": "Semitic families traveling down into Egypt, as in Genesis 12 and 42-46." }, { "to": "egypt", "type": "setting", "grade": "CONSENSUS", "note": "Asiatics trading with and entering Egypt in the period." } ] },
+
+    { "id": "avaris", "name": "Tell el-Dab'a (Avaris)", "when": "c. 1800-1550 BC", "year": -1750, "kind": "site", "place": "Eastern Nile Delta, Egypt", "nowAt": "Site; Austrian Archaeological Institute excavations under Manfred Bietak",
+      "summary": "A large town in the eastern Delta with Canaanite-style houses, burials and pottery. It is the land of Goshen region in Genesis 47.",
+      "links": [ { "to": "egypt", "type": "setting", "grade": "CONSENSUS", "note": "A Semitic population settled in the Delta. Claims of 'Joseph's house' or tomb are speculation." } ] },
+
+    { "id": "brooklyn", "name": "Brooklyn Papyrus 35.1446", "when": "c. 1740 BC", "year": -1740, "kind": "text", "place": "Thebes, Egypt", "nowAt": "Brooklyn Museum, New York",
+      "summary": "A list of 95 household servants in one Egyptian estate; more than 40 are Asiatics with Semitic names. One is a woman named Shiphrah, like the Hebrew midwife of Exodus 1:15.",
+      "links": [ { "to": "egypt", "type": "setting", "grade": "CONSENSUS", "note": "Semites serving in Egyptian households, as Joseph did." }, { "to": "exodus", "type": "parallel", "grade": "DISPUTED", "note": "The same name, Shiphrah, not the same woman." } ] },
+
+    { "id": "soleb", "name": "Soleb temple inscription", "when": "c. 1370 BC", "year": -1370, "kind": "inscription", "place": "Temple of Amenhotep III, Soleb, Sudan", "nowAt": "In place",
+      "summary": "Lists 'the land of the Shasu of Yhw', a group of nomads south of Canaan. Many scholars read Yhw as the earliest outside mention of the divine name YHWH.",
+      "links": [ { "to": "exodus", "type": "parallel", "grade": "DISPUTED", "note": "A place or people named Yhw. The link to Israel's God is likely but debated." } ] },
+
+    { "id": "piramesses", "name": "Pi-Ramesses (Qantir)", "when": "c. 1270 BC", "year": -1270, "kind": "site", "place": "Eastern Nile Delta, Egypt", "nowAt": "Site",
+      "summary": "The great Delta capital of Ramesses II, built with mud brick. Exodus 1:11 says Hebrew slaves built the store city Raamses.",
+      "links": [ { "to": "exodus", "type": "setting", "grade": "CONSENSUS", "note": "The city named in Exodus 1:11 was real. What it says about the date of the Exodus is debated." } ] },
+
+    { "id": "amarna", "name": "Amarna letters", "when": "c. 1360-1330 BC", "year": -1350, "kind": "text", "place": "Tell el-Amarna, Egypt", "nowAt": "Berlin, British Museum, Cairo and others",
+      "summary": "About 380 clay letters to Pharaoh, many from kings of Canaanite cities. Abdi-Heba of Jerusalem pleads for troops against the Habiru, raiders who are troubling the land.",
+      "links": [ { "to": "conquest", "type": "setting", "grade": "CONSENSUS", "note": "Canaan as a patchwork of city-kings, Jerusalem among them, as in Joshua 10." }, { "to": "conquest", "type": "parallel", "grade": "DISPUTED", "note": "Whether the Habiru include the Hebrews is debated; most say the term is a social class, not a people." } ] },
+
+    { "id": "merneptah", "name": "Merneptah Stele", "when": "c. 1208 BC", "year": -1208, "kind": "inscription", "place": "Thebes, Egypt (found 1896)", "nowAt": "Egyptian Museum, Cairo",
+      "summary": "Pharaoh Merneptah boasts of a campaign in Canaan: 'Israel is laid waste, his seed is not.' The sign used marks Israel as a people, not a city. It is the oldest outside mention of Israel.",
+      "links": [ { "to": "conquest", "type": "confirms", "grade": "CONSENSUS", "note": "Israel was a known people in Canaan by about 1208 BC." } ] },
+
+    { "id": "jericho", "name": "Jericho (Tell es-Sultan)", "when": "Destruction layers in the Bronze Age", "year": -1400, "kind": "site", "place": "West Bank", "nowAt": "Site",
+      "summary": "Garstang dated a burnt city with fallen walls to about 1400 BC. Kenyon redated it to about 1550 BC. Bryant Wood argued again for 1400 BC.",
+      "links": [ { "to": "conquest", "type": "confirms", "grade": "DISPUTED", "note": "The fallen walls and burn layer are real. Their date is argued." } ] },
+
+    { "id": "hazor", "name": "Hazor destruction layer", "when": "13th century BC", "year": -1250, "kind": "site", "place": "Upper Galilee, Israel", "nowAt": "Site",
+      "summary": "The largest Canaanite city was burned in a fierce fire. Joshua 11:13 says Hazor alone of the northern cities was burned.",
+      "links": [ { "to": "conquest", "type": "confirms", "grade": "DISPUTED", "note": "Amnon Ben-Tor credits the Israelites. Others suggest Egyptians, Sea Peoples or civil revolt." } ] },
+
+    { "id": "deiralla", "name": "Deir Alla inscription (Balaam text)", "when": "c. 800 BC", "year": -800, "kind": "inscription", "place": "Deir Alla, Jordan Valley", "nowAt": "Jordan Archaeological Museum, Amman",
+      "summary": "Ink on plaster, written about 'Balaam son of Beor, a seer of the gods' who receives a night vision. It is the same name and title as the prophet of Numbers 22-24.",
+      "links": [ { "to": "exodus", "type": "names", "grade": "CONSENSUS", "note": "Balaam son of Beor, remembered east of the Jordan centuries later." } ] },
+
+    { "id": "gath", "name": "Tell es-Safi (Gath) and its ostracon", "when": "10th-9th century BC", "year": -950, "kind": "site", "place": "Shephelah, Israel", "nowAt": "Site; Bar-Ilan University excavations",
+      "summary": "Gath was a large Philistine city, as 1 Samuel describes. A potsherd from about 950 BC has two non-Semitic names, ALWT and WLT, that are close to the form of the name Goliath.",
+      "links": [ { "to": "david", "type": "setting", "grade": "CONSENSUS", "note": "Goliath's city was real and powerful (1 Samuel 17:4)." }, { "to": "david", "type": "names", "grade": "DISPUTED", "note": "A name like Goliath's, not Goliath himself." } ] },
+
+    { "id": "qeiyafa", "name": "Khirbet Qeiyafa", "when": "c. 1000 BC", "year": -1000, "kind": "site", "place": "Elah Valley, Israel", "nowAt": "Site; ostracon in the Israel Museum",
+      "summary": "A fortified town with two gates overlooking the valley where David met Goliath. It produced a short early Hebrew or Canaanite ostracon.",
+      "links": [ { "to": "david", "type": "setting", "grade": "DISPUTED", "note": "Yosef Garfinkel sees a Judahite town of David's time. Others assign it to Philistines or Canaanites." } ] },
+
+    { "id": "telDan", "name": "Tel Dan Stele", "when": "c. 840 BC", "year": -840, "kind": "inscription", "place": "Tel Dan, northern Israel (found 1993-94)", "nowAt": "Israel Museum, Jerusalem",
+      "summary": "An Aramean king, almost certainly Hazael, boasts of killing a king of Israel and a king of the 'House of David' (bytdwd). It is the first outside mention of David.",
+      "links": [ { "to": "david", "type": "names", "grade": "CONSENSUS", "note": "David as founder of Judah's royal house." }, { "to": "divided", "type": "confirms", "grade": "CONSENSUS", "note": "Wars between Aram and Israel (2 Kings 8-9). The stele credits Hazael with deaths that 2 Kings credits to Jehu." } ] },
+
+    { "id": "mesha", "name": "Mesha Stele (Moabite Stone)", "when": "c. 840 BC", "year": -840, "kind": "inscription", "place": "Dhiban, Jordan (found 1868)", "nowAt": "Louvre, Paris",
+      "summary": "King Mesha of Moab tells how 'Omri, king of Israel' oppressed Moab and how he rebelled. It names the God of Israel, YHWH, and may mention the 'House of David'.",
+      "links": [ { "to": "divided", "type": "names", "grade": "CONSENSUS", "note": "Omri, and Moab's revolt against Israel (2 Kings 3:4-5)." }, { "to": "david", "type": "names", "grade": "DISPUTED", "note": "Line 31 may read 'House of David' (André Lemaire). The text there is damaged." } ] },
+
+    { "id": "gezercal", "name": "Gezer Calendar", "when": "10th century BC", "year": -950, "kind": "inscription", "place": "Gezer, Israel (found 1908)", "nowAt": "Istanbul Archaeology Museums",
+      "summary": "A schoolboy-style list of the farming year: olive harvest, sowing, flax, barley, grapes, summer fruit. It is one of the oldest Hebrew-family inscriptions.",
+      "links": [ { "to": "david", "type": "setting", "grade": "CONSENSUS", "note": "Writing and farm life in Solomon's century." } ] },
+
+    { "id": "gates", "name": "Six-chambered gates at Gezer, Hazor, Megiddo", "when": "10th or 9th century BC", "year": -950, "kind": "site", "place": "Gezer, Hazor and Megiddo, Israel", "nowAt": "Sites",
+      "summary": "Yigael Yadin found matching gate plans at the three cities 1 Kings 9:15 says Solomon built.",
+      "links": [ { "to": "david", "type": "confirms", "grade": "DISPUTED", "note": "Yadin, Dever and Mazar date them to Solomon. Israel Finkelstein's low chronology moves them later." } ] },
+
+    { "id": "shishak", "name": "Shishak (Shoshenq I) relief", "when": "c. 925 BC", "year": -925, "kind": "inscription", "place": "Bubastite Portal, Karnak, Egypt", "nowAt": "In place; a stele fragment from Megiddo is in the Rockefeller Museum",
+      "summary": "Pharaoh Shoshenq I lists more than 150 towns he struck in Israel and Judah. 1 Kings 14:25 says Shishak came against Jerusalem in Rehoboam's fifth year.",
+      "links": [ { "to": "david", "type": "confirms", "grade": "CONSENSUS", "note": "Shishak's campaign just after Solomon (1 Kings 14:25-26)." } ] },
+
+    { "id": "kurkh", "name": "Kurkh Monolith", "when": "853 BC", "year": -853, "kind": "inscription", "place": "Kurkh, southeastern Turkey", "nowAt": "British Museum, London",
+      "summary": "Shalmaneser III of Assyria lists his enemies at the battle of Qarqar, among them 'Ahab the Israelite' with 2,000 chariots.",
+      "links": [ { "to": "divided", "type": "names", "grade": "CONSENSUS", "note": "Ahab as a major military power. The Bible does not record Qarqar." } ] },
+
+    { "id": "obelisk", "name": "Black Obelisk of Shalmaneser III", "when": "c. 825 BC", "year": -825, "kind": "artifact", "place": "Nimrud, Iraq (found 1846)", "nowAt": "British Museum, London",
+      "summary": "One panel shows 'Jehu son of Omri' (Omri's dynastic name) bowing before the Assyrian king with tribute. It is the only known image of a king of Israel or Judah.",
+      "links": [ { "to": "divided", "type": "names", "grade": "CONSENSUS", "note": "Jehu, king of Israel (2 Kings 9-10)." } ] },
+
+    { "id": "ivories", "name": "Samaria ivories", "when": "9th-8th century BC", "year": -850, "kind": "artifact", "place": "Royal palace, Samaria", "nowAt": "Israel Museum and the Rockefeller Museum",
+      "summary": "Hundreds of carved ivory inlays from the palace of Israel's kings. 1 Kings 22:39 speaks of Ahab's 'ivory house', and Amos condemns 'beds of ivory'.",
+      "links": [ { "to": "divided", "type": "confirms", "grade": "CONSENSUS", "note": "Ivory luxury at Samaria (1 Kings 22:39; Amos 3:15; 6:4)." } ] },
+
+    { "id": "shema", "name": "Seal of Shema, servant of Jeroboam", "when": "8th century BC", "year": -780, "kind": "artifact", "place": "Megiddo (found 1904)", "nowAt": "Lost in Istanbul; a bronze cast survives",
+      "summary": "A jasper seal with a roaring lion, inscribed 'Belonging to Shema, servant of Jeroboam'.",
+      "links": [ { "to": "divided", "type": "names", "grade": "CONSENSUS", "note": "Most date it to Jeroboam II (2 Kings 14:23). A few argue for Jeroboam I." } ] },
+
+    { "id": "tiglath", "name": "Annals of Tiglath-pileser III", "when": "c. 740-730 BC", "year": -735, "kind": "inscription", "place": "Nimrud, Iraq", "nowAt": "British Museum and other collections",
+      "summary": "Name tribute from Menahem of Samaria, Ahaz (Jehoahaz) of Judah, the overthrow of Pekah, and the installing of Hoshea.",
+      "links": [ { "to": "samaria", "type": "names", "grade": "CONSENSUS", "note": "Menahem, Pekah, Hoshea and Ahaz (2 Kings 15-16). The Bible also calls this king Pul." } ] },
+
+    { "id": "sargon", "name": "Sargon II inscriptions, Khorsabad", "when": "c. 710 BC", "year": -710, "kind": "inscription", "place": "Dur-Sharrukin (Khorsabad), Iraq", "nowAt": "Louvre and the Oriental Institute, Chicago",
+      "summary": "Sargon claims he deported 27,290 people from Samaria. Before Khorsabad was dug in 1843, Isaiah 20:1 was the only ancient text that named Sargon at all.",
+      "links": [ { "to": "samaria", "type": "confirms", "grade": "CONSENSUS", "note": "The fall and deportation of Samaria (2 Kings 17:6)." }, { "to": "samaria", "type": "names", "grade": "CONSENSUS", "note": "Sargon himself, named in Isaiah 20:1." } ] },
+
+    { "id": "sennacherib", "name": "Sennacherib Prism", "when": "c. 690 BC", "year": -690, "kind": "inscription", "place": "Nineveh, Iraq", "nowAt": "British Museum (Taylor Prism), Oriental Institute Chicago, Israel Museum",
+      "summary": "Sennacherib says he took 46 walled cities of Judah and shut Hezekiah up in Jerusalem 'like a bird in a cage'. He lists Hezekiah's tribute but never claims to have taken the city.",
+      "links": [ { "to": "hezekiah", "type": "names", "grade": "CONSENSUS", "note": "Hezekiah of Judah by name." }, { "to": "hezekiah", "type": "confirms", "grade": "CONSENSUS", "note": "The siege and the tribute (2 Kings 18:13-16). Jerusalem was not taken (2 Kings 19:32-36)." } ] },
+
+    { "id": "lachishrelief", "name": "Lachish reliefs", "when": "c. 700 BC", "year": -700, "kind": "artifact", "place": "Sennacherib's palace, Nineveh", "nowAt": "British Museum, London",
+      "summary": "A wall-length carving of the Assyrian assault on Lachish: siege ramps, archers and captives led away. The siege ramp is still visible at Tel Lachish.",
+      "links": [ { "to": "hezekiah", "type": "confirms", "grade": "CONSENSUS", "note": "Sennacherib at Lachish (2 Kings 18:14, 17)." } ] },
+
+    { "id": "siloam", "name": "Hezekiah's Tunnel and the Siloam Inscription", "when": "c. 701 BC", "year": -701, "kind": "inscription", "place": "City of David, Jerusalem", "nowAt": "Tunnel in place; inscription in the Istanbul Archaeology Museums",
+      "summary": "A 533-metre tunnel cut through rock from the Gihon Spring. The inscription tells how two crews of diggers met in the middle.",
+      "links": [ { "to": "hezekiah", "type": "confirms", "grade": "CONSENSUS", "note": "Hezekiah brought water into the city (2 Kings 20:20; 2 Chronicles 32:30)." } ] },
+
+    { "id": "hezbulla", "name": "Royal bulla of Hezekiah", "when": "c. 700 BC", "year": -700, "kind": "artifact", "place": "Ophel, Jerusalem (found 2009, published 2015)", "nowAt": "Ophel excavations, Hebrew University (Eilat Mazar)",
+      "summary": "A clay seal impression: 'Belonging to Hezekiah [son of] Ahaz, king of Judah', with a winged sun. Found in a controlled dig, not bought on the market.",
+      "links": [ { "to": "hezekiah", "type": "names", "grade": "CONSENSUS", "note": "Hezekiah and his father Ahaz (2 Kings 18:1)." } ] },
+
+    { "id": "isaiahbulla", "name": "Possible Isaiah bulla", "when": "c. 700 BC", "year": -700, "kind": "artifact", "place": "Ophel, Jerusalem (published 2018)", "nowAt": "Ophel excavations, Hebrew University",
+      "summary": "Found about 3 metres from the Hezekiah bulla. It reads 'Yesha'yah[u]' and then letters that may be the start of 'prophet'. The edge is broken.",
+      "links": [ { "to": "hezekiah", "type": "names", "grade": "DISPUTED", "note": "The missing letter decides whether it says 'prophet'." } ] },
+
+    { "id": "broadwall", "name": "The Broad Wall", "when": "Late 8th century BC", "year": -705, "kind": "site", "place": "Jewish Quarter, Jerusalem", "nowAt": "In place",
+      "summary": "A 7-metre-thick wall built across the remains of houses, as the city expanded west before the Assyrian threat.",
+      "links": [ { "to": "hezekiah", "type": "confirms", "grade": "CONSENSUS", "note": "Isaiah 22:10 says houses were torn down to fortify the wall." } ] },
+
+    { "id": "lmlk", "name": "LMLK royal jar handles", "when": "Late 8th century BC", "year": -705, "kind": "artifact", "place": "Across Judah", "nowAt": "Israel Museum and many collections",
+      "summary": "Thousands of jar handles stamped 'belonging to the king' with a place name, from Judah's royal supply system.",
+      "links": [ { "to": "hezekiah", "type": "setting", "grade": "CONSENSUS", "note": "Royal storehouses for grain, wine and oil (2 Chronicles 32:27-29)." } ] },
+
+    { "id": "ketef", "name": "Ketef Hinnom silver scrolls", "when": "c. 600 BC", "year": -600, "kind": "artifact", "place": "Burial cave, Hinnom Valley, Jerusalem (found 1979)", "nowAt": "Israel Museum, Jerusalem",
+      "summary": "Two tiny rolled silver amulets carry the priestly blessing of Numbers 6:24-26. They are the oldest known copies of any text of Scripture.",
+      "links": [ { "to": "text", "type": "confirms", "grade": "CONSENSUS", "note": "The blessing was in use, in this form, before the exile." }, { "to": "latejudah", "type": "setting", "grade": "CONSENSUS", "note": "Faith in YHWH in Jerusalem in Jeremiah's day." } ] },
+
+    { "id": "gemariah", "name": "Bulla of Gemariah son of Shaphan", "when": "c. 600 BC", "year": -600, "kind": "artifact", "place": "City of David, Jerusalem (Yigal Shiloh's dig, 1982)", "nowAt": "Israel Antiquities Authority",
+      "summary": "One of 51 seal impressions found in a burned archive room. It names Gemariah son of Shaphan, in whose chamber Baruch read Jeremiah's scroll.",
+      "links": [ { "to": "latejudah", "type": "names", "grade": "CONSENSUS", "note": "Jeremiah 36:10-12." } ] },
+
+    { "id": "jehucal", "name": "Bullae of Jehucal and Gedaliah", "when": "c. 590 BC", "year": -590, "kind": "artifact", "place": "City of David, Jerusalem (2005 and 2008)", "nowAt": "Eilat Mazar excavations",
+      "summary": "Two seal impressions found metres apart: 'Jehucal son of Shelemiah' and 'Gedaliah son of Pashhur'. Jeremiah 38:1 names both men together as the officials who wanted Jeremiah dead.",
+      "links": [ { "to": "latejudah", "type": "names", "grade": "CONSENSUS", "note": "Jeremiah 38:1." } ] },
+
+    { "id": "nathanmelech", "name": "Bulla of Nathan-melech", "when": "7th century BC", "year": -620, "kind": "artifact", "place": "City of David, Givati parking lot (2019)", "nowAt": "Israel Antiquities Authority",
+      "summary": "'Belonging to Nathan-melech, servant of the king'. 2 Kings 23:11 names a Nathan-melech, an official in Josiah's court.",
+      "links": [ { "to": "latejudah", "type": "names", "grade": "CONSENSUS", "note": "Probably the same official (2 Kings 23:11). The name is rare." } ] },
+
+    { "id": "lachishletters", "name": "Lachish Letters", "when": "c. 588 BC", "year": -588, "kind": "text", "place": "Gate of Lachish (found 1935)", "nowAt": "British Museum and the Israel Museum",
+      "summary": "Ink letters on pottery from an outpost commander as Babylon closed in. Letter 4: they watch for Lachish's fire signals 'for we cannot see Azekah'.",
+      "links": [ { "to": "latejudah", "type": "confirms", "grade": "CONSENSUS", "note": "Jeremiah 34:7: only Lachish and Azekah were left of Judah's fortified cities." } ] },
+
+    { "id": "babchron", "name": "Babylonian Chronicle (BM 21946)", "when": "After 597 BC", "year": -597, "kind": "text", "place": "Babylon", "nowAt": "British Museum, London",
+      "summary": "Records that Nebuchadnezzar besieged 'the city of Judah', took it on 2 Adar (16 March 597 BC), seized its king and appointed a king of his own choice.",
+      "links": [ { "to": "exile", "type": "confirms", "grade": "CONSENSUS", "note": "2 Kings 24:10-17, to the day." } ] },
+
+    { "id": "jehoiachin", "name": "Jehoiachin ration tablets", "when": "c. 592 BC", "year": -592, "kind": "text", "place": "Babylon, near the Ishtar Gate", "nowAt": "Vorderasiatisches Museum, Berlin",
+      "summary": "Palace records of oil rations for 'Ya'ukin, king of the land of Yahud' and his five sons.",
+      "links": [ { "to": "exile", "type": "names", "grade": "CONSENSUS", "note": "Jehoiachin, a captive king at Babylon's table (2 Kings 25:27-30)." } ] },
+
+    { "id": "nebosarsekim", "name": "Nebo-Sarsekim tablet", "when": "595 BC", "year": -595, "kind": "text", "place": "Sippar, Iraq", "nowAt": "British Museum, London",
+      "summary": "A receipt for gold paid by 'Nabu-sharrussu-ukin, the chief eunuch' of Nebuchadnezzar. Jeremiah 39:3 names a Babylonian official Sarsechim at the fall of Jerusalem.",
+      "links": [ { "to": "exile", "type": "names", "grade": "CONSENSUS", "note": "Widely accepted as the same official. Some debate how to split the names in Jeremiah 39:3." } ] },
+
+    { "id": "ishtar", "name": "Ishtar Gate and Nebuchadnezzar's bricks", "when": "c. 575 BC", "year": -575, "kind": "artifact", "place": "Babylon, Iraq", "nowAt": "Pergamon Museum, Berlin (rebuilt gate)",
+      "summary": "Blue glazed brick with lions and dragons. Thousands of bricks are stamped with Nebuchadnezzar's name, and he boasts of building Babylon.",
+      "links": [ { "to": "exile", "type": "names", "grade": "CONSENSUS", "note": "Nebuchadnezzar and his building pride (Daniel 4:30)." } ] },
+
+    { "id": "nabonidus", "name": "Nabonidus Cylinder and Chronicle", "when": "c. 550-539 BC", "year": -545, "kind": "text", "place": "Ur and Babylon", "nowAt": "British Museum, London",
+      "summary": "Nabonidus prays for 'Belshazzar, my eldest son'. The Chronicle shows Nabonidus away at Tema for years while his son ruled in Babylon. Before these were read, critics said Belshazzar never existed.",
+      "links": [ { "to": "exile", "type": "names", "grade": "CONSENSUS", "note": "Belshazzar as acting king. It explains why he offers Daniel 'third ruler' (Daniel 5:16). When Daniel was written is a separate debate." } ] },
+
+    { "id": "alyahudu", "name": "Al-Yahudu tablets", "when": "c. 572-477 BC", "year": -560, "kind": "text", "place": "Babylonia", "nowAt": "Private collections; shown at the Bible Lands Museum, Jerusalem",
+      "summary": "About 200 business records from 'Al-Yahudu', meaning 'the town of Judah', a village of Judean exiles. Many names carry Yahweh, like Yahu-azar.",
+      "links": [ { "to": "exile", "type": "confirms", "grade": "CONSENSUS", "note": "Judean exiles settled in towns of their own (Jeremiah 29:4-7; Ezekiel 3:15)." } ] },
+
+    { "id": "cyrus", "name": "Cyrus Cylinder", "when": "539 BC", "year": -539, "kind": "inscription", "place": "Babylon (found 1879)", "nowAt": "British Museum, London",
+      "summary": "Cyrus records that he returned captive peoples and their gods to their homelands and rebuilt their shrines.",
+      "links": [ { "to": "return", "type": "confirms", "grade": "CONSENSUS", "note": "The policy behind Ezra 1:1-4. It names Mesopotamian cities, not Judah." } ] },
+
+    { "id": "susa", "name": "Susa palace of Darius and Xerxes", "when": "5th century BC", "year": -480, "kind": "site", "place": "Shush, Iran", "nowAt": "Site; finds at the Louvre",
+      "summary": "The French dig found the royal palace, its gate and its court. The layout fits the setting of Esther, and Persian texts confirm Ahasuerus as Xerxes I.",
+      "links": [ { "to": "return", "type": "setting", "grade": "CONSENSUS", "note": "Esther 1:2 and the king's gate (Esther 2:19). Mordecai and Esther are not named in any find." } ] },
+
+    { "id": "elephantine", "name": "Elephantine papyri", "when": "407 BC", "year": -407, "kind": "text", "place": "Elephantine Island, Aswan, Egypt", "nowAt": "Brooklyn Museum and the Berlin collections",
+      "summary": "A Jewish garrison in Egypt writes to Persia's governor of Judah. Their letters name Sanballat governor of Samaria and Johanan the high priest.",
+      "links": [ { "to": "return", "type": "names", "grade": "CONSENSUS", "note": "Sanballat (Nehemiah 2:10) and Johanan (Nehemiah 12:22)." } ] },
+
+    { "id": "dss", "name": "Dead Sea Scrolls and the Great Isaiah Scroll", "when": "c. 250 BC-AD 68; Isaiah scroll c. 125 BC", "year": -125, "kind": "text", "place": "Qumran caves (found 1947-56)", "nowAt": "Shrine of the Book, Israel Museum, Jerusalem",
+      "summary": "Fragments of every Old Testament book except Esther. The complete Isaiah scroll is about 1,000 years older than the earlier oldest Hebrew copies, and it agrees closely with them.",
+      "links": [ { "to": "text", "type": "confirms", "grade": "CONSENSUS", "note": "The text Jesus read (Luke 4:17) was copied faithfully. The differences are mostly spelling." } ] },
+
+    { "id": "herodium", "name": "Herodium and Herod's tomb", "when": "c. 23-4 BC", "year": -10, "kind": "site", "place": "South of Bethlehem (tomb found 2007)", "nowAt": "Site; sarcophagus at the Israel Museum",
+      "summary": "Herod the Great's fortress palace, in sight of Bethlehem. Ehud Netzer found his tomb on its slope after a 35-year search.",
+      "links": [ { "to": "birth", "type": "names", "grade": "CONSENSUS", "note": "Herod the king (Matthew 2:1), ruling from Bethlehem's horizon." } ] },
+
+    { "id": "quirinius", "name": "Lapis Venetus (Quirinius census inscription)", "when": "c. AD 6", "year": 6, "kind": "inscription", "place": "Beirut; now in Venice", "nowAt": "Museo Archeologico Nazionale, Venice",
+      "summary": "A Roman officer says he carried out a census of the city of Apamea on the orders of Quirinius, governor of Syria.",
+      "links": [ { "to": "birth", "type": "names", "grade": "DISPUTED", "note": "Quirinius and his census are real (Luke 2:2). How it fits with Herod's death in 4 BC is a long-running debate, with several proposals." } ] },
+
+    { "id": "nazareth", "name": "First-century house at Nazareth", "when": "1st century AD", "year": 15, "kind": "site", "place": "Sisters of Nazareth convent, Nazareth", "nowAt": "In place",
+      "summary": "A courtyard house cut partly into the hillside, studied by Ken Dark. It showed that Nazareth was a small Jewish village in Jesus' day, against claims it did not exist.",
+      "links": [ { "to": "ministry", "type": "setting", "grade": "CONSENSUS", "note": "Nazareth existed in Jesus' time (Luke 4:16). Whose house it was is unknown." } ] },
+
+    { "id": "magdala", "name": "Magdala synagogue and stone", "when": "1st century AD", "year": 20, "kind": "site", "place": "Migdal, Sea of Galilee (found 2009)", "nowAt": "Site; the stone is a replica in place",
+      "summary": "A first-century synagogue in Mary Magdalene's town. A carved stone in it shows a seven-branched menorah.",
+      "links": [ { "to": "ministry", "type": "setting", "grade": "CONSENSUS", "note": "Jesus taught in the synagogues of Galilee (Matthew 4:23; Luke 8:2)." } ] },
+
+    { "id": "boat", "name": "Galilee Boat (Ginosar)", "when": "c. 50 BC-AD 50", "year": 0, "kind": "artifact", "place": "Sea of Galilee shore (found 1986)", "nowAt": "Yigal Allon Centre, Ginosar",
+      "summary": "An 8-metre fishing boat from the time of Jesus, room for about a dozen people, preserved in the mud.",
+      "links": [ { "to": "ministry", "type": "setting", "grade": "CONSENSUS", "note": "The kind of boat the disciples fished from (Mark 4:35-41). There is no reason to tie it to them." } ] },
+
+    { "id": "capernaum", "name": "Capernaum synagogue foundation", "when": "1st century AD", "year": 25, "kind": "site", "place": "North shore, Sea of Galilee", "nowAt": "In place",
+      "summary": "Under the white limestone synagogue of the 4th century lie black basalt walls that many date to the first century.",
+      "links": [ { "to": "ministry", "type": "setting", "grade": "DISPUTED", "note": "Likely the synagogue where Jesus taught (Mark 1:21). Its first-century date is argued." } ] },
+
+    { "id": "bethesda", "name": "Pool of Bethesda", "when": "1st century AD and earlier", "year": 25, "kind": "site", "place": "Near St. Anne's Church, Jerusalem", "nowAt": "In place",
+      "summary": "Excavations found two large pools with porticoes around and between them. Critics once called John's 'five roofed colonnades' made up.",
+      "links": [ { "to": "ministry", "type": "confirms", "grade": "CONSENSUS", "note": "John 5:2, down to the colonnades." } ] },
+
+    { "id": "siloampool", "name": "Pool of Siloam (Second Temple)", "when": "1st century AD", "year": 26, "kind": "site", "place": "City of David, Jerusalem (found 2004)", "nowAt": "In place, being excavated",
+      "summary": "Sewer workers found steps of a large stepped pool from Jesus' day, at the end of the water system Hezekiah cut.",
+      "links": [ { "to": "ministry", "type": "confirms", "grade": "CONSENSUS", "note": "'Go, wash in the pool of Siloam' (John 9:7)." } ] },
+
+    { "id": "pilate", "name": "Pilate Stone", "when": "c. AD 26-36", "year": 30, "kind": "inscription", "place": "Theatre at Caesarea Maritima (found 1961)", "nowAt": "Israel Museum, Jerusalem",
+      "summary": "A building dedication reading '[Pon]tius Pilatus, [Praef]ectus Iuda[ea]e'. It is the only inscription from his lifetime that names him, and it gives his exact title.",
+      "links": [ { "to": "passion", "type": "names", "grade": "CONSENSUS", "note": "Pontius Pilate, governor of Judea (Mark 15:1)." } ] },
+
+    { "id": "caiaphas", "name": "Caiaphas ossuary", "when": "1st century AD", "year": 35, "kind": "artifact", "place": "Burial cave, south Jerusalem (found 1990)", "nowAt": "Israel Museum, Jerusalem",
+      "summary": "An ornate bone box inscribed 'Yehosef bar Qayafa', Joseph son of Caiaphas. Josephus gives the high priest's full name as Joseph Caiaphas.",
+      "links": [ { "to": "passion", "type": "names", "grade": "DISPUTED", "note": "Most accept it as the high priest's family tomb (Matthew 26:57). Some question the reading and the link." } ] },
+
+    { "id": "yehohanan", "name": "Heel bone of Yehohanan", "when": "1st century AD", "year": 20, "kind": "artifact", "place": "Givat HaMivtar, Jerusalem (found 1968)", "nowAt": "Israel Museum, Jerusalem",
+      "summary": "A heel bone still pierced by an iron nail, from a young man crucified and then buried in a family tomb.",
+      "links": [ { "to": "passion", "type": "confirms", "grade": "CONSENSUS", "note": "How Rome crucified, and that a crucified man could get a proper burial, as Joseph of Arimathea gave Jesus (Mark 15:43-46)." } ] },
+
+    { "id": "tacitus", "name": "Tacitus, Annals 15.44", "when": "c. AD 116", "year": 116, "kind": "text", "place": "Rome", "nowAt": "Oldest manuscript: Laurentian Library, Florence",
+      "summary": "A hostile Roman historian: 'Christus' was executed under Tiberius by the procurator Pontius Pilate, and his followers were blamed for the fire of Rome.",
+      "links": [ { "to": "passion", "type": "confirms", "grade": "CONSENSUS", "note": "The execution under Pilate, from outside the church." } ] },
+
+    { "id": "josephus", "name": "Josephus, Antiquities 18 and 20", "when": "c. AD 93", "year": 93, "kind": "text", "place": "Rome", "nowAt": "Greek manuscripts",
+      "summary": "Josephus mentions 'James, the brother of Jesus who was called Christ', stoned in AD 62. A longer passage about Jesus (18.63-64) was later expanded by Christian copyists.",
+      "links": [ { "to": "passion", "type": "names", "grade": "CONSENSUS", "note": "Antiquities 20.200 on James and Jesus is accepted as genuine." }, { "to": "passion", "type": "confirms", "grade": "DISPUTED", "note": "The Testimonium (18.63-64): most scholars hold that a genuine core was later expanded." }, { "to": "church", "type": "names", "grade": "CONSENSUS", "note": "James, leader in Jerusalem (Acts 15:13; Galatians 1:19)." } ] },
+
+    { "id": "soreg", "name": "Temple warning inscription", "when": "1st century BC-AD 70", "year": 10, "kind": "inscription", "place": "Temple Mount, Jerusalem (found 1871)", "nowAt": "Istanbul Archaeology Museums; a fragment in the Israel Museum",
+      "summary": "A Greek notice from the barrier around the inner courts: any foreigner who goes past it has himself to blame for his death that follows.",
+      "links": [ { "to": "church", "type": "confirms", "grade": "CONSENSUS", "note": "The riot when Paul was said to bring Greeks into the temple (Acts 21:28-29); 'the dividing wall of hostility' (Ephesians 2:14)." } ] },
+
+    { "id": "theodotus", "name": "Theodotus inscription", "when": "Before AD 70", "year": 20, "kind": "inscription", "place": "City of David, Jerusalem (found 1913)", "nowAt": "Rockefeller Museum, Jerusalem",
+      "summary": "Theodotus, priest and synagogue leader, built a synagogue for reading the Law and a guest house for visitors from abroad.",
+      "links": [ { "to": "church", "type": "setting", "grade": "DISPUTED", "note": "Synagogues in Jerusalem for Greek-speaking Jews (Acts 6:9). The pre-70 date is accepted by most." } ] },
+
+    { "id": "sergius", "name": "Sergius Paullus inscriptions", "when": "1st century AD", "year": 45, "kind": "inscription", "place": "Rome and Pisidian Antioch", "nowAt": "Museums in Rome and Yalvaç, Turkey",
+      "summary": "Inscriptions name members of the Sergius Paullus family. One lists a Lucius Sergius Paullus among Rome's officials for the Tiber.",
+      "links": [ { "to": "church", "type": "names", "grade": "DISPUTED", "note": "Possibly the proconsul of Cyprus who believed (Acts 13:7-12). The link is not certain." } ] },
+
+    { "id": "politarch", "name": "Politarch inscription, Vardar Gate", "when": "2nd century AD", "year": 150, "kind": "inscription", "place": "Thessalonica, Greece", "nowAt": "British Museum, London",
+      "summary": "Lists the city's 'politarchs'. Critics once said Luke invented this title. More than 30 inscriptions now use it, most of them from Macedonia.",
+      "links": [ { "to": "church", "type": "confirms", "grade": "CONSENSUS", "note": "The 'city authorities' of Thessalonica (Acts 17:6, 8)." } ] },
+
+    { "id": "gallio", "name": "Gallio Inscription (Delphi)", "when": "AD 52", "year": 52, "kind": "inscription", "place": "Delphi, Greece", "nowAt": "Delphi Archaeological Museum",
+      "summary": "A letter from Emperor Claudius names 'Junius Gallio, my friend, the proconsul' of Achaia. It fixes Gallio's term to about AD 51-52.",
+      "links": [ { "to": "church", "type": "names", "grade": "CONSENSUS", "note": "Gallio (Acts 18:12). This is the anchor for dating Paul's journeys." } ] },
+
+    { "id": "erastus", "name": "Erastus inscription (Corinth)", "when": "1st century AD", "year": 55, "kind": "inscription", "place": "Pavement near the theatre, Corinth (found 1929)", "nowAt": "In place",
+      "summary": "'Erastus, in return for his aedileship, laid [this pavement] at his own expense.' Paul sends greetings from 'Erastus, the city treasurer' in Romans 16:23.",
+      "links": [ { "to": "church", "type": "names", "grade": "DISPUTED", "note": "Possibly Paul's Erastus. The inscription's date and the match of offices are debated." } ] },
+
+    { "id": "ephesus", "name": "Ephesus theatre and the Artemis cult", "when": "1st century AD", "year": 55, "kind": "site", "place": "Selçuk, Turkey", "nowAt": "In place",
+      "summary": "A theatre seating about 25,000, and inscriptions about the cult of Artemis, its silversmiths, and the city's title 'temple keeper'.",
+      "links": [ { "to": "church", "type": "confirms", "grade": "CONSENSUS", "note": "The riot of the silversmiths in the theatre (Acts 19:23-41), with the city clerk and 'temple keeper' (19:35)." } ] },
+
+    { "id": "titus", "name": "Arch of Titus", "when": "c. AD 81", "year": 81, "kind": "artifact", "place": "Roman Forum, Rome", "nowAt": "In place",
+      "summary": "A triumphal arch carved with Roman soldiers carrying the temple's lampstand, trumpets and table of showbread out of Jerusalem.",
+      "links": [ { "to": "fall70", "type": "confirms", "grade": "CONSENSUS", "note": "The temple's fall that Jesus foretold (Luke 21:6)." } ] },
+
+    { "id": "burnthouse", "name": "Burnt House and the fallen temple stones", "when": "AD 70", "year": 70, "kind": "site", "place": "Jewish Quarter and Robinson's Arch, Jerusalem", "nowAt": "In place",
+      "summary": "A priestly family's house (Kathros) burned in AD 70, with a spear and a young woman's arm bones. Below the Temple Mount, huge stones lie where Rome pushed them onto the street.",
+      "links": [ { "to": "fall70", "type": "confirms", "grade": "CONSENSUS", "note": "'Not one stone here will be left on another' (Matthew 24:2)." } ] },
+
+    { "id": "laodicea", "name": "Laodicea's water pipes", "when": "1st century AD", "year": 90, "kind": "site", "place": "Near Denizli, Turkey", "nowAt": "In place",
+      "summary": "Laodicea piped its water from springs miles away. The terracotta pipes are thick with mineral crust. Nearby Hierapolis had hot springs and Colossae had cold water.",
+      "links": [ { "to": "revelation", "type": "setting", "grade": "DISPUTED", "note": "Many read 'neither hot nor cold' (Revelation 3:15-16) against this. That is an interpretation, though the setting is real." } ] },
+
+    { "id": "pergamum", "name": "Pergamum Altar of Zeus", "when": "2nd century BC", "year": -170, "kind": "artifact", "place": "Acropolis of Pergamum, Turkey", "nowAt": "Pergamon Museum, Berlin",
+      "summary": "A colossal altar on the acropolis. Pergamum was also a center of the imperial cult and of the healing god Asclepius.",
+      "links": [ { "to": "revelation", "type": "setting", "grade": "DISPUTED", "note": "One of several candidates for 'where Satan's throne is' (Revelation 2:13)." } ] },
+
+    { "id": "sebastoi", "name": "Temple of the Sebastoi, Ephesus", "when": "AD 89-90", "year": 89, "kind": "site", "place": "Ephesus, Turkey", "nowAt": "Site; colossal statue head in the Ephesus Museum, Selçuk",
+      "summary": "A temple to the Flavian emperors with a colossal cult statue, dedicated in Domitian's reign.",
+      "links": [ { "to": "revelation", "type": "setting", "grade": "CONSENSUS", "note": "Emperor worship in Asia, the pressure behind Revelation 13 and the letters to the churches." } ] }
+  ],
+  "leftOff": [
+    { "name": "James ossuary", "why": "The box is ancient. Whether the words 'brother of Jesus' were added later is still argued. A forgery trial ended in 2012 without settling it." },
+    { "name": "Jehoash inscription", "why": "Widely judged a modern forgery." },
+    { "name": "Museum of the Bible Dead Sea Scroll fragments", "why": "Shown in 2018 and 2020 to be modern forgeries." },
+    { "name": "Noah's Ark sightings and 'chariot wheels' in the Red Sea", "why": "No verified evidence. Repeating them harms the credibility of real finds." },
+    { "name": "The 'Jesus Family Tomb' (Talpiot)", "why": "Common names. Rejected by most archaeologists." }
+  ]
+}

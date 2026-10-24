@@ -1,0 +1,385 @@
+<title>Stones and Scripture</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a two-column link map (left source, right target) with drawn connectors in the gutter, and a reading panel beside it (bottom sheet on phones). KDTW standard: Montserrat, black on white, bold headers. */
+:root{
+  --bg:#ffffff; --surface:#f5f4f1; --ink:#141414; --muted:#5d6067; --rule:#e2e0db; --focus:#141414;
+  --names:#b06f12; --confirms:#2459a3; --setting:#2a7a72; --parallel:#8b8f97;
+  --quote:#2c7a4b; --fulfillment:#6b43b5; --echo:#8b8f97;
+  --dim:.07;
+  --display:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111214; --surface:#1a1b1e; --ink:#ecebe7; --muted:#a2a5ab; --rule:#2b2d31; --focus:#ecebe7;
+  --names:#e3a440; --confirms:#6ea5ea; --setting:#5cbfb3; --parallel:#7d828b;
+  --quote:#5fc58b; --fulfillment:#ab8ef0; --echo:#7d828b; --dim:.09; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111214; --surface:#1a1b1e; --ink:#ecebe7; --muted:#a2a5ab; --rule:#2b2d31; --focus:#ecebe7;
+  --names:#e3a440; --confirms:#6ea5ea; --setting:#5cbfb3; --parallel:#7d828b;
+  --quote:#5fc58b; --fulfillment:#ab8ef0; --echo:#7d828b; --dim:.09; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+.wrap{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+header{display:flex;flex-direction:column;gap:8px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,48px);line-height:1.05;margin:0;text-wrap:balance;letter-spacing:0}
+.dek{margin:0;max-width:66ch;color:var(--muted)}
+.stats{font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--rule);flex-wrap:wrap}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px 9px;font-weight:700;font-size:14px;cursor:pointer;color:var(--muted)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+
+.tools{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.search{display:flex;align-items:center;gap:8px;flex:1 1 240px;max-width:380px}
+.search input{width:100%;font:inherit;font-size:14px;padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--bg);color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--rule);background:var(--bg);border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600;cursor:pointer}
+.chip[aria-pressed="false"]{opacity:.45}
+.chip .sw{width:18px;height:0;border-top:3px solid currentColor}
+.chip .sw.dash{border-top-style:dashed;border-top-width:2px}
+.quick{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.quick span{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;align-items:start}
+.stage{min-width:0}
+.colheads{display:grid;grid-template-columns:minmax(0,1fr) var(--gut) minmax(0,1fr);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-bottom:8px;border-bottom:1px solid var(--rule);margin-bottom:10px}
+.colheads div:last-child{grid-column:3}
+.map{--gut:clamp(44px,13vw,190px);position:relative;display:grid;grid-template-columns:minmax(0,1fr) var(--gut) minmax(0,1fr)}
+.stage{--gut:clamp(44px,13vw,190px)}
+.col{display:flex;flex-direction:column;justify-content:space-between;gap:4px;min-width:0;position:relative;z-index:1}
+.col.r{grid-column:3}
+svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+svg.lines path{fill:none;stroke-width:1.4;opacity:.5;transition:opacity .15s,stroke-width .15s}
+svg.lines path.dash{stroke-dasharray:4 4}
+svg.lines path.hot{opacity:1;stroke-width:2.6}
+svg.lines path.cold{opacity:var(--dim)}
+svg.lines path.off{display:none}
+
+.era{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 0 2px;border-top:1px solid var(--rule);margin-top:6px}
+.era:first-child{border-top:0;margin-top:0;padding-top:0}
+.node{display:flex;flex-direction:column;gap:1px;text-align:left;background:var(--bg);border:1px solid var(--rule);border-radius:6px;padding:7px 10px;cursor:pointer;min-width:0;transition:opacity .15s,border-color .15s}
+.node:hover{border-color:var(--muted)}
+.node b{font-weight:600;font-size:13px;line-height:1.3;overflow-wrap:anywhere}
+.node i{font-style:normal;font-family:var(--mono);font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.node.sel{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.node.cold{opacity:.28}
+.node.miss{opacity:.18}
+
+.panel{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;background:var(--surface);border-radius:10px;padding:18px 18px 20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.panel h2{font-size:19px;font-weight:800;margin:0;line-height:1.2;text-wrap:balance}
+.panel h3{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:4px 0 0;font-weight:500}
+.panel p{margin:0}
+.meta{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.close{display:none;align-self:flex-end;background:none;border:1px solid var(--rule);border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer}
+.items{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.items li{display:flex;flex-direction:column;gap:3px;border-left:3px solid var(--c,var(--rule));padding-left:10px}
+.items li.dash{border-left-style:dashed}
+.pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--c,var(--muted))}
+.grade{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;border:1px solid currentColor;border-radius:3px;padding:0 4px;margin-left:6px;color:var(--muted)}
+.jump{background:none;border:0;padding:0;font-weight:600;text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px}
+.jump:hover{text-decoration-color:var(--ink)}
+.refs{display:flex;flex-wrap:wrap;gap:6px}
+.refs a{font-family:var(--mono);font-size:12px;border:1px solid var(--rule);border-radius:4px;padding:2px 7px;text-decoration:none;background:var(--bg)}
+.refs a:hover{border-color:var(--ink)}
+.small{font-size:13px;color:var(--muted)}
+
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;border-top:1px solid var(--rule);padding-top:22px}
+.notes section{display:flex;flex-direction:column;gap:8px;min-width:0}
+.notes h2{font-size:16px;font-weight:800;margin:0}
+.notes p,.notes li{font-size:14px;color:var(--muted);margin:0}
+.notes ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.notes b{color:var(--ink);font-weight:600}
+footer{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.04em}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .panel{position:static;max-height:none}
+  .panel.open{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:20;max-height:62vh;border-radius:14px 14px 0 0;
+    box-shadow:0 -8px 30px rgba(0,0,0,.25);
+    padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+  .panel.open .close{display:block}
+  .node{padding:6px 7px}
+  .node b{font-size:12px}
+  .node i{font-size:10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">KDTW Group · Barnabas · Bible maps</div>
+    <h1>Stones and Scripture</h1>
+    <p class="dek">Two linked maps from Genesis 1 to Revelation 22. The first ties physical finds and ancient records to the people and events of the Bible. The second ties the Old Testament to the New. Tap anything to isolate its links.</p>
+    <div class="stats" id="stats">Loading the maps…</div>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tab-finds" aria-selected="true" data-view="finds">Finds and events</button>
+    <button class="tab" role="tab" id="tab-scripture" aria-selected="false" data-view="scripture">Old and New</button>
+  </div>
+
+  <div class="tools">
+    <label class="search" for="q"><input id="q" type="search" placeholder="Search a name, book or place" autocomplete="off"></label>
+    <div class="legend" id="legend"></div>
+    <div class="quick" id="quick"></div>
+  </div>
+
+  <div class="layout">
+    <div class="stage">
+      <div class="colheads" id="colheads"><div></div><div></div></div>
+      <div class="map" id="map">
+        <svg class="lines" id="lines" aria-hidden="true"></svg>
+        <div class="col l" id="colL"></div>
+        <div class="col r" id="colR"></div>
+      </div>
+    </div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+
+  <div class="notes">
+    <section>
+      <h2>How to read the lines</h2>
+      <p><b>Solid lines</b> are links most scholars accept. <b>Dashed gray lines</b> are parallels, echoes, or links faithful scholars still argue over. Each link in the panel carries a grade: CONSENSUS or DISPUTED.</p>
+      <p>Archaeology confirms real places, rulers and events. It cannot prove the faith. The evidence is thin before about 1200 BC and dense from Hezekiah onward.</p>
+    </section>
+    <section>
+      <h2>Left off the map</h2>
+      <ul id="leftoff"></ul>
+    </section>
+    <section>
+      <h2>Where this comes from</h2>
+      <p>Built by Barny for Kev on 24 October 2026, following John's lead. Sources are the standard works: Hoffmeier, Kitchen, Mykytiuk's lists of biblical people in inscriptions, and the museum catalogues. Check a detail before you teach it. Old Testament dating follows the traditional settings.</p>
+      <p>Verse links open the ESV at esv.org.</p>
+    </section>
+  </div>
+  <footer>KDTW GROUP · Barnabas, son of encouragement (Acts 4:36)</footer>
+</div>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const esv = ref => 'https://www.esv.org/' + encodeURIComponent(ref).replace(/%20/g, '+').replace(/%3A/g, ':') + '/';
+  const fmtYear = y => y < 0 ? `${-y} BC` : (y === 0 ? 'turn of the era' : `AD ${y}`);
+
+  const TYPES = {
+    finds: {
+      names: { label: 'Names a person', color: 'var(--names)' },
+      confirms: { label: 'Confirms event or text', color: 'var(--confirms)' },
+      setting: { label: 'Real setting', color: 'var(--setting)' },
+      parallel: { label: 'Parallel or disputed', color: 'var(--parallel)', dash: true }
+    },
+    scripture: {
+      quote: { label: 'Direct quotation', color: 'var(--quote)' },
+      fulfillment: { label: 'Fulfillment claimed', color: 'var(--fulfillment)' },
+      echo: { label: 'Echo or type', color: 'var(--echo)', dash: true }
+    }
+  };
+
+  let D = null, view = 'finds', sel = null, query = '';
+  const hidden = { finds: new Set(), scripture: new Set() };
+
+  function lineStyle(view, l) {
+    const t = TYPES[view][l.type];
+    const disputed = l.grade === 'DISPUTED';
+    return { color: disputed ? 'var(--parallel)' : t.color, dash: t.dash || disputed, t };
+  }
+
+  function build() {
+    const ev = new Map(D.events.map(e => [e.id, e]));
+    const order = new Map(D.events.map((e, i) => [e.id, i]));
+    const finds = [...D.finds].sort((a, b) => a.year - b.year);
+    const links1 = [];
+    finds.forEach(f => f.links.forEach((l, i) => links1.push({ ...l, from: f.id, key: f.id + '|' + i })));
+    const ot = D.ot, nt = D.nt;
+    const links2 = D.slinks.map((l, i) => ({ ...l, key: 's' + i }));
+    D.idx = { ev, order, finds, links1, links2, find: new Map(finds.map(f => [f.id, f])), ot: new Map(ot.map(o => [o.id, o])), nt: new Map(nt.map(n => [n.id, n])) };
+    const links = links1.length + links2.length;
+    $('#stats').textContent = `${finds.length} finds · ${D.events.length} events · ${ot.length} Old Testament passages · ${nt.length} New Testament passages · ${links} links`;
+    $('#leftoff').innerHTML = D.leftOff.map(x => `<li><b>${x.name}.</b> ${x.why}</li>`).join('');
+  }
+
+  function nodeBtn(id, side, title, meta, hay) {
+    const b = document.createElement('button');
+    b.className = 'node'; b.dataset.id = id; b.dataset.side = side; b.dataset.hay = hay.toLowerCase();
+    b.innerHTML = `<b></b><i></i>`; b.querySelector('b').textContent = title; b.querySelector('i').textContent = meta;
+    b.addEventListener('click', () => select(sel && sel.id === id && sel.side === side ? null : { id, side }));
+    return b;
+  }
+  function eraHead(text) { const d = document.createElement('div'); d.className = 'era'; d.textContent = text; return d; }
+
+  function render() {
+    const L = $('#colL'), R = $('#colR'); L.innerHTML = ''; R.innerHTML = '';
+    const I = D.idx;
+    document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', t.dataset.view === view));
+    const heads = $('#colheads').children;
+    if (view === 'finds') {
+      heads[0].textContent = 'Finds, oldest first'; heads[1].textContent = 'People and events';
+      I.finds.forEach(f => L.appendChild(nodeBtn(f.id, 'l', f.name, f.when, `${f.name} ${f.place} ${f.summary} ${f.links.map(l => l.note).join(' ')}`)));
+      D.events.forEach(e => R.appendChild(nodeBtn(e.id, 'r', e.title, e.when, `${e.title} ${e.refs.join(' ')} ${e.note}`)));
+    } else {
+      heads[0].textContent = 'Old Testament'; heads[1].textContent = 'New Testament';
+      let last = null;
+      D.ot.forEach(o => { if (o.era !== last) { L.appendChild(eraHead(I.ev.get(o.era).title)); last = o.era; } L.appendChild(nodeBtn(o.id, 'l', o.ref, o.gist, `${o.ref} ${o.gist}`)); });
+      last = null;
+      D.nt.forEach(n => { if (n.era !== last) { R.appendChild(eraHead(I.ev.get(n.era).title)); last = n.era; } R.appendChild(nodeBtn(n.id, 'r', n.ref, '', n.ref)); });
+      R.querySelectorAll('.node i').forEach(i => i.remove());
+    }
+    renderLegend(); renderQuick(); draw(); applyState(); renderPanel();
+  }
+
+  function renderLegend() {
+    const g = $('#legend'); g.innerHTML = '';
+    Object.entries(TYPES[view]).forEach(([k, t]) => {
+      const c = document.createElement('button');
+      c.className = 'chip'; c.setAttribute('aria-pressed', !hidden[view].has(k)); c.style.color = t.color;
+      c.innerHTML = `<span class="sw${t.dash ? ' dash' : ''}"></span><span style="color:var(--ink)">${t.label}</span>`;
+      c.title = 'Show or hide these lines';
+      c.addEventListener('click', () => { hidden[view].has(k) ? hidden[view].delete(k) : hidden[view].add(k); renderLegend(); applyState(); });
+      g.appendChild(c);
+    });
+  }
+  function renderQuick() {
+    const q = $('#quick'); q.innerHTML = '';
+    const opts = view === 'scripture' ? ['Romans', 'Psalm', 'Isaiah', 'Hebrews'] : ['Hezekiah', 'David', 'Pilate', 'Romans'];
+    q.insertAdjacentHTML('beforeend', '<span>Try</span>');
+    opts.forEach(o => { const c = document.createElement('button'); c.className = 'chip'; c.textContent = o; c.addEventListener('click', () => { $('#q').value = o; setQuery(o); }); q.appendChild(c); });
+  }
+
+  function links() { return view === 'finds' ? D.idx.links1 : D.idx.links2; }
+  function endpoints(l) { return view === 'finds' ? [l.from, l.to] : [l.from, l.to]; }
+
+  function draw() {
+    const map = $('#map'), svg = $('#lines');
+    const box = map.getBoundingClientRect();
+    svg.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+    const pos = {};
+    map.querySelectorAll('.node').forEach(n => {
+      const r = n.getBoundingClientRect();
+      pos[n.dataset.side + ':' + n.dataset.id] = { x: n.dataset.side === 'l' ? r.right - box.left : r.left - box.left, y: r.top - box.top + r.height / 2 };
+    });
+    const frag = [];
+    links().forEach(l => {
+      const [a, b] = endpoints(l), p = pos['l:' + a], q = pos['r:' + b];
+      if (!p || !q) return;
+      const s = lineStyle(view, l), dx = (q.x - p.x) * 0.5;
+      frag.push(`<path data-key="${l.key}" data-a="${a}" data-b="${b}" data-type="${l.type}" class="${s.dash ? 'dash' : ''}" stroke="${s.color}" d="M${p.x} ${p.y} C${p.x + dx} ${p.y} ${q.x - dx} ${q.y} ${q.x} ${q.y}"/>`);
+    });
+    svg.innerHTML = frag.join('');
+  }
+
+  function related() {
+    if (!sel) return null;
+    const a = new Set(), b = new Set(), keys = new Set();
+    links().forEach(l => {
+      if (hidden[view].has(l.type)) return;
+      if ((sel.side === 'l' && l.from === sel.id) || (sel.side === 'r' && l.to === sel.id)) { a.add(l.from); b.add(l.to); keys.add(l.key); }
+    });
+    return { a, b, keys };
+  }
+
+  function applyState() {
+    const rel = related();
+    const q = query.trim().toLowerCase();
+    document.querySelectorAll('#map .node').forEach(n => {
+      const id = n.dataset.id, side = n.dataset.side;
+      n.classList.toggle('sel', !!sel && sel.id === id && sel.side === side);
+      n.classList.toggle('cold', !!rel && !(side === 'l' ? rel.a.has(id) : rel.b.has(id)));
+      n.classList.toggle('miss', !rel && !!q && !n.dataset.hay.includes(q));
+    });
+    const match = q ? new Set([...document.querySelectorAll('#map .node')].filter(n => n.dataset.hay.includes(q)).map(n => n.dataset.side + ':' + n.dataset.id)) : null;
+    document.querySelectorAll('#lines path').forEach(p => {
+      p.classList.toggle('off', hidden[view].has(p.dataset.type));
+      const hot = rel ? rel.keys.has(p.dataset.key) : (match ? (match.has('l:' + p.dataset.a) || match.has('r:' + p.dataset.b)) : false);
+      p.classList.toggle('hot', hot);
+      p.classList.toggle('cold', (rel || match) ? !hot : false);
+    });
+  }
+
+  function setQuery(v) { query = v; sel = null; applyState(); renderPanel(); }
+
+  function select(s) { sel = s; applyState(); renderPanel(); if (s) { const panel = $('#panel'); panel.scrollTop = 0; } }
+
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const refLinks = refs => `<div class="refs">${refs.map(r => `<a href="${esv(r)}" target="_blank" rel="noopener">${esc(r)}</a>`).join('')}</div>`;
+  const jump = (v, side, id, label) => `<button class="jump" data-v="${v}" data-side="${side}" data-id="${id}">${esc(label)}</button>`;
+  const itemStyle = (v, l) => { const s = lineStyle(v, l); return `style="--c:${s.color}" class="${s.dash ? 'dash' : ''}"`; };
+
+  function findsForEra(era) { return D.idx.finds.filter(f => f.links.some(l => l.to === era)); }
+
+  function renderPanel() {
+    const P = $('#panel'), I = D.idx;
+    let h = '';
+    if (!sel) {
+      P.classList.remove('open');
+      h = view === 'finds'
+        ? `<h2>Finds and events</h2><p>Finds are on the left, oldest first, from clay tablets to Roman inscriptions. People and events are on the right, Genesis to Revelation.</p><p class="small">Watch the lines thicken from Hezekiah onward. Before about 1200 BC the evidence shows the world of Genesis was real, but no find names Abraham, Joseph or Moses.</p><p class="small">Start with the Sennacherib Prism, the Tel Dan Stele or the Pilate Stone.</p>`
+        : `<h2>Old and New</h2><p>Old Testament passages are on the left in timeline order, New Testament passages on the right. Tap a passage to see where it is quoted or fulfilled, and which finds come from its era.</p><p class="small">You are reading Romans. Tap "Romans" above to see what Paul draws on, starting with Habakkuk 2:4 behind Romans 1:17.</p>`;
+      P.innerHTML = h; return;
+    }
+    P.classList.add('open');
+    const close = `<button class="close" id="closep">Close</button>`;
+    if (view === 'finds' && sel.side === 'l') {
+      const f = I.find.get(sel.id);
+      h = `${close}<h2>${esc(f.name)}</h2><div class="meta"><span>${esc(f.when)}</span><span>Found: ${esc(f.place)}</span><span>Now: ${esc(f.nowAt)}</span></div><p>${esc(f.summary)}</p><h3>Links</h3><ul class="items">${f.links.map(l => `<li ${itemStyle('finds', l)}><span class="pill">${TYPES.finds[l.type].label}<span class="grade">${l.grade}</span></span>${jump('finds', 'r', l.to, I.ev.get(l.to).title)}<span class="small">${esc(l.note)}</span></li>`).join('')}</ul>`;
+    } else if (view === 'finds') {
+      const e = I.ev.get(sel.id);
+      const fs = I.links1.filter(l => l.to === e.id);
+      const ots = D.ot.filter(o => o.era === e.id);
+      h = `${close}<h2>${esc(e.title)}</h2><div class="meta"><span>${esc(e.when)}</span></div>${refLinks(e.refs)}<p>${esc(e.note)}</p><h3>Finds (${fs.length})</h3><ul class="items">${fs.map(l => `<li ${itemStyle('finds', l)}><span class="pill">${TYPES.finds[l.type].label}<span class="grade">${l.grade}</span></span>${jump('finds', 'l', l.from, I.find.get(l.from).name)}<span class="small">${esc(l.note)}</span></li>`).join('')}</ul>${ots.length ? `<h3>Scripture from this era</h3><div class="refs">${ots.map(o => jump('scripture', 'l', o.id, o.ref)).join(' · ')}</div>` : ''}`;
+    } else if (sel.side === 'l') {
+      const o = I.ot.get(sel.id);
+      const ls = I.links2.filter(l => l.from === o.id);
+      const fs = findsForEra(o.era);
+      h = `${close}<h2>${esc(o.ref)}</h2><div class="meta"><span>${esc(I.ev.get(o.era).title)} · ${esc(I.ev.get(o.era).when)}</span></div><p>${esc(o.gist)}</p>${refLinks([o.ref])}<h3>In the New Testament (${ls.length})</h3><ul class="items">${ls.map(l => `<li ${itemStyle('scripture', l)}><span class="pill">${TYPES.scripture[l.type].label}</span>${jump('scripture', 'r', l.to, I.nt.get(l.to).ref)}${l.note ? `<span class="small">${esc(l.note)}</span>` : ''}</li>`).join('')}</ul><h3>Finds from this era (${fs.length})</h3>${fs.length ? `<ul class="items">${fs.map(f => `<li><span>${jump('finds', 'l', f.id, f.name)}</span><span class="small">${esc(f.when)}</span></li>`).join('')}</ul>` : `<p class="small">None. This part of the story sits before the reach of archaeology.</p>`}`;
+    } else {
+      const n = I.nt.get(sel.id);
+      const ls = I.links2.filter(l => l.to === n.id);
+      h = `${close}<h2>${esc(n.ref)}</h2><div class="meta"><span>${esc(I.ev.get(n.era).title)}</span></div>${refLinks([n.ref])}<h3>Draws on (${ls.length})</h3><ul class="items">${ls.map(l => { const o = I.ot.get(l.from); return `<li ${itemStyle('scripture', l)}><span class="pill">${TYPES.scripture[l.type].label}</span>${jump('scripture', 'l', o.id, o.ref)}<span class="small">${esc(l.note || o.gist)}</span></li>`; }).join('')}</ul>`;
+    }
+    P.innerHTML = h;
+    const c = $('#closep'); if (c) c.addEventListener('click', () => select(null));
+    P.querySelectorAll('.jump').forEach(b => b.addEventListener('click', () => {
+      const target = { id: b.dataset.id, side: b.dataset.side };
+      if (b.dataset.v !== view) { setView(b.dataset.v, target); } else select(target);
+      const node = document.querySelector(`#map .node[data-side="${target.side}"][data-id="${CSS.escape(target.id)}"]`);
+      if (node && window.innerWidth > 900) node.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }));
+  }
+
+  function setView(v, target) {
+    view = v; sel = target || null; query = ''; $('#q').value = '';
+    try { history.replaceState(null, '', '#' + v); } catch (e) {}
+    render();
+  }
+
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => setView(t.dataset.view)));
+  $('#q').addEventListener('input', e => setQuery(e.target.value));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && sel) select(null); });
+
+  let raf = 0;
+  const redraw = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { if (D) { draw(); applyState(); } }); };
+  new ResizeObserver(redraw).observe($('#map'));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
+
+  Promise.all(['data/events.json', 'data/finds.json', 'data/scripture.json'].map(u => fetch(u).then(r => { if (!r.ok) throw new Error(u); return r.json(); })))
+    .then(([e, f, s]) => {
+      D = { events: e.events, finds: f.finds, leftOff: f.leftOff, ot: s.ot, nt: s.nt, slinks: s.links };
+      build();
+      const h = (location.hash || '').slice(1);
+      view = h === 'scripture' ? 'scripture' : 'finds';
+      render();
+    })
+    .catch(err => { $('#stats').textContent = 'The map data did not load. Reload the page to try again.'; console.error(err); });
+})();
+</script>
