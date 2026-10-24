@@ -71,3 +71,13 @@ Add Kev's fields from the first ask: title, years of experience, the full packag
 **Corrections.**
 - Triton "Miami, 4 pm" = **APM**, Miami. Fix `triton-miami-4pm` (role APM; consider a new id `triton-apm-miami`, old row kept, never deleted).
 - "MK Murill" = **MK Sherrill**, the drywall company (Kev confirmed). Set client "MK Sherrill" on the `sherrill-*` rows.
+
+## 3. Candidate care list (Kev, Sat 24 Oct; ticket `t-202610241440-qcwl`)
+
+Kev: "We should start a quality control checklist every candidate moving through interviews and is pending start dates and within 3069 start date should go on a list that the guys look at every day and babysit. For example, Ryan Ouellette he needs to be called. We need to make sure he's all good."
+
+- One daily list for the recruiters: every candidate (a) in interviews, (b) accepted with a start date pending, (c) inside 30/60/90 days after their start ("3069" read as 30/60/90, to confirm).
+- Each row: candidate, client, seat, stage, start date, owner, last touch, next touch due, checklist items (offer signed, resignation given, counter-offer risk, background or drug test, first-day logistics, 30/60/90 check-ins).
+- Seed: pending starts on the revenue report: Willard (26 Oct), Underwood (29 Oct), Navarette (2 Nov), Ryan Ouellette (3 Nov, needs a call now), Davis (9 Nov), Stamper ("October", no date). Owners and clients come from Crelate.
+- Names, stage and dates only on team surfaces: no fees or pay on this list.
+- Ask Kev: who calls Ryan Ouellette, and confirm "3069" = 30/60/90.
