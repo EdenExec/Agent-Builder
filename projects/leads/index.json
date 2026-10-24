@@ -399,6 +399,12 @@
       "stage": "landed"
     },
     {
+      "title": null,
+      "landedAt": null,
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
       "file": "2026-10-23-dfw-superintendents.csv",
       "rows": 197,
       "tiers": {
@@ -411,13 +417,28 @@
       "driveUrl": null,
       "status": "ok",
       "errors": 0,
-      "title": null,
-      "landedAt": null,
+      "stage": "staged"
+    },
+    {
+      "title": "EL-021 · 2026-10-23 · Pruter Construction · Concrete PM, SoCal · 132 leads",
+      "landedAt": "2026-10-23",
       "phonesAt": null,
       "crelateAt": null,
       "movedAt": null,
       "note": "",
-      "stage": "staged"
+      "file": "2026-10-23-socal-concrete-pm.csv",
+      "rows": 132,
+      "tiers": {
+        "1": 63,
+        "2": 67,
+        "3": 2
+      },
+      "built": "2026-10-23",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/10aA0Bv5Ery0jzlJBUXSePUKGz4vngrQzV29w1HiWSD4/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
     },
     {
       "title": "20 · Pool · Estimating + Procurement, South FL · 63 leads",

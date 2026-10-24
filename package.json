@@ -28,7 +28,9 @@
     "ct-routine": "node workshop/cloudtalk/routine.ts",
     "leads": "node workshop/leads/cli.ts",
     "recruiting-board": "node workshop/workforce/cli.ts",
-    "office-prep": "node workshop/office/office-prep.ts"
+    "office-prep": "node workshop/office/office-prep.ts",
+    "card-pdf": "node workshop/workforce/card-pdf.ts",
+    "scorecard-rows": "node workshop/workforce/scorecard-rows.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",

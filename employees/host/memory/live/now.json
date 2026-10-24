@@ -1,0 +1,24 @@
+{
+  "updated": "2026-10-23T18:40:00Z",
+  "on": "Boise hiring package (Word) for Nick; email drafted, QC 2026-10-23-cdbb36 waiting on Kev",
+  "doc": "https://claude.ai/artifact/3n2h6vUU7UsMMYk13rw61L",
+  "ticket": "t-202610231625-wbnr (gated)",
+  "waitingOnKev": [
+    "Approve and send the Nick email (attach the .docx first)",
+    "Pay ranges, hours, start date, links (Nick fills)",
+    "Sales Intern commission terms (TBD)"
+  ],
+  "next": "When blanks are filled, queue each posting as a QC publish item",
+  "docket": [
+    "projects/workforce/boise-internships/docket-review-2026-10-23.md",
+    "projects/workforce/boise-internships/docket-1099-and-offer-letters-2026-10-23.md",
+    "projects/workforce/boise-internships/intern-compliance-training.md"
+  ],
+  "package": "projects/workforce/boise-internships/Eden Boise Hiring Package (for Nick).docx",
+  "decided": [
+    "Employer: Eden Partner Group",
+    "Remote recruiters: nationwide",
+    "No outside employment counsel call for now",
+    "Numbers gate 2026-10-23-f2f486 cleared by Tally 27/27"
+  ]
+}
