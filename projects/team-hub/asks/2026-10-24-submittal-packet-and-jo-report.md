@@ -31,3 +31,43 @@ Why: clients are asking for better candidate quality and match, and more referen
 4. Comp on the cover page changes the 8 Oct rule ("no comp history on a submittal"): the candidate's own current or desired package now goes on the page. Confirm.
 5. Where do packets live? Proposal: Drive, one folder per client, never the repo or the Hub (they carry comp and references).
 6. Submittal counts: from the depth charts until Q's Crelate mirror runs, then from Crelate submittal activities.
+
+## Kev's answers (Sat 24 Oct, same session)
+
+**Build early Sunday, not late.** "We have lots of work to do Sunday/Monday/Tuesday."
+
+**Hoffman example (Hannah's framework).** The cover page follows these fields in this order:
+
+| Field | Example (Hoffman, low voltage) |
+|---|---|
+| Candidate Name | |
+| Salary Expectations | mark it **current** or **desired** |
+| Role Submitted | Low Voltage PM, TX |
+| Current Location | Louisiana |
+| Target Project Locations | TX. Just finished traveling, open to it again for the right opportunity |
+| Experience Highlights | Division 27 and 28 scopes (Cat 6 cabling, ISP/telecom infrastructure, data racks), data center experience, a true SME in low voltage |
+| Start Availability | ASAP |
+| Actively Interviewing | Not yet |
+| Interview Availability | Whenever there is availability |
+| Concerns | |
+
+Add Kev's fields from the first ask: title, years of experience, the full package (base, bonus, vehicle allowance, ESOP, ownership or golden handcuffs) and the Google search link.
+
+**Google search.** The Boolean covers name variations AND location: the candidate's current state plus every state where they lived or worked before (from the resume).
+
+**Pay on the packet: yes**, always marked current or desired. This replaces the 8 Oct "no comp history" line for the packet's pay field.
+
+**Priority tiers.** Crelate's recruiting flow sorts jobs as Retained, Top Priority, Go Now, Typical; Radar can see which are retained. For now:
+- Retained: PB South, Triton
+- High priority: Megawatt, Hoffman, VMG
+- Below: Moss and the rest
+
+**$$$: real fees are fine.** "The guys should know how much $ is on the table." Fee goes on the status report (internal). Keep it off client-facing views and the screen-share side of the Hub.
+
+**New JO trigger.** As JOs are added in Crelate: Radar catches the new JO, Scout does lead gen, Casey places it on the board.
+
+**Crelate access.** If Q is not connected, Kev will fix it. Radar and Dean are connected (they run the scorecard activity reports) and can help Casey and Q pull submittal counts.
+
+**Corrections.**
+- Triton "Miami, 4 pm" = **APM**, Miami. Fix `triton-miami-4pm` (role APM; consider a new id `triton-apm-miami`, old row kept, never deleted).
+- "MK Murill" = **MK Sherrill, drywall**. Confirm whether MK Sherrill is the company name when updating the `sherrill-*` rows.
