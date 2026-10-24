@@ -125,3 +125,12 @@ Pruter's legal name and the Eden entity also need answers, from Serena and Joel 
 - leginfo.legislature.ca.gov returned 403, so no statute was read from the official site.
 
 Rubric (legal-work): verdict first, sourced and graded, redlines with wording, numbers gated, counsel flagged. Self-score 9/10; the point off is because the official statute text could not be read.
+
+## Kev's decisions (23 Oct 2026) and what changed
+
+1. **Two payments**, not thirds: a deposit to do the search, the remainder on successful completion. Standard for all retained searches now.
+2. **Refund:** not automatic. After the 10-business-day progress report, the client may ask for the retainer back if they don't think Eden is performing.
+3. **Hire outside or promote within:** the retainer is not refundable once Eden has performed in line with expectations in the first 10 days.
+4. **No fee floor:** bill 25% of the final salary less the deposit.
+
+Radar applied 1, 2 and 4 to the Pruter draft and the master template, plus redlines 3 (Phase II wording) and 5 (guarantee tied to "paid by its due date"). Still open: Pruter's legal name (Serena), which Eden entity takes the fee (Joel), governing law and venue, and moving the sales page out of the signed document.

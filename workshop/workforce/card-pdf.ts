@@ -26,6 +26,9 @@ export const boxes = (c: Card) => [...(c.d ?? []), ...(c.w ?? [])].filter(Boolea
 export const cardTotal = (c: Card) => (String(c.week_of ?? "9") < "2026-10-19" ? 42 : CARD_BOXES);
 export const score = (c: Card) => (typeof c.kev_score === "number" ? c.kev_score : Math.round((boxes(c) / cardTotal(c)) * 100));
 
+// Health stays off paper (standing rule): a sentence naming a health matter is withheld.
+const HEALTH = /\b(migraines?|sick|ill(ness)?|flu|covid|fever|doctor|hospital|surgery|injur(y|ed)|pregnan\w*|therap(y|ist)|medication|diagnos\w*)\b/i;
+export const scrubHealth = (s?: string) => (s ?? "").split(/(?<=[.!?])\s+/).map((x) => (HEALTH.test(x) ? "[health note withheld]" : x)).join(" ");
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]!);
 const tick = (b?: boolean) => `<span class="bx${b ? " on" : ""}">${b ? "✓" : ""}</span>`;
 const n = (v?: number) => (typeof v === "number" ? String(v) : "–");
@@ -49,7 +52,7 @@ function personPage(p: Person, c: Card, row: BoardRow | undefined, prev: Card | 
   const days = Object.entries(row?.rp_by_day ?? {}).sort(([a], [b]) => a.localeCompare(b));
   const dayOf = (i: number) => days.find(([d]) => new Date(`${d}T12:00:00Z`).getUTCDay() === i + 1)?.[1];
   const w = watch(row, c, prev);
-  const fld = (label: string, v?: string) => `<div class="fld"><b>${label}</b><p>${esc(v) || "<span class=mute>—</span>"}</p></div>`;
+  const fld = (label: string, v?: string) => `<div class="fld"><b>${label}</b><p>${esc(scrubHealth(v)) || "<span class=mute>—</span>"}</p></div>`;
   return `<section class="page">
 <header><span>EDEN PARTNER GROUP</span><span>Weekly Scorecard · Round Table · week of ${esc(week)}</span></header>
 <div class="ph"><h1>${esc(p.name ?? p.id)}</h1><span class="role">${esc(p.role ?? "")}</span><span class="sc">${score(c)}%<small>${typeof c.kev_score === "number" ? " Kev's score" : ` ${boxes(c)} / ${cardTotal(c)} boxes`}</small></span>${c.pip ? '<span class="pipflag">PIP</span>' : ""}</div>
