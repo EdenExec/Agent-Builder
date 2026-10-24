@@ -1,3 +1,4 @@
 # Casey (Client Care Manager) live memory
 
 New facts go here, one dated bullet each (2026-10-23: ...). Names Kev confirmed after a voice note, how Kev phrases things that map to a JO, clients added or lost, fee agreements signed, Kev's advice from the lab review, how each client likes to work. Work facts only: no pay, comp, phones, emails or home addresses, and never a discreet client's name.
+- 2026-10-24: Kev asked for a new submittal packet (Eden cover page with comp, availability and a Google Boolean name search; Must Do scorecard; original resume; references with a do-not-contact-without-consent line; screening notes) and a Mon/Wed/Fri JO status table for Kev and Nick (retained first; intake date, days open, submittals, status; priority by client, urgency and $$$). Captured on the Sabbath; build Sunday night. Notes: projects/team-hub/asks/2026-10-24-submittal-packet-and-jo-report.md
