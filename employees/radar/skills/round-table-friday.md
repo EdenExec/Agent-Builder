@@ -29,7 +29,7 @@ Everything Kev taps saves to `people/<slug>/cards/<Monday>`. Weeks are keyed by 
 2. Run `npm run card-pdf -- --dump <that dir> --week <this Monday> --out deliverables/scorecards`. It prints anyone flagged for a PIP.
 3. Deliver the PDF to Kev:
    - send the file with SendUserFile;
-   - upload it to Google Drive in the Eden Daily folder as "Round Table <Monday>.pdf";
+   - upload it to Google Drive in The Eden Daily folder (id `1DvqQIdEi0gt9AEImtR20_T3HdQAa8AaN`) as "Round Table <Monday>.pdf". The Drive connector takes the file inline as base64, which is impractical for a PDF over about 100 KB (the 19 Oct one was 360 KB). When it is too big, skip the upload and say so in the alert: Kev saves it from the file card;
    - post the Drive link in the Command Center as a needsKev alert, `rt-pdf-<Monday>`, on Dean's desk.
    Kev saves it to iCloud himself.
 4. **PIPs.** For each person flagged (Kev's box, or the card's "two weeks under 90%" watch line when Kev also ticked the box), start the `dean` agent. It drafts a performance improvement plan from:
@@ -40,7 +40,7 @@ Everything Kev taps saves to `people/<slug>/cards/<Monday>`. Weeks are keyed by 
 
    The draft covers the standard, the gap, the 30-day targets, weekly check-ins, support offered, and what happens at day 30. Then start the `docket` agent to check the wording against Florida, Oregon and Idaho employment law, as written by the employee's state. Deliver the draft to Kev with the PDF, marked DRAFT. Never send it to the recruiter. A PIP is Kev's call and his conversation.
 5. Put one post on Dean's feed in the Command Center: the cards delivered, with the PDF link.
-6. Commit the PDF and any PIP draft under `deliverables/scorecards/`; they are work-only, with no health, family or age details. Push.
+6. Keep the PDF and any PIP draft in `deliverables/scorecards/`. That folder is gitignored on purpose: the cards carry Kev-only coaching notes, so they never go in the repo. Commit and push only code or playbook changes. The PDF builder withholds any sentence naming a health matter ("[health note withheld]"); never work around it.
 
 ## Never
 
