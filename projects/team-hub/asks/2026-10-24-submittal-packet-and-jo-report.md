@@ -70,4 +70,4 @@ Add Kev's fields from the first ask: title, years of experience, the full packag
 
 **Corrections.**
 - Triton "Miami, 4 pm" = **APM**, Miami. Fix `triton-miami-4pm` (role APM; consider a new id `triton-apm-miami`, old row kept, never deleted).
-- "MK Murill" = **MK Sherrill, drywall**. Confirm whether MK Sherrill is the company name when updating the `sherrill-*` rows.
+- "MK Murill" = **MK Sherrill**, the drywall company (Kev confirmed). Set client "MK Sherrill" on the `sherrill-*` rows.

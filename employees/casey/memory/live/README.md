@@ -5,3 +5,4 @@ New facts go here, one dated bullet each (2026-10-23: ...). Names Kev confirmed 
 - 2026-10-24: Kev confirmed "Miami, 4 pm" (Triton) was APM, Miami; and "MK Murill" is MK Sherrill, drywall.
 - 2026-10-24: Kev's priority tiers (Crelate flow: Retained, Top Priority, Go Now, Typical). Retained: PB South, Triton. High priority: Megawatt, Hoffman, VMG. Below: Moss and the rest. Real fees are fine on the internal JO status report; the recruiters should know what is on the table.
 - 2026-10-24: Kev wants work started early Sunday, not late Sunday night ("lots of work to do Sunday/Monday/Tuesday").
+- 2026-10-24: Kev confirmed MK Sherrill is the drywall company (Austin and San Antonio roles); Michael Sherrill is the contact. Sunday: client "MK Sherrill", rows sherrill-sr-pm-austin and sherrill-sr-estimator-sa.
