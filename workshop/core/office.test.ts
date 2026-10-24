@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { buildFeed, buildAlerts, buildAgents, findUnused, planWrites, chunk, scrub, qcApprovalsByDay, DESKS, type SyncInput, SUPERHUMAN_URL } from "./office.ts";
+import { buildFeed, buildAlerts, buildAgents, findUnused, planWrites, chunk, scrub, qcApprovalsByDay, DESKS, SENSITIVE_AGENTS, type SyncInput, SUPERHUMAN_URL } from "./office.ts";
 import type { QcItem } from "./qc.ts";
 import type { GateRecord } from "./numbers-gate.ts";
 import { approvalHash } from "./qc.ts";
@@ -261,6 +261,10 @@ describe("the ticket SLA on the desks (Kev, 22 Oct 2026)", () => {
     assert.deepEqual(qcApprovalsByDay(q, now), { "2026-10-21": 2 });
   });
   test("the Projects PM sits on its own desk", () => { assert.equal(DESKS.pm, "projects"); });
+  test("the Client Care Manager sits on the Recruiting desk and is not hidden under Screen share", () => {
+    assert.equal(DESKS.casey, "recruiting");
+    assert.ok(!SENSITIVE_AGENTS.has("casey"));
+  });
 });
 
 describe("the page", () => {

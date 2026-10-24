@@ -41,3 +41,14 @@ Write the final week's row to `projects/workforce/scorecard-trend.md`, give Rada
 ## The Round Table board (Q, 23 Oct 2026)
 
 Fridays, refresh the team board at the top of the Round Table with `npm run recruiting-board -- --out projects/workforce/board/current.json` (read-only Crelate pull, Sunday to now against last week to the same point, by active JO; add `--rev-csv <export of the 2026 Rev Report tab>` for per-recruiter revenue). Radar writes the file to the artifact as `board/current`; details in `projects/workforce/round-table.md`.
+
+## The live card (Kev, 23 Oct 2026)
+
+The card (43 boxes since 23 Oct: 35 daily, 8 weekly, with "Push your job orders forward" added) now lives in each person's Round Table folder ("This week's card"). It has clickable daily, weekly and core-value boxes, the recruiter's notes, and Kev's coach section with his score and a "Needs a PIP" box. Everything saves as Kev taps.
+
+Fridays:
+- 9:55am PT: a fresh Crelate pull.
+- 5:07pm PT: the cards go to Kev as one PDF, and any PIP flagged on a card comes to you to draft for Kev.
+
+Playbook: employees/radar/skills/round-table-friday.md. Scripts: `npm run scorecard-rows`, `npm run card-pdf`.
+

@@ -6,7 +6,7 @@ Proposed 5 October 2026 from the sent mail, the Hub and Emma's old threads. Kev 
 
 | Thing | Where |
 |---|---|
-| Placements and fee maths | Hub sheet "2026 - EPG Dashboard (Hub)", tab "2026 Rev Report" (`1J1RSMPF5B5tFooRN_PEJdAzK6y74lXBqgxIxq6byP24`). One row per placement or retainer: #, Candidate, Start Date, Net Terms, Client, Role, H.A., Salary, Rate, Fee, Discount, Eden Gross, Notes. |
+| Placements and fee maths | Hub sheet "2026 - EPG Dashboard (Hub)", tab "2026 Rev Report" (`1J1RSMPF5B5tFooRN_PEJdAzK6y74lXBqgxIxq6byP24`). Placements starting in 2027 go on "2027 - EPG Dashboard (Hub)" (`1L8GNBklncJqi6scmlBMR3RybT5Ltt73I9s8qg3lAFcY`, Kev 23 Oct 2026), same columns. One row per placement or retainer: #, Candidate, Start Date, Net Terms, Client, Role, H.A., Salary, Rate, Fee, Discount, Eden Gross, Notes. |
 | Template | Google Doc "(TEMPLATE) Invoice - ____ - _. _____ (Role)" (`1MuNperxtLjmhs2-216FW2YBpvrnJl_PgIIJS1bR80_Y`), in the Invoices folder (`1fEMaQEa9j3Xc6fNQMqUNouvr3uADefeO`). Copy it with `copy_file`; never edit the template. The copy keeps the letterhead, Montserrat and layout. |
 | Finished invoices | Same folder, named `Invoice - <#> - <F. Last> - <Role>`. |
 | Sent record | The email thread in Superhuman and a ledger row (Lane Waiting on, Owner the client's AP contact, Due the terms date). The Hub column "Date: $ In" is empty on every 2026 row, so the ledger is the tracker until Kev adds "Invoice sent" and "Paid" columns to the sheet. |

@@ -10,6 +10,15 @@ compact: true
 
 # Joey Walker · PB South travel options
 
+## Refundable fare (Kev, 23 Oct)
+
+Kev: "Just get a fully refundable fare so that way we can return the flight if Joey can't make it in November." This supersedes the $900 Main Cabin estimate below. Checked 23 Oct 2026.
+
+- **Fare to book:** American Main Cabin Flexible (fully refundable), same Option 1 route: out Wed 11 Nov ABI 8:00am to PBI about 2:39pm via DFW; back Fri 13 Nov PBI to DFW nonstop about 3:24pm, DFW to ABI evening connection. Times and flight numbers UNVERIFIED for the dates. Option 3's DFW nonstop is the fallback.
+- **Refund rule:** a refundable ticket cancelled before travel starts is refunded in full to the original form of payment (card, about 7 business days), per American's conditions of carriage as summarized in search; standard Main Cabin gives travel credit only and Basic is neither, so neither meets Kev's rule. aa.com, Google Flights and Kayak would not open for my tools (403 or empty), so **no live refundable fare was seen**. Expect refundable fares to run well above the $500 Main Cabin estimate; I set a **$1,000 flight cap (A)**.
+- **Hotel:** Courtyard West Palm Beach on the free-cancellation rate (until about 4pm the day before; confirm), pay at the hotel, $340.
+- **QC:** 2026-10-23-52fd95, spend, cap $1,400 ($1,000 flight + $340 hotel + $60 ground). The old item 2026-10-22-1037d4 is marked SUPERSEDED in its summary and detail; the QC tool has no supersede status, so reject it when you approve the new one. Noah books on Kev's yes only if the aa.com fare screen says refundable to the original card and is at or under the cap; otherwise it comes back to Kev. Joey's details go to the booker, not this repo.
+
 ## Executive summary
 
 - **Option 1: American, ABI to DFW to PBI, Main Cabin, Marriott Courtyard West Palm Beach. About $900 all in (estimate).** Lands mid-afternoon on 11 November, well before 10:30pm, and puts Joey home on Friday 13 November.
