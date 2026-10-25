@@ -28,6 +28,27 @@ Blank fields are marked needs Crelate (owner, client, seat come from Crelate). N
 
 Seed names and dates come from the revenue report in Kev's 24 Oct ask. Dates are as recorded there; confirm each in Crelate.
 
+## Crelate pull, 25 Oct 2026 (ticket t-202610251330-crlr)
+
+Latest stage per candidate on active JOs since 1 Aug (Crelate stage history). Owner = the recruiter who last moved the stage; Kev still names the babysitter. Start dates are not on the stage history: they come from the placement record (needs Q's mirror).
+
+| Candidate | Client / seat (JO) | Crelate stage | Stage date | Last moved by |
+|---|---|---|---|---|
+| Ryan Ouellette | PB South, MEP Supers | Offer $ | 30 Sep | Kevin Williams |
+| Jay Willard | PB South, General 2 | Offer $ | 14 Oct | Andrew Johnson |
+| Cesar Navarrette | PB South, Phillips Lobby | Offer $ | 30 Sep | Max Betcher |
+| Richard DiStasio | PB South, City Place Supers | Offer $ | 14 Aug | Andrew Johnson |
+| Nicolas Villarroel | Pence Kelly, MPC Bucket | Offer $ | 3 Aug | Max Betcher |
+| Brad Moore | PB South, General Super WPB and Gen/Sr Super | Interviewing | 23 Oct | Evan MacArthur |
+| Mason Bangeman | Hoffman Boise PE's | Interviewing | 21 Oct | Kevin Williams |
+| Garet Isaman | Hoffman Boise PE's | Interviewing | 15 Oct | Bridger Stainbrook |
+| Dan Gallagher | PB South, City Place Supers | Interviewing | 12 Oct | Kevin Williams |
+| Brian Sayers | Megawatt, ET and CT Talent | Interviewing | 10 Sep | Nick Leckwold |
+| Blake Haney | Pence Kelly, MPC Bucket | Interviewing | 3 Sep | Kevin Williams |
+| Christian Hipolito | Megawatt, MPC Bucket | Interviewing | 16 Sep | Nick Leckwold |
+
+Not found on active JOs: Underwood, Davis, Stamper (probably on a filled or closed JO). Crelate's API cannot search contacts by name, so Q needs to finish the mirror to close this. Stale stages (Sep or earlier) may already be resolved: confirm before anyone calls.
+
 ## Row template (copy per candidate)
 
 | Field | Values |

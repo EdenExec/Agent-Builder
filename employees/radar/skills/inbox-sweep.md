@@ -80,3 +80,7 @@ Kev, 21 Oct: every ready draft gets a Superhuman link, so he can send it from Su
    A "Ticket:" line Kev did not turn into a ticket stays a suggestion.
 4. **Sync.** Save the tickets (`ArtifactData list tickets` with `out_dir`), join them into one JSON array, and run `npm run office -- sync --tickets <that file>` so each desk counts its open tickets and lights green while one is picked. Then push `.office-outbox/batch-*.json` with one `batch`.
 5. **Lead sheets (Kev, 21 Oct 2026).** Open the Lead Log in the Drive master folder (1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9). Any sheet with "In Crelate" dated and "Moved" blank: move it with Drive `update_file` `parentId=1ToXMnrgReSVHyTS24PT4WEh498VDa8Kk` (Uploaded to Crelate), date Moved in the Lead Log, then `npm run leads -- stage-set <file> crelate|moved` so the repo index agrees. Never move a sheet that is not dated In Crelate.
+
+## New JO catch (Kev, 24 Oct 2026; via Casey, 25 Oct)
+
+Every weekday sweep: read Crelate `jobs` created since the last sweep in the Retained, Top Priority, Go Now and Typical columns (read-only, `jobs?statuses=...&fields=Id,JobNum,Name,CreatedOn,Owners`). Any new JO: ticket **Scout** (lead gen for the JO) and **Casey** (place it on the board, depth chart, Must Dos). Baker shows as "Client · discreet". Never create the ticket twice for the same JobNum.
