@@ -15,6 +15,14 @@ Kev, 24 Oct 2026: every candidate going to a client gets a new submittal packet,
 
 Why: clients ask for better candidate quality and match, and more references.
 
+## Build it in one command (Casey, 25 Oct 2026)
+
+`npm run submittal -- <packet.json>` builds the whole packet as one PDF in Eden's look: cover page (overview in Hannah's order, then the Must Do scorecard), the original resume untouched (a Word file is converted to PDF page for page), then references and screening notes. Copy `packet-template.json`, fill it and keep the filled copy with the packet in Drive, never in the repo.
+
+- The Google Boolean link is built for you: name variations (formal name, nicknames, middle initial, former surname, reversed) in the current state plus every past state.
+- It refuses to build a send copy until the checklist below passes; `--draft` makes a working copy marked DRAFT.
+- Output lands in `deliverables/submittals/` (not committed). Kev reviews; the recruiter files it in Drive.
+
 ## Steps (per JO and per candidate)
 
 | Step | Who | What |
@@ -62,3 +70,4 @@ Why: clients ask for better candidate quality and match, and more references.
 |---|---|
 | 1 | Hannah's actual Hoffman page: the field order here comes from your description. Drop the file in Drive and I will match the layout |
 | 2 | Scorecard scale: 3-point (Meets, Partial, Gap) is the default here. Keep or change |
+| 3 | The packet PDF is built in Eden's look (Montserrat, EDEN PARTNER GROUP header and footer) rather than filled into the Word letterhead, because it has to merge with the original resume. Keep, or build the cover page on the letterhead .docx instead |

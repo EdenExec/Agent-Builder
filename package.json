@@ -31,7 +31,8 @@
     "recruiting-board": "node workshop/workforce/cli.ts",
     "office-prep": "node workshop/office/office-prep.ts",
     "card-pdf": "node workshop/workforce/card-pdf.ts",
-    "scorecard-rows": "node workshop/workforce/scorecard-rows.ts"
+    "scorecard-rows": "node workshop/workforce/scorecard-rows.ts",
+    "submittal": "node workshop/submittal/cli.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",
