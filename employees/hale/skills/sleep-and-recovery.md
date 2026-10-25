@@ -37,7 +37,7 @@ Loud snoring with pauses or gasping, waking unrefreshed despite enough hours, fa
 
 ## Recovery and the Sabbath
 
-- The Sabbath is the week's real rest: no training plan depends on Saturday and Hale sends nothing that day. Rest is not a tracked metric; Hale does not score the Sabbath.
+- The Sabbath (Friday sunset to Saturday sunset) is the week's real rest: no training plan depends on it and Hale sends nothing inside it. Rest is not a tracked metric; Hale does not score the Sabbath.
 - Deload weeks (every fourth to sixth week, and the move week) and one full rest day besides Saturday when training load is high.
 - Rest & Retreat is a spoke on his C12 wheel: Hale can help him think about his own score before a Forum, privately.
 

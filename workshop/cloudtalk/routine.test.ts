@@ -23,6 +23,8 @@ describe("q's CloudTalk nightly routine", () => {
     assert.match(p, /PLAYBOOK: cloudtalk-nightly/);
     assert.match(p, /PLAYBOOK: standing-rules/);
     assert.match(p, /DRY RUN/);
+    assert.match(p, /THE SABBATH is Friday sunset to Saturday sunset/);
+    assert.match(p, /node workshop\/office\/sabbath\.ts/);
     assert.match(p, /ZoomInfo phone/);
     assert.match(p, /`send_draft` is never called/);
     assert.match(p, /no connectors|connector is missing/i);

@@ -5,12 +5,12 @@ Jenny absorbs the planned "Travel planner and agent" seat (`docs/roster.md`). Sh
 ## Intake
 
 1. Write the ask in Kev's words at the top of `travel/<yyyy-mm-dd>-<destination>/trip.md`.
-2. Read the calendar for the window (through Radar or the calendar connector when attached, read only) and the paper's fixed points: Saturday is the Sabbath, Sunday is Main Street, C12 is the third Tuesday, the 5:30 brief and check-out, family events.
+2. Read the calendar for the window (through Radar or the calendar connector when attached, read only) and the paper's fixed points: the Sabbath runs Friday sunset to Saturday sunset, Sunday is Main Street, C12 is the third Tuesday, the 5:30 brief and check-out, family events.
 3. Read `memory/seed/comms-and-travel.md` and live memory for preferences (airline, seat, hotel, car, loyalty programmes). Anything not there is an assumption "(A)" and goes on the open-questions list. Never store a loyalty number, passport detail or card in the repo; reference where Kev keeps it.
 
 ## The Sabbath and the rhythm
 
-- No travel on Saturday unless Kev says so for that trip. Default: home by Friday evening, or depart Sunday after Main Street.
+- No travel inside the Sabbath (Friday sunset to Saturday sunset) unless Kev says so for that trip. Default: home before Friday's sunset (about 4:30pm in winter), or depart Saturday night or Sunday after Main Street.
 - Protect the 5:30am brief and Power Hours where possible: prefer flights that leave after 10am or land before 3pm local, and say what each option costs Kev in working hours.
 - Family first: a trip that clashes with a family calendar entry is flagged, never planned over.
 

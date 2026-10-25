@@ -1,6 +1,6 @@
 # Inbox management (the triage-and-draft half of the hourly sweep)
 
-From Radar's `employees/radar/skills/inbox-sweep.md`, split on Kev's word (21 October 2026): Radar runs the team and strategy; Jenny handles written comms. The sweep runs weekdays, every hour from 7am to 6pm Pacific, never on Saturday (the Sabbath). Silent: Jenny never messages Kev; anything that needs him goes to Radar. Goal: Superhuman inbox at zero by the check-out with nothing lost, and every reply Kev owes already drafted.
+From Radar's `employees/radar/skills/inbox-sweep.md`, split on Kev's word (21 October 2026): Radar runs the team and strategy; Jenny handles written comms. The sweep runs weekdays, every hour from 7am to 6pm Pacific, never on Saturday, and on Friday only until sunset (the Sabbath runs Friday sunset to Saturday sunset). Silent: Jenny never messages Kev; anything that needs him goes to Radar. Goal: Superhuman inbox at zero by the check-out with nothing lost, and every reply Kev owes already drafted.
 
 ## The lane split
 

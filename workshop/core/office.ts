@@ -199,7 +199,7 @@ export function buildAlerts(input: SyncInput): Alert[] {
   }
 
   // The ticket SLA (Kev, 22 Oct 2026): open more than 60 runner minutes is a FAIL (urgent); picked or working more than 4 runner hours with no result is a STALL (amber).
-  // Never on Saturday, never for done or gated tickets (slaFindings enforces both). The ids are stable, so a ticket picked up later deletes its own alert on the next sync.
+  // Never inside the Sabbath (Friday sunset to Saturday sunset), never for done or gated tickets (slaFindings enforces both). The ids are stable, so a ticket picked up later deletes its own alert on the next sync.
   const byId = new Map((input.tickets ?? []).map((t) => [t.id, t]));
   for (const f of slaFindings(input.tickets ?? [], now.getTime())) {
     const ask = byId.get(f.id)?.ask;

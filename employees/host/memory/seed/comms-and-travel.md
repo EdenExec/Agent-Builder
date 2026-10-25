@@ -30,7 +30,7 @@ Ally, the kids and family threads (family lane; Radar files, Kev answers). The t
 | Input | Starting value |
 |---|---|
 | Home base | Vancouver, WA until the Boise move (target Friday 6 November 2026), then Boise (A) |
-| Sabbath | No travel on Saturday; home by Friday evening or depart Sunday after Main Street |
+| Sabbath | Friday sunset to Saturday sunset: no travel inside it; home before Friday's sunset (about 4:30pm in winter) or depart Saturday night or Sunday after Main Street |
 | Fixed points | 5:30am brief, Power Hours in the morning, C12 the third Tuesday monthly, 5:30pm check-out |
 | Airline, seat, hotel, car, loyalty programmes | Unknown: ask Kev once, record here through Radar. Never store numbers |
 | Budget rule | Unknown: default to the cheapest refundable option that keeps the Sabbath (A) |

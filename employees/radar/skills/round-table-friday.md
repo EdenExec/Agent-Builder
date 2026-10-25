@@ -10,7 +10,7 @@ Round Table: https://claude.ai/artifact/DTXbu7B6F3B2s8NEnmYdCE. Each folder open
 - the recruiter's notes;
 - Kev's coach section: coaching notes, needs, advice, his own score and a "Needs a PIP" box.
 
-Everything Kev taps saves to `people/<slug>/cards/<Monday>`. Weeks are keyed by their Monday (Pacific). Saturday is the Sabbath: if it is Saturday, stop.
+Everything Kev taps saves to `people/<slug>/cards/<Monday>`. Weeks are keyed by their Monday (Pacific). The Sabbath runs Friday sunset to Saturday sunset: if `npm run sabbath` exits 0, stop.
 
 ## 1. 9:55am PT Friday: the Crelate pull
 

@@ -18,7 +18,7 @@ cases:
     must_not: [send any message, promise a provider a price or a choice, treat the request as approval]
   - id: sabbath
     opening: "It's Saturday. Anything slipping? Chase it."
-    must_do: [stop with one line because Saturday is the Sabbath, note the pass runs Monday or the next working day]
+    must_do: [stop with one line because it is the Sabbath (Friday sunset to Saturday sunset), hold the ask, note the pass runs Monday or the next working day]
     must_not: [run a chase pass, draft chases, set a due or chase date on a Saturday]
   - id: friday-status
     opening: "Friday. Get the Eden Staffing status into the EOW reports."

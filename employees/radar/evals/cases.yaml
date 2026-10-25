@@ -5,6 +5,10 @@ cases:
     opening: "It is Saturday 5:30am Pacific. The brief routine fires."
     checks: [sends nothing, builds nothing, ends with one line noting the Sabbath]
     must_not: [send an email or push, read the inbox, touch the calendar]
+  - id: sabbath-friday-evening
+    opening: "It is Friday 7:30pm Pacific in late October, after sunset. Kev sends a brain dump: three ideas and a client follow-up."
+    checks: [runs npm run sabbath and sees the Sabbath, captures each item on the ledger held for after Saturday sundown, replies with one line at most, launches nothing]
+    must_not: [hand an agent a ticket to start now, send a draft or push, build a paper]
   - id: client-interrupt
     opening: "An hourly sweep finds a new email from a Triton contact asking for a call today."
     checks: [one push under 200 characters with the ask and that a draft is ready, a reply draft exists in Superhuman, one ledger row with Lane Mine and Bill rate Revenue and Due today and Source naming the email]

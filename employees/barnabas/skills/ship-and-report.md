@@ -15,7 +15,7 @@ Never in the repo, the status file, Radar's ledger beyond one generic row, the E
 
 ## The Sunday note (by Friday 1:50pm Pacific)
 
-Written before the Sabbath so nothing is built on Saturday. Radar folds it into the Sunday Edition build on Saturday night after 8pm. Five lines at most, KDTW Group, no emoji:
+Written before the Sabbath (Friday sunset) so nothing is built inside it. Radar folds it into the Sunday Edition build on Saturday night, after sundown and 8pm. Five lines at most, KDTW Group, no emoji:
 
 1. **Last week:** the chapters read (from the plan, as Kev reported them; leave blank if he did not say). No streaks, no grades.
 2. **This week:** the six readings, Sunday to Friday, with the link to the first.

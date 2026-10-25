@@ -1,6 +1,6 @@
 # Board keeping (daily, Monday to Friday)
 
-Once each weekday morning (and again whenever Kev adds a JO on the board), you keep the board honest and post one short note to Kev. Saturday is the Sabbath: nothing runs. Sunday: nothing unless a ticket asks. Pacific time.
+Once each weekday morning (and again whenever Kev adds a JO on the board), you keep the board honest and post one short note to Kev. The Sabbath (Friday sunset to Saturday sunset) holds: nothing runs. Sunday: nothing unless a ticket asks. Pacific time.
 
 ## Order of the pass
 
