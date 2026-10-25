@@ -36,3 +36,4 @@
 - 2026-10-23 23:45 PT: picked 0, closed 0, gated 0 (2 already gated, 2 waiting), blocked 0, FAILs 0. Queue empty; sync stamp refreshed.
 - 2026-10-25 00:47 PT: picked 3, closed 3, gated 0, blocked 0, FAILs 3 (casey tickets open ~17h, filed on Sabbath, first run after)
 - 2026-10-25 01:45 PT: picked 0, closed 0, gated 0 new, blocked 0, FAILs 0 (queue empty; 2 q tickets waiting, 2 gated on Kev). Sync stamp only.
+- 2026-10-25 02:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already on Kev), blocked 0, FAILs 0. Sync stamp only.
