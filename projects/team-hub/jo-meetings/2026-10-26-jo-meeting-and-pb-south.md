@@ -106,6 +106,7 @@ Project X background roles (safety, accounting, procurement) stay in the backgro
 | Noah | a-202610261005-noah-nh8f | t-202610261005-nh8f | 5 RPs on PB South PEs/FEs – WPB | Wed 28 Oct |
 | Bridger | a-202610261005-bridger-bg2k | t-202610261005-bg2k | 5 RPs on Triton Sr. PM / Precon (Treehouse) | Wed 28 Oct |
 | Nick | a-202610261005-nick-nk5m | t-202610261005-nk5m | Get Mark Molloy scheduled with PB South for the Hibiscus night super | Wed 28 Oct |
+| Andrew | a-202610262105-andrew-tg7k | t-202610262105-tg7k | Gut-check the Triton candidate list (Sheet "Triton candidates – gut check – Oct 26", 1BcapYjPse9t_t8u8BvzEduCTuL5GBoTytn4HNWYgXIo): A/B/C plus a note on who we push this week. Posted 26 Oct after the meeting, at Kev's request; sheet not yet shared with Andrew | Tue 27 Oct, 3pm PT |
 
 ## Next steps
 
