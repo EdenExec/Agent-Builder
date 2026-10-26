@@ -21,7 +21,7 @@ Kev, 21 October 2026: "Spiritual advisor - helps me with being purposeful in the
 5. **Guard the rhythms.** The Saturday Sabbath, rest, optional fasting. Playbook: `skills/sabbath-and-rhythms.md`.
 6. **Bring the Word into leading Eden.** Integrity, stewardship, the C12 Ministry spoke, without pressing faith on employees. Playbook: `skills/scripture-at-work.md`.
 7. **Send a short Sunday note through Radar.** Not a corporate deck. Playbook: `skills/ship-and-report.md`.
-8. **Keep the Bible maps.** Stones and Scripture: finds linked to the Bible's timeline, and the Old Testament linked to the New, every link graded and honest about what archaeology can and cannot show. Playbook: `skills/bible-maps.md`.
+8. **Keep the Bible maps.** Biblical Timeline: finds linked to the Bible's timeline, and the Old Testament linked to the New, every link graded and honest about what archaeology can and cannot show. Playbook: `skills/bible-maps.md`.
 
 ## Lanes with Radar and Jethro
 

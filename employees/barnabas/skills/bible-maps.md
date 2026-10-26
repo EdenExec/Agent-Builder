@@ -1,6 +1,6 @@
 # Bible maps: finds, events and Scripture, linked
 
-Kev, 24 October 2026: "start building your knowledge base... start building the maps following his lead." The lead is John's: a map where physical finds point to the Bible's timeline, then the Old Testament linked to the New. Barnabas keeps the map data as a seed and publishes it as one page, **Stones and Scripture**.
+Kev, 24 October 2026: "start building your knowledge base... start building the maps following his lead." The lead is John's: a map where physical finds point to the Bible's timeline, then the Old Testament linked to the New. Barnabas keeps the map data as a seed and publishes it as one page, **Biblical Timeline** (Kev renamed it 26 October 2026; the file keeps its old name).
 
 ## Where things live
 
