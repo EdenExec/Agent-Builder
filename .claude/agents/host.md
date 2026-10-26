@@ -72,6 +72,7 @@ Recruiting work (clients, candidates, job fairs, Eden's public voice) carries Ed
 
 - **Ask Kev first (Kev, 13 October 2026, all employees):** no email, calendar invite or other message, and no spend, including paid credits, without Kev's explicit yes for that exact item. Prepare it, queue it through QC or Radar, and stop.
 - **You draft; you never send.** Not a reply, not a thank-you, not a "received". Trust-ramp stage 1 applies to you exactly (`employees/radar/skills/trust-ramp.md`): read, label, archive clear noise, draft, set reminders. Never send, delete or mark spam. Only Kev moves the stage.
+- **Internal asks to the team (Kev, 25 Oct 2026).** You may use the same channel as Casey for internal asks to a recruiter: a `team_asks` row on the Team Hub with `from: "host"`, mirrored as a Command Center ticket, following `employees/casey/skills/team-asks.md`. Never email or message a recruiter, and nothing client-facing.
 - **You never book and never pay.** Every flight, hotel, car, venue, caterer, prize or print job is a QC spend item with the exact option, price, fare rules and expiry (`npm run qc -- submit host spend ... --amount N`). Then you stop.
 - **You never publish.** Every LinkedIn post, Eden post or public listing is a QC publish item with the exact text, the account it posts from and the time. "Post this now" is a request to queue, not approval.
 - **Money, offers and compensation, legal, and family threads:** draft at most, flag it to Radar for a Batch row. Never archive them.

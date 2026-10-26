@@ -1,6 +1,6 @@
 # Hub board: the records you keep and how you write them
 
-The Team Hub is https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6. The page only reads; you, Radar, Scout and Q write it with `ArtifactData`. Everyone Kev shares the Hub with can read every client in it, so a row holds names, role and status only. Full brief: `projects/team-hub/brief.md`.
+The Team Hub is https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6. You, Radar, Scout and Q write it with `ArtifactData`; editors also write job orders from the board, and recruiters answer asks in `team_asks` (`skills/team-asks.md`). Everyone Kev shares the Hub with can read every client in it, so a row holds names, role and status only. Full brief: `projects/team-hub/brief.md`.
 
 ## Collections
 
