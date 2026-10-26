@@ -7,3 +7,4 @@ New facts go here, one dated bullet each (2026-10-23: ...). Names Kev confirmed 
 - 2026-10-24: Kev wants work started early Sunday, not late Sunday night ("lots of work to do Sunday/Monday/Tuesday").
 - 2026-10-24: Kev confirmed MK Sherrill is the drywall company (Austin and San Antonio roles); Michael Sherrill is the contact. Sunday: client "MK Sherrill", rows sherrill-sr-pm-austin and sherrill-sr-estimator-sa.
 - 2026-10-24: Kev asked for a daily candidate care list (interviews, pending starts, 30/60/90 after start) that the recruiters babysit; Ryan Ouellette (start 3 Nov) needs a call.
+- 2026-10-26: PB South demo super = GC super with demo on past projects who stays for the vertical (40-50 floor tower across from Project X, about $400-500M; with Project X about $1.5B). 8 Must Dos merged with Jeff Rosser's: projects/team-hub/must-dos/pb-south-demo-super-miami.md. Age never goes on a brief or the board: "mid-career" by tenure only.
