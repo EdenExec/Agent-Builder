@@ -8,7 +8,7 @@ sources: Team Hub depth charts `triton/wpb-south-beach` (v16) and `triton/miami`
 
 # Triton submittal master list · as of Mon 26 Oct 2026
 
-**Result:** 9 candidates are in front of Triton. 7 have waited 21 days with no written feedback. 1 interview is booked: Joe Deburgo meets Steve Wed 28 Oct, 4pm. 5 are out. 18 more are in our pipeline but not yet presented.
+**Result:** 9 candidates are in front of Triton. 7 have waited 21 days with no written feedback. 1 interview is booked: Joe Deburgo meets Steve Wed 28 Oct, 4pm. 5 are out. 17 more are in our pipeline but not yet presented.
 
 Triton contacts: West Palm Beach, Stephen Famoso (Senior PM). Miami and South Beach, Steve Sann (Lance Franklin cc).
 
