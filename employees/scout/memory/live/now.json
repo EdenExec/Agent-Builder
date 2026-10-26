@@ -1,8 +1,8 @@
 {
-  "task": "t-202610230706-pqcn: Pruter Construction, SoCal commercial concrete PM leads (EL-021) and call prep on Serena Riordan and Kristi Pruter for the Eden Daily",
-  "since": "2026-10-23T07:06:00Z",
-  "state": "EL-021 built (132 rows, check PASS, staged); landed in Drive master folder (EL-021, https://docs.google.com/spreadsheets/d/10aA0Bv5Ery0jzlJBUXSePUKGz4vngrQzV29w1HiWSD4/edit); call prep written at employees/scout/reports/2026-10-23-pruter-call-prep.md and handed to Radar for the 23 Oct paper",
-  "blockedOn": "none; DFW superintendent list (t-202610230509-sr33) was the wrong ask, not landed",
-  "next": "second pull: GC self-perform concrete divisions, Conco/Morley/Webcor SoCal, small OC/IE concrete teams",
-  "updated": "2026-10-23T07:30:00Z"
+  "task": "t-202610261720-scdm: PB South demo-to-vertical superintendent, Miami (EL-022), refreshed lead list for Wed 28 Oct",
+  "since": "2026-10-26T17:20:00Z",
+  "state": "EL-022 built (97 rows: 27 T1, 52 T2, 18 T3, check PASS, staged); notes at employees/scout/sheets/2026-10-26-pb-south-demo-to-vertical-superintendent-miami-notes.md. Not uploaded to Drive, not linked, not committed. Crelate untouched.",
+  "blockedOn": "Radar: Crelate dedupe, Drive upload and link (npm run leads -- link). High-rise/demo history unverifiable in ZoomInfo; recruiter screens on call",
+  "next": "after Radar dedupe: exact LinkedIn URLs for Tier 1 (25/day cap); LinkedIn Recruiter run of the Boolean in the notes",
+  "updated": "2026-10-26T18:00:00Z"
 }
