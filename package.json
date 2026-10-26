@@ -21,6 +21,7 @@
     "desk": "node workshop/office/desk.ts",
     "recruiter-desk": "node workshop/office/recruiter-desk.ts",
     "status": "node workshop/office/desk.ts status",
+    "sabbath": "node workshop/office/sabbath.ts",
     "doc": "node workshop/office/doc.ts",
     "radar": "node workshop/office/radar.ts",
     "office": "node workshop/office/office.ts",
@@ -30,7 +31,8 @@
     "recruiting-board": "node workshop/workforce/cli.ts",
     "office-prep": "node workshop/office/office-prep.ts",
     "card-pdf": "node workshop/workforce/card-pdf.ts",
-    "scorecard-rows": "node workshop/workforce/scorecard-rows.ts"
+    "scorecard-rows": "node workshop/workforce/scorecard-rows.ts",
+    "submittal": "node workshop/submittal/cli.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",

@@ -34,3 +34,25 @@
 - 2026-10-23 21:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting pre-existing), blocked 0, FAILs 0. Short run: sync stamp only.
 - 2026-10-23 22:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already on Kev), blocked 0, FAILs 0. Queue empty; light sync stamp only.
 - 2026-10-23 23:45 PT: picked 0, closed 0, gated 0 (2 already gated, 2 waiting), blocked 0, FAILs 0. Queue empty; sync stamp refreshed.
+- 2026-10-25 00:47 PT: picked 3, closed 3, gated 0, blocked 0, FAILs 3 (casey tickets open ~17h, filed on Sabbath, first run after)
+- 2026-10-25 01:45 PT: picked 0, closed 0, gated 0 new, blocked 0, FAILs 0 (queue empty; 2 q tickets waiting, 2 gated on Kev). Sync stamp only.
+- 2026-10-25 02:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already on Kev), blocked 0, FAILs 0. Sync stamp only.
+- 2026-10-25 10:46Z (03:46 PT, Sun): picked 0, closed 0, gated 0 new, blocked 0, FAILs 0. Queue empty (2 gated, 2 waiting from earlier). Sync stamp only; benches and decisions skipped (before 6am PT).
+- 2026-10-25 12:45Z (05:45 PT, Sun): picked 0, closed 0, gated 0 new, blocked 0, FAILs 0. Queue empty. Sync stamp only; benches and decisions skipped (before 6am PT).
+- 2026-10-25 13:55Z (06:55 PT, Sun): picked 1, closed 1 (casey Crelate pull, radar), gated 0 new, blocked 0, FAILs 0 (ticket filed 13:30Z). Sync stamp only; benches (8a), cockpit doc (9) deferred this run.
+- 2026-10-25 07:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting on Kev already), blocked 0, FAILs 0. Queue empty; sync stamp only.
+- 2026-10-25 08:46 PT: picked 0, closed 0, gated 2 (existing), blocked 0, FAILs 0; no open tickets, sync stamp refreshed
+- 2026-10-25 09:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Queue empty; sync stamp refreshed.
+- 2026-10-25 10:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Queue empty; sync stamp refreshed.
+- 2026-10-25 11:46 PT: picked 0, closed 0, gated 0 new (3 gated/waiting already with Kev), blocked 0, FAILs 0. Light run: sync stamp only.
+- 2026-10-25 12:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting from before), blocked 0, FAILs 0. Light run: stamped meta/sync only.
+- 2026-10-25 13:45 PT: picked 0, closed 0, gated 2 (existing), blocked 0, FAILs 0; sync stamp only
+- 2026-10-25 14:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting on Kev), blocked 0, FAILs 0. Queue empty; sync stamp refreshed only.
+- 2026-10-25 15:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting on Kev), blocked 0, FAILs 0. Queue empty; sync stamp refreshed only.
+- 2026-10-25 16:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting on Kev), blocked 0, FAILs 0. Queue empty; sync stamp refreshed only.
+- 2026-10-25 17:50 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Sync stamp refreshed.
+- 2026-10-25 18:46 PT: picked 0, closed 0, gated 2 (fbr6, wbnr), waiting 2 (kkfe, zink), blocked 0, FAILs 0; sync stamp only
+- 2026-10-25 19:48 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Queue empty; minimal sync stamp only.
+- 2026-10-25 20:43 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Queue empty; sync stamp only.
+- 2026-10-25 21:45 PT: picked 0, closed 0, gated 2 (existing), blocked 0, FAILs 0; queue empty, sync stamp only
+- 2026-10-25 22:45 PT: picked 0, closed 0, gated 0 new (2 gated + 2 waiting on Kev, unchanged), blocked 0, FAILs 0. Queue empty; minimal sync stamp only (after 10pm window).

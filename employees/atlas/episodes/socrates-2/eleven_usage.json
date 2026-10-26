@@ -1,0 +1,10 @@
+{
+  "episode": "socrates-2",
+  "characters": 9563,
+  "model": "eleven_multilingual_v2",
+  "voices": {
+    "GUIDE": "PerZoH0r6nxBZXCoIPpv",
+    "KID": "tJHJUEHzOkMoPmJJ5jo2"
+  },
+  "duration_s": 777.351837
+}

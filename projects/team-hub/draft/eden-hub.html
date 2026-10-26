@@ -246,6 +246,22 @@ dialog.jod::backdrop{background:var(--shade)}
 .dseats{display:grid;gap:8px}
 .dseat-h{display:grid;gap:1px}
 .dseat-h b{font-size:13px}
+/* asks: internal requests from the agents to one recruiter each; existing tokens only */
+.chip.cnt{background:var(--gold);color:#fff}
+.ask-list{display:grid;gap:10px}
+.ask{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:14px;display:grid;gap:8px;min-width:0}
+.ask.late{border-color:var(--red-line);box-shadow:inset 4px 0 0 var(--neg)}
+.ask.closed{background:var(--paper)}
+.ask-top{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center;min-width:0}
+.ask-top b{font-size:13.5px}
+.ask p{margin:0;font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.ask p.why{font-weight:400;font-size:12.5px;color:var(--mute)}
+.ask .reply{font-size:12.5px;border-left:2px solid var(--gold-soft);padding-left:8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.ask-act{display:flex;gap:6px;flex-wrap:wrap;align-items:center;min-width:0}
+.ask-act .ed{flex:1 1 220px;font-size:13px;min-height:40px}
+.ask-act .btn{min-height:40px;padding:8px 13px}
+.ask-act .btn.done{background:var(--pos);border-color:var(--pos);color:#fff}
+.ask-act .btn.cant{color:var(--neg)}
 @media (max-width:600px){
   .jo-board{margin-inline:-12px;padding:6px}
   .cork{columns:auto;column-width:auto;column-count:1;padding:14px 9px 2px}
@@ -281,6 +297,7 @@ dialog.jod::backdrop{background:var(--shade)}
   </div>
   <p class="sub" id="present-note" hidden>Screen-share mode is on. Client names are hidden. Type the client you are presenting to and press Enter.</p>
 
+  <div id="asks"></div>
   <div class="folders" id="folders"></div>
   <div id="jobs"></div>
   <dialog class="jod" id="jod" aria-label="Job order"></dialog>
@@ -309,6 +326,8 @@ dialog.jod::backdrop{background:var(--shade)}
   //   leads:[{title,url,count,built}], team:[{recruiter, since, role_on_job, note}], condition, board_note, depth:[{client_slug, chart, seat}],
   //   killed_on?, filled_on?, scout?:{requested, at, status}, updated, source}. Radar writes these; editors add JOs and change status on the board.
   // Scout queue doc: scout_queue/{job id} {job_id, client, role, location, requested_at, status}. The client-care agent picks these up and briefs Scout.
+  // Ask doc: team_asks/{id} {id, to (recruiter slug), from (agent id: casey, host), ask, why, job? (jobs/{id}), due (ISO date), status (open|done|cant), reply, createdAt, doneAt}.
+  //   Agents post asks with ArtifactData; the recruiter taps Done or Can't with a short reply. Internal only (Kev, 25 Oct 2026).
   const STATUSES=['Pending PTC','PTC','Submitted','Interview','Offer','Placed','On hold','Out'];
   const TONE={'pending ptc':'warn','ptc':'gold','submitted':'gold','presented':'gold','interview':'pos','interviewing':'pos','offer':'pos','offer letter':'pos','placed':'pos','on hold':'','waiting on resume':'warn','out':'neg','pass':'neg','pass offer':'neg','withdrawn':'neg'};
   const tone=s=>TONE[String(s||'').toLowerCase()]||'';
@@ -326,7 +345,7 @@ dialog.jod::backdrop{background:var(--shade)}
   const isFresh=(rec,l)=>rec?rec[l.id]!==sig(l):(age(l.built)!=null&&age(l.built)<=2);
   const leadsFor=(c,s)=>state.sections.leads.filter(l=>(l.seats||[]).includes(c.id+':'+s.seat));
 
-  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[],meetings:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,confirm:null,showRemoved:false,thread:null,expanded:new Set(),saving:0,live:false,pending:{},last:{},deferred:false,summ:{},watched:new Set(),freshIds:new Set(),seenFor:null,seenRec:null,jobs:[],jobsOpen:false,jobsLoaded:false,jobsUnsub:null,jview:'board',seatLive:{},detail:null,dsubs:[],depthDocs:{},killAsk:false,addOpen:false,addMsg:''};
+  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[],meetings:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,confirm:null,showRemoved:false,thread:null,expanded:new Set(),saving:0,live:false,pending:{},last:{},deferred:false,summ:{},watched:new Set(),freshIds:new Set(),seenFor:null,seenRec:null,jobs:[],jobsOpen:false,jobsLoaded:false,jobsUnsub:null,jview:'board',seatLive:{},detail:null,dsubs:[],depthDocs:{},killAsk:false,addOpen:false,addMsg:'',asks:[],asksLoaded:false,asksOpen:false,asksUnsub:null,askFor:'',askRO:false,askNeed:null,askDoneOpen:false,wantJo:null};
   try{state.present=sessionStorage.getItem('hub-present')==='1';state.expanded=new Set(JSON.parse(sessionStorage.getItem('hub-open')||'[]'))}catch(_){}
   const saveOpen=()=>{try{sessionStorage.setItem('hub-open',JSON.stringify([...state.expanded]))}catch(_){}};
 
@@ -658,25 +677,110 @@ dialog.jod::backdrop{background:var(--shade)}
   function renderJobs(){
     const box=$('jobs');
     const q=($('find').value||'').trim().toLowerCase();
-    if(state.present||state.open||(!state.jobsOpen&&q&&!'job orders'.includes(q))){box.innerHTML='';return}
+    if(state.present||state.open||state.asksOpen||(!state.jobsOpen&&q&&!'job orders'.includes(q))){box.innerHTML='';return}
     const open=state.jobsOpen;
     box.innerHTML=(open?'<button class="back" id="jo-back" type="button">← All folders</button>':'')+
       '<div class="folder" data-open="'+open+'"><button class="fhead" id="jo-head" type="button" aria-expanded="'+open+'" aria-controls="fb-jobs"><span class="fname">Job Orders</span><span class="fmeta">Internal · Eden only</span><span class="caret" aria-hidden="true"></span></button>'+(open?'<div id="fb-jobs">'+jobsBody()+'</div>':'')+'</div>';
   }
-  function dropJobs(){closeDetail();if(state.jobsUnsub){try{state.jobsUnsub()}catch(_){}state.jobsUnsub=null}state.jobsOpen=false;state.jobs=[];state.jobsLoaded=false;state.addOpen=false;state.addMsg=''}
+  function dropJobs(){state.wantJo=null;closeDetail();if(state.jobsUnsub){try{state.jobsUnsub()}catch(_){}state.jobsUnsub=null}state.jobsOpen=false;state.jobs=[];state.jobsLoaded=false;state.addOpen=false;state.addMsg=''}
   function openJobs(on){
     dropJobs();
     if(on&&!state.present){
       if(state.open)openClient(null);
-      state.jobsOpen=true;state.jview='board';
+      state.asksOpen=false;state.jobsOpen=true;state.jview='board';
       if(db)state.jobsUnsub=db.collection('jobs').onSnapshot(s=>{if(!state.jobsOpen||state.present)return;
         let rows=s.docs.map(own);
         rows=rows.map(r=>state.pending['jobs/'+r.id]>0?(state.jobs.find(x=>x.id===r.id)||r):r);
         state.jobs.forEach(x=>{if(state.pending['jobs/'+x.id]>0&&!rows.some(r=>r.id===x.id))rows.push(x)});
-        state.jobs=rows;state.jobsLoaded=true;render()},()=>{if(!state.jobsOpen)return;state.jobs=[];state.jobsLoaded=true;setStatus('could not read job orders');render()});
+        state.jobs=rows;state.jobsLoaded=true;render();
+        if(state.wantJo){const w=state.wantJo;state.wantJo=null;if(state.jobs.some(x=>x.id===w))openDetail(w)}},()=>{if(!state.jobsOpen)return;state.jobs=[];state.jobsLoaded=true;setStatus('could not read job orders');render()});
       window.scrollTo(0,0);
     }
     render(true);
+  }
+
+  // ---- Asks: internal requests from the agents (Casey, then Jenny) to one recruiter each (Kev, 25 Oct 2026) ----
+  // Agents post with ArtifactData and mirror each ask as a Command Center ticket, so Kev sees every one.
+  // Anyone on the team marks an ask Done or Can't with a short reply. Hidden, and its rows dropped, in Screen-share mode.
+  const ASK_TO=['max','evan','andrew','noah','bridger','kyle','nick'];
+  const AGENT={casey:'Casey',host:'Jenny',radar:'Radar',scout:'Scout'};
+  const cap=s=>{const t=String(s||'').trim();return t?t.charAt(0).toUpperCase()+t.slice(1):''};
+  try{const v=localStorage.getItem('hub-my-asks')||'';state.askFor=ASK_TO.includes(v)?v:''}catch(_){state.askFor=''}
+  const askFrom=s=>AGENT[String(s||'').toLowerCase()]||cap(s)||'An agent';
+  const askSt=a=>{const s=String(a.status||'open').toLowerCase().trim();return s==='done'||s==='cant'?s:'open'};
+  const askJob=a=>String(a.job||'').replace(/^jobs\//,'').trim();
+  const askMine=a=>!state.askFor||String(a.to||'').toLowerCase().trim()===state.askFor;
+  const askLate=a=>{const n=dayNum(a.due);return askSt(a)==='open'&&n!=null&&n>0};
+  const openAsks=()=>state.asks.filter(a=>askSt(a)==='open'&&askMine(a)).sort((a,b)=>String(a.due||'9999').localeCompare(String(b.due||'9999'))||String(a.createdAt||'').localeCompare(String(b.createdAt||'')));
+  function dueTxt(a){
+    const n=dayNum(a.due),d10=String(a.due||'').slice(0,10);
+    if(n==null)return '<span class="meta">No due date</span>';
+    if(askSt(a)!=='open')return '<span class="meta">Due '+esc(d10)+'</span>';
+    let tm='';if(/T\d/.test(String(a.due)))try{tm=' '+new Date(a.due).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})}catch(_){}
+    if(n>0)return '<span class="chip rot">Overdue '+n+(n===1?' day':' days')+'</span>';
+    if(n===0)return '<span class="chip warn">Due today'+esc(tm)+'</span>';
+    if(n===-1)return '<span class="chip gold">Due tomorrow'+esc(tm)+'</span>';
+    let d=d10;try{d=new Date(d10+'T12:00:00').toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})}catch(_){}
+    return '<span class="chip">Due '+esc(d)+esc(tm)+'</span>';
+  }
+  function askCard(a){
+    const st=askSt(a),open=st==='open',j=askJob(a),can=state.live&&db&&!state.askRO;
+    const top='<div class="ask-top"><b>'+esc(cap(a.to)||'Anyone')+'</b><span class="meta">from '+esc(askFrom(a.from))+(a.createdAt?' · '+esc(fmtAt(a.createdAt)):'')+'</span>'+dueTxt(a)+
+      (open?'':'<span class="chip '+(st==='done'?'pos':'neg')+'">'+(st==='done'?'Done':'Can\'t')+(a.doneAt?' '+esc(String(a.doneAt).slice(0,10)):'')+'</span>')+'</div>';
+    const body='<p>'+esc(a.ask||'')+'</p>'+(a.why?'<p class="why">Why: '+esc(a.why)+'</p>':'')+
+      (j?'<div><button class="mini" type="button" data-ask-job="'+esc(j)+'">Job order: '+esc(j.replace(/-/g,' '))+' →</button></div>':'');
+    const rep=!open&&a.reply?'<div class="reply"><div class="k">Reply</div>'+esc(a.reply)+'</div>':'';
+    const act=open&&can?'<form class="ask-act" data-ask="'+esc(a.id)+'"><input class="ed" name="reply" data-k="ask-r-'+esc(a.id)+'" maxlength="280" placeholder="Short reply: what you did, or why not" aria-label="Reply to this ask" value="'+esc(a.reply||'')+'">'+
+      '<button class="btn done" type="button" data-do="done">Done</button><button class="btn cant" type="button" data-do="cant">Can\'t</button></form>'+
+      (state.askNeed===a.id?'<div class="rmq">Say why in the reply box, then tap Can\'t.</div>':''):'';
+    const re=!open&&can?'<div>'+A('ask-reopen','data-ask="'+esc(a.id)+'"','Reopen')+'</div>':'';
+    return '<article class="ask'+(askLate(a)?' late':'')+(open?'':' closed')+'">'+top+body+rep+act+re+'</article>';
+  }
+  function asksBody(){
+    if(!state.live)return '<div class="fbody"><div class="empty" style="margin-top:16px">Open this page in Claude to load the asks.</div></div>';
+    if(!state.asksLoaded)return '<div class="fbody"><div class="empty" style="margin-top:16px">Loading asks…</div></div>';
+    const open=openAsks(),late=open.filter(askLate).length,due0=open.filter(a=>dayNum(a.due)===0).length,who=state.askFor?' for '+esc(cap(state.askFor)):'';
+    const closed=state.asks.filter(a=>askSt(a)!=='open'&&askMine(a)).sort((a,b)=>String(b.doneAt||b.createdAt||'').localeCompare(String(a.doneAt||a.createdAt||''))).slice(0,20);
+    const pick='<div class="tools"><label for="askfor">My asks</label><select class="ed" id="askfor" data-act="ask-for"><option value="">Everyone</option>'+ASK_TO.map(r=>'<option value="'+r+'"'+(r===state.askFor?' selected':'')+'>'+esc(cap(r))+'</option>').join('')+'</select></div>';
+    const sum='<div class="jo-sum"><div><b>'+open.length+'</b><span class="meta">open'+who+'</span></div><div'+(late?' class="hot"':'')+'><b>'+late+'</b><span class="meta">overdue</span></div><div><b>'+due0+'</b><span class="meta">due today</span></div></div>';
+    const note='<p class="sub" style="margin-bottom:14px">Internal to Eden. Casey and Jenny post an ask here when they need one thing from one person. Check once a day: do it and tap Done with a short reply, or tap Can\'t and say why. Kev sees every ask. No pay, phone numbers or emails in a reply.</p>';
+    const ro=state.askRO?'<div class="killq" style="margin-bottom:12px">This page is view only for you, so a reply cannot be saved. Ask Kev to make you a Contributor.</div>':'';
+    const list=open.length?'<div class="ask-list">'+open.map(askCard).join('')+'</div>':'<div class="empty">Nothing open'+who+'.</div>';
+    const done=closed.length?'<div class="past"><details data-ask-done'+(state.askDoneOpen?' open':'')+'><summary>Done or can\'t ('+closed.length+')</summary><div class="ask-list" style="margin-top:10px">'+closed.map(askCard).join('')+'</div></details></div>':'';
+    return '<div class="fbody">'+sum+'<div class="sec">'+pick+note+ro+list+done+'</div></div>';
+  }
+  function renderAsks(){
+    const box=$('asks');
+    const q=($('find').value||'').trim().toLowerCase();
+    if(state.present||state.open||state.jobsOpen||(!state.asksOpen&&q&&!'asks for the team'.includes(q))){box.innerHTML='';return}
+    const open=state.asksOpen,mine=state.asks.filter(a=>askSt(a)==='open'&&askMine(a)),late=mine.filter(askLate).length;
+    const badge=state.asksLoaded&&mine.length?' <span class="chip cnt">'+mine.length+' open</span>'+(late?' <span class="chip rot">'+late+' overdue</span>':''):'';
+    box.innerHTML=(open?'<button class="back" id="ask-back" type="button">← All folders</button>':'')+
+      '<div class="folder" data-open="'+open+'"><button class="fhead" id="ask-head" type="button" aria-expanded="'+open+'" aria-controls="fb-asks"><span class="fname">Asks for the team'+badge+'</span><span class="fmeta">'+(state.askFor?esc(cap(state.askFor))+' · ':'')+'Internal · Eden only</span><span class="caret" aria-hidden="true"></span></button>'+(open?'<div id="fb-asks">'+asksBody()+'</div>':'')+'</div>';
+  }
+  function watchAsks(on){
+    if(state.asksUnsub){try{state.asksUnsub()}catch(_){}state.asksUnsub=null}
+    state.asks=[];state.asksLoaded=false;
+    if(!on||!db)return;
+    state.asksUnsub=db.collection('team_asks').onSnapshot(s=>{if(state.present)return;
+      let rows=s.docs.map(own);
+      rows=rows.map(r=>state.pending['team_asks/'+r.id]>0?(state.asks.find(x=>x.id===r.id)||r):r);
+      state.asks=rows;state.asksLoaded=true;render()},()=>{state.asksLoaded=true;setStatus('could not read asks');render()});
+  }
+  function toggleAsks(on){
+    if(on&&!state.present){if(state.open)openClient(null);dropJobs();state.asksOpen=true;window.scrollTo(0,0)}else state.asksOpen=false;
+    state.askNeed=null;render(true);
+  }
+  // a reply write: open to everyone the db rule lets write team_asks (Contributor and up), not only editors
+  function writeAsk(a,ch){
+    if(!db||state.askRO)return;
+    const path='team_asks/'+a.id,before=JSON.parse(JSON.stringify(a));
+    Object.assign(a,ch);state.saving++;state.pending[path]=(state.pending[path]||0)+1;setStatus('saving');render(true);
+    const call=()=>db.doc(path).update(ch);
+    const p=(queues[path]||Promise.resolve()).then(()=>call().catch(e=>{if(e&&e.code==='unavailable')return new Promise(r=>setTimeout(r,600+Math.random()*600)).then(call);throw e}));
+    queues[path]=p.catch(()=>{});
+    p.then(()=>{if(state.saving===1)setStatus('saved')},e=>{const i=state.asks.findIndex(x=>x.id===a.id);if(i>=0)state.asks[i]=before;if(e&&(e.code==='invalid_argument'||e.code==='revoked'))state.askRO=true;setStatus('not saved: '+((e&&e.code)||'error')+' · try again');render(true)})
+     .finally(()=>{state.saving--;setTimeout(()=>{state.pending[path]--},1500)});
   }
 
   // ---- report ----
@@ -702,12 +806,12 @@ dialog.jod::backdrop{background:var(--shade)}
   }
 
   // keep what someone is typing when a live update redraws the page
-  function snapshotInputs(){const m={};document.querySelectorAll('#folders [data-k],#jobs [data-k]').forEach(el=>{m[el.dataset.k]=el.value});const a=document.activeElement;return {m,focus:a&&a.dataset?a.dataset.k:null,sel:a&&a.selectionStart!=null?[a.selectionStart,a.selectionEnd]:null}}
-  function restoreInputs(x){document.querySelectorAll('#folders [data-k],#jobs [data-k]').forEach(el=>{const v=x.m[el.dataset.k];if(v!=null&&(v!==''||el.tagName==='TEXTAREA'))el.value=v});if(x.focus){const el=document.querySelector('#folders [data-k="'+CSS.escape(x.focus)+'"],#jobs [data-k="'+CSS.escape(x.focus)+'"]');if(el){el.focus();if(x.sel)try{el.setSelectionRange(x.sel[0],x.sel[1])}catch(_){}}}}
+  function snapshotInputs(){const m={};document.querySelectorAll('#folders [data-k],#jobs [data-k],#asks [data-k]').forEach(el=>{m[el.dataset.k]=el.value});const a=document.activeElement;return {m,focus:a&&a.dataset?a.dataset.k:null,sel:a&&a.selectionStart!=null?[a.selectionStart,a.selectionEnd]:null}}
+  function restoreInputs(x){document.querySelectorAll('#folders [data-k],#jobs [data-k],#asks [data-k]').forEach(el=>{const v=x.m[el.dataset.k];if(v!=null&&(v!==''||el.tagName==='TEXTAREA'))el.value=v});if(x.focus){const el=document.querySelector('#folders [data-k="'+CSS.escape(x.focus)+'"],#jobs [data-k="'+CSS.escape(x.focus)+'"],#asks [data-k="'+CSS.escape(x.focus)+'"]');if(el){el.focus();if(x.sel)try{el.setSelectionRange(x.sel[0],x.sel[1])}catch(_){}}}}
 
   function render(force){
     const a=document.activeElement;
-    if(!force&&a&&a.tagName==='SELECT'&&($('folders').contains(a)||$('jobs').contains(a))){state.deferred=true;return}
+    if(!force&&a&&a.tagName==='SELECT'&&($('folders').contains(a)||$('jobs').contains(a)||$('asks').contains(a))){state.deferred=true;return}
     state.deferred=false;
     const keep=snapshotInputs();
     $('present').setAttribute('aria-pressed',String(state.present));
@@ -715,12 +819,13 @@ dialog.jod::backdrop{background:var(--shade)}
     const q=($('find').value||'').trim().toLowerCase();
     if(state.present&&!state.open){
       $('present-note').hidden=false;$('present-note').textContent='Screen-share mode is on. Client names are hidden. Type the client you are presenting to and press Enter.';
-      $('folders').innerHTML='';$('jobs').innerHTML='';$('playbooks').innerHTML='';$('sub').hidden=true;return;
+      $('folders').innerHTML='';$('jobs').innerHTML='';$('asks').innerHTML='';$('playbooks').innerHTML='';$('sub').hidden=true;return;
     }
     $('sub').hidden=false;
     $('present-note').hidden=!state.present;
     if(state.present)$('present-note').textContent='Screen-share mode is on. Only this client is showing. Turn it off to see the other folders.';
-    renderJobs();
+    renderJobs();renderAsks();
+    if(state.asksOpen){$('folders').innerHTML='';$('playbooks').innerHTML='';restoreInputs(keep);return}
     if(state.jobsOpen){$('folders').innerHTML='';$('playbooks').innerHTML='';renderDetail();restoreInputs(keep);return}
     let list=state.clients.slice().sort((a,b)=>(a.sort||99)-(b.sort||99)||String(a.name).localeCompare(String(b.name)));
     if(state.open)list=list.filter(c=>c.id===state.open);
@@ -833,7 +938,7 @@ dialog.jod::backdrop{background:var(--shade)}
   function unsubAll(){state.unsubs.forEach(u=>{try{u()}catch(_){}});state.unsubs=[]}
   let db=null;
   function openClient(id){
-    dropJobs();unsubAll();state.sections={depth:[],leads:[],notes:[],resources:[],meetings:[]};state.last={};state.open=id||null;state.freshIds=new Set();state.seenFor=null;state.editing=null;state.confirm=null;state.thread=null;state.by='';
+    dropJobs();unsubAll();state.asksOpen=false;state.askNeed=null;state.sections={depth:[],leads:[],notes:[],resources:[],meetings:[]};state.last={};state.open=id||null;state.freshIds=new Set();state.seenFor=null;state.editing=null;state.confirm=null;state.thread=null;state.by='';
     try{history.replaceState(null,'',id?'#'+id:location.pathname+location.search)}catch(_){}
     if(id&&db){['depth','leads','notes','resources','meetings'].forEach(k=>{
       state.unsubs.push(db.collection('clients/'+id+'/'+k).onSnapshot(s=>{
@@ -863,7 +968,8 @@ dialog.jod::backdrop{background:var(--shade)}
   });
   $('present').addEventListener('click',()=>{
     state.present=!state.present;try{sessionStorage.setItem('hub-present',state.present?'1':'0')}catch(_){}
-    if(state.present){$('find').value='';dropJobs()}render(true);
+    if(state.present){$('find').value='';dropJobs();state.asksOpen=false;watchAsks(false)}else watchAsks(true);
+    render(true);
   });
   $('jobs').addEventListener('click',e=>{
     if(e.target.closest('#jo-back')){openJobs(false);return}
@@ -875,6 +981,22 @@ dialog.jod::backdrop{background:var(--shade)}
     if(e.target.closest('#jo-head'))openJobs(!state.jobsOpen);
   });
   $('jobs').addEventListener('submit',e=>{const f=e.target.closest('form[data-act="jo-add"]');if(!f)return;e.preventDefault();addJob(f)});
+  $('asks').addEventListener('click',e=>{
+    if(e.target.closest('#ask-back')){toggleAsks(false);return}
+    const jb=e.target.closest('button[data-ask-job]');
+    if(jb){const id=jb.dataset.askJob;toggleAsks(false);openJobs(true);state.wantJo=id;return}
+    const b=e.target.closest('button[data-do]');
+    if(b){const f=b.closest('form[data-ask]'),a=f&&state.asks.find(x=>x.id===f.dataset.ask);if(!a)return;
+      const reply=String((f.elements.reply&&f.elements.reply.value)||'').trim().slice(0,280);
+      if(b.dataset.do==='cant'&&!reply){state.askNeed=a.id;render(true);const r=$('asks').querySelector('[data-k="'+CSS.escape('ask-r-'+a.id)+'"]');if(r)r.focus();return}
+      state.askNeed=null;writeAsk(a,{status:b.dataset.do,reply,doneAt:new Date().toISOString()});return}
+    const ro=e.target.closest('button[data-act="ask-reopen"]');
+    if(ro){const a=state.asks.find(x=>x.id===ro.dataset.ask);if(a)writeAsk(a,{status:'open',doneAt:null});return}
+    if(e.target.closest('#ask-head'))toggleAsks(!state.asksOpen);
+  });
+  $('asks').addEventListener('change',e=>{if(e.target.dataset.act!=='ask-for')return;state.askFor=ASK_TO.includes(e.target.value)?e.target.value:'';try{localStorage.setItem('hub-my-asks',state.askFor)}catch(_){}render(true)});
+  $('asks').addEventListener('submit',e=>{if(e.target.closest('form[data-ask]'))e.preventDefault()});
+  $('asks').addEventListener('toggle',e=>{if(e.target.matches&&e.target.matches('details[data-ask-done]'))state.askDoneOpen=e.target.open},true);
   $('jod').addEventListener('close',()=>{if(state.detail)closeDetail()});
   $('jod').addEventListener('click',e=>{
     const d=$('jod');
@@ -914,6 +1036,7 @@ dialog.jod::backdrop{background:var(--shade)}
     try{db=await window.claude.use('db')}catch(e){db=null}
     if(!db){setStatus('not connected');render(true);return}
     state.live=true;
+    if(!state.present)watchAsks(true);
     db.collection('clients').onSnapshot(s=>setClients(s.docs.map(own)),()=>{setStatus('could not read clients')});
     db.collection('playbooks').onSnapshot(s=>{state.playbooks=s.docs.map(own);render()},()=>{});
     try{const u=await window.claude.use('user');if(u){const w=typeof u.can==='function'?await u.can('data.write'):null;state.canEdit=w===null?true:!!w;render(true)}}catch(_){}

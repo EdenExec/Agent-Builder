@@ -55,7 +55,7 @@ STEP 0, READ THE LIVE FILES. The authoritative version of everything below lives
 1. If employees/q/ and employees/radar/ exist in the working directory, read ${skills.map((s) => `employees/${s.owner}/skills/${s.name}.md`).join(", ")} from there, plus employees/q/memory/live/. They override the embedded copies below.
 2. Otherwise run: git clone --depth 1 --branch ${file.branch} ${REPO} /tmp/agent-builder, then read the same files from /tmp/agent-builder. The lead tool is run with: cd /tmp/agent-builder && npm ci && npm run leadplan -- <sheets> (Node 22.18 or newer).
 3. If both fail, the embedded copies below are authoritative, and the lead tool cannot run: say so and stop.
-Saturday is the Sabbath: if today is Saturday in Pacific time, stop now with one line.
+THE SABBATH is Friday sunset to Saturday sunset. After step 0 run \`node workshop/office/sabbath.ts\` in the repo (exit 0 = inside it; no repo: judge Vancouver, WA sunset, Boise, ID from 6 Nov 2026). Inside it, stop with one line and load nothing: the Friday night run waits for Monday.
 
 Then do exactly what the playbook "${primary.name}" says, honouring every standing rule. The default mode is DRY RUN: nothing is created in CloudTalk unless a QC item Kev approved covers it. Close with a short plain summary of what you did, what you created, and anything you could not do.`;
   let out = head;

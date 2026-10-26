@@ -6,7 +6,7 @@ So every employee is the project manager of its own projects. Once a week it rep
 
 ## What each employee builds
 
-One deck per active project, by **Friday 1:50pm Pacific** (moved from Saturday 8pm on 13 October 2026 so the Sabbath stays clear; the routine "Radar · EOW agent reports", `trig_019qLwVnxBotcrE3J9gZh4YE`, builds any that are missing and emails Kev the roster), no more than eight slides, in this order. Numbers come from the project's own ledger rows, QC items, Desk cards and files; nothing is invented, and anything not checked this week is marked UNVERIFIED.
+One deck per active project, by **Friday 1:50pm Pacific** (moved from Saturday 8pm on 13 October 2026 so the Sabbath, Friday sunset to Saturday sunset, stays clear; the routine "Radar · EOW agent reports", `trig_019qLwVnxBotcrE3J9gZh4YE`, builds any that are missing and emails Kev the roster), no more than eight slides, in this order. Numbers come from the project's own ledger rows, QC items, Desk cards and files; nothing is invented, and anything not checked this week is marked UNVERIFIED.
 
 | # | Slide | What goes on it |
 |---|---|---|

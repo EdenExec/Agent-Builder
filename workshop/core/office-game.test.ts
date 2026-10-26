@@ -1,14 +1,14 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { addRunnerMinutes, buildGame, failedAt, fmtWait, isRunnerTime, mergeRecords, newRecords, pacificDate, runnerMinutes, slaState, slaTitle, ticketScore, type GameTicket } from "./office-game.js";
+import { addRunnerMinutes, buildGame, failedAt, fmtWait, isRunnerTime, isSabbathAt, mergeRecords, newRecords, pacificDate, runnerMinutes, sabbathPlace, sabbathWindow, slaState, slaTitle, sunsetAt, ticketScore, type GameTicket } from "./office-game.js";
 
 const at = (iso: string) => Date.parse(iso);
-// Pacific is UTC-7 until 1 Nov 2026 (PDT), UTC-8 after. Thu 22 Oct 2026 is a working day, Sat 24 Oct is the Sabbath.
+// Pacific is UTC-7 until 1 Nov 2026 (PDT), UTC-8 after. Thu 22 Oct 2026 is a working day. The Sabbath runs Fri 23 Oct 6:11pm to Sat 24 Oct 6:10pm PDT (Vancouver, WA).
 const THU_2PM = at("2026-10-22T21:10:00Z");
 const ago = (min: number, now = THU_2PM) => new Date(now - min * 60000).toISOString();
 const tk = (o: Partial<GameTicket>): GameTicket => ({ id: "t", agent: "scout", status: "open", priority: "today", createdAt: ago(0), ...o });
 
-describe("the runner clock: 6am to 10pm Pacific, Sunday to Friday", () => {
+describe("the runner clock: 6am to 10pm Pacific, Sunday to Thursday, Friday 6am to sunset", () => {
   test("only runner hours count; nights and Saturday are skipped", () => {
     assert.equal(isRunnerTime(THU_2PM), true);
     assert.equal(isRunnerTime(at("2026-10-23T04:30:00Z")), true, "Thu 9:30pm");
@@ -17,11 +17,17 @@ describe("the runner clock: 6am to 10pm Pacific, Sunday to Friday", () => {
     assert.equal(isRunnerTime(at("2026-10-24T19:00:00Z")), false, "Saturday noon");
     assert.equal(isRunnerTime(at("2026-10-25T13:00:00Z")), true, "Sunday 6:00am");
   });
-  test("Fri 9:30pm to Sun 7:00am is 90 minutes: 30 on Friday, 60 on Sunday", () => {
-    assert.equal(runnerMinutes(at("2026-10-24T04:30:00Z"), at("2026-10-25T14:00:00Z")), 90);
+  test("Friday's clock stops at sunset: Fri 5:41pm to Sun 7:00am is 90 minutes, 30 on Friday and 60 on Sunday", () => {
+    assert.equal(isRunnerTime(at("2026-10-24T00:41:00Z")), true, "Fri 5:41pm, before sunset");
+    assert.equal(isRunnerTime(at("2026-10-24T01:30:00Z")), false, "Fri 6:30pm, after sunset");
+    assert.equal(Math.round(runnerMinutes(at("2026-10-24T00:41:00Z"), at("2026-10-25T14:00:00Z"))), 91);
   });
-  test("the 60th minute of a ticket filed Fri 9:30pm lands Sunday 6:30am Pacific", () => {
-    assert.equal(new Date(addRunnerMinutes(at("2026-10-24T04:30:00Z"), 60)).toISOString(), "2026-10-25T13:30:00.000Z");
+  test("a ticket filed on the Sabbath (Fri 9:30pm) reaches its 60th minute Sunday 7:00am Pacific", () => {
+    assert.equal(new Date(addRunnerMinutes(at("2026-10-24T04:30:00Z"), 60)).toISOString(), "2026-10-25T14:00:00.000Z");
+  });
+  test("Saturday after sundown is still off the clock: held work launches then, but nothing filed can FAIL that night", () => {
+    assert.equal(isRunnerTime(at("2026-10-25T03:00:00Z")), false, "Sat 8:00pm");
+    assert.equal(slaState(tk({ createdAt: "2026-10-24T04:30:00Z" }), at("2026-10-25T04:00:00Z")).state, "ok");
   });
   test("it follows the clocks going back on 1 Nov (UTC-7 to UTC-8)", () => {
     assert.equal(pacificDate(at("2026-11-02T07:59:00Z")), "2026-11-01");
@@ -88,6 +94,16 @@ describe("points", () => {
       qcByDay: { "2026-10-22": 1 },
     });
     assert.deepEqual([g.day.points, g.day.closed, g.day.fails, g.day.kev, g.day.qc], [6 + 4 + 2 - 3, 1, 1, 2, 1]);
+  });
+  test("the Sabbath scores nothing, from Friday's sunset on; Saturday after sundown scores again", () => {
+    const fri = at("2026-10-24T03:00:00Z");                                          // Fri 8pm PDT, inside the Sabbath
+    const g = buildGame({ now: fri, tickets: [tk({ status: "done", createdAt: ago(300, fri), pickedAt: ago(290, fri), doneAt: ago(10, fri) })], actions: [{ action: "done", at: ago(5, fri) }] });
+    assert.equal(g.sabbath, true);
+    assert.deepEqual([g.day.points, g.day.closed, g.day.kev], [0, 0, 0]);
+    const night = at("2026-10-25T04:00:00Z");                                        // Sat 9pm PDT, after sundown
+    const n = buildGame({ now: night, tickets: [tk({ status: "done", createdAt: "2026-10-24T04:30:00Z", doneAt: ago(10, night) })] });
+    assert.equal(n.sabbath, false);
+    assert.equal(n.day.closed, 1);
   });
   test("Saturday scores nothing", () => {
     const sat = at("2026-10-24T19:00:00Z");
@@ -158,5 +174,46 @@ describe("streak and records", () => {
     assert.match(r[0]!.text, /4 tickets closed in a day/);
     assert.deepEqual(newRecords({ ...rec, mostClosedDay: { n: 2, date: "2026-10-22", on: "2026-10-22" } }, "2026-10-22"), []);
     assert.deepEqual(newRecords(rec, "2026-10-24"), []);
+  });
+});
+
+describe("the Sabbath: Friday sunset to Saturday sunset (Kev, 24 Oct 2026)", () => {
+  const local = (ms: number, tz: string) => new Date(ms).toLocaleTimeString("en-US", { timeZone: tz, hour: "numeric", minute: "2-digit" });
+  test("sunset matches the almanac within a few minutes, in Vancouver and in Boise", () => {
+    const V = sabbathPlace("2026-10-23"), B = sabbathPlace("2026-11-06");
+    assert.deepEqual([V.name, B.name], ["Vancouver, WA", "Boise, ID"]);
+    const near = (date: string, place: typeof V, hhmm: string) => {
+      const [h, m] = hhmm.split(":").map(Number), ms = sunsetAt(date, place), p = new Intl.DateTimeFormat("en-US", { timeZone: place.tz, hourCycle: "h23", hour: "numeric", minute: "numeric" }).formatToParts(new Date(ms));
+      const got = +p.find((x) => x.type === "hour")!.value * 60 + +p.find((x) => x.type === "minute")!.value;
+      assert.ok(Math.abs(got - (h! * 60 + m!)) <= 4, `${date} ${place.name}: ${local(ms, place.tz)}, almanac ${hhmm}`);
+    };
+    near("2026-10-23", V, "18:11"); near("2026-12-21", V, "16:29"); near("2026-06-21", V, "21:03");
+    near("2026-12-21", B, "17:11"); near("2026-06-21", B, "21:29");
+  });
+  test("the family moves to Boise on Fri 6 Nov 2026: that Sabbath is kept on Boise's sunset", () => {
+    assert.equal(sabbathPlace("2026-11-05").name, "Vancouver, WA");
+    const w = sabbathWindow(at("2026-11-06T18:00:00Z"));
+    assert.deepEqual([w.friday, w.place, w.tz], ["2026-11-06", "Boise, ID", "America/Boise"]);
+  });
+  test("inside from Friday's sunset to Saturday's, and never on any other day", () => {
+    assert.equal(isSabbathAt(at("2026-10-24T01:00:00Z")), false, "Fri 6:00pm, before sunset");
+    assert.equal(isSabbathAt(at("2026-10-24T01:20:00Z")), true, "Fri 6:20pm");
+    assert.equal(isSabbathAt(at("2026-10-24T19:00:00Z")), true, "Sat noon");
+    assert.equal(isSabbathAt(at("2026-10-25T01:05:00Z")), true, "Sat 6:05pm");
+    assert.equal(isSabbathAt(at("2026-10-25T01:15:00Z")), false, "Sat 6:15pm, after sundown");
+    assert.equal(isSabbathAt(THU_2PM), false);
+    const w = sabbathWindow(at("2026-10-25T03:00:00Z"));                                  // after sundown: the next one
+    assert.equal(w.friday, "2026-10-30");
+  });
+  test("npm run sabbath: exit 0 inside, 1 outside, 2 for a bad time", async () => {
+    const { spawnSync } = await import("node:child_process");
+    const run = (...a: string[]) => spawnSync(process.execPath, ["workshop/office/sabbath.ts", ...a], { encoding: "utf8" });
+    const sab = run("2026-10-24T12:00:00-07:00");
+    assert.equal(sab.status, 0);
+    assert.match(sab.stdout, /SABBATH: yes/);
+    assert.match(sab.stdout, /Friday sunset: +Fri, Oct 23, 6:1\d PM PDT/);
+    assert.equal(run("2026-10-22T14:00:00-07:00").status, 1);
+    assert.equal(run("not-a-time").status, 2);
+    assert.equal(JSON.parse(run("2026-11-07T10:00:00-07:00", "--json").stdout).place, "Boise, ID");
   });
 });

@@ -4,7 +4,7 @@ Kev, 22 October 2026: "I want those agents running autonomously. They need to be
 
 This routine does one job: every Eden Office ticket gets picked up within the hour and closed. It is not the inbox sweep, and it never skips tickets for "scope". A ticket still `open` 60 minutes after it was filed is a **FAIL** on the Office scoreboard.
 
-Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW · Saturday is the Sabbath: if it is Saturday in Pacific time, stop with one line.
+Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW · The Sabbath runs Friday sunset to Saturday sunset: if `npm run sabbath` exits 0, stop with one line; tickets filed in it wait for after Saturday sundown.
 
 ## Every run, in order
 

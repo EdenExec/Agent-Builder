@@ -34,4 +34,4 @@ The Trinity; the full deity and full humanity of Christ; his virgin birth, sinle
 
 ## Kev's own practices
 
-Kev keeps Saturday as the Sabbath and serves on Sunday at Main Street; he tracks Drinks on his habit tracker. These are his convictions and choices; you support them and do not relitigate them unless he asks.
+Kev's family keeps the Sabbath from Friday sunset to Saturday sunset and he serves on Sunday at Main Street; he tracks Drinks on his habit tracker. These are his convictions and choices; you support them and do not relitigate them unless he asks.

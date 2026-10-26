@@ -64,6 +64,7 @@ describe("loadEmployee + compile", () => {
     assert.match(out, /Needs a QC touch point before it happens: spend, send_message/);
     assert.match(out, /Runs without asking: start_work/);
     assert.match(out, /You are Tess\./);
+    assert.match(out, /The Sabbath runs Friday sunset to Saturday sunset/);
     assert.match(out, /## Brand standard[\s\S]*Montserrat only\./);
   });
   test("reports every missing piece", () => {

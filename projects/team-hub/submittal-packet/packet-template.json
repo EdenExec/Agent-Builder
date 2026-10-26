@@ -1,0 +1,21 @@
+{
+  "candidate": { "first": "", "last": "", "middle": "", "nicknames": [], "former_last": "", "title": "", "years": "", "linkedin": "" },
+  "role_submitted": "",
+  "date": "",
+  "pay": { "basis": "current or desired", "base": "", "bonus": "", "vehicle": "", "equity": "ESOP, ownership or golden handcuffs", "other": "" },
+  "current_location": "City, ST",
+  "past_states": ["Every state on the resume where they lived or worked"],
+  "target_locations": "",
+  "highlights": ["Scopes, project types, what makes them the expert"],
+  "start_availability": "",
+  "actively_interviewing": "",
+  "interview_availability": "",
+  "concerns": "",
+  "must_dos": [{ "item": "The JO's approved Must Do", "rating": "meets, partial or gap", "evidence": "One line from our screen" }],
+  "resume": "path/to/original-resume.pdf",
+  "references": [{ "name": "", "relationship": "", "title": "", "company": "", "contact": "only with the candidate's consent" }],
+  "references_consent": false,
+  "screening": [{ "date": "", "by": "", "notes": ["Only what bears on the Must Dos"] }],
+  "transcript": "",
+  "recruiter": ""
+}

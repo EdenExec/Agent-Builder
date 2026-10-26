@@ -210,10 +210,12 @@ describe("the ticket SLA on the desks (Kev, 22 Oct 2026)", () => {
     const done = buildAlerts(base({ tickets: [tix({ id: "s", status: "working", createdAt: ago(400), pickedAt: ago(300), result: { summary: "ok" } })] }));
     assert.equal(done.length, 0);
   });
-  test("nothing on Saturday", () => {
+  test("nothing on the Sabbath: Saturday, or Friday after sunset", () => {
     const sat = new Date("2026-10-24T19:00:00Z");
     const a = buildAlerts(base({ now: sat, tickets: [tix({ createdAt: new Date(sat.getTime() - 5 * 3600000).toISOString() })] }));
     assert.equal(a.length, 0);
+    const fri = new Date("2026-10-24T03:00:00Z");                                          // Fri 8pm PDT, sunset was 6:11pm
+    assert.equal(buildAlerts(base({ now: fri, tickets: [tix({ createdAt: "2026-10-23T20:00:00Z" })] })).filter((x) => x.kind === "sla").length, 0);
   });
   test("the FAIL turns the desk red, and the count and the game reach meta/sync and meta/records", () => {
     const input = base({ tickets: [tix({}), tix({ id: "t2", agent: "q", status: "done", createdAt: ago(100), pickedAt: ago(90), doneAt: ago(20) })], actions: [{ action: "done", at: ago(10) }] });

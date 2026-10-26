@@ -35,7 +35,7 @@ Checked once in a browser at 400px and desktop, light and dark: no sideways scro
 
 Slugs are lowercase letters, digits and hyphens (`triton`, `pb-south`).
 
-Declare `capabilities: {db: {rules: [{path: "", read: "view", write: "admin"}]}}` so teammates read and only editors write. A rule can later lock a single client's path if a client ever needs a separate audience.
+Declare `capabilities: {db: {rules: [{path: "", read: "view", write: "admin"}]}}` so teammates read and only editors write. A rule can later lock a single client's path if a client ever needs a separate audience. From version 13, `team_asks` is also writable at `interact` (Contributors) so recruiters can answer asks; see Asks for the team below.
 
 ## Rules
 
@@ -87,6 +87,24 @@ Kev, with a photo of the cork board in his office: "your job orders + leads brea
   - **Status buttons** in the panel: Go (active, rank 5), Active (active; a Go rank of 6 or better drops to 30), Hold (on-hold), Kill (asks to confirm on the page, then writes `killed` and `killed_on`), Filled (`filled` and `filled_on`). Every write also sets `updated`. A JO whose `board_note` starts with "Go" keeps its Go marker until Radar edits the note.
 - **Writes** use the page's one-write-at-a-time helper. Rows still saving are not overwritten by live updates, and the page never deletes a document. "By client" and "By recruiter" still show active JOs, and the closed list below them is now "On hold, filled, closed or killed".
 - **Checked before publishing (version 11, 23 Oct 2026).** Tested in Chromium at 390 and 1280 px, light and dark, against a stub of the database seeded with the 52 live jobs, 7 client folders and 6 depth charts. Checks: no script errors, no sideways page scroll, all 12 client columns, no discreet name shown (including a test row typed with the real name), linked seats load in the panel and drop on close, Add a JO writes both documents for editors and is absent for viewers, Kill confirms and the killed sticky moves to the bottom, and Screen-share mode hides the folder.
+
+## Asks for the team (Kev, 25 October 2026)
+
+Kev: agents may ask the recruiting team for things directly, internal only, through asks on the Team Hub that the team checks daily. Goal: take work off Kev's plate. Casey first, then Jenny (`host`). No email, text or client contact from an agent; client-facing comes later, after a clean month.
+
+- **Where.** A closed folder, "Asks for the team" (marked "Internal · Eden only"), above the client folders. Its head carries a count badge: open asks (for the picked person, or everyone) and how many are overdue. Like Job Orders it is hidden in Screen-share mode, its rows are dropped when Screen-share turns on, and opening a client folder or Job Orders closes it.
+- **Inside.** A "My asks" picker (Everyone, Max, Evan, Andrew, Noah, Bridger, Kyle, Nick), remembered per browser. Open asks first, soonest due first, overdue ones marked red; then a closed "Done or can't" list (last 20) with a Reopen button. Each ask shows who it is for, which agent asked and when, the due chip, the ask, the why, and a link to the job order (opens the Job Orders folder on that JO).
+- **Recruiter.** Type a short reply (280 characters), tap **Done**, or tap **Can't** (a reply saying why is required). The page writes `status`, `reply` and `doneAt` back to the ask.
+- **Who can reply.** The db rule for `team_asks` is `write: "interact"`: Contributors and up. A recruiter shared as Viewer reads asks but cannot save a reply; the page says so and asks them to get Contributor access from Kev. Everything else on the Hub stays editors-only.
+- **Kev sees every ask** on the Command Center: Casey mirrors each ask as a ticket (`employees/casey/skills/team-asks.md`).
+
+| Path | One document is | Fields |
+|---|---|---|
+| `team_asks/{id}` | One ask from an agent to one recruiter | id, to (max, evan, andrew, noah, bridger, kyle, nick), from (casey, host), ask (one or two lines), why (one line), job (optional `jobs/{id}`), due (ISO date or date-time), status (open, done, cant), reply, createdAt, doneAt |
+
+Rules: one person and one action per ask; no pay, health or anything private; Hub rules hold (no phones, emails or comp; Baker/INL may be named). Declaration from version 13: `capabilities: {db: {rules: [{path: "", read: "view", write: "admin"}, {path: "team_asks", read: "view", write: "interact"}]}, downloads: {}, user: {}}`.
+
+Checked before publishing (version 13, 26 Oct 2026): Chromium at 390 and 1280 px against a stub database. No script errors, no sideways scroll, open asks sorted by due with overdue first, the picker filters and persists, Can't without a reply is refused on the page, Done and Can't write `status`, `reply`, `doneAt`, the job link opens that JO, Screen-share mode empties the folder, and a refused write turns the panel read-only with the Contributor note.
 
 ## Seed (Radar, 12 October)
 
