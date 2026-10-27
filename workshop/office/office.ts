@@ -13,6 +13,10 @@
 //   --seen seen.json       {"open-hub":"2026-10-21T..."}            the seen collection, id -> at
 //   --activity act.json    {"hub":"2026-10-20T..."}                 last time Radar saw each tool used
 //   --existing ex.json     {"agents/radar":{"version":3,"data":{...}}}  ArtifactData list results, so writes carry if_version and resolved alerts are deleted
+//   --jobs jobs.json       the Team Hub jobs collection (office-prep writes it from the dump): the Client work bench
+//   --jobs-read-at ISO     when those jobs were read (default: the file's mtime)
+//   --board board.json     a fresh read-only Crelate pull (npm run recruiting-board -- --out ...): the Recruiting and Hiring ramp benches (default: the repo's Round Table board file)
+//   (the --ledger file also feeds the Family bench: counts of the Home lane only)
 //   --now ISO              pretend it is this time (tests)
 // npm run office -- build-page   copy workshop/core/office-game.js into the page between its GAME-CORE markers (a test fails if they drift)
 // Reads only. Never talks to Crelate, Notion, Gmail or the artifact.
@@ -23,6 +27,8 @@ import { parse } from "yaml";
 import { list as listQc } from "../core/qc.ts";
 import { list as listGates } from "../core/numbers-gate.ts";
 import { buildGameBlock, injectGameBlock } from "./page-game.ts";
+import { buildBenches } from "../core/benches.ts";
+import { loadBenchInputs } from "./benches.ts";
 import { buildFeed, chunk, planWrites, type AgentLite, type NowFile, type RoutineLite, type SyncInput, type Tool } from "../core/office.ts";
 
 const argv = process.argv.slice(2);
@@ -80,6 +86,7 @@ try {
     ledger: json("ledger"), inbox: json("inbox"), calls: json("calls"), runs: json("runs"),
     tickets: flat(json<unknown[]>("tickets")), actions: flat(json<unknown[]>("actions")), asks: flat(json<unknown[]>("asks")),
   };
+  input.benches = buildBenches(loadBenchInputs({ now: input.now, jobsFile: flags.get("jobs"), jobsReadAt: flags.has("jobs-read-at") ? new Date(flags.get("jobs-read-at")!) : undefined, boardFile: flags.get("board"), ledgerFile: flags.get("ledger") }));
   const toolsFile = "projects/virtual-office/tools.json";
   const tools = existsSync(toolsFile) ? (JSON.parse(readFileSync(toolsFile, "utf8")) as Tool[]) : [];
   const existing = json<Record<string, { version: number; data?: unknown }>>("existing") ?? {};

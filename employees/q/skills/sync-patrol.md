@@ -32,6 +32,8 @@ Write `projects/virtual-office/bench-sources.json` on the first run (id, owner, 
 
 Write a bench as `{ id, owner, source, asOf, tiles: [{label, value, source, asOf}] }`, pinned with `if_version`. Counts and dates only. Every tile names its source.
 
+**Writers exist (27 Oct 2026).** `workshop/core/benches.ts` and `workshop/office/benches.ts` build client, recruiting, depth, university, projects and family; `npm run office-prep -- run` writes them every hour (the runner's dump must include `benches` and the Team Hub `jobs`). `npm run benches -- --jobs <jobs.json>` prints what would be written. The source map and each bench's windows are in `projects/virtual-office/bench-sources.json`. A bench's `asOf` is the sync time while its source is inside its `sourceWindow`, otherwise the source's own age (Pam's schedule file, a Friday board file), so "updated 4d" still means old data; the cure is the owner's ticket, never a bumped date. Family needs Radar to pass the Home-lane ledger rows as `<dump>/ledger.json`.
+
 ## Fixing what is stale
 
 For each stale item, find the cause before you fix it:

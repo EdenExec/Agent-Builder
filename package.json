@@ -32,7 +32,8 @@
     "office-prep": "node workshop/office/office-prep.ts",
     "card-pdf": "node workshop/workforce/card-pdf.ts",
     "scorecard-rows": "node workshop/workforce/scorecard-rows.ts",
-    "submittal": "node workshop/submittal/cli.ts"
+    "submittal": "node workshop/submittal/cli.ts",
+    "benches": "node workshop/office/benches.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",

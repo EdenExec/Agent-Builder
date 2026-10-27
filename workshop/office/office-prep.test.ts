@@ -1,9 +1,11 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+
+import { pullBoard } from "./office-prep.ts";
 
 const prep = (...args: string[]) => execFileSync(process.execPath, ["workshop/office/office-prep.ts", ...args], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
 function dump(): string {
@@ -61,5 +63,57 @@ describe("office-prep (the ticket runner's floor refresh)", () => {
     prep("out", outbox, d, dest);
     const host = (JSON.parse(readFileSync(join(dest, "writes.json"), "utf8")) as { doc_id: string; file_path: string }[]).find((w) => w.doc_id === "host")!;
     assert.deepEqual(JSON.parse(readFileSync(host.file_path, "utf8")), { id: "host", light: "reply", counts: { reply: 2 }, lastHeard: "2026-10-26T20:00:00Z" });
+  });
+
+  test("in: the Team Hub jobs are read-only input for the Client work bench, never versioned or written back", () => {
+    const d = dump(), v = join(d, "versions.json");
+    mkdirSync(join(d, "jobs"));
+    writeFileSync(join(d, "jobs", "hoffman-boise.json"), JSON.stringify({ client: "Hoffman Construction", status: "active", team: [] }));
+    writeFileSync(v, JSON.stringify({ "agents/dean": 8, "meta/sync": 74 }));
+    const out = prep("in", d, v);
+    assert.match(out, /1 Team Hub job\(s\)/);
+    assert.equal((JSON.parse(readFileSync(join(d, "jobs.json"), "utf8")) as { id: string }[])[0]!.id, "hoffman-boise");
+    assert.ok(!("jobs/hoffman-boise" in (JSON.parse(readFileSync(join(d, "existing.json"), "utf8")) as object)));
+  });
+  test("out: a bench with no document yet is written unversioned; one the dump holds without a version is dropped", () => {
+    const d = dump(), outbox = join(d, "outbox"), dest = join(d, "dest");
+    mkdirSync(outbox);
+    mkdirSync(join(d, "benches"));
+    writeFileSync(join(d, "benches", "finance.json"), JSON.stringify({ id: "finance" }));
+    writeFileSync(join(outbox, "batch-1.json"), JSON.stringify({ writes: [
+      { op: "set", collection: "benches", doc_id: "client", data: { id: "client" } },
+      { op: "set", collection: "benches", doc_id: "recruiting", data: { id: "recruiting" }, if_version: 2 },
+      { op: "set", collection: "benches", doc_id: "finance", data: { id: "finance" } },
+    ] }));
+    prep("out", outbox, d, dest);
+    const ids = (JSON.parse(readFileSync(join(dest, "writes.json"), "utf8")) as { doc_id: string }[]).map((w) => w.doc_id).sort();
+    assert.deepEqual(ids, ["client", "recruiting"]);
+  });
+  test("sync: benches are built from the jobs and the repo's files, and finance and revenue are never in the feed", () => {
+    const d = dump(), jobs = join(d, "jobs.json");
+    writeFileSync(jobs, JSON.stringify([{ id: "a", status: "active", opened: "2026-10-26", team: [] }, { id: "b", status: "on-hold", team: [{}] }]));
+    const raw = execFileSync(process.execPath, ["workshop/office/office.ts", "sync", "--dry", "--no-git", "--jobs", jobs], { encoding: "utf8" });
+    const docs = (JSON.parse(raw) as { docs: Record<string, { tiles?: { label: string; value: string }[] }> }).docs;
+    const keys = Object.keys(docs).filter((k) => k.startsWith("benches/")).sort();
+    assert.deepEqual(keys, ["benches/client", "benches/depth", "benches/projects", "benches/recruiting", "benches/university"]);  // family waits for the ledger
+    assert.equal(docs["benches/client"]!.tiles!.find((t) => t.label === "Active job orders")!.value, "1");
+    assert.ok(!keys.includes("benches/finance") && !keys.includes("benches/revenue"));
+  });
+});
+
+describe("the live board pull", () => {
+  const script = (body: string) => { const f = join(mkdtempSync(join(tmpdir(), "pull-")), "cli.js"); writeFileSync(f, body); return f; };
+  test("no Crelate key: no pull, and nothing stale is left behind", () => {
+    const d = dump(); writeFileSync(join(d, "board.json"), "{}");
+    assert.equal(pullBoard(d, {}), false);
+    assert.ok(!existsSync(join(d, "board.json")));
+  });
+  test("a failing pull falls back quietly; a working one leaves board.json", () => {
+    const d = dump();
+    assert.equal(pullBoard(d, { CRELATE_API_KEY: "k" }, script("process.exit(1)")), false);
+    assert.ok(!existsSync(join(d, "board.json")));
+    const ok = script("require('fs').writeFileSync(process.argv[process.argv.indexOf('--out') + 1], '{\"generated_at\":\"x\"}')");
+    assert.equal(pullBoard(d, { CRELATE_API_KEY: "k" }, ok), true);
+    assert.equal(pullBoard(d, { CRELATE_API_KEY: "k", OFFICE_BOARD_LIVE: "0" }, ok), false);
   });
 });

@@ -67,6 +67,8 @@ export type SyncInput = {
   actions?: ActionLite[];
   /** The Team Hub's team_asks collection: an ask an agent posted counts as hearing from it. */
   asks?: AskLite[];
+  /** Bench documents Q computes (workshop/core/benches.ts): benches/client, recruiting, depth, university, projects, family. Never finance or revenue. */
+  benches?: { docs: Record<string, unknown>; skipped: string[] };
 };
 
 export type Alert = {
@@ -357,6 +359,8 @@ export function buildFeed(input: SyncInput, tools: Tool[] = [], seen: Record<str
   else if (!input.actions) skipped.push("Kev's Done and Follow up taps, which score in the game (pass --actions)");
   const docs: Record<string, unknown> = {};
   const at = input.now.toISOString();
+  for (const [path, bench] of Object.entries(input.benches?.docs ?? {})) docs[path] = bench;
+  skipped.push(...(input.benches?.skipped ?? []));
   for (const a of agents) docs[`agents/${a.id}`] = a;
   for (const a of alerts) docs[`alerts/${a.id}`] = a;
   for (const t of tools) {
