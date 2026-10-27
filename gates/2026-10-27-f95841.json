@@ -1,0 +1,144 @@
+{
+  "id": "2026-10-27-f95841",
+  "subject": "Brand and Communications Intern: pay range, burden and monthly cost",
+  "preparer": "docket",
+  "checker": "tally",
+  "status": "open",
+  "items": [
+    {
+      "label": "Recommended hourly rate, low end",
+      "claimed": 18,
+      "unit": "usd",
+      "source": "Docket's pick from the market table in projects/comms/intern-legal-and-pay.md s.3 (judgement figure; confirm it sits at or above the Boise MSA entry wages for 13-1161 and below 27-3031 plus one dollar, and above the WA 2027 minimum)"
+    },
+    {
+      "label": "Recommended hourly rate, high end",
+      "claimed": 20,
+      "unit": "usd",
+      "source": "Docket's pick, s.3 and s.5 (ceiling for a portfolio-ready graduate); judgement figure, check it is below the Schweitzer posting floor and the NACE bachelor's average"
+    },
+    {
+      "label": "Idaho minimum wage, adult",
+      "claimed": 7.25,
+      "unit": "usd",
+      "source": "Idaho Code 44-1502(1), current text on legislature.idaho.gov"
+    },
+    {
+      "label": "Idaho UI new-employer rate 2026",
+      "claimed": 1,
+      "unit": "pct",
+      "source": "Governor's press release 17 Dec 2025, gov.idaho.gov 'Idaho businesses see another $11 million in tax savings'; or IDOL Unemployment Tax Rates page"
+    },
+    {
+      "label": "Idaho UI taxable wage base 2026",
+      "claimed": 58300,
+      "unit": "usd",
+      "source": "Same governor's release, 17 Dec 2025"
+    },
+    {
+      "label": "FUTA net rate",
+      "claimed": 0.6,
+      "unit": "pct",
+      "source": "IRS Form 940 instructions / Pub. 15, net rate after full state credit, no credit reduction"
+    },
+    {
+      "label": "FUTA wage base",
+      "claimed": 7000,
+      "unit": "usd",
+      "source": "26 USC 3306(b)(1); Pub. 15"
+    },
+    {
+      "label": "Employer Social Security plus Medicare",
+      "claimed": 7.65,
+      "unit": "pct",
+      "source": "IRS Pub. 15 (2026), employer share of OASDI plus HI"
+    },
+    {
+      "label": "Idaho WC rate class 8742 per $100 payroll",
+      "claimed": 0.22,
+      "unit": "pct",
+      "source": "Idaho Industrial Commission 'Idaho Workers Compensation Rates effective Jan 1, 2026' PDF (iic.idaho.gov/wp-content/uploads/2026/05/Rates2026-1.pdf), class 8742 NCCI rate"
+    },
+    {
+      "label": "Idaho WC rate class 8810 per $100 payroll",
+      "claimed": 0.117,
+      "unit": "pct",
+      "source": "Same IIC 2026 rates PDF, class 8810"
+    },
+    {
+      "label": "Total employer burden used",
+      "claimed": 9.47,
+      "unit": "pct",
+      "source": "Sum of employer FICA, FUTA net rate, Idaho UI new-employer rate and WC class 8742 rate (all four items above), applied to all wages; FUTA and UI caps not reached in a month"
+    },
+    {
+      "label": "Monthly wages, 10 hrs/wk at low-end rate",
+      "claimed": 780,
+      "unit": "usd",
+      "source": "Low-end hourly rate x 10 x 52 / 12, rounded to the cent"
+    },
+    {
+      "label": "Monthly total cost, 10 hrs/wk at low-end rate",
+      "claimed": 853.87,
+      "unit": "usd",
+      "source": "Monthly wages at 10 hrs plus total burden % x those wages (burden rounded to the cent)"
+    },
+    {
+      "label": "Monthly wages, 15 hrs/wk at low-end rate",
+      "claimed": 1170,
+      "unit": "usd",
+      "source": "Low-end hourly rate x 15 x 52 / 12"
+    },
+    {
+      "label": "Monthly burden, 15 hrs/wk at low-end rate",
+      "claimed": 110.8,
+      "unit": "usd",
+      "source": "Total burden % x monthly wages at 15 hrs, rounded to the cent"
+    },
+    {
+      "label": "Monthly total cost, 15 hrs/wk at low-end rate",
+      "claimed": 1280.8,
+      "unit": "usd",
+      "source": "Monthly wages plus burden at 15 hrs"
+    },
+    {
+      "label": "Monthly total cost, 20 hrs/wk at low-end rate",
+      "claimed": 1707.73,
+      "unit": "usd",
+      "source": "Low-end rate x 20 x 52 / 12, plus total burden % on it, burden rounded to the cent"
+    },
+    {
+      "label": "Monthly total cost, 15 hrs/wk at $17",
+      "claimed": 1209.64,
+      "unit": "usd",
+      "source": "$17 x 15 x 52 / 12 plus total burden % on it"
+    },
+    {
+      "label": "Monthly total cost, 15 hrs/wk at high-end rate",
+      "claimed": 1423.11,
+      "unit": "usd",
+      "source": "High-end hourly rate x 15 x 52 / 12 plus total burden % on it"
+    },
+    {
+      "label": "Annual employer cost, 15 hrs/wk at low-end rate",
+      "claimed": 15327.35,
+      "unit": "usd",
+      "source": "Wages = rate x 15 x 52; plus FICA on all wages, FUTA net rate on first FUTA wage base only, Idaho UI on all wages (under the UI base), WC 8742 on all wages; each component rounded to the cent"
+    },
+    {
+      "label": "Average monthly cost, 15 hrs/wk at low-end rate",
+      "claimed": 1277.28,
+      "unit": "usd",
+      "source": "Annual employer cost above / 12"
+    },
+    {
+      "label": "Idaho new-hire report deadline",
+      "claimed": 20,
+      "unit": "days",
+      "source": "labor.idaho.gov Report New Hires page (days from hire date)"
+    }
+  ],
+  "createdAt": "2026-10-27T04:17:52.445Z",
+  "doc": "projects/comms/intern-legal-and-pay.md",
+  "ask": "Kev: pick the starting rate (Docket recommends the low end), weekly hours, and Idaho-only work"
+}
