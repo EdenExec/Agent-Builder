@@ -24,7 +24,7 @@ Scout, 27 Oct 2026. Internal to Eden. Kev's candidate, referred by Peter Cramer 
 | 9 | Wood Partners | Multifamily, Raleigh-Durham | Fourth start in the metro in 12 months |
 | 10 | Kettler | Multifamily, DC metro | His JV partner on The Hale, THEORY, The Gantry and Parcel C2. The warmest door on the list. |
 
-The full map has 30 firms in `research-notes.md`. The outreach list (EL-022 v2) covers all of them that ZoomInfo carries.
+The full map has 30 firms in `research-notes.md`. The outreach list (EL-022 v2) adds the top-10 firms that v1 missed. Spear Street, Ancora, Kadans and Lennar Multifamily had no usable contacts in ZoomInfo.
 
 ## Outreach campaign: ready, nothing sent
 
