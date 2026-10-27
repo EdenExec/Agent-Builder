@@ -9,7 +9,10 @@
 // npm run office-prep -- out <outbox> <dump> <dest>   keeps only the sync writes for collections present in <dump> (writes to
 //     anything else would hit documents whose version we never read), saves each document's data as its own file under
 //     <dest>/docs/, and writes <dest>/writes.json: the `writes` array to pass to one ArtifactData batch.
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+// Benches (Kev, 27 Oct 2026): also dump `benches` (Command Center) and `jobs` (Team Hub) and the run writes benches/client, recruiting,
+//     depth, university, projects (and family when <dump>/ledger.json, the Home lane rows, exists). Finance and revenue are Tally's and are never written here.
+//     `run` also tries one read-only Crelate pull (the Round Table board) into <dump>/board.json; with no key or no network it falls back to the board file in the repo.
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 
@@ -18,7 +21,7 @@ type Write = { op: "set" | "delete"; collection: string; doc_id: string; data?: 
 const [cmd, ...args] = process.argv.slice(2);
 const readJson = <T>(p: string): T => JSON.parse(readFileSync(p, "utf8")) as T;
 /** Read-only inputs: the sync reads them but never writes them, so they get no versions and no writes. */
-const READ_ONLY: Record<string, string> = { tickets: "tickets.json", actions: "actions.json", team_asks: "asks.json" };
+const READ_ONLY: Record<string, string> = { tickets: "tickets.json", actions: "actions.json", team_asks: "asks.json", jobs: "jobs.json" };
 const collections = (dump: string) => readdirSync(dump, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name);
 
 /** versions.json, or the ArtifactData list results pasted as text: `documents from collection "agents"` headers, then
@@ -52,11 +55,17 @@ function prepIn(dump: string, versionsFile: string): void {
   }
   for (const [col, file] of Object.entries(READ_ONLY)) writeFileSync(join(dump, file), JSON.stringify(rows[col], null, 2) + "\n");
   writeFileSync(join(dump, "existing.json"), JSON.stringify(existing, null, 2) + "\n");
-  console.log(`${rows.tickets!.length} ticket(s), ${rows.team_asks!.length} Team Hub ask(s), ${Object.keys(existing).length} versioned doc(s). Next: npm run office -- sync ${syncFlags(dump).join(" ")}`);
+  console.log(`${rows.tickets!.length} ticket(s), ${rows.team_asks!.length} Team Hub ask(s), ${rows.jobs!.length} Team Hub job(s), ${Object.keys(existing).length} versioned doc(s). Next: npm run office -- sync ${syncFlags(dump).join(" ")}`);
 }
 function syncFlags(dump: string): string[] {
   const flags = ["--tickets", join(dump, "tickets.json"), "--actions", join(dump, "actions.json"), "--existing", join(dump, "existing.json")];
   if (existsSync(join(dump, "team_asks"))) flags.push("--asks", join(dump, "asks.json"));
+  if (existsSync(join(dump, "jobs"))) {
+    const read = readdirSync(join(dump, "jobs")).filter((n) => n.endsWith(".json")).map((n) => statSync(join(dump, "jobs", n)).mtimeMs);
+    flags.push("--jobs", join(dump, "jobs.json"), "--jobs-read-at", new Date(read.length ? Math.max(...read) : Date.now()).toISOString());
+  }
+  if (existsSync(join(dump, "ledger.json"))) flags.push("--ledger", join(dump, "ledger.json"));
+  if (existsSync(join(dump, "board.json"))) flags.push("--board", join(dump, "board.json"));
   return flags;
 }
 
@@ -95,7 +104,23 @@ function prepOut(outbox: string, dump: string, dest: string): void {
   console.log(`${out.length} of ${all.length} write(s) kept (collections: ${[...keep].join(", ")}; ${Object.keys(existing).length} versioned). Push ${parts.map((_, i) => join(dest, `writes-${i + 1}.json`)).join(", ") || "nothing"} as the batch writes, one ArtifactData batch per file.`);
 }
 
-try {
+/** One read-only Crelate pull of the Round Table board for the Recruiting and Hiring ramp benches. Never throws: no key, no network or a
+ *  slow pull just leaves <dump>/board.json absent and the benches read the repo's board file (and show its age). Prints counts only. */
+export function pullBoard(dump: string, env: NodeJS.ProcessEnv = process.env, script = "workshop/workforce/cli.ts"): boolean {
+  const out = join(dump, "board.json");
+  rmSync(out, { force: true });
+  if (!env.CRELATE_API_KEY || env.OFFICE_BOARD_LIVE === "0") { console.log("Board pull skipped (no CRELATE_API_KEY, or OFFICE_BOARD_LIVE=0): benches use the repo's board file."); return false; }
+  try {
+    execFileSync(process.execPath, [script, "--out", out], { stdio: ["ignore", "ignore", "pipe"], timeout: 120_000, env });
+    return existsSync(out);
+  } catch (e) {
+    rmSync(out, { force: true });
+    console.warn(`Board pull failed (${e instanceof Error ? e.message.split("\n")[0] : "error"}); benches use the repo's board file.`);
+    return false;
+  }
+}
+
+if (process.argv[1]?.endsWith("office-prep.ts")) try {
   if (cmd === "in") {
     const [dump, versionsFile] = args;
     if (!dump || !versionsFile) throw new Error("Usage: office-prep in <dump> <versions>");
@@ -104,6 +129,7 @@ try {
     const [dump, versionsFile, dest] = args;
     if (!dump || !versionsFile || !dest) throw new Error("Usage: office-prep run <dump> <versions> <dest>");
     prepIn(dump, versionsFile);
+    pullBoard(dump);
     const outbox = join(dest, "outbox");
     rmSync(outbox, { recursive: true, force: true });                         // no batch file left over from an earlier run
     execFileSync(process.execPath, ["workshop/office/office.ts", "sync", ...syncFlags(dump), "--out", outbox], { stdio: "inherit" });

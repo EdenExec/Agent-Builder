@@ -141,4 +141,4 @@ Baseline is the 11 to 17 October week. Targets are first guesses (A) and are res
 | 1 | Page name: public page reads "Eden Executive Search"; legal entity is Eden Partner Group | DECIDED 27 Oct: Docket checks names and marks first, then one public name |
 | 2 | Human supervisor for the intern day to day | DECIDED 27 Oct: Bridger Stainbrook; Jenny sets the content plan |
 | 3 | Who schedules Kev's personal posts | Kev, two minutes on Monday. No shared logins, ever |
-| 4 | Open Phase 1 and post the intern role on Boise State Handshake | DECIDED 27 Oct: go once Idaho payroll is set up and the posting is fixed. Pay: lower entry-level base plus incentives (Kev), Docket redrafting |
+| 4 | Open Phase 1 and post the intern role on Boise State Handshake | DECIDED 27 Oct: go once Idaho payroll is set up and the posting is fixed. Pay: base rate left blank by Kev (27 Oct, $15 felt high); capped bonus plan drafted. Posting waits on the base |

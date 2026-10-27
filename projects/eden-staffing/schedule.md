@@ -1,8 +1,8 @@
 ---
 title: Eden Staffing · launch schedule
-subtitle: Next 30 days, admin and brand, before launch, before investors · 23 October 2026
+subtitle: Next 30 days, admin and brand, before launch, before investors · 27 October 2026
 author: Pam
-date: 2026-10-23
+date: 2026-10-27
 toc: false
 cover: false
 ---
@@ -11,18 +11,23 @@ cover: false
 
 ## Result
 
-- **Status: drafted, not yet confirmed.** Every row has a date, one owner and one next action; owners and dates marked (A) are the PM's proposals until Kev confirms them on Monday 26 Oct.
-- **Next milestone:** M1, plan confirmed, Fri 30 Oct. It needs Kev's answers to the three open questions (ES-02).
+- **Status as of 27 Oct: 3 of 26 rows Done (AB-01, AB-04, AB-05), 1 Slipped (ES-01), 1 At risk (ES-03), the rest on date.** Nothing in the repo or the Office tickets shows Kev confirmed the batch on Mon 26 Oct, so ES-01 is Slipped and the (A) marks stand.
+- **Needs Kev:** (1) confirm owners and dates (ES-01), proposed recovery Wed 28 Oct (A); (2) answer the three open questions (ES-02, due Wed 28 Oct); (3) send Nick the trades-list ask (draft in `nick-chase-draft.md`). Until Kev confirms a new ES-01 date, Mon 26 Oct stands with the slip marked.
+- **Next milestone:** M1, plan confirmed, Fri 30 Oct (at risk until ES-01 and ES-02 clear).
+- **Evidence 27 Oct:** Docket's five drafts are in `legal/` (Office ticket t-202610230555-dkt3, 23 Oct, gate 2026-10-23-20b564 passed 15/15); Jenny's names and marks are in `brand/names.md` with Marlowe's design check in `brand/marlowe-check.md` (t-202610230612-mrl1, 23 Oct). No Nick reply and no sent message to Nick is on file.
 - **Added 23 Oct:** Admin and brand workstream (AB-01 to AB-10, M6 to M8) from Kev's 23 Oct direction. Docket drafts the legal set, Jenny the brand set, Marlowe checks design; Pam holds the dates. All AB dates are proposed (A).
 - **Source:** Kev's doc "Eden Staffing - Initial" (Google Doc `1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I`), read 22 Oct 2026. The doc's figures are planning estimates and stay in the doc.
 
 ## This week (week of 26 Oct)
 
-| Day | Milestone line |
-|---|---|
-| Mon 26 Oct | Kev confirms owners and dates, AB rows included (ES-01); trades list asked of Nick (ES-03) |
-| Wed 28 Oct | Open questions answered (ES-02); chase pass: Docket drafts (AB-01) and Jenny's contact sheet (AB-04) |
-| Fri 30 Oct | Provider and adviser shortlists in (ES-05, ES-06); fix list done (ES-07); Docket first drafts (AB-01); names and marks contact sheet (AB-04); M1 |
+**Status as of 27 Oct:** Monday's confirmations did not land (ES-01 Slipped); AB-01, AB-04 and AB-05 finished early on 23 Oct; Wednesday's chase pass is next.
+
+| Day | Milestone line | Status 27 Oct |
+|---|---|---|
+| Mon 26 Oct | Kev confirms owners and dates, AB rows included (ES-01); trades list asked of Nick (ES-03) | ES-01 Slipped, recovery Wed 28 Oct (A); ES-03 ask not sent, draft ready for Kev |
+| Tue 27 Oct | Trades list due from Nick (ES-03) | At risk, no ask has gone out |
+| Wed 28 Oct | Open questions answered (ES-02); chase pass: Nick (ES-03, ES-05); AB-01 and AB-04 no longer need a chase (Done) | Open |
+| Fri 30 Oct | Provider and adviser shortlists in (ES-05, ES-06); fix list done (ES-07); M1 | On date, depends on ES-01, ES-02 |
 
 ## Milestones (next 30 days: 22 Oct to 20 Nov)
 
@@ -41,11 +46,11 @@ cover: false
 
 | ID | Deliverable | Milestone | Owner | Due | Status | Next action | Chase | Source |
 |---|---|---|---|---|---|---|---|---|
-| ES-01 | Owners and dates on this schedule confirmed | M1 | Kev | Mon 26 Oct | Not started | Radar puts the PM's batch in front of Kev at the Monday milestone set | | PM, 22 Oct |
+| ES-01 | Owners and dates on this schedule confirmed | M1 | Kev | Mon 26 Oct | Slipped (due Mon 26 Oct); proposed recovery Wed 28 Oct (A) | Kev confirms the batch in the brief `employees/pm/briefs/eden-staffing-confirm-owners-dates.md` (on Needs Kev) | | PM, 22 Oct |
 | ES-02 | Answers to the three open questions: Florida demand and pay; who runs it day to day; was 40% of spread promised | M1 | Kev | Wed 28 Oct (A) | Not started | Radar puts the three questions on Kev's next admin window | | Open Questions |
-| ES-03 | Trades list (trades and class codes Eden will staff) for the quote requests | M2 | Nick (A) | Tue 27 Oct (A) | Waiting on | Kev sends Nick the PM's one-line ask (draft queued for Kev) | Mon 26 Oct | Next 30 Days, move 1 |
+| ES-03 | Trades list (trades and class codes Eden will staff) for the quote requests | M2 | Nick (A) | Tue 27 Oct (A) | At risk; proposed recovery Thu 29 Oct (A) | Kev sends Nick the one-line ask (draft in `nick-chase-draft.md`; no send on file) | Wed 28 Oct | Next 30 Days, move 1 |
 | ES-04 | Quote request pack: one assumption sheet (trades, FL/ID/OR, 25 workers) and the request text | M2 | PM | Thu 29 Oct (A) | Not started | PM drafts the sheet and request text; Docket reviews the wording | | Next 30 Days, move 1 |
-| ES-05 | Shortlist: two EOR and two BaaS providers that take Eden's trades' class codes and are registered in FL, ID and OR | M2 | Nick (A) | Fri 30 Oct (A) | Waiting on | Kev hands Nick the vetting criteria from the doc (PM drafts the note) | Wed 28 Oct | Route: EOR vs BaaS |
+| ES-05 | Shortlist: two EOR and two BaaS providers that take Eden's trades' class codes and are registered in FL, ID and OR | M2 | Nick (A) | Fri 30 Oct (A) | Waiting on | Kev hands Nick the vetting criteria from the doc (draft in `nick-chase-draft.md`) | Wed 28 Oct | Route: EOR vs BaaS |
 | ES-06 | Shortlist: two staffing-specialist insurance brokers and two employment attorneys | M3 | Docket (A) | Fri 30 Oct (A) | Not started | Radar opens an Office ticket for Docket: research only, no contact | | Next 30 Days, move 2 |
 | ES-07 | Fix List corrections in the plan doc: BD example, placeholders, labels | M1 | Kev | Fri 30 Oct (A) | Not started | PM writes the three edits as a suggestion list; Kev edits his doc | | Fix List |
 | ES-08 | Quote requests out to the four shortlisted providers | M2 | Kev | Tue 3 Nov (A) | Not started | Kev approves the PM's request drafts (one QC send_message item per provider) | | Next 30 Days, move 1 |
@@ -64,12 +69,12 @@ Kev, 23 Oct: "We need to get prepared on the admin side. We need agreements, sta
 
 | ID | Deliverable | Milestone | Owner | Due | Status | Next action | Chase | Source |
 |---|---|---|---|---|---|---|---|---|
-| AB-01 | First drafts from Docket: staffing services agreement, SOW template, partnership-options term sheet, EOR vetting checklist, issues memo | M6 | Docket | Fri 30 Oct (A) | Waiting on | Docket saves the five drafts in `legal/`; PM chases by Office ticket through Radar | Wed 28 Oct | Kev, 23 Oct |
-| AB-02 | Kev's decisions from Docket's issues memo (ranked list, each with Docket's pick) | M6 | Kev | Wed 4 Nov (A) | Not started | Radar puts the memo's ranked questions in front of Kev at his next admin window; Docket review on any legal answer | | Kev, 23 Oct; depends on AB-01 |
+| AB-01 | First drafts from Docket: staffing services agreement, SOW template, partnership-options term sheet, EOR vetting checklist, issues memo | M6 | Docket | Fri 30 Oct (A) | Done (23 Oct) | Five drafts saved in `legal/`, marked for attorney review; next is AB-02 | | Kev, 23 Oct |
+| AB-02 | Kev's decisions from Docket's issues memo (ranked list, each with Docket's pick) | M6 | Kev | Wed 4 Nov (A) | Waiting on | Radar puts the memo's ranked questions (`legal/05-issues-memo.md`) in front of Kev; Docket review on any legal answer | Mon 2 Nov | Kev, 23 Oct; depends on AB-01 |
 | AB-03 | Attorney and broker review of Docket's drafts back with comments | M8 | Kev | Wed 2 Dec (A) | Not started | Kev engages the attorney and broker (ES-09; any retainer or fee is a spend item for Kev) and sends them the drafts after AB-02 | | Kev, 23 Oct; ES-09, ES-15, BL-05 |
-| AB-04 | Names and marks contact sheet: brand name options with logo marks | M7 | Jenny | Fri 30 Oct (A) | Waiting on | Jenny saves the sheet in `brand/`; PM chases by Office ticket through Radar | Wed 28 Oct | Kev, 23 Oct |
-| AB-05 | Marlowe's design check on the contact sheet | M7 | Marlowe | Tue 3 Nov (A) | Not started | Radar opens an Office ticket for Marlowe the day AB-04 lands | | Kev, 23 Oct |
-| AB-06 | Kev picks a name and mark | M7 | Kev | Fri 6 Nov (A) | Not started | Radar puts the checked sheet in front of Kev with Marlowe's notes; Kev names first and second choice | | Kev, 23 Oct; depends on AB-05 |
+| AB-04 | Names and marks contact sheet: brand name options with logo marks | M7 | Jenny | Fri 30 Oct (A) | Done (23 Oct) | Names and marks in `brand/names.md`; Marlowe's must-fixes applied by Jenny | | Kev, 23 Oct |
+| AB-05 | Marlowe's design check on the contact sheet | M7 | Marlowe | Tue 3 Nov (A) | Done (23 Oct) | Check in `brand/marlowe-check.md`: Marks 1, 5 and 6 recommended | | Kev, 23 Oct |
+| AB-06 | Kev picks a name and mark | M7 | Kev | Fri 6 Nov (A) | Not started (ready for Kev) | Radar puts the checked sheet in front of Kev with Marlowe's notes; Kev names first and second choice | | Kev, 23 Oct; depends on AB-05 |
 | AB-07 | Docket's name check on the pick (entity-name and trademark screen; attorney confirms before filing) | M7 | Docket | Wed 11 Nov (A) | Not started | Radar opens an Office ticket for Docket the day AB-06 is picked; Kev uses the second choice if the first fails | | Kev, 23 Oct; depends on AB-06 |
 | AB-08 | One-page service overview for clients, built from Docket's term sheet | M8 | Jenny | Wed 18 Nov (A) | Not started | Jenny starts when AB-01 and AB-07 are in; Marlowe checks before Kev sees it | | Kev, 23 Oct; depends on AB-01, AB-07 |
 | AB-09 | Partnership-options sheet (one page) | M8 | Jenny (A) | Fri 20 Nov (A) | Not started | Jenny designs it from the term sheet once Kev has decided the options (AB-02); Marlowe checks | | Kev, 23 Oct; depends on AB-02 |
@@ -115,9 +120,11 @@ Kev, 23 Oct: "We need to get prepared on the admin side. We need agreements, sta
 - **Pam and Docket on the legal rows (AB-01, AB-02, AB-03, AB-07):** Docket holds the content, Pam holds the date and the chase. The Wednesday pass carries one Office ticket to Docket covering all legal rows. Any legal answer Kev gives goes back to Docket for review before it is relied on.
 - **Marketing stays draft:** the service overview, partnership sheet and brand sheet carry no prices, pay plans or client names, and nothing goes to a client or prospect before AB-03 comes back and Kev says yes.
 - **Docket load on Fri 30 Oct:** ES-06 (shortlists) and AB-01 (five drafts) land the same day. PM's pick: ES-06 first, since it gates M3; AB-01 slips only through the slip rule.
-- **Rows for Radar to file (Kev-owned):** AB-02, AB-03, AB-06, with owner, due and next action as above, Source "PM <ID>".
+- **Rows for Radar to file (Kev-owned):** AB-02, AB-03, AB-06, with owner, due and next action as above, Source "PM <ID>". Add ES-01 as a Slipped row with recovery Wed 28 Oct (A).
+- **Docket load:** AB-01 landed 23 Oct, so the 30 Oct pile-up with ES-06 is cleared; Docket can take ES-06 now.
 
 ## Changes log
 
 - 2026-10-22: Schedule drafted from Kev's doc (Next 30 Days, What I'd Change, Fix List, Open Questions). All owners and dates proposed (A).
 - 2026-10-23: Admin and brand workstream added (AB-01 to AB-10, M6 to M8) on Kev's direction. All owners and dates proposed (A), to be confirmed at the Monday 26 Oct batch with ES-01.
+- 2026-10-27: Status pass. AB-01, AB-04, AB-05 Done (evidence 23 Oct). ES-01 Slipped (no confirmation on file), recovery Wed 28 Oct (A). ES-03 At risk (no ask to Nick on file), recovery Thu 29 Oct (A). AB-02 now Waiting on Kev, chase Mon 2 Nov. Nick chase text drafted in `nick-chase-draft.md`, not sent. All other rows unchanged.

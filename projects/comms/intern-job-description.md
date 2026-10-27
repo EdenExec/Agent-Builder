@@ -15,8 +15,8 @@ compact: true
 
 | Item | What I did | For |
 |---|---|---|
-| Boise State students and recent grads | Sourcing goes through Boise State (Handshake, communication, marketing, design and media faculty, student groups). The ad itself says "open to anyone starting or building a career", because Docket's 23 Oct review flagged "students or recent graduates" in an ad as age-coded | Docket to confirm |
-| Pay | Hourly, W-2, every hour paid including training. Rate left as [Tally to propose] | Tally, Docket |
+| Current students, any age | Sourcing goes through Boise State (Handshake, communication, marketing, design and media faculty, student groups). The ad asks for current students "of any age" enrolled in a program and never says "recent grads": 29 CFR 1625.4(a) names both "college student" and "recent college graduate", and Idaho 67-5909(4) bars age-coded ads (Docket, 27 Oct) | Docket, done |
+| Pay | Hourly, W-2, every hour paid including training. Base rate BLANK until Kev sets it (27 Oct: Docket's $15 pick, posted $14 to $16, "seems pretty high"). Written bonus plan of up to $1,200 in the first year stays as drafted, set out in the offer letter. Posting does not go live until the base is set | Tally, Docket, Kev |
 | Classification | Part-time W-2 employee of Eden Partner Group. Never 1099 or stipend | Docket |
 | School credit | Wording follows Docket's line 9 (credit is the school's decision; pay is the same either way) | Docket |
 | Faith-friendly culture | One sentence naming the Seven Pillars and saying belief is never part of hiring. If Docket prefers, drop to the pillars alone | Docket |
@@ -32,7 +32,9 @@ compact: true
 
 **Brand and Communications Intern** · Eden Partner Group · Boise, ID
 
-**Paid, hourly, part-time W-2 position · Hybrid in Boise · 10 to 20 hours a week, built around your classes · Hourly pay: [Tally to propose], for every hour worked including training**
+**Paid, hourly, part-time W-2 position · Hybrid in Boise · 10 to 20 hours a week, built around your classes · [hourly rate: Kev to set] for every hour worked, including training, plus a written monthly performance bonus**
+
+**Open to current students of any age** enrolled in a college, university or certificate program.
 
 ### About Eden
 
