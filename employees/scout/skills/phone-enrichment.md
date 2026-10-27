@@ -41,3 +41,16 @@ ZoomInfo, Google Drive and **Google Sheets** (to write cells in the existing she
 - Never request or write personal email, even if ZoomInfo offers it.
 - Never move, copy, delete or share a sheet; the BPO team uploads from the master folder and Radar moves finished sheets.
 - Never go past 100 paid credits in a night. More needs a `spend` QC item from Kev.
+
+## Seat safety (keep the ZoomInfo seats from being flagged or shut down)
+
+Added 27 Oct 2026 at Kev's ask. These come from the terms shown in the ZoomInfo connector itself; Docket should read Eden's actual ZoomInfo agreement and confirm each point, and no one has yet.
+
+- **Automation and rate limits.** The connector states requests are rate limited per subscription and that automated scraping is prohibited. Stay on the API and the connector tools only. No browser automation, no web app, no scripts that hammer the endpoints. Batches of 10 to 50 as above; on a rate-limit or 429 error, stop and wait; never retry in a loop or from a second session.
+- **One seat, one operator at a time.** Run enrichment only through the kev1 seat, one session at a time. Do not run it at the same time as Noah's routine, a second Scout session, or anyone else's login on that seat. Two agents on one seat looks like shared credentials.
+- **Do not share or resell the data.** The connector bars sharing or reselling ZoomInfo data to third parties. Numbers stay on Eden-only recruiter sheets and in Crelate. The BPO team uploads from the master folder: confirm with Docket that this is allowed under the agreement (it is outside the licensed seat if the BPO team are not Eden users).
+- **Respect Do Not Call.** Keep writing the DNC flags. Do not dial or text a DNC number. California and EU/UK people carry extra consent rules; request the `withinCalifornia` and `withinEu` flags in `outputFields` and put "CA" or "EU" in Phone notes so recruiters know before dialing.
+- **No personal email, no bulk outreach lists.** The connector bars lists for cold outreach without a legal basis and asks for data minimization. Never request email; enrich only people on a live lead sheet, never the whole database.
+- **Stay inside the credit allowance.** Hard cap of 100 paid credits a night and never the same person twice. Already-managed records are free: use them first. Log every night's count in `memory/live/credits.md` so usage is visible if ZoomInfo asks.
+- **No exports to circumvent limits.** Do not combine tools, accounts or sessions to get past a monthly or per-seat limit. If credits run out, stop and ask Kev.
+- **Ask ZoomInfo, in writing.** Kev or Radar should ask the Eden ZoomInfo rep to confirm: (1) API and MCP automation on the seat is allowed, (2) the nightly enrichment pattern is within the plan, (3) the BPO team may receive the numbers, (4) how many seats Eden has and who is licensed. Until then, treat this routine as unconfirmed.
