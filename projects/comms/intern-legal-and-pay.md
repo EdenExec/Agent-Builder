@@ -48,7 +48,9 @@ The risk sits in the three must-dos below. Every figure is in numbers gate 2026-
 
 Kev, 27 Oct, on the $18 to $20 recommendation: "lower, this is Boise after all... entry level + incentives."
 
-**Recommendation: $15 an hour to a current student, posted as $14 to $16, plus a written bonus of up to $1,200 in the first 12 months.**
+> 27 Oct, Kev: "Leave base blank for now… that seems pretty high for compensation for interns." Base rate is open; Kev sets it. The bonus design below stands. Figures below remain Tally-checked (gate 2026-10-27-b48f69) for reference only.
+
+**Recommendation (on hold, base rate open): $15 an hour to a current student, posted as $14 to $16, plus a written bonus of up to $1,200 in the first 12 months.**
 
 Offer $14 to a first-year with no samples and $16 to a strong portfolio or for summer weeks.
 
