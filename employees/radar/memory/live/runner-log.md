@@ -75,3 +75,7 @@
 - 2026-10-26 15:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Sync stamp only.
 - 2026-10-26 16:46 PT: picked 0, closed 0, gated 2 (waiting on Kev: t-202610212325-fbr6, t-202610231625-wbnr), blocked 0, FAILs 0. Sync stamp only.
 - 2026-10-26 17:50 PT: full floor refresh (not stamp-only) after Kev's "why do they all say stale": 35 writes, 15 desks refreshed, 15 fresh / 0 stale; picked 0, closed 0, FAILs 0. From now on every run does the full refresh (ticket-runner.md step 8).
+- 2026-10-26 18:5x PT: picked 2, closed 1 (casey tx2r), gated 0, blocked 1 (rdcr: Crelate API has no name search), FAILs 0 (both tickets filed under 60 min earlier). Full floor refresh: 31 writes.
+- 2026-10-26 18:5x PT (late run): picked 0, closed 0, gated 0 new (2 waiting, 1 blocked already), blocked 0 new, FAILs 0 (no open tickets). Full floor refresh: 31 writes. Cockpit rewrite skipped (cut first).
+2026-10-26 19:45 PT · picked 0 · closed 0 · gated 0 · blocked 0 new (1 existing) · FAILs 0 · floor refreshed (31 writes); benches/cockpit skipped
+- 2026-10-26 20:45 PT: picked 0, closed 0, gated 0, blocked 0 (1 existing), FAILs 0; floor refresh pushed (31 writes); cockpit/benches skipped (no Docs/QBO run in this routine)
