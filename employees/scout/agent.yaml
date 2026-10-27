@@ -15,4 +15,4 @@ autonomy:
 limits:
   maxSpendUsd: 0
   maxMinutesPerTask: 120
-skills: [lead-list, zoominfo-search, linkedin-search, market-map, ship-and-report]
+skills: [lead-list, zoominfo-search, linkedin-search, market-map, comms-picks, ship-and-report]
