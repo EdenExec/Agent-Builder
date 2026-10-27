@@ -462,6 +462,27 @@
       "stage": "staged"
     },
     {
+      "file": "2026-10-27-todd-christensen-outreach-v2.csv",
+      "rows": 198,
+      "tiers": {
+        "1": 97,
+        "2": 89,
+        "3": 12
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0,
+      "title": null,
+      "landedAt": null,
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "stage": "staged"
+    },
+    {
       "title": "EL-022 · 2026-10-27 · Candidate marketing (Kev) · Development leaders, FL NC DC + data centers · 101 leads",
       "landedAt": "2026-10-27",
       "phonesAt": null,
