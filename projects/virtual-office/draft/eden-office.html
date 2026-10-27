@@ -2281,7 +2281,24 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     }, { refetchInterval: 60000 });
   }
 
+  /* Refresh in place (Kev, 27 Oct: "refreshes the data in place without moving me from where I am"). Every render empties and rebuilds
+     its boxes; the page height collapses for a moment and the browser clamps the scroll, so Kev jumped. Save the window and every inner
+     scroller, rebuild, put them back before the next paint. Rebuilds are also held while a finger or pointer is down on the page. */
+  var SCROLLERS = ['#panel', '#board-grid', '#lb-body', '#tks', '#strip', '.chatlog'];
+  function saveView() {
+    var v = { x: window.pageXOffset || 0, y: window.pageYOffset || 0, els: [] };
+    SCROLLERS.forEach(function (sel) { [].forEach.call(document.querySelectorAll(sel), function (el) { if (el.scrollTop || el.scrollLeft) v.els.push([el, el.scrollTop, el.scrollLeft]); }); });
+    return v;
+  }
+  function restoreView(v) {
+    v.els.forEach(function (e) { if (e[0].isConnected) { e[0].scrollTop = e[1]; e[0].scrollLeft = e[2]; } });
+    if ((window.pageYOffset || 0) !== v.y || (window.pageXOffset || 0) !== v.x) window.scrollTo(v.x, v.y);
+  }
   function renderAll() {
+    var view = saveView();
+    try { renderAllInner(); } finally { restoreView(view); requestAnimationFrame(function () { restoreView(view); }); }
+  }
+  function renderAllInner() {
     memo = null;                                    // one derivation of the game and the SLA per render
     try { ensurePm(); checkFocusTimer(); renderNext(); renderSync(); renderBanner(); renderFocus(); renderStrip(); renderBoard(); renderRecords(); renderLine(); renderFloor(); renderTools(); renderSheet(); }
     finally { memo = null; }
