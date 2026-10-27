@@ -23,6 +23,7 @@ test("state names are spelled out from codes, cities and names", () => {
   assert.equal(stateName("Baton Rouge, LA"), "Louisiana");
   assert.equal(stateName("louisiana"), "Louisiana");
   assert.equal(stateName("Bay Area"), "Bay Area");
+  assert.equal(stateName("Port St. Lucie, FL (moving toward Stuart)"), "Florida");
 });
 
 test("name variations cover formal, nickname, middle initial and reversed", () => {

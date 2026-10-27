@@ -53,7 +53,7 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 
 /** "TX", "Texas", "Houston, TX" or "Louisiana" -> the state spelled out; anything else is kept as given. */
 export function stateName(s: string): string {
-  const t = s.trim(), tail = t.split(",").pop()!.trim();
+  const t = s.replace(/\([^)]*\)/g, "").trim(), tail = t.split(",").pop()!.trim();
   if (STATES[tail.toUpperCase()]) return STATES[tail.toUpperCase()]!;
   const full = Object.values(STATES).find((n) => n.toLowerCase() === tail.toLowerCase());
   return full ?? t;
