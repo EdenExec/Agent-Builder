@@ -29,8 +29,8 @@
     },
     {
       "stage": "phones",
-      "owner": "Noah's nightly routine (10pm PT, ZoomInfo enrichment on Noah's seat)",
-      "done": "Mobile and Mobile source filled by ZoomInfo enrichment (Kev, 21 Oct 2026); Mobile source = ZoomInfo or ZoomInfo direct",
+      "owner": "Scout's nightly routine (10pm PT weeknights, ZoomInfo API on the kev1 seat, cap 100 paid credits a night; Kev, 27 Oct 2026). Replaces Noah's routine once live; until then Noah's routine runs",
+      "done": "Mobile, Mobile source, Direct and Phone notes filled in place; sheet renamed '<title> · Phones Added'; Lead Log Phones added dated. See employees/scout/skills/phone-enrichment.md",
       "recordedBy": "Noah's routine dates Phones added in the Lead Log; npm run leads -- stage-set <file> phones",
       "logColumn": "Phones added"
     },
@@ -82,7 +82,7 @@
     "url": "https://drive.google.com/drive/folders/1THEbC8Yi1-bzvg6CmuZnPmf1WWTBw1sU",
     "holds": "v1 sheets replaced by a v2 (12, 16, 18 moved 2026-10-21). Never deleted."
   },
-  "cadence": "Nightly, weeknights: Scout lands lists by 8pm PT, Noah's routine enriches at 10pm PT, the BPO team uploads to Crelate overnight, Radar moves finished sheets in the first morning sweep. Never Saturday.",
+  "cadence": "Nightly, weeknights: Scout lands lists by 8pm PT, Scout's phone-enrichment routine enriches at 10pm PT (Noah's until it is live), the BPO team uploads to Crelate overnight, Radar moves finished sheets in the first morning sweep. Never Saturday.",
   "bpoSop": {
     "repo": "projects/leads/bpo-nightly-upload-sop.md",
     "doc": "https://docs.google.com/document/d/1pFKhnI_ZIEX5W1vYuOTLxq6oN_9m_LF_v4cS6nSM6BY/edit",

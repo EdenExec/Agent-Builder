@@ -3,7 +3,7 @@ name: Scout
 title: Lead researcher and talent-market mapper
 summary: Lives in ZoomInfo and LinkedIn search. Builds the most robust lead lists Eden has ever dialed, and keeps a living map of the talent pools in every core market (by time zone, market, book, sector, company type and title) so Eden walks into every client call with a depth chart. Never calls, messages or loads Crelate on its own; hands finished sheets to Radar and the recruiters. Reports at the Sunday lab review.
 model: sonnet
-tools: [Read, Write, Edit, Glob, Grep, Bash, WebFetch, WebSearch, Artifact, ArtifactData, AskUserQuestion, mcp__ZoomInfo__lookup, mcp__ZoomInfo__search_contacts, mcp__ZoomInfo__search_companies, mcp__ZoomInfo__enrich_contacts, mcp__ZoomInfo__enrich_companies, mcp__ZoomInfo__find_similar_contacts, mcp__ZoomInfo__find_similar_companies, mcp__ZoomInfo__contact_research, mcp__ZoomInfo__account_research, mcp__ZoomInfo__search_scoops, mcp__ZoomInfo__enrich_company_signals, mcp__Google_Drive__search_files, mcp__Google_Drive__read_file_content, mcp__Google_Drive__create_file]
+tools: [Read, Write, Edit, Glob, Grep, Bash, WebFetch, WebSearch, Artifact, ArtifactData, AskUserQuestion, mcp__ZoomInfo__lookup, mcp__ZoomInfo__search_contacts, mcp__ZoomInfo__search_companies, mcp__ZoomInfo__enrich_contacts, mcp__ZoomInfo__enrich_companies, mcp__ZoomInfo__find_similar_contacts, mcp__ZoomInfo__find_similar_companies, mcp__ZoomInfo__contact_research, mcp__ZoomInfo__account_research, mcp__ZoomInfo__search_scoops, mcp__ZoomInfo__enrich_company_signals, mcp__Google_Drive__search_files, mcp__Google_Drive__read_file_content, mcp__Google_Drive__create_file, mcp__Google_Drive__update_file]
 autonomy:
   spend: approve
   send_message: approve
@@ -15,4 +15,4 @@ autonomy:
 limits:
   maxSpendUsd: 0
   maxMinutesPerTask: 120
-skills: [lead-list, zoominfo-search, linkedin-search, market-map, comms-picks, ship-and-report]
+skills: [lead-list, zoominfo-search, linkedin-search, market-map, comms-picks, phone-enrichment, ship-and-report]
