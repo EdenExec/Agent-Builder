@@ -24,7 +24,7 @@ compact: true
 | Work sample | A 30-minute writing exercise in the interview. Confirm it needs no pay | Docket |
 | Photos, video, content ownership | Intern signs confidentiality and a content-ownership clause; people on camera sign a release | Docket |
 | Phone and equipment | Own phone for capture; reimbursement policy not set | Docket, Tally |
-| Supervisor | [Human supervisor, Kev to name]; (A) Nick Leckwold | Kev |
+| Supervisor | Bridger Stainbrook (Kev, 27 Oct); Jenny sets the weekly plan | Kev, decided |
 
 <!-- pagebreak -->
 
@@ -42,7 +42,7 @@ Eden is a values-led, faith-friendly workplace; belief is never part of hiring, 
 
 ### The role
 
-You help shape how Eden looks and sounds in public. You schedule our weekly LinkedIn posts, capture the photos and video that make them real, keep an eye on comments and messages, and support our video partner on shoot days. You report to [human supervisor] and work from a weekly plan written by our comms lead.
+You help shape how Eden looks and sounds in public. You schedule our weekly LinkedIn posts, capture the photos and video that make them real, keep an eye on comments and messages, and support our video partner on shoot days. You report to Bridger Stainbrook and work from a weekly plan written by our comms lead.
 
 ### What you will do
 
@@ -81,7 +81,7 @@ If your school offers credit for internships, we will complete the school's empl
 
 ### How to apply
 
-Send your resume, three work samples or links (class projects, a portfolio or your own accounts), and two sentences on a brand you admire and why. [application link] Shortlisted applicants have a 20-minute call, a short writing exercise and a conversation with [human supervisor].
+Send your resume, three work samples or links (class projects, a portfolio or your own accounts), and two sentences on a brand you admire and why. [application link] Shortlisted applicants have a 20-minute call, a short writing exercise and a conversation with Bridger.
 
 You must be authorized to work in the United States.
 
