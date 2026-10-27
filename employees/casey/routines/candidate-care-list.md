@@ -28,3 +28,7 @@ Kev, 24 and 27 Oct 2026, tickets `t-202610241440-qcwl` and `t-202610270025-cip1`
 - Names, stage, dates and one-line touch notes only. No pay, health, family or contact details.
 - Casey never calls or messages a candidate or recruiter; touches are the recruiters'.
 - A candidate who drops is set to Out on the depth chart and leaves the list; the care doc stays.
+
+## Public-records search note (Kev, 27 Oct 2026, ticket `t-202610270012-tx2r`)
+
+When a candidate is searched on Google, the search covers mug shots and police records, casting as wide a net as possible. Radar helps with the search sources. No candidate is searched until Kev names one. Before the first search, Docket checks fair-chance and background-check rules (FCRA, Washington and Idaho law, any client contract terms) and the findings go on the QC row. Findings are kept to a one-line flag per candidate in the care doc, shared with Kev only.
