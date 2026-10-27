@@ -7,6 +7,8 @@ updated: 2026-10-25 by Casey
 
 # Candidate care list
 
+**Now live on the Team Hub (27 Oct 2026):** folder "Candidates in process", built from the depth charts, with touch logging, start dates, 30/60/90 check-ins and a printable sheet for Nick. This file is the history; the Hub is the list. Routine: `employees/casey/routines/candidate-care-list.md`.
+
 Kev, 24 Oct 2026: "We should start a quality control checklist: every candidate moving through interviews, pending start dates and within 30/60/90 of their start date goes on a list the guys look at every day and babysit. For example, Ryan Ouellette needs to be called. We need to make sure he's all good."
 
 **Who is on it:** every candidate who is (a) in interviews, (b) accepted with a start date pending, or (c) inside 30, 60 or 90 days after their start.

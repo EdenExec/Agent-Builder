@@ -118,3 +118,7 @@ Checked before publishing (version 13, 26 Oct 2026): Chromium at 390 and 1280 px
 2. Seed the client folders with `ArtifactData`, one client at a time.
 3. Read back one client as a lower-level viewer to confirm teammates can read.
 4. Kev names the roster and approves sharing.
+
+## Candidates in process (Kev, 27 October 2026)
+
+Internal folder on the Hub listing everyone in process across clients: pending start, started (30/60/90), interviewing, and submitted or PTC with no touch in 7 days. Rows come live from the depth charts; `care/{client slug}--{name slug}` docs hold `start`, `owner`, `touches [{at, by, note}]` and `checks` (offer_signed, resigned, background, day_one, counter, d30, d60, d90, referral). Contributors can write `care` (db rule `care` write interact), like `team_asks`. Hidden in screen-share mode. "Print Nick's sheet" prints the weekly one-sheet. Routine: `employees/casey/routines/candidate-care-list.md`.

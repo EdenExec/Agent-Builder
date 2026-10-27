@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Eden Client Depth Charts</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -262,6 +263,22 @@ dialog.jod::backdrop{background:var(--shade)}
 .ask-act .btn{min-height:40px;padding:8px 13px}
 .ask-act .btn.done{background:var(--pos);border-color:var(--pos);color:#fff}
 .ask-act .btn.cant{color:var(--neg)}
+/* candidates in process: internal, every client; existing tokens only (Kev, 27 Oct 2026) */
+.cgroup{display:grid;gap:8px;margin-bottom:22px;min-width:0}
+.crow{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:6px;min-width:0}
+.crow.due{border-color:var(--red-line);box-shadow:inset 4px 0 0 var(--neg)}
+.crow-top{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:baseline;min-width:0}
+.crow-top b{font-size:14px;overflow-wrap:anywhere}
+.crow small{color:var(--mute);font-size:11.5px;overflow-wrap:anywhere}
+.ctools{display:flex;gap:6px;flex-wrap:wrap;align-items:center;min-width:0}
+.ctools .ed{min-height:34px}
+.cchk{all:unset;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.8px;text-transform:uppercase;border:1px solid var(--line);border-radius:4px;padding:4px 7px;min-height:24px;display:inline-flex;align-items:center;color:var(--mute);background:var(--paper)}
+.cchk.on{background:var(--pos-bg);color:var(--pos);border-color:transparent}
+.cchk.risk.on{background:var(--neg-bg);color:var(--neg)}
+.cchk:focus-visible{outline:2px solid var(--gold)}
+.ctouch{display:flex;gap:6px;flex-wrap:wrap;align-items:center;min-width:0}
+.ctouch .ed{flex:1 1 200px}
+.ctouch button{font:inherit;font-weight:700;font-size:11.5px;border:1.5px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:6px;padding:7px 10px;cursor:pointer;min-height:36px}
 @media (max-width:600px){
   .jo-board{margin-inline:-12px;padding:6px}
   .cork{columns:auto;column-width:auto;column-count:1;padding:14px 9px 2px}
@@ -298,6 +315,7 @@ dialog.jod::backdrop{background:var(--shade)}
   <p class="sub" id="present-note" hidden>Screen-share mode is on. Client names are hidden. Type the client you are presenting to and press Enter.</p>
 
   <div id="asks"></div>
+  <div id="care"></div>
   <div class="folders" id="folders"></div>
   <div id="jobs"></div>
   <dialog class="jod" id="jod" aria-label="Job order"></dialog>
@@ -328,6 +346,9 @@ dialog.jod::backdrop{background:var(--shade)}
   // Scout queue doc: scout_queue/{job id} {job_id, client, role, location, requested_at, status}. The client-care agent picks these up and briefs Scout.
   // Ask doc: team_asks/{id} {id, to (recruiter slug), from (agent id: casey, host), ask, why, job? (jobs/{id}), due (ISO date), status (open|done|cant), reply, createdAt, doneAt}.
   //   Agents post asks with ArtifactData; the recruiter taps Done or Can't with a short reply. Internal only (Kev, 25 Oct 2026).
+  // Care doc: care/{client slug}--{name slug} {name, client, client_slug, seat, start (YYYY-MM-DD), owner, stage? (only for people not on a chart),
+  //   touches:[{at, by, note}], checks:{offer_signed, resigned, counter, background, day_one, d30, d60, d90, referral}, note, updated}.
+  //   Who is in process comes live from the depth charts; the care doc adds start dates, touches and check-ins (Kev, 27 Oct 2026).
   const STATUSES=['Pending PTC','PTC','Submitted','Interview','Offer','Placed','On hold','Out'];
   const TONE={'pending ptc':'warn','ptc':'gold','submitted':'gold','presented':'gold','interview':'pos','interviewing':'pos','offer':'pos','offer letter':'pos','placed':'pos','on hold':'','waiting on resume':'warn','out':'neg','pass':'neg','pass offer':'neg','withdrawn':'neg'};
   const tone=s=>TONE[String(s||'').toLowerCase()]||'';
@@ -345,7 +366,7 @@ dialog.jod::backdrop{background:var(--shade)}
   const isFresh=(rec,l)=>rec?rec[l.id]!==sig(l):(age(l.built)!=null&&age(l.built)<=2);
   const leadsFor=(c,s)=>state.sections.leads.filter(l=>(l.seats||[]).includes(c.id+':'+s.seat));
 
-  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[],meetings:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,confirm:null,showRemoved:false,thread:null,expanded:new Set(),saving:0,live:false,pending:{},last:{},deferred:false,summ:{},watched:new Set(),freshIds:new Set(),seenFor:null,seenRec:null,jobs:[],jobsOpen:false,jobsLoaded:false,jobsUnsub:null,jview:'board',seatLive:{},detail:null,dsubs:[],depthDocs:{},killAsk:false,addOpen:false,addMsg:'',asks:[],asksLoaded:false,asksOpen:false,asksUnsub:null,askFor:'',askRO:false,askNeed:null,askDoneOpen:false,wantJo:null};
+  const state={clients:[],open:null,sections:{depth:[],leads:[],notes:[],resources:[],meetings:[]},playbooks:[],present:false,unsubs:[],canEdit:false,by:'',editing:null,confirm:null,showRemoved:false,thread:null,expanded:new Set(),saving:0,live:false,pending:{},last:{},deferred:false,summ:{},watched:new Set(),freshIds:new Set(),seenFor:null,seenRec:null,jobs:[],jobsOpen:false,jobsLoaded:false,jobsUnsub:null,jview:'board',seatLive:{},detail:null,dsubs:[],depthDocs:{},killAsk:false,addOpen:false,addMsg:'',asks:[],asksLoaded:false,asksOpen:false,asksUnsub:null,askFor:'',askRO:false,askNeed:null,askDoneOpen:false,wantJo:null,careOpen:false,care:[],careLoaded:false,careDepth:{},careSubs:[],careRO:false,careFor:'',careBy:'',careTouch:null};
   try{state.present=sessionStorage.getItem('hub-present')==='1';state.expanded=new Set(JSON.parse(sessionStorage.getItem('hub-open')||'[]'))}catch(_){}
   const saveOpen=()=>{try{sessionStorage.setItem('hub-open',JSON.stringify([...state.expanded]))}catch(_){}};
 
@@ -677,7 +698,7 @@ dialog.jod::backdrop{background:var(--shade)}
   function renderJobs(){
     const box=$('jobs');
     const q=($('find').value||'').trim().toLowerCase();
-    if(state.present||state.open||state.asksOpen||(!state.jobsOpen&&q&&!'job orders'.includes(q))){box.innerHTML='';return}
+    if(state.present||state.open||state.asksOpen||state.careOpen||(!state.jobsOpen&&q&&!'job orders'.includes(q))){box.innerHTML='';return}
     const open=state.jobsOpen;
     box.innerHTML=(open?'<button class="back" id="jo-back" type="button">← All folders</button>':'')+
       '<div class="folder" data-open="'+open+'"><button class="fhead" id="jo-head" type="button" aria-expanded="'+open+'" aria-controls="fb-jobs"><span class="fname">Job Orders</span><span class="fmeta">Internal · Eden only</span><span class="caret" aria-hidden="true"></span></button>'+(open?'<div id="fb-jobs">'+jobsBody()+'</div>':'')+'</div>';
@@ -687,7 +708,7 @@ dialog.jod::backdrop{background:var(--shade)}
     dropJobs();
     if(on&&!state.present){
       if(state.open)openClient(null);
-      state.asksOpen=false;state.jobsOpen=true;state.jview='board';
+      dropCare();state.asksOpen=false;state.jobsOpen=true;state.jview='board';
       if(db)state.jobsUnsub=db.collection('jobs').onSnapshot(s=>{if(!state.jobsOpen||state.present)return;
         let rows=s.docs.map(own);
         rows=rows.map(r=>state.pending['jobs/'+r.id]>0?(state.jobs.find(x=>x.id===r.id)||r):r);
@@ -752,7 +773,7 @@ dialog.jod::backdrop{background:var(--shade)}
   function renderAsks(){
     const box=$('asks');
     const q=($('find').value||'').trim().toLowerCase();
-    if(state.present||state.open||state.jobsOpen||(!state.asksOpen&&q&&!'asks for the team'.includes(q))){box.innerHTML='';return}
+    if(state.present||state.open||state.jobsOpen||state.careOpen||(!state.asksOpen&&q&&!'asks for the team'.includes(q))){box.innerHTML='';return}
     const open=state.asksOpen,mine=state.asks.filter(a=>askSt(a)==='open'&&askMine(a)),late=mine.filter(askLate).length;
     const badge=state.asksLoaded&&mine.length?' <span class="chip cnt">'+mine.length+' open</span>'+(late?' <span class="chip rot">'+late+' overdue</span>':''):'';
     box.innerHTML=(open?'<button class="back" id="ask-back" type="button">← All folders</button>':'')+
@@ -768,7 +789,7 @@ dialog.jod::backdrop{background:var(--shade)}
       state.asks=rows;state.asksLoaded=true;render()},()=>{state.asksLoaded=true;setStatus('could not read asks');render()});
   }
   function toggleAsks(on){
-    if(on&&!state.present){if(state.open)openClient(null);dropJobs();state.asksOpen=true;window.scrollTo(0,0)}else state.asksOpen=false;
+    if(on&&!state.present){if(state.open)openClient(null);dropJobs();dropCare();state.asksOpen=true;window.scrollTo(0,0)}else state.asksOpen=false;
     state.askNeed=null;render(true);
   }
   // a reply write: open to everyone the db rule lets write team_asks (Contributor and up), not only editors
@@ -780,6 +801,148 @@ dialog.jod::backdrop{background:var(--shade)}
     const p=(queues[path]||Promise.resolve()).then(()=>call().catch(e=>{if(e&&e.code==='unavailable')return new Promise(r=>setTimeout(r,600+Math.random()*600)).then(call);throw e}));
     queues[path]=p.catch(()=>{});
     p.then(()=>{if(state.saving===1)setStatus('saved')},e=>{const i=state.asks.findIndex(x=>x.id===a.id);if(i>=0)state.asks[i]=before;if(e&&(e.code==='invalid_argument'||e.code==='revoked'))state.askRO=true;setStatus('not saved: '+((e&&e.code)||'error')+' · try again');render(true)})
+     .finally(()=>{state.saving--;setTimeout(()=>{state.pending[path]--},1500)});
+  }
+
+  // ---- Candidates in process: interviewing, pending start, started (30/60/90) and stalled submittals, every client (Kev, 27 Oct 2026) ----
+  // Kev: "we need to touch our candidates more through the process." Rows come live from every depth chart while the folder is open;
+  // the care doc adds the start date, touches and check-ins. Internal only: hidden, and its rows dropped, in Screen-share mode.
+  const CARE_K={interview:'interview',interviewing:'interview',offer:'offer','offer letter':'offer',placed:'placed',submitted:'sub',ptc:'sub',presented:'sub'};
+  const CARE_RANK={placed:4,offer:3,interview:2,sub:1};
+  // days between touches before a row turns red: a pending start is where counter-offers land
+  const CADENCE={pending:3,interview:5,sub:7};
+  const MARKS=[30,60,90];
+  const PENDING_CHECKS=[['offer_signed','Offer signed'],['resigned','Resigned'],['background','Background'],['day_one','First day set'],['counter','Counter-offer risk','risk']];
+  try{state.careBy=localStorage.getItem('hub-care-by')||'';state.careFor=localStorage.getItem('hub-care-for')||''}catch(_){}
+  const addDays=(d,n)=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(d||''));if(!m)return '';const t=new Date(Date.UTC(+m[1],+m[2]-1,+m[3]+n));return t.toISOString().slice(0,10)};
+  const fmtDay=d=>{try{return new Date(String(d).slice(0,10)+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})}catch(_){return d||''}};
+  function careRows(){
+    const m=new Map();
+    state.clients.forEach(c=>(state.careDepth[c.id]||[]).forEach(d=>(d.seats||[]).forEach(s=>{
+      if(s.removed)return;
+      const ppl=(s.people||[]).slice();
+      if(s.filled&&s.filled.name&&!ppl.some(p=>slugOf(p.name)===slugOf(s.filled.name)))ppl.push({name:s.filled.name,status:'Placed',by:s.filled.by});
+      ppl.forEach(p=>{
+        const k=CARE_K[String(p.status||'').toLowerCase().trim()];if(!k||!p.name)return;
+        const id=c.id+'--'+slugOf(p.name),prev=m.get(id);
+        if(prev&&CARE_RANK[prev.k]>=CARE_RANK[k])return;
+        const cm=(p.comments||[]).map(x=>String(x.at||'')).filter(Boolean).sort().pop()||'';
+        m.set(id,{id,name:p.name,client:c.name,client_slug:c.id,seat:s.seat,k,status:p.status,owner:String(p.by||'').trim()||ownerOf(s.loc),note:p.note||'',lastChart:cm});
+      });
+    })));
+    state.care.forEach(cd=>{
+      let r=m.get(cd.id);
+      if(!r){if(!cd.stage)return;r={id:cd.id,name:cd.name||cd.id,client:cd.client||'Client to confirm',client_slug:cd.client_slug||'',seat:cd.seat||'',k:CARE_K[String(cd.stage).toLowerCase()]||'placed',status:cd.stage,owner:'',note:'',lastChart:''};m.set(cd.id,r)}
+      r.doc=cd;if(cd.owner)r.owner=cd.owner;
+    });
+    return [...m.values()].map(r=>{
+      const doc=r.doc||{},start=doc.start||'',since=start?dayNum(start):null,checks=doc.checks||{};
+      const touches=(doc.touches||[]).slice().sort((a,b)=>String(a.at).localeCompare(String(b.at)));
+      const lt=[touches.length?touches[touches.length-1].at:'',r.lastChart].filter(Boolean).sort().pop()||'';
+      const ago=lt?dayNum(String(lt).slice(0,10)):null;
+      let g=r.k==='interview'?'interview':r.k==='sub'?'sub':'pending',next='',due=false;
+      if(g==='pending'&&since!=null&&since>=0)g='started';
+      if(g==='started'){
+        const mk=MARKS.find(x=>!checks['d'+x]);
+        if(!mk||since>120)return null;
+        const when=addDays(start,mk),left=-dayNum(when);
+        next=mk+'-day check-in '+(left>0?'in '+left+(left===1?' day':' days'):left===0?'today':(-left)+(left===-1?' day':' days')+' late');
+        due=left<=0;
+      }else{
+        const cad=CADENCE[g];due=ago==null||ago>=cad;
+        next=g==='pending'?(start?'Starts '+fmtDay(start)+' · '+(-since)+(since===-1?' day':' days'):'Start date to add'):'';
+      }
+      return Object.assign(r,{g,start,since,checks,touches,lt,ago,next,due});
+    }).filter(Boolean).filter(r=>!state.careFor||String(r.owner||'').toLowerCase().includes(state.careFor.toLowerCase()));
+  }
+  const CARE_G=[['pending','Pending start','Offer accepted, not started yet. Touch every '+CADENCE.pending+' days: this is where counter-offers land.'],
+    ['started','Started · 30/60/90','Check in at 30, 60 and 90 days. Ask for a referral at each one.'],
+    ['interview','Interviewing','Touch every '+CADENCE.interview+' days: prep before, debrief after, keep them warm.'],
+    ['sub','Submitted or PTC, stalled','Presented to the client and quiet for '+CADENCE.sub+'+ days. Touch the candidate and chase the client\'s feedback.']];
+  const touchTxt=r=>r.ago==null?'No touch logged':'Last touch '+(r.ago===0?'today':r.ago===1?'yesterday':r.ago+' days ago');
+  function careRow(r){
+    const can=state.live&&db&&!state.careRO;
+    const top='<div class="crow-top"><b>'+esc(r.name)+'</b><span class="meta">'+esc(r.client)+(r.seat?' · '+esc(r.seat):'')+'</span>'+chip(r.status)+(r.owner?'<span class="by">'+esc(r.owner)+'</span>':'<span class="chip warn">No owner</span>')+'</div>';
+    const line='<div class="prow">'+(r.next?'<span class="chip '+(r.due?'rot':'gold')+'">'+esc(r.next)+'</span>':'')+'<span class="'+(r.due&&r.g!=='started'?'chip rot':'meta')+'">'+esc(touchTxt(r))+'</span>'+(r.checks.counter?'<span class="chip neg">Counter-offer risk</span>':'')+'</div>';
+    const lastNote=r.touches.length?'<small>'+esc(fmtDay(r.touches[r.touches.length-1].at))+(r.touches[r.touches.length-1].by?' · '+esc(r.touches[r.touches.length-1].by):'')+': '+esc(r.touches[r.touches.length-1].note||'touched')+'</small>':(r.note?'<small>'+esc(r.note)+'</small>':'');
+    const chk=(k,l,cls)=>'<button class="cchk'+(cls?' '+cls:'')+(r.checks[k]?' on':'')+'" type="button" data-care="'+esc(r.id)+'" data-chk="'+k+'" aria-pressed="'+!!r.checks[k]+'">'+(r.checks[k]?'✓ ':'')+esc(l)+'</button>';
+    let tools='';
+    if(can){
+      const dateIn=(r.g==='pending'||r.g==='started')?'<label class="meta" style="display:inline-flex;gap:6px;align-items:center">Start <input class="ed" type="date" data-care-start="'+esc(r.id)+'" data-k="cs-'+esc(r.id)+'" value="'+esc(r.start)+'" aria-label="Start date for '+esc(r.name)+'"></label>':'';
+      const checks=r.g==='pending'?PENDING_CHECKS.map(x=>chk(x[0],x[1],x[2])).join(''):r.g==='started'?MARKS.map(x=>chk('d'+x,x+'-day')).join('')+chk('referral','Referral asked'):'';
+      tools='<div class="ctools">'+dateIn+checks+'</div>';
+      tools+=state.careTouch===r.id?'<form class="ctouch" data-care-touch="'+esc(r.id)+'"><input class="ed" name="note" data-k="ct-'+esc(r.id)+'" maxlength="200" placeholder="What did you hear? (no pay, health or family)" aria-label="Touch note for '+esc(r.name)+'"><button type="submit">Save touch</button>'+A('care-touch-x','','Cancel')+'</form>':'<div>'+A('care-touch','data-care="'+esc(r.id)+'"','+ Log a touch')+'</div>';
+    }
+    return '<article class="crow'+(r.due?' due':'')+'">'+top+line+lastNote+tools+'</article>';
+  }
+  function careBody(){
+    if(!state.live)return '<div class="fbody"><div class="empty" style="margin-top:16px">Open this page in Claude to load candidates.</div></div>';
+    if(!state.careLoaded)return '<div class="fbody"><div class="empty" style="margin-top:16px">Loading candidates…</div></div>';
+    const rows=careRows(),by=g=>rows.filter(r=>r.g===g).sort((a,b)=>(b.due-a.due)||String(a.start||'9').localeCompare(String(b.start||'9'))||(b.ago==null?1e9:b.ago)-(a.ago==null?1e9:a.ago));
+    const sub=by('sub').filter(r=>r.due);
+    const n=g=>g==='sub'?sub.length:by(g).length,due=rows.filter(r=>r.due&&(r.g!=='sub'||true)).length;
+    const sum='<div class="jo-sum">'+CARE_G.map(([g,l])=>'<div><b>'+n(g)+'</b><span class="meta">'+esc(l.toLowerCase())+'</span></div>').join('')+'<div'+(due?' class="hot"':'')+'><b>'+due+'</b><span class="meta">touch due now</span></div></div>';
+    const owners=[...new Set(ROSTER)];
+    const pick='<div class="tools"><label for="carefor">Owner</label><select class="ed" id="carefor" data-act="care-for"><option value="">Everyone</option>'+owners.map(r=>'<option value="'+esc(r)+'"'+(r===state.careFor?' selected':'')+'>'+esc(r)+'</option>').join('')+'</select>'+
+      '<label for="careby">I am</label><select class="ed" id="careby" data-act="care-by"><option value="">Pick your name</option>'+owners.map(r=>'<option value="'+esc(r)+'"'+(r===state.careBy?' selected':'')+'>'+esc(r)+'</option>').join('')+'</select>'+
+      '<button class="btn" type="button" data-act="care-print">Print Nick\'s sheet</button>'+(state.downloads?'<button class="btn" type="button" data-act="care-download">Download sheet</button>':'')+'</div>';
+    const note='<p class="sub" style="margin-bottom:14px">Internal to Eden. Everyone in process, live from the depth charts. Red means a touch is due. Log each call with one line so the next person knows where it stands. Check this every day; Nick prints the sheet every Monday. No pay, health or family notes.</p>';
+    const ro=state.careRO?'<div class="killq" style="margin-bottom:12px">This page is view only for you, so a touch cannot be saved. Ask Kev to make you a Contributor.</div>':'';
+    const groups=CARE_G.map(([g,l,why])=>{const list=g==='sub'?sub:by(g);
+      return '<section class="cgroup"><div class="dc-head"><h4>'+esc(l)+'</h4><span class="meta">'+list.length+(g==='sub'?' of '+by('sub').length+' presented':'')+'</span></div><p class="sub">'+esc(why)+'</p>'+(list.map(careRow).join('')||'<div class="empty">Nobody here right now.</div>')+'</section>'}).join('');
+    return '<div class="fbody">'+sum+'<div class="sec">'+pick+note+ro+groups+'</div></div>';
+  }
+  function careReport(){
+    const rows=careRows(),cell=t=>'<td style="vertical-align:top">'+t+'</td>';
+    let h='<div style="font-family:Montserrat,Arial,sans-serif;color:#111"><div style="font-family:monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#8F6F3E">Eden Partner Group · Internal</div><h1>Candidates in process</h1><div style="font-size:12px;color:#555">Week of '+esc(today())+(state.careFor?' · Owner: '+esc(state.careFor):'')+' · Red rows: touch due</div>';
+    CARE_G.forEach(([g,l])=>{
+      let list=rows.filter(r=>r.g===g);if(g==='sub')list=list.filter(r=>r.due);
+      h+='<h2>'+esc(l)+' ('+list.length+')</h2>';
+      if(!list.length){h+='<div style="font-size:12px;color:#555"><i>None</i></div>';return}
+      h+='<table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left">Candidate</th><th style="text-align:left">Client · seat</th><th style="text-align:left">Owner</th><th style="text-align:left">Where it stands</th><th style="text-align:left">Last touch</th><th style="text-align:left">Done</th></tr></thead><tbody>';
+      list.forEach(r=>{const last=r.touches.length?r.touches[r.touches.length-1]:null;
+        h+='<tr'+(r.due?' style="background:#F1DDD9"':'')+'>'+cell('<b>'+esc(r.name)+'</b>')+cell(esc(r.client)+(r.seat?'<div style="color:#666;font-size:10px">'+esc(r.seat)+'</div>':''))+cell(esc(r.owner||'No owner'))+cell(esc(r.status)+(r.next?'<div style="font-size:10px">'+esc(r.next)+'</div>':''))+
+          cell(esc(touchTxt(r))+(last&&last.note?'<div style="color:#555;font-size:10px">'+esc(last.note)+'</div>':''))+cell('<span style="font-size:10px">'+esc(Object.keys(r.checks).filter(k=>r.checks[k]).map(k=>({offer_signed:'offer signed',resigned:'resigned',background:'background',day_one:'first day',counter:'COUNTER RISK',d30:'30',d60:'60',d90:'90',referral:'referral'})[k]||k).join(', '))+'</span>')+'</tr>'});
+      h+='</tbody></table>';
+    });
+    return h+'</div>';
+  }
+  function renderCare(){
+    const box=$('care');
+    const q=($('find').value||'').trim().toLowerCase();
+    if(state.present||state.open||state.jobsOpen||state.asksOpen||(!state.careOpen&&q&&!'candidates in process'.includes(q))){box.innerHTML='';return}
+    const open=state.careOpen;
+    box.innerHTML=(open?'<button class="back" id="care-back" type="button">← All folders</button>':'')+
+      '<div class="folder" data-open="'+open+'"><button class="fhead" id="care-head" type="button" aria-expanded="'+open+'" aria-controls="fb-care"><span class="fname">Candidates in process</span><span class="fmeta">'+(state.careFor?esc(state.careFor)+' · ':'')+'Internal · Eden only</span><span class="caret" aria-hidden="true"></span></button>'+(open?'<div id="fb-care">'+careBody()+'</div>':'')+'</div>';
+  }
+  function dropCare(){state.careSubs.forEach(u=>{try{u()}catch(_){}});state.careSubs=[];state.careOpen=false;state.care=[];state.careDepth={};state.careLoaded=false;state.careTouch=null}
+  function openCare(on){
+    dropCare();
+    if(!on||state.present){render(true);return}
+    if(state.open)openClient(null);
+    dropJobs();state.asksOpen=false;state.careOpen=true;
+    if(db){
+      const seen=new Set();let pend=1;const done=()=>{if(--pend<=0)state.careLoaded=true};
+      state.careSubs.push(db.collection('care').onSnapshot(s=>{if(!state.careOpen)return;let rows=s.docs.map(own);rows=rows.map(r=>state.pending['care/'+r.id]>0?(state.care.find(x=>x.id===r.id)||r):r);
+        state.care.forEach(x=>{if(state.pending['care/'+x.id]>0&&!rows.some(r=>r.id===x.id))rows.push(x)});state.care=rows;if(!seen.has('care')){seen.add('care');done()}render()},()=>{if(!seen.has('care')){seen.add('care');done()}render()}));
+      state.clients.forEach(c=>{pend++;state.careSubs.push(db.collection('clients/'+c.id+'/depth').onSnapshot(s=>{if(!state.careOpen)return;state.careDepth[c.id]=s.docs.map(own);if(!seen.has(c.id)){seen.add(c.id);done()}render()},()=>{if(!seen.has(c.id)){seen.add(c.id);done()}render()}))});
+    }
+    window.scrollTo(0,0);render(true);
+  }
+  // a care write: open to everyone the db rule lets write care (Contributor and up), like the asks
+  function writeCare(r,ch){
+    if(!db||state.careRO)return;
+    const path='care/'+r.id;
+    let doc=state.care.find(x=>x.id===r.id);
+    const before=doc?JSON.parse(JSON.stringify(doc)):null;
+    if(!doc){doc={id:r.id,name:r.name,client:r.client,client_slug:r.client_slug,seat:r.seat};state.care.push(doc)}
+    Object.assign(doc,ch,{updated:today()});
+    const data=JSON.parse(JSON.stringify(doc));delete data.id;
+    state.saving++;state.pending[path]=(state.pending[path]||0)+1;setStatus('saving');render(true);
+    const call=()=>db.doc(path).set(data);
+    const p=(queues[path]||Promise.resolve()).then(()=>call().catch(e=>{if(e&&e.code==='unavailable')return new Promise(res=>setTimeout(res,600+Math.random()*600)).then(call);throw e}));
+    queues[path]=p.catch(()=>{});
+    p.then(()=>{if(state.saving===1)setStatus('saved')},e=>{const i=state.care.findIndex(x=>x.id===r.id);if(i>=0){if(before)state.care[i]=before;else state.care.splice(i,1)}if(e&&(e.code==='invalid_argument'||e.code==='revoked'))state.careRO=true;setStatus('not saved: '+((e&&e.code)||'error')+' · try again');render(true)})
      .finally(()=>{state.saving--;setTimeout(()=>{state.pending[path]--},1500)});
   }
 
@@ -806,12 +969,12 @@ dialog.jod::backdrop{background:var(--shade)}
   }
 
   // keep what someone is typing when a live update redraws the page
-  function snapshotInputs(){const m={};document.querySelectorAll('#folders [data-k],#jobs [data-k],#asks [data-k]').forEach(el=>{m[el.dataset.k]=el.value});const a=document.activeElement;return {m,focus:a&&a.dataset?a.dataset.k:null,sel:a&&a.selectionStart!=null?[a.selectionStart,a.selectionEnd]:null}}
-  function restoreInputs(x){document.querySelectorAll('#folders [data-k],#jobs [data-k],#asks [data-k]').forEach(el=>{const v=x.m[el.dataset.k];if(v!=null&&(v!==''||el.tagName==='TEXTAREA'))el.value=v});if(x.focus){const el=document.querySelector('#folders [data-k="'+CSS.escape(x.focus)+'"],#jobs [data-k="'+CSS.escape(x.focus)+'"],#asks [data-k="'+CSS.escape(x.focus)+'"]');if(el){el.focus();if(x.sel)try{el.setSelectionRange(x.sel[0],x.sel[1])}catch(_){}}}}
+  function snapshotInputs(){const m={};document.querySelectorAll('#folders [data-k],#jobs [data-k],#asks [data-k],#care [data-k]').forEach(el=>{m[el.dataset.k]=el.value});const a=document.activeElement;return {m,focus:a&&a.dataset?a.dataset.k:null,sel:a&&a.selectionStart!=null?[a.selectionStart,a.selectionEnd]:null}}
+  function restoreInputs(x){document.querySelectorAll('#folders [data-k],#jobs [data-k],#asks [data-k],#care [data-k]').forEach(el=>{const v=x.m[el.dataset.k];if(v!=null&&(v!==''||el.tagName==='TEXTAREA'))el.value=v});if(x.focus){const el=document.querySelector('#folders [data-k="'+CSS.escape(x.focus)+'"],#jobs [data-k="'+CSS.escape(x.focus)+'"],#asks [data-k="'+CSS.escape(x.focus)+'"],#care [data-k="'+CSS.escape(x.focus)+'"]');if(el){el.focus();if(x.sel)try{el.setSelectionRange(x.sel[0],x.sel[1])}catch(_){}}}}
 
   function render(force){
     const a=document.activeElement;
-    if(!force&&a&&a.tagName==='SELECT'&&($('folders').contains(a)||$('jobs').contains(a)||$('asks').contains(a))){state.deferred=true;return}
+    if(!force&&a&&(a.tagName==='SELECT'||(a.tagName==='INPUT'&&a.type==='date'))&&($('folders').contains(a)||$('jobs').contains(a)||$('asks').contains(a)||$('care').contains(a))){state.deferred=true;return}
     state.deferred=false;
     const keep=snapshotInputs();
     $('present').setAttribute('aria-pressed',String(state.present));
@@ -819,12 +982,13 @@ dialog.jod::backdrop{background:var(--shade)}
     const q=($('find').value||'').trim().toLowerCase();
     if(state.present&&!state.open){
       $('present-note').hidden=false;$('present-note').textContent='Screen-share mode is on. Client names are hidden. Type the client you are presenting to and press Enter.';
-      $('folders').innerHTML='';$('jobs').innerHTML='';$('asks').innerHTML='';$('playbooks').innerHTML='';$('sub').hidden=true;return;
+      $('folders').innerHTML='';$('jobs').innerHTML='';$('asks').innerHTML='';$('care').innerHTML='';$('playbooks').innerHTML='';$('sub').hidden=true;return;
     }
     $('sub').hidden=false;
     $('present-note').hidden=!state.present;
     if(state.present)$('present-note').textContent='Screen-share mode is on. Only this client is showing. Turn it off to see the other folders.';
-    renderJobs();renderAsks();
+    renderJobs();renderAsks();renderCare();
+    if(state.careOpen){$('folders').innerHTML='';$('playbooks').innerHTML='';restoreInputs(keep);return}
     if(state.asksOpen){$('folders').innerHTML='';$('playbooks').innerHTML='';restoreInputs(keep);return}
     if(state.jobsOpen){$('folders').innerHTML='';$('playbooks').innerHTML='';renderDetail();restoreInputs(keep);return}
     let list=state.clients.slice().sort((a,b)=>(a.sort||99)-(b.sort||99)||String(a.name).localeCompare(String(b.name)));
@@ -938,7 +1102,7 @@ dialog.jod::backdrop{background:var(--shade)}
   function unsubAll(){state.unsubs.forEach(u=>{try{u()}catch(_){}});state.unsubs=[]}
   let db=null;
   function openClient(id){
-    dropJobs();unsubAll();state.asksOpen=false;state.askNeed=null;state.sections={depth:[],leads:[],notes:[],resources:[],meetings:[]};state.last={};state.open=id||null;state.freshIds=new Set();state.seenFor=null;state.editing=null;state.confirm=null;state.thread=null;state.by='';
+    dropJobs();dropCare();unsubAll();state.asksOpen=false;state.askNeed=null;state.sections={depth:[],leads:[],notes:[],resources:[],meetings:[]};state.last={};state.open=id||null;state.freshIds=new Set();state.seenFor=null;state.editing=null;state.confirm=null;state.thread=null;state.by='';
     try{history.replaceState(null,'',id?'#'+id:location.pathname+location.search)}catch(_){}
     if(id&&db){['depth','leads','notes','resources','meetings'].forEach(k=>{
       state.unsubs.push(db.collection('clients/'+id+'/'+k).onSnapshot(s=>{
@@ -968,7 +1132,7 @@ dialog.jod::backdrop{background:var(--shade)}
   });
   $('present').addEventListener('click',()=>{
     state.present=!state.present;try{sessionStorage.setItem('hub-present',state.present?'1':'0')}catch(_){}
-    if(state.present){$('find').value='';dropJobs();state.asksOpen=false;watchAsks(false)}else watchAsks(true);
+    if(state.present){$('find').value='';dropJobs();dropCare();state.asksOpen=false;watchAsks(false)}else watchAsks(true);
     render(true);
   });
   $('jobs').addEventListener('click',e=>{
@@ -997,6 +1161,33 @@ dialog.jod::backdrop{background:var(--shade)}
   $('asks').addEventListener('change',e=>{if(e.target.dataset.act!=='ask-for')return;state.askFor=ASK_TO.includes(e.target.value)?e.target.value:'';try{localStorage.setItem('hub-my-asks',state.askFor)}catch(_){}render(true)});
   $('asks').addEventListener('submit',e=>{if(e.target.closest('form[data-ask]'))e.preventDefault()});
   $('asks').addEventListener('toggle',e=>{if(e.target.matches&&e.target.matches('details[data-ask-done]'))state.askDoneOpen=e.target.open},true);
+  $('care').addEventListener('click',e=>{
+    if(e.target.closest('#care-back')){openCare(false);return}
+    if(e.target.closest('#care-head')){openCare(!state.careOpen);return}
+    const rows=()=>careRows();
+    const t=e.target.closest('button[data-act="care-touch"]');
+    if(t){state.careTouch=t.dataset.care;render(true);const el=$('care').querySelector('[data-k="'+CSS.escape('ct-'+t.dataset.care)+'"]');if(el)el.focus();return}
+    if(e.target.closest('button[data-act="care-touch-x"]')){state.careTouch=null;render(true);return}
+    const c=e.target.closest('button[data-chk]');
+    if(c){const r=rows().find(x=>x.id===c.dataset.care);if(!r)return;const checks=Object.assign({},r.checks);checks[c.dataset.chk]=!checks[c.dataset.chk];
+      const ch={checks};if(c.dataset.chk.startsWith('d')&&checks[c.dataset.chk])ch.touches=r.touches.concat([{at:new Date().toISOString(),by:state.careBy,note:c.dataset.chk.slice(1)+'-day check-in done'}]);
+      writeCare(r,ch);return}
+    if(e.target.closest('button[data-act="care-print"]')){$('report').innerHTML=careReport();try{window.print()}catch(_){setStatus('print blocked here · use Download sheet')}return}
+    if(e.target.closest('button[data-act="care-download"]')&&state.dl){const doc='<!doctype html><html><head><meta charset="utf-8"><title>Candidates in process '+today()+'</title><style>body{font-family:Montserrat,Arial,sans-serif;margin:32px;color:#111}h1{font-size:22px}h2{font-size:14px;text-transform:uppercase;letter-spacing:1px;margin-top:22px}td,th{padding:6px 8px;border-bottom:1px solid #ddd;font-size:12px;text-align:left}</style></head><body>'+careReport()+'</body></html>';
+      state.dl.save({filename:'candidates-in-process-'+today()+'.html',data:doc}).catch(er=>{if(er&&er.code!=='declined')setStatus('download failed: '+(er.code||'error'))});return}
+  });
+  $('care').addEventListener('change',e=>{
+    const el=e.target;
+    if(el.dataset.act==='care-for'){state.careFor=ROSTER.includes(el.value)?el.value:'';try{localStorage.setItem('hub-care-for',state.careFor)}catch(_){}render(true);return}
+    if(el.dataset.act==='care-by'){state.careBy=ROSTER.includes(el.value)?el.value:'';try{localStorage.setItem('hub-care-by',state.careBy)}catch(_){}render(true);return}
+    if(el.dataset.careStart!=null){const r=careRows().find(x=>x.id===el.dataset.careStart);if(r&&/^\d{4}-\d{2}-\d{2}$/.test(el.value)||r&&el.value==='')writeCare(r,{start:el.value})}
+  });
+  $('care').addEventListener('submit',e=>{
+    const f=e.target.closest('form[data-care-touch]');if(!f)return;e.preventDefault();
+    const r=careRows().find(x=>x.id===f.dataset.careTouch);if(!r)return;
+    const note=String((f.elements.note&&f.elements.note.value)||'').trim().slice(0,200);
+    state.careTouch=null;writeCare(r,{touches:r.touches.concat([{at:new Date().toISOString(),by:state.careBy,note}])});
+  });
   $('jod').addEventListener('close',()=>{if(state.detail)closeDetail()});
   $('jod').addEventListener('click',e=>{
     const d=$('jod');
@@ -1045,3 +1236,5 @@ dialog.jod::backdrop{background:var(--shade)}
   render(true);
 })();
 </script>
+
+</body></html>
