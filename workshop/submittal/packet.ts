@@ -5,7 +5,8 @@ import { readFileSync } from "node:fs";
 import { NAME, SITE } from "../brand/eden.ts";
 
 export type Basis = "current" | "desired";
-export type Rating = "meets" | "partial" | "gap";
+// "confirm": the screen has not covered it yet; asked on the client call rather than scored as a gap
+export type Rating = "meets" | "partial" | "gap" | "confirm";
 export type Packet = {
   candidate: { first: string; last: string; middle?: string; nicknames?: string[]; former_last?: string; title?: string; years?: number | string; linkedin?: string };
   role_submitted: string;
@@ -89,14 +90,15 @@ export function checkPacket(p: Packet): string[] {
   if (!p.candidate?.first || !p.candidate?.last) miss.push("Candidate name");
   if (!p.role_submitted) miss.push("Role submitted");
   if (p.pay?.basis !== "current" && p.pay?.basis !== "desired") miss.push('Pay marked "current" or "desired"');
-  if (!p.pay?.base) miss.push("Base pay");
+  if (!p.pay?.base || /to confirm/i.test(p.pay.base)) miss.push("Base pay");
+  for (const [k, v] of [["Start availability", p.start_availability], ["Actively interviewing", p.actively_interviewing]] as const) if (/to confirm/i.test(v ?? "")) miss.push(`${k}: still to confirm`);
   if (!p.current_location) miss.push("Current location");
   if (!p.start_availability) miss.push("Start availability");
   if (!p.actively_interviewing) miss.push("Actively interviewing");
   if (!p.concerns) miss.push('Concerns (write "None known" only if true)');
   const md = p.must_dos ?? [];
   if (md.length < 7 || md.length > 10) miss.push(`Must Dos: ${md.length} on the scorecard, 7 to 10 expected`);
-  md.forEach((m, i) => { if (!m.evidence) miss.push(`Must Do ${i + 1}: one line of evidence`); });
+  md.forEach((m, i) => { if (!m.evidence) miss.push(`Must Do ${i + 1}: one line of evidence`); if (m.rating === "confirm") miss.push(`Must Do ${i + 1}: still to confirm with the candidate`); });
   if ((p.references ?? []).length && p.references_consent !== true) miss.push("Candidate's consent to list references");
   if (!p.resume) miss.push("Original resume");
   return miss;
@@ -104,7 +106,7 @@ export function checkPacket(p: Packet): string[] {
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]!);
 const lines = (v?: string | string[]) => (Array.isArray(v) ? v : v ? [v] : []);
-const RATING: Record<Rating, string> = { meets: "Meets", partial: "Partial", gap: "Gap" };
+const RATING: Record<Rating, string> = { meets: "Meets", partial: "Partial", gap: "Gap", confirm: "To confirm" };
 export const CONSENT = "Please do not contact references without the candidate's clear consent.";
 
 export function scoreLine(md: NonNullable<Packet["must_dos"]>): string {
@@ -112,6 +114,7 @@ export function scoreLine(md: NonNullable<Packet["must_dos"]>): string {
   const parts = [`${n("meets")} of ${md.length} met`];
   if (n("partial")) parts.push(`${n("partial")} partial`);
   if (n("gap")) parts.push(`${n("gap")} gap`);
+  if (n("confirm")) parts.push(`${n("confirm")} to confirm`);
   return parts.join(" · ");
 }
 
@@ -130,12 +133,13 @@ table{width:100%;border-collapse:collapse}td,th{padding:6px 8px 6px 0;border-bot
 th{font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5A5A5A}
 .sc td{font-size:10px}.sc td.n{width:22px;color:#5A5A5A}.sc td.r{width:70px}
 .pill{display:inline-block;font-size:7.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border:1px solid}
-.meets{color:#3D6B4F;border-color:#3D6B4F}.partial{color:#7A5A1C;border-color:#7A5A1C}.gap{color:#8A3A32;border-color:#8A3A32}
+.meets{color:#3D6B4F;border-color:#3D6B4F}.partial{color:#7A5A1C;border-color:#7A5A1C}.gap{color:#8A3A32;border-color:#8A3A32}.confirm{color:#5A5A5A;border-color:#9A958A}
 .score{font-size:11px;font-weight:700;margin:0 0 4px}
 a{color:#111}.muted{color:#5A5A5A}
 .consent{border:1.5px solid #111;padding:9px 12px;font-weight:600;margin:0 0 16px}
 .note p{margin:0 0 6px}.note .when{font-size:8.5px;color:#5A5A5A;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
 pre{white-space:pre-wrap;font:400 9.5px/1.5 'Montserrat',sans-serif;margin:0}
+.dense header{margin-bottom:12px}.dense h1{font-size:21px}.dense .sub{margin:2px 0 8px}.dense h2{margin:10px 0 4px}.dense .ov td{padding:3px 8px 3px 0}.dense .ov td.v{font-size:9.3px;line-height:1.35}.dense .ov td.k{padding-top:4px;font-size:7.8px}.dense .sc td{padding:3px 8px 3px 0;font-size:8.8px;line-height:1.3}.dense .score{margin:0 0 2px}
 footer{margin-top:auto;padding-top:10px;border-top:1px solid #D9D6CE;display:flex;justify-content:space-between;font-size:7.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5A5A5A}`;
 
 /**
@@ -193,7 +197,9 @@ export function coverHtml(p: Packet): string {
         .map((m, i) => `<tr><td class="n">${i + 1}</td><td>${esc(m.item)}</td><td class="r"><span class="pill ${m.rating}">${RATING[m.rating]}</span></td><td>${esc(m.evidence)}</td></tr>`)
         .join("")}</table>`
     : "";
-  return `<section class="page">${head(p.role_submitted)}<h1>${esc(fullName(c))}</h1><div class="sub">${esc(p.role_submitted)}${p.date ? ` · ${esc(p.date)}` : ""}</div><h2>Overview</h2><table class="ov">${ov}</table>${sc}${foot()}</section>`;
+  // a long cover (many highlights plus a full scorecard) tightens so the overview and scorecard stay on one page
+  const dense = hl.length + md.length > 9 || hl.join("").length > 600;
+  return `<section class="page${dense ? " dense" : ""}">${head(p.role_submitted)}<h1>${esc(fullName(c))}</h1><div class="sub">${esc(p.role_submitted)}${p.date ? ` · ${esc(p.date)}` : ""}</div><h2>Overview</h2><table class="ov">${ov}</table>${sc}${foot()}</section>`;
 }
 
 /** The last page: references (consent line first), then screening notes and the transcript. */
