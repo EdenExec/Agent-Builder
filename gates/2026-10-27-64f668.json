@@ -1,0 +1,140 @@
+{
+  "id": "2026-10-27-64f668",
+  "subject": "Office revenue and finance benches, 2026-10-27 (QuickBooks reconnected)",
+  "preparer": "tally",
+  "checker": "docket",
+  "status": "passed",
+  "items": [
+    {
+      "label": "EPG revenue, month to date",
+      "claimed": 0,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, Profit and Loss report, 2026-10-01 to 2026-10-27, line 'Total Income' (Income section only; excludes Other Income such as Owner Compensation). The MCP P&L tool has no cash/accrual switch, so state the basis your own run shows.",
+      "recomputed": 0,
+      "ok": true,
+      "note": "QBO P&L 2026-10-01..10-27, Total Income $0.00 (Oct income empty; expenses $38,880.77). Tool output states no basis; QBO holds zero invoices dated 2026 and zero AR, so cash and accrual income should coincide."
+    },
+    {
+      "label": "EPG revenue, year to date",
+      "claimed": 578728,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, Profit and Loss report, 2026-01-01 to 2026-10-27, line 'Total Income' (Income section only; excludes Other Income such as Owner Compensation). The MCP P&L tool has no cash/accrual switch, so state the basis your own run shows.",
+      "recomputed": 578728,
+      "ok": true,
+      "note": "QBO P&L 2026-01-01..10-27 Total Income = Sales 519,628.00 + Services 59,100.00 = 578,728.00. Owner Compensation -60,000 sits in Other Income and is excluded. Basis not stated by tool; no invoices in QBO, so income is deposit-driven."
+    },
+    {
+      "label": "EPG open AR, total",
+      "claimed": 0,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, A/R Aging Summary as of 2026-10-27, report total across all customers and all buckets (accrual report; no cash version exists).",
+      "recomputed": 0,
+      "ok": true,
+      "note": "QBO A/R Aging Summary as of 2026-10-27: no outstanding receivables. qbo_sales_get_invoices 2026-01-01..10-27 returns 0 invoices: Joel has not booked invoices in QBO, so this $0 does not mean nothing is owed (Cash Pulse shows open invoices)."
+    },
+    {
+      "label": "EPG open AR, 31+ days overdue",
+      "claimed": 0,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, A/R Aging Summary as of 2026-10-27, sum of the 31-60, 61-90 and 91+ day buckets across all customers.",
+      "recomputed": 0,
+      "ok": true,
+      "note": "Same report: no rows, so 31-60 + 61-90 + 91+ = 0."
+    },
+    {
+      "label": "EPG open AP, total",
+      "claimed": 0,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, A/P Aging Summary as of 2026-10-27, report total across all vendors and all buckets (accrual report).",
+      "recomputed": 0,
+      "ok": true,
+      "note": "QBO A/P Aging Summary as of 2026-10-27: no outstanding payables (no bills entered)."
+    },
+    {
+      "label": "EPG cash on hand",
+      "claimed": 238674,
+      "unit": "usd",
+      "source": "QuickBooks Online, company Eden Partner Group, Balance Sheet, cash basis, as of 2026-10-27, line 'Bank Accounts' (sum of the bank accounts; excludes Other Current Assets, loans to others and other assets). Rounded to whole dollars.",
+      "recomputed": 238674,
+      "ok": true,
+      "note": "QBO Balance Sheet cash basis as of 2026-10-27, Bank Accounts 238,673.68 (EPG Chase Checking 237,673.62 + Chase Bus Prem Sav 9560 1,000.06). Note: Payroll wages and tax to pay shows a debit balance of -9,887.26; Joel to review."
+    },
+    {
+      "label": "EPG customers with sales, month to date",
+      "claimed": 0,
+      "unit": "count",
+      "source": "QuickBooks Online, company Eden Partner Group, Sales by Customer Summary, cash basis, 2026-10-01 to 2026-10-27, count of customers with a sales amount above zero.",
+      "recomputed": 0,
+      "ok": true,
+      "note": "QBO Sales by Customer Summary cash basis 2026-10-01..10-27: no customer sales recorded."
+    },
+    {
+      "label": "Owed to us · past due",
+      "claimed": 158700,
+      "unit": "usd",
+      "source": "EPG Cash Pulse (https://claude.ai/artifact/LxaFb1CvQgqcsrMn5KXie7), dataset `placements` (file placements.json, Hub Rev Report rows, updated 17 Oct 2026): sum of `open` for rows with status open and `due` before 27 Oct 2026.",
+      "recomputed": 158700,
+      "ok": true,
+      "note": "placements blob 50f4552a (updated 2026-10-17T14:00Z): status open, due < 2026-10-27: 62046 55,000 + 62059 35,200 + 62060 37,000 + 62061 19,000 + 62063 7,500 + 62064 5,000. Dataset is 10 days old (staleAfterHours 168)."
+    },
+    {
+      "label": "Owed to us · past due, invoice count",
+      "claimed": 6,
+      "unit": "count",
+      "source": "EPG Cash Pulse (https://claude.ai/artifact/LxaFb1CvQgqcsrMn5KXie7), dataset `placements` (file placements.json, Hub Rev Report rows, updated 17 Oct 2026): count of rows with status open and `due` before 27 Oct 2026.",
+      "recomputed": 6,
+      "ok": true,
+      "note": "ids 62046, 62059, 62060, 62061, 62063, 62064."
+    },
+    {
+      "label": "Owed to us · past due, oldest days late",
+      "claimed": 76,
+      "unit": "days",
+      "source": "EPG Cash Pulse (https://claude.ai/artifact/LxaFb1CvQgqcsrMn5KXie7), dataset `placements` (file placements.json, Hub Rev Report rows, updated 17 Oct 2026): calendar days from the earliest `due` among rows with status open and `due` before 27 Oct 2026, to 27 Oct 2026.",
+      "recomputed": 76,
+      "ok": true,
+      "note": "Earliest due 2026-08-12 (62046, Baker Construction) to 2026-10-27 = 76 days."
+    },
+    {
+      "label": "Owed to us · invoiced, not yet due",
+      "claimed": 36450,
+      "unit": "usd",
+      "source": "EPG Cash Pulse (https://claude.ai/artifact/LxaFb1CvQgqcsrMn5KXie7), dataset `placements` (file placements.json, Hub Rev Report rows, updated 17 Oct 2026): sum of `open` for rows with status open and `due` on or after 27 Oct 2026.",
+      "recomputed": 36450,
+      "ok": true,
+      "note": "status open, due >= 2026-10-27: 62056 29,700 (due 12-01) + 62057 6,750 (due 12-23)."
+    },
+    {
+      "label": "Owed to us · invoiced, not yet due, invoice count",
+      "claimed": 2,
+      "unit": "count",
+      "source": "EPG Cash Pulse (https://claude.ai/artifact/LxaFb1CvQgqcsrMn5KXie7), dataset `placements` (file placements.json, Hub Rev Report rows, updated 17 Oct 2026): count of rows with status open and `due` on or after 27 Oct 2026.",
+      "recomputed": 2,
+      "ok": true,
+      "note": "ids 62056, 62057."
+    },
+    {
+      "label": "Coming · starts not yet invoiced",
+      "claimed": 187100,
+      "unit": "usd",
+      "source": "EPG Cash Pulse (https://claude.ai/artifact/LxaFb1CvQgqcsrMn5KXie7), dataset `placements` (file placements.json, Hub Rev Report rows, updated 17 Oct 2026): sum of `open` for rows with status upcoming, excluding id 62054 (Megawatt General Superintendent, moved to 2027 by Kev on 23 Oct 2026).",
+      "recomputed": 187100,
+      "ok": true,
+      "note": "status upcoming excl 62054: 62062 33,000 + 62065 33,300 + 62066 33,300 + 62067 42,500 + 62068 45,000. Note 62068 start 2026-10-26 has already started; 62062 starts 10-29: both should move to open once invoiced."
+    },
+    {
+      "label": "Coming · starts not yet invoiced, placement count",
+      "claimed": 5,
+      "unit": "count",
+      "source": "EPG Cash Pulse (https://claude.ai/artifact/LxaFb1CvQgqcsrMn5KXie7), dataset `placements` (file placements.json, Hub Rev Report rows, updated 17 Oct 2026): count of rows with status upcoming, excluding id 62054 (moved to 2027 by Kev on 23 Oct 2026).",
+      "recomputed": 5,
+      "ok": true,
+      "note": "ids 62062, 62065, 62066, 62067, 62068."
+    }
+  ],
+  "createdAt": "2026-10-27T15:21:55.948Z",
+  "doc": "projects/virtual-office/benches/revenue.json",
+  "ask": "Nothing to decide: benches refresh once the gate passes. Chase the past-due invoices; Joel still has books to clean up.",
+  "checkedBy": "docket",
+  "closedAt": "2026-10-27T15:24:47.487Z"
+}

@@ -2,7 +2,7 @@
 // File-based on purpose: readable, diffable, works from a phone session and from the CLI.
 import { mkdirSync, readdirSync, readFileSync, writeFileSync, renameSync, existsSync } from "node:fs";
 import { join } from "node:path";
-import { randomBytes } from "node:crypto";
+import { randomBytes, createHash } from "node:crypto";
 import { policyFor, type ActionKind, type EmployeeSpec } from "./employee.ts";
 
 export type QcStatus = "pending" | "approved" | "rejected";
@@ -19,7 +19,7 @@ export type QcItem = {
   /** Who would receive it, for send_message items. */
   recipients?: string[];
   /** The ready-to-send draft for a send_message item (Radar creates it in Superhuman; Kev sends it there). */
-  draft?: { app: "superhuman"; id: string; subject?: string };
+  draft?: { app: "superhuman"; id: string; threadId?: string; subject?: string };
   status: QcStatus;
   createdAt: string;
   decidedAt?: string;
@@ -84,4 +84,37 @@ export function decide(root: string, id: string, decision: "approved" | "rejecte
 /** True only if this exact item was approved. Agents must check this before acting on a gated item. */
 export function isApproved(root: string, id: string): boolean {
   return existsSync(join(dirs(root).approved, `${id}.json`));
+}
+
+/** The exact action Kev sees above the Approve button, in one line (Kev, 23 Oct 2026: two-tap approval in the Command Center). */
+export function qcExact(i: QcItem): string {
+  const amt = i.amountUsd !== undefined ? ` $${i.amountUsd}` : "";
+  const to = i.recipients?.length ? ` to ${i.recipients.join(", ")}` : "";
+  return `${i.kind.replace("_", " ")}${amt}${to}: ${i.summary}`;
+}
+/** A fingerprint of everything Kev approves: kind, amount, recipients, summary and detail. Any change after his tap breaks the match. */
+export function approvalHash(i: QcItem): string {
+  return createHash("sha256").update(JSON.stringify([i.id, i.kind, i.amountUsd ?? null, i.recipients ?? [], i.summary, i.detail])).digest("hex").slice(0, 16);
+}
+/** Kev's Approve tap as the page saves it in the Office's actions collection. */
+export type OfficeApproval = { key?: string; action?: string; confirmed?: boolean; by?: string; at?: string; qc?: string; hash?: string };
+
+/**
+ * Record Kev's two-tap Approve from the Command Center as the QC decision. The only way an agent records an approval, and only
+ * when the saved tap is for this exact item, was confirmed with the second tap, came after the item was filed, and the item has not
+ * changed since (same fingerprint). Anything else is refused and the item stays pending for Kev.
+ */
+export function officeApprove(root: string, id: string, tap: OfficeApproval): QcItem {
+  const item = list(root).find((x) => x.id === id);
+  if (!item) throw new Error(`No pending QC item "${id}"`);
+  const why = (m: string) => { throw new Error(`Not approved: ${m}. The item stays pending for Kev.`); };
+  if (tap.action !== "approve") why(`the tap is "${tap.action ?? "none"}", not Approve`);
+  if (tap.confirmed !== true) why("the Approve was not confirmed with the second tap");
+  if (tap.by !== "kev") why("the tap is not Kev's");
+  if (tap.qc !== id) why(`the tap is for QC item "${tap.qc ?? "none"}"`);
+  const at = Date.parse(tap.at ?? "");
+  if (!Number.isFinite(at)) why("the tap has no time");
+  if (at < Date.parse(item.createdAt)) why("the tap is older than the item");
+  if (tap.hash !== approvalHash(item)) why("the action changed after Kev tapped Approve (fingerprint mismatch); he needs to approve the new version");
+  return decide(root, id, "approved", `Kev approved in the Command Center (two taps) at ${tap.at}, action ${tap.key ?? ""}`.trim());
 }

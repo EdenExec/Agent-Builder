@@ -1,0 +1,8 @@
+{
+  "task": "t-202610261720-scdm: PB South demo-to-vertical superintendent, Miami (EL-022), refreshed lead list for Wed 28 Oct",
+  "since": "2026-10-26T17:20:00Z",
+  "state": "EL-022 built (97 rows: 27 T1, 52 T2, 18 T3, check PASS, staged); notes at employees/scout/sheets/2026-10-26-pb-south-demo-to-vertical-superintendent-miami-notes.md. Not uploaded to Drive, not linked, not committed. Crelate untouched.",
+  "blockedOn": "Radar: Crelate dedupe, Drive upload and link (npm run leads -- link). High-rise/demo history unverifiable in ZoomInfo; recruiter screens on call",
+  "next": "after Radar dedupe: exact LinkedIn URLs for Tier 1 (25/day cap); LinkedIn Recruiter run of the Boolean in the notes",
+  "updated": "2026-10-26T18:00:00Z"
+}

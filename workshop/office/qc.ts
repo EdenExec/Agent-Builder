@@ -1,9 +1,13 @@
 // npm run qc                                    list pending items
 // npm run qc -- show <id>
-// npm run qc -- approve <id> [note]  |  reject <id> [note]
+// npm run qc -- approve <id> [note]  |  reject <id> [note]   (people only; agents are denied these)
+// npm run qc -- office-approve <id> --action <file>   record Kev's two-tap Approve from the Command Center. <file> is the actions/<key>
+//     document saved straight from the Office (ArtifactData get with out_dir). Refused unless it is Kev's confirmed tap for this exact,
+//     unchanged item. Agents never write an approve action themselves.
+// npm run qc -- exact <id>    the one-line exact action and fingerprint to put on a gated ticket's `proposed`
 // npm run qc -- submit <employee> <kind> "<summary>" "<detail>" [--amount N] [--to a@b.co,c@d.co] [--gate <id>]
 //   Employees with `numbers_gate: required` in agent.yaml must pass --gate <id> (a cleared gate, see `npm run gate`) to send or publish.
-import { list, decide, submit, type QcItem } from "../core/qc.ts";
+import { list, decide, submit, officeApprove, qcExact, approvalHash, type QcItem } from "../core/qc.ts";
 import type { ActionKind, EmployeeSpec } from "../core/employee.ts";
 import { gateRequired, isCleared } from "../core/numbers-gate.ts";
 import { existsSync, readFileSync } from "node:fs";
@@ -38,6 +42,15 @@ try {
     if (!rest[0]) throw new Error(`Usage: qc ${cmd} <id> [note]`);
     const item = decide(ROOT, rest[0], cmd === "approve" ? "approved" : "rejected", rest.slice(1).join(" ") || undefined);
     console.log(`${item.status}: ${line(item)}`);
+  } else if (cmd === "office-approve") {
+    const file = flag(rest, "--action");
+    if (!rest[0] || !file) throw new Error("Usage: qc office-approve <id> --action <actions-doc.json>");
+    const item = officeApprove(ROOT, rest[0], JSON.parse(readFileSync(file, "utf8")));
+    console.log(`approved (Kev, Command Center): ${line(item)}\nCarry out exactly this action, once.`);
+  } else if (cmd === "exact") {
+    const item = list(ROOT).find((i) => i.id === rest[0]);
+    if (!item) throw new Error(`No pending QC item "${rest[0]}"`);
+    console.log(JSON.stringify({ kind: item.kind, exact: qcExact(item), hash: approvalHash(item), qc: item.id }));
   } else if (cmd === "submit") {
     const amount = flag(rest, "--amount");
     const to = flag(rest, "--to");

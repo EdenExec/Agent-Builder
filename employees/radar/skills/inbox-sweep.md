@@ -4,8 +4,11 @@ Runs weekdays, every hour from 7am to 6pm Pacific. Silent: no message to Kev unl
 
 ## Steps
 
-1. **Pull.** `list_threads` with `labels: ["INBOX"]`, newest first, up to 50, plus the Important split explicitly. Skip threads already handled this day (Radar labels them, see step 4).
-2. **Classify each thread** into one action:
+0. **Eden Office first, every sweep.** Run the four Office steps in "Eden Office" below (tickets, actions, desk chats, sync) before the inbox. Never defer them to the check-out.
+
+1. **Radar's own mail first (Kev, 21 Oct 2026: "Radar email was not working").** radar@edenexec.com is an alias into Kev's mailbox, so Gmail files a message Kev sends to it from kev@edenexec.com under **Sent only, never the inbox**. Every sweep, run `list_threads` with `to: ["radar@edenexec.com"]` and `start_date` = today (no label filter, so Sent is included). Any message from kev@edenexec.com or kdt.williams@gmail.com is a direct instruction from Kev: act on it this sweep like a chat message (call lists, reach-outs, tickets, ledger rows), then reply nothing and label the thread `Radar/Handled`. Mail from anyone else to radar@ (Nida's nightly note, lead sheets) is intake: file it per the leads pipeline and the BPO SOP. Skip threads already labelled `Radar/Handled`.
+2. **Pull.** `list_threads` with `labels: ["INBOX"]`, newest first, up to 50, plus the Important split explicitly. Skip threads already handled this day (Radar labels them, see step 5).
+3. **Classify each thread** into one action:
 
 | Class | Examples | Action at trust stage 1 |
 |---|---|---|
@@ -17,9 +20,9 @@ Runs weekdays, every hour from 7am to 6pm Pacific. Silent: no message to Kev unl
 | Team | Recruiters, Nida, Nick, Joel | Ledger row only if it asks Kev something. Otherwise leave it. |
 | Noise | Newsletters, notifications, marketing, receipts already filed, Coaching Briefs older than today, calendar acceptances | Archive (`update_thread`, remove INBOX). Count it. |
 
-3. **Draft, never send. Jenny writes (Kev, 21 Oct 2026).** Written comms with clients, candidates, vendors and the public are Jenny's: follow `employees/host/skills/inbox-management.md` and `comms-voice.md` for every draft, and label her threads `Jenny/Swept`. Radar keeps classification for the ledger, interrupts, strategy and the team. Each draft becomes a `send_message` QC item carrying the `draft` field. Stage 1 drafts only. Stage 2 and 3 rules are in `trust-ramp.md`. A draft must read as Kev: short, direct, warm, no filler. Use `instructions`, not `body`, so the writer keeps his style.
-4. **Mark.** Apply a Superhuman label `Radar/Swept` to every thread handled so the next sweep skips it. Ledger rows carry Source = "<subject> from <sender>, <date>".
-5. **Log.** Append one line to the sweep log row in the ledger ("Radar sweep · <date>", Category Other, Lane Scheduled, Owner Radar): hour, archived count, drafts written, rows created, interrupts sent. One row per day, updated each hour, Status Done at 6pm.
+4. **Draft, never send. Jenny writes (Kev, 21 Oct 2026).** Written comms with clients, candidates, vendors and the public are Jenny's: follow `employees/host/skills/inbox-management.md` and `comms-voice.md` for every draft, and label her threads `Jenny/Swept`. Radar keeps classification for the ledger, interrupts, strategy and the team. Each draft becomes a `send_message` QC item carrying the `draft` field. Stage 1 drafts only. Stage 2 and 3 rules are in `trust-ramp.md`. A draft must read as Kev: short, direct, warm, no filler. Use `instructions`, not `body`, so the writer keeps his style.
+5. **Mark.** Apply a Superhuman label `Radar/Swept` to every thread handled so the next sweep skips it. Ledger rows carry Source = "<subject> from <sender>, <date>".
+6. **Log.** Append one line to the sweep log row in the ledger ("Radar sweep · <date>", Category Other, Lane Scheduled, Owner Radar): hour, archived count, drafts written, rows created, interrupts sent. One row per day, updated each hour, Status Done at 6pm.
 
 ## Never
 
@@ -53,12 +56,20 @@ Kev, 21 Oct: every ready draft gets a Superhuman link, so he can send it from Su
 - Then Radar writes `"draft": {"app": "superhuman", "id": "<draft_id>", "subject": "<subject>"}` onto the QC item, and the Office shows a "Send in Superhuman" button.
 - Radar never sends the draft itself.
 
-Each sweep, after step 5:
-1. **Tickets.** `ArtifactData list tickets`. For each `open` ticket, set it to `picked`, run the agent and write back `done` with `result {summary, link}`. If the work would send, spend or publish, set it to `gated` with `proposed {kind, exact}` and the QC id. A ticket is delegation, never approval.
+**Every sweep runs these Office steps first, before the inbox, and never skips them** (Kev, 21 Oct 2026: "I see open tickets for the agents to be working on but don't see them taking action"). The 21 Oct afternoon sweeps deferred them "to the check-out" and 15 tickets sat all day; that is not allowed. An Office ticket is Kev handing work across the desk: it beats inbox triage. If the hour runs short, cut the inbox, not the tickets.
+
+1. **Tickets.** `ArtifactData list tickets`. Any ticket still `open` gets worked this sweep:
+   - First close exact duplicates (same agent, same ask, minutes apart) as `done` with `result.summary` "Duplicate of <id>".
+   - Set the rest to `picked` with `pickedAt` (pin `if_version`) so the desk lights green on the floor.
+   - Run each agent with the Agent tool (`subagent_type` = the ticket's agent, in the background, all at once). Tell it the ticket id and ask, to write files without committing, and to update its `memory/live/now.json`. If the Agent tool is not available in the routine, do the work as Radar from that agent's playbooks.
+   - A ticket for Radar is Radar's own work this sweep.
+   - Write back `done` with `result {summary, link}` when the agent returns. If the work would send, spend or publish, set it to `gated` with `proposed {kind, exact}` and the QC id. Drafts for Kev go into Superhuman Drafts and the link goes in `result.link`. A ticket is delegation, never approval.
+   - A ticket `picked` for more than 2 hours with no result gets re-run or a `result.summary` naming what blocks it.
    - **Upload tickets:** a ticket with `attachments: [{asset, type, name}]` carries a photo, PDF, CSV or text file Kev uploaded. A spreadsheet arrives as one CSV per sheet. Fetch each one with `Artifact read` (the Office url, `path` = the asset id), Read the saved image, then do the ask.
    - **Blank-note photos:** with no ask beyond "make sense of it", Radar decides where the photo belongs: a ledger row, an agent's ticket, the Hub (names and roles only), or a note to Kev.
 2. **Actions.** `ArtifactData list actions` where `applied` is false. Apply each one Kev tapped:
-   - **`done`:** close the source item. A QC item becomes `npm run qc -- reject <id> "handled by Kev outside the queue (Office, <date>)"`; never approve. A ledger row becomes Status Done.
+   - **`done` means Kev did it himself** (Kev, 23 Oct 2026: "I book a flight then say done, it means I executed the task, it's done, move on"). Close the source item and make sure no agent carries it out: cancel any open or gated ticket for it (`done`, result "Kev handled it himself, Office <date>"), and never send, book, buy or publish on a `done` tap. Done is never approval. A QC item becomes `npm run qc -- reject <id> "handled by Kev outside the queue (Office, <date>)"`; never approve. If that command is denied (it was on 21 Oct for spend items), leave the QC item for Kev to close on the Eden Desk and say so in the sweep log. A ledger row becomes Status Done.
+   - **`approve`** is Kev's yes, given with two taps (Approve, then "Confirm: <exact action>"; Kev, 23 Oct 2026). Save the action doc straight from the Office (`ArtifactData get actions/<key>` with `out_dir`) and run `npm run qc -- office-approve <qc id> --action <that file>`. It records the approval only if the tap is Kev's, confirmed, for that exact QC item, and the item has not changed since (fingerprint). If it passes, carry out exactly that action once, close the ticket or item, and log it with the action key and time. If it is refused, do nothing: leave the item pending, mark the action applied with the refusal in `note`, and raise one `needsKev` item that names the reason (most often "the action changed after you approved; approve the new version"). **Never write an `approve` action yourself**, never edit one, and never run office-approve on a file you built rather than saved from the Office.
    - **`followup`:** a ledger row with Lane Waiting on, Owner Kev and a due date 7 days out, Source "Eden Office follow-up".
    - **`snooze`:** leave it alone. The page hides the item until `until`.
    - Then `update` the action with `applied: true` (pin `if_version`).
@@ -67,4 +78,9 @@ Each sweep, after step 5:
    - **Hale, Jethro and Barny:** that agent's private Notion page, never the repo.
    - Then `update` each message with `filed: true`.
    A "Ticket:" line Kev did not turn into a ticket stays a suggestion.
-4. **Sync.** `npm run office -- sync`, then push `.office-outbox/batch-*.json` with one `batch`.
+4. **Sync.** Save the tickets (`ArtifactData list tickets` with `out_dir`), join them into one JSON array, and run `npm run office -- sync --tickets <that file>` so each desk counts its open tickets and lights green while one is picked. Then push `.office-outbox/batch-*.json` with one `batch`.
+5. **Lead sheets (Kev, 21 Oct 2026).** Open the Lead Log in the Drive master folder (1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9). Any sheet with "In Crelate" dated and "Moved" blank: move it with Drive `update_file` `parentId=1ToXMnrgReSVHyTS24PT4WEh498VDa8Kk` (Uploaded to Crelate), date Moved in the Lead Log, then `npm run leads -- stage-set <file> crelate|moved` so the repo index agrees. Never move a sheet that is not dated In Crelate.
+
+## New JO catch (Kev, 24 Oct 2026; via Casey, 25 Oct)
+
+Every weekday sweep: read Crelate `jobs` created since the last sweep in the Retained, Top Priority, Go Now and Typical columns (read-only, `jobs?statuses=...&fields=Id,JobNum,Name,CreatedOn,Owners`). Any new JO: ticket **Scout** (lead gen for the JO) and **Casey** (place it on the board, depth chart, Must Dos). Baker shows as "Client · discreet". Never create the ticket twice for the same JobNum.

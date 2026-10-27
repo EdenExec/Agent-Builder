@@ -1,0 +1,92 @@
+{
+  "radar": {
+    "id": "radar",
+    "name": "Radar",
+    "session": "session_012ech5hw2f8wh5988FWa92Z",
+    "url": "https://claude.ai/code/session_012ech5hw2f8wh5988FWa92Z"
+  },
+  "host": {
+    "id": "host",
+    "name": "Jenny",
+    "session": "session_01HWXpQMMCrS1aHrLGE4iPN9",
+    "url": "https://claude.ai/code/session_01HWXpQMMCrS1aHrLGE4iPN9"
+  },
+  "scout": {
+    "id": "scout",
+    "name": "Scout",
+    "session": "session_019m7KAzB12uW2aRsT2iVTsa",
+    "url": "https://claude.ai/code/session_019m7KAzB12uW2aRsT2iVTsa"
+  },
+  "dean": {
+    "id": "dean",
+    "name": "Dean",
+    "session": "session_01VTzuVbujV9WkkNEL1uTxC3",
+    "url": "https://claude.ai/code/session_01VTzuVbujV9WkkNEL1uTxC3"
+  },
+  "q": {
+    "id": "q",
+    "name": "Q",
+    "session": "session_01NaV6afr4cxChSyMxf4QjCS",
+    "url": "https://claude.ai/code/session_01NaV6afr4cxChSyMxf4QjCS"
+  },
+  "pm": {
+    "id": "pm",
+    "name": "Pam",
+    "session": "session_01NmQm57E8JzXPM5yhiivmWp",
+    "url": "https://claude.ai/code/session_01NmQm57E8JzXPM5yhiivmWp"
+  },
+  "tally": {
+    "id": "tally",
+    "name": "Tally",
+    "session": "session_01QjJJfHL3pbHoRFQYyP5gRj",
+    "url": "https://claude.ai/code/session_01QjJJfHL3pbHoRFQYyP5gRj"
+  },
+  "docket": {
+    "id": "docket",
+    "name": "Docket",
+    "session": "session_01LKexcLmbP1uHLF2QuAEEJK",
+    "url": "https://claude.ai/code/session_01LKexcLmbP1uHLF2QuAEEJK"
+  },
+  "atlas": {
+    "id": "atlas",
+    "name": "Atlas",
+    "session": "session_019WiV7BNnqiAwEFE1fid2qq",
+    "url": "https://claude.ai/code/session_019WiV7BNnqiAwEFE1fid2qq"
+  },
+  "housing-architect": {
+    "id": "housing-architect",
+    "name": "Marlowe",
+    "session": "session_01DrdWBy2LzD2hVrTfxgF2wL",
+    "url": "https://claude.ai/code/session_01DrdWBy2LzD2hVrTfxgF2wL"
+  },
+  "keys": {
+    "id": "keys",
+    "name": "Keys",
+    "session": "session_01YT6ywzc4eEs4VZMxo8Dhkf",
+    "url": "https://claude.ai/code/session_01YT6ywzc4eEs4VZMxo8Dhkf"
+  },
+  "hale": {
+    "id": "hale",
+    "name": "Hale",
+    "session": "session_01QfufmucSF1Kvw417paHgCT",
+    "url": "https://claude.ai/code/session_01QfufmucSF1Kvw417paHgCT"
+  },
+  "jethro": {
+    "id": "jethro",
+    "name": "Jethro",
+    "session": "session_019kpA2jTPA59tgNxwEQLsbp",
+    "url": "https://claude.ai/code/session_019kpA2jTPA59tgNxwEQLsbp"
+  },
+  "barnabas": {
+    "id": "barnabas",
+    "name": "Barny",
+    "session": "session_01Bb8T7ZJX5HwgGEhww9MN5P",
+    "url": "https://claude.ai/code/session_01Bb8T7ZJX5HwgGEhww9MN5P"
+  },
+  "casey": {
+    "id": "casey",
+    "name": "Casey",
+    "session": "session_01Ep3HKBB1EzzeBw8Zh2Ndks",
+    "url": "https://claude.ai/code/session_01Ep3HKBB1EzzeBw8Zh2Ndks"
+  }
+}

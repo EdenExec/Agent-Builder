@@ -6,11 +6,19 @@
 //   --inbox replies.json   [{agent?,title,from?,why?,rank?,kind?,raisedAt,url?,draft?,preview?}]  replies Kev owes, ranked by Jenny (preview = her draft reply)
 //   --calls missed.json    [{who,company?,at,returned?}]           ranked missed calls (no phone numbers)
 //   --runs runs.json       [{routine,agent?,lastRunAt?,ok,note?}]  last result of each routine
-//   --tickets tickets.json [{id,agent,status,pickedAt?,priority?}] ArtifactData query of the tickets collection
+//   --tickets tickets.json [{id,agent,status,ask,createdAt,pickedAt?,doneAt?,priority?,result?}] ArtifactData query of the tickets collection
+//                          (the SLA and the game need every ticket, done ones included: a FAIL is an open ticket past 60 runner minutes)
+//   --actions actions.json [{action,at,key?,agent?}]                ArtifactData list of the actions collection (Kev's Done / Follow up taps score 2 each)
+//   --asks asks.json       [{from,createdAt}]                       the Team Hub's team_asks: an ask an agent posted counts as hearing from it
 //   --seen seen.json       {"open-hub":"2026-10-21T..."}            the seen collection, id -> at
 //   --activity act.json    {"hub":"2026-10-20T..."}                 last time Radar saw each tool used
 //   --existing ex.json     {"agents/radar":{"version":3,"data":{...}}}  ArtifactData list results, so writes carry if_version and resolved alerts are deleted
+//   --jobs jobs.json       the Team Hub jobs collection (office-prep writes it from the dump): the Client work bench
+//   --jobs-read-at ISO     when those jobs were read (default: the file's mtime)
+//   --board board.json     a fresh read-only Crelate pull (npm run recruiting-board -- --out ...): the Recruiting and Hiring ramp benches (default: the repo's Round Table board file)
+//   (the --ledger file also feeds the Family bench: counts of the Home lane only)
 //   --now ISO              pretend it is this time (tests)
+// npm run office -- build-page   copy workshop/core/office-game.js into the page between its GAME-CORE markers (a test fails if they drift)
 // Reads only. Never talks to Crelate, Notion, Gmail or the artifact.
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -18,6 +26,9 @@ import { join } from "node:path";
 import { parse } from "yaml";
 import { list as listQc } from "../core/qc.ts";
 import { list as listGates } from "../core/numbers-gate.ts";
+import { buildGameBlock, injectGameBlock } from "./page-game.ts";
+import { buildBenches } from "../core/benches.ts";
+import { loadBenchInputs } from "./benches.ts";
 import { buildFeed, chunk, planWrites, type AgentLite, type NowFile, type RoutineLite, type SyncInput, type Tool } from "../core/office.ts";
 
 const argv = process.argv.slice(2);
@@ -32,6 +43,8 @@ for (let i = 1; i < argv.length; i++) {
   }
 }
 const json = <T>(flag: string): T | undefined => (flags.has(flag) ? (JSON.parse(readFileSync(flags.get(flag)!, "utf8")) as T) : undefined);
+/** ArtifactData returns documents as {doc_id, data, version}; the sync wants them flat. Accept either shape. */
+const flat = <T>(rows: unknown[] | undefined): T[] | undefined => rows?.map((r) => { const x = r as { doc_id?: string; id?: string; data?: object }; return (x && typeof x.data === "object" && x.data ? { id: x.doc_id ?? x.id, ...x.data } : r) as T; });
 
 function loadAgents(): { agents: AgentLite[]; routines: RoutineLite[]; nowFiles: Record<string, NowFile>; heard: Record<string, string> } {
   const agents: AgentLite[] = [], routines: RoutineLite[] = [], nowFiles: Record<string, NowFile> = {}, heard: Record<string, string> = {};
@@ -57,18 +70,28 @@ function loadAgents(): { agents: AgentLite[]; routines: RoutineLite[]; nowFiles:
 }
 
 try {
-  if (cmd !== "sync") throw new Error("Usage: office sync [--dry] [--out dir] [--ledger f] [--inbox f] [--calls f] [--runs f] [--tickets f] [--seen f] [--activity f] [--existing f] [--now ISO]");
+  if (cmd === "build-page") {
+    const page = "projects/virtual-office/draft/eden-office.html";
+    const next = injectGameBlock(readFileSync(page, "utf8"), buildGameBlock(readFileSync("workshop/core/office-game.js", "utf8")));
+    writeFileSync(page, next);
+    console.log(`Game core copied into ${page}.`);
+    process.exit(0);
+  }
+  if (cmd !== "sync") throw new Error("Usage: office sync [--dry] [--out dir] [--ledger f] [--inbox f] [--calls f] [--runs f] [--tickets f] [--actions f] [--asks f] [--seen f] [--activity f] [--existing f] [--now ISO] | build-page");
   const { agents, routines, nowFiles, heard } = loadAgents();
   const input: SyncInput = {
     now: flags.has("now") ? new Date(flags.get("now")!) : new Date(),
     agents, routines, nowFiles, heard,
     qc: listQc("qc"), gates: listGates("gates"),
-    ledger: json("ledger"), inbox: json("inbox"), calls: json("calls"), runs: json("runs"), tickets: json("tickets"),
+    ledger: json("ledger"), inbox: json("inbox"), calls: json("calls"), runs: json("runs"),
+    tickets: flat(json<unknown[]>("tickets")), actions: flat(json<unknown[]>("actions")), asks: flat(json<unknown[]>("asks")),
   };
+  input.benches = buildBenches(loadBenchInputs({ now: input.now, jobsFile: flags.get("jobs"), jobsReadAt: flags.has("jobs-read-at") ? new Date(flags.get("jobs-read-at")!) : undefined, boardFile: flags.get("board"), ledgerFile: flags.get("ledger") }));
   const toolsFile = "projects/virtual-office/tools.json";
   const tools = existsSync(toolsFile) ? (JSON.parse(readFileSync(toolsFile, "utf8")) as Tool[]) : [];
-  const feed = buildFeed(input, tools, json("seen") ?? {}, json("activity") ?? {});
-  const ops = planWrites(feed.docs, json("existing") ?? {});
+  const existing = json<Record<string, { version: number; data?: unknown }>>("existing") ?? {};
+  const feed = buildFeed(input, tools, json("seen") ?? {}, json("activity") ?? {}, existing["meta/records"]?.data as never);
+  const ops = planWrites(feed.docs, existing);
   const batches = chunk(ops, 50);
   if (flags.has("dry")) {
     console.log(JSON.stringify({ syncedAt: input.now.toISOString(), skipped: feed.skipped, docs: feed.docs, writes: ops.length, batches: batches.length }, null, 2));

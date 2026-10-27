@@ -22,6 +22,7 @@ Comms and travel live beside events:
 |---|---|
 | `comms/plan.md` | The next four weeks of posts and pushes, each with its job, status and QC id (`skills/public-comms.md`) |
 | `comms/posts.md` | Every post Kev published: date, account, link, job, QC id |
+| `comms/packs/<yyyy-mm-dd>.md` | The Monday weekly pack: rows, QC ids, approval and scheduled marks, capture asks (`skills/comms-arm.md`) |
 | `comms/sweeps/<yyyy-mm-dd>.md` | Each sweep's hand-over to Radar: counts, QC ids, proposed rows. No draft text, comp or phone numbers |
 | `travel/<yyyy-mm-dd>-<destination>/trip.md` | The trip page: options, itinerary, QC ids, confirmation numbers Kev gives her (`skills/travel.md`). Never a card, passport or loyalty number |
 

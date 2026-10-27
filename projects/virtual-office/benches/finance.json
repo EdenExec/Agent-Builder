@@ -1,0 +1,70 @@
+{
+  "id": "finance",
+  "owner": "Tally",
+  "source": "QuickBooks (EPG), gate 2026-10-27-64f668 with Docket pending",
+  "asOf": "2026-10-27T00:00:00Z",
+  "tiles": [
+    {
+      "label": "Cash on hand",
+      "value": "$238,674",
+      "source": "QuickBooks balance sheet, cash basis, two bank accounts (as of 27 Oct)",
+      "asOf": "2026-10-27",
+      "gate": "2026-10-27-64f668",
+      "needsGate": true
+    },
+    {
+      "label": "Owed to us · past due",
+      "value": "$158,700 · 6 invoices, oldest 76 days late",
+      "source": "EPG Cash Pulse invoice list (Hub Rev Report), rows updated 17 Oct, split by due date as of 27 Oct; not booked in QuickBooks yet. Kev, 23 Oct: the discreet client is paying soon, VMG is on the fence about its candidate (at risk), PB South always pays late",
+      "asOf": "2026-10-27",
+      "gate": "2026-10-27-64f668",
+      "needsGate": true
+    },
+    {
+      "label": "Owed to us · invoiced, not yet due",
+      "value": "$36,450 · 2 invoices",
+      "source": "EPG Cash Pulse invoice list (Hub Rev Report), rows updated 17 Oct, split by due date as of 27 Oct; not booked in QuickBooks yet",
+      "asOf": "2026-10-27",
+      "gate": "2026-10-27-64f668",
+      "needsGate": true
+    },
+    {
+      "label": "Coming · starts not yet invoiced",
+      "value": "$187,100 · 5 placements (+$45,000 Megawatt start moved to 2027)",
+      "source": "EPG Cash Pulse invoice list (Hub Rev Report), rows updated 17 Oct, split by due date as of 27 Oct; not booked in QuickBooks yet. Excludes the Megawatt General Superintendent ($45,000, Kev moved it to 2027 on 23 Oct). PB South General Superintendent started 26 Oct and Swinerton - LA starts 29 Oct: both ready to invoice",
+      "asOf": "2026-10-27",
+      "gate": "2026-10-27-64f668",
+      "needsGate": true
+    },
+    {
+      "label": "Open AR in QuickBooks",
+      "value": "$0",
+      "source": "QuickBooks AR aging, accrual, as of 27 Oct; the invoices above are not booked (Joel)",
+      "asOf": "2026-10-27",
+      "gate": "2026-10-27-64f668",
+      "needsGate": true
+    },
+    {
+      "label": "Open AP",
+      "value": "$0",
+      "source": "QuickBooks AP aging, accrual, as of 27 Oct",
+      "asOf": "2026-10-27",
+      "gate": "2026-10-27-64f668",
+      "needsGate": true
+    },
+    {
+      "label": "Books to clean up (Joel)",
+      "value": "4 items",
+      "source": "Carried from 23 Oct: Aug to Oct invoices not booked; Jul and Sep receipts not booked as income; Sep payroll still open; equity split looks off. On 27 Oct AR is still $0 and income is unchanged, so the first two still stand; the last two not re-checked",
+      "asOf": "2026-10-23",
+      "needsGate": false
+    },
+    {
+      "label": "Cash flow detail",
+      "value": "EPG Cash Pulse",
+      "source": "https://claude.ai/artifact/LxaFb1CvQgqcsrMn5KXie7",
+      "asOf": "2026-09-30",
+      "needsGate": false
+    }
+  ]
+}

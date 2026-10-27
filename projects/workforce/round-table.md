@@ -30,6 +30,19 @@ Page: `projects/workforce/draft/round-table.html` (title "Round Table"). Private
 
 `deliverables`: kind (`deliverable` or `jo`). Deliverable: title, due (`YYYY-MM-DD`), status (`open`, `done`). Page marks Overdue past the date, Due soon within 2 days. JO: title (role), location, role_on_job (lead, co-lead, backup, standby), since (`YYYY-MM-DD`), hub_url. No client names (Hub only). 14+ days on the job, not standby, shows "rotate?".
 
+## The board (Q, 23 Oct 2026)
+
+Top of the landing page: THE BOARD (team totals this week vs last week to the same point, vs goal), a leaderboard (one row per recruiter, Nick and Kev below the line), "By active JO", and "WIP reports" (one slot per recruiter). Built from `projects/workforce/board/current.json`, which `npm run recruiting-board` writes from Crelate (read-only; code in `workshop/workforce/`).
+
+| Path | One document is | Writer |
+|---|---|---|
+| `board/current` | The whole board document (the JSON file as is: team, recruiters, leadership, jos, revenue, notes, `generated_at`) | Radar, from Dean's Friday run: `ArtifactData set` with `file_path` |
+| `wip/{slug}-{weekOf}` | One WIP report: slug, week_of, title, received, url (https), note (one line) | Dean or Radar, the day it arrives |
+
+- Until `board/current` exists the page shows the same file embedded in the page (`#board-snapshot`), stamped with its Crelate pull time. When the database document is newer it wins. Re-embed the snapshot when republishing so the fallback is not stale.
+- Revenue: the Hub "Annual Billings" figure is shown as "not gated by Tally". Per-recruiter billed and percent to the $25k a quarter accelerator read "not synced" until the Rev Report tab is exported (credit = Eden Gross x Split % on rows naming the recruiter, by Start Date in the quarter; Tally to confirm that rule). Screen-share hides all revenue and masks JO names to their number.
+- JO names carry the client name (Kev's 23 Oct ask overrides the "no client names" line above for this table; Kev-only page).
+
 ## Reads and privacy
 
 - Landing: one subscription, `people`. Opening a folder subscribes to that person's five subcollections only; closing or switching drops them.

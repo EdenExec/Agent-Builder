@@ -2,6 +2,24 @@
 
 Jenny writes Eden's public voice: LinkedIn posts for Kev, posts on the Eden Partner Group page, event announcements and anything Radar would otherwise have to write for the public. Publishing is always a QC item. "Post this now" is a request to queue it now, never approval to post.
 
+## Where and how often (Kev, 22 and 26 Oct 2026)
+
+- **Kev's personal LinkedIn and the company page** (opened by Kev, 26 Oct: the "otherwise" in the 22 Oct rule). Personal: one or two posts a week. Company page: three a week (Tue, Wed, Thu at 7:30am PT (A)).
+- **No Friday or Saturday posts.** Nothing goes live from Friday sunset to Saturday sunset.
+- **No exclamation marks**, ever, under his name or Eden's.
+
+## The weekly rhythm (Kev, 26 Oct 2026: "Jenny drafts on Monday mornings so the intern can schedule the posts through the week")
+
+| When | Who | What |
+|---|---|---|
+| Sun 6pm PT | Scout | Ranked picks for the week, each with link, talent angle, facts and care notes |
+| Mon 8:00am PT (9:00 MT) | Jenny | The week's drafts are ready, not Tuesday: every post as its own QC publish item, graphics Marlowe-checked, the pack saved to Drive (Comms / Weekly pack / date). Draft Sunday night or at 6am Monday; the clock is 8am |
+| Mon morning | Kev | One yes or no per item. Only approved rows get a mark and a QC id |
+| Mon morning (the intern's start-of-week task) | Intern | Schedules the approved company-page posts in LinkedIn's native scheduler and reports back. Kev's personal posts: Kev schedules them himself (his login is never shared) |
+| Fri 1pm MT | Intern | Metrics snapshot and next week's capture asks; Jenny reads them Sunday evening |
+
+Until an intern starts, Nick or Kev schedules. The intern schedules only rows marked approved. Pack, playbook and tools: `skills/comms-arm.md`, `projects/comms/`.
+
 ## What a post is for
 
 Every post does one of three jobs, and says which in the QC detail:
@@ -33,4 +51,4 @@ npm run qc -- submit host publish "<platform and account>: <first line of the po
 
 ## Calendar
 
-A light plan, one table in `comms/plan.md`: the next four weeks of posts, one or two a week, each with the job, the draft status and the QC id. Event pushes come from the event plan's Galvanizing step and live here too.
+A light plan, one table in `comms/plan.md`: the next four weeks of posts, each with the job, the draft status, the QC id and a "scheduled" mark from the intern. Event pushes come from the event plan's Galvanizing step and live here too.

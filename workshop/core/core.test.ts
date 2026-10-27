@@ -64,6 +64,7 @@ describe("loadEmployee + compile", () => {
     assert.match(out, /Needs a QC touch point before it happens: spend, send_message/);
     assert.match(out, /Runs without asking: start_work/);
     assert.match(out, /You are Tess\./);
+    assert.match(out, /The Sabbath runs Friday sunset to Saturday sunset/);
     assert.match(out, /## Brand standard[\s\S]*Montserrat only\./);
   });
   test("reports every missing piece", () => {
@@ -95,6 +96,22 @@ describe("qc", () => {
     assert.equal(qc.list(root).length, 0);
     assert.equal(qc.list(root, "rejected")[0]!.id, b.id);
     assert.equal(qc.list(root, "approved")[0]!.note, "ok");
+  });
+  test("office-approve records only Kev's confirmed tap for the exact, unchanged item", () => {
+    const root = tmp();
+    const a = qc.submit(root, { employee: "tester", kind: "spend", summary: "Buy stock photo", detail: "d", amountUsd: 12 });
+    const tap = { key: `sync-qc-${a.id}`, action: "approve", confirmed: true, by: "kev", at: new Date(Date.parse(a.createdAt) + 60000).toISOString(), qc: a.id, hash: qc.approvalHash(a) };
+    assert.throws(() => qc.officeApprove(root, a.id, { ...tap, action: "done" }), /not Approve/);
+    assert.throws(() => qc.officeApprove(root, a.id, { ...tap, confirmed: false }), /second tap/);
+    assert.throws(() => qc.officeApprove(root, a.id, { ...tap, by: "radar" }), /not Kev's/);
+    assert.throws(() => qc.officeApprove(root, a.id, { ...tap, qc: "other" }), /for QC item/);
+    assert.throws(() => qc.officeApprove(root, a.id, { ...tap, at: "2020-01-01T00:00:00Z" }), /older than the item/);
+    assert.throws(() => qc.officeApprove(root, a.id, { ...tap, hash: qc.approvalHash({ ...a, amountUsd: 120 }) }), /changed after Kev tapped/);
+    assert.equal(qc.isApproved(root, a.id), false);
+    const done = qc.officeApprove(root, a.id, tap);
+    assert.equal(done.status, "approved");
+    assert.match(done.note ?? "", /two taps/);
+    assert.equal(qc.qcExact(a), "spend $12: Buy stock photo");
   });
   test("validates input and unknown ids", () => {
     const root = tmp();

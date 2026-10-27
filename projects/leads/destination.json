@@ -1,0 +1,91 @@
+{
+  "status": "permanent (Kev, 21 Oct 2026): the master folder keeps its name and id; Uploaded to Crelate is its subfolder",
+  "driveFolder": {
+    "role": "master: every lead sheet lands here, the same folder every load",
+    "name": "Leads Buckets",
+    "formerName": "JO Meeting · Lead Buckets · Mon Oct 19 (renamed in Drive by 22 Oct; same id)",
+    "confirmedBy": "Kev, 23 Oct 2026: the lead buckets are here",
+    "id": "1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9",
+    "url": "https://drive.google.com/drive/folders/1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9",
+    "sheetTitle": "NN · Client · Role · N leads",
+    "recommendedTitle": "YYYY-MM-DD · Client · Role · N leads (proposed to Kev 21 Oct; one sheet per role per load; adopt when approved)",
+    "kind": "Google Sheet, one per role per load, internal Eden only"
+  },
+  "uploadedFolder": {
+    "role": "archive: a sheet moves here only after it is loaded into Crelate",
+    "name": "Uploaded to Crelate",
+    "id": "1ToXMnrgReSVHyTS24PT4WEh498VDa8Kk",
+    "url": "https://drive.google.com/drive/folders/1ToXMnrgReSVHyTS24PT4WEh498VDa8Kk",
+    "parent": "1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9",
+    "movedBy": "Radar, Drive update_file with parentId; Lead Log gets a Moved date"
+  },
+  "pipeline": [
+    {
+      "stage": "landed",
+      "owner": "Scout",
+      "done": "sheet built, checked, uploaded to the master folder and linked",
+      "recordedBy": "npm run leads -- link",
+      "logColumn": "Landed"
+    },
+    {
+      "stage": "phones",
+      "owner": "Scout's nightly routine (10pm PT weeknights, ZoomInfo API on the kev1 seat, cap 100 paid credits a night; Kev, 27 Oct 2026). Replaces Noah's routine once live; until then Noah's routine runs",
+      "done": "Mobile, Mobile source, Direct and Phone notes filled in place; sheet renamed '<title> · Phones Added'; Lead Log Phones added dated. See employees/scout/skills/phone-enrichment.md",
+      "recordedBy": "Noah's routine dates Phones added in the Lead Log; npm run leads -- stage-set <file> phones",
+      "logColumn": "Phones added"
+    },
+    {
+      "stage": "in-crelate",
+      "owner": "BPO team (Nida), from the master folder, every sheet with Phones added dated",
+      "done": "leads loaded into Crelate",
+      "recordedBy": "npm run leads -- stage-set <file> crelate",
+      "logColumn": "In Crelate"
+    },
+    {
+      "stage": "moved",
+      "owner": "Radar",
+      "done": "sheet moved to Uploaded to Crelate",
+      "recordedBy": "Radar, Drive update_file parentId, then npm run leads -- stage-set <file> moved",
+      "logColumn": "Moved"
+    }
+  ],
+  "leadLog": {
+    "what": "One control sheet in the master folder named Lead Log: one row per sheet, status by date. Source: projects/leads/lead-log.csv, rebuilt with npm run leads -- log",
+    "columns": [
+      "Sheet",
+      "Drive link",
+      "Rows",
+      "Landed",
+      "Phones added",
+      "In Crelate",
+      "Moved",
+      "Owner note"
+    ],
+    "uploadedBy": "Radar, as a Google Sheet (create-only connector: re-create it, not edit it, when it changes, unless the Google Sheets connector is on)",
+    "name": "Lead Log",
+    "id": "1gqMc-aBqTGrNL7r3Li4qEXrrSplrWfeuw9YIXwoSNoY",
+    "url": "https://docs.google.com/spreadsheets/d/1gqMc-aBqTGrNL7r3Li4qEXrrSplrWfeuw9YIXwoSNoY/edit",
+    "uploaded": "2026-10-21 by Radar from projects/leads/lead-log.csv"
+  },
+  "repoMirror": "projects/leads/sheets",
+  "index": "projects/leads/index.json",
+  "hubIndex": {
+    "artifact": "https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6",
+    "path": "jobs/{id}.leads[] = {title, url, count, built}",
+    "writer": "Radar, from Scout's one-line hand-off"
+  },
+  "format": "employees/scout/skills/lead-list.md (Columns) plus Mobile and Mobile source at the end",
+  "gate": "npm run leads -- check|stage|verify",
+  "supersededFolder": {
+    "name": "Superseded (do not dial)",
+    "id": "1THEbC8Yi1-bzvg6CmuZnPmf1WWTBw1sU",
+    "url": "https://drive.google.com/drive/folders/1THEbC8Yi1-bzvg6CmuZnPmf1WWTBw1sU",
+    "holds": "v1 sheets replaced by a v2 (12, 16, 18 moved 2026-10-21). Never deleted."
+  },
+  "cadence": "Nightly, weeknights: Scout lands lists by 8pm PT, Scout's phone-enrichment routine enriches at 10pm PT (Noah's until it is live), the BPO team uploads to Crelate overnight, Radar moves finished sheets in the first morning sweep. Never Saturday.",
+  "bpoSop": {
+    "repo": "projects/leads/bpo-nightly-upload-sop.md",
+    "doc": "https://docs.google.com/document/d/1pFKhnI_ZIEX5W1vYuOTLxq6oN_9m_LF_v4cS6nSM6BY/edit",
+    "rule": "Lists load into a bucket in the Crelate Leads / Buckets column, never onto an active JO (Kev, 21 Oct 2026)."
+  }
+}

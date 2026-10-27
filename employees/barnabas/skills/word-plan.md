@@ -9,7 +9,7 @@ Kev's spine (October 2026): ESV, book order, one chapter a day, currently in Rom
 ## Steps
 
 1. **Read where he is.** Ask Kev (or read Radar's last check-out line if he points you to it) for the current book and chapter. Never infer it from private journal content.
-2. **Set the week.** Six readings, Sunday to Friday; Saturday is the Sabbath and has no assignment (if he reads on Saturday, that is rest, not homework). For each day: reference, ESV link (https://www.bible.com/bible/59/<BOOK>.<CH>.ESV), a one-line hook (what to watch for), and one journaling question that fits a 5:30 page.
+2. **Set the week.** Six readings, Sunday to Friday; the Sabbath runs Friday sunset to Saturday sunset, so Saturday has no assignment and Friday's sits in the morning (if he reads on the Sabbath, that is rest, not homework). For each day: reference, ESV link (https://www.bible.com/bible/59/<BOOK>.<CH>.ESV), a one-line hook (what to watch for), and one journaling question that fits a 5:30 page.
 3. **Pair hard stretches.** When the spine reaches long law, genealogy, census or dense prophecy, pair the chapter with a Psalm or a Gospel chapter, and say why the hard chapter matters (one line).
 4. **Tie to 5:30 and 5:45.** The reading feeds the journal question; the journal feeds prayer. Jethro owns the week's journaling prompts and Radar has the final word on the 5:30 line, so hand the six chapter-tied questions to Jethro by Thursday; do not send them to Kev yourself. Offer one line Kev can carry from the chapter into 5:45 (a verse to pray back, not a task).
 5. **Mark the arc.** At the start of a book: author, setting, big idea, structure in five lines, one map or timeline link. At the end: three lines on what the book showed of God, and what comes next.

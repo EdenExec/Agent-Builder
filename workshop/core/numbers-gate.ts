@@ -33,6 +33,10 @@ export type GateRecord = {
   closedAt?: string;
   checkedBy?: string;
   waivedNote?: string;
+  /** The write-up these numbers belong to (a repo path or a URL). The Office alert opens it, so Kev never gets a dead end (Kev, 23 Oct 2026). */
+  doc?: string;
+  /** One line: the decision Kev owes once the gate passes. Shown under the alert. */
+  ask?: string;
 };
 
 /** Allowed difference between the claim and the re-derived number. Money to the dollar, counts and days exactly, percentages to a tenth of a point. */
@@ -59,7 +63,7 @@ export function list(root: string): GateRecord[] {
   return readdirSync(root).filter((f) => f.endsWith(".json")).sort().map((f) => JSON.parse(readFileSync(join(root, f), "utf8")) as GateRecord);
 }
 
-export type OpenInput = { subject: string; preparer: string; checker: string; items: { label: string; claimed: number; unit?: Unit; source: string }[] };
+export type OpenInput = { subject: string; preparer: string; checker: string; items: { label: string; claimed: number; unit?: Unit; source: string }[]; doc?: string; ask?: string };
 
 export function open(root: string, input: OpenInput): GateRecord {
   if (!input.subject.trim()) throw new Error("A gate needs a subject");
@@ -77,7 +81,7 @@ export function open(root: string, input: OpenInput): GateRecord {
   });
   const createdAt = new Date().toISOString();
   const id = `${createdAt.slice(0, 10)}-${createHash("sha1").update(input.subject + createdAt + Math.random()).digest("hex").slice(0, 6)}`;
-  const rec: GateRecord = { id, subject: input.subject, preparer: input.preparer, checker: input.checker, status: "open", items, createdAt };
+  const rec: GateRecord = { id, subject: input.subject, preparer: input.preparer, checker: input.checker, status: "open", items, createdAt, ...(input.doc?.trim() ? { doc: input.doc.trim() } : {}), ...(input.ask?.trim() ? { ask: input.ask.trim() } : {}) };
   save(root, rec);
   return rec;
 }
@@ -125,6 +129,16 @@ export function revise(root: string, id: string, label: string, claimed: number,
   delete item.note;
   rec.status = "open";
   delete rec.closedAt;
+  save(root, rec);
+  return rec;
+}
+
+/** Point a gate at its write-up and the decision Kev owes. Either key may do it, at any status; the numbers are untouched. */
+export function attach(root: string, id: string, fields: { doc?: string; ask?: string }): GateRecord {
+  const rec = load(root, id);
+  if (!fields.doc?.trim() && !fields.ask?.trim()) throw new Error("Attach a --doc, an --ask, or both");
+  if (fields.doc?.trim()) rec.doc = fields.doc.trim();
+  if (fields.ask?.trim()) rec.ask = fields.ask.trim();
   save(root, rec);
   return rec;
 }

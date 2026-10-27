@@ -1,0 +1,41 @@
+{
+  "id": "2026-10-23-82862f",
+  "subject": "Office AR from Cash Pulse invoice list, 23 Oct",
+  "preparer": "radar",
+  "checker": "docket",
+  "status": "passed",
+  "items": [
+    {
+      "label": "Owed to us · past due",
+      "claimed": 158700,
+      "unit": "usd",
+      "source": "EPG Cash Pulse placements dataset (Hub Rev Report rows, updated 17 Oct): sum of `open` for status open with due before 23 Oct",
+      "recomputed": 158700,
+      "ok": true,
+      "note": "status open, due < 2026-10-23: 62046, 62059, 62060, 62061, 62063, 62064 (6 rows)"
+    },
+    {
+      "label": "Owed to us · invoiced, not yet due",
+      "claimed": 36450,
+      "unit": "usd",
+      "source": "EPG Cash Pulse placements dataset (Hub Rev Report rows, updated 17 Oct): sum of `open` for status open with due on or after 23 Oct",
+      "recomputed": 36450,
+      "ok": true,
+      "note": "status open, due >= 2026-10-23: 62056, 62057 (2 rows)"
+    },
+    {
+      "label": "Coming · starts not yet invoiced",
+      "claimed": 232100,
+      "unit": "usd",
+      "source": "EPG Cash Pulse placements dataset (Hub Rev Report rows, updated 17 Oct): sum of `open` for status upcoming",
+      "recomputed": 232100,
+      "ok": true,
+      "note": "status upcoming: 62054, 62062, 62065, 62066, 62067, 62068 (6 rows)"
+    }
+  ],
+  "createdAt": "2026-10-23T05:42:15.918Z",
+  "doc": "projects/virtual-office/benches/finance-rows.json",
+  "ask": "Nothing to decide: what Eden is owed now shows on the benches. Chase the past-due invoices.",
+  "checkedBy": "docket",
+  "closedAt": "2026-10-23T05:43:05.582Z"
+}

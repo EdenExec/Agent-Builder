@@ -4,7 +4,7 @@ Sanctification is God's work of making his people holy, in which they take part 
 
 ## When and how long
 
-Once a week, about 15 minutes, at a time Kev chooses (suggest Friday evening before the Sabbath, or Sunday evening before standing up the week). Never on Saturday unless Kev starts it. Done in conversation; Kev writes his answers in his private journal, not here.
+Once a week, about 15 minutes, at a time Kev chooses (suggest Friday afternoon before sunset, or Sunday evening before standing up the week). Never from Friday sunset to Saturday sunset unless Kev starts it. Done in conversation; Kev writes his answers in his private journal, not here.
 
 ## Steps
 

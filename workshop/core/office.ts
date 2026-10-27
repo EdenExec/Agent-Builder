@@ -2,8 +2,9 @@
 // inputs Radar gathers in a connector session (ledger view, inbox sweep, missed calls, routine runs, tickets) into the
 // documents the Office page reads. Pure functions: no network, no writes. The CLI (workshop/office/office.ts) does the I/O.
 // Spec: projects/virtual-office/research/q-architecture.md
-import type { QcItem } from "./qc.ts";
+import { qcExact, approvalHash, type QcItem } from "./qc.ts";
 import type { GateRecord } from "./numbers-gate.ts";
+import { buildGame, mergeRecords, pacificDate, slaFindings, slaTitle, type GameAction, type Records } from "./office-game.js";
 
 /** One light per desk. Priority (Radar's proposal, Kev to confirm): urgent > reply > review > blocked > working > idle. */
 export type Light = "urgent" | "reply" | "review" | "blocked" | "working" | "idle";
@@ -25,10 +26,10 @@ export const GATE_RECENT_DAYS = 3;
 export const EXPECTED_EVERY_HOURS: Record<string, number> = { radar: 30 };
 export const DEFAULT_EXPECTED_EVERY_HOURS = 96;
 
-export type Desk = "centre" | "recruiting" | "finance" | "family" | "other";
+export type Desk = "centre" | "recruiting" | "finance" | "family" | "projects" | "other";
 export const DESKS: Record<string, Desk> = {
-  radar: "centre", scout: "recruiting", q: "recruiting", dean: "recruiting", host: "finance",
-  tally: "finance", docket: "finance", atlas: "family", "housing-architect": "family", keys: "family", hale: "family", jethro: "family", barnabas: "family",
+  radar: "centre", scout: "recruiting", casey: "recruiting", q: "recruiting", dean: "recruiting", host: "finance",
+  tally: "finance", docket: "finance", pm: "projects", atlas: "family", "housing-architect": "family", keys: "family", hale: "family", jethro: "family", barnabas: "family",
 };
 /** Hidden or blanked under the Screen-share switch: finance, family and the coaching desk. */
 export const SENSITIVE_AGENTS = new Set(["tally", "docket", "atlas", "housing-architect", "keys", "dean", "hale", "jethro", "barnabas"]);
@@ -37,10 +38,15 @@ export type AgentLite = { id: string; name: string; title?: string };
 export type NowFile = { task?: string; since?: string; state?: "working" | "idle" | "blocked"; blockedOn?: string; updated?: string };
 export type LedgerRow = { id?: string; item: string; owner: string; lane?: string; due?: string; status?: string; url?: string };
 /** A message Kev should answer, ranked by Jenny in the inbox sweep. `draft` is her reply waiting in Superhuman Drafts; `preview` its text. */
-export type InboxItem = { agent?: string; title: string; from?: string; why?: string; rank?: number; kind?: "client" | "team" | "candidate"; raisedAt: string; url?: string; draft?: { id: string; subject?: string }; preview?: string };
+export type InboxItem = { agent?: string; title: string; from?: string; why?: string; rank?: number; kind?: "client" | "team" | "candidate"; raisedAt: string; url?: string; draft?: { id: string; threadId?: string; subject?: string }; preview?: string };
 export type CallItem = { who: string; company?: string; at: string; returned?: boolean };
 export type RunResult = { routine: string; agent?: string; lastRunAt?: string; ok: boolean; note?: string };
-export type TicketLite = { id: string; agent: string; status: string; pickedAt?: string; priority?: string };
+/** A ticket as the sync reads it from the tickets collection. The SLA and the game need ask, createdAt, doneAt and result too. */
+export type TicketLite = { id: string; agent: string; status: string; pickedAt?: string; priority?: string; ask?: string; createdAt?: string; updatedAt?: string; doneAt?: string; result?: { summary?: string; link?: string } | null };
+/** An ask an agent posted to the recruiters on the Team Hub (`team_asks`); only `from` and the times matter here. */
+export type AskLite = { id?: string; from?: string; createdAt?: string };
+/** A row of the actions collection (Kev's Done / Follow up / Zzz taps). */
+export type ActionLite = GameAction;
 export type RoutineLite = { id: string; name: string; agent: string; trigger_id: string | null; cron?: string };
 
 export type SyncInput = {
@@ -57,13 +63,19 @@ export type SyncInput = {
   calls?: CallItem[];
   runs?: RunResult[];
   tickets?: TicketLite[];
+  /** The actions collection: each Done or Follow up tap is one of Kev's moves in the game. */
+  actions?: ActionLite[];
+  /** The Team Hub's team_asks collection: an ask an agent posted counts as hearing from it. */
+  asks?: AskLite[];
+  /** Bench documents Q computes (workshop/core/benches.ts): benches/client, recruiting, depth, university, projects, family. Never finance or revenue. */
+  benches?: { docs: Record<string, unknown>; skipped: string[] };
 };
 
 export type Alert = {
   id: string;
   agent: string;
   light: Exclude<Light, "working" | "idle">;
-  kind: "qc" | "gate" | "ledger" | "inbox" | "call" | "routine" | "blocked";
+  kind: "qc" | "gate" | "ledger" | "inbox" | "call" | "routine" | "blocked" | "sla";
   title: string;
   source: string;
   raisedAt: string;
@@ -77,6 +89,8 @@ export type Alert = {
   /** Inbox replies: Jenny's rank (1 = answer first) and her one-line why. */
   rank?: number;
   why?: string;
+  /** Items an agent would carry out for Kev: the exact action shown above Approve, and the fingerprint his two-tap Approve saves. */
+  proposed?: { kind: string; exact: string; hash: string; qc: string };
 };
 
 export type AgentDoc = {
@@ -110,8 +124,20 @@ function ownerToAgent(owner: string, agents: AgentLite[]): string | undefined {
 
 /** Superhuman's connector gives no per-draft link, so a ready draft opens Superhuman itself; the alert names the subject (Drafts: G then D). */
 export const SUPERHUMAN_URL = "https://mail.superhuman.com/";
+/** A draft opens directly when its thread id is known (create_or_update_draft returns it). */
+export const superhumanLink = (threadId?: string) => (threadId ? `https://mail.superhuman.com/kev@edenexec.com/thread/${threadId}` : SUPERHUMAN_URL);
 /** Kev approves QC items on the Eden Desk approval cards; Radar never approves (project permissions block it). */
 export const EDEN_DESK_URL = "https://claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G";
+
+/** Results and write-ups often live in the repo; a bare path opens nothing in the Office, so it becomes a GitHub link on Radar's branch. */
+export const REPO_BLOB = "https://github.com/EdenExec/Agent-Builder/blob/claude/pensive-brown-18gll8/";
+export const repoLink = (u?: string | null) => { const v = (u ?? "").trim(); return !v ? undefined : /^(https?:|mailto:)/i.test(v) ? v : REPO_BLOB + v.replace(/^\.?\/+/, ""); };
+
+/** The preparer's finished ticket that names this gate (its result summary or link mentions the gate id), newest first. */
+function gateTicket(g: { id: string; preparer: string }, tickets: TicketLite[]): TicketLite | undefined {
+  return tickets.filter((t) => t.agent === g.preparer && t.result?.link && `${t.result.summary ?? ""} ${t.result.link}`.includes(g.id))
+    .sort((a, b) => (b.doneAt ?? b.updatedAt ?? "").localeCompare(a.doneAt ?? a.updatedAt ?? ""))[0];
+}
 
 export function buildAlerts(input: SyncInput): Alert[] {
   const { now } = input;
@@ -126,7 +152,8 @@ export function buildAlerts(input: SyncInput): Alert[] {
     const light = overdue ? "urgent" : q.kind === "send_message" ? "review" : "blocked";
     add({
       id: `sync-qc-${q.id}`, agent: q.employee, light, kind: "qc", needsKev: true, raisedAt: q.createdAt, source: `qc/${q.id}`,
-      link: q.draft ? SUPERHUMAN_URL : EDEN_DESK_URL,
+      link: q.draft ? superhumanLink(q.draft.threadId) : EDEN_DESK_URL,
+      ...(!q.draft ? { proposed: { kind: q.kind, exact: qcExact(q).slice(0, 600), hash: approvalHash(q), qc: q.id } } : {}),
       ...(q.kind === "send_message" ? { preview: { to: q.recipients ?? [], text: String(q.detail ?? "").replace(/\(?\+?\d[\d\s().-]{8,}\d/g, "[number]").slice(0, 4000) } } : {}),
       title: q.draft ? `Draft ready in Superhuman${overdue ? " (waiting 5+ days)" : ""}: ${scrub(q.draft.subject ?? q.summary, 80)}` : `${q.kind.replace("_", " ")}${overdue ? " (waiting 5+ days)" : ""}: ${scrub(q.summary, 80, q.kind === "spend")}`,
     });
@@ -136,7 +163,14 @@ export function buildAlerts(input: SyncInput): Alert[] {
     if (g.status === "failed") {
       add({ id: `sync-gate-${g.id}`, agent: g.preparer, light: "urgent", kind: "gate", needsKev: false, raisedAt: g.closedAt ?? g.createdAt, source: `gates/${g.id}`, title: `Numbers gate failed: ${scrub(g.subject, 70)}` });
     } else if (g.status === "passed" && g.closedAt && ageMs(g.closedAt, now) <= GATE_RECENT_DAYS * DAY) {
-      add({ id: `sync-gate-${g.id}`, agent: g.preparer, light: "review", kind: "gate", needsKev: true, raisedAt: g.closedAt, source: `gates/${g.id}`, title: `Cleared the gate, ready for you: ${scrub(g.subject, 70)}` });
+      // Kev, 23 Oct 2026: "this notification doesn't take me anywhere". The alert opens the write-up (the gate's doc, else the preparer's
+      // finished ticket that names the gate) and says what he decides; Done means decided, Follow up sends it back.
+      const link = repoLink(g.doc ?? gateTicket(g, input.tickets ?? [])?.result?.link);
+      add({
+        id: `sync-gate-${g.id}`, agent: g.preparer, light: "review", kind: "gate", needsKev: true, raisedAt: g.closedAt, source: `gates/${g.id}`,
+        ...(link ? { link } : {}), title: `Cleared the gate, ready for you: ${scrub(g.subject, 70)}`,
+        why: g.ask ? `Your call: ${scrub(g.ask, 140)}` : `${g.items.length} of ${g.items.length} figures re-derived by ${g.checkedBy ?? g.checker}. ${link ? "Read it, then" : "Ask for the write-up, then"} tap Done when decided, Follow up to send it back.`,
+      });
     }
   }
 
@@ -160,7 +194,7 @@ export function buildAlerts(input: SyncInput): Alert[] {
   for (const m of input.inbox ?? []) {
     add({
       id: `sync-inbox-${slug(m.title)}-${isoDay(new Date(m.raisedAt))}`, agent: m.agent ?? "host", light: "reply", kind: "inbox", needsKev: true, raisedAt: m.raisedAt, source: "inbox sweep",
-      link: m.draft ? SUPERHUMAN_URL : m.url, title: `${m.from ? scrub(m.from, 30) + ": " : `Reply${m.kind ? ` (${m.kind})` : ""}: `}${scrub(m.title, 70)}`,
+      link: m.draft ? superhumanLink(m.draft.threadId) : m.url, title: `${m.from ? scrub(m.from, 30) + ": " : `Reply${m.kind ? ` (${m.kind})` : ""}: `}${scrub(m.title, 70)}`,
       ...(m.rank != null ? { rank: m.rank } : {}), ...(m.why ? { why: scrub(m.why, 120) } : {}),
       ...(m.preview ? { preview: { to: m.from ? [m.from] : [], text: String(m.preview).replace(/\(?\+?\d[\d\s().-]{8,}\d/g, "[number]").slice(0, 4000) } } : {}),
     });
@@ -170,10 +204,39 @@ export function buildAlerts(input: SyncInput): Alert[] {
     add({ id: `sync-call-${slug(c.who)}-${isoDay(new Date(c.at))}`, agent: "radar", light: "urgent", kind: "call", needsKev: true, raisedAt: c.at, source: "missed calls (CloudTalk / Google Voice)", title: `Missed call: ${scrub(c.who, 40)}${c.company ? ` (${scrub(c.company, 40)})` : ""}` });
   }
 
+  // The ticket SLA (Kev, 22 Oct 2026): open more than 60 runner minutes is a FAIL (urgent); picked or working more than 4 runner hours with no result is a STALL (amber).
+  // Never inside the Sabbath (Friday sunset to Saturday sunset), never for done or gated tickets (slaFindings enforces both). The ids are stable, so a ticket picked up later deletes its own alert on the next sync.
+  const byId = new Map((input.tickets ?? []).map((t) => [t.id, t]));
+  for (const f of slaFindings(input.tickets ?? [], now.getTime())) {
+    const ask = byId.get(f.id)?.ask;
+    add({
+      id: `sync-${f.state}-${slug(f.id)}`, agent: f.agent, light: f.state === "fail" ? "urgent" : "blocked", kind: "sla", needsKev: false,
+      raisedAt: new Date(f.since ?? now.getTime()).toISOString(), source: `tickets/${f.id}`,
+      title: slaTitle(f.state, f.minutes, scrub(ask ?? "(no ask)", 60)),
+    });
+  }
+
   for (const [agent, f] of Object.entries(input.nowFiles ?? {})) {
     if (f.state === "blocked") add({ id: `sync-blocked-${agent}`, agent, light: "blocked", kind: "blocked", needsKev: true, raisedAt: f.updated ?? f.since ?? now.toISOString(), source: `employees/${agent}/memory/live/now.json`, title: `Blocked: ${scrub(f.blockedOn ?? f.task ?? "needs a decision", 80)}` });
   }
   return out;
+}
+
+/** Latest ISO time anything of this agent's moved: its memory (git, now.json), its QC items, its Command Center tickets
+ *  (created, picked, done, updated) and the Team Hub asks it posted. Kev, 26 Oct, on a floor of "stale" desks whose feeds showed
+ *  fresh work: a ticket closed this morning is hearing from the agent. Times in the future (clock skew, typos) are ignored. */
+export function lastHeardOf(id: string, input: SyncInput): string | null {
+  const nf = input.nowFiles?.[id];
+  const times = [input.heard?.[id], nf?.updated,
+    ...input.qc.filter((q) => q.employee === id).map((q) => q.createdAt),
+    ...(input.tickets ?? []).filter((t) => t.agent === id).flatMap((t) => [t.createdAt, t.pickedAt, t.doneAt, t.updatedAt]),
+    ...(input.asks ?? []).filter((x) => x.from === id).map((x) => x.createdAt)];   // doneAt and replies are the recruiter's, not the agent's
+  let best: number | null = null;
+  for (const v of times) {
+    const ms = v ? Date.parse(v) : NaN;
+    if (Number.isFinite(ms) && ms <= input.now.getTime() && (best === null || ms > best)) best = ms;
+  }
+  return best === null ? null : new Date(best).toISOString();
 }
 
 export function buildAgents(input: SyncInput, alerts: Alert[]): AgentDoc[] {
@@ -183,8 +246,7 @@ export function buildAgents(input: SyncInput, alerts: Alert[]): AgentDoc[] {
     const counts = Object.fromEntries(PRIORITY.map((l) => [l, 0])) as Record<Light, number>;
     for (const x of mine) counts[x.light]++;
     const nf = input.nowFiles?.[a.id];
-    const heardCandidates = [input.heard?.[a.id], nf?.updated, ...input.qc.filter((q) => q.employee === a.id).map((q) => q.createdAt)].filter(Boolean) as string[];
-    const lastHeard = heardCandidates.sort().at(-1) ?? null;
+    const lastHeard = lastHeardOf(a.id, input);
     const expected = EXPECTED_EVERY_HOURS[a.id] ?? DEFAULT_EXPECTED_EVERY_HOURS;
     const sinceHeard = ageMs(lastHeard ?? undefined, now);
     const fresh = sinceHeard <= WORKING_FRESH_HOURS * HOUR;
@@ -250,7 +312,8 @@ export function planWrites(docs: Record<string, unknown>, existing: Existing = {
     const collection = path.slice(0, i), doc_id = path.slice(i + 1);
     const ex = existing[path];
     if (ex) {
-      if (ex.data !== undefined && strip(ex.data) === strip(data)) continue;
+      // meta/sync is the heartbeat behind the page's "Synced Nm ago": never skipped, even when nothing else changed (strip() ignores syncedAt).
+      if (path !== "meta/sync" && ex.data !== undefined && strip(ex.data) === strip(data)) continue;
       ops.push({ op: "set", collection, doc_id, data, if_version: ex.version });
     } else ops.push({ op: "set", collection, doc_id, data });
   }
@@ -272,7 +335,18 @@ export function chunk<T>(xs: T[], n = 50): T[][] {
 
 export type Feed = { docs: Record<string, unknown>; alerts: Alert[]; agents: AgentDoc[]; unused: UnusedFinding[]; skipped: string[] };
 
-export function buildFeed(input: SyncInput, tools: Tool[] = [], seen: Record<string, string> = {}, activity: Record<string, string> = {}): Feed {
+/** Kev's QC approvals per Pacific day (last 90 days): his moves in the game that the page cannot see in the database. */
+export function qcApprovalsByDay(qc: QcItem[], now: Date): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const q of qc) {
+    if (q.status !== "approved" || !q.decidedAt || ageMs(q.decidedAt, now) > 90 * DAY || ageMs(q.decidedAt, now) < 0) continue;
+    const d = pacificDate(Date.parse(q.decidedAt));
+    out[d] = (out[d] ?? 0) + 1;
+  }
+  return out;
+}
+
+export function buildFeed(input: SyncInput, tools: Tool[] = [], seen: Record<string, string> = {}, activity: Record<string, string> = {}, priorRecords?: Partial<Records> | null): Feed {
   const alerts = buildAlerts(input);
   const agents = buildAgents(input, alerts);
   const unused = findUnused(tools, input.routines, input.qc, seen, activity, input.now);
@@ -282,8 +356,11 @@ export function buildFeed(input: SyncInput, tools: Tool[] = [], seen: Record<str
   if (!input.calls) skipped.push("missed calls (pass --calls)");
   if (!input.runs) skipped.push("routine runs (pass --runs)");
   if (!input.tickets) skipped.push("tickets (pass --tickets)");
+  else if (!input.actions) skipped.push("Kev's Done and Follow up taps, which score in the game (pass --actions)");
   const docs: Record<string, unknown> = {};
   const at = input.now.toISOString();
+  for (const [path, bench] of Object.entries(input.benches?.docs ?? {})) docs[path] = bench;
+  skipped.push(...(input.benches?.skipped ?? []));
   for (const a of agents) docs[`agents/${a.id}`] = a;
   for (const a of alerts) docs[`alerts/${a.id}`] = a;
   for (const t of tools) {
@@ -292,9 +369,24 @@ export function buildFeed(input: SyncInput, tools: Tool[] = [], seen: Record<str
   }
   docs["reports/unused"] = { asOf: at, findings: unused, note: "Evidence is Office clicks plus any activity Radar supplied. 'none' means no use was recorded, not proof of no use." };
   const ledger = input.ledger ?? [];
+  // The game: computed from the tickets collection's history, so it can always be recomputed. The page recomputes it live with the same code; this copy is for Radar, the Desk and the records.
+  const sla = alerts.filter((a) => a.kind === "sla");
+  const fails = sla.filter((a) => a.id.startsWith("sync-fail-")).length, stalls = sla.filter((a) => a.id.startsWith("sync-stall-")).length;
+  let game: unknown = null;
+  if (input.tickets) {
+    const qcByDay = qcApprovalsByDay(input.qc, input.now);
+    const g = buildGame({ now: input.now.getTime(), tickets: input.tickets, actions: input.actions ?? [], qcByDay });
+    const records = mergeRecords(g.records, priorRecords);
+    docs["meta/records"] = { ...records, updated: at, note: "Course records. They only ever advance. Written by npm run office -- sync from the tickets collection's history." };
+    game = { today: g.today, sabbath: g.sabbath, day: g.day, week: g.week, lastWeek: g.lastWeek, openNow: g.openNow, oldest: g.oldest, medianPickupMin: g.medianPickupMin, streak: g.streak, agents: g.agents, kev: g.kev, qcByDay, fails, stalls };
+  }
   docs["meta/sync"] = {
     syncedAt: at, source: "npm run office -- sync", skipped,
-    counts: { alerts: alerts.length, needsKev: alerts.filter((a) => a.needsKev).length, qcPending: input.qc.filter((q) => q.status === "pending").length, ledgerOpen: ledger.filter((r) => !/^done$/i.test(r.status ?? "")).length },
+    counts: {
+      alerts: alerts.length, needsKev: alerts.filter((a) => a.needsKev).length, qcPending: input.qc.filter((q) => q.status === "pending").length, ledgerOpen: ledger.filter((r) => !/^done$/i.test(r.status ?? "")).length,
+      fails: input.tickets ? fails : null, stalls: input.tickets ? stalls : null,
+    },
+    game,
     note: "Mirror of repo state at syncedAt. Crelate, QuickBooks and the Notion ledger remain the systems of record.",
   };
   return { docs, alerts, agents, unused, skipped };
