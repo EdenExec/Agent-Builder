@@ -9,6 +9,7 @@
 //   --tickets tickets.json [{id,agent,status,ask,createdAt,pickedAt?,doneAt?,priority?,result?}] ArtifactData query of the tickets collection
 //                          (the SLA and the game need every ticket, done ones included: a FAIL is an open ticket past 60 runner minutes)
 //   --actions actions.json [{action,at,key?,agent?}]                ArtifactData list of the actions collection (Kev's Done / Follow up taps score 2 each)
+//   --asks asks.json       [{from,createdAt}]                       the Team Hub's team_asks: an ask an agent posted counts as hearing from it
 //   --seen seen.json       {"open-hub":"2026-10-21T..."}            the seen collection, id -> at
 //   --activity act.json    {"hub":"2026-10-20T..."}                 last time Radar saw each tool used
 //   --existing ex.json     {"agents/radar":{"version":3,"data":{...}}}  ArtifactData list results, so writes carry if_version and resolved alerts are deleted
@@ -70,14 +71,14 @@ try {
     console.log(`Game core copied into ${page}.`);
     process.exit(0);
   }
-  if (cmd !== "sync") throw new Error("Usage: office sync [--dry] [--out dir] [--ledger f] [--inbox f] [--calls f] [--runs f] [--tickets f] [--actions f] [--seen f] [--activity f] [--existing f] [--now ISO] | build-page");
+  if (cmd !== "sync") throw new Error("Usage: office sync [--dry] [--out dir] [--ledger f] [--inbox f] [--calls f] [--runs f] [--tickets f] [--actions f] [--asks f] [--seen f] [--activity f] [--existing f] [--now ISO] | build-page");
   const { agents, routines, nowFiles, heard } = loadAgents();
   const input: SyncInput = {
     now: flags.has("now") ? new Date(flags.get("now")!) : new Date(),
     agents, routines, nowFiles, heard,
     qc: listQc("qc"), gates: listGates("gates"),
     ledger: json("ledger"), inbox: json("inbox"), calls: json("calls"), runs: json("runs"),
-    tickets: flat(json<unknown[]>("tickets")), actions: flat(json<unknown[]>("actions")),
+    tickets: flat(json<unknown[]>("tickets")), actions: flat(json<unknown[]>("actions")), asks: flat(json<unknown[]>("asks")),
   };
   const toolsFile = "projects/virtual-office/tools.json";
   const tools = existsSync(toolsFile) ? (JSON.parse(readFileSync(toolsFile, "utf8")) as Tool[]) : [];

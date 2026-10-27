@@ -43,6 +43,8 @@ export type CallItem = { who: string; company?: string; at: string; returned?: b
 export type RunResult = { routine: string; agent?: string; lastRunAt?: string; ok: boolean; note?: string };
 /** A ticket as the sync reads it from the tickets collection. The SLA and the game need ask, createdAt, doneAt and result too. */
 export type TicketLite = { id: string; agent: string; status: string; pickedAt?: string; priority?: string; ask?: string; createdAt?: string; updatedAt?: string; doneAt?: string; result?: { summary?: string; link?: string } | null };
+/** An ask an agent posted to the recruiters on the Team Hub (`team_asks`); only `from` and the times matter here. */
+export type AskLite = { id?: string; from?: string; createdAt?: string };
 /** A row of the actions collection (Kev's Done / Follow up / Zzz taps). */
 export type ActionLite = GameAction;
 export type RoutineLite = { id: string; name: string; agent: string; trigger_id: string | null; cron?: string };
@@ -63,6 +65,8 @@ export type SyncInput = {
   tickets?: TicketLite[];
   /** The actions collection: each Done or Follow up tap is one of Kev's moves in the game. */
   actions?: ActionLite[];
+  /** The Team Hub's team_asks collection: an ask an agent posted counts as hearing from it. */
+  asks?: AskLite[];
 };
 
 export type Alert = {
@@ -216,6 +220,23 @@ export function buildAlerts(input: SyncInput): Alert[] {
   return out;
 }
 
+/** Latest ISO time anything of this agent's moved: its memory (git, now.json), its QC items, its Command Center tickets
+ *  (created, picked, done, updated) and the Team Hub asks it posted. Kev, 26 Oct, on a floor of "stale" desks whose feeds showed
+ *  fresh work: a ticket closed this morning is hearing from the agent. Times in the future (clock skew, typos) are ignored. */
+export function lastHeardOf(id: string, input: SyncInput): string | null {
+  const nf = input.nowFiles?.[id];
+  const times = [input.heard?.[id], nf?.updated,
+    ...input.qc.filter((q) => q.employee === id).map((q) => q.createdAt),
+    ...(input.tickets ?? []).filter((t) => t.agent === id).flatMap((t) => [t.createdAt, t.pickedAt, t.doneAt, t.updatedAt]),
+    ...(input.asks ?? []).filter((x) => x.from === id).map((x) => x.createdAt)];   // doneAt and replies are the recruiter's, not the agent's
+  let best: number | null = null;
+  for (const v of times) {
+    const ms = v ? Date.parse(v) : NaN;
+    if (Number.isFinite(ms) && ms <= input.now.getTime() && (best === null || ms > best)) best = ms;
+  }
+  return best === null ? null : new Date(best).toISOString();
+}
+
 export function buildAgents(input: SyncInput, alerts: Alert[]): AgentDoc[] {
   const { now } = input;
   return input.agents.map((a) => {
@@ -223,8 +244,7 @@ export function buildAgents(input: SyncInput, alerts: Alert[]): AgentDoc[] {
     const counts = Object.fromEntries(PRIORITY.map((l) => [l, 0])) as Record<Light, number>;
     for (const x of mine) counts[x.light]++;
     const nf = input.nowFiles?.[a.id];
-    const heardCandidates = [input.heard?.[a.id], nf?.updated, ...input.qc.filter((q) => q.employee === a.id).map((q) => q.createdAt)].filter(Boolean) as string[];
-    const lastHeard = heardCandidates.sort().at(-1) ?? null;
+    const lastHeard = lastHeardOf(a.id, input);
     const expected = EXPECTED_EVERY_HOURS[a.id] ?? DEFAULT_EXPECTED_EVERY_HOURS;
     const sinceHeard = ageMs(lastHeard ?? undefined, now);
     const fresh = sinceHeard <= WORKING_FRESH_HOURS * HOUR;

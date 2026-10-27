@@ -1068,7 +1068,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       if (f) out.push({ light: f.state === 'fail' ? 'urgent' : 'blocked', title: Game.slaTitle(f.state, f.minutes, tk.ask), raisedAt: new Date(f.since).toISOString(), key: 'sla-' + f.state + '-' + tk.id, needsKev: false, agent: id, kind: 'sla', seen: false });
       var key = 'ticket-' + tk.id + '-' + tk.status;
       if (acted(key)) return;
-      if ((tk.status === 'blocked' || tk.status === 'gated') && !isSeen(key)) out.push({ light: 'blocked', title: 'Ticket needs you: ' + tk.ask, raisedAt: tk.updatedAt || tk.createdAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
+      // Kev, 26 Oct: a gated or blocked ticket stays on its desk until he taps Done or Follow up; Seen only quiets the strip (it was on the line with no way to close it).
+      if (tk.status === 'blocked' || tk.status === 'gated') out.push({ light: 'blocked', title: 'Ticket needs you: ' + tk.ask, raisedAt: tk.updatedAt || tk.createdAt, key: key, needsKev: true, agent: id, seen: isSeen(key), link: tk.result && tk.result.link });
       if (tk.status === 'done' && !isSeen(key)) out.push({ light: 'review', title: 'Ticket done: ' + tk.ask, raisedAt: tk.doneAt || tk.updatedAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
     });
     return out;
@@ -1085,10 +1086,20 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     return tks.filter(function (x) { var d = t(x.doneAt || x.updatedAt); return x.lever !== 'status' && d && Math.abs(d - at) < DAY; })
       .sort(function (x, y) { return Math.abs(t(x.doneAt || x.updatedAt) - at) - Math.abs(t(y.doneAt || y.updatedAt) - at); })[0] || null;
   }
+  /* Heard from: the later of the sync's lastHeard and the agent's latest ticket activity on this page (Kev, 26 Oct: "why do they all say
+     stale"). The sync can lag an hour or a day; a ticket closed this morning on the feed means the desk was heard this morning. */
+  function heardAt(a) {
+    var best = t(a.lastHeard) || 0, now = Date.now();
+    Object.keys(S.tickets).forEach(function (k) {
+      var x = S.tickets[k]; if (x.agent !== a.id) return;
+      [x.createdAt, x.pickedAt, x.doneAt, x.updatedAt].forEach(function (v) { var m = t(v); if (m && m <= now && m > best) best = m; });
+    });
+    return best ? new Date(best).toISOString() : null;
+  }
   function workingState(a) {
     var ticket = Object.keys(S.tickets).some(function (k) { var x = S.tickets[k]; return x.agent === a.id && (x.status === 'picked' || x.status === 'working') && Date.now() - t(x.pickedAt || x.createdAt) < 6 * HOUR; });
     var claims = (a.counts && a.counts.working > 0) || ticket;
-    var fresh = Date.now() - t(a.lastHeard) <= WORKING_FRESH_H * HOUR;
+    var fresh = Date.now() - t(heardAt(a)) <= WORKING_FRESH_H * HOUR;
     return { on: claims && (fresh || ticket), stale: claims && !fresh && !ticket };
   }
   function effective(a) {
@@ -1103,7 +1114,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       return !i.seen && i.light === light && t(i.raisedAt) > lookedAt && Date.now() < Math.max(t(i.raisedAt), loadedAt) + BLINK_CAP_MIN * MIN;
     });
     var others = 0; ORDER.forEach(function (l) { if (l !== light && l !== 'idle') others += counts[l]; });
-    var silent = !!a.lastHeard && Date.now() - t(a.lastHeard) > (a.expectedEveryHours || 96) * HOUR;
+    var heard = heardAt(a), silent = !!heard && Date.now() - t(heard) > (a.expectedEveryHours || 96) * HOUR;
     return { light: light, counts: counts, others: others, held: blinkable && !blink, stale: w.stale || silent, staleWhy: w.stale ? 'Said it was working but has not been heard from in ' + WORKING_FRESH_H + ' hours' : 'Quiet past its usual rhythm', items: items };
   }
   function allItems() {
@@ -1223,7 +1234,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var b = h('button', { class: 'tk held' + (st !== 'ok' ? ' ' + st : ''), type: 'button', 'data-tk': tk.id, 'data-tk-agent': tk.agent });
     b.appendChild(tkTop(tk, st, light));
     b.appendChild(h('span', { class: 'tk-ask', text: tk.ask || '' }));
-    b.appendChild(h('span', { class: 'tk-meta', text: (tk.createdAt ? 'Filed ' + clockLabel(t(tk.createdAt)) + ' · ' : '') + (tk.priority || 'today') + (tk.status === 'gated' && tk.proposed ? ' · waiting on your Approve' : '') + (f && f.state === 'fail' ? ' · the 60 minutes ran out ' + ago(new Date(f.since).toISOString()) : '') }));
+    b.appendChild(h('span', { class: 'tk-meta', text: (tk.createdAt ? 'Filed ' + clockLabel(t(tk.createdAt)) + ' · ' : '') + (tk.priority || 'today') + (tk.status === 'gated' && tk.proposed ? ' · waiting on your Approve' : '') + (acted('ticket-' + tk.id + '-' + tk.status) && (S.actions['ticket-' + tk.id + '-' + tk.status] || {}).action === 'done' ? ' · you closed it, Radar files it next sweep' : (tk.status === 'gated' || tk.status === 'blocked') ? ' · tap to close it on the desk' : '') + (f && f.state === 'fail' ? ' · the 60 minutes ran out ' + ago(new Date(f.since).toISOString()) : '') }));
     return b;
   }
   var AC = null;
@@ -1441,7 +1452,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     btn.appendChild(h('span', { class: 'task', text: hide ? '' : (a.task || (light === 'idle' ? 'No task posted' : '')) }));
     var right = h('span'); var p = hide ? null : papers(a.openTickets || 0); if (p) right.appendChild(p);
     if (!hide && e.stale) right.appendChild(h('span', { class: 'stale', title: e.staleWhy, text: 'Stale' })), right.appendChild(document.createTextNode(' '));
-    if (!hide) right.appendChild(document.createTextNode(short(a.lastHeard)));
+    if (!hide) right.appendChild(document.createTextNode(short(heardAt(a))));
     btn.appendChild(h('span', { class: 'meta' }, h('span', { class: 'st', text: word }), right));
     return btn;
   }
@@ -1683,7 +1694,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     lines.push('You only know what is below. You cannot see files, email or tools, and you have done no work in this chat, so never say you did, checked or sent anything. You never send, spend or publish. When Kev decides or approves something, restate it as the Direction line and say Radar will queue it; do not ask him to repeat himself or be more specific unless it is genuinely ambiguous. If you do not know something, say so and offer a ticket.');
     lines.push('When Kev gives you a direction or a decision, end with one line: "Direction: <it, in one sentence>". When it needs real work from the full agent, end with one line: "Ticket: <the ask, in one sentence>".');
     lines.push('', 'YOUR DESK RIGHT NOW (from the Office, ' + (S.live ? 'live' : 'example data') + '):');
-    lines.push('Status: ' + WORD[e.light] + (e.stale ? ' (stale)' : '') + '. Task: ' + (a.task || 'none posted') + '. Last heard: ' + ago(a.lastHeard) + '.');
+    lines.push('Status: ' + WORD[e.light] + (e.stale ? ' (stale)' : '') + '. Task: ' + (a.task || 'none posted') + '. Last heard: ' + ago(heardAt(a)) + '.');
     if (e.items.length) lines.push('Needs Kev: ' + e.items.map(function (i) { return i.title; }).join(' | '));
     var naps = snoozedFor(a.id); if (naps.length) lines.push('Kev snoozed these (bring them up whenever he asks what you need or what is open): ' + naps.map(function (x) { return x.title + ' (back ' + untilLabel(x.until) + ')'; }).join(' | '));
     var tk = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id && ['open', 'picked', 'working', 'blocked', 'gated'].indexOf(x.status) >= 0; });
@@ -1814,11 +1825,27 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       if (x.result.link) rr.appendChild(h('a', { class: 'mini txt', href: linkUrl(x.result.link), target: '_blank', rel: 'noopener', text: 'Open the result' }));
       pb.appendChild(rr);
     }
+    if (x.status === 'gated' || x.status === 'blocked') pb.appendChild(closeControls(x));
     return li;
+  }
+  /* Kev, 26 Oct: a ticket waiting on him ("Needs your yes", "Blocked") closes from its own post. Done = he handled it himself and no agent
+     carries it out; Follow up sends it back. Both are his taps in the actions collection, which Radar applies next sweep. Never an approve here. */
+  function closeControls(x) {
+    var key = 'ticket-' + x.id + '-' + x.status, act = S.actions[key], row = h('span', { class: 'sacts', style: 'padding:0;justify-content:flex-start' });
+    if (act && acted(key) && act.action !== 'snooze') {
+      row.appendChild(h('span', { class: 'small', text: (act.action === 'done' ? 'You closed it' : act.action === 'approve' ? 'You approved it' : 'Sent back') + ' ' + ago(act.at) + (act.applied ? ' · Radar applied it' : ' · Radar files it next sweep') }));
+      if (act.action !== 'approve') { var u = h('button', { class: 'mini txt', text: 'Undo', 'data-undo': key }); u.disabled = !S.canWrite; row.appendChild(u); }
+      return row;
+    }
+    var seg = h('span', { class: 'seg', role: 'group', 'aria-label': 'Close this ticket' });
+    var done = h('button', { class: 'mini primary', text: 'Done', title: 'You handled it yourself. The ticket closes and no agent acts on it.', 'data-act': 'done', 'data-key': key }); done.disabled = !S.canWrite;
+    var fu = h('button', { class: 'mini', text: 'Follow up', title: 'Send it back with a question', 'data-act': 'followup', 'data-key': key }); fu.disabled = !S.canWrite;
+    seg.appendChild(done); seg.appendChild(fu); row.appendChild(seg);
+    return row;
   }
   function deskSheet(p, a) {
     var e = effective(a), hide = hidden(a);
-    p.appendChild(head(a.name, hide ? 'idle' : e.light, (a.role || '') + ' · ' + (hide ? 'Hidden' : stateChip(e.light, e)) + ' · heard ' + short(a.lastHeard)));
+    p.appendChild(head(a.name, hide ? 'idle' : e.light, (a.role || '') + ' · ' + (hide ? 'Hidden' : stateChip(e.light, e)) + ' · heard ' + short(heardAt(a))));
     var su0 = !hide && sessionUrl(a.id); if (su0) { var hd0 = p.lastChild, sb0 = hd0.querySelector('.stand'); hd0.insertBefore(toolLink({ id: 'session-' + a.id, name: 'Session \u2197', url: su0 }, 'stand sess'), sb0); }
     var body = h('div', { class: 'panel-b' + (a.id === 'host' ? ' wide-tray' : '') }); p.appendChild(body);
     if (hide) { body.className = 'panel-b one'; body.appendChild(h('section', null, h('p', { class: 'small', text: 'Hidden in Screen share mode.' }))); return; }
@@ -1844,7 +1871,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     if (!mine.length && !naps.length) ul.appendChild(h('li', { class: 'small', text: 'Nothing on the feed yet. Work Radar or you hand ' + a.name + ' shows up here.' }));
     tray.appendChild(ul); body.appendChild(tray);
     var blot = h('section', null, h('h3', { text: 'Blotter · now' }), h('p', { class: 'now', text: a.task || 'No task posted' }));
-    if (a.taskSince) blot.appendChild(h('p', { class: 'small', text: 'Since ' + ago(a.taskSince) + ' · last heard ' + ago(a.lastHeard) }));
+    if (a.taskSince) blot.appendChild(h('p', { class: 'small', text: 'Since ' + ago(a.taskSince) + ' · last heard ' + ago(heardAt(a)) }));
     if (e.stale) blot.appendChild(h('p', { class: 'small', text: 'Stale: ' + e.staleWhy + '.' }));
     var need = a.id === 'host' ? e.items.filter(function (i) { return i.light !== 'reply'; }) : e.items;
     if (need.length) { blot.appendChild(h('h3', { text: 'Needs you' })); need.forEach(function (i) { blot.appendChild(itemRow(i)); }); }
@@ -1943,8 +1970,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       var tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Desk' }), h('th', { text: 'Light' }), h('th', { text: 'On it' }), h('th', { text: 'QC' }), h('th', { text: 'Tickets' }), h('th', { text: 'Heard' }))); var lines = [];
       visibleAgents().forEach(function (a) {
         var e = effective(a);
-        tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', null, h('span', { text: stateChip(e.light, e) })), h('td', { text: a.task || '' }), h('td', { text: String(a.pendingQc || 0) }), h('td', { text: String(a.openTickets || 0) }), h('td', { text: short(a.lastHeard) })));
-        lines.push(a.name + ': ' + stateChip(e.light, e) + (a.task ? ' · ' + a.task : '') + ' · QC ' + (a.pendingQc || 0) + ' · tickets ' + (a.openTickets || 0) + ' · heard ' + short(a.lastHeard));
+        tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', null, h('span', { text: stateChip(e.light, e) })), h('td', { text: a.task || '' }), h('td', { text: String(a.pendingQc || 0) }), h('td', { text: String(a.openTickets || 0) }), h('td', { text: short(heardAt(a)) })));
+        lines.push(a.name + ': ' + stateChip(e.light, e) + (a.task ? ' · ' + a.task : '') + ' · QC ' + (a.pendingQc || 0) + ' · tickets ' + (a.openTickets || 0) + ' · heard ' + short(heardAt(a)));
       });
       sec.appendChild(h('div', { class: 'scroll' }, tb));
       var row = h('div', { class: 'keys' });
@@ -1956,7 +1983,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     } },
     status: { title: 'Status from everyone', build: function (sec) {
       var quiet = [], tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Desk' }), h('th', { text: 'Status' }), h('th', { text: 'Heard' })));
-      visibleAgents().forEach(function (a) { var e = effective(a), old = Date.now() - t(a.lastHeard) > DAY; if (old) quiet.push(a); tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', { text: a.statusLine || a.task || WORD[e.light] }), h('td', { text: ago(a.lastHeard) + (old ? ' (over a day)' : '') }))); });
+      visibleAgents().forEach(function (a) { var e = effective(a), old = Date.now() - t(heardAt(a)) > DAY; if (old) quiet.push(a); tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', { text: a.statusLine || a.task || WORD[e.light] }), h('td', { text: ago(heardAt(a)) + (old ? ' (over a day)' : '') }))); });
       sec.appendChild(h('p', { class: 'small', text: 'Instant: each desk\'s last posted status. Live roll call: one ticket per desk quiet over a day; each agent answers in three lines (on it, done, blocked on you).' }));
       sec.appendChild(h('div', { class: 'scroll' }, tb));
       var go = h('button', { class: 'key', text: quiet.length ? 'Ask the ' + quiet.length + ' quiet desk' + (quiet.length > 1 ? 's' : '') + ' for status' : 'Everyone has been heard from today' }); go.disabled = !quiet.length || !S.canWrite;
