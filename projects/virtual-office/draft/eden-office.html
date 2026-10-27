@@ -1263,7 +1263,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   }
   function renderLine() {
     var d = derived(), box = $('#tks'), clear = $('#clear'), prevFocus = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute('data-tk');
-    var all = vals(S.tickets).filter(function (x) { return Game.OPEN_STATUSES.indexOf(x.status) >= 0; }), list = all.filter(function (x) { return !ticketHidden(x); });
+    var all = vals(S.tickets).filter(function (x) { return Game.OPEN_STATUSES.indexOf(x.status) >= 0 && !kevClosed(x); }), list = all.filter(function (x) { return !ticketHidden(x); });
     var rank = function (x) { var f = d.sla[x.id]; return f ? (f.state === 'fail' ? 0 : 1) : 2; };
     list.sort(function (a, b) { return (rank(a) - rank(b)) || (t(a.createdAt) - t(b.createdAt)); });
     box.textContent = ''; list.forEach(function (x) { box.appendChild(tkCard(x, d)); });
@@ -1830,6 +1830,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   }
   /* Kev, 26 Oct: a ticket waiting on him ("Needs your yes", "Blocked") closes from its own post. Done = he handled it himself and no agent
      carries it out; Follow up sends it back. Both are his taps in the actions collection, which Radar applies next sweep. Never an approve here. */
+  /* Kev, 27 Oct: once he taps Approve, Done or Follow up on a ticket waiting on him, it leaves the open line at once; Radar still applies it next sweep */
+  function kevClosed(x) { if (x.status !== 'gated' && x.status !== 'blocked') return false; var key = 'ticket-' + x.id + '-' + x.status, act = S.actions[key]; return !!act && act.action !== 'snooze' && acted(key); }
   function closeControls(x) {
     var key = 'ticket-' + x.id + '-' + x.status, act = S.actions[key], row = h('span', { class: 'sacts', style: 'padding:0;justify-content:flex-start' });
     if (act && acted(key) && act.action !== 'snooze') {
@@ -2283,8 +2285,15 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
 
   function renderAll() {
     memo = null;                                    // one derivation of the game and the SLA per render
+    // Kev, 27 Oct: a refresh redraws in place and leaves him where he was on the page and inside any scrolled panel
+    var wx = window.scrollX, wy = window.scrollY, panes = [];
+    Array.prototype.forEach.call(document.querySelectorAll('[id]'), function (el) { if (el.scrollTop) panes.push([el.id, el.scrollTop]); });
     try { ensurePm(); checkFocusTimer(); renderNext(); renderSync(); renderBanner(); renderFocus(); renderStrip(); renderBoard(); renderRecords(); renderLine(); renderFloor(); renderTools(); renderSheet(); }
-    finally { memo = null; }
+    finally {
+      memo = null;
+      panes.forEach(function (p) { var el = document.getElementById(p[0]); if (el && el.scrollTop !== p[1]) el.scrollTop = p[1]; });
+      if (window.scrollX !== wx || window.scrollY !== wy) window.scrollTo(wx, wy);
+    }
   }
 
   /* ---------- example data (clearly labelled; no client names, pay, phones, family or health) ---------- */
