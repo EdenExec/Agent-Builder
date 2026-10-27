@@ -1,0 +1,13 @@
+{
+  "id": "2026-10-27-d656c4",
+  "status": "pending",
+  "createdAt": "2026-10-27T20:04:14.821Z",
+  "employee": "scout",
+  "kind": "send_message",
+  "summary": "Candidate marketing for Todd Christensen (Kev's candidate): batch 1, Tier 1 emails from kev@ to development leaders on EL-022",
+  "detail": "Anonymous pitch (no name, no employer, no comp), drafts in projects/recruiter-desk/todd-christensen/outreach-drafts.md. Batch 1 = 15 to 20 Tier 1 hiring authorities from EL-022 (https://docs.google.com/spreadsheets/d/1RLqkazqL1yrsdeEBNUkKkvH8VBopWbATuOhSbQIRp1U/edit): the data center email to data center firms, the multifamily email to developers. Recipient emails are not pulled yet (0 ZoomInfo credits used); the batch is named by sheet rows. Excludes Scheer, South Duvall, Carmel (Kev decides), Mill Creek (Kev decides). Needs Kev's yes and Todd's OK on target firms before any resume goes out.",
+  "recipients": [
+    "EL-022 Tier 1 rows (batch 1",
+    "emails to be confirmed)"
+  ]
+}
