@@ -22,3 +22,8 @@ Location: Greater Miami-Fort Lauderdale; second pass: New York, Chicago, Dallas,
 - Tier by employer only; ZoomInfo cannot show tallest building built. Confirm on the call: tallest building, crane count, MEP scope, P6 command, Miami relocation, early January start.
 - A finalist and a backup are already in play (internal). Check names against them before dialing.
 - Crelate dedupe not done (Radar). LinkedIn column is a people-search link, not the exact profile. City is the metro, not the person's verified city.
+
+## Radar's checks (27 Oct 2026)
+
+- **In play:** neither the finalist nor his backup is on the sheet or the Moss list, and none of the other PB South candidates in play are on it either. "Allen Hill" (PCL) is a different person from John Allen.
+- **Crelate:** every name was searched in Crelate (read-only, exact name match). 77 of 131 match a Crelate contact: 75 of the 116 on the main sheet, 2 of the 15 on the Moss list. The repo CSVs now read "Name match in Crelate: confirm before dialing" or "Not in Crelate (27 Oct)". The search only matches the name, not the company, so a common name can be a different person. The recruiter checks the record's company before treating it as a re-touch. The Drive sheet's In Crelate column still says "Radar to check": the Google Sheets connector isn't on, so the repo CSV is the source until it is.
