@@ -2285,7 +2285,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
 
   /* Refresh in place (Kev, 27 Oct: "refreshes the data in place without moving me from where I am"). Every render empties and rebuilds
      its boxes; the page height collapses for a moment and the browser clamps the scroll, so Kev jumped. Save the window and every inner
-     scroller, rebuild, put them back before the next paint. Rebuilds are also held while a finger or pointer is down on the page. */
+     scroller, rebuild, put them back before the next paint. */
   var SCROLLERS = ['#panel', '#board-grid', '#lb-body', '#tks', '#strip', '.chatlog'];
   function saveView() {
     var v = { x: window.pageXOffset || 0, y: window.pageYOffset || 0, els: [] };
@@ -2302,15 +2302,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   }
   function renderAllInner() {
     memo = null;                                    // one derivation of the game and the SLA per render
-    // Kev, 27 Oct: a refresh redraws in place and leaves him where he was on the page and inside any scrolled panel
-    var wx = window.scrollX, wy = window.scrollY, panes = [];
-    Array.prototype.forEach.call(document.querySelectorAll('[id]'), function (el) { if (el.scrollTop) panes.push([el.id, el.scrollTop]); });
     try { ensurePm(); checkFocusTimer(); renderNext(); renderSync(); renderBanner(); renderFocus(); renderStrip(); renderBoard(); renderRecords(); renderLine(); renderFloor(); renderTools(); renderSheet(); }
-    finally {
-      memo = null;
-      panes.forEach(function (p) { var el = document.getElementById(p[0]); if (el && el.scrollTop !== p[1]) el.scrollTop = p[1]; });
-      if (window.scrollX !== wx || window.scrollY !== wy) window.scrollTo(wx, wy);
-    }
+    finally { memo = null; }
   }
 
   /* ---------- example data (clearly labelled; no client names, pay, phones, family or health) ---------- */
