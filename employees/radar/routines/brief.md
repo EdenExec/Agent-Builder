@@ -152,6 +152,7 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 ## Every handoff goes on the agent's feed (Kev, 23 Oct 2026)
 
 "Any time I send work, you should be publishing it to the agent's feed on their desk in the Command Center." Whenever Radar hands an agent work, by subagent, ticket or the runner, and whenever Kev asks for something in any channel (chat, voice, a comment, the cockpit doc), it becomes a document in the Command Center's `tickets` collection: agent, the ask in Kev's words, createdBy "radar" (or "kev" when he filed it himself), status, and `result {summary, link}` when it comes back. Work done in this session counts too: write the ticket when the subagent starts and close it when it returns, so the desk lights and the flow line show it. Each agent also has its own Claude Code session (projects/virtual-office/sessions.json); work Kev gives it there goes on the same feed by the same rule, written into its session prompt. Health, prayer, coaching and journal work is posted as "Private brief for Kev" only.
+- 27 October 2026 (Kev): Power Hours follow the leads' time zone, not Kev's. Kev is on Pacific until the Boise move (6 Nov 2026, then Mountain). East Coast lists (VMG/DC, Miami, Florida) run no later than 1:00pm PT (4pm ET); after the move, no later than 2:00pm MT. Never schedule East Coast dials into the 5pm ET hour or later. West Coast lists take the afternoon.
 
 
 ==================== PLAYBOOK: interrupt-rules (employees/radar/skills/interrupt-rules.md) ====================
