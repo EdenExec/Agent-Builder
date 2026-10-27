@@ -462,6 +462,12 @@
       "stage": "staged"
     },
     {
+      "title": "EL-022 v2 · 2026-10-27 · Candidate marketing (Kev) · Development leaders: multifamily, life science, data centers · 198 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
       "file": "2026-10-27-todd-christensen-outreach-v2.csv",
       "rows": 198,
       "tiers": {
@@ -471,16 +477,10 @@
       },
       "built": "2026-10-27",
       "discreet": false,
-      "driveUrl": null,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1eQPAmClGtFrsDVCqpSY9134NrvFqSQYXjqCX9FxFAdA/edit",
       "status": "ok",
       "errors": 0,
-      "title": null,
-      "landedAt": null,
-      "phonesAt": null,
-      "crelateAt": null,
-      "movedAt": null,
-      "note": "",
-      "stage": "staged"
+      "stage": "landed"
     },
     {
       "title": "EL-022 · 2026-10-27 · Candidate marketing (Kev) · Development leaders, FL NC DC + data centers · 101 leads",

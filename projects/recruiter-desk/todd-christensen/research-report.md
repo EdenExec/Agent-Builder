@@ -24,27 +24,9 @@ Scout, 27 Oct 2026. Internal to Eden. Kev's candidate, referred by Peter Cramer 
 | 9 | Wood Partners | Multifamily, Raleigh-Durham | Fourth start in the metro in 12 months |
 | 10 | Kettler | Multifamily, DC metro | His JV partner on The Hale, THEORY, The Gantry and Parcel C2. The warmest door on the list. |
 
-The full map has 30 firms in `research-notes.md`, and the outreach list (EL-022) covers 49.
+The full map has 30 firms in `research-notes.md`. The outreach list (EL-022 v2) adds the top-10 firms that v1 missed. Spear Street, Ancora, Kadans and Lennar Multifamily had no usable contacts in ZoomInfo.
 
 ## Outreach campaign: ready, nothing sent
 
-- **List EL-022:** 101 hiring decision-makers (CEOs, Chief Development Officers, heads of development) at 49 firms.
-  - Tier 1 = 66, Tier 2 = 32.
-  - Data center firms: Cloverleaf, Compass, Stream, Corscale, CloudHQ, Prime, Tract, Stack and 1547.
-  - Multifamily firms in South FL, Jacksonville, Charlotte, Raleigh and the D.C. metro, plus MCB in Baltimore.
-  - Sheet: https://docs.google.com/spreadsheets/d/1RLqkazqL1yrsdeEBNUkKkvH8VBopWbATuOhSbQIRp1U/edit
-- **Drafts** (`outreach-drafts.md`): an email to data center developers, an email to multifamily developers, a LinkedIn note and a call script. All anonymous: no name, no current employer, no comp.
-- **Sequence:** Kev calls the warm doors first (Kettler; Tract, against the open role). Then a batch of 15 to 20 Tier 1 emails a day from kev@, with each firm cleared with Todd before his resume goes out.
-
-## Gaps and flags
-
-- **EL-022 is missing five firms from the top 10.** EdgeCore, HighBrook/Centra, PowerHouse, Aligned and King Street aren't on it, and neither are NRP or Wood Partners. ZoomInfo's real-estate tag misses most data center developers. Add them on the next pull.
-- **Data center contacts are at headquarters.** Most data center rows are HQ leaders in TX, CO or NJ, not a Florida, North Carolina or Virginia office. That's fine for a VP hire; the decision sits at HQ.
-- **Carmel Partners and Mill Creek: excluded** (Kev, 27 Oct). They are off every list and every send.
-- **Market check:** only one fitting role is confirmed live in the last 60 days. This is a market-the-candidate campaign, not a job-board one.
-- **Confidential:** Scheer Partners and South Duvall are left out of every send.
-
-## Asks for Kev
-
-1. Yes to start the outreach. Each batch goes through QC before it sends.
-2. Todd's OK on the target list, and his walk-away number (base versus total).
+- **List EL-022 v2:** 198 hiring decision-makers at about 94 firms (Tier 1 = 97, Tier 2 = 89, Tier 3 = 12). It covers data centers (including EdgeCore, PowerHouse, Aligned, HighBrook, QTS and Tract), life science (Alexandria, BioMed, Longfellow, Breakthrough, IQHQ, Wexford, King Street, Healthpeak and others) and multifamily (Greystar, NRP, Wood Partners, Toll Apartment Living, Bozzuto, Kettler, Related and more). Carmel and Mill Creek are removed.
+  - Sheet: https://docs.google.com/spreadsheets/d/1eQPAmClGtFrsDVCqpSY9134NrvFqSQYXjqCX9FxFAdA/edit
