@@ -1057,7 +1057,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     Object.keys(S.alerts).forEach(function (k) {
       var a = S.alerts[k]; if (a.agent !== id || a.kind === 'sla' || (S.share && (a.sensitive || sensitiveAgent(a.agent)))) return;   // SLA alerts are recomputed live below, so they are never an hour stale
       if (acted(a.id)) return;                             // Kev marked it done, moved it to follow-up, or snoozed it
-      var seen = isSeen(a.id);
+      var seen = isSeen(a.id) && !(a.light === 'urgent' && Date.now() - t(S.seen[a.id].at) > DAY);   // a seen red comes back to the top of the list after a day (Kev, 26 Oct)
       if (seen && a.light !== 'urgent') return;           // seen clears everything but red; red holds steady until the source resolves
       var rel = a.link ? null : relatedTicket(a);
       out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link || (rel && rel.result && rel.result.link) || null, preview: a.preview, rank: a.rank, why: a.why, kind: a.kind, proposed: a.proposed || null, agent: id, found: rel && rel.result && rel.result.summary ? { text: rel.result.summary, from: rel.id } : null });
@@ -1414,7 +1414,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var rank = { urgent: 0, reply: 1, review: 2, blocked: 3 };
     var every = allItems().filter(function (i) { return i.needsKev && !i.seen && rank[i.light] !== undefined && i.key !== bannerKey; })
       .sort(function (a, b) { return (rank[a.light] - rank[b.light]) || (t(a.raisedAt) - t(b.raisedAt)); });
-    var items = every.filter(function (i) { return inFocusAgent(i.agent); }), heldN = every.length - items.length, L = laneOf(S.focus);
+    var items = every.filter(function (i) { return i.light === 'urgent' || inFocusAgent(i.agent); }), heldN = every.length - items.length, L = laneOf(S.focus);   // red always comes through a focus lane (Kev, 26 Oct)
     $('.strip-h .eyebrow').textContent = L ? 'Needs Kev · ' + L.name.toLowerCase() + ' only' + (heldN ? ' · ' + heldN + ' held' : '') : 'Needs Kev · ranked · three at most';
     if (!items.length) ol.appendChild(h('li', null, h('button', { class: 'smain', disabled: 'disabled' }, h('span'), h('span', { class: 'who', text: 'Clear' }), h('span', { class: 'what', text: L ? 'Nothing in this lane needs you. Head down.' : 'Nothing needs you.' }))));
     items.slice(0, 3).forEach(function (i) {
