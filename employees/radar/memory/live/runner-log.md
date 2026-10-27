@@ -74,3 +74,4 @@
 2026-10-26 14:50 PT: picked 1, closed 1, gated 0, blocked 0, FAILs 0 (ticket tg7k open 40 min at pickup).
 - 2026-10-26 15:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Sync stamp only.
 - 2026-10-26 16:46 PT: picked 0, closed 0, gated 2 (waiting on Kev: t-202610212325-fbr6, t-202610231625-wbnr), blocked 0, FAILs 0. Sync stamp only.
+- 2026-10-26 17:50 PT: full floor refresh (not stamp-only) after Kev's "why do they all say stale": 35 writes, 15 desks refreshed, 15 fresh / 0 stale; picked 0, closed 0, FAILs 0. From now on every run does the full refresh (ticket-runner.md step 8).
