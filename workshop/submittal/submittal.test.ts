@@ -44,6 +44,9 @@ test("the cover page marks pay current or desired and carries the scorecard", ()
   assert.match(html, /<span class="tag">Desired<\/span>Base \$140K/);
   assert.match(html, /Pre-screen scorecard/);
   assert.equal(scoreLine(sample().must_dos!), "6 of 7 met · 1 partial");
+  const t = coverHtml({ ...sample(), candidate: { ...sample().candidate, years: "2 years with this firm" }, pay: { basis: "desired", base: "$90K", pto: "3 weeks" } });
+  assert.match(t, /2 years with this firm</);
+  assert.match(t, /PTO: 3 weeks/);
 });
 
 test("references carry the consent line", () => {

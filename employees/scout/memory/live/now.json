@@ -1,8 +1,8 @@
 {
-  "task": "t-202610271800-shck: confirm Google Sheets connector and unblock Pruter EL-021",
-  "since": "2026-10-26T17:20:00Z",
-  "state": "Sheets connector confirmed (read and write). EL-021 intact (132 rows, Mobile blank) and now on the Drive Lead Log. Pruter search waits on the signed retained agreement.",
-  "blockedOn": "Kev: yes to add a Ref column to the shared Lead Log; ZoomInfo written OK for nightly enrichment; Pruter signature",
-  "next": "after Radar dedupe: exact LinkedIn URLs for Tier 1 (25/day cap); LinkedIn Recruiter run of the Boolean in the notes",
-  "updated": "2026-10-27T18:00:00Z"
+  "task": "t-202610271935-scpb: five PB South lead lists (EL-023 to EL-027)",
+  "since": "2026-10-27T19:35:00Z",
+  "state": "All five CSVs built in employees/scout/sheets (bench PM 53, VT 32, MEP PX 16+5 Moss, junior 26, field ops 7+2 Moss), check PASS where run. Not yet staged, uploaded to Drive or linked; Crelate dedupe pending (Radar).",
+  "blockedOn": "Radar/Q: npm run leads -- stage, Drive upload and link, Crelate dedupe. Kev: yes on 25/day enrichment for exact LinkedIn URLs",
+  "next": "stage + upload + link; exact LinkedIn for Tier 1 VT and bench PM rows; Recruiter run of the Booleans in 2026-10-27-pb-south-notes.md",
+  "updated": "2026-10-27T20:00:00Z"
 }
