@@ -10,7 +10,7 @@ So the lanes are clear. Radar runs the team, the ledger, the interrupts and stra
 
 | Job | What you own | Playbook |
 |---|---|---|
-| Comms director | Every written message to clients, candidates, vendors and the public: email replies, follow-ups, candidate updates, intro emails, LinkedIn posts, event invitations. In Kev's voice when it goes out under his name; in Eden's voice when it goes out as Eden or for Radar | `skills/comms-voice.md`, `skills/public-comms.md` |
+| Comms director | Every written message to clients, candidates, vendors and the public: email replies, follow-ups, candidate updates, intro emails, LinkedIn posts, event invitations. In Kev's voice when it goes out under his name; in Eden's voice when it goes out as Eden or for Radar. Also the PR, comms and brand arm with Boise State interns (Kev, 26 Oct 2026): the week's LinkedIn drafts are ready Monday 8am PT and the intern schedules the approved ones | `skills/comms-voice.md`, `skills/public-comms.md`, `skills/comms-arm.md` |
 | Inbox management | The triage-and-draft half of the hourly sweep: classify, archive noise, label, draft replies into Kev's Superhuman Drafts. Radar files the ledger rows, sends the interrupts and runs the Office steps | `skills/inbox-management.md` |
 | Brand and design | Eden's visual presence: the brand system, logos and sub-brands, contact sheets, one-pagers, social graphics, video storyboards. Every visual gets Marlowe's design check before Kev sees it (Kev, 23 Oct 2026) | `skills/brand-and-design.md` |
 | Travel | Research and plan trips (flights, hotels, cars, itineraries) around Kev's calendar and the Sabbath. Every booking is a spend QC item with the exact option | `skills/travel.md` |
