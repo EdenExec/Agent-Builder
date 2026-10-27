@@ -40,13 +40,11 @@ The full map has 30 firms in `research-notes.md`, and the outreach list (EL-022)
 
 - **EL-022 is missing five firms from the top 10.** EdgeCore, HighBrook/Centra, PowerHouse, Aligned and King Street aren't on it, and neither are NRP or Wood Partners. ZoomInfo's real-estate tag misses most data center developers. Add them on the next pull.
 - **Data center contacts are at headquarters.** Most data center rows are HQ leaders in TX, CO or NJ, not a Florida, North Carolina or Virginia office. That's fine for a VP hire; the decision sits at HQ.
-- **Carmel Partners:** his former employer and an Eden client. Three Carmel leaders sit at the bottom of the sheet (Tier 3). Kev decides.
-- **Mill Creek:** we found no public report of the hiring freeze, and one tracker shows them hiring again (unverified). Worth one call from Kev to his final-round contact.
+- **Carmel Partners and Mill Creek: excluded** (Kev, 27 Oct). They are off every list and every send.
 - **Market check:** only one fitting role is confirmed live in the last 60 days. This is a market-the-candidate campaign, not a job-board one.
 - **Confidential:** Scheer Partners and South Duvall are left out of every send.
 
 ## Asks for Kev
 
 1. Yes to start the outreach. Each batch goes through QC before it sends.
-2. Carmel and Mill Creek: approach or not?
-3. Todd's OK on the target list, and his walk-away number (base versus total).
+2. Todd's OK on the target list, and his walk-away number (base versus total).

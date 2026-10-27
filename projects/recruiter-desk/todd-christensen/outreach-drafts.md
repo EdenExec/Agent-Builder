@@ -43,7 +43,6 @@ Kev
 ## Guardrails
 
 - Exclude from all sends: Scheer Partners and South Duvall (his current employer).
-- Carmel Partners is an Eden client and his former employer: Kev decides.
-- Mill Creek Residential: final-round firm before a hiring freeze. Kev decides whether to revisit.
+- Carmel Partners and Mill Creek Residential: excluded (Kev, 27 Oct).
 - Eden clients on the list are marketing calls, not cold outreach. Kev decides each one.
 - Sends go from kev@ in small daily batches, after QC. No mass mail.
