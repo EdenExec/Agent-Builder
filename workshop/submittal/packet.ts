@@ -9,7 +9,7 @@ export type Rating = "meets" | "partial" | "gap";
 export type Packet = {
   candidate: { first: string; last: string; middle?: string; nicknames?: string[]; former_last?: string; title?: string; years?: number | string; linkedin?: string };
   role_submitted: string;
-  pay: { basis: Basis; base?: string; bonus?: string; vehicle?: string; equity?: string; other?: string };
+  pay: { basis: Basis; base?: string; bonus?: string; vehicle?: string; equity?: string; pto?: string; other?: string };
   current_location: string;
   /** States the candidate lived or worked in before, from the resume. The current state comes from current_location. */
   past_states?: string[];
@@ -165,9 +165,10 @@ export function fullName(c: Packet["candidate"]): string {
 /** Page 1: the overview in Hannah's order, then the Must Do scorecard. */
 export function coverHtml(p: Packet): string {
   const c = p.candidate, pay = p.pay, basis = pay.basis === "current" ? "Current" : "Desired";
-  const pkg = ([["Bonus", pay.bonus], ["Vehicle", pay.vehicle], ["ESOP / ownership / golden handcuffs", pay.equity], ["Other", pay.other]] as const)
+  const pkg = ([["Bonus", pay.bonus], ["Vehicle", pay.vehicle], ["ESOP / ownership / golden handcuffs", pay.equity], ["PTO", pay.pto], ["Other", pay.other]] as const)
     .filter(([, v]) => v).map(([k, v]) => `${k}: ${esc(v)}`).join("<br>");
-  const exp = [c.title, c.years ? `${c.years} years` : ""].filter(Boolean).join(" · ");
+  // a bare number reads "N years"; anything else is shown as written, so a tenure never reads as years with the current employer
+  const exp = [c.title, c.years ? (/^\d+$/.test(String(c.years)) ? `${c.years} years` : String(c.years)) : ""].filter(Boolean).join(" · ");
   const hl = lines(p.highlights);
   const states = searchStates(p);
   const row = (k: string, v: string) => (v ? `<tr><td class="k">${k}</td><td class="v">${v}</td></tr>` : "");

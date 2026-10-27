@@ -50,7 +50,9 @@ try {
   const pdf = join(outDir, `${base}.pdf`);
   execFileSync("pdfunite", [...parts, pdf]);
   rmSync(work, { recursive: true, force: true });
-  console.log(`Wrote ${pdf}. Kev reviews it before it goes anywhere; save it to Drive, Submittals / <Client> / <JO> / <Candidate>.`);
+  console.log(`Wrote ${pdf}.`);
+  // Kev, 27 Oct 2026: every packet is reviewed by him before it is submitted; quality control is his eyes on it.
+  console.log("REVIEW BEFORE SUBMITTING: Kev reads every field, pay line and name before this goes to a client. Then save it to Drive, Submittals / <Client> / <JO> / <Candidate>.");
 } catch (e) {
   console.error(e instanceof Error ? e.message : e);
   process.exit(1);

@@ -37,6 +37,9 @@ Why: clients ask for better candidate quality and match, and more references.
 
 ## Rules that do not bend
 
+- **Kev reviews every packet before it is submitted (Kev, 27 Oct 2026).** Whoever builds it hands it to Kev with the reminder "Review before it goes to the client", and nothing goes out until he has read every field, pay line and name. Quality control is his eyes on it.
+- **Pay shows only what Kev wants the client to see.** Desired pay, bonus structure, vehicle and PTO; never current base unless Kev says so (Corey Donovan, 27 Oct).
+
 - **Pay goes on the cover page, always marked current or desired.** This replaces the 8 Oct "no comp history on a submittal" line for the packet's pay field only (Kev, 24 Oct 2026).
 - **Where packets live:** Drive, one folder per client. Never the repo, never the Team Hub, never a ticket. Pay, references and transcripts are on them. The Hub keeps names, role and status only.
 - **References:** each carries "Please do not contact without the candidate's clear consent." No reference without the candidate's yes.
