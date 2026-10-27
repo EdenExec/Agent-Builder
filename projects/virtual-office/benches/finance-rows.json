@@ -3,7 +3,7 @@
     "id": "62046",
     "name": "Client · discreet · Senior Superintendent",
     "owed": "$55,000",
-    "status": "past due, 72 days late",
+    "status": "past due, 76 days late",
     "due": "2026-08-12",
     "expected": "2026-11-15",
     "kev": "Kev: paying soon?"
@@ -12,7 +12,7 @@
     "id": "62059",
     "name": "Client · discreet · QC Manager",
     "owed": "$35,200",
-    "status": "past due, 9 days late",
+    "status": "past due, 13 days late",
     "due": "2026-10-14",
     "expected": "2026-10-30",
     "kev": "Kev: paying soon"
@@ -21,7 +21,7 @@
     "id": "62060",
     "name": "VMG · Sr. Superintendent",
     "owed": "$37,000",
-    "status": "past due, 9 days late",
+    "status": "past due, 13 days late",
     "due": "2026-10-14",
     "expected": "2026-10-30",
     "kev": "Kev: client on the fence about the candidate; at risk"
@@ -30,7 +30,7 @@
     "id": "62061",
     "name": "Pence Kelly · Superintendent",
     "owed": "$19,000",
-    "status": "past due, 9 days late",
+    "status": "past due, 13 days late",
     "due": "2026-10-14",
     "expected": "2026-10-30"
   },
@@ -38,7 +38,7 @@
     "id": "62063",
     "name": "PB South · retainer",
     "owed": "$7,500",
-    "status": "past due, 7 days late",
+    "status": "past due, 11 days late",
     "due": "2026-10-16",
     "expected": "2026-10-16",
     "kev": "Kev: PB South always pays late"
@@ -47,7 +47,7 @@
     "id": "62064",
     "name": "Triton Construction · retainer",
     "owed": "$5,000",
-    "status": "past due, 7 days late",
+    "status": "past due, 11 days late",
     "due": "2026-10-16",
     "expected": "2026-10-16"
   },
