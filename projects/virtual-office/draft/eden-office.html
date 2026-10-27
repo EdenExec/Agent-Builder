@@ -249,9 +249,15 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 @keyframes bump{0%{opacity:.35}100%{opacity:1}}
 .cell.pts{background:rgba(243,240,232,.04)}
 /* Kev, 23 Oct: the counts are doors. Open now and Oldest waiting take you to the tickets on the line; FAILs to the failing card. */
-.cell[data-go]{cursor:pointer;transition:background .15s}
-.cell[data-go]:hover{background:rgba(243,240,232,.07)}
-.cell[data-go] .k::after{content:"\00a0\2193";opacity:.7}
+.cell[data-card]{cursor:pointer;transition:background .15s}
+.cell[data-card]:hover,.cell[data-card]:focus-visible{background:rgba(243,240,232,.07)}
+.cell[data-card] .k::after{content:"\00a0\2197";opacity:.7}
+.autopsy{border:1px solid var(--line,#D9D4C8);padding:12px 14px;margin:0 0 12px}
+.autopsy h3{margin:0 0 6px;font-size:14px}
+.autopsy ol{margin:6px 0 8px;padding-left:18px}
+.autopsy li{margin:0 0 3px}
+.autopsy .cause{font-weight:600}
+.autopsy .acts{display:flex;gap:8px;flex-wrap:wrap}
 .cell[data-go]:focus-visible{outline:2px solid var(--bd-fg);outline-offset:-2px}
 .line.ping{animation:ping 1.2s ease-out}
 .tk.ping{outline:2px solid var(--ink);outline-offset:2px}
@@ -1148,11 +1154,14 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   }
   function syncWarn() { return S.live && S.meta && Date.now() - t(S.meta.syncedAt) > 2 * HOUR; }    // amber after two hours
 
+  /* Kev, 27 Oct: "can we make this board clickable? 1 Fail - how do i look at that and autopsy that?" Every count opens its breakdown. */
+  var CARD_OF = { 'Points today': 'points', 'Closed today': 'closed', 'Open now': 'open', 'Oldest waiting': 'open', 'FAILs today': 'fails', 'Median pickup': 'pickup', 'Streak': 'fails' };
   function cell(k, v, s, cls, id, go) {
     var vv = h('b', { class: 'v' }); if (typeof v === 'string' || typeof v === 'number') vv.textContent = String(v); else if (v) vv.appendChild(v);
     if (id) vv.id = id;
     var c = h('div', { class: 'cell' + (cls ? ' ' + cls : '') }, h('span', { class: 'k', text: k }), vv, h('span', { class: 's', text: s || '' }));
-    if (go) { c.setAttribute('data-go', go); c.setAttribute('role', 'button'); c.setAttribute('tabindex', '0'); c.setAttribute('aria-label', k + ': ' + vv.textContent + '. Go to the tickets.'); }
+    var card = CARD_OF[k];
+    if (card) { c.setAttribute('data-card', card); if (go) c.setAttribute('data-goto', go); c.setAttribute('role', 'button'); c.setAttribute('tabindex', '0'); c.setAttribute('aria-label', k + ': ' + vv.textContent + '. Open the breakdown.'); }
     return c;
   }
   /* a board count is a door: scroll to the line and put focus on the ticket it counts */
@@ -1907,6 +1916,82 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     body.appendChild(drawer);
     var cw = h('div', { class: 'panel-b one' }); cw.appendChild(chatSection(a)); p.appendChild(cw);
   }
+  /* ---------- the board's breakdowns (Kev, 27 Oct): click a count, see the tickets behind it; a FAIL gets an autopsy ---------- */
+  var RUNNER_MINUTE = 43;   // Radar's ticket runner fires at :43 every hour (routine "Radar · Office ticket runner")
+  function nextRunnerPass(ms) { var d = new Date(ms); d.setSeconds(0, 0); var m = d.getMinutes(); d.setMinutes(m <= RUNNER_MINUTE ? RUNNER_MINUTE : 60 + RUNNER_MINUTE); return d.getTime(); }
+  function autopsy(x, now) {
+    var c = t(x.createdAt), dl = Game.failDeadline(x), pk = Game.pickupAt(x), first = nextRunnerPass(c);
+    var steps = [
+      'Filed ' + dateLabel(Game.pacificDate(c)) + ' ' + clockLabel(c) + ' by ' + fromOf(x).who + ' to ' + nameOf(x.agent) + '.',
+      'Clock ran out ' + clockLabel(dl) + ': 60 minutes on the runner clock (6am to 10pm PT, Sunday to Friday).',
+      'First runner pass after filing: ' + clockLabel(first) + '.',
+      pk != null ? 'Picked up ' + clockLabel(pk) + ', ' + Game.fmtWait(Game.runnerMinutes(dl, pk)) + ' after the line.' : 'Still not picked up: ' + Game.fmtWait(Game.runnerMinutes(dl, now)) + ' past the line.'
+    ];
+    var cause;
+    var passes = now >= first ? Math.floor((now - first) / HOUR) + 1 : 0;
+    if (pk == null) cause = 'Never picked up. ' + (passes ? 'The hourly runner has passed it ' + passes + (passes === 1 ? ' time' : ' times') + ' without taking it: check the runner log and the agent’s desk.' : 'The runner has not reached it yet.');
+    else if (pk <= first + 20 * MIN) cause = 'Picked up on the first runner pass, but that pass came after the 60-minute line. The runner is hourly, so a ticket filed soon after :' + RUNNER_MINUTE + ' can only make it if the pass is quick. System cause, not the agent.';
+    else if (pk <= first + HOUR + 20 * MIN) cause = 'Missed the first runner pass at ' + clockLabel(first) + ' and was taken on the next one. Look at the ' + clockLabel(first) + ' run: it skipped this ticket.';
+    else cause = 'Missed ' + Math.floor((pk - first) / HOUR) + ' runner passes. The runner was down or skipping this desk: check the runner log for those hours.';
+    var box = h('div', { class: 'autopsy' });
+    box.appendChild(h('h3', { text: nameOf(x.agent) + ' · ' + Game.clip(x.ask || '', 90) }));
+    var ol = h('ol'); steps.forEach(function (st) { ol.appendChild(h('li', { text: st })); }); box.appendChild(ol);
+    box.appendChild(h('p', { class: 'cause', text: 'Cause: ' + cause }));
+    box.appendChild(h('p', { class: 'small', text: 'Now: ' + (FEED_WORD[x.status] || x.status) + (x.result && x.result.summary ? ' · ' + Game.clip(x.result.summary, 140) : '') }));
+    var acts = h('div', { class: 'acts' });
+    acts.appendChild(h('button', { class: 'mini', 'data-id': x.agent, text: 'Open ' + nameOf(x.agent) + '’s desk' }));
+    var ak = h('button', { class: 'mini primary', 'data-autopsy': x.id, text: 'Ask Radar for the fix' }); ak.disabled = !S.canWrite; acts.appendChild(ak);
+    box.appendChild(acts);
+    return box;
+  }
+  function askAutopsy(id) {
+    var x = S.tickets[id]; if (!x) return;
+    makeTicket({ agent: 'radar', priority: 'today', lever: 'board', ask: 'Autopsy the FAIL on ticket ' + id + ' (' + nameOf(x.agent) + ': ' + Game.clip(x.ask || '', 80) + '). Why was it picked up late, and what change stops it happening again? Report the cause and the fix.' });
+    S.flash = 'Sent to Radar: autopsy on that FAIL.'; S.forceSheet = true; renderAll();
+  }
+  function boardSheet(p, key) {
+    var now = Date.now(), today = Game.pacificDate(now), ws = Game.weekStart(today);
+    var all = vals(S.tickets).filter(function (x) { return !ticketHidden(x); });
+    var TITLES = { points: 'Points today', closed: 'Closed today', open: 'Open now', fails: 'FAILs', pickup: 'Pickups this week' };
+    p.appendChild(head(TITLES[key] || 'The board', null, 'What is behind the number', S.flash || null));
+    var body = h('div', { class: 'panel-b one' }); p.appendChild(body); var sec = h('section'); body.appendChild(sec);
+    function table(rows, cols) {
+      if (!rows.length) { sec.appendChild(h('p', { class: 'small', text: 'Nothing here.' })); return; }
+      var tb = h('table'), hr = h('tr'); cols.forEach(function (c) { hr.appendChild(h('th', { text: c[0] })); }); tb.appendChild(hr);
+      rows.forEach(function (x) { var tr = h('tr'); cols.forEach(function (c) { tr.appendChild(h('td', { text: String(c[1](x)) })); }); tb.appendChild(tr); });
+      sec.appendChild(h('div', { class: 'scroll' }, tb));
+    }
+    if (key === 'fails') {
+      var failed = all.map(function (x) { return { x: x, f: Game.failedAt(x, now) }; }).filter(function (o) { return o.f != null && Game.pacificDate(o.f) >= ws; })
+        .sort(function (a, b) { return b.f - a.f; });
+      var tdy = failed.filter(function (o) { return Game.pacificDate(o.f) === today; }), wk = failed.filter(function (o) { return Game.pacificDate(o.f) !== today; });
+      sec.appendChild(h('h3', { text: 'Today · ' + tdy.length }));
+      if (!tdy.length) sec.appendChild(h('p', { class: 'small', text: 'No FAIL today.' }));
+      tdy.forEach(function (o) { sec.appendChild(autopsy(o.x, now)); });
+      sec.appendChild(h('h3', { text: 'Earlier this week · ' + wk.length }));
+      wk.forEach(function (o) { sec.appendChild(autopsy(o.x, now)); });
+      sec.appendChild(h('p', { class: 'small', text: 'A FAIL is a ticket not picked up within 60 runner minutes of being filed. It stays a FAIL whatever happens after; it costs 3 points and breaks the streak.' }));
+    } else if (key === 'closed' || key === 'points') {
+      var done = all.filter(function (x) { var sc = Game.ticketScore(x); return sc && sc.date === today; });
+      sec.appendChild(h('h3', { text: 'Closed today · ' + done.length }));
+      table(done, [['Desk', function (x) { return nameOf(x.agent); }], ['Ticket', function (x) { return Game.clip(x.ask || '', 70); }], ['Points', function (x) { var sc = Game.ticketScore(x); return sc.points + ' (' + sc.base + (sc.onClock ? ' +1 on time' : '') + (sc.sameDay ? ' +2 same day' : '') + ')'; }]]);
+      if (key === 'points') {
+        var ft = all.filter(function (x) { var f = Game.failedAt(x, now); return f != null && Game.pacificDate(f) === today; });
+        sec.appendChild(h('h3', { text: 'FAILs today · −3 each · ' + ft.length }));
+        table(ft, [['Desk', function (x) { return nameOf(x.agent); }], ['Ticket', function (x) { return Game.clip(x.ask || '', 70); }]]);
+        var kv = vals(S.actions).filter(function (a) { return a && /^(done|followup|approve)$/.test(a.action) && a.at && Game.pacificDate(t(a.at)) === today; });
+        sec.appendChild(h('h3', { text: 'Your moves today · +2 each · ' + kv.length }));
+        table(kv, [['Move', function (a) { return a.action; }], ['On', function (a) { return Game.clip(a.title || '', 80); }], ['At', function (a) { return clockLabel(t(a.at)); }]]);
+      }
+    } else if (key === 'open') {
+      var open = all.filter(function (x) { return Game.OPEN_STATUSES.indexOf(x.status) >= 0 && !kevClosed(x); }).sort(function (a, b) { return t(a.createdAt) - t(b.createdAt); });
+      table(open, [['Desk', function (x) { return nameOf(x.agent); }], ['Ticket', function (x) { return Game.clip(x.ask || '', 70); }], ['Status', function (x) { return FEED_WORD[x.status] || x.status; }], ['Waiting', function (x) { return Game.fmtWait(Game.runnerMinutes(t(x.createdAt), now)); }]]);
+      sec.appendChild(h('button', { class: 'mini', 'data-go': '#line', text: 'Go to the open line' }));
+    } else if (key === 'pickup') {
+      var pk = all.map(function (x) { var q = Game.pickupAt(x); return q != null && Game.pacificDate(q) >= ws ? { x: x, m: Game.runnerMinutes(t(x.createdAt), q) } : null; }).filter(Boolean).sort(function (a, b) { return b.m - a.m; });
+      table(pk, [['Desk', function (o) { return nameOf(o.x.agent); }], ['Ticket', function (o) { return Game.clip(o.x.ask || '', 70); }], ['Pickup', function (o) { return Game.fmtWait(o.m) + (o.m > Game.SLA_PICKUP_MIN ? ' · FAIL' : ''); }]]);
+    }
+  }
   function benchSheet(p, def) {
     var doc = S.benches[def.id] || {};
     p.appendChild(head(def.title, null, 'Desk: ' + def.owner + (doc.example ? ' · example figures' : ''), doc.asOf ? 'As of ' + doc.asOf.slice(0, 10) : 'Not synced'));
@@ -2121,6 +2206,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var sh = S.sheet, scrollTop = p.scrollTop;
     if (sh.kind === 'desk') { var a = sh.id === 'radar' ? (S.agents.radar || { id: 'radar', name: 'Radar', role: 'Chief of staff' }) : S.agents[sh.id]; if (!a) { S.sheet = null; sheet.hidden = true; return; } deskSheet(p, a); }
     else if (sh.kind === 'bench') { var def = BENCH_DEFS.filter(function (d) { return d.id === sh.id; })[0]; if (!def || (S.share && def.sensitive)) { S.sheet = null; sheet.hidden = true; return; } benchSheet(p, def); }
+    else if (sh.kind === 'board') boardSheet(p, sh.id);
     else leverSheet(p, sh.id);
     p.scrollTop = scrollTop;
     sheet.hidden = false;
@@ -2175,7 +2261,9 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   /* ---------- events ---------- */
   var reduced = matchMedia('(prefers-reduced-motion: reduce)');
   document.addEventListener('click', function (e) {
-    var gb = e.target.closest('[data-go]'); if (gb) { goBoard(gb.getAttribute('data-go')); return; }
+    var bc = e.target.closest('[data-card]'); if (bc) { openSheet('board', bc.getAttribute('data-card'), bc); return; }
+    var gb = e.target.closest('[data-go]'); if (gb) { if (S.sheet && S.sheet.kind === 'board') stand(); goBoard(gb.getAttribute('data-go')); return; }
+    var ak = e.target.closest('[data-autopsy]'); if (ak) { askAutopsy(ak.getAttribute('data-autopsy')); return; }
     var sb = e.target.closest('[data-seen]'); if (sb) { markSeen(sb.getAttribute('data-seen')); return; }
     var ab = e.target.closest('[data-act]'); if (ab) { markAction(ab.getAttribute('data-key'), ab.getAttribute('data-act')); return; }
     var ub = e.target.closest('[data-undo]'); if (ub) { undoAction(ub.getAttribute('data-undo')); return; }
@@ -2190,7 +2278,10 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   });
   /* Esc stands up from any desk, bench or lever, even while typing in the chat; captured first so nothing inside the sheet can swallow it */
   window.addEventListener('keydown', function (e) { if ((e.key === 'Escape' || e.key === 'Esc') && S.sheet) { e.preventDefault(); stand(); } }, true);
-  document.addEventListener('keydown', function (e) { var gb = e.target && e.target.closest && e.target.closest('[data-go]'); if (gb && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); goBoard(gb.getAttribute('data-go')); } });
+  document.addEventListener('keydown', function (e) {
+    var bc = e.target && e.target.closest && e.target.closest('[data-card]'); if (bc && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openSheet('board', bc.getAttribute('data-card'), bc); return; }
+    var gb = e.target && e.target.closest && e.target.closest('[data-go]'); if (gb && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); goBoard(gb.getAttribute('data-go')); }
+  });
   function toggle(btn, apply, key) {
     btn.addEventListener('click', function () {
       var on = btn.getAttribute('aria-pressed') !== 'true'; btn.setAttribute('aria-pressed', String(on)); apply(on);
