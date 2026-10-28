@@ -576,6 +576,7 @@ textarea{min-height:84px;resize:vertical}
 .td-stamp{font:500 9.5px/1 var(--mono);letter-spacing:.14em;border:1px solid var(--a);color:var(--a);padding:4px 6px}
 .td-cols,.td-row{display:grid;grid-template-columns:minmax(140px,1.15fr) minmax(160px,1.35fr) 34px 38px 44px 44px 44px 58px minmax(200px,3fr);gap:0 8px;align-items:center;padding:0 16px}
 .td-qc .td-cols,.td-qc .td-row{grid-template-columns:minmax(120px,1fr) minmax(170px,1.4fr) minmax(130px,1fr) minmax(220px,2.6fr) 74px}
+.td-stick{position:sticky;top:0;z-index:3;background:var(--paper)}
 .td-cols{padding-block:8px;border-bottom:1px solid var(--line);font:500 10px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .td-row{min-height:42px;border-bottom:1px solid var(--line);position:relative}
 .td-row.sel{background:var(--soft);box-shadow:inset 3px 0 0 var(--ink)}
@@ -2880,8 +2881,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var dots = h('span', { class: 'td-dots', 'aria-hidden': 'true' }); for (var i = 0; i < 20; i++) dots.appendChild(h('i', { class: i < c.conn ? 'on' : '' })); cn.appendChild(dots);
     cn.appendChild(h('span', { text: 'Dials ' + c.dial + ' · VM ' + c.vm }));
     if (sh.eastCoast && tdAtMs(TD.date, sh.window.pt.split('-')[0]) > tdAtMs(TD.date, '13:00')) cn.appendChild(h('span', { class: 'td-stamp', text: 'PAST 4PM ET' }));
-    f.appendChild(cn);
-    f.appendChild(h('div', { class: 'td-cols', role: 'row' }, h('span', { text: 'Name' }), h('span', { text: 'Title / company' }), h('span', { text: 'Ph' }), h('span', { text: 'Src' }), h('span', { text: 'Dial' }), h('span', { text: 'VM' }), h('span', { text: 'Conn' }), h('span', { text: 'Stamp' }), h('span', { text: 'Notes' })));
+    var bar = h('div', { class: 'td-stick' }); bar.appendChild(cn); f.appendChild(bar);   // Kev, 28 Oct: the count and column bar lock in place while the names scroll
+    bar.appendChild(h('div', { class: 'td-cols', role: 'row' }, h('span', { text: 'Name' }), h('span', { text: 'Title / company' }), h('span', { text: 'Ph' }), h('span', { text: 'Src' }), h('span', { text: 'Dial' }), h('span', { text: 'VM' }), h('span', { text: 'Conn' }), h('span', { text: 'Stamp' }), h('span', { text: 'Notes' })));
     var sel = TD.sel[sh.id] == null ? 0 : TD.sel[sh.id];
     sh.leads.forEach(function (l, i) {
       var k = tdTick('row', l.id), row = h('div', { class: 'td-row' + (i === sel ? ' sel' : '') + (k.c ? ' done' : ''), 'data-lead': l.id, role: 'row' });
@@ -2909,7 +2910,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   function tdQc() {
     var q = TD.doc.qc || [], w = h('div', { class: 'td-qc' }), last = '';
     w.appendChild(h('div', { class: 'td-sh' }, h('span', { class: 'eyebrow', text: 'Quality control · must-calls · ' + tdQcDone() + ' of ' + q.length + ' touched' }), h('h3', { text: 'Candidates in process · touch every one' }), h('p', { text: 'A touch here also tells Radar to log it on the Team Hub so the red row clears.' })));
-    w.appendChild(h('div', { class: 'td-cols' }, h('span', { text: 'Candidate' }), h('span', { text: 'Client · seat' }), h('span', { text: 'Last touch' }), h('span', { text: 'Do' }), h('span', { text: 'Touched' })));
+    w.appendChild(h('div', { class: 'td-cols td-stick' }, h('span', { text: 'Candidate' }), h('span', { text: 'Client · seat' }), h('span', { text: 'Last touch' }), h('span', { text: 'Do' }), h('span', { text: 'Touched' })));
     var sel = TD.sel.qc == null ? 0 : TD.sel.qc;
     q.forEach(function (x, i) {
       if (x.group && x.group !== last) { last = x.group; w.appendChild(h('div', { class: 'td-grp', text: x.group + (x.asOf && x.asOf !== TD.date ? ' · as of ' + tdShort(x.asOf) : '') })); }
