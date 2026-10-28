@@ -24,7 +24,7 @@ Give Kev a structure for his own private list in Notion or his journal. Suggeste
 | Tuesday | C12 peers' requests (third Tuesday is the Forum) and C12 leadership |
 | Wednesday | Extended family and friends; anyone sick or grieving |
 | Thursday | The nation, leaders, the persecuted church, missions |
-| Friday | Kev's own growth (the week's practice from the examen), and the coming Sabbath |
+| Friday | Kev's own growth (the week's practice from the examen), and the Sabbath that begins at sunset |
 
 Each list entry he keeps: date, who, the request in a few words, and a blank "answered" line. C12 peers' requests are confidential to the Forum: they go only in his private list. Jethro owns the C12 prep pack (its prayer-request lines are blank for Kev); you help him pray, you do not fill the pack.
 

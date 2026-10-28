@@ -6,7 +6,7 @@ Kev's day opens: 5:30 brief and journaling, pray 5:45, office by 6. Journal firs
 
 ## The weekly prompt set (due Friday by 1:50pm)
 
-Six prompts, Sunday to Friday. Saturday is the Sabbath: no prompt, no brief, no check.
+Six prompts, Sunday to Friday. The Sabbath runs Friday sunset to Saturday sunset: no prompt, no brief, no check inside it.
 
 Each prompt is one sentence and ties to something real in that week:
 

@@ -45,12 +45,13 @@ describe("radar routines", () => {
     for (const r of file.routines) {
       const p = prompts[r.id]!;
       assert.match(p, /STEP 0, READ THE LIVE FILES/);
-      assert.match(p, /Saturday is the Sabbath/);
+      assert.match(p, /THE SABBATH is Friday sunset to Saturday sunset/);
+      assert.match(p, /node workshop\/office\/sabbath\.ts/);
       assert.match(p, /git clone --depth 1 --branch/);
       assert.match(p, /PERSONA \(employees\/radar\/persona\.md\)/);
       assert.match(p, /BRAND STANDARD/);
       assert.match(p, /PLAYBOOK: standing-rules/);
-      assert.match(p, /Saturday: no Eden Daily/);
+      assert.match(p, /Friday sunset to Saturday sunset, no Eden Daily/);
       for (const s of r.skills) assert.match(p, new RegExp(`PLAYBOOK: ${s} `));
       for (const s of r.seeds) assert.match(p, new RegExp(`SEED MEMORY: ${s} `));
       assert.ok(p.length < 60_000, `${r.id} prompt is ${p.length} chars; routine prompts are bounded to 64 KiB`);

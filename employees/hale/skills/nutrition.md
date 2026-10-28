@@ -21,7 +21,7 @@ Food that fuels a working week, feeds growing children and gets the protein Kev'
 ## Steps
 
 1. **Ask, in one batch:** who cooks and when, the busy nights, foods each person will not eat, any allergies or clinician-advised diets (recorded only in the private store), the grocery rhythm. No calorie counting unless Kev asks for it and his doctor agrees.
-2. **Build the week:** a rotation of 8 to 10 dinners that take 30 minutes or less, two big-batch cooks (Sunday after Main Street, Wednesday), three default breakfasts with 30 g or more of protein, a lunch template for the office, a short list of after-school snacks. Mark the Sabbath: Saturday food is prepared ahead or simple, so no one works the kitchen to hit a number.
+2. **Build the week:** a rotation of 8 to 10 dinners that take 30 minutes or less, two big-batch cooks (Sunday after Main Street, Wednesday), three default breakfasts with 30 g or more of protein, a lunch template for the office, a short list of after-school snacks. Mark the Sabbath (Friday sunset to Saturday sunset): Friday dinner and Saturday food are prepared ahead or simple, so no one works the kitchen to hit a number.
 3. **Protein check for Kev:** show the day's grams by meal against his target in a small table (in the private store). If the gap is large, add food first; a protein powder is a suggestion with a graded note, never a brand or a purchase.
 4. **Grocery list:** grouped by store aisle, in the private store or as a plain list Kev can paste. Ordering groceries or meal kits is a `spend` QC item.
 

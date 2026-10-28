@@ -5,13 +5,17 @@
 // Pure: every function takes `now` (ms) as an argument.
 //
 // THE RULES (Kev, 22 Oct 2026; the tests pin each one)
-//   The runner clock counts only 6am to 10pm Pacific, Sunday to Friday. Saturday never counts: nothing fails, nothing scores, nothing is announced.
+//   The runner clock counts 6am to 10pm Pacific, Sunday to Thursday, and 6am to sunset on Friday. Saturday never counts.
+//   THE SABBATH (Kev, 24 Oct 2026) runs from Friday sunset to Saturday sunset where the family lives: Vancouver, WA until Fri 6 Nov 2026,
+//   then Boise, ID (SABBATH_PLACES). Inside it nothing fails, nothing scores, nothing is announced. Saturday evening after sundown is when
+//   held work is launched; it is still off the runner clock, which restarts Sunday 6am, so nothing filed on the Sabbath can FAIL that night.
 //   FAIL   a ticket still `open` (nobody picked it up) after more than 60 runner minutes. Done and gated tickets are never in a FAIL state.
 //   STALL  a ticket `picked` or `working` for more than 4 runner hours with no result.
 //   A ticket that was picked up late stays a FAIL on the day it crossed 60 minutes (-3), so the streak and the score are honest history.
 //   Points  closed ticket: 3 if priority is "today", else 2. +1 picked within 60 runner minutes. +2 closed the same Pacific day it was filed.
 //           Kev's own moves: 2 each (a Done, Follow up or Approve tap, a QC approval). FAIL: -3.
 //   Streak  consecutive working days (Sun to Fri, Saturday skipped without breaking it) with zero FAILs, counted from the first ticket on record.
+//   `npm run sabbath` asks the same functions whether an instant is inside the Sabbath (exit 0) or not (exit 1); routines run it first.
 
 var TZ = 'America/Los_Angeles';
 export var SLA_PICKUP_MIN = 60;
@@ -23,12 +27,14 @@ export var OPEN_STATUSES = ['open', 'picked', 'working', 'blocked', 'gated'];
 /** A record is only announced once it is worth a banner. */
 export var RECORD_FLOORS = { closedInDay: 3, weekPoints: 10, streakDays: 3 };
 
-var fmt = new Intl.DateTimeFormat('en-US', { timeZone: TZ, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
-function parts(ms) {
+var fmts = {};
+function partsIn(ms, tz) {
+  var f = fmts[tz] || (fmts[tz] = new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }));
   var o = {};
-  fmt.formatToParts(new Date(ms)).forEach(function (p) { o[p.type] = p.value; });
+  f.formatToParts(new Date(ms)).forEach(function (p) { o[p.type] = p.value; });
   return { y: +o.year, mo: +o.month, d: +o.day, h: +o.hour % 24, mi: +o.minute, s: +o.second };
 }
+function parts(ms) { return partsIn(ms, TZ); }
 function pad(n) { return n < 10 ? '0' + n : '' + n; }
 function parse(iso) { if (!iso) return null; var n = Date.parse(iso); return isNaN(n) ? null : n; }
 function offsetAt(ms) { var p = parts(ms); return Date.UTC(p.y, p.mo - 1, p.d, p.h, p.mi, p.s) - Math.floor(ms / 1000) * 1000; }
@@ -44,11 +50,50 @@ export function addDays(date, n) {
   var a = date.split('-'), x = new Date(Date.UTC(+a[0], +a[1] - 1, +a[2] + n));
   return x.getUTCFullYear() + '-' + pad(x.getUTCMonth() + 1) + '-' + pad(x.getUTCDate());
 }
-export function isSabbath(date) { return dayOfWeek(date) === 6; }
 /** The Sunday that opens this date's week. */
 export function weekStart(date) { return addDays(date, -dayOfWeek(date)); }
 
-function runnerWindow(date) { return isSabbath(date) ? null : [localMs(date, RUNNER_START_HOUR), localMs(date, RUNNER_END_HOUR)]; }
+/** Where the family keeps the Sabbath, by date ('YYYY-MM-DD'): each place holds from its `from` date until the next one's. */
+export var SABBATH_PLACES = [
+  { from: '2000-01-01', name: 'Vancouver, WA', lat: 45.6387, lon: -122.6615, tz: 'America/Los_Angeles' },
+  { from: '2026-11-06', name: 'Boise, ID', lat: 43.6150, lon: -116.2023, tz: 'America/Boise' },
+];
+export function sabbathPlace(date) {
+  var p = SABBATH_PLACES[0];
+  for (var i = 1; i < SABBATH_PLACES.length; i++) if (date >= SABBATH_PLACES[i].from) p = SABBATH_PLACES[i];
+  return p;
+}
+var RAD = Math.PI / 180;
+/** Sunset (ms) on a calendar date at a place (default: where the family is that date). The NOAA sunrise equation, upper limb with refraction; within about a minute. */
+export function sunsetAt(date, place) {
+  var pl = place || sabbathPlace(date), a = date.split('-');
+  var n = Math.round(Date.UTC(+a[0], +a[1] - 1, +a[2], 12) / 86400000 + 2440587.5 - 2451545);
+  var js = n - pl.lon / 360, m = (357.5291 + 0.98560028 * js) % 360, mr = m * RAD;
+  var c = 1.9148 * Math.sin(mr) + 0.02 * Math.sin(2 * mr) + 0.0003 * Math.sin(3 * mr);
+  var l = ((m + c + 180 + 102.9372) % 360) * RAD;
+  var transit = 2451545 + js + 0.0053 * Math.sin(mr) - 0.0069 * Math.sin(2 * l);
+  var sd = Math.sin(l) * Math.sin(23.4397 * RAD), cd = Math.cos(Math.asin(sd)), lat = pl.lat * RAD;
+  var w = Math.acos((Math.sin(-0.833 * RAD) - Math.sin(lat) * sd) / (Math.cos(lat) * cd)) / RAD;
+  return Math.round((transit + w / 360 - 2440587.5) * 86400000);
+}
+/** The Sabbath that holds `ms`, or the next one: {start: Friday's sunset, end: Saturday's sunset, friday, saturday, place, tz}. */
+export function sabbathWindow(ms) {
+  var d = pacificDate(ms), dow = dayOfWeek(d), fri = dow === 6 ? addDays(d, -1) : addDays(d, (5 - dow + 7) % 7);
+  function at(f) { var s = addDays(f, 1), p = sabbathPlace(f); return { start: sunsetAt(f, p), end: sunsetAt(s, p), friday: f, saturday: s, place: p.name, tz: p.tz }; }
+  var w = at(fri);
+  return ms >= w.end ? at(addDays(fri, 7)) : w;
+}
+/** True from Friday's sunset to Saturday's sunset. */
+export function isSabbathAt(ms) { var w = sabbathWindow(ms); return ms >= w.start && ms < w.end; }
+/** Saturday (Pacific): the day the streak skips. Most of it is the Sabbath, and its evening is off the runner clock. */
+export function isSabbathDay(date) { return dayOfWeek(date) === 6; }
+
+function runnerWindow(date) {
+  var dow = dayOfWeek(date); if (dow === 6) return null;
+  var a = localMs(date, RUNNER_START_HOUR), b = localMs(date, RUNNER_END_HOUR);
+  if (dow === 5) b = Math.min(b, sunsetAt(date));   // Friday's clock stops at sunset
+  return b > a ? [a, b] : null;
+}
 export function isRunnerTime(ms) { var w = runnerWindow(pacificDate(ms)); return !!w && ms >= w[0] && ms < w[1]; }
 
 /** Minutes of runner time between two instants: the only clock a ticket waits on. */
@@ -111,10 +156,10 @@ export function failedAt(t, now) {
   var pk = pickupAt(t), end = pk != null ? pk : (t.status === 'open' ? now : null);
   return end != null && end > dl ? dl : null;
 }
-/** The live state of one ticket: {state: 'ok'|'fail'|'stall', minutes, since}. Done, gated and blocked tickets are always ok. Saturday is always ok. */
+/** The live state of one ticket: {state: 'ok'|'fail'|'stall', minutes, since}. Done, gated and blocked tickets are always ok. The Sabbath is always ok. */
 export function slaState(t, now) {
   var c = parse(t.createdAt), ok = { state: 'ok', minutes: 0, since: null };
-  if (c == null || isSabbath(pacificDate(now))) return ok;
+  if (c == null || isSabbathAt(now)) return ok;
   if (t.status === 'open') {
     var w = runnerMinutes(c, now);
     return w > SLA_PICKUP_MIN ? { state: 'fail', minutes: w, since: addRunnerMinutes(c, SLA_PICKUP_MIN) } : { state: 'ok', minutes: w, since: null };
@@ -156,7 +201,7 @@ function median(xs) {
  */
 export function buildGame(input) {
   var now = input.now, tickets = input.tickets || [], actions = input.actions || [], qcByDay = input.qcByDay || {};
-  var today = pacificDate(now), sab = isSabbath(today), days = {}, first = null;
+  var today = pacificDate(now), sab = isSabbathAt(now), days = {}, first = null;
   function D(date) { return days[date] || (days[date] = { date: date, points: 0, closed: 0, fails: 0, kev: 0, qc: 0 }); }
   var closedEvents = [], failEvents = [], pickups = [];
 
@@ -168,7 +213,7 @@ export function buildGame(input) {
     if (pk != null) pickups.push({ agent: t.agent, date: pacificDate(pk), minutes: runnerMinutes(c, pk) });
     if (t.status === 'done') {
       var sc = ticketScore(t), dn = parse(t.doneAt) || parse(t.updatedAt);
-      if (!sc || dn > now || isSabbath(sc.date)) return;
+      if (!sc || dn > now || isSabbathAt(dn)) return;
       closedEvents.push({ id: t.id, agent: t.agent, date: sc.date, points: sc.points, onClock: sc.onClock, sameDay: sc.sameDay, minutes: (dn - c) / 60000 });
       D(sc.date).closed++; D(sc.date).points += sc.points;
     }
@@ -177,11 +222,12 @@ export function buildGame(input) {
   actions.forEach(function (a) {
     if (!a || (a.action !== 'done' && a.action !== 'followup' && a.action !== 'approve')) return;   // approve: Kev's own yes in the Office (23 Oct)
     var at = parse(a.at); if (at == null) return;
-    var d = pacificDate(at); if (isSabbath(d)) return;
+    if (isSabbathAt(at)) return;
+    var d = pacificDate(at);
     D(d).kev++; D(d).points += POINTS.kevMove; kevEvents++;
   });
   Object.keys(qcByDay).forEach(function (d) {
-    var n = +qcByDay[d] || 0; if (!n || isSabbath(d)) return;
+    var n = +qcByDay[d] || 0; if (!n || isSabbathDay(d)) return;   // a day count, no time of day: Saturday is skipped whole
     D(d).qc += n; D(d).points += POINTS.kevMove * n;
   });
 
@@ -215,7 +261,7 @@ export function buildGame(input) {
   // streak and records, walking the working days from the first ticket on record
   var run = 0, longest = { days: 0, on: null }, d = first, guard = 0;
   while (d !== null && d <= today && guard++ < 800) {
-    if (!isSabbath(d)) {
+    if (!isSabbathDay(d)) {
       if (days[d] && days[d].fails > 0) run = 0; else run++;
       if (run > longest.days) longest = { days: run, on: d };
     }
@@ -233,7 +279,7 @@ export function buildGame(input) {
 
   return {
     today: today, sabbath: sab,
-    day: sab ? zero : (days[today] || zero),
+    day: days[today] || zero,
     week: wk, lastWeek: sum(lws, lwe),
     openNow: openNow, oldest: oldest, medianPickupMin: median(pickMins),
     streak: run, agents: rows,
@@ -253,10 +299,10 @@ export function mergeRecords(live, prior) {
     longestStreak: better(live.longestStreak, prior.longestStreak, 'days'),
   };
 }
-/** Records set today that deserve their one quiet banner. `key` is what the page remembers so a banner shows once. Never on Saturday. */
+/** Records set today that deserve their one quiet banner. `key` is what the page remembers so a banner shows once. Never on Saturday (the page also holds every banner while the Sabbath is on). */
 export function newRecords(rec, today) {
   var out = [];
-  if (isSabbath(today) || !rec) return out;
+  if (isSabbathDay(today) || !rec) return out;
   var m = rec.mostClosedDay, b = rec.bestWeek, s = rec.longestStreak;
   if (m && m.n >= RECORD_FLOORS.closedInDay && m.on === today) out.push({ key: 'closed:' + today, text: 'New course record: ' + m.n + ' tickets closed in a day' });
   if (b && b.points >= RECORD_FLOORS.weekPoints && b.on === today) out.push({ key: 'week:' + b.weekOf, text: 'New course record: best week, ' + b.points + ' points' });

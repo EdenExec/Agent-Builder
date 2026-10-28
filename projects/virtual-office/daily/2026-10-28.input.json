@@ -1,0 +1,560 @@
+{
+  "scripture": "1 Timothy 1:1–2",
+  "run": [
+    {
+      "at": "05:45",
+      "title": "Pray",
+      "note": "",
+      "powerHour": false
+    },
+    {
+      "at": "06:15",
+      "title": "Get ready",
+      "note": "",
+      "powerHour": false
+    },
+    {
+      "at": "06:35",
+      "title": "Drive",
+      "note": "",
+      "powerHour": false
+    },
+    {
+      "at": "07:00",
+      "title": "Admin · Eden Daily stand-up",
+      "note": "Retainers, text Daniel.",
+      "powerHour": false
+    },
+    {
+      "at": "07:30",
+      "title": "Training / call prep",
+      "note": "Fill the training draft.",
+      "powerHour": false
+    },
+    {
+      "at": "08:00",
+      "title": "Headhunter Training (Evan)",
+      "note": "",
+      "powerHour": false
+    },
+    {
+      "at": "08:00",
+      "title": "Recruiting RPA block: VMG",
+      "note": "8:00 to 11:00.",
+      "powerHour": false
+    },
+    {
+      "at": "09:00",
+      "title": "Company-Wide Power Hour",
+      "note": "",
+      "powerHour": false
+    },
+    {
+      "at": "09:30",
+      "title": "Job walk: Vinny & Daniel A. (City Place APM)",
+      "note": "Daniel has not accepted yet.",
+      "powerHour": false
+    },
+    {
+      "at": "11:00",
+      "title": "POWER HOUR · VMG — Chief Estimator + Precon",
+      "note": "25 names, East Coast, 2-3pm ET. Page 3.",
+      "powerHour": true,
+      "sheetId": "vmg-est-precon"
+    },
+    {
+      "at": "12:00",
+      "title": "Lunch",
+      "note": "",
+      "powerHour": false
+    },
+    {
+      "at": "12:30",
+      "title": "DBS (Nick)",
+      "note": "RSVP open.",
+      "powerHour": false
+    },
+    {
+      "at": "13:00",
+      "title": "Triton in person: Joe D. & Stephen F. (WPB)",
+      "note": "4pm ET.",
+      "powerHour": false
+    },
+    {
+      "at": "13:30",
+      "title": "Rhaven and Eden (Cody)",
+      "note": "",
+      "powerHour": false
+    },
+    {
+      "at": "14:45",
+      "title": "Recruiter Check In (Nick)",
+      "note": "RSVP open.",
+      "powerHour": false
+    },
+    {
+      "at": "15:00",
+      "title": "Meet Nick B",
+      "note": "",
+      "powerHour": false
+    },
+    {
+      "at": "15:30",
+      "title": "Leadership Weekly Hold",
+      "note": "",
+      "powerHour": false
+    },
+    {
+      "at": "17:30",
+      "title": "Claude check-out",
+      "note": "",
+      "powerHour": false
+    },
+    {
+      "at": "18:20",
+      "title": "Work out",
+      "note": "",
+      "powerHour": false
+    },
+    {
+      "at": "21:00",
+      "title": "Chop tomorrow's wood",
+      "note": "",
+      "powerHour": false
+    }
+  ],
+  "must": [
+    {
+      "at": "07:00",
+      "title": "Send retainers 62063 (PB South) and 62064 (Triton).",
+      "note": "Drafted Oct 15, still unsent, due Thu 10/29."
+    },
+    {
+      "at": "07:00",
+      "title": "Text Daniel Arevalo about the 9:30 job walk with Vinny.",
+      "note": "He has not accepted. Confirm he calls Vinny on arrival."
+    },
+    {
+      "at": "11:00",
+      "title": "VMG Power Hour: 25 chief estimators and precon leads.",
+      "note": "East Coast, 2-3pm ET. Sheet on the page."
+    }
+  ],
+  "decisions": [
+    {
+      "text": "D1 Split-fee agreement to Steve Cross (Inlet), PB South Sr PM.",
+      "pick": "Send after you read the 50/50 terms."
+    },
+    {
+      "text": "D2 Tim Griffin (Max's VMG super) to Peter.",
+      "pick": "Forward today; draft ready."
+    },
+    {
+      "text": "D3 Brad Lund for Hoffman (Hannah waiting).",
+      "pick": "Call Brad in the 8:00 block, then send the drafted reply."
+    },
+    {
+      "text": "D4 Ringover $805 refund, your own draft.",
+      "pick": "Send as written."
+    },
+    {
+      "text": "D5 Ledger backlog, ~400 open rows.",
+      "pick": "Close Batch rows older than 14 days that carry a default, applying the default."
+    },
+    {
+      "text": "D6 Anthropic API key 'kev-api-key' expires Nov 1.",
+      "pick": "Q checks usage; replace only if used."
+    }
+  ],
+  "qc": [
+    {
+      "name": "Underwood",
+      "clientSeat": "Client and seat to confirm",
+      "date": "Starts Thu 29 Oct",
+      "lastTouch": "Never touched",
+      "do": "Call today. Pull client and seat from Crelate first.",
+      "today": true,
+      "asOf": "2026-10-27",
+      "group": "Pending start"
+    },
+    {
+      "name": "Cesar Navarette",
+      "clientSeat": "PB South · Core Fit-Out Sr Super",
+      "date": "Starts Mon 2 Nov",
+      "lastTouch": "Never touched",
+      "do": "Call today: counter-offer check, first-day logistics.",
+      "today": true,
+      "asOf": "2026-10-27",
+      "group": "Pending start"
+    },
+    {
+      "name": "Ryan Ouellette",
+      "clientSeat": "PB South · MEP Super",
+      "date": "Starts Tue 3 Nov",
+      "lastTouch": "You, Mon 26 (counter-offer)",
+      "do": "Next touch by Thu 29. Keep him warm until day one.",
+      "today": false,
+      "asOf": "2026-10-27",
+      "group": "Pending start"
+    },
+    {
+      "name": "Davis",
+      "clientSeat": "Client and seat to confirm",
+      "date": "Starts Mon 9 Nov",
+      "lastTouch": "Never touched",
+      "do": "Call this week. Confirm client in Crelate.",
+      "today": false,
+      "asOf": "2026-10-27",
+      "group": "Pending start"
+    },
+    {
+      "name": "Stamper",
+      "clientSeat": "Megawatt · General Super",
+      "date": "Start moved to 2027",
+      "lastTouch": "You are calling him",
+      "do": "Long runway: a touch every few days.",
+      "today": false,
+      "asOf": "2026-10-27",
+      "group": "Pending start"
+    },
+    {
+      "name": "Jay Willard",
+      "clientSeat": "PB South · Arcade / Lobby Super",
+      "date": "Started Mon 26 Oct",
+      "lastTouch": "Never touched",
+      "do": "Day-2 check-in: how did day one go? Ask for one referral.",
+      "today": true,
+      "asOf": "2026-10-27",
+      "group": "Started"
+    },
+    {
+      "name": "Bobby Mitchell",
+      "clientSeat": "VMG · Mechanical Supers",
+      "date": "Started 14 Sep (confirm)",
+      "lastTouch": "Never touched",
+      "do": "VMG is on the fence. Check in now; 60-day mark 13 Nov.",
+      "today": true,
+      "asOf": "2026-10-27",
+      "group": "Started"
+    },
+    {
+      "name": "Brad Moore",
+      "clientSeat": "PB South · City Place Gen Super",
+      "date": "Jeff calls him 1:30",
+      "lastTouch": "Evan preps at 1:00",
+      "do": "Debrief with Evan after. Also backup for Project X.",
+      "today": false,
+      "asOf": "2026-10-27",
+      "group": "Interviewing"
+    },
+    {
+      "name": "Joey Walker",
+      "clientSeat": "PB South · Field Operations Leader",
+      "date": "New York final, date open",
+      "lastTouch": "Waiting on Bobby",
+      "do": "Project list and high-rise references back to Jeff. Fare stays on hold.",
+      "today": false,
+      "asOf": "2026-10-27",
+      "group": "Interviewing"
+    }
+  ],
+  "sheets": [
+    {
+      "id": "vmg-est-precon",
+      "title": "VMG · Chief Estimator + Precon Manager (DC/Reston)",
+      "eyebrow": "CALL SHEET · POWER HOUR",
+      "window": {
+        "pt": "11:00-12:00"
+      },
+      "tz": "ET",
+      "eastCoast": true,
+      "brief": "VMG Mechanical search: chief estimators and precon managers, DC and Baltimore metros.",
+      "sub": "25 names from ZoomInfo at mechanical contractors; VMG and other client staff excluded. Mobile numbers left for Noah.",
+      "url": "https://docs.google.com/spreadsheets/d/18kSU6Tki55S-jtF0-m8bH48524pPbtUazWpAQR_LN9Q/edit",
+      "leads": [
+        {
+          "name": "Mark Krstanovic",
+          "title": "Chief Estimator",
+          "company": "WG/Welch Mechanical Contractors",
+          "ph": "M D",
+          "src": "ZI",
+          "note": "Chief Estimator, mechanical; top fit",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Mark%20Krstanovic%20WG%2FWelch%20Mechanical%20Contractors"
+        },
+        {
+          "name": "Jamie Printz",
+          "title": "Chief Estimator",
+          "company": "Ronco Mechanical Contractors",
+          "ph": "D",
+          "src": "ZI",
+          "note": "Chief Estimator, mechanical",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Jamie%20Printz%20Ronco%20Mechanical%20Contractors"
+        },
+        {
+          "name": "Jason Carter",
+          "title": "Chief Estimator",
+          "company": "JCM Associates",
+          "ph": "M",
+          "src": "ZI",
+          "note": "Check: a Jason Carter sat on the 6 Oct ledger as 'no pickup, retry' for VMG",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Jason%20Carter%20JCM%20Associates"
+        },
+        {
+          "name": "Mike Steele",
+          "title": "Chief Estimator",
+          "company": "Atlantic Mechanical",
+          "ph": "—",
+          "src": "ZI",
+          "note": "Mobile flagged do-not-call; LinkedIn or main line",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Mike%20Steele%20Atlantic%20Mechanical"
+        },
+        {
+          "name": "Charles Foley",
+          "title": "Chief Estimator",
+          "company": "Southland Industries",
+          "ph": "D",
+          "src": "ZI",
+          "note": "Chief Estimator at a national mechanical",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Charles%20Foley%20Southland%20Industries"
+        },
+        {
+          "name": "Toshi Palamo",
+          "title": "Chief Estimator",
+          "company": "The Severn Group",
+          "ph": "M",
+          "src": "ZI",
+          "note": "Chief Estimator",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Toshi%20Palamo%20The%20Severn%20Group"
+        },
+        {
+          "name": "James Brookhart",
+          "title": "Chief Estimator",
+          "company": "Dynamic Mechanical Contractors",
+          "ph": "M",
+          "src": "ZI",
+          "note": "Chief Estimator, mechanical",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=James%20Brookhart%20Dynamic%20Mechanical%20Contractors"
+        },
+        {
+          "name": "Johnny Birch",
+          "title": "Chief Estimator",
+          "company": "Doyle Systems",
+          "ph": "D",
+          "src": "ZI",
+          "note": "Chief Estimator, HVAC",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Johnny%20Birch%20Doyle%20Systems"
+        },
+        {
+          "name": "David Rostek",
+          "title": "Chief Estimator",
+          "company": "EMJAY Engineering & Construction",
+          "ph": "D",
+          "src": "ZI",
+          "note": "Chief Estimator, mechanical",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=David%20Rostek%20EMJAY%20Engineering%20%26%20Construction"
+        },
+        {
+          "name": "Jeffrey Schmansky",
+          "title": "Chief Estimator & PM",
+          "company": "EMJAY Engineering & Construction",
+          "ph": "D",
+          "src": "ZI",
+          "note": "Second EMJAY lead; dial after Rostek",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Jeffrey%20Schmansky%20EMJAY%20Engineering%20%26%20Construction"
+        },
+        {
+          "name": "Amanda Shapiro",
+          "title": "Director, Preconstruction",
+          "company": "Shapiro & Duncan",
+          "ph": "M",
+          "src": "ZI",
+          "note": "Likely family ownership; read the room, referral ask if not open",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Amanda%20Shapiro%20Shapiro%20%26%20Duncan"
+        },
+        {
+          "name": "Matthew Piccone",
+          "title": "Manager, Preconstruction",
+          "company": "JCM Associates",
+          "ph": "—",
+          "src": "ZI",
+          "note": "No phone in ZI; LinkedIn",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Matthew%20Piccone%20JCM%20Associates"
+        },
+        {
+          "name": "Jordan Dosey",
+          "title": "Manager, Preconstruction",
+          "company": "SageWater",
+          "ph": "M",
+          "src": "ZI",
+          "note": "Precon manager, plumbing",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Jordan%20Dosey%20SageWater"
+        },
+        {
+          "name": "Bryan Mauser",
+          "title": "Manager, Preconstruction",
+          "company": "Heffron",
+          "ph": "M",
+          "src": "ZI",
+          "note": "Precon manager, mechanical",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Bryan%20Mauser%20Heffron"
+        },
+        {
+          "name": "Shane Goetzinger",
+          "title": "Division GM, Preconstruction",
+          "company": "Anchor Mechanical",
+          "ph": "D",
+          "src": "ZI",
+          "note": "Senior precon leader",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Shane%20Goetzinger%20Anchor%20Mechanical"
+        },
+        {
+          "name": "Jim Charnesky",
+          "title": "Sr Preconstruction Estimator",
+          "company": "Poole & Kent",
+          "ph": "M",
+          "src": "ZI",
+          "note": "Precon estimator at a large mechanical",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Jim%20Charnesky%20Poole%20%26%20Kent"
+        },
+        {
+          "name": "Michael Daley",
+          "title": "Senior Estimator",
+          "company": "Limbach",
+          "ph": "M D",
+          "src": "ZI",
+          "note": "Senior Estimator, step-up to chief",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Michael%20Daley%20Limbach"
+        },
+        {
+          "name": "Andrew Ginn",
+          "title": "Senior Estimator",
+          "company": "Shapiro & Duncan",
+          "ph": "M D",
+          "src": "ZI",
+          "note": "Senior Estimator",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Andrew%20Ginn%20Shapiro%20%26%20Duncan"
+        },
+        {
+          "name": "Paul Hahr",
+          "title": "Sr Mechanical & Plumbing Estimator",
+          "company": "Southland Industries",
+          "ph": "M",
+          "src": "ZI",
+          "note": "Mechanical and plumbing",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Paul%20Hahr%20Southland%20Industries"
+        },
+        {
+          "name": "Mubin Abu-Radi",
+          "title": "Senior Mechanical Estimator",
+          "company": "Press Mechanical Contractors",
+          "ph": "M",
+          "src": "ZI",
+          "note": "Senior mechanical estimator",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Mubin%20Abu-Radi%20Press%20Mechanical%20Contractors"
+        },
+        {
+          "name": "Mike Funn",
+          "title": "Senior Estimator",
+          "company": "Superior Mechanical Services",
+          "ph": "D",
+          "src": "ZI",
+          "note": "Senior Estimator",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Mike%20Funn%20Superior%20Mechanical%20Services"
+        },
+        {
+          "name": "Vincent McGowan",
+          "title": "Senior Estimator",
+          "company": "Bowers",
+          "ph": "M D",
+          "src": "ZI",
+          "note": "Senior Estimator",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Vincent%20McGowan%20Bowers"
+        },
+        {
+          "name": "James Ganey",
+          "title": "Senior Estimator",
+          "company": "JCM Associates",
+          "ph": "M D",
+          "src": "ZI",
+          "note": "Senior Estimator",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=James%20Ganey%20JCM%20Associates"
+        },
+        {
+          "name": "Daniel Kegley",
+          "title": "Senior Estimator",
+          "company": "Bowers",
+          "ph": "M",
+          "src": "ZI",
+          "note": "Senior Estimator",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Daniel%20Kegley%20Bowers"
+        },
+        {
+          "name": "Ryan Lignelli",
+          "title": "Senior Estimator & PM",
+          "company": "Doyle Systems",
+          "ph": "D",
+          "src": "ZI",
+          "note": "Estimator and PM",
+          "linkedin": "https://www.linkedin.com/search/results/people/?keywords=Ryan%20Lignelli%20Doyle%20Systems"
+        }
+      ]
+    }
+  ],
+  "study": {
+    "ref": "1 Timothy 1:1–2",
+    "text": "Paul, an apostle of Christ Jesus by command of God our Savior and of Christ Jesus our hope, To Timothy, my true child in the faith: Grace, mercy, and peace from God the Father and Christ Jesus our Lord.",
+    "setting": "Who. Paul, near the end of his life, to Timothy, his closest coworker for some fifteen years (Acts 16:1–3; 2 Timothy 1:5). Where. Ephesus, chief city of Asia, home of the great temple of Artemis; Paul spent nearly three years there and warned its elders that wolves would come (Acts 19; 20:29–31). When. Most likely AD 62–64, after Paul’s release from his first Roman imprisonment. Why. “Remain at Ephesus so that you may charge certain persons not to teach any different doctrine” (1:3): a field manual for a young leader cleaning up a hard situation. Why the greeting matters. A letter to a friend that opens with credentials, read aloud to the church; every line puts Paul’s authority behind Timothy before Timothy has to use it.",
+    "words": [
+      {
+        "word": "apostle",
+        "orig": "apostolos",
+        "note": "One sent with the sender’s authority: an envoy, not a volunteer. From <i>apostello</i>, to send. Paul did not appoint himself (Galatians 1:1). Timothy’s authority in Ephesus rests on this word."
+      },
+      {
+        "word": "by command of",
+        "orig": "kat’ epitagen",
+        "note": "By order. A word used for royal and divine decrees. Elsewhere Paul writes “by the will of God” (2 Timothy 1:1); here he is stronger. He is under orders. Same phrase in Titus 1:3."
+      },
+      {
+        "word": "God our Savior",
+        "orig": "soter",
+        "note": "Rescuer, deliverer, keeper. The Old Testament title of the LORD: “besides me there is no savior” (Isaiah 43:11). In a city that hailed Caesar as savior, Paul gives the title to God. Used of the Father (2:3; 4:10) and of the Son (2 Timothy 1:10; Titus 2:13)."
+      },
+      {
+        "word": "Christ Jesus our hope",
+        "orig": "elpis",
+        "note": "Confident expectation of a sure good, not wishful thinking. Here hope is a person, not a mood: “Christ in you, the hope of glory” (Colossians 1:27)."
+      },
+      {
+        "word": "my true child in the faith",
+        "orig": "gnesios teknon",
+        "note": "<i>Gnesios</i>: legitimate, genuine, born in wedlock; the real thing, not a counterfeit. <i>Teknon</i>: child, a word of family and affection. “In the faith” names the family: spiritual. Paul probably led him to Christ on his first visit to Lystra (Acts 14:6–7). The same root appears when Paul says no one else “will be genuinely concerned for your welfare” (Philippians 2:20)."
+      },
+      {
+        "word": "grace, mercy, and peace",
+        "orig": "charis · eleos · eirene",
+        "note": "Grace: God’s undeserved favor, the source. Mercy: his compassion toward the helpless; the Greek Old Testament often uses it for <i>hesed</i>, the LORD’s steadfast love. Peace: <i>shalom</i>, wholeness with God, the result. Paul’s letters usually say “grace and peace”; only the two letters to Timothy add mercy. Paul knows it firsthand: “I received mercy” (1:13, 16)."
+      },
+      {
+        "word": "from God the Father and Christ Jesus our Lord",
+        "orig": "apo · kyrios",
+        "note": "One “from” governs both names: Father and Son are one source of every blessing. <i>Kyrios</i>, Lord, is the word the Greek Old Testament uses for the LORD’s name. A small phrase with a high view of Christ."
+      }
+    ],
+    "reflect": [
+      "Paul answers to a command; Timothy answers to Paul. Who holds you to account this week, and what would you want them to ask you?",
+      "“By command of God.” Where this week are you acting under orders, and where only on preference?",
+      "Who was a Paul to you? Who is your Timothy now, by name, and what would “my true child” sound like from you this week, said where others can hear it?",
+      "Grace, mercy, peace, then the charge. Which of your men needs mercy from you before he needs direction?"
+    ],
+    "prayer": "Father, you are God our Savior, and Christ Jesus is our hope. Thank you for grace I did not earn, mercy that keeps me, and peace that holds. Make me a true son in the faith, and a Paul to the men in my care: present, quick to back them, faithful to hand on what I was given. Keep me under your command today, not my own. In Jesus’ name, amen.",
+    "memory": "1 Timothy 1:2 — “To Timothy, my true child in the faith: Grace, mercy, and peace from God the Father and Christ Jesus our Lord.”"
+  },
+  "sources": [
+    "Eden Daily delivered - Wed Oct 28 (Drive Doc, built Tue 27 Oct 6:30pm PT)",
+    "Leads - VMG Chief Estimator + Precon - Wed Oct 28 (Drive sheet, 25 names)",
+    "Run of day from that Doc; Google Calendar was not re-read when this was seeded",
+    "Study held on 1 Timothy 1:1-2 (Kev); text from the Tue 27 Oct paper",
+    "QC list carried from Casey candidates-in-process list, Tue 27 Oct; Wed paper has no QC block"
+  ]
+}

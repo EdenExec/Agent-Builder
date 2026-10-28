@@ -1,0 +1,636 @@
+{
+  "id": "2026-10-27-b48f69",
+  "subject": "Brand and Communications Intern: revised base pay, incentive plan and employer cost (supersedes the $18 to $20 plan)",
+  "preparer": "docket",
+  "checker": "tally",
+  "status": "passed",
+  "items": [
+    {
+      "label": "Recommended base hourly rate (offer to a current student)",
+      "claimed": 15,
+      "unit": "usd",
+      "source": "Docket's judgement pick, intern-legal-and-pay.md s.3 (revised). Check it sits at or above the IDOL Boise MSA entry wage for 43-9061 Office Clerks and at or below the entry wage for 27-1024 Graphic Designers (IDOL PDF below), and above Idaho's adult minimum",
+      "recomputed": 15,
+      "ok": true,
+      "note": "Derived: 15 >= 14.17 (43-9061) and <= 16.27 (27-1024) in IDOL PDF; > 7.25"
+    },
+    {
+      "label": "Posted range, low end",
+      "claimed": 14,
+      "unit": "usd",
+      "source": "Docket's pick, s.3 (revised) and the job description pay line. Check it sits at or above the IDOL Boise entry wage for 43-4171 Receptionists",
+      "recomputed": 14,
+      "ok": true,
+      "note": "14 >= 13.58 (43-4171), IDOL PDF"
+    },
+    {
+      "label": "Posted range, high end",
+      "claimed": 16,
+      "unit": "usd",
+      "source": "Docket's pick, s.3 (revised). Check it sits below the IDOL Boise entry wage for 27-1024 Graphic Designers and 13-1161 Market Research Analysts and Marketing Specialists",
+      "recomputed": 16,
+      "ok": true,
+      "note": "16 < 16.27 (27-1024) and < 17.09 (13-1161), IDOL PDF"
+    },
+    {
+      "label": "IDOL Boise entry wage 41-2031 Retail Salespersons",
+      "claimed": 12.63,
+      "unit": "usd",
+      "source": "Idaho DOL, Idaho Occupational Employment & Wage, May 2024 (released Aug 2025), Boise City ID MSA: lmi.idaho.gov/wp-content/uploads/2025/08/Boise_City_ID_2025.pdf, row 41-2031, Entry Wage, Hourly column",
+      "recomputed": 12.63,
+      "ok": true,
+      "note": "Read from IDOL Boise PDF directly"
+    },
+    {
+      "label": "IDOL Boise entry wage 43-4171 Receptionists",
+      "claimed": 13.58,
+      "unit": "usd",
+      "source": "Same IDOL PDF, row 43-4171 Receptionists and Information Clerks, Entry Wage, Hourly",
+      "recomputed": 13.58,
+      "ok": true
+    },
+    {
+      "label": "IDOL Boise entry wage 43-9061 Office Clerks",
+      "claimed": 14.17,
+      "unit": "usd",
+      "source": "Same IDOL PDF, row 43-9061 Office Clerks, General, Entry Wage, Hourly",
+      "recomputed": 14.17,
+      "ok": true
+    },
+    {
+      "label": "IDOL Boise entry wage 27-4021 Photographers",
+      "claimed": 15,
+      "unit": "usd",
+      "source": "Same IDOL PDF, row 27-4021 Photographers, Entry Wage, Hourly",
+      "recomputed": 15,
+      "ok": true
+    },
+    {
+      "label": "IDOL Boise entry wage 43-4051 Customer Service Reps",
+      "claimed": 15.05,
+      "unit": "usd",
+      "source": "Same IDOL PDF, row 43-4051 Customer Service Representatives, Entry Wage, Hourly",
+      "recomputed": 15.05,
+      "ok": true
+    },
+    {
+      "label": "IDOL Boise entry wage 27-1024 Graphic Designers",
+      "claimed": 16.27,
+      "unit": "usd",
+      "source": "Same IDOL PDF, row 27-1024 Graphic Designers, Entry Wage, Hourly",
+      "recomputed": 16.27,
+      "ok": true
+    },
+    {
+      "label": "IDOL Boise entry wage 13-1161 Marketing Specialists",
+      "claimed": 17.09,
+      "unit": "usd",
+      "source": "Same IDOL PDF, row 13-1161 Market Research Analysts and Marketing Specialists, Entry Wage, Hourly",
+      "recomputed": 17.09,
+      "ok": true
+    },
+    {
+      "label": "IDOL Boise entry wage 27-3031 PR Specialists",
+      "claimed": 19,
+      "unit": "usd",
+      "source": "Same IDOL PDF, row 27-3031 Public Relations Specialists, Entry Wage, Hourly",
+      "recomputed": 19,
+      "ok": true
+    },
+    {
+      "label": "Idaho average wage growth 2025",
+      "claimed": 4.7,
+      "unit": "pct",
+      "source": "Idaho DOL annual wage release reported 22 Jul 2026 (KMVT, 'Idaho Department of Labor: Wages jump ... in 2025'; idahonews.com same day): year-over-year change in Idaho's average wage, 2024 to 2025",
+      "recomputed": 4.7,
+      "ok": true
+    },
+    {
+      "label": "Univ. of Cincinnati co-op average, Marketing",
+      "claimed": 18.56,
+      "unit": "usd",
+      "source": "uc.edu/campus-life/career-co-op-support/gain-experience/co-op/average-wages.html, Lindner College of Business, Marketing (Fall 2025 to Summer 2026 terms)",
+      "recomputed": 18.56,
+      "ok": true
+    },
+    {
+      "label": "Univ. of Cincinnati co-op average, Communication",
+      "claimed": 19.76,
+      "unit": "usd",
+      "source": "Same UC page, College of Arts and Sciences, Communication",
+      "recomputed": 19.76,
+      "ok": true
+    },
+    {
+      "label": "Washington minimum wage 2026",
+      "claimed": 17.13,
+      "unit": "usd",
+      "source": "WA L&I minimum wage for 2026 (lni.wa.gov), statewide hourly minimum for workers 16 and over",
+      "recomputed": 17.13,
+      "ok": true
+    },
+    {
+      "label": "Idaho minimum wage, adult (revised memo)",
+      "claimed": 7.25,
+      "unit": "usd",
+      "source": "Idaho Code 44-1502(1)",
+      "recomputed": 7.25,
+      "ok": true
+    },
+    {
+      "label": "Monthly standards bonus, maximum",
+      "claimed": 75,
+      "unit": "usd",
+      "source": "Plan design, s.3 incentive table (judgement figure; check it is stated identically in the table, the cap line and the cost tables)",
+      "recomputed": 75,
+      "ok": true
+    },
+    {
+      "label": "Phase 1 gate bonus",
+      "claimed": 300,
+      "unit": "usd",
+      "source": "Plan design, s.3 incentive table (judgement figure; one payment only)",
+      "recomputed": 300,
+      "ok": true
+    },
+    {
+      "label": "Incentive cap, first 12 months",
+      "claimed": 1200,
+      "unit": "usd",
+      "source": "Twelve monthly standards bonuses at the maximum plus one Phase 1 gate bonus",
+      "recomputed": 1200,
+      "ok": true
+    },
+    {
+      "label": "Phase 1 posts that must ship",
+      "claimed": 18,
+      "unit": "count",
+      "source": "projects/comms/vision.md, Roadmap with gates, 'To enter Phase 2', Delivery row (numerator)",
+      "recomputed": 18,
+      "ok": true
+    },
+    {
+      "label": "Phase 1 planned posts",
+      "claimed": 24,
+      "unit": "count",
+      "source": "Same vision.md Delivery row (denominator)",
+      "recomputed": 24,
+      "ok": true
+    },
+    {
+      "label": "Phase 1 ship threshold as a share of approved posts",
+      "claimed": 75,
+      "unit": "pct",
+      "source": "Phase 1 posts that must ship divided by Phase 1 planned posts (vision.md Delivery row)",
+      "recomputed": 75,
+      "ok": true
+    },
+    {
+      "label": "Phase 1 length",
+      "claimed": 8,
+      "unit": "count",
+      "source": "vision.md Roadmap, Phase 1 Window row (weeks)",
+      "recomputed": 8,
+      "ok": true,
+      "note": "Weeks 1 to 8 per vision.md Window row"
+    },
+    {
+      "label": "Total employer burden, class 8742",
+      "claimed": 9.47,
+      "unit": "pct",
+      "source": "Employer FICA + FUTA net rate + Idaho UI new-employer rate 2026 + IIC 2026 WC class 8742 rate, as passed in gate 2026-10-27-f95841; caps not reached within a month",
+      "recomputed": 9.47,
+      "ok": true
+    },
+    {
+      "label": "Total employer burden, class 8810",
+      "claimed": 9.367,
+      "unit": "pct",
+      "source": "Same as above with IIC 2026 WC class 8810 in place of 8742",
+      "recomputed": 9.367,
+      "ok": true
+    },
+    {
+      "label": "Hours a month at 10 hrs/wk",
+      "claimed": 43.33,
+      "unit": "count",
+      "source": "10 x 52 / 12, rounded to two decimals",
+      "recomputed": 43.33,
+      "ok": true
+    },
+    {
+      "label": "Hours a month at 15 hrs/wk",
+      "claimed": 65,
+      "unit": "count",
+      "source": "15 x 52 / 12",
+      "recomputed": 65,
+      "ok": true
+    },
+    {
+      "label": "Hours a month at 20 hrs/wk",
+      "claimed": 86.67,
+      "unit": "count",
+      "source": "20 x 52 / 12, rounded to two decimals",
+      "recomputed": 86.67,
+      "ok": true
+    },
+    {
+      "label": "Monthly wages, 10 hrs/wk at base",
+      "claimed": 650,
+      "unit": "usd",
+      "source": "Base rate x 10 x 52 / 12, rounded to the cent",
+      "recomputed": 650,
+      "ok": true
+    },
+    {
+      "label": "Monthly wages, 15 hrs/wk at base",
+      "claimed": 975,
+      "unit": "usd",
+      "source": "Base rate x 15 x 52 / 12",
+      "recomputed": 975,
+      "ok": true
+    },
+    {
+      "label": "Monthly wages, 20 hrs/wk at base",
+      "claimed": 1300,
+      "unit": "usd",
+      "source": "Base rate x 20 x 52 / 12, rounded to the cent",
+      "recomputed": 1300,
+      "ok": true
+    },
+    {
+      "label": "Monthly total, 10 hrs/wk, base only",
+      "claimed": 711.56,
+      "unit": "usd",
+      "source": "Monthly wages at 10 hrs plus 8742 burden % on them, burden rounded to the cent",
+      "recomputed": 711.56,
+      "ok": true
+    },
+    {
+      "label": "Monthly total, 15 hrs/wk, base only",
+      "claimed": 1067.33,
+      "unit": "usd",
+      "source": "Monthly wages at 15 hrs plus 8742 burden % on them, burden rounded to the cent",
+      "recomputed": 1067.33,
+      "ok": true
+    },
+    {
+      "label": "Monthly total, 20 hrs/wk, base only",
+      "claimed": 1423.11,
+      "unit": "usd",
+      "source": "Monthly wages at 20 hrs plus 8742 burden % on them, burden rounded to the cent",
+      "recomputed": 1423.11,
+      "ok": true
+    },
+    {
+      "label": "Monthly total, 10 hrs/wk, base plus max monthly bonus",
+      "claimed": 793.66,
+      "unit": "usd",
+      "source": "(Monthly wages at 10 hrs + monthly standards bonus maximum) plus 8742 burden % on that sum, burden rounded to the cent",
+      "recomputed": 793.66,
+      "ok": true
+    },
+    {
+      "label": "Monthly total, 15 hrs/wk, base plus max monthly bonus",
+      "claimed": 1149.44,
+      "unit": "usd",
+      "source": "(Monthly wages at 15 hrs + monthly standards bonus maximum) plus 8742 burden % on that sum",
+      "recomputed": 1149.44,
+      "ok": true
+    },
+    {
+      "label": "Monthly total, 20 hrs/wk, base plus max monthly bonus",
+      "claimed": 1505.21,
+      "unit": "usd",
+      "source": "(Monthly wages at 20 hrs + monthly standards bonus maximum) plus 8742 burden % on that sum",
+      "recomputed": 1505.21,
+      "ok": true
+    },
+    {
+      "label": "Extra cost in the month the Phase 1 bonus pays",
+      "claimed": 328.41,
+      "unit": "usd",
+      "source": "Phase 1 gate bonus plus 8742 burden % on it, burden rounded to the cent",
+      "recomputed": 328.41,
+      "ok": true
+    },
+    {
+      "label": "Monthly total, 15 hrs/wk at range low, base only",
+      "claimed": 996.18,
+      "unit": "usd",
+      "source": "Range low rate x 15 x 52 / 12 plus 8742 burden % on it",
+      "recomputed": 996.18,
+      "ok": true
+    },
+    {
+      "label": "Monthly total, 15 hrs/wk at range high, base only",
+      "claimed": 1138.49,
+      "unit": "usd",
+      "source": "Range high rate x 15 x 52 / 12 plus 8742 burden % on it",
+      "recomputed": 1138.49,
+      "ok": true
+    },
+    {
+      "label": "Monthly total, 15 hrs/wk, base only, class 8810",
+      "claimed": 1066.33,
+      "unit": "usd",
+      "source": "Monthly wages at 15 hrs at base plus 8810 burden % on them",
+      "recomputed": 1066.33,
+      "ok": true
+    },
+    {
+      "label": "Monthly total, 15 hrs/wk, base plus max monthly bonus, class 8810",
+      "claimed": 1148.35,
+      "unit": "usd",
+      "source": "(Monthly wages at 15 hrs + monthly standards bonus maximum) plus 8810 burden % on that sum",
+      "recomputed": 1148.35,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, wages, base only",
+      "claimed": 11700,
+      "unit": "usd",
+      "source": "Base rate x 15 x 52",
+      "recomputed": 11700,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, employer FICA, base only",
+      "claimed": 895.05,
+      "unit": "usd",
+      "source": "Employer FICA rate x annual base wages, to the cent",
+      "recomputed": 895.05,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, FUTA, base only",
+      "claimed": 42,
+      "unit": "usd",
+      "source": "FUTA net rate x the lesser of annual wages and the FUTA wage base",
+      "recomputed": 42,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, Idaho UI, base only",
+      "claimed": 117,
+      "unit": "usd",
+      "source": "Idaho UI new-employer rate x the lesser of annual wages and the 2026 Idaho UI wage base",
+      "recomputed": 117,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, workers comp 8742, base only",
+      "claimed": 25.74,
+      "unit": "usd",
+      "source": "WC 8742 rate x annual base wages, to the cent",
+      "recomputed": 25.74,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, total employer cost, base only",
+      "claimed": 12779.79,
+      "unit": "usd",
+      "source": "Annual base wages plus the four burden components above",
+      "recomputed": 12779.79,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, average a month, base only",
+      "claimed": 1064.98,
+      "unit": "usd",
+      "source": "Annual total employer cost, base only, / 12",
+      "recomputed": 1064.98,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, gross pay with full incentive",
+      "claimed": 12900,
+      "unit": "usd",
+      "source": "Annual base wages plus the incentive cap",
+      "recomputed": 12900,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, employer FICA, with full incentive",
+      "claimed": 986.85,
+      "unit": "usd",
+      "source": "Employer FICA rate x annual gross pay with full incentive",
+      "recomputed": 986.85,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, Idaho UI, with full incentive",
+      "claimed": 129,
+      "unit": "usd",
+      "source": "Idaho UI rate x annual gross pay with full incentive (under the UI base)",
+      "recomputed": 129,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, workers comp 8742, with full incentive",
+      "claimed": 28.38,
+      "unit": "usd",
+      "source": "WC 8742 rate x annual gross pay with full incentive, to the cent (bonus counted as payroll)",
+      "recomputed": 28.38,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, total employer cost, with full incentive",
+      "claimed": 14086.23,
+      "unit": "usd",
+      "source": "Annual gross pay with full incentive plus FICA, FUTA (first FUTA wage base only), Idaho UI and WC 8742 on it, each to the cent",
+      "recomputed": 14086.23,
+      "ok": true
+    },
+    {
+      "label": "Year at 15 hrs/wk, average a month, with full incentive",
+      "claimed": 1173.85,
+      "unit": "usd",
+      "source": "Annual total employer cost with full incentive / 12",
+      "recomputed": 1173.85,
+      "ok": true
+    },
+    {
+      "label": "Annual saving vs superseded $18 plan, 15 hrs/wk, full incentive",
+      "claimed": 1241.12,
+      "unit": "usd",
+      "source": "Annual employer cost at the low-end rate passed in gate 2026-10-27-f95841 minus the annual total employer cost with full incentive above",
+      "recomputed": 1241.12,
+      "ok": true
+    },
+    {
+      "label": "Effective hourly pay at 15 hrs/wk with full incentive",
+      "claimed": 16.54,
+      "unit": "usd",
+      "source": "Annual gross pay with full incentive / (15 x 52), to the cent",
+      "recomputed": 16.54,
+      "ok": true
+    },
+    {
+      "label": "Month the FUTA wage base is reached, 15 hrs/wk, base only",
+      "claimed": 8,
+      "unit": "count",
+      "source": "First month in which cumulative monthly base wages at 15 hrs reach the FUTA wage base",
+      "recomputed": 8,
+      "ok": true
+    },
+    {
+      "label": "Federal optional flat withholding rate on supplemental wages",
+      "claimed": 22,
+      "unit": "pct",
+      "source": "IRS Pub. 15 (2026), section 7, supplemental wages, optional flat rate method",
+      "recomputed": 22,
+      "ok": true
+    },
+    {
+      "label": "Idaho withholding rate on supplemental wages",
+      "claimed": 5.3,
+      "unit": "pct",
+      "source": "Idaho State Tax Commission 2026 withholding tables / Idaho income tax rate after HB 40 (2025)",
+      "recomputed": 5.3,
+      "ok": true
+    },
+    {
+      "label": "Idaho max gap, pay period end to payday",
+      "claimed": 15,
+      "unit": "days",
+      "source": "Idaho Code 45-608(2)",
+      "recomputed": 15,
+      "ok": true
+    },
+    {
+      "label": "Applicant floor before raising the offer",
+      "claimed": 5,
+      "unit": "count",
+      "source": "Docket's judgement trigger, s.3 'Watch' bullet (real applicants from Handshake)",
+      "recomputed": 5,
+      "ok": true
+    },
+    {
+      "label": "Handshake test window before raising the offer",
+      "claimed": 14,
+      "unit": "days",
+      "source": "Same 'Watch' bullet (two weeks)",
+      "recomputed": 14,
+      "ok": true
+    },
+    {
+      "label": "Notice for an excused shoot-day conflict, hours",
+      "claimed": 48,
+      "unit": "count",
+      "source": "Plan design, s.3 'Fair measures' bullet",
+      "recomputed": 48,
+      "ok": true
+    },
+    {
+      "label": "Minimum days from month close to bonus payday",
+      "claimed": 5,
+      "unit": "days",
+      "source": "Plan design, s.3 incentive table, monthly bonus 'Paid' column (lower bound)",
+      "recomputed": 5,
+      "ok": true
+    },
+    {
+      "label": "FLSA overtime threshold, hours a week",
+      "claimed": 40,
+      "unit": "count",
+      "source": "29 USC 207(a)(1)",
+      "recomputed": 40,
+      "ok": true
+    },
+    {
+      "label": "Washington minimum wage 2027",
+      "claimed": 17.73,
+      "unit": "usd",
+      "source": "WA L&I 2027 minimum wage announcement (lni.wa.gov), statewide hourly minimum for workers 16 and over",
+      "recomputed": 17.73,
+      "ok": true
+    },
+    {
+      "label": "ADEA employer size threshold",
+      "claimed": 20,
+      "unit": "count",
+      "source": "29 USC 630(b), definition of employer (employees in each working day in 20 or more weeks)",
+      "recomputed": 20,
+      "ok": true
+    },
+    {
+      "label": "Idaho Human Rights Act employer size threshold",
+      "claimed": 5,
+      "unit": "count",
+      "source": "Idaho Code 67-5902(6)",
+      "recomputed": 5,
+      "ok": true
+    },
+    {
+      "label": "Age at which ADEA and Idaho HRA protection starts",
+      "claimed": 40,
+      "unit": "count",
+      "source": "29 USC 631(a); Idaho Code 67-5902(1)",
+      "recomputed": 40,
+      "ok": true,
+      "note": "Value 40 ok (29 USC 631(a); Idaho Code 67-5910(9)). Citation 67-5902(1) is wrong: that is the Commission definition"
+    },
+    {
+      "label": "FUTA wage base (revised memo table)",
+      "claimed": 7000,
+      "unit": "usd",
+      "source": "26 USC 3306(b)(1)",
+      "recomputed": 7000,
+      "ok": true
+    },
+    {
+      "label": "Idaho UI wage base 2026 (revised memo table)",
+      "claimed": 58300,
+      "unit": "usd",
+      "source": "Governor's release 17 Dec 2025, gov.idaho.gov, 2026 taxable wage base",
+      "recomputed": 58300,
+      "ok": true
+    },
+    {
+      "label": "Employer FICA rate (revised memo table)",
+      "claimed": 7.65,
+      "unit": "pct",
+      "source": "IRS Pub. 15 (2026), employer OASDI plus HI",
+      "recomputed": 7.65,
+      "ok": true
+    },
+    {
+      "label": "FUTA net rate (revised memo table)",
+      "claimed": 0.6,
+      "unit": "pct",
+      "source": "IRS Form 940 instructions, net rate with full state credit",
+      "recomputed": 0.6,
+      "ok": true
+    },
+    {
+      "label": "Idaho UI new-employer rate 2026 (revised memo table)",
+      "claimed": 1,
+      "unit": "pct",
+      "source": "Governor's release 17 Dec 2025",
+      "recomputed": 1,
+      "ok": true
+    },
+    {
+      "label": "Idaho WC class 8742 rate (revised memo table)",
+      "claimed": 0.22,
+      "unit": "pct",
+      "source": "IIC 'Idaho Workers Compensation Rates effective Jan 1, 2026' PDF, class 8742, per $100 of payroll",
+      "recomputed": 0.22,
+      "ok": true
+    },
+    {
+      "label": "Idaho WC class 8810 rate (revised memo table)",
+      "claimed": 0.117,
+      "unit": "pct",
+      "source": "Same IIC PDF, class 8810",
+      "recomputed": 0.117,
+      "ok": true
+    }
+  ],
+  "createdAt": "2026-10-27T04:48:33.739Z",
+  "doc": "projects/comms/intern-legal-and-pay.md",
+  "ask": "Kev: approve the base pick and posted range, and the bonus plan (amounts, criteria, cap)",
+  "checkedBy": "tally",
+  "closedAt": "2026-10-27T04:54:17.036Z"
+}

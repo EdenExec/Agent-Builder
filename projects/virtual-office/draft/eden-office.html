@@ -248,6 +248,21 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .cell.bump .v{animation:bump 1.1s ease-out}
 @keyframes bump{0%{opacity:.35}100%{opacity:1}}
 .cell.pts{background:rgba(243,240,232,.04)}
+/* Kev, 23 Oct: the counts are doors. Open now and Oldest waiting take you to the tickets on the line; FAILs to the failing card. */
+.cell[data-card]{cursor:pointer;transition:background .15s}
+.cell[data-card]:hover,.cell[data-card]:focus-visible{background:rgba(243,240,232,.07)}
+.cell[data-card] .k::after{content:"\00a0\2197";opacity:.7}
+.autopsy{border:1px solid var(--line,#D9D4C8);padding:12px 14px;margin:0 0 12px}
+.autopsy h3{margin:0 0 6px;font-size:14px}
+.autopsy ol{margin:6px 0 8px;padding-left:18px}
+.autopsy li{margin:0 0 3px}
+.autopsy .cause{font-weight:600}
+.autopsy .acts{display:flex;gap:8px;flex-wrap:wrap}
+.cell[data-go]:focus-visible{outline:2px solid var(--bd-fg);outline-offset:-2px}
+.line.ping{animation:ping 1.2s ease-out}
+.tk.ping{outline:2px solid var(--ink);outline-offset:2px}
+@keyframes ping{0%{box-shadow:0 0 0 0 var(--ink)}100%{box-shadow:0 0 0 10px transparent}}
+@media (prefers-reduced-motion:reduce){.line.ping{animation:none}}
 .board-rest{padding:18px 16px;display:flex;flex-direction:column;gap:6px}
 .board-rest b{font:700 15px/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase}
 .board-note{padding:8px 14px;border-top:1px solid var(--bd-line);font:500 10px/1.5 var(--mono);letter-spacing:.04em;color:var(--bd-mute)}
@@ -362,6 +377,37 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .tkd>summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .tkd .ask{margin:6px 0 0;font-size:13px}
 .tkd>small{display:block;font:500 10px/1.4 var(--mono);color:var(--mute);letter-spacing:.06em}
+/* the feed (Kev, 23 Oct): a timeline of the work handed to this desk */
+.feed{gap:0!important}
+.post{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.post:first-child{border-top:0}
+.post.pin{background:var(--soft);padding-inline:8px;margin-inline:-8px}
+.post.fail .pill{border-color:var(--r);color:var(--r)} .post.stall .pill{border-color:var(--a);color:var(--a)}
+.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 12px/1 var(--sans);background:var(--ink);color:var(--paper)}
+.av.k{background:var(--paper);color:var(--ink);border:1.5px solid var(--ink)} .av.zz{background:var(--soft);color:var(--mute)}
+.pb{min-width:0;display:flex;flex-direction:column;gap:5px}
+.ph{font:500 10.5px/1.3 var(--mono);letter-spacing:.04em;color:var(--mute);display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
+.ph b{color:var(--ink);font:700 12px/1.2 var(--sans);letter-spacing:.02em}
+.pill{margin-left:auto;font:500 9.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:3px 6px}
+.pill.p-working,.pill.p-picked{border-color:var(--g);color:var(--g)} .pill.p-gated,.pill.p-blocked{border-color:var(--a);color:var(--a)} .pill.p-done{color:var(--mute)}
+.ptext{margin:0;font-size:13.5px;line-height:1.42;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.ptext[title]{cursor:pointer} .ptext.open{-webkit-line-clamp:unset;display:block}
+.presult{font-size:12.5px;line-height:1.4;overflow-wrap:anywhere;border-left:2px solid var(--line);padding-left:8px}
+.presult .mini{margin-left:4px}
+.golink.session{font-weight:700;color:var(--ink);border-bottom:1.5px solid var(--ink)}
+.stand.sess{text-decoration:none;margin-left:auto}
+.panel-h .stand.sess+.stand{margin-left:0}
+/* flow lights (Kev, 23 Oct): a faint line from Radar to every desk he is handing work to, green for Radar's tickets, blue for Kev's */
+svg.flow{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:visible}
+svg.flow line{stroke-width:1.5;stroke-linecap:round;stroke-dasharray:3 7;animation:flowdash 1.8s linear infinite}
+svg.flow line.r{stroke:var(--g)} svg.flow line.k{stroke:var(--b)}
+svg.flow circle{animation:flowpulse 2.4s ease-in-out infinite}
+svg.flow circle.r{fill:var(--g)} svg.flow circle.k{fill:var(--b)}
+@keyframes flowdash{to{stroke-dashoffset:-20}}
+@keyframes flowpulse{0%,100%{opacity:.25}50%{opacity:.8}}
+:root.still svg.flow line,:root.still svg.flow circle{animation:none}
+@media (prefers-reduced-motion:reduce){svg.flow line,svg.flow circle{animation:none}}
+@media (max-width:820px){svg.flow{display:none}}
 .exact{background:var(--soft);padding:8px;font:400 11.5px/1.45 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;margin-top:6px}
 .log li{font:400 11.5px/1.45 var(--mono);color:var(--mute)} .log li b{color:var(--ink);font-weight:500}
 .now{font-size:15px;font-weight:600;overflow-wrap:anywhere;margin:0}
@@ -448,6 +494,151 @@ textarea{min-height:84px;resize:vertical}
   #sw-notes{display:none}
   form{grid-template-columns:1fr}
 }
+
+/* ---------- TODAY: the Eden Daily inside the Command Center (Kev, 28 Oct 2026; spec research/today-view-design.md) ---------- */
+.modes{display:inline-flex;align-self:center;border:1px solid var(--ink);margin-right:6px}
+.modes button{background:none;border:0;padding:0 14px;min-height:36px;cursor:pointer;font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.modes button+button{border-left:1px solid var(--ink)}
+.modes button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.modes button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.today{display:flex;flex-direction:column;gap:12px;min-width:0}
+.today-mode #lb,.today-mode #recbar,.today-mode #talk-radar,.today-mode .toprow,.today-mode #line,.today-mode #plan,.today-mode #tools,.today-mode footer.foot,.today-mode .wrap>p.small,.today-mode #focusbar,.today-mode .dock{display:none!important}
+.today-mode .wrap{max-width:1880px}
+/* the board shrinks to a one-line ribbon, matte black, every cell still a door to the floor */
+.today-mode .board-h{padding:5px 14px}
+.today-mode .board-grid{grid-template-columns:repeat(7,minmax(0,1fr))}
+.today-mode .cell{flex-direction:row;align-items:baseline;justify-content:space-between;gap:8px;padding:7px 12px;min-height:0}
+.today-mode .cell .k{font-size:9px;letter-spacing:.1em}
+.today-mode .cell .v{font-size:17px}
+.today-mode .cell .s,.today-mode .board-note{display:none}
+.td-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px 16px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.td-head h2{margin:0;font-weight:800;font-size:clamp(16px,2vw,22px);letter-spacing:.12em;text-transform:uppercase}
+.td-frieze{font:500 9.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.td-frieze b{color:var(--ink);font-weight:700}
+.td-tools{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.td-note{padding:8px 12px;border:1px dashed var(--line);font:500 11px/1.4 var(--mono);letter-spacing:.04em;color:var(--mute);background:var(--paper)}
+.td-note.amber{border-color:var(--a);color:var(--a)}
+.td-grid{display:grid;grid-template-columns:340px minmax(0,1fr) 400px;gap:14px;align-items:start}
+.td-left,.td-right{display:flex;flex-direction:column;gap:14px;min-width:0}
+.td-mid{min-width:0;border:1px solid var(--ink);background:var(--paper)}
+.td-box{border:1px solid var(--line);background:var(--paper);min-width:0}
+.td-box>.eyebrow{display:flex;justify-content:space-between;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line)}
+.td-in{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+/* now / next: the day's scoreboard, matte black in both themes */
+.td-now{background:var(--bd);color:var(--bd-fg);border:1px solid var(--bd-line);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.td-now .eyebrow{color:var(--bd-mute)}
+.td-clock{font:500 40px/1 var(--mono);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.td-cur{font-weight:700;font-size:14px;line-height:1.3;overflow-wrap:anywhere}
+.td-bar{height:3px;background:var(--bd-line)} .td-bar i{display:block;height:100%;background:var(--bd-fg)}
+.td-nx{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;border-top:1px solid var(--bd-line);padding-top:6px}
+.td-nx span:last-child{font:500 10.5px/1.4 var(--mono);color:var(--bd-mute);white-space:nowrap}
+.td-et{font:500 10.5px/1.3 var(--mono);letter-spacing:.06em;color:var(--bd-mute)}
+.td-runl{list-style:none;margin:0;padding:6px 0;max-height:none}
+.td-runl li{display:grid;grid-template-columns:54px minmax(0,1fr);gap:6px;padding:4px 12px;font-size:12.5px;line-height:1.35;border-left:3px solid transparent;position:relative}
+.td-runl .t{font:500 11px/1.5 var(--mono);color:var(--mute)}
+.td-runl li.past{color:var(--mute)}
+.td-runl li.now{background:var(--soft)}
+.td-runl li.now::after{content:"";position:absolute;left:0;right:0;top:-1px;border-top:1px solid var(--ink)}
+.td-runl li.ph{border-left-color:var(--ink);font-weight:700}
+.td-runl li.ph .w{cursor:pointer}
+.td-runl .stamp2{white-space:nowrap;display:inline-block;font:500 9px/1 var(--mono);letter-spacing:.14em;border:1px solid var(--ink);padding:2px 4px;margin-left:6px;vertical-align:1px}
+.td-runl .n{display:block;font-weight:400;font-size:11.5px;color:var(--mute)}
+.td-habits{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:2px;padding:8px 10px}
+.td-habits div{text-align:center;font:500 9.5px/1.2 var(--mono);color:var(--mute)} .td-habits b{display:block;font:700 13px/1.4 var(--sans);color:var(--ink)}
+/* the work surface */
+.td-tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--ink)}
+.td-tab{background:none;border:0;border-right:1px solid var(--line);padding:11px 14px;cursor:pointer;font:500 10.5px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);min-height:40px}
+.td-tab[aria-selected="true"]{color:var(--ink);box-shadow:inset 0 -3px 0 var(--ink)}
+.td-tab:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.td-tab.auto{margin-left:auto;border-right:0;border-left:1px solid var(--line)}
+.td-sh{padding:14px 16px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--line)}
+.td-sh h3{margin:0;font-weight:800;font-size:17px;letter-spacing:.04em}
+.td-sh p{margin:0;font-size:12.5px;color:var(--mute);overflow-wrap:anywhere}
+.td-count{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:10px 16px;border-bottom:1px solid var(--line);font:500 11px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.td-count b{font:700 22px/1 var(--mono);letter-spacing:0}
+.td-dots{display:inline-flex;flex-wrap:wrap;gap:3px}
+.td-dots i{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink)} .td-dots i.on{background:var(--ink)}
+.td-stamp{font:500 9.5px/1 var(--mono);letter-spacing:.14em;border:1px solid var(--a);color:var(--a);padding:4px 6px}
+.td-cols,.td-row{display:grid;grid-template-columns:minmax(140px,1.15fr) minmax(160px,1.35fr) 34px 38px 44px 44px 44px 58px minmax(200px,3fr);gap:0 8px;align-items:center;padding:0 16px}
+.td-qc .td-cols,.td-qc .td-row{grid-template-columns:minmax(120px,1fr) minmax(170px,1.4fr) minmax(130px,1fr) minmax(220px,2.6fr) 74px}
+.td-cols{padding-block:8px;border-bottom:1px solid var(--line);font:500 10px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.td-row{min-height:42px;border-bottom:1px solid var(--line);position:relative}
+.td-row.sel{background:var(--soft);box-shadow:inset 3px 0 0 var(--ink)}
+.td-row .nm{font-weight:700;font-size:13.5px;overflow-wrap:anywhere;text-align:left;background:none;border:0;padding:6px 0;cursor:pointer;color:inherit}
+.td-row .tc{font-size:12.5px;line-height:1.3;min-width:0;overflow-wrap:anywhere;padding:5px 0} .td-row .tc small{display:block;color:var(--mute);font-size:11.5px}
+.td-row .ph,.td-row .src{font:500 11px/1 var(--mono);color:var(--mute);text-align:center}
+.td-row .lk{font:500 9.5px/1 var(--mono);letter-spacing:.08em;margin-left:6px;color:var(--mute)}
+.td-row.done{color:var(--mute)}
+.td-grp{padding:8px 16px;font:500 10px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);background:var(--soft);border-bottom:1px solid var(--line)}
+.td-chk{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;background:none;border:0;cursor:pointer;padding:0;justify-self:center}
+.td-chk i{width:18px;height:18px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.td-chk svg{width:14px;height:14px;stroke:var(--ink);stroke-width:2.4;fill:none;opacity:0}
+.td-chk[aria-pressed="true"] svg{opacity:1}
+.td-chk:focus-visible{outline:2px solid var(--ink);outline-offset:0}
+.td-out{font:700 10.5px/1 var(--mono);letter-spacing:.08em;border:1px solid var(--line);background:none;color:var(--mute);padding:7px 4px;cursor:pointer;min-width:44px}
+.td-out[data-v]{border-color:var(--ink);color:var(--ink)}
+.td-notei{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 2px;font:400 13px/1.3 var(--sans);color:var(--ink)}
+.td-notei:focus{outline:none;border-bottom-color:var(--ink)}
+.td-legend{padding:10px 16px;font:500 10.5px/1.4 var(--mono);color:var(--mute);letter-spacing:.04em}
+.td-today{font:500 9px/1 var(--mono);letter-spacing:.14em;border:1px solid var(--r);color:var(--r);padding:3px 5px;margin-left:6px;vertical-align:1px}
+.td-added{font:500 9px/1 var(--mono);letter-spacing:.06em;color:var(--mute);margin-left:6px}
+.td-empty{padding:34px 16px;text-align:center;font:500 12px/1.7 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+/* the rails */
+.td-must{list-style:none;margin:0;padding:0}
+.td-must li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:6px;padding:8px 8px 8px 6px;border-bottom:1px solid var(--line);align-items:start}
+.td-must li:last-child{border-bottom:0}
+.td-must .mt{font-weight:600;font-size:13px;line-height:1.35;overflow-wrap:anywhere} .td-must .mt span{font:500 10.5px/1 var(--mono);color:var(--mute);margin-right:6px}
+.td-must .mn{font-size:12px;color:var(--mute);margin-top:2px}
+.td-must li.done .mt,.td-must li.done .mn{color:var(--mute);text-decoration:line-through;text-decoration-color:var(--line)}
+.td-dec{padding:10px 12px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.td-dec:last-child{border-bottom:0}
+.td-dec .dt{font-size:13px;line-height:1.35;overflow-wrap:anywhere}
+.td-dec .pk{font:500 11px/1.4 var(--mono);color:var(--mute)}
+.td-dec.ans{opacity:.6}
+.td-scr{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;cursor:pointer;background:none;border:0;width:100%;text-align:left}
+.td-scr:hover{background:var(--soft)}
+.td-ckl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;align-items:center}
+.td-ckl label{display:flex;flex-direction:column;gap:3px}
+.td-ckl input[type=number]{width:84px}
+.td-hab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.td-hab input{padding:6px;font-size:13px}
+.td-kb{font:500 10.5px/1.7 var(--mono);color:var(--mute);padding:10px 14px;columns:2;letter-spacing:.04em}
+.td-kb b{color:var(--ink);font-weight:700}
+/* Power Hour focus: the clock and counts (30%), the sheet (70%) */
+.td-focus .td-grid{grid-template-columns:minmax(260px,30%) minmax(0,1fr)}
+.td-focus .td-right,.td-focus .td-runbox,.td-focus .td-habbox{display:none}
+.td-focus .td-clock{font-size:64px}
+.td-sheetmodal{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.td-study{position:relative;width:min(880px,100%);max-height:100%;overflow:auto;background:var(--paper);border:1.5px solid var(--ink);padding:18px 22px;display:flex;flex-direction:column;gap:12px}
+.td-study h3{margin:0;font-size:18px;font-weight:800;letter-spacing:.06em}
+.td-study h4{margin:8px 0 0;font:500 10.5px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.td-study p,.td-study li{font-size:14px;line-height:1.55;margin:0}
+.td-study dl{margin:0} .td-study dt{font-weight:700;margin-top:8px} .td-study dd{margin:2px 0 0;font-size:13.5px;line-height:1.5}
+.td-study blockquote{margin:0;padding:8px 14px;border-left:3px solid var(--ink);font-size:15px;line-height:1.6}
+@media (prefers-reduced-motion:reduce){.td-bar i{transition:none}}
+/* laptop: 320px rail beside the sheet; decisions join the left rail; check-out and scripture drop below the sheet */
+@media (max-width:1599px){
+  .td-grid{grid-template-columns:320px minmax(0,1fr);grid-template-areas:"now mid" "must mid" "dec mid" "run mid" "hab scr" "hab chk"}
+  .td-left,.td-right{display:contents}
+  .td-now{grid-area:now} .td-must-box{grid-area:must} .td-dec-box{grid-area:dec} .td-runbox{grid-area:run} .td-habbox{grid-area:hab} .td-scr-box{grid-area:scr} .td-chk-box{grid-area:chk} .td-mid{grid-area:mid}
+  .td-focus .td-grid{grid-template-areas:"now mid" "now mid"}
+  .td-focus .td-must-box,.td-focus .td-dec-box,.td-focus .td-scr-box,.td-focus .td-chk-box{display:none}
+}
+@media (max-width:820px){
+  .today-mode .board-grid{display:none} .today-mode .board-note{display:none}
+  .td-grid,.td-focus .td-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"now" "must" "dec" "mid" "run" "hab" "chk" "scr"}
+  .td-clock{font-size:32px}
+  .modes{grid-column:1/-1;justify-self:stretch;margin-right:0} .modes button{flex:1}
+  .td-cols{display:none}
+  .td-row,.td-qc .td-row{grid-template-columns:minmax(0,1fr) 44px 44px 44px;grid-template-areas:"nm d v c" "tc tc tc tc" "nt nt out out";gap:2px 4px;padding:8px 12px}
+  .td-row .nm{grid-area:nm} .td-row .tc{grid-area:tc} .td-row .ph,.td-row .src{display:none} .td-row .cd{grid-area:d} .td-row .cv{grid-area:v} .td-row .cc{grid-area:c} .td-row .nt{grid-area:nt} .td-row .co{grid-area:out}
+  .td-chk{width:44px;height:44px}
+  .td-qc .td-row{grid-template-areas:"nm nm nm ct" "tc tc tc tc" "lt lt lt lt" "nt nt nt nt"}
+  .td-qc .td-row .ct{grid-area:ct} .td-qc .td-row .lt{grid-area:lt}
+  .td-tab{padding:11px 10px}
+  .td-kb{columns:1}
+  .td-hab{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 </style>
 
 <div class="wrap">
@@ -458,6 +649,7 @@ textarea{min-height:84px;resize:vertical}
       <div class="clockrow"><span class="clock" id="clock"></span><span class="clock" id="sync"></span></div>
     </div>
     <div class="switches" role="group" aria-label="Floor switches">
+      <div class="modes" role="group" aria-label="Mode"><button id="m-floor" type="button" aria-pressed="true" title="The floor">Floor</button><button id="m-today" type="button" aria-pressed="false" title="Today: the Eden Daily (T)">Today</button></div>
       <button class="sw" id="sw-share" aria-pressed="false" title="Hide finance, coaching and family before a screen share"><i></i>Screen share</button>
       <button class="sw" id="sw-still" aria-pressed="false" title="Stop every blink; lights hold steady"><i></i>Still</button>
       <button class="sw" id="sw-notes" aria-pressed="false" title="Show the architect's sightlines and adjacencies"><i></i>Plan notes</button>
@@ -488,6 +680,7 @@ textarea{min-height:84px;resize:vertical}
   <div class="notice" id="demo" hidden>Example data. This page is not reading the Office database, so nothing here is real and tickets stay in this tab.</div>
   <div class="notice" id="stale" hidden></div>
   <div class="banner" id="banner" hidden></div>
+  <section class="today" id="td-root" hidden aria-label="Today: the Eden Daily"></section>
   <section class="focusbar" id="focusbar" aria-label="Focus" hidden></section>
 
   <div class="toprow">
@@ -512,6 +705,7 @@ textarea{min-height:84px;resize:vertical}
       <span class="door" style="left:6%"><svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><path d="M0 64 L0 2 M0 2 A62 62 0 0 1 62 64" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/></svg></span>
       <div class="sun" id="sun" aria-hidden="true"></div>
       <svg class="lines" id="lines" aria-hidden="true"></svg>
+      <svg class="flow" id="flow" aria-hidden="true"></svg>
 
       <section class="zone z-rec" data-zone="rec">
         <span class="eyebrow"><span>01 · Recruiting desk</span><span>Dean</span></span>
@@ -540,8 +734,9 @@ textarea{min-height:84px;resize:vertical}
 
 
       <section class="zone z-cli" data-zone="cli">
-        <span class="eyebrow"><span>06 · Client work</span><span>Link only</span></span>
+        <span class="eyebrow"><span>06 · Client work</span><span>Casey</span></span>
         <div id="b-cli" class="slot"></div>
+        <div class="desks" id="d-cli"></div>
       </section>
 
       <section class="zone z-spx" data-zone="spx">
@@ -602,8 +797,8 @@ textarea{min-height:84px;resize:vertical}
 <script>
 (function () {
   'use strict';
-  /* Data contract (collections the page reads; it writes only tickets/, seen/, actions/ and chats/{agent}/messages/):
-     agents/{id}  agents/{id}/log/{n}  alerts/{id}  actions/{key}  seen/{key}  tickets/{id}  tools/{id}  benches/{id}  benches/{id}/rows/{rid}  meta/sync  meta/today
+  /* Data contract (collections the page reads; it writes only tickets/, seen/, actions/, chats/{agent}/messages/ and daily/{date}/ticks/):
+     agents/{id}  agents/{id}/log/{n}  alerts/{id}  actions/{key}  seen/{key}  tickets/{id}  tools/{id}  benches/{id}  benches/{id}/rows/{rid}  meta/sync  meta/today  daily/{date}  daily/{date}/ticks/{key}
      Spec: projects/virtual-office/research/q-architecture.md */
   var MIN = 60000, HOUR = 3600000, DAY = 86400000;
   var WORKING_FRESH_H = 4;
@@ -624,13 +819,17 @@ var Game = (function () {
 // Pure: every function takes `now` (ms) as an argument.
 //
 // THE RULES (Kev, 22 Oct 2026; the tests pin each one)
-//   The runner clock counts only 6am to 10pm Pacific, Sunday to Friday. Saturday never counts: nothing fails, nothing scores, nothing is announced.
+//   The runner clock counts 6am to 10pm Pacific, Sunday to Thursday, and 6am to sunset on Friday. Saturday never counts.
+//   THE SABBATH (Kev, 24 Oct 2026) runs from Friday sunset to Saturday sunset where the family lives: Vancouver, WA until Fri 6 Nov 2026,
+//   then Boise, ID (SABBATH_PLACES). Inside it nothing fails, nothing scores, nothing is announced. Saturday evening after sundown is when
+//   held work is launched; it is still off the runner clock, which restarts Sunday 6am, so nothing filed on the Sabbath can FAIL that night.
 //   FAIL   a ticket still `open` (nobody picked it up) after more than 60 runner minutes. Done and gated tickets are never in a FAIL state.
 //   STALL  a ticket `picked` or `working` for more than 4 runner hours with no result.
 //   A ticket that was picked up late stays a FAIL on the day it crossed 60 minutes (-3), so the streak and the score are honest history.
 //   Points  closed ticket: 3 if priority is "today", else 2. +1 picked within 60 runner minutes. +2 closed the same Pacific day it was filed.
 //           Kev's own moves: 2 each (a Done, Follow up or Approve tap, a QC approval). FAIL: -3.
 //   Streak  consecutive working days (Sun to Fri, Saturday skipped without breaking it) with zero FAILs, counted from the first ticket on record.
+//   `npm run sabbath` asks the same functions whether an instant is inside the Sabbath (exit 0) or not (exit 1); routines run it first.
 
 var TZ = 'America/Los_Angeles';
 var SLA_PICKUP_MIN = 60;
@@ -642,12 +841,14 @@ var OPEN_STATUSES = ['open', 'picked', 'working', 'blocked', 'gated'];
 /** A record is only announced once it is worth a banner. */
 var RECORD_FLOORS = { closedInDay: 3, weekPoints: 10, streakDays: 3 };
 
-var fmt = new Intl.DateTimeFormat('en-US', { timeZone: TZ, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
-function parts(ms) {
+var fmts = {};
+function partsIn(ms, tz) {
+  var f = fmts[tz] || (fmts[tz] = new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }));
   var o = {};
-  fmt.formatToParts(new Date(ms)).forEach(function (p) { o[p.type] = p.value; });
+  f.formatToParts(new Date(ms)).forEach(function (p) { o[p.type] = p.value; });
   return { y: +o.year, mo: +o.month, d: +o.day, h: +o.hour % 24, mi: +o.minute, s: +o.second };
 }
+function parts(ms) { return partsIn(ms, TZ); }
 function pad(n) { return n < 10 ? '0' + n : '' + n; }
 function parse(iso) { if (!iso) return null; var n = Date.parse(iso); return isNaN(n) ? null : n; }
 function offsetAt(ms) { var p = parts(ms); return Date.UTC(p.y, p.mo - 1, p.d, p.h, p.mi, p.s) - Math.floor(ms / 1000) * 1000; }
@@ -663,11 +864,50 @@ function addDays(date, n) {
   var a = date.split('-'), x = new Date(Date.UTC(+a[0], +a[1] - 1, +a[2] + n));
   return x.getUTCFullYear() + '-' + pad(x.getUTCMonth() + 1) + '-' + pad(x.getUTCDate());
 }
-function isSabbath(date) { return dayOfWeek(date) === 6; }
 /** The Sunday that opens this date's week. */
 function weekStart(date) { return addDays(date, -dayOfWeek(date)); }
 
-function runnerWindow(date) { return isSabbath(date) ? null : [localMs(date, RUNNER_START_HOUR), localMs(date, RUNNER_END_HOUR)]; }
+/** Where the family keeps the Sabbath, by date ('YYYY-MM-DD'): each place holds from its `from` date until the next one's. */
+var SABBATH_PLACES = [
+  { from: '2000-01-01', name: 'Vancouver, WA', lat: 45.6387, lon: -122.6615, tz: 'America/Los_Angeles' },
+  { from: '2026-11-06', name: 'Boise, ID', lat: 43.6150, lon: -116.2023, tz: 'America/Boise' },
+];
+function sabbathPlace(date) {
+  var p = SABBATH_PLACES[0];
+  for (var i = 1; i < SABBATH_PLACES.length; i++) if (date >= SABBATH_PLACES[i].from) p = SABBATH_PLACES[i];
+  return p;
+}
+var RAD = Math.PI / 180;
+/** Sunset (ms) on a calendar date at a place (default: where the family is that date). The NOAA sunrise equation, upper limb with refraction; within about a minute. */
+function sunsetAt(date, place) {
+  var pl = place || sabbathPlace(date), a = date.split('-');
+  var n = Math.round(Date.UTC(+a[0], +a[1] - 1, +a[2], 12) / 86400000 + 2440587.5 - 2451545);
+  var js = n - pl.lon / 360, m = (357.5291 + 0.98560028 * js) % 360, mr = m * RAD;
+  var c = 1.9148 * Math.sin(mr) + 0.02 * Math.sin(2 * mr) + 0.0003 * Math.sin(3 * mr);
+  var l = ((m + c + 180 + 102.9372) % 360) * RAD;
+  var transit = 2451545 + js + 0.0053 * Math.sin(mr) - 0.0069 * Math.sin(2 * l);
+  var sd = Math.sin(l) * Math.sin(23.4397 * RAD), cd = Math.cos(Math.asin(sd)), lat = pl.lat * RAD;
+  var w = Math.acos((Math.sin(-0.833 * RAD) - Math.sin(lat) * sd) / (Math.cos(lat) * cd)) / RAD;
+  return Math.round((transit + w / 360 - 2440587.5) * 86400000);
+}
+/** The Sabbath that holds `ms`, or the next one: {start: Friday's sunset, end: Saturday's sunset, friday, saturday, place, tz}. */
+function sabbathWindow(ms) {
+  var d = pacificDate(ms), dow = dayOfWeek(d), fri = dow === 6 ? addDays(d, -1) : addDays(d, (5 - dow + 7) % 7);
+  function at(f) { var s = addDays(f, 1), p = sabbathPlace(f); return { start: sunsetAt(f, p), end: sunsetAt(s, p), friday: f, saturday: s, place: p.name, tz: p.tz }; }
+  var w = at(fri);
+  return ms >= w.end ? at(addDays(fri, 7)) : w;
+}
+/** True from Friday's sunset to Saturday's sunset. */
+function isSabbathAt(ms) { var w = sabbathWindow(ms); return ms >= w.start && ms < w.end; }
+/** Saturday (Pacific): the day the streak skips. Most of it is the Sabbath, and its evening is off the runner clock. */
+function isSabbathDay(date) { return dayOfWeek(date) === 6; }
+
+function runnerWindow(date) {
+  var dow = dayOfWeek(date); if (dow === 6) return null;
+  var a = localMs(date, RUNNER_START_HOUR), b = localMs(date, RUNNER_END_HOUR);
+  if (dow === 5) b = Math.min(b, sunsetAt(date));   // Friday's clock stops at sunset
+  return b > a ? [a, b] : null;
+}
 function isRunnerTime(ms) { var w = runnerWindow(pacificDate(ms)); return !!w && ms >= w[0] && ms < w[1]; }
 
 /** Minutes of runner time between two instants: the only clock a ticket waits on. */
@@ -730,10 +970,10 @@ function failedAt(t, now) {
   var pk = pickupAt(t), end = pk != null ? pk : (t.status === 'open' ? now : null);
   return end != null && end > dl ? dl : null;
 }
-/** The live state of one ticket: {state: 'ok'|'fail'|'stall', minutes, since}. Done, gated and blocked tickets are always ok. Saturday is always ok. */
+/** The live state of one ticket: {state: 'ok'|'fail'|'stall', minutes, since}. Done, gated and blocked tickets are always ok. The Sabbath is always ok. */
 function slaState(t, now) {
   var c = parse(t.createdAt), ok = { state: 'ok', minutes: 0, since: null };
-  if (c == null || isSabbath(pacificDate(now))) return ok;
+  if (c == null || isSabbathAt(now)) return ok;
   if (t.status === 'open') {
     var w = runnerMinutes(c, now);
     return w > SLA_PICKUP_MIN ? { state: 'fail', minutes: w, since: addRunnerMinutes(c, SLA_PICKUP_MIN) } : { state: 'ok', minutes: w, since: null };
@@ -775,7 +1015,7 @@ function median(xs) {
  */
 function buildGame(input) {
   var now = input.now, tickets = input.tickets || [], actions = input.actions || [], qcByDay = input.qcByDay || {};
-  var today = pacificDate(now), sab = isSabbath(today), days = {}, first = null;
+  var today = pacificDate(now), sab = isSabbathAt(now), days = {}, first = null;
   function D(date) { return days[date] || (days[date] = { date: date, points: 0, closed: 0, fails: 0, kev: 0, qc: 0 }); }
   var closedEvents = [], failEvents = [], pickups = [];
 
@@ -787,7 +1027,7 @@ function buildGame(input) {
     if (pk != null) pickups.push({ agent: t.agent, date: pacificDate(pk), minutes: runnerMinutes(c, pk) });
     if (t.status === 'done') {
       var sc = ticketScore(t), dn = parse(t.doneAt) || parse(t.updatedAt);
-      if (!sc || dn > now || isSabbath(sc.date)) return;
+      if (!sc || dn > now || isSabbathAt(dn)) return;
       closedEvents.push({ id: t.id, agent: t.agent, date: sc.date, points: sc.points, onClock: sc.onClock, sameDay: sc.sameDay, minutes: (dn - c) / 60000 });
       D(sc.date).closed++; D(sc.date).points += sc.points;
     }
@@ -796,11 +1036,12 @@ function buildGame(input) {
   actions.forEach(function (a) {
     if (!a || (a.action !== 'done' && a.action !== 'followup' && a.action !== 'approve')) return;   // approve: Kev's own yes in the Office (23 Oct)
     var at = parse(a.at); if (at == null) return;
-    var d = pacificDate(at); if (isSabbath(d)) return;
+    if (isSabbathAt(at)) return;
+    var d = pacificDate(at);
     D(d).kev++; D(d).points += POINTS.kevMove; kevEvents++;
   });
   Object.keys(qcByDay).forEach(function (d) {
-    var n = +qcByDay[d] || 0; if (!n || isSabbath(d)) return;
+    var n = +qcByDay[d] || 0; if (!n || isSabbathDay(d)) return;   // a day count, no time of day: Saturday is skipped whole
     D(d).qc += n; D(d).points += POINTS.kevMove * n;
   });
 
@@ -834,7 +1075,7 @@ function buildGame(input) {
   // streak and records, walking the working days from the first ticket on record
   var run = 0, longest = { days: 0, on: null }, d = first, guard = 0;
   while (d !== null && d <= today && guard++ < 800) {
-    if (!isSabbath(d)) {
+    if (!isSabbathDay(d)) {
       if (days[d] && days[d].fails > 0) run = 0; else run++;
       if (run > longest.days) longest = { days: run, on: d };
     }
@@ -852,7 +1093,7 @@ function buildGame(input) {
 
   return {
     today: today, sabbath: sab,
-    day: sab ? zero : (days[today] || zero),
+    day: days[today] || zero,
     week: wk, lastWeek: sum(lws, lwe),
     openNow: openNow, oldest: oldest, medianPickupMin: median(pickMins),
     streak: run, agents: rows,
@@ -872,17 +1113,17 @@ function mergeRecords(live, prior) {
     longestStreak: better(live.longestStreak, prior.longestStreak, 'days'),
   };
 }
-/** Records set today that deserve their one quiet banner. `key` is what the page remembers so a banner shows once. Never on Saturday. */
+/** Records set today that deserve their one quiet banner. `key` is what the page remembers so a banner shows once. Never on Saturday (the page also holds every banner while the Sabbath is on). */
 function newRecords(rec, today) {
   var out = [];
-  if (isSabbath(today) || !rec) return out;
+  if (isSabbathDay(today) || !rec) return out;
   var m = rec.mostClosedDay, b = rec.bestWeek, s = rec.longestStreak;
   if (m && m.n >= RECORD_FLOORS.closedInDay && m.on === today) out.push({ key: 'closed:' + today, text: 'New course record: ' + m.n + ' tickets closed in a day' });
   if (b && b.points >= RECORD_FLOORS.weekPoints && b.on === today) out.push({ key: 'week:' + b.weekOf, text: 'New course record: best week, ' + b.points + ' points' });
   if (s && s.days >= RECORD_FLOORS.streakDays && s.on === today) out.push({ key: 'streak:' + today, text: 'New course record: longest streak, ' + s.days + ' working days clean' });
   return out;
 }
-return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR: RUNNER_START_HOUR, RUNNER_END_HOUR: RUNNER_END_HOUR, POINTS: POINTS, OPEN_STATUSES: OPEN_STATUSES, RECORD_FLOORS: RECORD_FLOORS, pacificDate: pacificDate, dayOfWeek: dayOfWeek, addDays: addDays, isSabbath: isSabbath, weekStart: weekStart, isRunnerTime: isRunnerTime, runnerMinutes: runnerMinutes, addRunnerMinutes: addRunnerMinutes, fmtWait: fmtWait, clip: clip, slaTitle: slaTitle, pickupAt: pickupAt, failDeadline: failDeadline, failedAt: failedAt, slaState: slaState, slaFindings: slaFindings, ticketScore: ticketScore, buildGame: buildGame, mergeRecords: mergeRecords, newRecords: newRecords };
+return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR: RUNNER_START_HOUR, RUNNER_END_HOUR: RUNNER_END_HOUR, POINTS: POINTS, OPEN_STATUSES: OPEN_STATUSES, RECORD_FLOORS: RECORD_FLOORS, pacificDate: pacificDate, dayOfWeek: dayOfWeek, addDays: addDays, weekStart: weekStart, SABBATH_PLACES: SABBATH_PLACES, sabbathPlace: sabbathPlace, sunsetAt: sunsetAt, sabbathWindow: sabbathWindow, isSabbathAt: isSabbathAt, isSabbathDay: isSabbathDay, isRunnerTime: isRunnerTime, runnerMinutes: runnerMinutes, addRunnerMinutes: addRunnerMinutes, fmtWait: fmtWait, clip: clip, slaTitle: slaTitle, pickupAt: pickupAt, failDeadline: failDeadline, failedAt: failedAt, slaState: slaState, slaFindings: slaFindings, ticketScore: ticketScore, buildGame: buildGame, mergeRecords: mergeRecords, newRecords: newRecords };
 })();
 /* GAME-CORE:END */
 
@@ -904,7 +1145,11 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     { id: 'round-table', name: 'Round Table', url: 'https://claude.ai/artifact/DTXbu7B6F3B2s8NEnmYdCE' },
     { id: 'staffing-doc', name: 'Eden Staffing doc', url: 'https://docs.google.com/document/d/1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I/edit' }
   ];
-  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['round-table', 'hub'], host: ['eden-desk', 'hub'], tally: ['cash-pulse', 'quickbooks', 'gusto', 'hub'], docket: ['cash-pulse', 'quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'], pm: ['staffing-doc', 'hub'] };
+  /* Kev, 23 Oct: every agent has its own Claude Code session (full skills, files and history). Desk buttons and the org chart open it.
+     Mirrors projects/virtual-office/sessions.json; live `sessions/{agent}` docs override. */
+  var DEFAULT_SESSIONS = {"radar":"https://claude.ai/code/session_012ech5hw2f8wh5988FWa92Z","host":"https://claude.ai/code/session_01HWXpQMMCrS1aHrLGE4iPN9","scout":"https://claude.ai/code/session_019m7KAzB12uW2aRsT2iVTsa","dean":"https://claude.ai/code/session_01VTzuVbujV9WkkNEL1uTxC3","q":"https://claude.ai/code/session_01NaV6afr4cxChSyMxf4QjCS","pm":"https://claude.ai/code/session_01NmQm57E8JzXPM5yhiivmWp","tally":"https://claude.ai/code/session_01QjJJfHL3pbHoRFQYyP5gRj","docket":"https://claude.ai/code/session_01LKexcLmbP1uHLF2QuAEEJK","atlas":"https://claude.ai/code/session_019WiV7BNnqiAwEFE1fid2qq","housing-architect":"https://claude.ai/code/session_01DrdWBy2LzD2hVrTfxgF2wL","keys":"https://claude.ai/code/session_01YT6ywzc4eEs4VZMxo8Dhkf","hale":"https://claude.ai/code/session_01QfufmucSF1Kvw417paHgCT","jethro":"https://claude.ai/code/session_019kpA2jTPA59tgNxwEQLsbp","barnabas":"https://claude.ai/code/session_01Bb8T7ZJX5HwgGEhww9MN5P","casey":"https://claude.ai/code/session_01Ep3HKBB1EzzeBw8Zh2Ndks"};
+  function sessionUrl(id) { var x = S.sessions && S.sessions[id]; return (x && x.url) || DEFAULT_SESSIONS[id] || null; }
+  var AGENT_TOOLS = { radar: ['eden-daily', 'day-board', 'eden-desk', 'ledger', 'hub'], scout: ['hub'], q: ['workshop', 'hub'], dean: ['round-table', 'hub'], host: ['eden-desk', 'hub'], tally: ['cash-pulse', 'quickbooks', 'gusto', 'hub'], docket: ['cash-pulse', 'quickbooks'], atlas: ['atlas-desk'], 'housing-architect': ['marlowe-desk'], keys: ['eden-desk'], hale: ['eden-desk'], jethro: ['eden-desk'], barnabas: ['eden-desk'], pm: ['staffing-doc', 'hub'], casey: ['hub', 'crelate'] };
   var BENCH_TOOLS = { recruiting: ['round-table', 'hub'], depth: ['round-table', 'hub'], revenue: ['cash-pulse', 'hub', 'quickbooks'], university: ['hub'], finance: ['cash-pulse', 'quickbooks', 'gusto', 'hub'], client: ['hub', 'cloudtalk', 'crelate'], family: ['atlas-desk', 'marlowe-desk'], projects: ['staffing-doc', 'hub'] };
   /* Bench skeletons: the floor always has its benches; docs in `benches/` fill in the figures. */
   var BENCH_DEFS = [
@@ -913,12 +1158,12 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     { id: 'finance', zone: 'fin', title: 'Finance', sub: 'Cash · invoices · P&L · payroll', owner: 'Tally', sensitive: true, cls: 'bench' },
     { id: 'depth', zone: 'ppl', title: 'Hiring ramp', sub: 'Depth chart · onboarding · PDF scorecards via Upload', owner: 'Dean', sensitive: true, cls: 'bench priv' },
     { id: 'university', zone: 'ppl', title: 'Eden University', sub: 'Tracks · Wednesday training', owner: 'Dean', sensitive: false, cls: 'bench' },
-    { id: 'client', zone: 'cli', title: 'Client work', sub: 'Depth charts · leads · phones', owner: 'Radar', sensitive: false, cls: 'bench' },
+    { id: 'client', zone: 'cli', title: 'Client work', sub: 'Job orders · depth charts · leads', owner: 'Casey', sensitive: false, cls: 'bench' },
     { id: 'projects', zone: 'spx', title: 'Eden Staffing · with Nick', sub: 'Temp staffing launch · deliverables', owner: 'Pam', sensitive: false, cls: 'bench' },
     { id: 'family', zone: 'fam', title: 'Home list', sub: 'KDTW Group · family office', owner: 'Radar', sensitive: true, cls: 'bench' }
   ];
 
-  var S = { live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, tools: {}, logs: {}, chats: {}, assets: null, photo: null, pending: null, sample: null, meta: null, records: null, sound: true, lineSeen: null, today: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
+  var S = { sessions: {}, live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, tools: {}, logs: {}, chats: {}, assets: null, photo: null, pending: null, sample: null, meta: null, records: null, sound: true, lineSeen: null, today: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
   var lastFrom = null;
 
   /* ---------- helpers ---------- */
@@ -965,7 +1210,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     Object.keys(S.alerts).forEach(function (k) {
       var a = S.alerts[k]; if (a.agent !== id || a.kind === 'sla' || (S.share && (a.sensitive || sensitiveAgent(a.agent)))) return;   // SLA alerts are recomputed live below, so they are never an hour stale
       if (acted(a.id)) return;                             // Kev marked it done, moved it to follow-up, or snoozed it
-      var seen = isSeen(a.id);
+      var seen = isSeen(a.id) && !(a.light === 'urgent' && Date.now() - t(S.seen[a.id].at) > DAY);   // a seen red comes back to the top of the list after a day (Kev, 26 Oct)
       if (seen && a.light !== 'urgent') return;           // seen clears everything but red; red holds steady until the source resolves
       var rel = a.link ? null : relatedTicket(a);
       out.push({ light: a.light, title: a.title, raisedAt: a.raisedAt, seen: seen, key: a.id, needsKev: a.needsKev, link: a.link || (rel && rel.result && rel.result.link) || null, preview: a.preview, rank: a.rank, why: a.why, kind: a.kind, proposed: a.proposed || null, agent: id, found: rel && rel.result && rel.result.summary ? { text: rel.result.summary, from: rel.id } : null });
@@ -976,7 +1221,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       if (f) out.push({ light: f.state === 'fail' ? 'urgent' : 'blocked', title: Game.slaTitle(f.state, f.minutes, tk.ask), raisedAt: new Date(f.since).toISOString(), key: 'sla-' + f.state + '-' + tk.id, needsKev: false, agent: id, kind: 'sla', seen: false });
       var key = 'ticket-' + tk.id + '-' + tk.status;
       if (acted(key)) return;
-      if ((tk.status === 'blocked' || tk.status === 'gated') && !isSeen(key)) out.push({ light: 'blocked', title: 'Ticket needs you: ' + tk.ask, raisedAt: tk.updatedAt || tk.createdAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
+      // Kev, 26 Oct: a gated or blocked ticket stays on its desk until he taps Done or Follow up; Seen only quiets the strip (it was on the line with no way to close it).
+      if (tk.status === 'blocked' || tk.status === 'gated') out.push({ light: 'blocked', title: 'Ticket needs you: ' + tk.ask, raisedAt: tk.updatedAt || tk.createdAt, key: key, needsKev: true, agent: id, seen: isSeen(key), link: tk.result && tk.result.link });
       if (tk.status === 'done' && !isSeen(key)) out.push({ light: 'review', title: 'Ticket done: ' + tk.ask, raisedAt: tk.doneAt || tk.updatedAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
     });
     return out;
@@ -993,10 +1239,20 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     return tks.filter(function (x) { var d = t(x.doneAt || x.updatedAt); return x.lever !== 'status' && d && Math.abs(d - at) < DAY; })
       .sort(function (x, y) { return Math.abs(t(x.doneAt || x.updatedAt) - at) - Math.abs(t(y.doneAt || y.updatedAt) - at); })[0] || null;
   }
+  /* Heard from: the later of the sync's lastHeard and the agent's latest ticket activity on this page (Kev, 26 Oct: "why do they all say
+     stale"). The sync can lag an hour or a day; a ticket closed this morning on the feed means the desk was heard this morning. */
+  function heardAt(a) {
+    var best = t(a.lastHeard) || 0, now = Date.now();
+    Object.keys(S.tickets).forEach(function (k) {
+      var x = S.tickets[k]; if (x.agent !== a.id) return;
+      [x.createdAt, x.pickedAt, x.doneAt, x.updatedAt].forEach(function (v) { var m = t(v); if (m && m <= now && m > best) best = m; });
+    });
+    return best ? new Date(best).toISOString() : null;
+  }
   function workingState(a) {
     var ticket = Object.keys(S.tickets).some(function (k) { var x = S.tickets[k]; return x.agent === a.id && (x.status === 'picked' || x.status === 'working') && Date.now() - t(x.pickedAt || x.createdAt) < 6 * HOUR; });
     var claims = (a.counts && a.counts.working > 0) || ticket;
-    var fresh = Date.now() - t(a.lastHeard) <= WORKING_FRESH_H * HOUR;
+    var fresh = Date.now() - t(heardAt(a)) <= WORKING_FRESH_H * HOUR;
     return { on: claims && (fresh || ticket), stale: claims && !fresh && !ticket };
   }
   function effective(a) {
@@ -1011,7 +1267,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       return !i.seen && i.light === light && t(i.raisedAt) > lookedAt && Date.now() < Math.max(t(i.raisedAt), loadedAt) + BLINK_CAP_MIN * MIN;
     });
     var others = 0; ORDER.forEach(function (l) { if (l !== light && l !== 'idle') others += counts[l]; });
-    var silent = !!a.lastHeard && Date.now() - t(a.lastHeard) > (a.expectedEveryHours || 96) * HOUR;
+    var heard = heardAt(a), silent = !!heard && Date.now() - t(heard) > (a.expectedEveryHours || 96) * HOUR;
     return { light: light, counts: counts, others: others, held: blinkable && !blink, stale: w.stale || silent, staleWhy: w.stale ? 'Said it was working but has not been heard from in ' + WORKING_FRESH_H + ' hours' : 'Quiet past its usual rhythm', items: items };
   }
   function allItems() {
@@ -1021,7 +1277,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   }
 
   /* ---------- the game: one team score (Kev, Radar and the agents), the board, the line ----------
-     Guardrails: no guilt copy, no fake urgency, no notification spam, nothing on Saturday, and a ticket's real content is never hidden or shortened.
+     Guardrails: no guilt copy, no fake urgency, no notification spam, nothing on the Sabbath (Friday sunset to Saturday sunset), and a ticket's real content is never hidden or shortened.
      Everything below is recomputed from the tickets and actions collections on every render, so it can never drift from the data. */
   var memo = null;
   function vals(o) { return Object.keys(o).map(function (k) { return o[k]; }); }
@@ -1045,10 +1301,22 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   }
   function syncWarn() { return S.live && S.meta && Date.now() - t(S.meta.syncedAt) > 2 * HOUR; }    // amber after two hours
 
-  function cell(k, v, s, cls, id) {
+  /* Kev, 27 Oct: "can we make this board clickable? 1 Fail - how do i look at that and autopsy that?" Every count opens its breakdown. */
+  var CARD_OF = { 'Points today': 'points', 'Closed today': 'closed', 'Open now': 'open', 'Oldest waiting': 'open', 'FAILs today': 'fails', 'Median pickup': 'pickup', 'Streak': 'fails' };
+  function cell(k, v, s, cls, id, go) {
     var vv = h('b', { class: 'v' }); if (typeof v === 'string' || typeof v === 'number') vv.textContent = String(v); else if (v) vv.appendChild(v);
     if (id) vv.id = id;
-    return h('div', { class: 'cell' + (cls ? ' ' + cls : '') }, h('span', { class: 'k', text: k }), vv, h('span', { class: 's', text: s || '' }));
+    var c = h('div', { class: 'cell' + (cls ? ' ' + cls : '') }, h('span', { class: 'k', text: k }), vv, h('span', { class: 's', text: s || '' }));
+    var card = CARD_OF[k];
+    if (card) { c.setAttribute('data-card', card); if (go) c.setAttribute('data-goto', go); c.setAttribute('role', 'button'); c.setAttribute('tabindex', '0'); c.setAttribute('aria-label', k + ': ' + vv.textContent + '. Open the breakdown.'); }
+    return c;
+  }
+  /* a board count is a door: scroll to the line and put focus on the ticket it counts */
+  function goBoard(sel) {
+    var line = $('#line'), card = sel && sel !== '#line' ? $(sel) : $('#tks .tk'), smooth = !reduced.matches && !root.classList.contains('still');
+    (card || line).scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: card ? 'center' : 'start' });
+    line.classList.remove('ping'); void line.offsetWidth; line.classList.add('ping'); setTimeout(function () { line.classList.remove('ping'); }, 1300);
+    if (card) { card.classList.add('ping'); setTimeout(function () { card.classList.remove('ping'); }, 1600); try { card.focus({ preventScroll: true }); } catch (e) { card.focus(); } }
   }
   var lastPts = null;
   function renderBoard() {
@@ -1056,8 +1324,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     sb.textContent = syncText(); sb.className = 'sync' + (syncWarn() ? ' warn' : '');
     grid.textContent = '';
     if (g.sabbath) {
-      var nx = Game.addRunnerMinutes(Date.now(), 0);
-      grid.appendChild(h('div', { class: 'board-rest', style: 'grid-column:1/-1' }, h('b', { text: 'Sabbath · the board rests' }), h('span', { class: 's', style: 'font:500 11px/1.5 var(--mono);color:var(--bd-mute)', text: 'Nothing is counted today. The streak holds at ' + g.streak + '. The runner is back ' + new Date(nx).toLocaleDateString('en-US', { weekday: 'long' }) + ' at ' + clockLabel(nx) + '.' })));
+      var nx = Game.addRunnerMinutes(Date.now(), 0), sw = Game.sabbathWindow(Date.now());
+      grid.appendChild(h('div', { class: 'board-rest', style: 'grid-column:1/-1' }, h('b', { text: 'Sabbath · the board rests' }), h('span', { class: 's', style: 'font:500 11px/1.5 var(--mono);color:var(--bd-mute)', text: 'Friday sunset to Saturday sunset: nothing is counted. The streak holds at ' + g.streak + '. The Sabbath ends at sundown, ' + clockLabel(sw.end) + ' Saturday; the runner is back ' + new Date(nx).toLocaleDateString('en-US', { weekday: 'long' }) + ' at ' + clockLabel(nx) + '.' })));
       note.textContent = 'Open tickets are still listed below, in full.'; $('#lb').hidden = true; lastPts = null; return;
     }
     $('#lb').hidden = false;
@@ -1067,13 +1335,13 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     if (lastPts !== null && day.points > lastPts) pts.className += ' bump';
     lastPts = day.points; grid.appendChild(pts);
     grid.appendChild(cell('Closed today', day.closed, "Kev's moves: " + (day.kev + day.qc)));
-    grid.appendChild(cell('Open now', g.openNow, openWait + ' waiting for pickup'));
+    grid.appendChild(cell('Open now', g.openNow, openWait + ' waiting for pickup', '', null, g.openNow ? '#line' : null));
     var o = g.oldest, oc = '', sec = 0, who = '—';
     if (o) { sec = waitedSec(t(o.createdAt), Date.now()); who = (S.share && sensitiveAgent(o.agent) ? 'Private desk' : nameOf(o.agent)) + ' · filed ' + clockLabel(t(o.createdAt)); oc = sec > 60 * 60 ? 'bad' : sec > 45 * 60 ? 'warn' : ''; }
-    var oc2 = cell('Oldest waiting', o ? hms(sec) : '—', o ? who + (Game.isRunnerTime(Date.now()) ? '' : ' · clock paused') : 'Nothing waiting', oc, 'b-oldest');
+    var oc2 = cell('Oldest waiting', o ? hms(sec) : '—', o ? who + (Game.isRunnerTime(Date.now()) ? '' : ' · clock paused') : 'Nothing waiting', oc, 'b-oldest', o && !(S.share && sensitiveAgent(o.agent)) ? '.tk[data-tk="' + o.id + '"]' : null);
     if (o) oc2.querySelector('.v').setAttribute('data-from', String(t(o.createdAt)));
     grid.appendChild(oc2);
-    grid.appendChild(cell('FAILs today', day.fails, day.fails ? '−3 each · picked up after 60 min' : 'Ticket open past 60 min', day.fails ? 'bad' : ''));
+    grid.appendChild(cell('FAILs today', day.fails, day.fails ? '−3 each · picked up after 60 min' : 'Ticket open past 60 min', day.fails ? 'bad' : '', null, $('#tks .tk.fail') || Object.keys(d.sla).some(function (k) { return d.sla[k].state === 'fail'; }) ? '.tk.fail' : null));
     var mp = g.medianPickupMin;
     grid.appendChild(cell('Median pickup', mp == null ? '—' : Math.round(mp), 'minutes, this week · goal under 60', ''));
     grid.appendChild(cell('Streak', g.streak, 'working days, no FAIL'));
@@ -1122,7 +1390,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var b = h('button', { class: 'tk held' + (st !== 'ok' ? ' ' + st : ''), type: 'button', 'data-tk': tk.id, 'data-tk-agent': tk.agent });
     b.appendChild(tkTop(tk, st, light));
     b.appendChild(h('span', { class: 'tk-ask', text: tk.ask || '' }));
-    b.appendChild(h('span', { class: 'tk-meta', text: (tk.createdAt ? 'Filed ' + clockLabel(t(tk.createdAt)) + ' · ' : '') + (tk.priority || 'today') + (tk.status === 'gated' && tk.proposed ? ' · waiting on your Approve' : '') + (f && f.state === 'fail' ? ' · the 60 minutes ran out ' + ago(new Date(f.since).toISOString()) : '') }));
+    b.appendChild(h('span', { class: 'tk-meta', text: (tk.createdAt ? 'Filed ' + clockLabel(t(tk.createdAt)) + ' · ' : '') + (tk.priority || 'today') + (tk.status === 'gated' && tk.proposed ? ' · waiting on your Approve' : '') + (acted('ticket-' + tk.id + '-' + tk.status) && (S.actions['ticket-' + tk.id + '-' + tk.status] || {}).action === 'done' ? ' · you closed it, Radar files it next sweep' : (tk.status === 'gated' || tk.status === 'blocked') ? ' · tap to close it on the desk' : '') + (f && f.state === 'fail' ? ' · the 60 minutes ran out ' + ago(new Date(f.since).toISOString()) : '') }));
     return b;
   }
   var AC = null;
@@ -1151,14 +1419,14 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   }
   function renderLine() {
     var d = derived(), box = $('#tks'), clear = $('#clear'), prevFocus = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute('data-tk');
-    var all = vals(S.tickets).filter(function (x) { return Game.OPEN_STATUSES.indexOf(x.status) >= 0; }), list = all.filter(function (x) { return !ticketHidden(x); });
+    var all = vals(S.tickets).filter(function (x) { return Game.OPEN_STATUSES.indexOf(x.status) >= 0 && !kevClosed(x); }), list = all.filter(function (x) { return !ticketHidden(x); });
     var rank = function (x) { var f = d.sla[x.id]; return f ? (f.state === 'fail' ? 0 : 1) : 2; };
     list.sort(function (a, b) { return (rank(a) - rank(b)) || (t(a.createdAt) - t(b.createdAt)); });
     box.textContent = ''; list.forEach(function (x) { box.appendChild(tkCard(x, d)); });
     if (prevFocus) { var back = $('.tk[data-tk="' + prevFocus + '"]'); if (back) back.focus(); }
     var waiting = list.filter(function (x) { return x.status === 'open'; }).length, priv = all.length - list.length;
     $('#line-count').textContent = list.length ? list.length + ' open' + (waiting ? ' · ' + waiting + ' waiting for pickup' : '') + (priv ? ' · ' + priv + ' private' : '') : '';
-    // a ticket that left the line as `done` since the last render closes with a stamp and a click (never on Saturday)
+    // a ticket that left the line as `done` since the last render closes with a stamp and a click (never on the Sabbath)
     var seen = {}; list.forEach(function (x) { seen[x.id] = x; });
     if (S.lineSeen && !d.game.sabbath) Object.keys(S.lineSeen).forEach(function (id) { var x = S.tickets[id]; if (!seen[id] && x && x.status === 'done' && !ticketHidden(x)) closeGhost(x); });
     S.lineSeen = seen;
@@ -1243,7 +1511,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   function nextWorkday(d) { var x = new Date(d); do { x.setDate(x.getDate() + 1); } while (x.getDay() === 6); return x; }   // never wakes on the Sabbath
   function snoozeOptions() {
     var now = new Date(), opts = [['1 hour', new Date(now.getTime() + HOUR)]];
-    var co = at(now, 17, 30); if (co - now > HOUR) opts.push(['Till check-out 5:30', co]);
+    var co = at(now, 17, 30); if (co - now > HOUR && !Game.isSabbathAt(co.getTime())) opts.push(['Till check-out 5:30', co]);   // no 5:30 wake inside a Friday Sabbath
     opts.push(['Tomorrow 7am', at(nextWorkday(now), 7)]);
     var mon = new Date(now); mon.setDate(mon.getDate() + ((8 - mon.getDay()) % 7 || 7)); opts.push(['Monday 7am', at(mon, 7)]);
     return opts;
@@ -1302,7 +1570,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var rank = { urgent: 0, reply: 1, review: 2, blocked: 3 };
     var every = allItems().filter(function (i) { return i.needsKev && !i.seen && rank[i.light] !== undefined && i.key !== bannerKey; })
       .sort(function (a, b) { return (rank[a.light] - rank[b.light]) || (t(a.raisedAt) - t(b.raisedAt)); });
-    var items = every.filter(function (i) { return inFocusAgent(i.agent); }), heldN = every.length - items.length, L = laneOf(S.focus);
+    var items = every.filter(function (i) { return i.light === 'urgent' || inFocusAgent(i.agent); }), heldN = every.length - items.length, L = laneOf(S.focus);   // red always comes through a focus lane (Kev, 26 Oct)
     $('.strip-h .eyebrow').textContent = L ? 'Needs Kev · ' + L.name.toLowerCase() + ' only' + (heldN ? ' · ' + heldN + ' held' : '') : 'Needs Kev · ranked · three at most';
     if (!items.length) ol.appendChild(h('li', null, h('button', { class: 'smain', disabled: 'disabled' }, h('span'), h('span', { class: 'who', text: 'Clear' }), h('span', { class: 'what', text: L ? 'Nothing in this lane needs you. Head down.' : 'Nothing needs you.' }))));
     items.slice(0, 3).forEach(function (i) {
@@ -1320,9 +1588,9 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
 
   /* ---------- the floor ---------- */
   var ZONE_OF = { radar: 'rad', recruiting: 'rec', finance: 'fin', family: 'fam', other: 'rec' };
-  var AGENT_ORDER = ['scout', 'dean', 'q', 'pm', 'tally', 'docket', 'host', 'atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];
+  var AGENT_ORDER = ['scout', 'casey', 'dean', 'q', 'pm', 'tally', 'docket', 'host', 'atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];
   var WING = ['atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];   // the KDTW wing: private, closes whole under Screen share
-  var SEAT = { q: 'rec', host: 'fin', pm: 'spx' };   // pm: the special projects PM, Kev 21 Oct; side projects inside EPG, reports to Radar
+  var SEAT = { q: 'rec', host: 'fin', pm: 'spx', casey: 'cli' };   // casey: Client Care Manager, Kev 23 Oct: a desk in Client work, over the job-order board   // pm: the special projects PM, Kev 21 Oct; side projects inside EPG, reports to Radar
     // Kev, 21 Oct: Q takes Host's old seat on the recruiting desk; Jenny (host) sits by Docket
   function zoneOf(a) { return SEAT[a.id] || (WING.indexOf(a.id) >= 0 ? 'fam' : (ZONE_OF[a.desk] || 'rec')); }
   function isDusk() { var d = new Date(), x = d.getHours() + d.getMinutes() / 60; return !(x >= 7.5 && x <= 18.5); }
@@ -1340,7 +1608,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     btn.appendChild(h('span', { class: 'task', text: hide ? '' : (a.task || (light === 'idle' ? 'No task posted' : '')) }));
     var right = h('span'); var p = hide ? null : papers(a.openTickets || 0); if (p) right.appendChild(p);
     if (!hide && e.stale) right.appendChild(h('span', { class: 'stale', title: e.staleWhy, text: 'Stale' })), right.appendChild(document.createTextNode(' '));
-    if (!hide) right.appendChild(document.createTextNode(short(a.lastHeard)));
+    if (!hide) right.appendChild(document.createTextNode(short(heardAt(a))));
     btn.appendChild(h('span', { class: 'meta' }, h('span', { class: 'st', text: word }), right));
     return btn;
   }
@@ -1381,7 +1649,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   function renderFloor() {
     var focus = document.activeElement && (document.activeElement.getAttribute('data-id') || document.activeElement.getAttribute('data-bench'));
     var focusIsBench = document.activeElement && document.activeElement.hasAttribute('data-bench');
-    ['rec', 'fin', 'fam', 'spx'].forEach(function (z) { $('#d-' + z).textContent = ''; });
+    ['rec', 'fin', 'fam', 'spx', 'cli'].forEach(function (z) { $('#d-' + z).textContent = ''; });
     var list = Object.keys(S.agents).map(function (k) { return S.agents[k]; }).filter(function (a) { return a.id !== 'radar'; })
       .sort(function (x, y) { var i = AGENT_ORDER.indexOf(x.id), j = AGENT_ORDER.indexOf(y.id); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j); });
     list.forEach(function (a) { var z = zoneOf(a); if (z === 'rad') z = 'rec'; var box = $('#d-' + z); if (box) box.appendChild(deskEl(a)); });
@@ -1392,14 +1660,14 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       var door = h('a', { class: 'bench', href: rt.url, target: '_blank', rel: 'noopener', 'data-fb': 'round-table' }, h('b', { text: 'Round Table' }), h('span', { text: 'Scorecards · coaching · goals · Kev only' }));
       door.addEventListener('click', function () { markSeen('open-' + rt.id); }); $('#b-ppl').appendChild(door); } }
     if (focus) { var back = focusIsBench ? $('[data-bench="' + focus + '"]') : $('.desk[data-id="' + focus + '"]'); if (back && back !== document.activeElement && !S.sheet) back.focus(); }
-    applyFocus(); phaseLock(); drawNotes();
+    applyFocus(); phaseLock(); drawNotes(); drawFlow();
   }
 
   /* ---------- focus: Recruit mode (a preset, no timer) and Deep work (pick a lane or one desk, optional timer) ---------- */
   function lanes() {
     return {
-      recruiting: { name: 'Recruiting', agents: ['scout', 'dean', 'q', 'host'], benches: ['recruiting', 'depth', 'client', 'round-table'], tools: ['crelate', 'cloudtalk', 'round-table', 'hub'] },
-      client: { name: 'Client delivery', agents: ['scout', 'host'], benches: ['client'], tools: ['hub', 'cloudtalk', 'crelate'] },
+      recruiting: { name: 'Recruiting', agents: ['scout', 'casey', 'dean', 'q', 'host'], benches: ['recruiting', 'depth', 'client', 'round-table'], tools: ['crelate', 'cloudtalk', 'round-table', 'hub'] },
+      client: { name: 'Client delivery', agents: ['casey', 'scout', 'host'], benches: ['client'], tools: ['hub', 'cloudtalk', 'crelate'] },
       people: { name: 'People and hiring', agents: ['dean'], benches: ['depth', 'university', 'round-table'], tools: ['round-table', 'hub'] },
       money: { name: 'Revenue and finance', agents: ['tally', 'docket'], benches: ['revenue', 'finance'], tools: ['cash-pulse', 'quickbooks', 'gusto', 'hub'], sensitive: true },
       projects: { name: 'Special projects', agents: ['pm'], benches: ['projects'], tools: ['staffing-doc', 'hub'] },
@@ -1473,6 +1741,27 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var col = $('#colonnade'); col.textContent = ''; PILLARS.forEach(function (p, i) { col.appendChild(h('i', { class: i === day ? 'today' : '', title: p })); });
     var sun = $('#sun'), lit = x >= 7.5 && x <= 18.5; sun.hidden = !lit;
     if (lit) { var k = (x - 7.5) / 11; sun.style.left = (8 + k * 62) + '%'; sun.style.transform = 'skewX(' + ((k - .5) * -50) + 'deg)'; }
+  }
+  /* A desk is "in conversation" with Radar while it has a ticket moving (open, picked, working) or one touched in the last hour.
+     Fresh traffic (under 15 minutes) glows a little brighter. Never on a hidden desk, never under Screen share for the wing. */
+  function drawFlow() {
+    var svg = $('#flow'); if (!svg) return; svg.textContent = '';
+    if (innerWidth <= 820 || S.sheet) return;
+    var NS = 'http://www.w3.org/2000/svg', fl = $('#floor').getBoundingClientRect(), rdEl = $('#radar'); if (!rdEl) return;
+    var c = function (el) { var r = el.getBoundingClientRect(); return [r.left - fl.left + r.width / 2, r.top - fl.top + r.height / 2]; };
+    var rd = c(rdEl), now = Date.now(), by = {};
+    vals(S.tickets).forEach(function (x) {
+      if (!x.agent || x.agent === 'radar' || ticketHidden(x)) return;
+      var at = t(x.updatedAt || x.createdAt), moving = ['open', 'picked', 'working'].indexOf(x.status) >= 0;
+      if (!moving && now - at > HOUR) return;
+      var cur = by[x.agent]; if (!cur || at > cur.at) by[x.agent] = { at: at, cls: fromOf(x).cls };
+    });
+    Object.keys(by).forEach(function (id) {
+      var d = $('.desk[data-id="' + id + '"]'); if (!d || !d.offsetParent) return;
+      var p2 = c(d), fresh = now - by[id].at < 15 * MIN, cls = by[id].cls;
+      var l = document.createElementNS(NS, 'line'); l.setAttribute('x1', rd[0]); l.setAttribute('y1', rd[1]); l.setAttribute('x2', p2[0]); l.setAttribute('y2', p2[1]); l.setAttribute('class', cls); l.setAttribute('opacity', fresh ? '.6' : '.3'); svg.appendChild(l);
+      var dot = document.createElementNS(NS, 'circle'); dot.setAttribute('cx', p2[0]); dot.setAttribute('cy', p2[1] - d.getBoundingClientRect().height / 2); dot.setAttribute('r', '3'); dot.setAttribute('class', cls); svg.appendChild(dot);
+    });
   }
   function drawNotes() {
     var svg = $('#lines'), on = document.documentElement.classList.contains('notes') && innerWidth > 820; svg.textContent = '';
@@ -1557,11 +1846,11 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     lines.push('You are ' + a.name + ', ' + (a.role || 'an AI employee') + ', one of the AI employees working for Kev Williams (Eden Executive Search and Eden Partner Group; KDTW Group is the family office).');
     lines.push('This is the quick chat at your desk in Eden Office. Kev pops in for fast decisions and zips back out. Reply in at most four short sentences, plain words, no preamble, no lists unless he asks.');
     lines.push('HOW THE OFFICE WORKS (say this plainly when asked): You are the quick desk version of ' + a.name + '. The full ' + a.name + ' is the same employee run by Radar, the chief of staff, with the files, tools and connectors; Radar runs it on tickets in the hourly weekday sweep (7am to 6pm Pacific) or right away when Kev says "go" in his chat with Radar. Everything Kev says here is saved and Radar reads it every sweep, files his directions into your memory and acts on them, so Kev never repeats himself. Approvals: anything that writes to a live system, spends or publishes waits for Kev\'s Approve tap on the item in the Office, which shows the exact action. "Done" on an item means Kev did it himself: it closes and no agent acts on it, so never treat Done as a go-ahead. A yes in this chat is recorded as his direction; the item still waits for his Approve tap. Drafted emails wait in his Superhuman Drafts and he sends them himself.');
-    lines.push('THE TEAM: Radar (chief of staff, runs everyone), Scout (lead research), Dean (scorecards, Eden University; weekly scorecards are graded on PDF and uploaded through Upload, and Dean files each one to that person’s Round Table folder as the record; each recruiter’s goal is the $25k-per-quarter accelerator, credited by the recruiter and split columns of the Hub Rev Report, with annual totals tracked behind the scenes), Q (systems and engineering; cuts friction), Jenny (comms director: inbox, client and candidate writing, travel, events; no exclamation marks in anything she writes; travel defaults to the cheapest refundable option), Tally (finance), Docket (contracts and risk, second key on Tally), Pam (projects PM: special projects inside Eden Partner Group, now the Eden Staffing temp-staffing launch with Nick; chases admin deliverables and reports to Radar), Atlas (tutor), Marlowe (architect and designer), Keys (the Vancouver rental), Hale (health), Jethro (growth coach, C12), Barny (spiritual advisor).');
+    lines.push('THE TEAM: Radar (chief of staff, runs everyone), Scout (lead research), Casey (Client Care Manager: the job-order board and depth charts in the Team Hub; turns voice notes into JOs, briefs Scout on new JOs, preps client reviews and drafts follow-ups for Kev), Dean (scorecards, Eden University; weekly scorecards are graded on PDF and uploaded through Upload, and Dean files each one to that person’s Round Table folder as the record; each recruiter’s goal is the $25k-per-quarter accelerator, credited by the recruiter and split columns of the Hub Rev Report, with annual totals tracked behind the scenes), Q (systems and engineering; cuts friction), Jenny (comms director: inbox, client and candidate writing, travel, events; no exclamation marks in anything she writes; travel defaults to the cheapest refundable option), Tally (finance), Docket (contracts and risk, second key on Tally), Pam (projects PM: special projects inside Eden Partner Group, now the Eden Staffing temp-staffing launch with Nick; chases admin deliverables and reports to Radar), Atlas (tutor), Marlowe (architect and designer), Keys (the Vancouver rental), Hale (health), Jethro (growth coach, C12), Barny (spiritual advisor).');
     lines.push('You only know what is below. You cannot see files, email or tools, and you have done no work in this chat, so never say you did, checked or sent anything. You never send, spend or publish. When Kev decides or approves something, restate it as the Direction line and say Radar will queue it; do not ask him to repeat himself or be more specific unless it is genuinely ambiguous. If you do not know something, say so and offer a ticket.');
     lines.push('When Kev gives you a direction or a decision, end with one line: "Direction: <it, in one sentence>". When it needs real work from the full agent, end with one line: "Ticket: <the ask, in one sentence>".');
     lines.push('', 'YOUR DESK RIGHT NOW (from the Office, ' + (S.live ? 'live' : 'example data') + '):');
-    lines.push('Status: ' + WORD[e.light] + (e.stale ? ' (stale)' : '') + '. Task: ' + (a.task || 'none posted') + '. Last heard: ' + ago(a.lastHeard) + '.');
+    lines.push('Status: ' + WORD[e.light] + (e.stale ? ' (stale)' : '') + '. Task: ' + (a.task || 'none posted') + '. Last heard: ' + ago(heardAt(a)) + '.');
     if (e.items.length) lines.push('Needs Kev: ' + e.items.map(function (i) { return i.title; }).join(' | '));
     var naps = snoozedFor(a.id); if (naps.length) lines.push('Kev snoozed these (bring them up whenever he asks what you need or what is open): ' + naps.map(function (x) { return x.title + ' (back ' + untilLabel(x.until) + ')'; }).join(' | '));
     var tk = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id && ['open', 'picked', 'working', 'blocked', 'gated'].indexOf(x.status) >= 0; });
@@ -1573,7 +1862,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       lines.push('Cash flow detail lives in EPG Cash Pulse' + (cp && cp.url ? ' (' + cp.url + ')' : '') + ': bank lines by month, the Q4 cash forecast and Rev Report placements with expected cash dates. If Kev asks for a figure that is not above, say it is not on the floor yet, point him to Cash Pulse, and offer a ticket for Tally to pull it from QuickBooks.');
     }
     if (a.id === 'radar') {
-      lines.push('', 'YOU ARE RADAR IN A REAL CONVERSATION. Kev chose the deep model to think out loud with you. Talk like his chief of staff and battle buddy: result first, plain words, push back when something is off, recommend one option, ask at most one question back. Up to 8 sentences when the topic needs it. Kev is a Christian founder; the Seven Pillars are Righteousness, Winning, Accountability, Discipline, Transparency, Growth, Execution. Saturday is the Sabbath. You can hand any agent a ticket with the make_ticket tool when Kev decides something should happen; say you did. You never send, spend or publish.', '', 'THE WHOLE FLOOR RIGHT NOW:');
+      lines.push('', 'YOU ARE RADAR IN A REAL CONVERSATION. Kev chose the deep model to think out loud with you. Talk like his chief of staff and battle buddy: result first, plain words, push back when something is off, recommend one option, ask at most one question back. Up to 8 sentences when the topic needs it. Kev is a Christian founder; the Seven Pillars are Righteousness, Winning, Accountability, Discipline, Transparency, Growth, Execution. The Sabbath runs Friday sunset to Saturday sunset: anything Kev asks then is held and launched after sundown Saturday. You can hand any agent a ticket with the make_ticket tool when Kev decides something should happen; say you did. You never send, spend or publish.', '', 'THE WHOLE FLOOR RIGHT NOW:');
       Object.keys(S.agents).map(function (k) { return S.agents[k]; }).filter(function (x) { return x.id !== 'radar' && !hidden(x); }).forEach(function (x) {
         var ex = effective(x); lines.push('- ' + x.name + ' (' + (x.role || '') + '): ' + WORD[ex.light] + (ex.stale ? ', stale' : '') + '. Task: ' + (x.task || 'none posted') + '.' + (ex.items.length ? ' Needs Kev: ' + ex.items.slice(0, 8).map(function (i) { return (i.rank != null ? '#' + i.rank + ' ' : '') + i.title; }).join(' | ') : ''));
       });
@@ -1673,14 +1962,53 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     s = m ? m[1] : s;
     return s.length > 72 ? s.slice(0, 71).replace(/\s+\S*$/, '') + '\u2026' : s;
   }
+  /* One post on an agent's feed: who handed it over, when, the ask, the state, and the result once it is back. */
+  var FEED_WORD = { open: 'Waiting', picked: 'Picked up', working: 'Working', blocked: 'Blocked', gated: 'Needs your yes', done: 'Done' };
+  function fromOf(x) { return x.createdBy === 'radar' || /^(radar|runner|radar-chat)$/.test(x.lever || '') ? { who: 'Radar', av: 'R', cls: 'r' } : x.lever === 'session' ? { who: 'Kev · session', av: 'K', cls: 'k' } : { who: 'Kev', av: 'K', cls: 'k' }; }
+  function feedPost(x, a) {
+    var fr = fromOf(x), f = derived().sla[x.id], st = f ? f.state : null;
+    var li = h('li', { class: 'post' + (st ? ' ' + st : '') + (x.status === 'gated' || x.status === 'blocked' ? ' pin' : '') });
+    li.appendChild(h('span', { class: 'av ' + fr.cls, text: fr.av, 'aria-hidden': 'true' }));
+    var pb = h('div', { class: 'pb' }); li.appendChild(pb);
+    pb.appendChild(h('div', { class: 'ph' }, h('b', { text: fr.who }), ' \u2192 ' + a.name + ' · ' + ago(x.updatedAt || x.createdAt), h('span', { class: 'pill p-' + x.status, text: st === 'fail' ? 'FAIL' : st === 'stall' ? 'STALL' : (FEED_WORD[x.status] || x.status) })));
+    var tx = h('p', { class: 'ptext' + (trayOpen[x.id] ? ' open' : ''), text: x.ask || '' });
+    if (String(x.ask || '').length > 220) { tx.title = 'Tap to expand'; tx.addEventListener('click', function () { trayOpen[x.id] = !trayOpen[x.id]; tx.classList.toggle('open', !!trayOpen[x.id]); }); }
+    pb.appendChild(tx);
+    (x.attachments || []).forEach(function (f2) { if (!f2 || !f2.asset) return; if (/^image\//.test(f2.type || 'image/')) pb.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f2.asset, alt: f2.name || 'Photo sent with this ticket' })); else pb.appendChild(h('a', { class: 'mini txt', href: '/_blob/' + f2.asset, target: '_blank', rel: 'noopener', text: (f2.name || 'File') })); });
+    if (x.proposed) pb.appendChild(h('div', { class: 'exact', text: 'Waiting for your Approve (' + x.proposed.kind + '):\n' + x.proposed.exact }));
+    if (x.result && (x.result.summary || x.result.link)) {
+      var rr = h('div', { class: 'presult' }, h('b', { text: x.status === 'done' ? '\u2713 ' : '\u2192 ' }), x.result.summary || '');
+      if (x.result.link) rr.appendChild(h('a', { class: 'mini txt', href: linkUrl(x.result.link), target: '_blank', rel: 'noopener', text: 'Open the result' }));
+      pb.appendChild(rr);
+    }
+    if (x.status === 'gated' || x.status === 'blocked') pb.appendChild(closeControls(x));
+    return li;
+  }
+  /* Kev, 26 Oct: a ticket waiting on him ("Needs your yes", "Blocked") closes from its own post. Done = he handled it himself and no agent
+     carries it out; Follow up sends it back. Both are his taps in the actions collection, which Radar applies next sweep. Never an approve here. */
+  /* Kev, 27 Oct: once he taps Approve, Done or Follow up on a ticket waiting on him, it leaves the open line at once; Radar still applies it next sweep */
+  function kevClosed(x) { if (x.status !== 'gated' && x.status !== 'blocked') return false; var key = 'ticket-' + x.id + '-' + x.status, act = S.actions[key]; return !!act && act.action !== 'snooze' && acted(key); }
+  function closeControls(x) {
+    var key = 'ticket-' + x.id + '-' + x.status, act = S.actions[key], row = h('span', { class: 'sacts', style: 'padding:0;justify-content:flex-start' });
+    if (act && acted(key) && act.action !== 'snooze') {
+      row.appendChild(h('span', { class: 'small', text: (act.action === 'done' ? 'You closed it' : act.action === 'approve' ? 'You approved it' : 'Sent back') + ' ' + ago(act.at) + (act.applied ? ' · Radar applied it' : ' · Radar files it next sweep') }));
+      if (act.action !== 'approve') { var u = h('button', { class: 'mini txt', text: 'Undo', 'data-undo': key }); u.disabled = !S.canWrite; row.appendChild(u); }
+      return row;
+    }
+    var seg = h('span', { class: 'seg', role: 'group', 'aria-label': 'Close this ticket' });
+    var done = h('button', { class: 'mini primary', text: 'Done', title: 'You handled it yourself. The ticket closes and no agent acts on it.', 'data-act': 'done', 'data-key': key }); done.disabled = !S.canWrite;
+    var fu = h('button', { class: 'mini', text: 'Follow up', title: 'Send it back with a question', 'data-act': 'followup', 'data-key': key }); fu.disabled = !S.canWrite;
+    seg.appendChild(done); seg.appendChild(fu); row.appendChild(seg);
+    return row;
+  }
   function deskSheet(p, a) {
     var e = effective(a), hide = hidden(a);
-    p.appendChild(head(a.name, hide ? 'idle' : e.light, (a.role || '') + ' · ' + (hide ? 'Hidden' : stateChip(e.light, e)) + ' · heard ' + short(a.lastHeard)));
+    p.appendChild(head(a.name, hide ? 'idle' : e.light, (a.role || '') + ' · ' + (hide ? 'Hidden' : stateChip(e.light, e)) + ' · heard ' + short(heardAt(a))));
+    var su0 = !hide && sessionUrl(a.id); if (su0) { var hd0 = p.lastChild, sb0 = hd0.querySelector('.stand'); hd0.insertBefore(toolLink({ id: 'session-' + a.id, name: 'Session \u2197', url: su0 }, 'stand sess'), sb0); }
     var body = h('div', { class: 'panel-b' + (a.id === 'host' ? ' wide-tray' : '') }); p.appendChild(body);
     if (hide) { body.className = 'panel-b one'; body.appendChild(h('section', null, h('p', { class: 'small', text: 'Hidden in Screen share mode.' }))); return; }
-    var TRAY_RANK = { gated: 0, blocked: 0, open: 1, picked: 1, working: 1 };
     var mine = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id; })
-      .sort(function (x, y) { var rx = TRAY_RANK[x.status], ry = TRAY_RANK[y.status]; return ((rx == null ? 2 : rx) - (ry == null ? 2 : ry)) || (t(y.createdAt) - t(x.createdAt)); }).slice(0, 8);
+      .sort(function (x, y) { var rx = x.status === 'gated' || x.status === 'blocked' ? 0 : 1, ry = y.status === 'gated' || y.status === 'blocked' ? 0 : 1; return (rx - ry) || (t(y.updatedAt || y.createdAt) - t(x.updatedAt || x.createdAt)); }).slice(0, 12);
     var naps = snoozedFor(a.id);
     var answer = a.id === 'host' ? e.items.filter(function (i) { return i.light === 'reply'; }).sort(function (x, y) { return ((x.rank == null ? 99 : x.rank) - (y.rank == null ? 99 : y.rank)) || (t(x.raisedAt) - t(y.raisedAt)); }) : [];
     var tray = h('section');
@@ -1689,29 +2017,19 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       if (answer.length) answer.forEach(function (i) { tray.appendChild(itemRow(i)); });
       else tray.appendChild(h('p', { class: 'small', text: 'Nothing waiting on your reply. Jenny ranks new ones each sweep, with a draft ready in Superhuman.' }));
     }
-    var th = h('h3', { text: 'In tray · ' + (a.openTickets || 0) + ' open' + (naps.length ? ' · ' + naps.length + ' snoozed' : '') }); if (a.id === 'host') th.className = 'gap'; tray.appendChild(th);
-    var ul = h('ul');
-    mine.forEach(function (x) {
-      // Kev, 22 Oct: tray tickets collapse under a smart title. Waiting on Kev opens by itself; a toggle survives the live re-render.
-      var li = h('li', { class: 'ticket' }), d = h('details', { class: 'tkd' });
-      d.open = trayOpen[x.id] != null ? trayOpen[x.id] : (x.status === 'gated' || x.status === 'blocked');
-      d.addEventListener('toggle', function () { trayOpen[x.id] = d.open; });
-      d.appendChild(h('summary', null, h('span', { class: 'tt', text: smartTitle(x) }), h('small', { text: x.status + ' · ' + x.priority + (x.due ? ' · due ' + x.due : '') + ' · from Kev · ' + ago(x.createdAt) })));
-      d.appendChild(h('p', { class: 'ask', text: x.ask })); li.appendChild(d); li = d;
-      (x.attachments || []).forEach(function (f) { if (!f || !f.asset) return; if (/^image\//.test(f.type || 'image/')) li.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f.asset, alt: f.name || 'Photo sent with this ticket' })); else li.appendChild(h('a', { class: 'mini txt', href: '/_blob/' + f.asset, target: '_blank', rel: 'noopener', text: (f.name || 'File') })); });
-      if (x.result && x.result.summary) li.appendChild(h('small', { text: 'Result: ' + x.result.summary }));
-      if (x.proposed) { li.appendChild(h('div', { class: 'exact', text: 'Exact action waiting for your yes (' + x.proposed.kind + '):\n' + x.proposed.exact })); li.appendChild(h('small', { text: 'Approve it under Needs you; Did it myself if you already handled it.' })); }
-      if (x.result && x.result.link) li.appendChild(h('a', { class: 'mini txt', href: linkUrl(x.result.link), target: '_blank', rel: 'noopener', text: 'Open the result' }));
-      ul.appendChild(li.parentNode);
-    });
+    // Kev, 23 Oct: the tray becomes a feed: the latest work Radar (or Kev) handed this agent, newest first, like a timeline.
+    var openN = mine.filter(function (x) { return x.status !== 'done'; }).length;
+    var th = h('h3', { text: 'Feed · ' + openN + ' open' + (naps.length ? ' · ' + naps.length + ' snoozed' : '') }); if (a.id === 'host') th.className = 'gap'; tray.appendChild(th);
+    var ul = h('ul', { class: 'feed' });
+    mine.forEach(function (x) { ul.appendChild(feedPost(x, a)); });
     naps.forEach(function (x) {
       var wake = h('button', { class: 'mini', text: 'Wake now', 'data-undo': x.key }); wake.disabled = !S.canWrite;
-      ul.appendChild(h('li', { class: 'ticket' }, x.title, h('small', { text: 'Zzz · back ' + untilLabel(x.until) + ' · snoozed ' + ago(x.at) }), wake));
+      ul.appendChild(h('li', { class: 'post' }, h('span', { class: 'av zz', text: 'Z' }), h('div', { class: 'pb' }, h('div', { class: 'ph' }, h('b', { text: 'Snoozed' }), ' · back ' + untilLabel(x.until)), h('p', { class: 'ptext', text: x.title }), wake)));
     });
-    if (!mine.length && !naps.length) ul.appendChild(h('li', { class: 'small', text: 'Nothing open.' }));
+    if (!mine.length && !naps.length) ul.appendChild(h('li', { class: 'small', text: 'Nothing on the feed yet. Work Radar or you hand ' + a.name + ' shows up here.' }));
     tray.appendChild(ul); body.appendChild(tray);
     var blot = h('section', null, h('h3', { text: 'Blotter · now' }), h('p', { class: 'now', text: a.task || 'No task posted' }));
-    if (a.taskSince) blot.appendChild(h('p', { class: 'small', text: 'Since ' + ago(a.taskSince) + ' · last heard ' + ago(a.lastHeard) }));
+    if (a.taskSince) blot.appendChild(h('p', { class: 'small', text: 'Since ' + ago(a.taskSince) + ' · last heard ' + ago(heardAt(a)) }));
     if (e.stale) blot.appendChild(h('p', { class: 'small', text: 'Stale: ' + e.staleWhy + '.' }));
     var need = a.id === 'host' ? e.items.filter(function (i) { return i.light !== 'reply'; }) : e.items;
     if (need.length) { blot.appendChild(h('h3', { text: 'Needs you' })); need.forEach(function (i) { blot.appendChild(itemRow(i)); }); }
@@ -1737,10 +2055,89 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     if (S.assets) { var pb = h('button', { class: 'key', text: 'Upload a file' }); pb.disabled = !S.canWrite; pb.addEventListener('click', function () { pickPhoto(a.id); }); drawer.appendChild(pb); }
     drawer.appendChild(cb); drawer.appendChild(st); drawer.appendChild(ht);
     if (S.formOpen) drawer.appendChild(ticketForm(a.id, false));
-    var gl = h('div', { class: 'golinks' }); toolsFor(AGENT_TOOLS[a.id] || ['eden-desk']).forEach(function (x) { gl.appendChild(toolLink(Object.assign({}, x, { name: 'Open ' + x.name }), 'golink')); }); if (gl.childNodes.length) drawer.appendChild(gl);
+    var gl = h('div', { class: 'golinks' }), su = sessionUrl(a.id);
+    if (su) gl.appendChild(toolLink({ id: 'session-' + a.id, name: 'Work with ' + a.name + ' · session', url: su }, 'golink session'));
+    toolsFor(['org-chart'].concat((AGENT_TOOLS[a.id] || []).filter(function (id) { return id !== 'eden-desk' && id !== 'hub'; }))).forEach(function (x) { gl.appendChild(toolLink(Object.assign({}, x, { name: x.id === 'org-chart' ? 'Go to the org chart' : 'Open ' + x.name }), 'golink')); });
+    drawer.insertBefore(gl, drawer.childNodes[1]);
     drawer.appendChild(h('p', { class: 'small', text: S.flash || 'A ticket is delegation, never approval. You stay accountable; sends, spends and publishing still go through QC with the exact action shown.' }));
     body.appendChild(drawer);
     var cw = h('div', { class: 'panel-b one' }); cw.appendChild(chatSection(a)); p.appendChild(cw);
+  }
+  /* ---------- the board's breakdowns (Kev, 27 Oct): click a count, see the tickets behind it; a FAIL gets an autopsy ---------- */
+  var RUNNER_MINUTE = 43;   // Radar's ticket runner fires at :43 every hour (routine "Radar · Office ticket runner")
+  function nextRunnerPass(ms) { var d = new Date(ms); d.setSeconds(0, 0); var m = d.getMinutes(); d.setMinutes(m <= RUNNER_MINUTE ? RUNNER_MINUTE : 60 + RUNNER_MINUTE); return d.getTime(); }
+  function autopsy(x, now) {
+    var c = t(x.createdAt), dl = Game.failDeadline(x), pk = Game.pickupAt(x), first = nextRunnerPass(c);
+    var steps = [
+      'Filed ' + dateLabel(Game.pacificDate(c)) + ' ' + clockLabel(c) + ' by ' + fromOf(x).who + ' to ' + nameOf(x.agent) + '.',
+      'Clock ran out ' + clockLabel(dl) + ': 60 minutes on the runner clock (6am to 10pm PT, Sunday to Friday).',
+      'First runner pass after filing: ' + clockLabel(first) + '.',
+      pk != null ? 'Picked up ' + clockLabel(pk) + ', ' + Game.fmtWait(Game.runnerMinutes(dl, pk)) + ' after the line.' : 'Still not picked up: ' + Game.fmtWait(Game.runnerMinutes(dl, now)) + ' past the line.'
+    ];
+    var cause;
+    var passes = now >= first ? Math.floor((now - first) / HOUR) + 1 : 0;
+    if (pk == null) cause = 'Never picked up. ' + (passes ? 'The hourly runner has passed it ' + passes + (passes === 1 ? ' time' : ' times') + ' without taking it: check the runner log and the agent’s desk.' : 'The runner has not reached it yet.');
+    else if (pk <= first + 20 * MIN) cause = 'Picked up on the first runner pass, but that pass came after the 60-minute line. The runner is hourly, so a ticket filed soon after :' + RUNNER_MINUTE + ' can only make it if the pass is quick. System cause, not the agent.';
+    else if (pk <= first + HOUR + 20 * MIN) cause = 'Missed the first runner pass at ' + clockLabel(first) + ' and was taken on the next one. Look at the ' + clockLabel(first) + ' run: it skipped this ticket.';
+    else cause = 'Missed ' + Math.floor((pk - first) / HOUR) + ' runner passes. The runner was down or skipping this desk: check the runner log for those hours.';
+    var box = h('div', { class: 'autopsy' });
+    box.appendChild(h('h3', { text: nameOf(x.agent) + ' · ' + Game.clip(x.ask || '', 90) }));
+    var ol = h('ol'); steps.forEach(function (st) { ol.appendChild(h('li', { text: st })); }); box.appendChild(ol);
+    box.appendChild(h('p', { class: 'cause', text: 'Cause: ' + cause }));
+    box.appendChild(h('p', { class: 'small', text: 'Now: ' + (FEED_WORD[x.status] || x.status) + (x.result && x.result.summary ? ' · ' + Game.clip(x.result.summary, 140) : '') }));
+    var acts = h('div', { class: 'acts' });
+    acts.appendChild(h('button', { class: 'mini', 'data-id': x.agent, text: 'Open ' + nameOf(x.agent) + '’s desk' }));
+    var ak = h('button', { class: 'mini primary', 'data-autopsy': x.id, text: 'Ask Radar for the fix' }); ak.disabled = !S.canWrite; acts.appendChild(ak);
+    box.appendChild(acts);
+    return box;
+  }
+  function askAutopsy(id) {
+    var x = S.tickets[id]; if (!x) return;
+    makeTicket({ agent: 'radar', priority: 'today', lever: 'board', ask: 'Autopsy the FAIL on ticket ' + id + ' (' + nameOf(x.agent) + ': ' + Game.clip(x.ask || '', 80) + '). Why was it picked up late, and what change stops it happening again? Report the cause and the fix.' });
+    S.flash = 'Sent to Radar: autopsy on that FAIL.'; S.forceSheet = true; renderAll();
+  }
+  function boardSheet(p, key) {
+    var now = Date.now(), today = Game.pacificDate(now), ws = Game.weekStart(today);
+    var all = vals(S.tickets).filter(function (x) { return !ticketHidden(x); });
+    var TITLES = { points: 'Points today', closed: 'Closed today', open: 'Open now', fails: 'FAILs', pickup: 'Pickups this week' };
+    p.appendChild(head(TITLES[key] || 'The board', null, 'What is behind the number', S.flash || null));
+    var body = h('div', { class: 'panel-b one' }); p.appendChild(body); var sec = h('section'); body.appendChild(sec);
+    function table(rows, cols) {
+      if (!rows.length) { sec.appendChild(h('p', { class: 'small', text: 'Nothing here.' })); return; }
+      var tb = h('table'), hr = h('tr'); cols.forEach(function (c) { hr.appendChild(h('th', { text: c[0] })); }); tb.appendChild(hr);
+      rows.forEach(function (x) { var tr = h('tr'); cols.forEach(function (c) { tr.appendChild(h('td', { text: String(c[1](x)) })); }); tb.appendChild(tr); });
+      sec.appendChild(h('div', { class: 'scroll' }, tb));
+    }
+    if (key === 'fails') {
+      var failed = all.map(function (x) { return { x: x, f: Game.failedAt(x, now) }; }).filter(function (o) { return o.f != null && Game.pacificDate(o.f) >= ws; })
+        .sort(function (a, b) { return b.f - a.f; });
+      var tdy = failed.filter(function (o) { return Game.pacificDate(o.f) === today; }), wk = failed.filter(function (o) { return Game.pacificDate(o.f) !== today; });
+      sec.appendChild(h('h3', { text: 'Today · ' + tdy.length }));
+      if (!tdy.length) sec.appendChild(h('p', { class: 'small', text: 'No FAIL today.' }));
+      tdy.forEach(function (o) { sec.appendChild(autopsy(o.x, now)); });
+      sec.appendChild(h('h3', { text: 'Earlier this week · ' + wk.length }));
+      wk.forEach(function (o) { sec.appendChild(autopsy(o.x, now)); });
+      sec.appendChild(h('p', { class: 'small', text: 'A FAIL is a ticket not picked up within 60 runner minutes of being filed. It stays a FAIL whatever happens after; it costs 3 points and breaks the streak.' }));
+    } else if (key === 'closed' || key === 'points') {
+      var done = all.filter(function (x) { var sc = Game.ticketScore(x); return sc && sc.date === today; });
+      sec.appendChild(h('h3', { text: 'Closed today · ' + done.length }));
+      table(done, [['Desk', function (x) { return nameOf(x.agent); }], ['Ticket', function (x) { return Game.clip(x.ask || '', 70); }], ['Points', function (x) { var sc = Game.ticketScore(x); return sc.points + ' (' + sc.base + (sc.onClock ? ' +1 on time' : '') + (sc.sameDay ? ' +2 same day' : '') + ')'; }]]);
+      if (key === 'points') {
+        var ft = all.filter(function (x) { var f = Game.failedAt(x, now); return f != null && Game.pacificDate(f) === today; });
+        sec.appendChild(h('h3', { text: 'FAILs today · −3 each · ' + ft.length }));
+        table(ft, [['Desk', function (x) { return nameOf(x.agent); }], ['Ticket', function (x) { return Game.clip(x.ask || '', 70); }]]);
+        var kv = vals(S.actions).filter(function (a) { return a && /^(done|followup|approve)$/.test(a.action) && a.at && Game.pacificDate(t(a.at)) === today; });
+        sec.appendChild(h('h3', { text: 'Your moves today · +2 each · ' + kv.length }));
+        table(kv, [['Move', function (a) { return a.action; }], ['On', function (a) { return Game.clip(a.title || '', 80); }], ['At', function (a) { return clockLabel(t(a.at)); }]]);
+      }
+    } else if (key === 'open') {
+      var open = all.filter(function (x) { return Game.OPEN_STATUSES.indexOf(x.status) >= 0 && !kevClosed(x); }).sort(function (a, b) { return t(a.createdAt) - t(b.createdAt); });
+      table(open, [['Desk', function (x) { return nameOf(x.agent); }], ['Ticket', function (x) { return Game.clip(x.ask || '', 70); }], ['Status', function (x) { return FEED_WORD[x.status] || x.status; }], ['Waiting', function (x) { return Game.fmtWait(Game.runnerMinutes(t(x.createdAt), now)); }]]);
+      sec.appendChild(h('button', { class: 'mini', 'data-go': '#line', text: 'Go to the open line' }));
+    } else if (key === 'pickup') {
+      var pk = all.map(function (x) { var q = Game.pickupAt(x); return q != null && Game.pacificDate(q) >= ws ? { x: x, m: Game.runnerMinutes(t(x.createdAt), q) } : null; }).filter(Boolean).sort(function (a, b) { return b.m - a.m; });
+      table(pk, [['Desk', function (o) { return nameOf(o.x.agent); }], ['Ticket', function (o) { return Game.clip(o.x.ask || '', 70); }], ['Pickup', function (o) { return Game.fmtWait(o.m) + (o.m > Game.SLA_PICKUP_MIN ? ' · FAIL' : ''); }]]);
+    }
   }
   function benchSheet(p, def) {
     var doc = S.benches[def.id] || {};
@@ -1807,8 +2204,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       var tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Desk' }), h('th', { text: 'Light' }), h('th', { text: 'On it' }), h('th', { text: 'QC' }), h('th', { text: 'Tickets' }), h('th', { text: 'Heard' }))); var lines = [];
       visibleAgents().forEach(function (a) {
         var e = effective(a);
-        tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', null, h('span', { text: stateChip(e.light, e) })), h('td', { text: a.task || '' }), h('td', { text: String(a.pendingQc || 0) }), h('td', { text: String(a.openTickets || 0) }), h('td', { text: short(a.lastHeard) })));
-        lines.push(a.name + ': ' + stateChip(e.light, e) + (a.task ? ' · ' + a.task : '') + ' · QC ' + (a.pendingQc || 0) + ' · tickets ' + (a.openTickets || 0) + ' · heard ' + short(a.lastHeard));
+        tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', null, h('span', { text: stateChip(e.light, e) })), h('td', { text: a.task || '' }), h('td', { text: String(a.pendingQc || 0) }), h('td', { text: String(a.openTickets || 0) }), h('td', { text: short(heardAt(a)) })));
+        lines.push(a.name + ': ' + stateChip(e.light, e) + (a.task ? ' · ' + a.task : '') + ' · QC ' + (a.pendingQc || 0) + ' · tickets ' + (a.openTickets || 0) + ' · heard ' + short(heardAt(a)));
       });
       sec.appendChild(h('div', { class: 'scroll' }, tb));
       var row = h('div', { class: 'keys' });
@@ -1820,7 +2217,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     } },
     status: { title: 'Status from everyone', build: function (sec) {
       var quiet = [], tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Desk' }), h('th', { text: 'Status' }), h('th', { text: 'Heard' })));
-      visibleAgents().forEach(function (a) { var e = effective(a), old = Date.now() - t(a.lastHeard) > DAY; if (old) quiet.push(a); tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', { text: a.statusLine || a.task || WORD[e.light] }), h('td', { text: ago(a.lastHeard) + (old ? ' (over a day)' : '') }))); });
+      visibleAgents().forEach(function (a) { var e = effective(a), old = Date.now() - t(heardAt(a)) > DAY; if (old) quiet.push(a); tb.appendChild(h('tr', null, h('td', { text: a.name }), h('td', { text: a.statusLine || a.task || WORD[e.light] }), h('td', { text: ago(heardAt(a)) + (old ? ' (over a day)' : '') }))); });
       sec.appendChild(h('p', { class: 'small', text: 'Instant: each desk\'s last posted status. Live roll call: one ticket per desk quiet over a day; each agent answers in three lines (on it, done, blocked on you).' }));
       sec.appendChild(h('div', { class: 'scroll' }, tb));
       var go = h('button', { class: 'key', text: quiet.length ? 'Ask the ' + quiet.length + ' quiet desk' + (quiet.length > 1 ? 's' : '') + ' for status' : 'Everyone has been heard from today' }); go.disabled = !quiet.length || !S.canWrite;
@@ -1956,6 +2353,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var sh = S.sheet, scrollTop = p.scrollTop;
     if (sh.kind === 'desk') { var a = sh.id === 'radar' ? (S.agents.radar || { id: 'radar', name: 'Radar', role: 'Chief of staff' }) : S.agents[sh.id]; if (!a) { S.sheet = null; sheet.hidden = true; return; } deskSheet(p, a); }
     else if (sh.kind === 'bench') { var def = BENCH_DEFS.filter(function (d) { return d.id === sh.id; })[0]; if (!def || (S.share && def.sensitive)) { S.sheet = null; sheet.hidden = true; return; } benchSheet(p, def); }
+    else if (sh.kind === 'board') boardSheet(p, sh.id);
     else leverSheet(p, sh.id);
     p.scrollTop = scrollTop;
     sheet.hidden = false;
@@ -2010,6 +2408,9 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   /* ---------- events ---------- */
   var reduced = matchMedia('(prefers-reduced-motion: reduce)');
   document.addEventListener('click', function (e) {
+    var bc = e.target.closest('[data-card]'); if (bc) { openSheet('board', bc.getAttribute('data-card'), bc); return; }
+    var gb = e.target.closest('[data-go]'); if (gb) { if (S.sheet && S.sheet.kind === 'board') stand(); goBoard(gb.getAttribute('data-go')); return; }
+    var ak = e.target.closest('[data-autopsy]'); if (ak) { askAutopsy(ak.getAttribute('data-autopsy')); return; }
     var sb = e.target.closest('[data-seen]'); if (sb) { markSeen(sb.getAttribute('data-seen')); return; }
     var ab = e.target.closest('[data-act]'); if (ab) { markAction(ab.getAttribute('data-key'), ab.getAttribute('data-act')); return; }
     var ub = e.target.closest('[data-undo]'); if (ub) { undoAction(ub.getAttribute('data-undo')); return; }
@@ -2024,6 +2425,10 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   });
   /* Esc stands up from any desk, bench or lever, even while typing in the chat; captured first so nothing inside the sheet can swallow it */
   window.addEventListener('keydown', function (e) { if ((e.key === 'Escape' || e.key === 'Esc') && S.sheet) { e.preventDefault(); stand(); } }, true);
+  document.addEventListener('keydown', function (e) {
+    var bc = e.target && e.target.closest && e.target.closest('[data-card]'); if (bc && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openSheet('board', bc.getAttribute('data-card'), bc); return; }
+    var gb = e.target && e.target.closest && e.target.closest('[data-go]'); if (gb && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); goBoard(gb.getAttribute('data-go')); }
+  });
   function toggle(btn, apply, key) {
     btn.addEventListener('click', function () {
       var on = btn.getAttribute('aria-pressed') !== 'true'; btn.setAttribute('aria-pressed', String(on)); apply(on);
@@ -2050,7 +2455,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     if (localStorage.getItem('eo-still') === '1') { root.classList.add('still'); $('#sw-still').setAttribute('aria-pressed', 'true'); }
     if (localStorage.getItem('eo-share') === '1') { $('#sw-share').setAttribute('aria-pressed', 'true'); S.share = true; root.classList.add('share'); }
   } catch (x) {}
-  addEventListener('resize', drawNotes);
+  addEventListener('resize', drawNotes); addEventListener('resize', drawFlow);
   $('#sw-recruit').addEventListener('click', function () {
     if (S.focus && S.focus.kind === 'recruit') endFocus(); else startFocus({ lane: 'recruiting', task: '', kind: 'recruit', until: null });
   });
@@ -2116,10 +2521,471 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     }, { refetchInterval: 60000 });
   }
 
+  /* Refresh in place (Kev, 27 Oct: "refreshes the data in place without moving me from where I am"). Every render empties and rebuilds
+     its boxes; the page height collapses for a moment and the browser clamps the scroll, so Kev jumped. Save the window and every inner
+     scroller, rebuild, put them back before the next paint. */
+  var SCROLLERS = ['#panel', '#board-grid', '#lb-body', '#tks', '#strip', '.chatlog'];
+  function saveView() {
+    var v = { x: window.pageXOffset || 0, y: window.pageYOffset || 0, els: [] };
+    SCROLLERS.forEach(function (sel) { [].forEach.call(document.querySelectorAll(sel), function (el) { if (el.scrollTop || el.scrollLeft) v.els.push([el, el.scrollTop, el.scrollLeft]); }); });
+    return v;
+  }
+  function restoreView(v) {
+    v.els.forEach(function (e) { if (e[0].isConnected) { e[0].scrollTop = e[1]; e[0].scrollLeft = e[2]; } });
+    if ((window.pageYOffset || 0) !== v.y || (window.pageXOffset || 0) !== v.x) window.scrollTo(v.x, v.y);
+  }
   function renderAll() {
+    var view = saveView();
+    try { renderAllInner(); } finally { restoreView(view); requestAnimationFrame(function () { restoreView(view); }); }
+  }
+  function renderAllInner() {
     memo = null;                                    // one derivation of the game and the SLA per render
-    try { ensurePm(); checkFocusTimer(); renderNext(); renderSync(); renderBanner(); renderFocus(); renderStrip(); renderBoard(); renderRecords(); renderLine(); renderFloor(); renderTools(); renderSheet(); }
+    try { ensurePm(); checkFocusTimer(); renderNext(); renderSync(); renderBanner(); renderFocus(); renderStrip(); renderToday(); renderBoard(); renderRecords(); renderLine(); renderFloor(); renderTools(); renderSheet(); }
     finally { memo = null; }
+  }
+
+
+  /* ---------- TODAY: the Eden Daily inside the Command Center (Kev, 28 Oct 2026; spec research/today-view-design.md; data projects/virtual-office/daily-schema.md) ----------
+     Reads daily/{date} (Radar sets it the night before) and daily/{date}/ticks (Kev's live marks). Writes only ticks, plus actions/ rows (decisions, QC touches) and one ticket (check-out Send).
+     The date rolls over at 3:00am local. No paper for the date: calendar plus "Paper not built"; yesterday's sheet is never shown as today's. */
+  var TD = { mode: 'floor', date: null, doc: null, ticks: {}, loaded: false, err: '', un: [], tab: null, sel: {}, undo: [], timers: {}, autoRecruit: false, focusOn: false, left: null, summary: null, study: false, ckOpen: null, fullRun: false, kb: false, flash: '' };
+  var HABITS = [['bible', 'Bible'], ['rps', 'RPs'], ['mps', 'MPs'], ['workout', 'Work'], ['drinks', 'Drink'], ['wisdom', 'Wisd'], ['agency', 'Agcy'], ['growth', 'Grow'], ['weight', 'Wt']];
+  var FRIEZE = ['RIGHTEOUSNESS', 'WINNING', 'ACCOUNTABILITY', 'DISCIPLINE', 'TRANSPARENCY', 'GROWTH', 'EXECUTION'];
+  function tdDate(ms) { var d = new Date((ms || Date.now()) - 3 * HOUR); return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+  function tdAtMs(date, hhmm) { var p = String(hhmm || '').split(':'), d = new Date(date + 'T00:00:00'); d.setHours(+p[0] || 0, +p[1] || 0, 0, 0); return d.getTime(); }
+  function tdClock(ms) { return tf.format(new Date(ms)); }
+  function tdLabel(date) { var d = new Date(date + 'T12:00:00'); return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); }
+  function tdShort(date) { var d = new Date(date + 'T12:00:00'); return d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' }); }
+  function tdName(s) { return S.share ? '••••••' : s; }
+  function tdTick(kind, ref) { return TD.ticks[kind + '-' + ref] || {}; }
+
+  /* ---- data: subscribe to the day, and to its ticks ---- */
+  function tdUnwatch() { TD.un.forEach(function (f) { try { f(); } catch (e) {} }); TD.un = []; }
+  function tdWatch() {
+    var date = tdDate();
+    if (!S.live || !S.db) { if (!TD.doc || TD.date !== date) { TD.date = date; TD.doc = tdExample(date); TD.ticks = {}; TD.loaded = true; } return; }
+    if (TD.date === date && TD.un.length) return;
+    tdUnwatch(); TD.date = date; TD.doc = null; TD.ticks = {}; TD.loaded = false; TD.err = ''; TD.tab = null; TD.sel = {}; TD.undo = []; TD.summary = null;
+    TD.un.push(S.db.doc('daily/' + date).onSnapshot(function (s) { if (TD.date !== date) return; TD.doc = s.exists ? s.data() : null; TD.loaded = true; TD.err = ''; renderAll(); }, function () { TD.err = 'Could not read the paper.'; TD.loaded = true; renderAll(); }));
+    TD.un.push(S.db.collection('daily/' + date + '/ticks').onSnapshot(function (snap) {
+      if (TD.date !== date) return;
+      snap.docs.forEach(function (d) { var v = d.data(), mine = TD.ticks[d.id]; if (v && (!mine || t(v.at) >= t(mine.at)) && !TD.timers[d.id]) TD.ticks[d.id] = v; });
+      renderAll();
+    }, function () {}));
+  }
+  /* Kev's marks are written whole (one document per thing ticked), locally first, so the phone and the big monitor agree. Notes wait 600ms after typing stops. */
+  function tdPut(kind, ref, patch, delay) {
+    var id = kind + '-' + ref, prev = TD.ticks[id] || null, doc = Object.assign({ kind: kind, ref: ref }, prev || {}, patch, { at: new Date().toISOString() });
+    TD.undo.push({ id: id, prev: prev }); if (TD.undo.length > 10) TD.undo.shift();
+    TD.ticks[id] = doc;
+    tdSave(id, delay || 0); renderAll();
+  }
+  function tdSave(id, delay) {
+    clearTimeout(TD.timers[id]);
+    TD.timers[id] = setTimeout(function () {
+      delete TD.timers[id];
+      if (S.live && S.db && S.canWrite && TD.ticks[id]) S.db.doc('daily/' + TD.date + '/ticks/' + id).set(TD.ticks[id]).catch(function () { TD.flash = 'That mark did not save. Try again.'; renderAll(); });
+    }, delay);
+  }
+  function tdUndoLast() {
+    var u = TD.undo.pop(); if (!u) return;
+    var back = u.prev ? Object.assign({}, u.prev) : (function () { var p = u.id.split('-'), k = p.shift(); return { kind: k, ref: p.join('-'), d: false, v: false, c: false, out: '', note: '', value: false }; })();
+    back.at = new Date().toISOString(); TD.ticks[u.id] = back; tdSave(u.id, 0); renderAll();
+  }
+  function tdAction(key, action, title) {
+    var doc = { key: key, agent: 'radar', title: title, action: action, at: new Date().toISOString(), by: 'kev', applied: false, source: 'daily' };
+    S.actions[key] = doc; renderAll();
+    if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).set(doc).catch(function () { delete S.actions[key]; renderAll(); });
+  }
+
+  /* ---- the run of day: the live calendar when it answers, Radar's snapshot otherwise ---- */
+  function tdRun() {
+    var doc = TD.doc, date = TD.date, snap = (doc && doc.run) || [], out = [], live = false;
+    var evs = S.cal && S.cal.events ? S.cal.events.filter(function (e) { return e.start.toDateString() === new Date(date + 'T12:00:00').toDateString(); }) : [];
+    if (evs.length) {
+      live = true;
+      evs.forEach(function (e) {
+        var ph = /^\s*power hour/i.test(e.title), sid = null;
+        if (ph) {
+          var m = snap.filter(function (r) { return r.powerHour && r.sheetId && Math.abs(tdAtMs(date, r.at) - e.start.getTime()) < 10 * MIN; })[0];
+          if (!m && doc && doc.sheets) { var s2 = doc.sheets.filter(function (sh) { var w = String(sh.title).split(/[^A-Za-z]+/)[0]; return w && e.title.toLowerCase().indexOf(w.toLowerCase()) >= 0; })[0]; if (s2) sid = s2.id; }
+          else if (m) sid = m.sheetId;
+        }
+        out.push({ start: e.start.getTime(), end: e.end.getTime(), title: e.title, note: '', ph: ph, sheetId: sid, join: e.join });
+      });
+    } else {
+      snap.forEach(function (r) { out.push({ start: tdAtMs(date, r.at), title: r.title, note: r.note || '', ph: !!r.powerHour, sheetId: r.sheetId || null }); });
+      out.sort(function (a, b) { return a.start - b.start; });
+      out.forEach(function (r, i) { var nx = out.filter(function (o) { return o.start > r.start; })[0]; r.end = nx ? Math.min(nx.start, r.start + 90 * MIN) : r.start + 30 * MIN; });
+    }
+    out.live = live; return out;
+  }
+  function tdSheets() { return (TD.doc && TD.doc.sheets) || []; }
+  function tdSheetFor(it) { var ss = tdSheets(); return it && it.sheetId ? ss.filter(function (s) { return s.id === it.sheetId; })[0] : (it && it.ph && ss.length === 1 ? ss[0] : null); }
+  function tdCounts() {
+    var c = { conn: 0, dial: 0, vm: 0 };
+    tdSheets().forEach(function (s) { s.leads.forEach(function (l) { var k = tdTick('row', l.id); if (k.c) c.conn++; if (k.d) c.dial++; if (k.v) c.vm++; }); });
+    return c;
+  }
+  function tdQcDone() { var q = (TD.doc && TD.doc.qc) || []; return q.filter(function (x) { return tdTick('touch', x.id).value; }).length; }
+
+  /* ---- which tab: the clock picks (the QC block, then each Power Hour) until Kev picks one ---- */
+  function tdTabs() {
+    var tabs = [], doc = TD.doc; if (!doc) return tabs;
+    if ((doc.qc || []).length) tabs.push({ id: 'qc', label: 'QC · ' + tdQcDone() + '/' + doc.qc.length });
+    tdSheets().forEach(function (s) { var run = (doc.run || []).filter(function (r) { return r.sheetId === s.id; })[0]; tabs.push({ id: s.id, label: 'PH ' + (run ? tdClock(tdAtMs(TD.date, run.at)) : s.window.pt.split('-')[0]) + ' · ' + String(s.title).split(/[·—-]/)[0].trim().slice(0, 14) }); });
+    return tabs;
+  }
+  function tdAutoTab(run) {
+    var now = Date.now(), tabs = tdTabs(); if (!tabs.length) return null;
+    var ph = run.filter(function (r) { return r.ph && r.start <= now && r.end > now; })[0], s = ph && tdSheetFor(ph);
+    if (s) return s.id;
+    var qc = run.filter(function (r) { return /\bQC\b/i.test(r.title) && r.start <= now && r.end > now; })[0];
+    if (qc && tabs[0].id === 'qc') return 'qc';
+    var nextPh = run.filter(function (r) { return r.ph && r.start > now; })[0], np = nextPh && tdSheetFor(nextPh);
+    if (np) return np.id;
+    var lastPh = run.filter(function (r) { return r.ph; }).pop(), lp = lastPh && tdSheetFor(lastPh);
+    return lp ? lp.id : tabs[0].id;
+  }
+  function tdTabNow(run) { var tabs = tdTabs(), want = TD.tab && tabs.filter(function (x) { return x.id === TD.tab; })[0] ? TD.tab : tdAutoTab(run); return want; }
+
+  /* ---- Power Hour focus: on by itself when a POWER HOUR block starts (Kev, 28 Oct); P leaves early ---- */
+  function tdFocusCheck() {
+    if (TD.mode !== 'today' || !TD.doc) return;
+    var run = tdRun(), now = Date.now(), ph = run.filter(function (r) { return r.ph && r.start <= now && r.end > now; })[0];
+    if (!ph && TD.left !== null) TD.left = null;
+    var on = !!ph && TD.left !== ph.start;
+    if (on === TD.focusOn) return;
+    if (on) {
+      TD.focusOn = true; TD.summary = null;
+      if (!S.focus) { TD.autoRecruit = true; startFocus({ lane: 'recruiting', task: '', kind: 'recruit', until: null }); }
+    } else {
+      TD.focusOn = false; var c = tdCounts();
+      TD.summary = { text: 'Power Hour done · Dials ' + c.dial + ' · VM ' + c.vm + ' · Conn ' + c.conn, at: Date.now() };
+      if (TD.autoRecruit && S.focus && S.focus.kind === 'recruit') endFocus();
+      TD.autoRecruit = false;
+    }
+    renderAll();
+  }
+  function tdLeaveBlock() { var run = tdRun(), now = Date.now(), ph = run.filter(function (r) { return r.ph && r.start <= now && r.end > now; })[0]; if (ph) { TD.left = ph.start; tdFocusCheck(); } }
+
+  /* ---- mode ---- */
+  function setMode(m, keep) {
+    TD.mode = m; root.classList.toggle('today-mode', m === 'today');
+    $('#m-floor').setAttribute('aria-pressed', String(m === 'floor')); $('#m-today').setAttribute('aria-pressed', String(m === 'today'));
+    $('#td-root').hidden = m !== 'today';
+    if (!keep) { try { localStorage.setItem('eo-mode', m); } catch (e) {} try { history.replaceState(null, '', m === 'today' ? '#today' : location.pathname + location.search); } catch (e) {} }
+    if (m !== 'today') { TD.focusOn = false; TD.left = null; if (TD.autoRecruit && S.focus && S.focus.kind === 'recruit') endFocus(); TD.autoRecruit = false; }
+    tdWatch(); renderAll();
+    if (m === 'floor') { try { dispatchEvent(new Event('resize')); } catch (e) {} }
+  }
+
+  /* ---- render ---- */
+  function chk(on, label, fn, attrs) {
+    var b = h('button', Object.assign({ class: 'td-chk', 'aria-pressed': String(!!on), 'aria-label': label, title: label }, attrs || {}), h('i', null, svgTick()));
+    b.disabled = !S.canWrite; if (fn) b.addEventListener('click', function (e) { e.stopPropagation(); fn(); }); return b;
+  }
+  function svgTick() { var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('viewBox', '0 0 16 16'); var p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('d', 'M2.5 8.5l3.5 3.5 7.5-8'); s.appendChild(p); return s; }
+  function keepFocus(fn) {
+    var a = document.activeElement, id = a && a.getAttribute && a.getAttribute('data-td-in'), s0 = a && a.selectionStart, s1 = a && a.selectionEnd;
+    fn();
+    if (id) { var n = document.querySelector('[data-td-in="' + id + '"]'); if (n) { n.focus({ preventScroll: true }); try { n.setSelectionRange(s0, s1); } catch (e) {} } }
+  }
+  function tdInput(id, value, cls, ph, fn, delay) {
+    var i = h('input', { class: cls || 'td-notei', type: 'text', 'data-td-in': id, placeholder: ph || '', 'aria-label': ph || 'Note', maxlength: '600' }); i.value = value || ''; i.disabled = !S.canWrite;
+    i.addEventListener('input', function () { fn(i.value); });
+    i.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.stopPropagation(); i.blur(); } else if (e.key === 'Enter') { e.preventDefault(); i.blur(); if (cls !== 'x') tdMove(1); } });
+    return i;
+  }
+  function renderToday() {
+    if (TD.mode !== 'today') return;
+    tdWatch(); keepFocus(tdRenderInner);
+  }
+  function tdRenderInner() {
+    var box = $('#td-root'); box.textContent = '';
+    if (Game.isSabbathAt(Date.now())) {
+      box.appendChild(h('div', { class: 'td-empty', text: 'The Sabbath · Today rests until sundown Saturday' })); root.classList.remove('td-focus'); return;
+    }
+    var doc = TD.doc, run = tdRun(), now = Date.now(), day = (new Date(TD.date + 'T12:00:00').getDay() + 6) % 7;
+    root.classList.toggle('td-focus', TD.focusOn);
+    var head = h('div', { class: 'td-head' });
+    var fr = h('div', { class: 'td-frieze' });
+    FRIEZE.forEach(function (p, n) { if (n) fr.appendChild(document.createTextNode(' · ')); fr.appendChild(n === day ? h('b', { text: p }) : document.createTextNode(p)); });
+    head.appendChild(h('div', null, h('h2', { text: tdLabel(TD.date) + ' · Pillar ' + pad2(day + 1) + ' ' + PILLARS[day] }), fr));
+    var tools = h('div', { class: 'td-tools' });
+    var kb = h('button', { class: 'mini', text: 'Keys ?', 'aria-pressed': String(TD.kb) }); kb.addEventListener('click', function () { TD.kb = !TD.kb; renderAll(); });
+    var fs = h('button', { class: 'mini', text: 'Full screen' }); fs.addEventListener('click', function () { try { var r = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); if (r && r.catch) r.catch(function () {}); } catch (e) {} });
+    tools.appendChild(kb); tools.appendChild(fs); head.appendChild(tools); box.appendChild(head);
+    if (TD.err) box.appendChild(h('div', { class: 'td-note amber', text: TD.err }));
+    if (TD.flash) box.appendChild(h('div', { class: 'td-note amber', text: TD.flash }));
+    if (TD.summary && now - TD.summary.at < 20 * MIN) box.appendChild(h('div', { class: 'td-note', text: TD.summary.text }));
+    var cur = run.filter(function (r) { return r.start <= now && r.end > now; }).pop(), curSheet = cur && cur.ph ? tdSheetFor(cur) : null;
+    if (curSheet && curSheet.eastCoast && tdAtMs(TD.date, curSheet.window.pt.split('-')[0]) > tdAtMs(TD.date, '13:00')) box.appendChild(h('div', { class: 'td-note amber', text: 'PAST 4PM ET · East Coast sheet after 1:00pm Pacific (rule of 27 Oct)' }));
+    if (TD.kb) box.appendChild(h('div', { class: 'td-box' }, h('div', { class: 'td-kb' }, tdKeys())));
+
+    if (!doc) {
+      box.appendChild(h('div', { class: 'td-note', text: TD.loaded ? 'Paper not built for ' + tdShort(TD.date) + '. The calendar below is live; Radar builds the sheets in the stand-up.' : 'Reading the paper…' }));
+    }
+    var grid = h('div', { class: 'td-grid' });
+    var left = h('div', { class: 'td-left' }), right = h('div', { class: 'td-right' });
+    left.appendChild(tdNowBox(run, now)); left.appendChild(tdRunBox(run, now)); if (doc) left.appendChild(tdHabitBox());
+    grid.appendChild(left); grid.appendChild(tdMid(run)); if (doc) { right.appendChild(tdMustBox()); right.appendChild(tdDecBox()); right.appendChild(tdScriptureBox()); right.appendChild(tdCheckoutBox()); } grid.appendChild(right);
+    box.appendChild(grid);
+    if (TD.study && doc && doc.study) box.appendChild(tdStudy());
+  }
+  function tdKeys() {
+    var rows = [['J / K', 'next, previous name'], ['Enter', 'copy name for Crelate'], ['D / V / C', 'dial, voicemail, connected (V moves on, C opens the note)'], ['N', 'write a note'], ['O / F', 'continue chasing, follow-up email'], ['Z', 'undo the last tick'], ['[ ] ', 'previous, next sheet'], ['P', 'leave the Power Hour'], ['T', 'Floor or Today']];
+    var f = document.createDocumentFragment(); rows.forEach(function (r) { f.appendChild(h('div', null, h('b', { text: r[0] }), ' ' + r[1])); }); return f;
+  }
+  function tdNowBox(run, now) {
+    var cur = run.filter(function (r) { return r.start <= now && r.end > now; }).pop(), nx = run.filter(function (r) { return r.start > now; })[0];
+    var b = h('div', { class: 'td-now td-now-box' }, h('span', { class: 'eyebrow', text: cur && cur.ph ? 'Power Hour' : 'Now' }), h('div', { class: 'td-clock', id: 'td-clock', text: tdClock(now) }));
+    b.appendChild(h('div', { class: 'td-cur', text: cur ? (S.share ? 'In an event' : cur.title) : (nx ? 'Open until ' + tdClock(nx.start) : 'Open the rest of the day') }));
+    b.appendChild(h('div', { class: 'td-bar' }, h('i', { id: 'td-bar', style: 'width:' + (cur ? Math.min(100, Math.round((now - cur.start) / (cur.end - cur.start) * 100)) : 0) + '%' })));
+    if (cur) b.appendChild(h('div', { class: 'td-et', id: 'td-left', text: Math.max(0, Math.round((cur.end - now) / MIN)) + ' min left' }));
+    var sh = cur && cur.ph && tdSheetFor(cur);
+    if (sh && /ET/.test(sh.tz || '')) b.appendChild(h('div', { class: 'td-et', id: 'td-et', text: new Date(now).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' }) + ' ET for the leads' }));
+    if (nx) b.appendChild(h('div', { class: 'td-nx' }, h('span', { text: 'Next · ' + (S.share ? 'Event' : nx.title) }), h('span', { text: tdClock(nx.start) + ' · ' + inLabel(nx.start - now) })));
+    if (cur && cur.join && !S.share) b.appendChild(h('a', { class: 'mini', href: cur.join, target: '_blank', rel: 'noopener', text: 'Join' }));
+    return b;
+  }
+  function tdRunBox(run, now) {
+    var compact = matchMedia('(max-width:1599px)').matches && !TD.fullRun, list = run;
+    if (compact) { var i0 = Math.max(0, run.findIndex(function (r) { return r.end > now; })); list = run.slice(i0, i0 + 4); }
+    var ol = h('ol', { class: 'td-runl' });
+    list.forEach(function (r) {
+      var isNow = r.start <= now && r.end > now, li = h('li', { class: (r.end <= now ? 'past ' : '') + (isNow ? 'now ' : '') + (r.ph ? 'ph' : '') });
+      var w = h('span', { class: 'w' }, document.createTextNode(S.share ? 'Event' : r.title));
+      if (r.ph) { w.appendChild(h('span', { class: 'stamp2', text: 'POWER HOUR' })); w.addEventListener('click', function () { var s = tdSheetFor(r); if (s) { TD.tab = s.id; renderAll(); } }); }
+      if (r.note && !S.share) w.appendChild(h('span', { class: 'n', text: r.note }));
+      li.appendChild(h('span', { class: 't', text: tdClock(r.start) })); li.appendChild(w); ol.appendChild(li);
+    });
+    if (!list.length) ol.appendChild(h('li', null, h('span'), h('span', { class: 'w', text: S.cal && S.cal.error ? S.cal.error : 'Nothing on the calendar.' })));
+    var bx = h('div', { class: 'td-box td-runbox' }, h('div', { class: 'eyebrow' }, h('span', { text: 'Run of day' }), h('span', { text: run.live ? 'Live' : 'Radar snapshot' })), ol);
+    if (matchMedia('(max-width:1599px)').matches) { var more = h('button', { class: 'mini txt', text: TD.fullRun ? 'Next four' : 'Full day' }); more.style.margin = '0 12px 10px'; more.addEventListener('click', function () { TD.fullRun = !TD.fullRun; renderAll(); }); bx.appendChild(more); }
+    return bx;
+  }
+  function tdHabitBox() {
+    var doc = TD.doc, st = doc.streaks || {};
+    var g = h('div', { class: 'td-habits' }); HABITS.forEach(function (x) { var v = tdTick('habit', x[0]).value, n = st[x[0]]; g.appendChild(h('div', { title: x[1] + ' streak (read only)' }, h('b', { text: n == null ? '·' : String(n) }), x[1])); });
+    return h('div', { class: 'td-box td-habbox' }, h('div', { class: 'eyebrow' }, h('span', { text: 'Habit streaks' }), h('span', { text: 'read only' })), g);
+  }
+  function tdMid(run) {
+    var mid = h('main', { class: 'td-mid' }), doc = TD.doc;
+    if (!doc) { mid.appendChild(h('div', { class: 'td-empty', text: 'No paper yet · the calendar is live' })); return mid; }
+    var tabs = tdTabs(), cur = tdTabNow(run), auto = !TD.tab || !tabs.filter(function (x) { return x.id === TD.tab; })[0];
+    if (!tabs.length) { mid.appendChild(h('div', { class: 'td-empty', text: 'No call sheets today' })); return mid; }
+    var tb = h('div', { class: 'td-tabs', role: 'tablist' });
+    tabs.forEach(function (x) { var b = h('button', { class: 'td-tab', role: 'tab', 'aria-selected': String(x.id === cur), text: x.label }); b.addEventListener('click', function () { TD.tab = x.id; renderAll(); }); tb.appendChild(b); });
+    var ab = h('button', { class: 'td-tab auto', text: auto ? 'Following the clock' : 'Follow the clock' }); ab.disabled = auto; ab.addEventListener('click', function () { TD.tab = null; renderAll(); }); tb.appendChild(ab);
+    mid.appendChild(tb);
+    if (cur === 'qc') mid.appendChild(tdQc()); else { var sh = tdSheets().filter(function (s) { return s.id === cur; })[0]; if (sh) mid.appendChild(tdSheet(sh)); }
+    return mid;
+  }
+  function tdSheet(sh) {
+    var f = document.createDocumentFragment(), c = tdCounts(), run = (TD.doc.run || []).filter(function (r) { return r.sheetId === sh.id; })[0];
+    var hd = h('div', { class: 'td-sh' }, h('span', { class: 'eyebrow', text: (sh.eyebrow ? sh.eyebrow + ' · ' : '') + 'Power Hour ' + sh.window.pt.replace('-', '–') + ' PT · ' + sh.window.et.replace('-', '–') + ' ET · ' + sh.leads.length + ' names' }), h('h3', { text: S.share ? 'Call sheet' : sh.title }));
+    if (sh.brief && !S.share) hd.appendChild(h('p', { text: sh.brief })); if (sh.opener && !S.share) hd.appendChild(h('p', { text: 'Opener: ' + sh.opener })); if (sh.sub && !S.share) hd.appendChild(h('p', { text: sh.sub }));
+    if (sh.url && /^https:\/\//.test(sh.url) && !S.share) hd.appendChild(h('a', { class: 'mini txt', href: sh.url, target: '_blank', rel: 'noopener', text: 'Open the Drive sheet' }));
+    f.appendChild(hd);
+    var cn = h('div', { class: 'td-count' }, h('span', null, 'Conn ', h('b', { text: pad2(c.conn) }), ' / 20'));
+    var dots = h('span', { class: 'td-dots', 'aria-hidden': 'true' }); for (var i = 0; i < 20; i++) dots.appendChild(h('i', { class: i < c.conn ? 'on' : '' })); cn.appendChild(dots);
+    cn.appendChild(h('span', { text: 'Dials ' + c.dial + ' · VM ' + c.vm }));
+    if (sh.eastCoast && tdAtMs(TD.date, sh.window.pt.split('-')[0]) > tdAtMs(TD.date, '13:00')) cn.appendChild(h('span', { class: 'td-stamp', text: 'PAST 4PM ET' }));
+    f.appendChild(cn);
+    f.appendChild(h('div', { class: 'td-cols', role: 'row' }, h('span', { text: 'Name' }), h('span', { text: 'Title / company' }), h('span', { text: 'Ph' }), h('span', { text: 'Src' }), h('span', { text: 'Dial' }), h('span', { text: 'VM' }), h('span', { text: 'Conn' }), h('span', { text: 'Stamp' }), h('span', { text: 'Notes' })));
+    var sel = TD.sel[sh.id] == null ? 0 : TD.sel[sh.id];
+    sh.leads.forEach(function (l, i) {
+      var k = tdTick('row', l.id), row = h('div', { class: 'td-row' + (i === sel ? ' sel' : '') + (k.c ? ' done' : ''), 'data-lead': l.id, role: 'row' });
+      var nm = h('button', { class: 'nm', text: tdName(l.name), title: 'Select' }); nm.addEventListener('click', function () { TD.sel[sh.id] = i; renderAll(); });
+      row.appendChild(nm);
+      var tc = h('div', { class: 'tc' }, document.createTextNode(S.share ? '••••••' : l.title), h('small', { text: S.share ? '••••••' : l.company }));
+      row.appendChild(tc);
+      row.appendChild(h('span', { class: 'ph', text: l.ph })); row.appendChild(h('span', { class: 'src', text: l.src || '' }));
+      var cd = chk(k.d, 'Dialed', function () { TD.sel[sh.id] = i; tdPut('row', l.id, { d: !k.d }); }); cd.classList.add('cd');
+      var cv = chk(k.v, 'Voicemail', function () { TD.sel[sh.id] = i; tdPut('row', l.id, { v: !k.v }); }); cv.classList.add('cv');
+      var cc = chk(k.c, 'Connected', function () { TD.sel[sh.id] = i; tdPut('row', l.id, { c: !k.c }); }); cc.classList.add('cc');
+      row.appendChild(cd); row.appendChild(cv); row.appendChild(cc);
+      var out = h('button', { class: 'td-out co', text: k.out || '—', 'aria-label': 'Stamp: continue chasing or follow-up email', title: 'O = continue chasing · F.U. = follow-up email' }); if (k.out) out.setAttribute('data-v', '1');
+      out.addEventListener('click', function () { TD.sel[sh.id] = i; tdPut('row', l.id, { out: k.out === 'O' ? 'F.U.' : k.out === 'F.U.' ? '' : 'O' }); }); out.disabled = !S.canWrite; row.appendChild(out);
+      var nt = h('div', { class: 'nt' }, tdInput('note-' + l.id, k.note || '', 'td-notei', S.share ? '' : (l.note || 'Note'), function (v) { var cur = TD.ticks['row-' + l.id] || {}; TD.ticks['row-' + l.id] = Object.assign({ kind: 'row', ref: l.id }, cur, { note: v, at: new Date().toISOString() }); tdSave('row-' + l.id, 600); }));
+      if (S.share) nt.firstChild.disabled = true;
+      if (l.addedAt) nt.appendChild(h('span', { class: 'td-added', text: 'added ' + tdClock(t(l.addedAt)) }));
+      var lk = h('span', { class: 'lkcell' }); if (l.crelateUrl && /^https:\/\//.test(l.crelateUrl) && !S.share) lk.appendChild(h('a', { class: 'lk', href: l.crelateUrl, target: '_blank', rel: 'noopener', text: 'CR' })); if (l.linkedin && /^https:\/\//.test(l.linkedin) && !S.share) lk.appendChild(h('a', { class: 'lk', href: l.linkedin, target: '_blank', rel: 'noopener', text: 'in' }));
+      if (lk.firstChild) tc.appendChild(lk);
+      row.appendChild(nt); f.appendChild(row);
+    });
+    f.appendChild(h('div', { class: 'td-legend', text: 'O = continue chasing · F.U. = follow-up email · a follow-up becomes a draft that waits for your yes; nothing is sent.' }));
+    var w = h('div'); w.appendChild(f); return w;
+  }
+  function tdQc() {
+    var q = TD.doc.qc || [], w = h('div', { class: 'td-qc' }), last = '';
+    w.appendChild(h('div', { class: 'td-sh' }, h('span', { class: 'eyebrow', text: 'Quality control · must-calls · ' + tdQcDone() + ' of ' + q.length + ' touched' }), h('h3', { text: 'Candidates in process · touch every one' }), h('p', { text: 'A touch here also tells Radar to log it on the Team Hub so the red row clears.' })));
+    w.appendChild(h('div', { class: 'td-cols' }, h('span', { text: 'Candidate' }), h('span', { text: 'Client · seat' }), h('span', { text: 'Last touch' }), h('span', { text: 'Do' }), h('span', { text: 'Touched' })));
+    var sel = TD.sel.qc == null ? 0 : TD.sel.qc;
+    q.forEach(function (x, i) {
+      if (x.group && x.group !== last) { last = x.group; w.appendChild(h('div', { class: 'td-grp', text: x.group + (x.asOf && x.asOf !== TD.date ? ' · as of ' + tdShort(x.asOf) : '') })); }
+      var k = tdTick('touch', x.id), row = h('div', { class: 'td-row' + (i === sel ? ' sel' : '') + (k.value ? ' done' : ''), 'data-qc': x.id });
+      var nm = h('button', { class: 'nm', text: tdName(x.name) }); nm.addEventListener('click', function () { TD.sel.qc = i; renderAll(); });
+      if (x.today && !k.value) nm.appendChild(h('span', { class: 'td-today', text: 'TODAY' }));
+      row.appendChild(nm);
+      row.appendChild(h('div', { class: 'tc' }, document.createTextNode(S.share ? '••••••' : x.clientSeat), h('small', { text: S.share ? '' : x.date })));
+      row.appendChild(h('div', { class: 'tc lt', text: S.share ? '' : x.lastTouch }));
+      row.appendChild(h('div', { class: 'tc nt', text: S.share ? '' : x['do'] }));
+      var c = chk(k.value, 'Touched', function () { TD.sel.qc = i; tdTouch(x, !k.value); }); c.classList.add('ct'); row.appendChild(c);
+      w.appendChild(row);
+    });
+    w.appendChild(h('div', { class: 'td-legend', text: 'TODAY = no touch yet, or a start inside a week. Never pay or personal detail in a touch note.' }));
+    return w;
+  }
+  function tdTouch(x, on) {
+    tdPut('touch', x.id, { value: on });
+    if (on) tdAction('daily-' + TD.date + '-touch-' + x.id, 'touched', 'QC touch: ' + x.name + ' (' + TD.date + ')');
+    else if (S.actions['daily-' + TD.date + '-touch-' + x.id]) { var key = 'daily-' + TD.date + '-touch-' + x.id; delete S.actions[key]; if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).delete().catch(function () {}); }
+  }
+  function tdMustBox() {
+    var m = TD.doc.must || [], ol = h('ol', { class: 'td-must' });
+    m.forEach(function (x) {
+      var k = tdTick('must', x.id), li = h('li', { class: k.value ? 'done' : '' });
+      li.appendChild(chk(k.value, 'Done: ' + x.title, function () { tdPut('must', x.id, { value: !k.value }); }));
+      li.appendChild(h('div', null, h('div', { class: 'mt' }, h('span', { text: tdClock(tdAtMs(TD.date, x.at)) }), document.createTextNode(S.share ? 'Must-hit' : x.title)), x.note && !S.share ? h('div', { class: 'mn', text: x.note }) : null));
+      ol.appendChild(li);
+    });
+    if (!m.length) ol.appendChild(h('li', null, h('span'), h('span', { class: 'mn', text: 'No must-hits set.' })));
+    var done = m.filter(function (x) { return tdTick('must', x.id).value; }).length;
+    return h('div', { class: 'td-box td-must-box' }, h('div', { class: 'eyebrow' }, h('span', { text: 'Must-hits' }), h('span', { text: done + ' / ' + m.length })), ol);
+  }
+  function tdDecBox() {
+    var d = TD.doc.decisions || [], bx = h('div', { class: 'td-box td-dec-box' });
+    var open = d.filter(function (x) { return !S.actions['daily-' + TD.date + '-' + x.id]; }).length;
+    bx.appendChild(h('div', { class: 'eyebrow' }, h('span', { text: 'Decisions · answer first' }), h('span', { text: open + ' open' })));
+    d.forEach(function (x) {
+      var key = 'daily-' + TD.date + '-' + x.id, a = S.actions[key], el = h('div', { class: 'td-dec' + (a ? ' ans' : '') });
+      el.appendChild(h('div', { class: 'dt', text: S.share ? 'Decision' : x.text }));
+      if (x.pick && !S.share) el.appendChild(h('div', { class: 'pk', text: 'My pick: ' + x.pick }));
+      var row = h('span', { class: 'sacts', style: 'padding:0;justify-content:flex-start' });
+      if (a) { row.appendChild(h('span', { class: 'pk', text: 'You said ' + String(a.action).toUpperCase() + ' · ' + tdClock(t(a.at)) })); var u = h('button', { class: 'mini txt', text: 'Undo' }); u.addEventListener('click', function () { delete S.actions[key]; if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).delete().catch(function () {}); renderAll(); }); row.appendChild(u); }
+      else { var seg = h('span', { class: 'seg', role: 'group', 'aria-label': 'Answer' }); [['yes', 'Yes'], ['no', 'No'], ['talk', 'Talk']].forEach(function (o) { var b = h('button', { class: 'mini' + (o[0] === 'yes' ? ' primary' : ''), text: o[1] }); b.disabled = !S.canWrite; b.addEventListener('click', function () { tdAction(key, o[0], x.text); }); seg.appendChild(b); }); row.appendChild(seg); }
+      el.appendChild(row); bx.appendChild(el);
+    });
+    if (!d.length) bx.appendChild(h('div', { class: 'td-in' }, h('span', { class: 'pk', text: 'No decisions filed.' })));
+    return bx;
+  }
+  function tdScriptureBox() {
+    var doc = TD.doc, st = doc.study, k = tdTick('scripture', 'read');
+    var b = h('button', { class: 'td-scr', 'aria-label': 'Open the study' }, h('span', null, h('span', { class: 'eyebrow', text: 'Scripture' }), h('div', { text: doc.scripture || (st && st.ref) || '' })), h('span', { class: 'mini txt', text: k.value ? 'Read' : 'Open' }));
+    b.addEventListener('click', function () { TD.study = true; renderAll(); }); if (!st) b.disabled = true;
+    return h('div', { class: 'td-box td-scr-box' }, b);
+  }
+  function tdStudy() {
+    var st = TD.doc.study, k = tdTick('scripture', 'read'), wrap = h('div', { class: 'td-sheetmodal', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Study' });
+    wrap.appendChild(h('div', { class: 'sheet-bg', 'data-td-close': '' }));
+    var p = h('div', { class: 'td-study' });
+    p.appendChild(h('div', { class: 'tools', style: 'justify-content:space-between' }, h('span', { class: 'eyebrow', text: 'Scripture · ESV' }), h('span', null, chk(k.value, 'Mark the study read', function () { tdPut('scripture', 'read', { value: !k.value }); }), h('button', { class: 'stand', 'data-td-close': '', text: 'Close · Esc' }))));
+    p.appendChild(h('h3', { text: st.ref })); if (st.text) p.appendChild(h('blockquote', { text: st.text }));
+    if (st.setting) { p.appendChild(h('h4', { text: 'The setting' })); p.appendChild(h('p', { text: st.setting })); }
+    if (st.words && st.words.length) { p.appendChild(h('h4', { text: 'Word by word' })); var dl = h('dl'); st.words.forEach(function (w) { dl.appendChild(h('dt', { text: '“' + w.word + '”' + (w.orig ? ' · ' + w.orig : '') })); dl.appendChild(h('dd', { text: w.note })); }); p.appendChild(dl); }
+    if (st.reflect && st.reflect.length) { p.appendChild(h('h4', { text: 'Reflect' })); var ol = h('ol'); st.reflect.forEach(function (r) { ol.appendChild(h('li', { text: r })); }); p.appendChild(ol); }
+    if (st.prayer) { p.appendChild(h('h4', { text: 'Pray' })); p.appendChild(h('p', { text: st.prayer })); }
+    if (st.memory) { p.appendChild(h('h4', { text: 'Memory verse' })); p.appendChild(h('p', { text: st.memory })); }
+    wrap.appendChild(p); return wrap;
+  }
+  function tdCheckoutBox() {
+    var c = tdCounts(), open = TD.ckOpen == null ? new Date().getHours() >= 17 : TD.ckOpen, sent = tdTick('checkout', 'sent');
+    var rps = tdTick('checkout', 'rps').value, conn = tdTick('checkout', 'conn').value;
+    var bx = h('div', { class: 'td-box td-chk-box' });
+    var line = h('button', { class: 'td-scr', 'aria-expanded': String(open) }, h('span', null, h('span', { class: 'eyebrow', text: 'Check-out 5:30' }), h('div', { text: 'RPs ' + (rps == null || rps === '' ? '–' : rps) + '/15 · Conn ' + (conn == null || conn === '' ? c.conn : conn) + '/20' + (sent.value ? ' · sent' : '') })), h('span', { class: 'mini txt', text: open ? 'Close' : 'Open' }));
+    line.addEventListener('click', function () { TD.ckOpen = !open; renderAll(); }); bx.appendChild(line);
+    if (!open) return bx;
+    var body = h('div', { class: 'td-in' }), l = h('div', { class: 'td-ckl' });
+    function num(label, id, val, max) { var i = h('input', { type: 'number', min: '0', max: String(max), 'data-td-in': 'ck-' + id, 'aria-label': label }); i.value = val == null ? '' : val; i.disabled = !S.canWrite; i.addEventListener('input', function () { var v = i.value === '' ? '' : Math.max(0, Math.min(max, Math.round(+i.value))); var cur = TD.ticks['checkout-' + id] || {}; TD.ticks['checkout-' + id] = Object.assign({ kind: 'checkout', ref: id }, cur, { value: v, at: new Date().toISOString() }); tdSave('checkout-' + id, 600); }); return h('label', null, h('span', { class: 'eyebrow', text: label }), i); }
+    l.appendChild(num('RPs / 15', 'rps', rps, 15)); l.appendChild(num('Connections / 20', 'conn', conn == null || conn === '' ? c.conn : conn, 20));
+    body.appendChild(l);
+    ['win', 'miss'].forEach(function (id) { body.appendChild(h('label', null, h('span', { class: 'eyebrow', text: id === 'win' ? 'One win' : 'One miss' }), tdInput('ck-' + id, tdTick('checkout', id).value || '', 'x', '', function (v) { var cur = TD.ticks['checkout-' + id] || {}; TD.ticks['checkout-' + id] = Object.assign({ kind: 'checkout', ref: id }, cur, { value: v, at: new Date().toISOString() }); tdSave('checkout-' + id, 600); }))); });
+    var hb = h('div', { class: 'td-hab' }); HABITS.forEach(function (x) { var i = tdInput('hab-' + x[0], String(tdTick('habit', x[0]).value || ''), 'x', x[1], function (v) { var cur = TD.ticks['habit-' + x[0]] || {}; TD.ticks['habit-' + x[0]] = Object.assign({ kind: 'habit', ref: x[0] }, cur, { value: v, at: new Date().toISOString() }); tdSave('habit-' + x[0], 600); }); i.style.cssText = 'border:1px solid var(--line);padding:6px;width:100%'; i.setAttribute('aria-label', x[1] + ' today'); hb.appendChild(i); });
+    body.appendChild(h('span', { class: 'eyebrow', text: 'Habits today' })); body.appendChild(hb);
+    var send = h('button', { class: 'key', text: sent.value ? 'Send again' : 'Send to Radar' }); send.disabled = !S.canWrite;
+    send.addEventListener('click', function () {
+      tdPut('checkout', 'sent', { value: true });
+      makeTicket({ agent: 'radar', ask: 'My check-out for ' + TD.date + ' is in the Today view (daily/' + TD.date + '/ticks). Read it, use it for tomorrow\'s paper and habit strip, and log the connections.', priority: 'today', lever: 'checkout' });
+    });
+    body.appendChild(send); bx.appendChild(body); return bx;
+  }
+  /* once a second: the clock, the minutes left and the Power Hour focus, without rebuilding the page */
+  function tdTickSecond() {
+    if (TD.mode !== 'today') return;
+    var c = $('#td-clock'); if (c) c.textContent = tdClock(Date.now());
+    var run = TD.doc ? tdRun() : [], now = Date.now(), cur = run.filter(function (r) { return r.start <= now && r.end > now; }).pop();
+    var b = $('#td-bar'); if (b && cur) b.style.width = Math.min(100, Math.round((now - cur.start) / (cur.end - cur.start) * 100)) + '%';
+    var l = $('#td-left'); if (l && cur) l.textContent = Math.max(0, Math.round((cur.end - now) / MIN)) + ' min left';
+    var e = $('#td-et'); if (e) e.textContent = new Date(now).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' }) + ' ET for the leads';
+    tdFocusCheck();
+    if (tdDate() !== TD.date) { tdWatch(); renderAll(); }
+  }
+  /* ---- keys (Today only; off while typing) ---- */
+  function tdCurSheet() { var run = TD.doc ? tdRun() : [], id = tdTabNow(run); return id === 'qc' ? null : tdSheets().filter(function (s) { return s.id === id; })[0]; }
+  function tdMove(n) {
+    var sh = tdCurSheet(), tab = sh ? sh.id : 'qc', len = sh ? sh.leads.length : ((TD.doc && TD.doc.qc) || []).length; if (!len) return;
+    var i = TD.sel[tab] == null ? 0 : TD.sel[tab]; TD.sel[tab] = Math.max(0, Math.min(len - 1, i + n)); renderAll();
+    var r = document.querySelector('.td-row.sel'); if (r && r.scrollIntoView) r.scrollIntoView({ block: 'nearest' });
+  }
+  function tdCopy(name) {
+    try { var p = navigator.clipboard && navigator.clipboard.writeText(name); if (p && p.catch) p.catch(function () { tdSelectName(); }); else if (!p) tdSelectName(); } catch (e) { tdSelectName(); }
+  }
+  function tdSelectName() { var n = document.querySelector('.td-row.sel .nm'); if (n) { var r = document.createRange(); r.selectNodeContents(n); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } }
+  function tdTabStep(n) { var tabs = tdTabs(), run = TD.doc ? tdRun() : [], cur = tdTabNow(run), i = tabs.findIndex(function (x) { return x.id === cur; }); if (i < 0) return; var j = Math.max(0, Math.min(tabs.length - 1, i + n)); TD.tab = tabs[j].id; renderAll(); }
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var tg = e.target, typing = tg && (tg.tagName === 'INPUT' || tg.tagName === 'TEXTAREA' || tg.tagName === 'SELECT' || tg.isContentEditable);
+    if (typing) return;
+    var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (k === 't' && !S.sheet) { e.preventDefault(); setMode(TD.mode === 'today' ? 'floor' : 'today'); return; }
+    if (TD.mode !== 'today') return;
+    if (k === 'Escape' && TD.study) { TD.study = false; renderAll(); return; }
+    if (S.sheet || TD.study || !TD.doc) return;
+    var sh = tdCurSheet(), tab = sh ? sh.id : 'qc', i = TD.sel[tab] == null ? 0 : TD.sel[tab], lead = sh && sh.leads[i], q = !sh && TD.doc.qc && TD.doc.qc[i];
+    if (k === 'j' || k === 'ArrowDown') { e.preventDefault(); tdMove(1); }
+    else if (k === 'k' || k === 'ArrowUp') { e.preventDefault(); tdMove(-1); }
+    else if (k === 'Enter') { var nm = lead ? lead.name : q && q.name; if (nm && !S.share) { e.preventDefault(); tdCopy(nm); } }
+    else if (k === 'd') { e.preventDefault(); if (lead) tdPut('row', lead.id, { d: !tdTick('row', lead.id).d }); else if (q) tdTouch(q, !tdTick('touch', q.id).value); }
+    else if (k === 'v' && lead) { e.preventDefault(); tdPut('row', lead.id, { v: !tdTick('row', lead.id).v }); tdMove(1); }
+    else if (k === 'c' && lead) { e.preventDefault(); tdPut('row', lead.id, { c: !tdTick('row', lead.id).c }); var n1 = document.querySelector('[data-td-in="note-' + lead.id + '"]'); if (n1) n1.focus(); }
+    else if (k === 'n' && lead) { e.preventDefault(); var n2 = document.querySelector('[data-td-in="note-' + lead.id + '"]'); if (n2) n2.focus(); }
+    else if ((k === 'o' || k === 'f') && lead) { e.preventDefault(); var want = k === 'o' ? 'O' : 'F.U.', cur = tdTick('row', lead.id).out; tdPut('row', lead.id, { out: cur === want ? '' : want }); }
+    else if (k === 'z') { e.preventDefault(); tdUndoLast(); }
+    else if (k === '[') { e.preventDefault(); tdTabStep(-1); }
+    else if (k === ']') { e.preventDefault(); tdTabStep(1); }
+    else if (k === 'p') { e.preventDefault(); tdLeaveBlock(); }
+    else if (k === '?') { e.preventDefault(); TD.kb = !TD.kb; renderAll(); }
+  });
+  document.addEventListener('click', function (e) { if (TD.mode === 'today' && e.target.closest && e.target.closest('#board-grid [data-card]')) setMode('floor', true); }, true);
+  document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-td-close]') && TD.study) { TD.study = false; renderAll(); } });
+  setInterval(tdTickSecond, 1000);
+  $('#m-floor').addEventListener('click', function () { setMode('floor'); });
+  $('#m-today').addEventListener('click', function () { setMode('today'); });
+  addEventListener('hashchange', function () { var hh = location.hash.slice(1); if (hh === 'today' && TD.mode !== 'today') setMode('today', true); });
+  addEventListener('resize', function () { if (TD.mode === 'today') renderAll(); });
+  /* ---- example data: clearly invented, shown only when the page is not reading the database ---- */
+  function tdExample(date) {
+    var L = function (n, ti, co, ph, note) { return { name: n, title: ti, company: co, ph: ph, src: 'ZI', crelateUrl: null, linkedin: 'https://www.linkedin.com/search/results/people/?keywords=' + encodeURIComponent(n), note: note || '' }; };
+    var A = [], B = [];
+    for (var i = 1; i <= 12; i++) A.push(L('Sample Person ' + pad2(i), i % 3 ? 'General Superintendent' : 'Director, Field Operations', 'Example Builders ' + (1 + i % 4), ['M', 'D', 'M D', '—'][i % 4], i === 2 ? 'Example note (example)' : ''));
+    for (var j = 1; j <= 6; j++) B.push(L('Sample Estimator ' + pad2(j), 'Chief Estimator', 'Example Mechanical ' + j, ['M', 'D'][j % 2]));
+    A.forEach(function (l, n) { l.id = 'ex-miami-' + pad2(n + 1); }); B.forEach(function (l, n) { l.id = 'ex-vmg-' + pad2(n + 1); });
+    return {
+      schema: 1, date: date, label: tdLabel(date), pillar: { n: 1, name: 'Example', verse: '' }, scripture: '1 Timothy 1:1–2',
+      habits: {}, streaks: { bible: 4, rps: 2, mps: null, workout: 6, drinks: null, wisdom: 3, agency: 1, growth: null, weight: null },
+      run: [['05:45', 'Pray'], ['07:00', 'Admin · stand-up'], ['08:00', 'QC calls · must-calls'], ['09:00', 'Company-Wide Power Hour'], ['11:00', 'POWER HOUR · Example Miami', 'Example East Coast hour (example)', 1, 'ex-miami'], ['12:00', 'Weekly call (example)'], ['13:00', 'POWER HOUR · Example VMG', 'Example (example)', 1, 'ex-vmg'], ['14:00', 'Recruiting · callbacks'], ['15:45', 'Call a client (example)'], ['17:30', 'Check-out']]
+        .map(function (r) { return { at: r[0], title: r[1], note: r[2] || '', powerHour: !!r[3], sheetId: r[4] || null }; }),
+      must: [{ id: 'm1', at: '07:00', title: 'Send two retainers (example)', note: 'Drafted, still unsent (example).', addedAt: null }, { id: 'm2', at: '08:00', title: 'QC calls (example)', note: 'Two start inside a week (example).', addedAt: null }, { id: 'm3', at: '11:00', title: 'Power Hour: 12 dials (example)', note: 'East Coast hours (example).', addedAt: null }],
+      decisions: [{ id: 'd1', text: 'Send the split-fee agreement (example)?', pick: 'Yes, after you read the terms.', alertId: null }, { id: 'd2', text: 'Forward the submittal (example)?', pick: 'Forward today.', alertId: null }],
+      qc: [{ id: 'q1', name: 'Sample Candidate A', clientSeat: 'Example Client · Sr Super', date: 'Starts Thu', lastTouch: 'Never touched', 'do': 'Call today (example)', today: true, group: 'Pending start', asOf: date, addedAt: null }, { id: 'q2', name: 'Sample Candidate B', clientSeat: 'Client · discreet · MEP Super', date: 'Starts Mon', lastTouch: 'You, Mon', 'do': 'Next touch by Thu (example)', today: false, group: 'Pending start', asOf: date, addedAt: null }, { id: 'q3', name: 'Sample Candidate C', clientSeat: 'Example Client · PM', date: 'Started Mon', lastTouch: 'Never touched', 'do': 'Day-2 check-in (example)', today: true, group: 'Started', asOf: date, addedAt: null }],
+      sheets: [
+        { id: 'ex-miami', title: 'Example · Field Operations Leader, Miami', eyebrow: 'CALL SHEET', window: { pt: '11:00-12:00', et: '14:00-15:00' }, tz: 'ET', eastCoast: true, brief: 'Example brief: pitch the seat, not the client (example).', opener: '', sub: '12 sample names (example).', url: null, leads: A },
+        { id: 'ex-vmg', title: 'Example · Chief Estimator + Precon', eyebrow: 'CALL SHEET', window: { pt: '13:00-14:00', et: '16:00-17:00' }, tz: 'ET', eastCoast: true, brief: '', opener: '', sub: '6 sample names (example).', url: null, leads: B }],
+      study: { ref: '1 Timothy 1:1–2', text: 'Paul, an apostle of Christ Jesus by command of God our Savior… (example)', setting: 'Example setting.', words: [{ word: 'apostle', orig: 'apostolos', note: 'One sent with authority (example).' }], reflect: ['Example question one?', 'Example question two?'], prayer: 'Example prayer.', memory: 'Example memory verse.' },
+      sources: ['example'], builtAt: new Date().toISOString(), builtBy: 'example'
+    };
   }
 
   /* ---------- example data (clearly labelled; no client names, pay, phones, family or health) ---------- */
@@ -2205,10 +3071,12 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     listen('actions', function (m) { S.actions = m; });
     listen('tickets', function (m) { S.tickets = m; });
     listen('tools', function (m) { S.tools = m; });
+    listen('sessions', function (m) { S.sessions = m; });
     S.unsub.meta = db.doc('meta/sync').onSnapshot(function (s) { S.meta = s.exists ? s.data() : null; renderAll(); }, function () {});
     S.unsub.records = db.doc('meta/records').onSnapshot(function (s) { S.records = s.exists ? s.data() : null; renderAll(); }, function () {});
     S.unsub.today = db.doc('meta/today').onSnapshot(function (s) { S.today = s.exists ? s.data() : null; renderAll(); }, function () {});
     if (!S.share) attachBenches();
+    TD.un = []; TD.date = null; TD.doc = null; tdWatch();
     renderAll();
   }
   function boot() {
@@ -2232,6 +3100,8 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var wake = function () { if (!document.hidden) { tick(); renderAll(); } };   // a background tab's timers are throttled: catch up the moment it is looked at
     document.addEventListener('visibilitychange', wake); addEventListener('focus', wake); addEventListener('pageshow', wake);
     var hash = location.hash.slice(1); if (hash && (hash === 'radar' || S.agents[hash])) openSheet('desk', hash, null);
+    var savedMode = null; try { savedMode = localStorage.getItem('eo-mode'); } catch (x) {}
+    if (hash === 'today' || (!hash && savedMode === 'today')) setMode('today', true);
   }
   boot();
 })();

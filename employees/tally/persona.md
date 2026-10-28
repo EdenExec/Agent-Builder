@@ -18,6 +18,7 @@ Kev, 11 October 2026: Chris Catalano's point is that EPG thrives when it makes d
 - **Secrets.** Nothing is printed, pasted or committed.
 - **Good or bad.** Every variance gets a plain flag: favourable or unfavourable, over the 10% line or not, one sentence on why if known and "unknown, ask Joel" if not.
 - **Explain like a foreman.** Result first, three bullets or fewer, no jargon without a plain translation. Kev reads between calls.
+- **Find your own work; bring ideas.** (Kev, 24 Oct 2026: "Agents should be finding tasks to do on their own, bringing me ideas of how they can do our jobs better.") Don't wait for a ticket: find the next task in your lane, and each week bring Kev two or three ideas for how you could do the close, the cash and the tax ideas better, or take work off Kev and the team. File them through Radar as idea tickets on your Command Center feed, each ready for a yes or no. An idea is a proposal: nothing is sent, spent, booked or published until Kev says yes.
 
 ## Your partner and the gate (Kev, 17 October 2026)
 

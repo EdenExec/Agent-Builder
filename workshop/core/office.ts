@@ -28,7 +28,7 @@ export const DEFAULT_EXPECTED_EVERY_HOURS = 96;
 
 export type Desk = "centre" | "recruiting" | "finance" | "family" | "projects" | "other";
 export const DESKS: Record<string, Desk> = {
-  radar: "centre", scout: "recruiting", q: "recruiting", dean: "recruiting", host: "finance",
+  radar: "centre", scout: "recruiting", casey: "recruiting", q: "recruiting", dean: "recruiting", host: "finance",
   tally: "finance", docket: "finance", pm: "projects", atlas: "family", "housing-architect": "family", keys: "family", hale: "family", jethro: "family", barnabas: "family",
 };
 /** Hidden or blanked under the Screen-share switch: finance, family and the coaching desk. */
@@ -43,6 +43,8 @@ export type CallItem = { who: string; company?: string; at: string; returned?: b
 export type RunResult = { routine: string; agent?: string; lastRunAt?: string; ok: boolean; note?: string };
 /** A ticket as the sync reads it from the tickets collection. The SLA and the game need ask, createdAt, doneAt and result too. */
 export type TicketLite = { id: string; agent: string; status: string; pickedAt?: string; priority?: string; ask?: string; createdAt?: string; updatedAt?: string; doneAt?: string; result?: { summary?: string; link?: string } | null };
+/** An ask an agent posted to the recruiters on the Team Hub (`team_asks`); only `from` and the times matter here. */
+export type AskLite = { id?: string; from?: string; createdAt?: string };
 /** A row of the actions collection (Kev's Done / Follow up / Zzz taps). */
 export type ActionLite = GameAction;
 export type RoutineLite = { id: string; name: string; agent: string; trigger_id: string | null; cron?: string };
@@ -63,6 +65,10 @@ export type SyncInput = {
   tickets?: TicketLite[];
   /** The actions collection: each Done or Follow up tap is one of Kev's moves in the game. */
   actions?: ActionLite[];
+  /** The Team Hub's team_asks collection: an ask an agent posted counts as hearing from it. */
+  asks?: AskLite[];
+  /** Bench documents Q computes (workshop/core/benches.ts): benches/client, recruiting, depth, university, projects, family. Never finance or revenue. */
+  benches?: { docs: Record<string, unknown>; skipped: string[] };
 };
 
 export type Alert = {
@@ -199,7 +205,7 @@ export function buildAlerts(input: SyncInput): Alert[] {
   }
 
   // The ticket SLA (Kev, 22 Oct 2026): open more than 60 runner minutes is a FAIL (urgent); picked or working more than 4 runner hours with no result is a STALL (amber).
-  // Never on Saturday, never for done or gated tickets (slaFindings enforces both). The ids are stable, so a ticket picked up later deletes its own alert on the next sync.
+  // Never inside the Sabbath (Friday sunset to Saturday sunset), never for done or gated tickets (slaFindings enforces both). The ids are stable, so a ticket picked up later deletes its own alert on the next sync.
   const byId = new Map((input.tickets ?? []).map((t) => [t.id, t]));
   for (const f of slaFindings(input.tickets ?? [], now.getTime())) {
     const ask = byId.get(f.id)?.ask;
@@ -216,6 +222,23 @@ export function buildAlerts(input: SyncInput): Alert[] {
   return out;
 }
 
+/** Latest ISO time anything of this agent's moved: its memory (git, now.json), its QC items, its Command Center tickets
+ *  (created, picked, done, updated) and the Team Hub asks it posted. Kev, 26 Oct, on a floor of "stale" desks whose feeds showed
+ *  fresh work: a ticket closed this morning is hearing from the agent. Times in the future (clock skew, typos) are ignored. */
+export function lastHeardOf(id: string, input: SyncInput): string | null {
+  const nf = input.nowFiles?.[id];
+  const times = [input.heard?.[id], nf?.updated,
+    ...input.qc.filter((q) => q.employee === id).map((q) => q.createdAt),
+    ...(input.tickets ?? []).filter((t) => t.agent === id).flatMap((t) => [t.createdAt, t.pickedAt, t.doneAt, t.updatedAt]),
+    ...(input.asks ?? []).filter((x) => x.from === id).map((x) => x.createdAt)];   // doneAt and replies are the recruiter's, not the agent's
+  let best: number | null = null;
+  for (const v of times) {
+    const ms = v ? Date.parse(v) : NaN;
+    if (Number.isFinite(ms) && ms <= input.now.getTime() && (best === null || ms > best)) best = ms;
+  }
+  return best === null ? null : new Date(best).toISOString();
+}
+
 export function buildAgents(input: SyncInput, alerts: Alert[]): AgentDoc[] {
   const { now } = input;
   return input.agents.map((a) => {
@@ -223,8 +246,7 @@ export function buildAgents(input: SyncInput, alerts: Alert[]): AgentDoc[] {
     const counts = Object.fromEntries(PRIORITY.map((l) => [l, 0])) as Record<Light, number>;
     for (const x of mine) counts[x.light]++;
     const nf = input.nowFiles?.[a.id];
-    const heardCandidates = [input.heard?.[a.id], nf?.updated, ...input.qc.filter((q) => q.employee === a.id).map((q) => q.createdAt)].filter(Boolean) as string[];
-    const lastHeard = heardCandidates.sort().at(-1) ?? null;
+    const lastHeard = lastHeardOf(a.id, input);
     const expected = EXPECTED_EVERY_HOURS[a.id] ?? DEFAULT_EXPECTED_EVERY_HOURS;
     const sinceHeard = ageMs(lastHeard ?? undefined, now);
     const fresh = sinceHeard <= WORKING_FRESH_HOURS * HOUR;
@@ -337,6 +359,8 @@ export function buildFeed(input: SyncInput, tools: Tool[] = [], seen: Record<str
   else if (!input.actions) skipped.push("Kev's Done and Follow up taps, which score in the game (pass --actions)");
   const docs: Record<string, unknown> = {};
   const at = input.now.toISOString();
+  for (const [path, bench] of Object.entries(input.benches?.docs ?? {})) docs[path] = bench;
+  skipped.push(...(input.benches?.skipped ?? []));
   for (const a of agents) docs[`agents/${a.id}`] = a;
   for (const a of alerts) docs[`alerts/${a.id}`] = a;
   for (const t of tools) {

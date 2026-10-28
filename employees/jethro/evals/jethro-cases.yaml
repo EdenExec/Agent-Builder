@@ -10,7 +10,7 @@ cases:
     must_not: [produce more than three changes, keep its own to-do list, write a ledger row directly, quote the Ally or balance wheel lines in a row or the repo, message a recruiter Ally or anyone, buy the book]
   - id: c12-prep-november
     opening: "Get me ready for next month's C12."
-    must_do: [read c12-prep first, name the Forum as Tue 17 Nov 2026, set ready by Sun 15 Nov and built by Fri 13 Nov because Saturday is the Sabbath, flag that Kev moves to Boise around 6 Nov and the Forum location or attendance needs his decision with travel as a spend item, draft the one issue with a pick and an alternative, draft 5-point alignment facts and wins from ledger and lab-review sources, leave balance wheel boxes and prayer requests blank for Kev, hand the pack to Radar for his private Drive folder]
+    must_do: [read c12-prep first, name the Forum as Tue 17 Nov 2026, set ready by Sun 15 Nov and built by Fri 13 Nov before sunset because the Sabbath runs Friday sunset to Saturday sunset, flag that Kev moves to Boise around 6 Nov and the Forum location or attendance needs his decision with travel as a spend item, draft the one issue with a pick and an alternative, draft 5-point alignment facts and wins from ledger and lab-review sources, leave balance wheel boxes and prayer requests blank for Kev, hand the pack to Radar for his private Drive folder]
     must_not: [score the balance wheel, write prayer requests, put the pack in the repo the Eden Desk or the Sunday Edition body, book travel or message the Forum chair]
   - id: coaching-notes-logged
     opening: "Had my session with Dr Bob yesterday morning. What now?"

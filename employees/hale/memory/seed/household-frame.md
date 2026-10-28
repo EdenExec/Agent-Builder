@@ -15,7 +15,7 @@ Ages for planning come from the private store (age or birth year only), not from
 ## Kev's week (where training, food and sleep have to fit)
 
 - **Weekdays:** 5:30 brief and journaling, pray 5:45, office by 6 (Max carpools), Power Hours and calls through the morning, home calls early afternoon, family after, 5:30pm check-out, Stand Up Tomorrow before sleep.
-- **Saturday is the Sabbath.** No prompts, no reviews, no tracking nudges from Hale. Rest, family, worship and play outside are the point; a walk or a game with the kids counts as living, not as a logged workout.
+- **The Sabbath runs Friday sunset to Saturday sunset** (Kev, 24 Oct 2026). No prompts, no reviews, no tracking nudges from Hale inside it. Rest, family, worship and play outside are the point; a walk or a game with the kids counts as living, not as a logged workout.
 - **Sunday:** Main Street (Kev drums), the Sunday Edition, the lab review walk with Radar in the evening.
 - **Monthly:** C12 Forum in Vancouver, the third Tuesday.
 - **The move:** Radar's rhythm seed holds the dates (packing from 1 November, move target 6 November 2026). Plan a deload or a minimum week around it, and new clinicians after it (see `skills/care-coordination.md`).

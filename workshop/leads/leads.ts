@@ -137,7 +137,7 @@ export function upgradeEntry(e: Partial<IndexEntry> & Pick<IndexEntry, "file">, 
   return { ...base, stage: stageOf(base) };
 }
 
-export const LOG_HEADER = ["Sheet", "Drive link", "Rows", "Landed", "Phones added", "In Crelate", "Moved", "Owner note"] as const;
+export const LOG_HEADER = ["Ref", "Sheet", "Drive link", "Rows", "Landed", "Phones added", "In Crelate", "Moved", "Owner note"] as const;
 
 /** The Lead Log: one row per sheet, status by date. Counts and dates only; no names, no phones. */
 export function leadLogCsv(entries: IndexEntry[]): string {
@@ -145,7 +145,7 @@ export function leadLogCsv(entries: IndexEntry[]): string {
   const sorted = [...entries].sort((a, b) => (a.landedAt ?? "9999").localeCompare(b.landedAt ?? "9999") || a.file.localeCompare(b.file));
   for (const e of sorted) {
     const note = e.note || [e.discreet ? "Discreet client: ask Radar before calling" : "", e.status === "needs-fix" ? "Needs fix: Scout is correcting" : ""].filter(Boolean).join("; ");
-    lines.push([e.title ?? e.file.replace(/\.csv$/, ""), e.driveUrl ?? "", String(e.rows), e.landedAt ?? "", e.phonesAt ?? "", e.crelateAt ?? "", e.movedAt ?? "", note]);
+    lines.push([/\bEL-\d+/.exec(`${e.title ?? ""} ${e.file}`)?.[0] ?? "", e.title ?? e.file.replace(/\.csv$/, ""), e.driveUrl ?? "", String(e.rows), e.landedAt ?? "", e.phonesAt ?? "", e.crelateAt ?? "", e.movedAt ?? "", note]);
   }
   return lines.map((l) => l.map(q).join(",")).join("\n") + "\n";
 }

@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { buildFeed, buildAlerts, buildAgents, findUnused, planWrites, chunk, scrub, qcApprovalsByDay, DESKS, type SyncInput, SUPERHUMAN_URL } from "./office.ts";
+import { buildFeed, buildAlerts, buildAgents, lastHeardOf, findUnused, planWrites, chunk, scrub, qcApprovalsByDay, DESKS, SENSITIVE_AGENTS, type SyncInput, SUPERHUMAN_URL } from "./office.ts";
 import type { QcItem } from "./qc.ts";
 import type { GateRecord } from "./numbers-gate.ts";
 import { approvalHash } from "./qc.ts";
@@ -103,6 +103,26 @@ describe("staleness: a green glow on a dead agent is the worst lie", () => {
     const s = buildAgents(i, []).find((x) => x.id === "scout")!;
     assert.equal(s.light, "working");
     assert.equal(s.openTickets, 1);
+  });
+  test("lastHeard is the latest of memory, QC, the agent's own tickets and its Team Hub asks (Kev, 26 Oct: a stale floor with fresh feeds)", () => {
+    const i = base({
+      heard: { dean: "2026-10-10T00:00:00Z", scout: "2026-10-10T00:00:00Z", radar: "2026-10-21T16:00:00Z" },
+      nowFiles: { radar: { updated: "2026-10-21T17:00:00Z" } },
+      tickets: [
+        { id: "t1", agent: "dean", status: "done", createdAt: "2026-10-20T10:00:00Z", pickedAt: "2026-10-20T11:00:00Z", doneAt: "2026-10-21T15:30:00Z" },
+        { id: "t2", agent: "scout", status: "open", createdAt: "2026-10-19T09:00:00Z", updatedAt: "2026-10-21T12:00:00Z" },
+        { id: "t3", agent: "q", status: "done", doneAt: "2026-10-22T09:00:00Z" },   // in the future: ignored
+      ],
+      asks: [{ from: "tally", createdAt: "2026-10-21T14:00:00Z" }, { from: "scout", createdAt: "2026-10-21T13:00:00Z" }],
+    });
+    assert.equal(lastHeardOf("dean", i), "2026-10-21T15:30:00.000Z");
+    assert.equal(lastHeardOf("scout", i), "2026-10-21T13:00:00.000Z");
+    assert.equal(lastHeardOf("tally", i), "2026-10-21T14:00:00.000Z");
+    assert.equal(lastHeardOf("radar", i), "2026-10-21T17:00:00.000Z");
+    assert.equal(lastHeardOf("q", i), null);
+    const by = Object.fromEntries(buildAgents(i, []).map((x) => [x.id, x]));
+    assert.equal(by.dean!.silent, false);
+    assert.equal(by.dean!.lastHeard, "2026-10-21T15:30:00.000Z");
   });
   test("no news for longer than the expected rhythm is silent", () => {
     const i = base({ heard: { dean: "2026-10-10T00:00:00Z", radar: "2026-10-21T16:00:00Z" } });
@@ -210,10 +230,12 @@ describe("the ticket SLA on the desks (Kev, 22 Oct 2026)", () => {
     const done = buildAlerts(base({ tickets: [tix({ id: "s", status: "working", createdAt: ago(400), pickedAt: ago(300), result: { summary: "ok" } })] }));
     assert.equal(done.length, 0);
   });
-  test("nothing on Saturday", () => {
+  test("nothing on the Sabbath: Saturday, or Friday after sunset", () => {
     const sat = new Date("2026-10-24T19:00:00Z");
     const a = buildAlerts(base({ now: sat, tickets: [tix({ createdAt: new Date(sat.getTime() - 5 * 3600000).toISOString() })] }));
     assert.equal(a.length, 0);
+    const fri = new Date("2026-10-24T03:00:00Z");                                          // Fri 8pm PDT, sunset was 6:11pm
+    assert.equal(buildAlerts(base({ now: fri, tickets: [tix({ createdAt: "2026-10-23T20:00:00Z" })] })).filter((x) => x.kind === "sla").length, 0);
   });
   test("the FAIL turns the desk red, and the count and the game reach meta/sync and meta/records", () => {
     const input = base({ tickets: [tix({}), tix({ id: "t2", agent: "q", status: "done", createdAt: ago(100), pickedAt: ago(90), doneAt: ago(20) })], actions: [{ action: "done", at: ago(10) }] });
@@ -261,6 +283,10 @@ describe("the ticket SLA on the desks (Kev, 22 Oct 2026)", () => {
     assert.deepEqual(qcApprovalsByDay(q, now), { "2026-10-21": 2 });
   });
   test("the Projects PM sits on its own desk", () => { assert.equal(DESKS.pm, "projects"); });
+  test("the Client Care Manager sits on the Recruiting desk and is not hidden under Screen share", () => {
+    assert.equal(DESKS.casey, "recruiting");
+    assert.ok(!SENSITIVE_AGENTS.has("casey"));
+  });
 });
 
 describe("the page", () => {

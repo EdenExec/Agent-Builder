@@ -4,7 +4,8 @@
 # The bot is Q's playbook run by a Radar session in Kev's account: it needs Kev's Gmail (or Superhuman Mail) and CloudTalk
 # connectors. Routines created by an agent in this organisation carry NO connectors, so trigger_id stays null until Kev
 # creates the trigger himself (claude.ai > Routines > New, connectors attached) and the id is pasted here.
-# Times are Pacific. Mon-Fri only (cron days 1-5): never Saturday, the Sabbath.
+# Times are Pacific. Mon-Fri only (cron days 1-5): never Saturday. The Sabbath runs Friday sunset to Saturday sunset, so the
+# Friday 11pm run always falls inside it and stops at its sabbath check.
 branch: claude/pensive-brown-18gll8
 routines:
   - id: cloudtalk-nightly

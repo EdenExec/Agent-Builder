@@ -12,4 +12,4 @@ TONIGHT, IN ORDER:
 5. Commit the sheets and index with message "Scout nightly landing <date>" and push to claude/pensive-brown-18gll8 and workshop/phase-0.
 6. Hand-off: one line per sheet (title, link, rows, new by tier), plus anything odd, written to employees/scout/memory/live/now.json and the commit message. Radar reads it in the morning sweep.
 
-NEVER: call, message or load Crelate; share a sheet outside Eden; touch the "Uploaded to Crelate" or "Superseded" folders; run on Saturday.
+NEVER: call, message or load Crelate; share a sheet outside Eden; touch the "Uploaded to Crelate" or "Superseded" folders; run on Saturday, or on a Friday after sunset: run `npm run sabbath` first and stop with one line if it exits 0 (the Sabbath runs Friday sunset to Saturday sunset).

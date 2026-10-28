@@ -9,9 +9,14 @@
 //   --tickets tickets.json [{id,agent,status,ask,createdAt,pickedAt?,doneAt?,priority?,result?}] ArtifactData query of the tickets collection
 //                          (the SLA and the game need every ticket, done ones included: a FAIL is an open ticket past 60 runner minutes)
 //   --actions actions.json [{action,at,key?,agent?}]                ArtifactData list of the actions collection (Kev's Done / Follow up taps score 2 each)
+//   --asks asks.json       [{from,createdAt}]                       the Team Hub's team_asks: an ask an agent posted counts as hearing from it
 //   --seen seen.json       {"open-hub":"2026-10-21T..."}            the seen collection, id -> at
 //   --activity act.json    {"hub":"2026-10-20T..."}                 last time Radar saw each tool used
 //   --existing ex.json     {"agents/radar":{"version":3,"data":{...}}}  ArtifactData list results, so writes carry if_version and resolved alerts are deleted
+//   --jobs jobs.json       the Team Hub jobs collection (office-prep writes it from the dump): the Client work bench
+//   --jobs-read-at ISO     when those jobs were read (default: the file's mtime)
+//   --board board.json     a fresh read-only Crelate pull (npm run recruiting-board -- --out ...): the Recruiting and Hiring ramp benches (default: the repo's Round Table board file)
+//   (the --ledger file also feeds the Family bench: counts of the Home lane only)
 //   --now ISO              pretend it is this time (tests)
 // npm run office -- build-page   copy workshop/core/office-game.js into the page between its GAME-CORE markers (a test fails if they drift)
 // Reads only. Never talks to Crelate, Notion, Gmail or the artifact.
@@ -22,6 +27,8 @@ import { parse } from "yaml";
 import { list as listQc } from "../core/qc.ts";
 import { list as listGates } from "../core/numbers-gate.ts";
 import { buildGameBlock, injectGameBlock } from "./page-game.ts";
+import { buildBenches } from "../core/benches.ts";
+import { loadBenchInputs } from "./benches.ts";
 import { buildFeed, chunk, planWrites, type AgentLite, type NowFile, type RoutineLite, type SyncInput, type Tool } from "../core/office.ts";
 
 const argv = process.argv.slice(2);
@@ -70,15 +77,16 @@ try {
     console.log(`Game core copied into ${page}.`);
     process.exit(0);
   }
-  if (cmd !== "sync") throw new Error("Usage: office sync [--dry] [--out dir] [--ledger f] [--inbox f] [--calls f] [--runs f] [--tickets f] [--actions f] [--seen f] [--activity f] [--existing f] [--now ISO] | build-page");
+  if (cmd !== "sync") throw new Error("Usage: office sync [--dry] [--out dir] [--ledger f] [--inbox f] [--calls f] [--runs f] [--tickets f] [--actions f] [--asks f] [--seen f] [--activity f] [--existing f] [--now ISO] | build-page");
   const { agents, routines, nowFiles, heard } = loadAgents();
   const input: SyncInput = {
     now: flags.has("now") ? new Date(flags.get("now")!) : new Date(),
     agents, routines, nowFiles, heard,
     qc: listQc("qc"), gates: listGates("gates"),
     ledger: json("ledger"), inbox: json("inbox"), calls: json("calls"), runs: json("runs"),
-    tickets: flat(json<unknown[]>("tickets")), actions: flat(json<unknown[]>("actions")),
+    tickets: flat(json<unknown[]>("tickets")), actions: flat(json<unknown[]>("actions")), asks: flat(json<unknown[]>("asks")),
   };
+  input.benches = buildBenches(loadBenchInputs({ now: input.now, jobsFile: flags.get("jobs"), jobsReadAt: flags.has("jobs-read-at") ? new Date(flags.get("jobs-read-at")!) : undefined, boardFile: flags.get("board"), ledgerFile: flags.get("ledger") }));
   const toolsFile = "projects/virtual-office/tools.json";
   const tools = existsSync(toolsFile) ? (JSON.parse(readFileSync(toolsFile, "utf8")) as Tool[]) : [];
   const existing = json<Record<string, { version: number; data?: unknown }>>("existing") ?? {};

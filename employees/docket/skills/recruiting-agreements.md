@@ -28,6 +28,14 @@ Eden earns by placing people, so the agreement decides when the money is real. R
 
 Written notice and cure period, interest, costs and attorney fees to the winner, venue near Eden, and a personal guarantee only if offered knowingly. Keep an eye on clients who pay slowly: a 65-day-late invoice is a legal question as well as a cash one, and the contract decides what Eden can do about it.
 
+## Eden's retained search terms (Kev, 23 Oct 2026: "this is how we should do all retained searches now")
+
+- **Two payments.** A retainer (deposit) to fund the search, due on signing; the remainder on successful completion, due within 30 days of the candidate's start date.
+- **Final invoice:** the fee rate (25% for Pruter) times the candidate's actual first-year base salary, minus the retainer. No fee floor.
+- **Refund only on the client's call.** Eden sends a progress report within the first 10 business days. If the client doesn't believe Eden is performing in line with the intake expectations (for example, fewer than three qualified candidates), the client may ask for the retainer back in writing; it is not automatic.
+- **Earned once Eden performs.** If Eden performs in the first 10 business days in line with expectations, the retainer stays with Eden, including if the client fills the role elsewhere or promotes from within.
+- The Drive template "Template: Retained Search Agreement Overview _ ___ & EPG" carries these terms. Still open for the template: entity names, governing law and venue, and the sales page after the signature block (redlines 9 to 11 in `projects/recruiter-desk/pruter/agreement-check.md`).
+
 ## Output
 
 For each agreement: the fee formula in one line, the trigger, the terms, the guarantee, the tail, then the redlines. Numbers (rate, base, due date, discount) go through the gate.

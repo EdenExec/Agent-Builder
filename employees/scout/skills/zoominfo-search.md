@@ -31,6 +31,8 @@ Add a variant to `memory/live/` when a pull shows one that matters.
 
 Search is free to run; enrichment (`enrich_contacts`) spends ZoomInfo credits, and Radar found the credits spent for the current cycle in early October. Until Kev sets a monthly credit budget: no bulk enrichment. Enrich only to fill a LinkedIn URL for Tier 1 rows when a web search fails, 25 a day at most, and log the count in `memory/live/credits.md`. Anything larger is a `spend` QC item with the number of records.
 
+Exception (Kev, 27 Oct 2026): nightly phone enrichment of the lead sheets may pay up to 100 credits a night, under `phone-enrichment` only. Records already under management are free and do not count toward the cap.
+
 ## Use of the data
 
 ZoomInfo data is for Eden's own recruiting. Never share it outside Eden, never resell it, and never feed it into bulk unsolicited outreach.

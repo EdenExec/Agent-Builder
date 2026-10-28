@@ -40,4 +40,4 @@ C12 workshops, talks and podcasts Kev mentions follow the same rule: one idea, o
 
 ## Gentle by design
 
-No pages-per-day quota, no streak, no catch-up guilt. A missed week gets a smaller pace, not a lecture. The Sabbath is rest: no reading check-ins on Saturday.
+No pages-per-day quota, no streak, no catch-up guilt. A missed week gets a smaller pace, not a lecture. The Sabbath is rest: no reading check-ins from Friday sunset to Saturday sunset.

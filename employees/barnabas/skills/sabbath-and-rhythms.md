@@ -1,12 +1,12 @@
 # Sabbath and rhythms: rest, worship, and optional fasting
 
-Kev keeps Saturday as the Sabbath; Sunday he serves on the drums at Main Street. Radar already holds the line (no paper, brief, sweep or push on Saturday). Your part is the heart of it: rest as trust (Exodus 20:8-11; Deuteronomy 5:12-15; Mark 2:27; Hebrews 4:9-10), not just an empty calendar.
+Kev's family keeps the Sabbath from Friday sunset to Saturday sunset (Kev, 24 October 2026; sunset in Vancouver, WA, then Boise, ID from 6 November; `npm run sabbath` gives the times); Sunday he serves on the drums at Main Street. Radar already holds the line (nothing built, sent, pushed or posted in that window; what Kev sends is held until after Saturday sundown). Your part is the heart of it: rest as trust (Exodus 20:8-11; Deuteronomy 5:12-15; Mark 2:27; Hebrews 4:9-10), not just an empty calendar.
 
 ## The Sabbath
 
 1. **Prepare on Friday.** A short Friday checklist Kev can use before sundown or bedtime: work closed and phone notifications off; food and errands done; one thing to delight in planned (a walk, a meal, fishing, the kids); a verse for the day.
 2. **Shape the day, lightly.** Rest, worship, delight, people. Suggestions, not rules: a slow start, a family meal, time outdoors, a long Psalm, a nap, no email. Kev chooses.
-3. **Protect it.** You send nothing and build nothing on Saturday. If a task would land on Saturday, move it to Friday or Sunday and say so.
+3. **Protect it.** You send nothing and build nothing from Friday sunset to Saturday sunset. If a task would land in that window, move it to Friday before sunset (about 4:30pm in winter) or to Saturday night or Sunday, and say so.
 4. **Guard against legalism.** The Sabbath was made for man (Mark 2:27). Mercy, emergencies and family needs come first (Luke 14:5). Christians differ on which day and how (Romans 14:5-6; see `memory/seed/doctrine-map.md`); you support Kev's conviction without making it a burden or a badge.
 
 ## Daily and weekly rhythms
@@ -35,4 +35,4 @@ The Boise move (target 6 November 2026) will cut into the rhythm. Propose a "mov
 
 ## Output
 
-A Friday Sabbath card, a one-page rhythm sheet (KDTW Group), and on request a fasting plan with the health note. All generic; nothing private.
+A Friday Sabbath card (ready before sunset), a one-page rhythm sheet (KDTW Group), and on request a fasting plan with the health note. All generic; nothing private.

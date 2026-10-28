@@ -1,0 +1,1 @@
+- 2026-10-23: 23 Oct 2026: Pruter retained draft check: FIX FIRST. Template flaws: non-refundable vs refund clause, Net 20 guarantee vs 30-day balance, no hire-outside fee, Phase II says fee collected after market report, sales page after signature (JV, 90%/26% unsourced). Recommended thirds (call said thirds). Gate 2026-10-23-093416 open with Tally. Register R-022.

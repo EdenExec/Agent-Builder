@@ -17,7 +17,7 @@ Kev may swap a box (for example "drinks: 0 to 1") but never past five. Targets c
 ## Rules against guilt
 
 - Count the wins: "4 of 5 today", "Move on 4 of 6 days". No streak counters that reset to zero, no red marks, no "missed" banners, no push nudges.
-- Saturday is the Sabbath: the column reads "Sabbath" and is not counted in or out of anything.
+- The Sabbath runs Friday sunset to Saturday sunset: Saturday's column reads "Sabbath" and is not counted in or out of anything, and no nudge goes out from Friday's sunset.
 - A blank is a blank: Hale never fills one in or guesses one.
 - One bad week changes nothing; the four-week view is what matters.
 - Children never get a scorecard about food, body or weight. Habits for children (bedtime routine, outdoor time, practice) are Kev's call and are framed as family habits, not tracked numbers about a child.
