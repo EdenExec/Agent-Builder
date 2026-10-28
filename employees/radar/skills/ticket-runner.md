@@ -10,7 +10,7 @@ Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW · The Sabbath runs Fr
 
 1. **Read the queue.** `ArtifactData list` on `tickets`, `agents`, `alerts` and `meta`, all with the same `out_dir` (for example `/tmp/office-dump`). Note each document's version from the list results.
 2. **Close duplicates.** Same agent, same ask, filed minutes apart: `done` with `result.summary` "Duplicate of <id>".
-3. **Pick up everything open.** Set each remaining `open` ticket to `picked` with `pickedAt` now (one `batch`, pin `if_version`). Do this before any work, so the desk lights go green at once.
+3. **Pick up everything open.** Re-list `tickets` (a fresh `query` on `status` `open`) immediately before the pick-up write, not from the step 1 dump, so a ticket filed while the run was reading is not missed (autopsy 28 Oct, vtmd). Also treat any `waiting` ticket older than 60 minutes as open work: re-check what it waits on, and if it is still stuck set it `blocked` with `blockedOn` naming the exact thing and make sure a `needsKev` alert exists (autopsy 28 Oct, qtly). Set each remaining `open` ticket to `picked` with `pickedAt` now (one `batch`, pin `if_version`). Do this before any work, so the desk lights go green at once.
 4. **Run the agents.** Start one Agent per ticket, all in one message so they run in parallel (`subagent_type` = the ticket's agent id; `radar` tickets are yours to do directly). Give each the ticket id, Kev's ask word for word, and these rules:
    - write files in the repo but do not commit;
    - update `employees/<agent>/memory/live/now.json`;
@@ -44,6 +44,7 @@ Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW · The Sabbath runs Fr
    - **QC touch** (`daily-<date>-touch-<id>`): add a touch `{at, by: "Kev", note}` to the matching Team Hub `care` doc (https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6), so the row clears.
    - Never treat a tap as approval of a spend, a send or a publish: those stay QC two-tap items.
    - Ticks under `daily/<date>/ticks` are Kev's: read them at check-out, never write them.
+9b. **Last look.** Before logging, re-query `tickets` for `open` once more and pick up and run anything filed during this run, so nothing waits for the next hour.
 10. **Log.** One line to `employees/radar/memory/live/runner-log.md`: time, picked, closed, gated, blocked, FAILs found (open over 60 minutes at the start of the run). Any FAIL also gets a line in `friction.md` saying why it sat.
 
 ## Never
@@ -51,4 +52,5 @@ Office: https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW · The Sabbath runs Fr
 - Never approve QC, send, spend or publish. Gated means Kev decides with the Approve tap in the Office.
 - Kev's **Done** tap means he did it himself: close it, cancel any ticket for it, never carry it out (Kev, 23 Oct 2026). Apply Kev's taps per the inbox sweep's Actions step.
 - Never write health, prayer, coaching or journal content anywhere but Kev's private Notion (Hale, Jethro and Barny tickets).
+- Never let a bench stay stale because the run was "short": if a `needsKev` auth alert has cleared (the connector works), 8a runs that hour.
 - Never skip a ticket because the run is short, and never skip the floor refresh (step 8): cut the cockpit rewrite first.
