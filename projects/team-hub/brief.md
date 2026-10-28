@@ -90,7 +90,7 @@ Kev, with a photo of the cork board in his office: "your job orders + leads brea
 
 ## Asks for the team (Kev, 25 October 2026)
 
-Kev: agents may ask the recruiting team for things directly, internal only, through asks on the Team Hub that the team checks daily. Goal: take work off Kev's plate. Casey first, then Jenny (`host`). No email, text or client contact from an agent; client-facing comes later, after a clean month.
+Kev: agents may ask the recruiting team for things directly, internal only, through asks on the Team Hub that the team checks daily. Goal: take work off Kev's plate. Casey first, then Jenny (`host`); Ember (`ember`, 28 Oct 2026) posts touch asks for warm people not in process, by Casey's protocol, at most 2 per recruiter a day. No email, text or client contact from an agent; client-facing comes later, after a clean month.
 
 - **Where.** A closed folder, "Asks for the team" (marked "Internal · Eden only"), above the client folders. Its head carries a count badge: open asks (for the picked person, or everyone) and how many are overdue. Like Job Orders it is hidden in Screen-share mode, its rows are dropped when Screen-share turns on, and opening a client folder or Job Orders closes it.
 - **Inside.** A "My asks" picker (Everyone, Max, Evan, Andrew, Noah, Bridger, Kyle, Nick), remembered per browser. Open asks first, soonest due first, overdue ones marked red; then a closed "Done or can't" list (last 20) with a Reopen button. Each ask shows who it is for, which agent asked and when, the due chip, the ask, the why, and a link to the job order (opens the Job Orders folder on that JO).
@@ -100,7 +100,7 @@ Kev: agents may ask the recruiting team for things directly, internal only, thro
 
 | Path | One document is | Fields |
 |---|---|---|
-| `team_asks/{id}` | One ask from an agent to one recruiter | id, to (max, evan, andrew, noah, bridger, kyle, nick), from (casey, host), ask (one or two lines), why (one line), job (optional `jobs/{id}`), due (ISO date or date-time), status (open, done, cant), reply, createdAt, doneAt |
+| `team_asks/{id}` | One ask from an agent to one recruiter | id, to (max, evan, andrew, noah, bridger, kyle, nick), from (casey, host, ember), ask (one or two lines), why (one line), job (optional `jobs/{id}`), due (ISO date or date-time), status (open, done, cant), reply, createdAt, doneAt |
 
 Rules: one person and one action per ask; no pay, health or anything private; Hub rules hold (no phones, emails or comp; Baker/INL may be named). Declaration from version 13: `capabilities: {db: {rules: [{path: "", read: "view", write: "admin"}, {path: "team_asks", read: "view", write: "interact"}]}, downloads: {}, user: {}}`.
 

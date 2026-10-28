@@ -11,6 +11,8 @@ Kev, 24 and 27 Oct 2026, tickets `t-202610241440-qcwl` and `t-202610270025-cip1`
 | Interviewing | Interview on a chart | Every 5 days |
 | Submitted or PTC, stalled | Submitted, PTC or Presented | Shown once 7+ days without a touch |
 
+**Lane with Ember (28 Oct 2026):** this list is everyone in process, and only them. Warm people not in process (MPCs, follow-ups, passive A-players) are Ember's Warm inventory (`employees/ember/skills/warm-inventory.md`); Ember never posts a touch ask about anyone on this list.
+
 ## Daily (weekdays, with board keeping; `npm run sabbath` first)
 
 1. `ArtifactData list care` and the depth charts. Count red rows per owner.

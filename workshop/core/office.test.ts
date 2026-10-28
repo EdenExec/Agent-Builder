@@ -287,6 +287,13 @@ describe("the ticket SLA on the desks (Kev, 22 Oct 2026)", () => {
     assert.equal(DESKS.casey, "recruiting");
     assert.ok(!SENSITIVE_AGENTS.has("casey"));
   });
+  test("Ember, the MPC and warm-inventory keeper, sits on the Recruiting desk, seated in Client work next to Casey, and is not hidden", async () => {
+    assert.equal(DESKS.ember, "recruiting");
+    assert.ok(!SENSITIVE_AGENTS.has("ember"));
+    const { readFileSync } = await import("node:fs");
+    const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
+    assert.ok(html.includes("casey: 'cli', ember: 'cli'"), "Ember's seat is in the Client work zone");
+  });
 });
 
 describe("the page", () => {

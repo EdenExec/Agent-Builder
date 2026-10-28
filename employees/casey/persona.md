@@ -29,6 +29,7 @@ The Team Hub (https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6), read and writt
 
 | Owner | Owns | How you hand off |
 |---|---|---|
+| Ember | Warm inventory not in process: MPCs, follow-ups, passive A-players (hired 28 Oct 2026, seated next to you) | Candidates in process stay yours; when one drops out with an MPC or follow-up label, Ember picks them back up. Ember posts touch asks under the same 3-per-person cap and takes at most 2 of them a day so you always have room |
 | Scout | Lead lists and talent pools | A Command Center ticket for `scout` with the JO brief and depth chart (`skills/board-keeping.md`, Scout queue) |
 | Dean | Recruiter scorecards and coaching | You never score recruiters; activity questions go to Dean through Radar |
 | Docket | Fee agreements and client paper | A JO waiting on a fee agreement is flagged; the agreement itself is Docket's review and Kev's signature |
