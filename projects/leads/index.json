@@ -462,6 +462,108 @@
       "stage": "staged"
     },
     {
+      "title": "EL-023 · 2026-10-27 · PB South · Bench Project Manager, West Palm Beach · 53 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-27-pb-south-bench-pm-west-palm-beach.csv",
+      "rows": 53,
+      "tiers": {
+        "1": 38,
+        "2": 15
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1wvb1TElHmD5zV16WMp1aot3c0lgfS2vnpPWiRcY0I74/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-027 · 2026-10-27 · PB South · Field Operations Leader backups, Miami · 7 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-27-pb-south-field-operations-leader-backups-miami.csv",
+      "rows": 7,
+      "tiers": {
+        "1": 3,
+        "2": 4
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1IkPeJY4crVmr0Sd2ayy7vUEpP7Osv5kejj24i5dRbhQ/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-026 · 2026-10-27 · PB South · Junior MEP: inspections, permits, doc control, Miami · 26 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-27-pb-south-junior-mep-inspections-doc-control-miami.csv",
+      "rows": 26,
+      "tiers": {
+        "1": 15,
+        "2": 11
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1EevcVsWSumptDAVbLOeOj9JBKll2mbftcqxwyAcQPKY/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-025 · 2026-10-27 · PB South · MEP Project Executive, Miami · 16 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-27-pb-south-mep-project-executive-miami.csv",
+      "rows": 16,
+      "tiers": {
+        "1": 6,
+        "2": 9,
+        "3": 1
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/129uoZOuQF2S3wLOS5znRN43Jij96_V3uqUTEfME8ElA/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "file": "2026-10-27-pb-south-vertical-transportation-sme-miami-v2.csv",
+      "rows": 115,
+      "tiers": {
+        "1": 16,
+        "2": 74,
+        "3": 25
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0,
+      "title": null,
+      "landedAt": null,
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "stage": "staged"
+    },
+    {
       "title": "EL-022 v2 · 2026-10-27 · Candidate marketing (Kev) · Development leaders: multifamily, life science, data centers · 198 leads",
       "landedAt": "2026-10-27",
       "phonesAt": null,
