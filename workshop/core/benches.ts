@@ -7,6 +7,7 @@
 // Tiles are counts and dates only, and every tile names its source. A discreet client is never named (tiles carry no client names at all).
 import { addDays, dayOfWeek, pacificDate, weekStart } from "./office-game.js";
 import { scrub, type LedgerRow } from "./office.ts";
+import { buildCrelateDoc, type BoardForLeaderboard, type CrelateDoc } from "./recruiter-board.ts";
 
 export type Tile = { label: string; value: string; source: string; asOf: string };
 export type Bench = { id: string; owner: string; source: string; asOf: string; syncedAt: string; sourceAsOf: string; tiles: Tile[]; note?: string };
@@ -202,18 +203,21 @@ export type BenchInputs = {
 };
 
 /** Every bench whose source arrived; `skipped` names each one that could not be computed and what it needs. */
-export function buildBenches(i: BenchInputs): { docs: Record<string, Bench>; skipped: string[] } {
+export function buildBenches(i: BenchInputs): { docs: Record<string, Bench>; skipped: string[]; crelate?: CrelateDoc } {
   const docs: Record<string, Bench> = {}, skipped: string[] = [];
+  let crelate: CrelateDoc | undefined;
   const put = (b: Bench) => { assertSafe(b); docs[`benches/${b.id}`] = b; };
   if (i.jobs) put(clientBench(i.jobs, i.leadSheets ?? [], i.jobsReadAt ?? i.now, i.now)); else skipped.push("client bench (pass --jobs: the Team Hub jobs collection)");
   if (i.board) {
     put(recruitingBench(i.board, !!i.boardLive, i.now));
     put(depthBench(i.board, i.planFiles ?? { count: 0, asOf: i.now.toISOString() }, !!i.boardLive, i.now));
+    // Kev, 28 Oct: the recruiter leaderboard reads one document, meta/crelate, from the same board (counts only; see core/recruiter-board.ts).
+    crelate = buildCrelateDoc(i.board as BoardForLeaderboard, !!i.boardLive, i.now);
   } else skipped.push("recruiting and depth benches (no board file)");
   if (i.universityFiles) put(universityBench(i.universityFiles, i.now)); else skipped.push("university bench (no Eden University files)");
   if (i.schedule) put(projectsBench(i.schedule.md, i.schedule.asOf, i.now)); else skipped.push("projects bench (no schedule file)");
   if (i.ledger) put(familyBench(i.ledger, i.ledgerAsOf ?? i.now, i.now)); else skipped.push("family bench (pass --ledger: the Home lane of the Notion ledger)");
-  return { docs, skipped };
+  return { docs, skipped, ...(crelate ? { crelate } : {}) };
 }
 
 /** A bench never carries money, emails, phones or names of discreet clients. Throws so a bad tile can never be written. */

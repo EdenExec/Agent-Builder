@@ -281,6 +281,20 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .golf td.n,.golf th.n{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono)}
 .golf tr.us td{border-top:1.5px solid var(--ink);font-weight:700}
 .golf tr.neg td.n:last-child{color:var(--r)}
+/* Recruiters from Crelate (Kev, 28 Oct): the same scorecard, one row a recruiter; red = behind the 15-a-day pace. Counts and first names only. */
+.lb-body.has-rec{grid-template-columns:minmax(0,1.15fr) minmax(0,1.35fr) minmax(0,.9fr)}
+.lb-rec .golf tr.rec-row{cursor:pointer} .lb-rec .golf tr.rec-row:hover td{background:var(--soft)}
+.lb-rec .golf tr.rec-row:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.golf td.rp b{font-weight:700} .golf td.rp .std{color:var(--mute);font-weight:500}
+.golf tr.behind td.rp b{color:var(--r)}
+.golf td.nm .mk{display:inline-block;width:7px;height:7px;background:var(--r);margin-right:7px;vertical-align:1px}
+.lb-rec .gap{margin:8px 0 0} .lb-rec .gap.warn{color:var(--a)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:1079px){
+  .lb-body.has-rec{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+  .lb-body.has-rec>.lb-rec{grid-column:1/-1;grid-row:2;border-left:0!important;border-top:1px solid var(--line)}
+  .lb-body.has-rec>.lb-recs{grid-column:2;grid-row:1}
+}
 .recs{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;margin:0 0 12px;font-size:12.5px}
 .recs dt{font:500 10px/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)} .recs dd{margin:0;font-weight:600}
 .recbar{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--ink);background:var(--paper);padding:9px 14px;font:500 11px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
@@ -317,7 +331,8 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
   .board-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .cell{border-bottom:1px solid var(--bd-line)} .cell:nth-child(odd):not(:first-child){border-right:0} .cell:nth-last-child(-n+2){border-bottom:0}
   .cell.pts{grid-column:1/-1;border-right:0}
-  .lb-body{grid-template-columns:minmax(0,1fr)} .lb-body>div+div{border-left:0;border-top:1px solid var(--line)}
+  .lb-body,.lb-body.has-rec{grid-template-columns:minmax(0,1fr)} .lb-body>div+div{border-left:0;border-top:1px solid var(--line)}
+  .lb-body.has-rec>div{grid-column:auto!important;grid-row:auto!important}
   .tks{grid-template-columns:minmax(0,1fr)}
 }
 
@@ -1163,7 +1178,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     { id: 'family', zone: 'fam', title: 'Home list', sub: 'KDTW Group · family office', owner: 'Radar', sensitive: true, cls: 'bench' }
   ];
 
-  var S = { sessions: {}, live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, tools: {}, logs: {}, chats: {}, assets: null, photo: null, pending: null, sample: null, meta: null, records: null, sound: true, lineSeen: null, today: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
+  var S = { sessions: {}, live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, crelate: null, tools: {}, logs: {}, chats: {}, assets: null, photo: null, pending: null, sample: null, meta: null, records: null, sound: true, lineSeen: null, today: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
   var lastFrom = null;
 
   /* ---------- helpers ---------- */
@@ -1361,7 +1376,9 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     });
     tb.appendChild(h('tr', { class: 'us' }, h('td'), h('td', { class: 'nm', text: 'Us' }), h('td', { class: 'n', text: String(g.week.closed) }), h('td', { class: 'n', text: '' }), h('td', { class: 'n', text: String(g.week.fails) }), h('td', { class: 'n', text: String(g.week.points) })));
     left.appendChild(h('div', { class: 'scroll' }, tb)); body.appendChild(left);
-    var r = d.rec, right = h('div'); right.appendChild(h('h3', { text: 'Course records' }));
+    var recBlock = recruiterBlock(); body.className = 'lb-body' + (recBlock ? ' has-rec' : '');
+    if (recBlock) body.appendChild(recBlock);
+    var r = d.rec, right = h('div', { class: 'lb-recs' }); right.appendChild(h('h3', { text: 'Course records' }));
     var dl = h('dl', { class: 'recs' });
     dl.appendChild(h('dt', { text: 'Most closed in a day' })); dl.appendChild(h('dd', { text: r.mostClosedDay.n ? r.mostClosedDay.n + ' · ' + dateLabel(r.mostClosedDay.date) : '—' }));
     dl.appendChild(h('dt', { text: 'Best week' })); dl.appendChild(h('dd', { text: r.bestWeek.points > 0 ? r.bestWeek.points + ' pts · week of ' + dateLabel(r.bestWeek.weekOf) : '—' }));
@@ -1371,6 +1388,77 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var wt = h('table'); wt.appendChild(h('tr', null, h('th', { text: '' }), h('th', { class: 'n', text: 'Pts' }), h('th', { class: 'n', text: 'Closed' }), h('th', { class: 'n', text: 'Fails' })));
     [['This week', g.week], ['Last week', g.lastWeek]].forEach(function (x) { wt.appendChild(h('tr', null, h('td', { text: x[0] }), h('td', { text: String(x[1].points) }), h('td', { text: String(x[1].closed) }), h('td', { text: String(x[1].fails) }))); });
     right.appendChild(wt); body.appendChild(right);
+  }
+
+  /* ---------- Recruiters · Crelate · this week (Kev, 28 Oct) ----------
+     Reads meta/crelate, written by the hourly office run from one read-only Crelate pull (workshop/core/recruiter-board.ts).
+     Counts and first names only. Hidden whole under Screen share: it is a name-by-name pace table. */
+  var REC_TZ = 'America/Los_Angeles';
+  function ptStamp(iso) {
+    var d = new Date(iso); if (isNaN(d)) return 'unknown time';
+    return recDay(d) + ', ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: REC_TZ }) + ' PT';
+  }
+  function recDay(d) { var o = {}; new Intl.DateTimeFormat('en-US', { weekday: 'short', day: 'numeric', month: 'short', timeZone: REC_TZ }).formatToParts(d).forEach(function (p) { o[p.type] = p.value; }); return o.weekday + ' ' + o.day + ' ' + o.month; }
+  function ptDay(ymd) { var a = ymd.split('-'); return recDay(new Date(Date.UTC(+a[0], +a[1] - 1, +a[2], 19))); }   // 19:00Z is noon Pacific in daylight time and 11am in standard: the same calendar day either way
+  function recRank(rows) {                   // sorted by RPs; ties share a place, shown with a T
+    var by = rows.slice().sort(function (a, b) { return (b.week.rps - a.week.rps) || (a.name < b.name ? -1 : 1); });
+    by.forEach(function (r) { r.place = by.map(function (x) { return x.week.rps; }).indexOf(r.week.rps) + 1; r.tie = by.some(function (x) { return x !== r && x.week.rps === r.week.rps; }); });
+    return by;
+  }
+  function recFresh(c) {                     // what to say about the data's age: never "fresh" over an old file
+    var ageMs = Date.now() - t(c.asOf), old = ageMs > 3 * HOUR;
+    return { text: ago(c.asOf), warn: c.live === false || old || c.weekIsCurrent === false };
+  }
+  function recruiterBlock() {
+    if (S.share) return null;
+    var box = h('div', { class: 'lb-rec' }), c = S.crelate;
+    box.appendChild(h('h3', { text: 'Recruiters · Crelate · this week' }));
+    if (!c || !c.recruiters) { box.appendChild(h('p', { class: 'small', text: S.live ? 'Waiting for the office run to write the Crelate counts (meta/crelate). Crelate stays the system of record.' : 'Example data.' })); return box; }
+    var rows = recRank(c.recruiters.map(function (r) { return Object.assign({}, r); }));
+    var tb = h('table', { class: 'golf' });
+    tb.appendChild(h('tr', null, h('th', { text: 'Pos' }), h('th', { text: 'Recruiter' }), h('th', { class: 'n', text: 'RPs / std' }), h('th', { class: 'n', text: 'PTC' }), h('th', { class: 'n', text: 'Sub' }), h('th', { class: 'n', text: 'FTI' })));
+    function std(r) { return r.standardToDate == null ? '–' : String(r.standardToDate); }
+    rows.forEach(function (r) {
+      var tr = h('tr', { class: 'rec-row' + (r.behind ? ' behind' : ''), 'data-card': 'rec:' + r.name, role: 'button', tabindex: '0', 'aria-label': r.name + ': ' + r.week.rps + ' RPs against ' + std(r) + ' due' + (r.behind ? ', behind pace' : '') + '. Open today and this week.' });
+      var nm = h('td', { class: 'nm' }); if (r.behind) nm.appendChild(h('span', { class: 'mk', title: 'Behind pace by ' + (-r.gap) + ' RPs' })); nm.appendChild(document.createTextNode(r.name)); if (r.behind) nm.appendChild(h('span', { class: 'vh', text: ' behind pace' }));
+      tr.appendChild(h('td', { class: 'pos', text: (r.tie ? 'T' : '') + r.place })); tr.appendChild(nm);
+      tr.appendChild(h('td', { class: 'n rp' }, h('b', { text: String(r.week.rps) }), h('span', { class: 'std', text: ' / ' + std(r) })));
+      tr.appendChild(h('td', { class: 'n', text: String(r.week.ptcs) })); tr.appendChild(h('td', { class: 'n', text: String(r.week.subs) })); tr.appendChild(h('td', { class: 'n', text: String(r.week.ftis) }));
+      tb.appendChild(tr);
+    });
+    var tm = c.team, us = h('tr', { class: 'us rec-row', 'data-card': 'rec:__team', role: 'button', tabindex: '0', 'aria-label': 'Team total: ' + tm.week.rps + ' RPs against ' + tm.standardToDate + ' due. Open today and this week.' });
+    us.appendChild(h('td')); us.appendChild(h('td', { class: 'nm', text: 'Team' }));
+    us.appendChild(h('td', { class: 'n rp' }, h('b', { text: String(tm.week.rps) }), h('span', { class: 'std', text: ' / ' + tm.standardToDate })));
+    us.appendChild(h('td', { class: 'n', text: String(tm.week.ptcs) })); us.appendChild(h('td', { class: 'n', text: String(tm.week.subs) })); us.appendChild(h('td', { class: 'n', text: String(tm.week.ftis) }));
+    tb.appendChild(us);
+    box.appendChild(h('div', { class: 'scroll' }, tb));
+    var f = recFresh(c);
+    box.appendChild(h('p', { class: 'small gap', text: 'As of ' + ptStamp(c.asOf) + ' (' + f.text + ') · ' + ('Crelate, read-only' + (c.example ? ' · example figures' : c.live === false ? ' · saved board file, not a live pull' : '')) + ' · week of ' + ptDay(c.weekOf) }));
+    if (f.warn && !c.example) box.appendChild(h('p', { class: 'small gap warn', text: c.weekIsCurrent === false ? 'These are the week of ' + ptDay(c.weekOf) + ', not this week: the office run has had no live Crelate read since ' + ptDay(c.through) + '.' : c.live === false ? 'Not a live read: the last Crelate pull saved in the repo. It refreshes the next time the office run has its Crelate key.' : 'The Crelate read is ' + f.text + ': the hourly run may be stalled.' }));
+    box.appendChild(h('p', { class: 'small gap', text: 'Standard ' + (c.perDay || 15) + ' RPs a day, Monday to Friday, each day’s due by noon PT. Red = behind that pace. Tap a row for today against the week.' }));
+    return box;
+  }
+  function recruiterSheet(p, key) {
+    var c = S.crelate, team = key === 'rec:__team', name = key.slice(4);
+    var r = c && c.recruiters ? (team ? null : c.recruiters.filter(function (x) { return x.name === name; })[0]) : null;
+    if (!c || (!team && !r)) { p.appendChild(head(team ? 'Team' : name, null, 'Recruiter · Crelate, read-only', 'No data')); var e = h('div', { class: 'panel-b one' }); e.appendChild(h('section', null, h('p', { class: 'small', text: 'No Crelate counts for this recruiter yet.' }))); p.appendChild(e); return; }
+    var week = team ? c.team.week : r.week, today = team ? c.team.today : r.today, due = team ? c.team.standardToDate : r.standardToDate, gap = team ? c.team.gap : r.gap;
+    p.appendChild(head(team ? 'Team' : r.name, null, 'Recruiters · Crelate, read-only', 'As of ' + ptStamp(c.asOf)));
+    var body = h('div', { class: 'panel-b one' }); p.appendChild(body); var sec = h('section'); body.appendChild(sec);
+    sec.appendChild(h('h3', { text: 'Today against the week · ' + ptDay(c.weekOf) + ' to ' + ptDay(c.through) }));
+    var tb = h('table'); tb.appendChild(h('tr', null, h('th', { text: 'Measure' }), h('th', { text: 'Today' }), h('th', { text: 'This week' }), h('th', { text: 'Standard to date' })));
+    var perDay = c.perDay || 15;
+    [['RPs (recruiting calls)', 'rps'], ['MPs', 'mps'], ['PTCs (presented to client)', 'ptcs'], ['Submittals', 'subs'], ['First interviews', 'ftis']].forEach(function (m) {
+      var std = m[1] === 'rps' ? (due == null ? 'none yet (trainee)' : due + ' · ' + perDay + ' a day') : '–';
+      tb.appendChild(h('tr', null, h('td', { text: m[0] }), h('td', { text: today ? String(today[m[1]]) : '–' }), h('td', { text: String(week[m[1]]) }), h('td', { text: std })));
+    });
+    sec.appendChild(h('div', { class: 'scroll' }, tb));
+    var line = due == null ? 'No weekly standard yet, so no pace mark.' : gap === 0 ? 'Exactly on the standard to date.' : gap > 0 ? gap + ' RPs ahead of the standard to date.' : (-gap) + ' RPs behind the standard to date.';
+    if (team) line += ' ' + (c.team.behind ? c.team.behind + ' of ' + c.team.people + ' behind pace: ' + c.recruiters.filter(function (x) { return x.behind; }).map(function (x) { return x.name; }).join(', ') + '.' : 'No one is behind pace.');
+    sec.appendChild(h('p', { class: 'now', text: line }));
+    if (!today) sec.appendChild(h('p', { class: 'small', text: 'Today is blank because this data was not read today.' }));
+    (c.notes || []).forEach(function (n) { sec.appendChild(h('p', { class: 'small', text: n })); });
+    sec.appendChild(h('p', { class: 'small', text: 'RPs count calls logged. MPs, PTCs, submittals and first interviews count unique contacts per recruiter, counted again inside each window, so the week is not the sum of the days. Source: ' + (c.source || 'Crelate, read-only') + '. Counts only: no pay, phones or candidate names. Crelate stays the system of record.' }));
   }
 
   /* the line: every ticket that is not closed, in full */
@@ -2353,7 +2441,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var sh = S.sheet, scrollTop = p.scrollTop;
     if (sh.kind === 'desk') { var a = sh.id === 'radar' ? (S.agents.radar || { id: 'radar', name: 'Radar', role: 'Chief of staff' }) : S.agents[sh.id]; if (!a) { S.sheet = null; sheet.hidden = true; return; } deskSheet(p, a); }
     else if (sh.kind === 'bench') { var def = BENCH_DEFS.filter(function (d) { return d.id === sh.id; })[0]; if (!def || (S.share && def.sensitive)) { S.sheet = null; sheet.hidden = true; return; } benchSheet(p, def); }
-    else if (sh.kind === 'board') boardSheet(p, sh.id);
+    else if (sh.kind === 'board') { if (/^rec:/.test(sh.id)) { if (S.share) { S.sheet = null; sheet.hidden = true; return; } recruiterSheet(p, sh.id); } else boardSheet(p, sh.id); }
     else leverSheet(p, sh.id);
     p.scrollTop = scrollTop;
     sheet.hidden = false;
@@ -2441,7 +2529,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     S.share = on; root.classList.toggle('share', on);
     if (on) {
       dropSensitive();
-      if (S.sheet && ((S.sheet.kind === 'bench' && BENCH_DEFS.some(function (d) { return d.id === S.sheet.id && d.sensitive; })) || (S.sheet.kind === 'desk' && sensitiveAgent(S.sheet.id)))) { S.sheet = null; $('#sheet').hidden = true; $('#floor').classList.remove('sitting'); }
+      if (S.sheet && ((S.sheet.kind === 'bench' && BENCH_DEFS.some(function (d) { return d.id === S.sheet.id && d.sensitive; })) || (S.sheet.kind === 'desk' && sensitiveAgent(S.sheet.id)) || (S.sheet.kind === 'board' && /^rec:/.test(S.sheet.id)))) { S.sheet = null; $('#sheet').hidden = true; $('#floor').classList.remove('sitting'); }
     } else attachBenches();
   }
   toggle($('#sw-share'), setShare, 'eo-share');
@@ -3043,9 +3131,18 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     B('finance', 'Tally', [{ label: 'Cash on hand', value: 'not synced', needsGate: true }, { label: 'Open invoices', value: 'not synced', needsGate: true }], 'QuickBooks (re-authorise first)');
     B('client', 'Radar', [{ label: 'Active job orders', value: 'count only' }], 'Hub');
     B('family', 'Radar', [{ label: 'This week', value: 'lessons and studies' }], 'Atlas Desk, Marlowe\'s Desk');
+    (function () {          // invented recruiters and counts, for the offline page only
+      function f(rps, mps, ptcs, subs, ftis) { return { rps: rps, mps: mps, ptcs: ptcs, subs: subs, ftis: ftis }; }
+      var rr = [['Rowan', f(41, 2, 3, 2, 1), f(9, 0, 1, 0, 0), 30], ['Sasha', f(38, 0, 2, 1, 2), f(12, 0, 0, 1, 0), 30], ['Tate', f(30, 1, 1, 0, 0), f(6, 0, 0, 0, 0), 30], ['Wren', f(17, 0, 1, 1, 0), f(3, 0, 0, 0, 0), 30], ['Jules', f(4, 0, 0, 0, 0), f(0, 0, 0, 0, 0), null]];
+      var team = f(0, 0, 0, 0, 0), tday = f(0, 0, 0, 0, 0), sd = 0, inG = 0;
+      var list = rr.map(function (x) { Object.keys(team).forEach(function (k) { team[k] += x[1][k]; tday[k] += x[2][k]; }); if (x[3] != null) { sd += x[3]; inG += x[1].rps; } return { name: x[0], inGoal: x[3] != null, week: x[1], today: x[2], standardToDate: x[3], gap: x[3] == null ? null : x[1].rps - x[3], behind: x[3] != null && x[1].rps < x[3] }; });
+      var today = Game.pacificDate(n), mon = Game.addDays(today, -((Game.dayOfWeek(today) + 6) % 7));
+      S.crelate = { example: true, schema: 1, asOf: iso(HOUR), source: 'Example figures', live: true, weekOf: mon, through: today, weekIsCurrent: true, todayCurrent: true, perDay: 15, recruiters: list,
+        team: { week: team, today: tday, standardToDate: sd, gap: inG - sd, behind: list.filter(function (x) { return x.behind; }).length, people: list.length }, notes: ['Example figures: nothing here is read from Crelate.'] };
+    })();
     S.logs = { q: [{ at: iso(20 * MIN), text: 'Wired the status feed (example)' }, { at: iso(2 * HOUR), text: 'Ran the dry sync (example)' }] };
   }
-  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.chats = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.tools = {}; S.logs = {}; S.meta = null; S.records = null; S.today = null; }
+  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.chats = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.crelate = null; S.tools = {}; S.logs = {}; S.meta = null; S.records = null; S.today = null; }
 
   /* ---------- live data: render the example first, then light up when `db` resolves (null after about 10 s: stay on the example) ---------- */
   function listen(name, fn) {
@@ -3055,9 +3152,13 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       fn(m); renderAll();
     }, function () { S.unsub[name] = null; $('#sync').textContent = 'Could not read ' + name; });
   }
-  function attachBenches() { if (S.live && S.db) listen('benches', function (m) { S.benches = m; }); }
+  function attachBenches() {
+    if (!S.live || !S.db) return;
+    listen('benches', function (m) { S.benches = m; });
+    if (!S.unsub.crelate) S.unsub.crelate = S.db.doc('meta/crelate').onSnapshot(function (s) { S.crelate = s.exists ? s.data() : null; renderAll(); }, function () { S.unsub.crelate = null; });
+  }
   function dropSensitive() {                              // like the Hub: other data never sits in the page while presenting
-    unwatch('benches');
+    unwatch('benches'); unwatch('crelate'); S.crelate = null;                 // names beside pace numbers never sit in the page while presenting
     Object.keys(S.benches).forEach(function (k) { var d = BENCH_DEFS.filter(function (x) { return x.id === k; })[0]; if (!d || d.sensitive) delete S.benches[k]; });
     S.benchRows = {}; Object.keys(S.unsub).forEach(function (k) { if (k.indexOf('rows-') === 0) unwatch(k); });
     Object.keys(S.logs).forEach(function (k) { if (sensitiveAgent(k)) { delete S.logs[k]; unwatch('log-' + k); } });

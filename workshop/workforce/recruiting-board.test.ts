@@ -111,6 +111,45 @@ describe("counting (Dean's rules)", () => {
   });
 });
 
+describe("the Monday week and today (the Command Center's recruiter leaderboard, Kev, 28 Oct 2026)", () => {
+  const rows: ActivityRow[] = [
+    act("rp", "max", "2026-10-18T20:00:00Z"),                                              // Sunday 1pm Pacific: in the Sunday-start week, not in the Monday week
+    act("rp", "max", "2026-10-19T14:00:00Z"),                                              // Monday 7am Pacific: the Monday week starts here
+    act("rp", "max", "2026-10-22T17:00:00Z"), act("rp", "max", "2026-10-22T18:00:00Z"),    // Thursday, today
+    act("ptcs", "max", "2026-10-21T19:00:00Z", { contact: "same" }),                       // Wednesday
+    act("ptcs", "max", "2026-10-22T19:00:00Z", { contact: "same" }),                       // the same contact again today
+    act("ftis", "noah", "2026-10-22T07:30:00Z", { contact: "n1" }),                        // Thursday 00:30 Pacific: today, by the Pacific clock (UTC says the same day only by luck)
+    act("ftis", "noah", "2026-10-22T06:30:00Z", { contact: "n2" }),                        // Wednesday 11:30pm Pacific: yesterday
+  ];
+  const w = weekWindows(NOW), r = countActivities(rows, jobs, [], w);
+  test("a Thursday's Monday is the 19th, and a Sunday belongs to the week that is ending", () => {
+    assert.equal(w.monStart, "2026-10-19");
+    assert.equal(weekWindows(Date.parse("2026-10-25T17:00:00Z")).monStart, "2026-10-19");
+    assert.equal(weekWindows(Date.parse("2026-10-26T17:00:00Z")).monStart, "2026-10-26");
+    assert.equal(new Date(w.todayFromMs).toISOString(), "2026-10-22T07:00:00.000Z");
+  });
+  test("RPs: the Sunday call is in the Sunday-start week and not in the Monday week", () => {
+    assert.equal(r.persons.max!.this.rps, 4);
+    assert.equal(r.persons.max!.monWeek.rps, 3);
+    assert.equal(r.persons.max!.today.rps, 2);
+  });
+  test("unique contacts are counted again inside each window", () => {
+    assert.equal(r.persons.max!.monWeek.ptcs, 1);
+    assert.equal(r.persons.max!.today.ptcs, 1);
+  });
+  test("today starts at Pacific midnight, not UTC midnight", () => {
+    assert.equal(r.persons.noah!.today.ftis, 1);
+    assert.equal(r.persons.noah!.monWeek.ftis, 2);
+  });
+  test("the board document carries mon_week and today per person, and the Monday the week starts on", () => {
+    const b = buildBoard({ nowMs: NOW, counts: r, jobsRead: 0, stageJobsRead: 0, fetchedActivities: rows.length });
+    const max = b.recruiters.find((p) => p.slug === "max")!;
+    assert.equal(max.mon_week.rps, 3);
+    assert.equal(max.today.rps, 2);
+    assert.equal(b.week.mon_start, "2026-10-19");
+  });
+});
+
 describe("the board document", () => {
   const rows = [act("rp", "max", "2026-10-19T17:00:00Z"), act("rp", "kunji", "2026-10-19T18:00:00Z")];
   const board = buildBoard({ nowMs: NOW, counts: countActivities(rows, jobs, [], W), jobsRead: 2, stageJobsRead: 2, fetchedActivities: 2 });

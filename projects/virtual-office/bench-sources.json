@@ -1,6 +1,6 @@
 {
-  "updated": "2026-10-27",
-  "by": "Q, first sync patrol (employees/q/skills/sync-patrol.md)",
+  "updated": "2026-10-28",
+  "by": "Q (first sync patrol 27 Oct; recruiter leaderboard 28 Oct)",
   "rule": "Counts and dates only; every tile names its source. A bench's asOf is the sync time while its source is inside sourceWindow, and the source's own age when it is not, so the page never says fresh over old data. Never write actions, never approve, never delete. Finance and revenue are Tally's: Q never writes a money figure there.",
   "refresh": "npm run office-prep -- run <dump> <versions> <dest> (the hourly ticket runner). The dump must include `benches` (Command Center) and `jobs` (Team Hub) or the bench writes are dropped. Code: workshop/core/benches.ts (pure), workshop/office/benches.ts (reads the sources), tests beside each.",
   "benches": [
@@ -83,5 +83,20 @@
       "compute": "never by Q",
       "status": "stale: same; ticket to Tally, 27 Oct"
     }
-  ]
+  ],
+  "documents": {
+    "meta/crelate": {
+      "owner": "Dean",
+      "writer": "Q",
+      "why": "Kev, 28 Oct 2026: \"pull in crelate stats here as well\" - the Recruiters · Crelate · this week table in the leaderboard area of the Command Center page. One document, read by the page with db.doc(\"meta/crelate\"); written by the hourly office run in the same batch as the benches.",
+      "source": "The same one read-only Crelate pull the recruiting and depth benches use (workshop/workforce/cli.ts, written to <dump>/board.json by office-prep run; code workshop/workforce/recruiting-board.ts). With no CRELATE_API_KEY or no network it falls back to projects/workforce/board/current.json (Dean's latest board file) and says so: live=false, asOf = that file's own generated_at, so the page shows its true age.",
+      "code": "workshop/core/recruiter-board.ts (pure: pace math, the document, the safety check); tests beside it",
+      "window": "24 h on weekdays (rewritten every hourly run; an unchanged fallback file is skipped)",
+      "compute": "Per recruiter in the Crelate roster with status active: week to date (Monday to Sunday, Pacific) and today (Pacific midnight on) counts of RPs (activities), MPs, PTCs, submittals and first interviews (unique contacts per recruiter, counted again inside each window; Dean's rules in employees/dean/memory/seed/crelate-scorecard-spec.md). standardToDate = 15 RPs x each completed weekday this week, plus today's 15 once it is noon Pacific at the moment of the read; gap = week RPs - standardToDate; behind = fewer RPs than are due (on the number is on pace). A trainee (not in the goal) is counted but has no standard and is never marked. team = totals over everyone counted, the standard and gap over those with a standard.",
+      "fields": "schema, asOf (when Crelate was read), syncedAt, source, live, ageMin, weekOf (Monday), through, weekIsCurrent, todayCurrent, weekBasis, perDay, weekdaysCounted, recruiters[{name, inGoal, week{rps,mps,ptcs,subs,ftis}, today{...}|null, standardToDate, gap, behind}], team{week, today, standardToDate, gap, behind, people}, notes[]",
+      "never": "pay, commission, revenue, phones, emails, candidate names, resumes or offers counts (assertCrelateSafe throws on any other field, an email, a phone number or a dollar figure). Leadership (Nick, Kev) and people who have not started are not rows",
+      "page": "Hidden whole under Screen share, and the page unsubscribes and drops the document: it is a name-by-name pace table, like the recruiting bench it sits beside (sensitive). Not shown in the Today view, which hides the leaderboard.",
+      "manual write": "npm run benches -- --board <board.json> --crelate-out <file>, then ArtifactData set meta/crelate with file_path (if_version from a get when the document exists)"
+    }
+  }
 }

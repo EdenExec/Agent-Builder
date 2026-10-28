@@ -1,9 +1,10 @@
 // Reads the sources behind the Command Center benches (see projects/virtual-office/bench-sources.json) and builds their documents.
 // The I/O half of workshop/core/benches.ts. Used by `npm run office -- sync` (so `npm run office-prep -- run` refreshes the benches
 // every hour); also runnable alone to look at what would be written:
-//   npm run benches -- [--jobs jobs.json] [--board board.json] [--ledger rows.json] [--now ISO]     prints the bench documents
+//   npm run benches -- [--jobs jobs.json] [--board board.json] [--ledger rows.json] [--now ISO] [--crelate-out meta-crelate.json]
+//     prints the bench documents (and meta/crelate, the recruiter leaderboard's counts); --crelate-out also saves meta/crelate as a file for one ArtifactData set
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { buildBenches, type BenchInputs, type JobLite, type LeadSheet, type BoardLite } from "../core/benches.ts";
 import type { LedgerRow } from "../core/office.ts";
@@ -76,6 +77,10 @@ if (process.argv[1]?.endsWith("benches.ts")) {
   const a = process.argv.slice(2);
   for (let i = 0; i < a.length; i += 2) if (a[i]?.startsWith("--")) flags.set(a[i]!.slice(2), a[i + 1] ?? "");
   const now = flags.has("now") ? new Date(flags.get("now")!) : new Date();
-  const { docs, skipped } = buildBenches(loadBenchInputs({ now, jobsFile: flags.get("jobs"), boardFile: flags.get("board"), ledgerFile: flags.get("ledger") }));
-  console.log(JSON.stringify({ docs, skipped }, null, 2));
+  const { docs, skipped, crelate } = buildBenches(loadBenchInputs({ now, jobsFile: flags.get("jobs"), boardFile: flags.get("board"), ledgerFile: flags.get("ledger") }));
+  if (flags.has("crelate-out")) {
+    if (!crelate) { console.error("No board, so no meta/crelate to save."); process.exit(1); }
+    writeFileSync(flags.get("crelate-out")!, JSON.stringify(crelate) + "\n");
+  }
+  console.log(JSON.stringify({ docs, skipped, "meta/crelate": crelate }, null, 2));
 }

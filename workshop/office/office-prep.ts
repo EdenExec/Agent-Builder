@@ -12,6 +12,7 @@
 // Benches (Kev, 27 Oct 2026): also dump `benches` (Command Center) and `jobs` (Team Hub) and the run writes benches/client, recruiting,
 //     depth, university, projects (and family when <dump>/ledger.json, the Home lane rows, exists). Finance and revenue are Tally's and are never written here.
 //     `run` also tries one read-only Crelate pull (the Round Table board) into <dump>/board.json; with no key or no network it falls back to the board file in the repo.
+//     That one pull also feeds meta/crelate (the Command Center's "Recruiters · Crelate · this week" table; counts only, see workshop/core/recruiter-board.ts).
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join } from "node:path";

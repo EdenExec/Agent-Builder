@@ -110,17 +110,21 @@ export function ptStamp(ms: number): string {
 export type Windows = {
   weekStart: string; lastStart: string; lastEnd: string; today: string;
   thisFromMs: number; nowMs: number; lastFromMs: number; lastToMs: number; lastSameToMs: number;
+  /** The Monday-start week the Command Center's recruiter leaderboard uses (Kev, 28 Oct 2026), and the start of today, both Pacific. */
+  monStart: string; monFromMs: number; todayFromMs: number;
 };
 /** Weeks run Sunday 00:00 to Saturday 23:59 Pacific (Kev, 23 Oct 2026: "Sun 18 Oct to today"). */
 export function weekWindows(nowMs: number): Windows {
   const today = ptDate(nowMs);
   const weekStart = addDays(today, -weekdayOf(today));
   const lastStart = addDays(weekStart, -7);
+  const monStart = addDays(today, -((weekdayOf(today) + 6) % 7));   // Monday of the Mon-to-Sun week that holds today (a Sunday belongs to the week that is ending)
   const thisFromMs = ptMidnightUtc(weekStart), lastFromMs = ptMidnightUtc(lastStart);
   return {
     weekStart, lastStart, lastEnd: addDays(weekStart, -1), today,
     thisFromMs, nowMs, lastFromMs, lastToMs: thisFromMs,
     lastSameToMs: Math.min(thisFromMs, lastFromMs + (nowMs - thisFromMs)),
+    monStart, monFromMs: ptMidnightUtc(monStart), todayFromMs: ptMidnightUtc(today),
   };
 }
 
@@ -200,7 +204,7 @@ function addTo(b: Bucket, metric: Exclude<MetricKey, "offers">, a: ActivityRow, 
   b.seen.add(key); b.counts[metric]++;
 }
 
-export type PersonCounts = { this: Counts; lastSame: Counts; lastFull: Counts; rpsByDay: Record<string, number> };
+export type PersonCounts = { this: Counts; lastSame: Counts; lastFull: Counts; rpsByDay: Record<string, number>; monWeek: Counts; today: Counts };
 export type JoCounts = { rps: number; resumes: number; ptcs: number; ftis: number };
 export type JoRow = { id: string; num: number | null; name: string; column: string; this: JoCounts; last: JoCounts; people: string[] };
 
@@ -219,8 +223,8 @@ export function countActivities(rows: ActivityRow[], jobs: JobRow[], stages: Sta
   const activeJobs = new Map<string, JobRow>();
   for (const j of jobs) if (ACTIVE_COLUMNS[j.SalesWorkflowItemStatusId?.Id ?? ""]) activeJobs.set(j.Id, j);
 
-  const per: Record<string, { this: Bucket; lastSame: Bucket; lastFull: Bucket }> = {};
-  for (const p of ROSTER) per[p.slug] = { this: bucket(), lastSame: bucket(), lastFull: bucket() };
+  const per: Record<string, { this: Bucket; lastSame: Bucket; lastFull: Bucket; mon: Bucket; today: Bucket }> = {};
+  for (const p of ROSTER) per[p.slug] = { this: bucket(), lastSame: bucket(), lastFull: bucket(), mon: bucket(), today: bucket() };
   type JoAcc = { t: Bucket; l: Bucket; people: Set<string> };
   const joAcc = new Map<string, JoAcc>();
   const otherT = bucket(), otherL = bucket(), noneT = bucket(), noneL = bucket();
@@ -235,11 +239,14 @@ export function countActivities(rows: ActivityRow[], jobs: JobRow[], stages: Sta
     if (!whos.length) continue;                                  // not on the roster (other staff): not counted
     const inThis = ms >= w.thisFromMs, inLast = ms >= w.lastFromMs && ms < w.lastToMs;
     if (!inThis && !inLast) continue;
+    const inMon = ms >= w.monFromMs, inToday = ms >= w.todayFromMs;
     const day = inThis ? ptDate(ms) : null;
     const jobId = a.RegardingId?.Id;
     const isJob = !!jobId && (!a.RegardingId?.EntityName || /^jobs?$/i.test(a.RegardingId.EntityName));
     for (const who of whos) {
       if (inThis) addTo(per[who]!.this, metric, a, who, day);
+      if (inMon) addTo(per[who]!.mon, metric, a, who, null);           // unique contacts are counted again inside each window, so a contact met Monday and Wednesday is one in the week and one today
+      if (inToday) addTo(per[who]!.today, metric, a, who, null);
       if (inLast) {
         addTo(per[who]!.lastFull, metric, a, who, null);
         if (ms < w.lastSameToMs) addTo(per[who]!.lastSame, metric, a, who, null);
@@ -266,6 +273,8 @@ export function countActivities(rows: ActivityRow[], jobs: JobRow[], stages: Sta
     if (!who || !Number.isFinite(ms) || ms > w.nowMs) continue;
     const key = `offers|${who}|${s.Contact?.Id ?? s.Date}`;
     if (ms >= w.thisFromMs) { const b = per[who]!.this; if (!b.seen.has(key)) { b.seen.add(key); b.counts.offers++; } }
+    if (ms >= w.monFromMs) { const b = per[who]!.mon; if (!b.seen.has(key)) { b.seen.add(key); b.counts.offers++; } }
+    if (ms >= w.todayFromMs) { const b = per[who]!.today; if (!b.seen.has(key)) { b.seen.add(key); b.counts.offers++; } }
     if (ms >= w.lastFromMs && ms < w.lastToMs) {
       const b = per[who]!.lastFull; if (!b.seen.has(key)) { b.seen.add(key); b.counts.offers++; }
       if (ms < w.lastSameToMs) { const c = per[who]!.lastSame; if (!c.seen.has(key)) { c.seen.add(key); c.counts.offers++; } }
@@ -275,7 +284,7 @@ export function countActivities(rows: ActivityRow[], jobs: JobRow[], stages: Sta
   const persons: Record<string, PersonCounts> = {};
   for (const p of ROSTER) {
     const x = per[p.slug]!;
-    persons[p.slug] = { this: x.this.counts, lastSame: x.lastSame.counts, lastFull: x.lastFull.counts, rpsByDay: x.this.byDay };
+    persons[p.slug] = { this: x.this.counts, lastSame: x.lastSame.counts, lastFull: x.lastFull.counts, rpsByDay: x.this.byDay, monWeek: x.mon.counts, today: x.today.counts };
   }
   const toJc = (b: Bucket): JoCounts => ({ rps: b.counts.rps, resumes: b.counts.resumes, ptcs: b.counts.ptcs, ftis: b.counts.ftis });
   const jos: JoRow[] = [...joAcc.entries()].map(([id, acc]) => {
@@ -391,7 +400,7 @@ export function buildBoard(inp: BoardInput) {
     const qtd = revSynced ? (inp.rev!.perPerson[p.slug] ?? 0) : null;
     return {
       slug: p.slug, name: p.name, role: p.role, group: p.group, status, start: p.start ?? null, in_goal: p.inGoal !== false && p.group === "recruiter" && status === "active",
-      this: x.this, last_same: x.lastSame, last_full: x.lastFull,
+      this: x.this, last_same: x.lastSame, last_full: x.lastFull, mon_week: x.monWeek, today: x.today,
       rp_days_at_15: daysAtGoal(x.rpsByDay), rp_by_day: x.rpsByDay,
       revenue_qtd: qtd, pct_to_accelerator: qtd == null ? null : Math.round((qtd / GOALS.accelerator_per_quarter) * 1000) / 10,
     };
@@ -427,7 +436,7 @@ export function buildBoard(inp: BoardInput) {
     as_of: throughLabel,
     source: "Crelate API v3, read-only (Crelate stays the system of record)",
     week: {
-      start: w.weekStart, through: w.today, partial: true, label: `${dayLabel(w.weekStart)} to ${dayLabel(w.today)}`,
+      start: w.weekStart, mon_start: w.monStart, through: w.today, partial: true, label: `${dayLabel(w.weekStart)} to ${dayLabel(w.today)}`,
       note: "Weeks run Sunday to Saturday, Pacific. A week in progress is compared with last week to the same point, not with last week's full total.",
     },
     last_week: { start: w.lastStart, end: w.lastEnd, same_point_through: new Date(w.lastSameToMs).toISOString(), label: `${dayLabel(w.lastStart)} to ${dayLabel(w.lastEnd)}` },
