@@ -1,4 +1,4 @@
-# Headhunter Training · Thu 29 Oct 2026 (A) · Intel on autopilot, submittals on rails
+# Headhunter Training · Wed 28 Oct 2026 · Intel on autopilot, submittals on rails
 
 Kev leads. 60 minutes, laptops open at the table. Pillar 03 · Accountability.
 
@@ -150,7 +150,7 @@ Each recruiter picks one live candidate they've screened and builds a draft pack
 
 | When | What | Who |
 |---|---|---|
-| Thu 29 Oct | Crelate in Claude set up; one draft packet each | Every recruiter, Kev at the table |
+| Wed 28 Oct | Crelate in Claude set up; one draft packet each | Every recruiter, Kev at the table |
 | By Fri 30 Oct | Must Dos exist for every active JO you own (drafts go to the client for approval) | Lead recruiter per JO; Casey keeps the list |
 | From Mon 2 Nov | Every submittal goes as a packet. No packet, no submittal | Everyone |
 | Every Friday | Nick checks: submittals logged in Crelate = packets in Drive. Dean puts "packets / submittals" on the scorecard | Nick, Dean |
