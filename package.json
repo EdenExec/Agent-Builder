@@ -33,7 +33,8 @@
     "card-pdf": "node workshop/workforce/card-pdf.ts",
     "scorecard-rows": "node workshop/workforce/scorecard-rows.ts",
     "submittal": "node workshop/submittal/cli.ts",
-    "benches": "node workshop/office/benches.ts"
+    "benches": "node workshop/office/benches.ts",
+    "daily": "node workshop/office/daily.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",

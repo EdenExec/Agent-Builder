@@ -10,7 +10,7 @@ compact: true
 
 1. **Today is a top-level mode, not a column.** A Floor | Today switch in the header, `T` on the keyboard and `#today` in the link. The board stays on screen as a one-line ribbon, so the floor is one tap away.
 2. **The centre of the screen is the work surface.** Three columns at 1920: the clock and run of day on the left, the live call sheet in the middle, must-hits, decisions and the check-out on the right. A Power Hour collapses it to the clock and the sheet.
-3. **Radar sets the day the night before; ticks and the clock are live.** One `paper/{date}` doc in, one `paper/{date}/marks/{key}` doc per tick out. The PDF drops to a one-page front on the Desk, because an artifact cannot print.
+3. **Radar sets the day the night before; ticks and the clock are live.** One `daily/{date}` doc in, one `daily/{date}/ticks/{key}` doc per tick out (names fixed by Q and Marlowe, 28 Oct; schema in `projects/virtual-office/daily-schema.md`). The PDF drops to a one-page front on the Desk, because an artifact cannot print.
 
 Kev asked on 28 Oct: "I could go full screen and live inside the Command Center with only Crelate in a separate monitor." Q builds it into `draft/eden-office.html`. Three one-tap asks for Kev close the page.
 
@@ -81,13 +81,13 @@ Kev asked on 28 Oct: "I could go full screen and live inside the Command Center 
 
 ## 4. Set the night before vs. live
 
-| Set by Radar the night before (`paper/{date}`) | Live on the page |
+| Set by Radar the night before (`daily/{date}`) | Live on the page |
 |---|---|
 | Must-hits, the call sheets (rows, brief, opener, leads' time zone), the QC list from the Team Hub, the study, the pillar and habit streaks, and a run-of-day snapshot | The clock and now/next (calendar via MCP, 60-second refetch, already wired) |
 | The decisions, filed as needs-Kev alerts | The run of day: calendar edits Kev makes show within a minute, and the snapshot is only the fallback |
 | Daytime additions such as a new hot callback are appended by a sweep with an "added 11:40" stamp | Every tick, note and count, through `onSnapshot`, so the phone and the big monitor agree |
 
-- **Rollover at 3:00am local,** so a late check-out still lands on the right day. No `paper/{date}` yet means the page shows the calendar and a "Paper not built" line. It never shows yesterday's sheet as today's.
+- **Rollover at 3:00am local,** so a late check-out still lands on the right day. No `daily/{date}` yet means the page shows the calendar and a "Paper not built" line. It never shows yesterday's sheet as today's.
 - **Sabbath:** from Friday sundown to Saturday sundown, Today shows the board's rest state and nothing else.
 - **After the move to Boise on 6 Nov,** times follow the device clock (Mountain). Each sheet keeps its leads' zone. If an East Coast sheet sits after 1:00pm PT (2:00pm MT), the header shows an amber "past 4pm ET" stamp (rule of 27 Oct).
 
@@ -95,9 +95,9 @@ Kev asked on 28 Oct: "I could go full screen and live inside the Command Center 
 
 | Event | What it writes |
 |---|---|
-| Any tick on a call sheet | Merges `{d, v, c, out, note, at}` into `paper/{date}/marks/{sheet}-{row}`. The write is optimistic, and notes save 600ms after typing stops. Counts are derived from marks and never stored. |
-| QC "Touched" | A mark, plus one `actions/` row so that Radar logs the touch on the Team Hub next sweep and the red row clears. |
-| Must-hit, scripture or check-out Send | A mark. Send also files a ticket to Radar, who reads the check-out for tomorrow's paper and habit strip. F.U. rows become follow-up drafts that wait for Kev's yes; nothing is sent. |
+| Any tick on a call sheet | Merges `{d, v, c, out, note, at}` into `daily/{date}/ticks/row-{leadId}` (the lead id is `{sheet}-{NN}`). The write is optimistic, and notes save 600ms after typing stops. Counts are derived from ticks and never stored. |
+| QC "Touched" | A tick (`touch-{qcId}`), plus one `actions/` row so that Radar logs the touch on the Team Hub next sweep and the red row clears. |
+| Must-hit, scripture or check-out Send | A tick (`must-{id}`, `scripture-read`, `checkout-{field}`). Send also files a ticket to Radar, who reads the check-out for tomorrow's paper and habit strip. F.U. rows become follow-up drafts that wait for Kev's yes; nothing is sent. |
 
 | Key (Today only; off while typing) | Action |
 |---|---|
@@ -134,7 +134,15 @@ Kev asked on 28 Oct: "I could go full screen and live inside the Command Center 
 | QC must-calls and both call sheets | **Move** to the work surface. Live ticks replace pen marks and the photo-back loop. |
 | Study, check-out box, decisions page, notes grid | **Move** to the Today sheet and the check-out box. Decisions are answered on the strip. The notes grid becomes the check-out's "Tell Radar" line. |
 
-## Asks for Kev (one tap each; silence takes the first)
+## Kev's answers (28 Oct 2026)
+
+| Ask | Answer |
+|---|---|
+| Desk print | **Only a one-page front stays printable.** No study, no call sheets on paper. |
+| Power Hour focus | **Turns on by itself** when a POWER HOUR block starts. |
+| Overlap | **The six-page PDF stops after Tue 3 Nov.** From Wed 4 Nov the routine builds the front page and the `daily/` doc only. |
+
+## Asks for Kev (answered above; kept for the record)
 
 | Ask | Options |
 |---|---|
@@ -142,4 +150,4 @@ Kev asked on 28 Oct: "I could go full screen and live inside the Command Center 
 | Power Hour focus | **Turns on by itself** · ask me at the start |
 | Overlap | **Six-page PDF until Tue 3 Nov, then front only** · drop it now |
 
-Assumptions: phone numbers stay in Crelate and the page carries only the M/D flags, as the paper does. The connections count includes call sheets only, and QC touches are counted apart. Q adds `paper/` to the page's write list, which today allows only tickets, seen, actions and chats.
+Assumptions: phone numbers stay in Crelate and the page carries only the M/D flags, as the paper does. The connections count includes call sheets only, and QC touches are counted apart. The page code writes `daily/.../ticks` as well as tickets, seen, actions and chats; the database rule needed is in `daily-schema.md` (one new rule, `daily`, admin read and write).
