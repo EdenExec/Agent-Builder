@@ -543,6 +543,12 @@
       "stage": "landed"
     },
     {
+      "title": "EL-024 v2 · 2026-10-27 · PB South · Vertical Transportation Specialist / Engineer / PM, Miami · 115 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
       "file": "2026-10-27-pb-south-vertical-transportation-sme-miami-v2.csv",
       "rows": 115,
       "tiers": {
@@ -552,16 +558,10 @@
       },
       "built": "2026-10-27",
       "discreet": false,
-      "driveUrl": null,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/10vS74SeIgn0Ln-Wn-4ikdrPma1KfzH0ShcYF3wFcakE/edit",
       "status": "ok",
       "errors": 0,
-      "title": null,
-      "landedAt": null,
-      "phonesAt": null,
-      "crelateAt": null,
-      "movedAt": null,
-      "note": "",
-      "stage": "staged"
+      "stage": "landed"
     },
     {
       "title": "EL-022 v2 · 2026-10-27 · Candidate marketing (Kev) · Development leaders: multifamily, life science, data centers · 198 leads",
