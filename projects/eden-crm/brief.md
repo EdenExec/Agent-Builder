@@ -2,6 +2,8 @@
 
 Goal: Eden's own recruiting CRM and ATS, built on a mirror of Crelate first, borrowing what Kev likes in Crelate and Loxo. Replace Crelate only after the team runs a full week on the new screens.
 
+**Direction (Kev, 28 Oct 2026):** "Eventually we get rid of Crelate and run the whole company off the Drive and local storage with remote log ins." The Command Center becomes the one screen Kev works in all day (the Eden Daily moves into it first); Crelate stays on a second monitor until the mirror and the new screens replace it. Target end state: records in Eden-owned storage (Drive plus a local or Eden-owned database), reached by remote login, no Crelate subscription.
+
 ## What Kev likes (his words, lightly ordered)
 
 | # | Feature | Where it is today |
