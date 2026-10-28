@@ -41,6 +41,14 @@ The Command Center database now holds the paper as `daily/{YYYY-MM-DD}` (written
 
 One document per thing ticked; a re-tick overwrites; the latest `at` wins. Dial, VM, Conn and the O/F.U. stamp are one `row` document so three quick taps never race. Counts (connections, dials, RPs) are derived from ticks and never stored. The nightly writer replaces `daily/{date}` only; it never touches `ticks`, so a rebuild cannot erase a tick.
 
+## What the Today view writes besides ticks
+
+| Tap | Write |
+|---|---|
+| Yes / No / Talk on a decision | `actions/daily-{date}-{decisionId}` `{key, agent:"radar", title, action: yes|no|talk, at, by:"kev", applied:false, source:"daily"}`; Radar's sweep applies it (the board's score ignores these action names) |
+| QC Touched | tick `touch-{qcId}` plus `actions/daily-{date}-touch-{qcId}` with `action:"touched"`; Radar logs the touch on the Team Hub, then clears the row |
+| Check-out Send | tick `checkout-sent` plus one `tickets/` row to Radar ("read my check-out for {date}") |
+
 ## What the writer will not write
 
 Pay, comp, phones, personal emails, home addresses, health detail and EEO fields never reach the document. It is a whitelist (unknown keys are dropped), free text is scrubbed, a lead's phone must already be a flag (a number stops the build; it is never guessed), only Crelate and LinkedIn links are accepted, and `assertSafe` re-checks the finished document. Every redaction is logged by field and reason, never by content.
