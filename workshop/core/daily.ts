@@ -35,11 +35,18 @@ export type MustItem = { id: string; addedAt: string | null; at: string; title: 
 export type Decision = { id: string; text: string; pick: string; alertId: string | null };
 export type QcItem = { id: string; addedAt: string | null; name: string; clientSeat: string; date: string; lastTouch: string; do: string; today: boolean; group: string; asOf: string };
 export type Study = { ref: string; text: string; setting: string; words: { word: string; orig: string; note: string }[]; reflect: string[]; prayer: string; memory: string };
+/** CloudTalk phone activity (Kev, 29 Oct: "watching for trends there"). Counts only: no numbers dialled, no contacts, no talk time
+ *  (the connector does not report it). `conn` is CloudTalk's "answered", which on an outbound call can include a voicemail pickup.
+ *  `days` lines up with `dayKeys` (outbound dials per day, null when that day was not read). */
+export type CallCount = { dials: number; conn: number };
+export type CallPerson = { name: string; day: CallCount; week: CallCount; prior: CallCount; inbound: { total: number; missed: number }; days: (number | null)[] };
+export type CallStats = { asOf: string; dayLabel: string; weekLabel: string; priorLabel: string; dayKeys: string[]; people: CallPerson[]; notes: string[] };
 export type DailyDoc = {
   schema: number; date: string; dow: string; label: string;
   pillar: { n: number; name: string; verse: string }; scripture: string;
   habits: Record<string, string>; streaks: Record<string, number | null>;
   run: RunItem[]; must: MustItem[]; decisions: Decision[]; qc: QcItem[]; sheets: Sheet[]; study: Study | null;
+  calls: CallStats | null;
   sources: string[]; builtAt: string; builtBy: string;
 };
 
@@ -56,6 +63,8 @@ export type PaperInput = {
   sheets?: { id: string; title: string; eyebrow?: string; window: { pt: string; et?: string }; sub?: string; url?: string; eastCoast?: boolean; tz?: string; brief?: string; opener?: string;
     leads: { name: string; title?: string; company?: string; ph?: string; src?: string; crelateUrl?: string; linkedin?: string; note?: string }[] }[];
   study?: { ref: string; text?: string; setting?: string; words?: { word: string; orig?: string; note?: string }[]; reflect?: string[]; prayer?: string; memory?: string };
+  calls?: { asOf: string; dayLabel?: string; weekLabel?: string; priorLabel?: string; dayKeys?: string[]; notes?: string[];
+    people: { name: string; day?: Partial<CallCount>; week?: Partial<CallCount>; prior?: Partial<CallCount>; inbound?: { total?: number; missed?: number }; days?: (number | null)[] }[] };
   sources?: string[];
 };
 
@@ -214,6 +223,28 @@ export function buildDaily(date: string, input: PaperInput, opts: BuildOpts = {}
     prayer: clean(rx, "study.prayer", st.prayer, 1200), memory: clean(rx, "study.memory", st.memory, 500),
   } : null;
 
+  // Phones: whole-number counts per person and a few short trend notes. Anything else on the input (numbers, contacts) is dropped.
+  const ci = input.calls;
+  const count = (v: unknown, who: string): number => { const x = v == null ? 0 : Number(v); return Number.isInteger(x) && x >= 0 && x <= 100000 ? x : bad(`${who} must be a whole number from 0`); };
+  const pair = (c: Partial<CallCount> | undefined, who: string): CallCount => ({ dials: count(c?.dials, `${who}.dials`), conn: count(c?.conn, `${who}.conn`) });
+  let calls: CallStats | null = null;
+  if (ci) {
+    if (Number.isNaN(Date.parse(ci.asOf))) bad(`calls.asOf "${ci.asOf}" is not a time`);
+    const dayKeys = (ci.dayKeys ?? []).slice(0, 15).map((k, i) => (ISO_DATE.test(k) ? k : bad(`calls.dayKeys[${i}] "${k}" must be YYYY-MM-DD`)));
+    calls = {
+      asOf: new Date(ci.asOf).toISOString(), dayLabel: clean(rx, "calls.dayLabel", ci.dayLabel, 40), weekLabel: clean(rx, "calls.weekLabel", ci.weekLabel, 40), priorLabel: clean(rx, "calls.priorLabel", ci.priorLabel, 40), dayKeys,
+      people: (ci.people ?? []).slice(0, 20).map((p, i) => {
+        const who = `calls.people[${i}]`;
+        return {
+          name: clean(rx, `${who}.name`, p.name, 40, "off") || bad(`${who}.name is empty`), day: pair(p.day, `${who}.day`), week: pair(p.week, `${who}.week`), prior: pair(p.prior, `${who}.prior`),
+          inbound: { total: count(p.inbound?.total, `${who}.inbound.total`), missed: count(p.inbound?.missed, `${who}.inbound.missed`) },
+          days: dayKeys.map((_, d) => (p.days?.[d] == null ? null : count(p.days[d], `${who}.days[${d}]`))),
+        };
+      }),
+      notes: (ci.notes ?? []).slice(0, 6).map((x, i) => clean(rx, `calls.notes[${i}]`, x, 200, "broad")).filter(Boolean),
+    };
+  }
+
   // Habits start blank. A rebuild keeps anything the check-out or Kev has already filled in.
   const habits: Record<string, string> = Object.fromEntries(HABIT_KEYS.map((k) => [k, ""]));
   for (const [k, v] of Object.entries({ ...(input.habits ?? {}), ...(opts.existing?.habits ?? {}) })) if ((HABIT_KEYS as readonly string[]).includes(k) && String(v ?? "").trim()) habits[k] = clean(rx, `habits.${k}`, v, 40);
@@ -228,7 +259,7 @@ export function buildDaily(date: string, input: PaperInput, opts: BuildOpts = {}
   const doc: DailyDoc = {
     schema: SCHEMA_VERSION, date, dow, label: `${dow}, ${MONTHS[m - 1]} ${d}`,
     pillar: { ...pillarFor(date) }, scripture: clean(rx, "scripture", input.scripture ?? st?.ref, 80),
-    habits, streaks, run, must, decisions, qc, sheets, study,
+    habits, streaks, run, must, decisions, qc, sheets, study, calls,
     sources: (input.sources ?? []).map((s, i) => clean(rx, `sources[${i}]`, s, 160)).filter(Boolean),
     builtAt: now.toISOString(), builtBy: opts.builtBy ?? "radar",
   };

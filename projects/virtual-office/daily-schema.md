@@ -24,6 +24,7 @@ The Command Center database now holds the paper as `daily/{YYYY-MM-DD}` (written
 | `qc` | `[{id q1.., addedAt, name, clientSeat, date, lastTouch, do, today, group, asOf}]`; a discreet client is "Client · discreet" |
 | `sheets` | `[{id, title, eyebrow, window {pt, et} "HH:MM-HH:MM", tz, eastCoast, brief, opener, sub, url, leads: [{id {sheet}-{NN}, addedAt, name, title, company, ph, src, crelateUrl, linkedin, note}]}]` |
 | `study` | `{ref, text, setting, words [{word, orig, note}], reflect [text], prayer, memory}` or null |
+| `calls` | CloudTalk counts or null (Kev, 29 Oct): `{asOf, dayLabel, weekLabel, priorLabel, dayKeys [YYYY-MM-DD], people [{name, day {dials, conn}, week, prior, inbound {total, missed}, days [n or null per dayKey]}], notes [≤6]}`. Whole numbers only; `conn` is CloudTalk's "answered" (can include voicemail on outbound). No numbers dialled, contacts or talk time. The Today view shows it as "Phones · CloudTalk" (hidden under screen share) |
 | `sources, builtAt, builtBy` | where it came from (short strings), ISO time, "radar" or "q" |
 
 `ph` is a flag only: `M`, `D`, `M D` or `—`. `addedAt` is null for items set the night before and an ISO time for items a daytime sweep added (the page shows "added 11:40"). Rollover is the page's job: it reads the doc whose date is the device clock minus 3 hours. No doc for that date means "Paper not built"; it never shows yesterday's.

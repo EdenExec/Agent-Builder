@@ -160,6 +160,17 @@ describe("daily document (the Eden Daily as data)", () => {
     assert.throws(() => assertSafe({ ...doc, salary: 1 }), /forbidden field/);
   });
 
+  test("calls: whole-number counts only; a stray number or contact on a person is dropped, a fraction is refused, no block means null", () => {
+    assert.equal(build().doc.calls, null);
+    const people = [{ name: "Andrew Johnson", day: { dials: 136, conn: 116 }, week: { dials: 374, conn: 306 }, prior: {}, days: [114, null, 136], phone: "+15035550142", contacts: ["Raul"] }];
+    const { doc } = build(input({ calls: { asOf: "2026-10-29T07:30:00Z", dayKeys: ["2026-10-26", "2026-10-27", "2026-10-28"], notes: ["Andrew up each day."], people } as PaperInput["calls"] }));
+    const p = doc.calls!.people[0]!;
+    assert.deepEqual([p.day, p.prior, p.inbound, p.days], [{ dials: 136, conn: 116 }, { dials: 0, conn: 0 }, { total: 0, missed: 0 }, [114, null, 136]]);
+    assert.ok(!/5550142|Raul/.test(JSON.stringify(doc)));
+    assert.throws(() => build(input({ calls: { asOf: "2026-10-29T07:30:00Z", people: [{ name: "X", day: { dials: 1.5 } }] } })), /whole number/);
+    assert.throws(() => build(input({ calls: { asOf: "2026-10-29T07:30:00Z", dayKeys: ["Oct 26"], people: [] } })), /YYYY-MM-DD/);
+  });
+
   test("a bad date is refused", () => {
     assert.throws(() => buildDaily("10/28/2026", input()), /YYYY-MM-DD/);
   });

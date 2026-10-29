@@ -609,6 +609,19 @@ textarea{min-height:84px;resize:vertical}
 .td-runl .n{display:block;font-weight:400;font-size:11.5px;color:var(--mute)}
 .td-habits{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:2px;padding:8px 10px}
 .td-habits div{text-align:center;font:500 9.5px/1.2 var(--mono);color:var(--mute)} .td-habits b{display:block;font:700 13px/1.4 var(--sans);color:var(--ink)}
+/* phones · CloudTalk (Kev, 29 Oct: "watching for trends there") */
+.td-calls{padding:4px 0 6px}
+.td-cr{display:grid;grid-template-columns:minmax(0,1fr) 64px 40px 52px 34px;gap:6px;align-items:end;padding:4px 12px;font-size:12px}
+.td-cr.hd{font:500 9px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);align-items:center}
+.td-cr .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.td-cr .n{font:500 11.5px/1.3 var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.td-cr .tr{font:600 10.5px/1.3 var(--mono);text-align:right;white-space:nowrap} .td-cr .tr.up{color:var(--g)} .td-cr .tr.dn{color:var(--r)} .td-cr .tr.fl{color:var(--mute)}
+.td-spark{display:flex;align-items:flex-end;gap:2px;height:20px}
+.td-spark i{flex:1;min-width:3px;background:var(--ink);opacity:.8} .td-spark i.z{height:1px!important;background:var(--line);opacity:1} .td-spark i.na{height:1px!important;background:none;border-top:1px dotted var(--mute);opacity:1} .td-spark i.last{opacity:1;background:var(--b)}
+.td-cin{padding:2px 12px 0;font:500 10.5px/1.4 var(--mono);color:var(--a)}
+.td-cnotes{list-style:none;margin:6px 0 0;padding:6px 12px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:5px}
+.td-cnotes li{font-size:11.5px;line-height:1.4;color:var(--ink)} .td-cnotes li::before{content:"· ";color:var(--mute)}
+.td-cfoot{padding:6px 12px 0;font:500 9.5px/1.4 var(--mono);color:var(--mute)}
 /* the work surface */
 .td-tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--ink)}
 .td-tab{background:none;border:0;border-right:1px solid var(--line);padding:11px 14px;cursor:pointer;font:500 10.5px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);min-height:40px}
@@ -671,7 +684,7 @@ textarea{min-height:84px;resize:vertical}
 .td-kb b{color:var(--ink);font-weight:700}
 /* Power Hour focus: the clock and counts (30%), the sheet (70%) */
 .td-focus .td-grid{grid-template-columns:minmax(260px,30%) minmax(0,1fr)}
-.td-focus .td-right,.td-focus .td-runbox,.td-focus .td-habbox{display:none}
+.td-focus .td-right,.td-focus .td-runbox,.td-focus .td-habbox,.td-focus .td-callbox{display:none}
 .td-focus .td-clock{font-size:64px}
 .td-sheetmodal{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .td-study{position:relative;width:min(880px,100%);max-height:100%;overflow:auto;background:var(--paper);border:1.5px solid var(--ink);padding:18px 22px;display:flex;flex-direction:column;gap:12px}
@@ -683,15 +696,15 @@ textarea{min-height:84px;resize:vertical}
 @media (prefers-reduced-motion:reduce){.td-bar i{transition:none}}
 /* laptop: 320px rail beside the sheet; decisions join the left rail; check-out and scripture drop below the sheet */
 @media (max-width:1599px){
-  .td-grid{grid-template-columns:320px minmax(0,1fr);grid-template-areas:"now mid" "must mid" "dec mid" "run mid" "hab scr" "hab chk"}
+  .td-grid{grid-template-columns:320px minmax(0,1fr);grid-template-areas:"now mid" "must mid" "dec mid" "run mid" "calls mid" "hab scr" "hab chk"}
   .td-left,.td-right{display:contents}
-  .td-now{grid-area:now} .td-must-box{grid-area:must} .td-dec-box{grid-area:dec} .td-runbox{grid-area:run} .td-habbox{grid-area:hab} .td-scr-box{grid-area:scr} .td-chk-box{grid-area:chk} .td-mid{grid-area:mid}
+  .td-now{grid-area:now} .td-must-box{grid-area:must} .td-dec-box{grid-area:dec} .td-runbox{grid-area:run} .td-habbox{grid-area:hab} .td-callbox{grid-area:calls} .td-scr-box{grid-area:scr} .td-chk-box{grid-area:chk} .td-mid{grid-area:mid}
   .td-focus .td-grid{grid-template-areas:"now mid" "now mid"}
   .td-focus .td-must-box,.td-focus .td-dec-box,.td-focus .td-scr-box,.td-focus .td-chk-box{display:none}
 }
 @media (max-width:820px){
   .today-mode .board-grid{display:none} .today-mode .board-note{display:none}
-  .td-grid,.td-focus .td-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"now" "must" "dec" "mid" "run" "hab" "chk" "scr"}
+  .td-grid,.td-focus .td-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"now" "must" "dec" "mid" "run" "hab" "calls" "chk" "scr"}
   .td-clock{font-size:32px}
   .modes{grid-column:1/-1;justify-self:stretch;margin-right:0} .modes button{flex:1}
   .td-cols{display:none}
@@ -3100,6 +3113,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     var grid = h('div', { class: 'td-grid' });
     var left = h('div', { class: 'td-left' }), right = h('div', { class: 'td-right' });
     left.appendChild(tdNowBox(run, now)); left.appendChild(tdRunBox(run, now)); if (doc) left.appendChild(tdHabitBox());
+    var cb = doc && tdCallsBox(); if (cb) left.appendChild(cb);
     grid.appendChild(left); grid.appendChild(tdMid(run)); if (doc) { right.appendChild(tdMustBox()); }
     var decBox = tdDecBox(); if (decBox) right.appendChild(decBox);
     if (doc) { right.appendChild(tdScriptureBox()); right.appendChild(tdCheckoutBox()); } grid.appendChild(right);
@@ -3142,6 +3156,29 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     var doc = TD.doc, st = doc.streaks || {};
     var g = h('div', { class: 'td-habits' }); HABITS.forEach(function (x) { var v = tdTick('habit', x[0]).value, n = st[x[0]]; g.appendChild(h('div', { title: x[1] + ' streak (read only)' }, h('b', { text: n == null ? '·' : String(n) }), x[1])); });
     return h('div', { class: 'td-box td-habbox' }, h('div', { class: 'eyebrow' }, h('span', { text: 'Habit streaks' }), h('span', { text: 'read only' })), g);
+  }
+  /* Phones · CloudTalk: dials and pick-ups per person, this week against the same days last week, with a daily strip.
+     Counts only, written into daily/{date}.calls by the stand-up from read-only CloudTalk stats. Hidden under screen share. */
+  function tdCallsBox() {
+    var c = TD.doc.calls; if (!c || !(c.people || []).length || S.share) return null;
+    var w = h('div', { class: 'td-calls' }), keys = c.dayKeys || [];
+    w.appendChild(h('div', { class: 'td-cr hd' }, h('span', { text: 'Who' }), h('span', { text: keys.length ? 'Daily dials' : '' }), h('span', { class: 'n', text: 'Wk' }), h('span', { class: 'n', text: 'vs last' }), h('span', { class: 'n', text: 'Pick' })));
+    var people = c.people.slice().sort(function (a, b) { return b.week.dials - a.week.dials || b.prior.dials - a.prior.dials; });
+    var tot = { w: 0, p: 0 };
+    people.forEach(function (p) {
+      tot.w += p.week.dials; tot.p += p.prior.dials;
+      var max = Math.max.apply(null, [1].concat(p.days.filter(function (x) { return x != null; }))), sp = h('span', { class: 'td-spark', title: keys.map(function (k, i) { return tdShort(k) + ': ' + (p.days[i] == null ? 'not read' : p.days[i]); }).join('\n') });
+      p.days.forEach(function (x, i) { sp.appendChild(h('i', { class: x == null ? 'na' : !x ? 'z' : i === p.days.length - 1 ? 'last' : '', style: x ? 'height:' + Math.max(8, Math.round(x / max * 100)) + '%' : '' })); });
+      var d = p.week.dials - p.prior.dials, tr = !p.prior.dials ? (p.week.dials ? ['new', 'up'] : ['–', 'fl']) : [(d >= 0 ? '▲' : '▼') + Math.abs(Math.round(d / p.prior.dials * 100)) + '%', Math.abs(d / p.prior.dials) < 0.1 ? 'fl' : d > 0 ? 'up' : 'dn'];
+      w.appendChild(h('div', { class: 'td-cr', title: p.name + ' · ' + (c.dayLabel || 'yesterday') + ': ' + p.day.dials + ' dials, ' + p.day.conn + ' picked up · ' + (c.priorLabel || 'last week') + ': ' + p.prior.dials + ' dials' },
+        h('span', { class: 'nm', text: p.name.split(' ')[0] }), sp, h('span', { class: 'n', text: String(p.week.dials) }), h('span', { class: 'tr ' + tr[1], text: tr[0] }),
+        h('span', { class: 'n', text: p.week.dials ? Math.round(p.week.conn / p.week.dials * 100) + '%' : '–' })));
+      if (p.inbound && p.inbound.missed) w.appendChild(h('div', { class: 'td-cin', text: p.name.split(' ')[0] + ': ' + p.inbound.missed + ' of ' + p.inbound.total + ' inbound missed this week' }));
+    });
+    if ((c.notes || []).length) { var ul = h('ul', { class: 'td-cnotes' }), all = !!TD.callsAll; (all ? c.notes : c.notes.slice(0, 3)).forEach(function (n) { ul.appendChild(h('li', { text: n })); }); w.appendChild(ul);
+      if (c.notes.length > 3) { var mb = h('button', { class: 'mini txt', text: all ? 'Fewer notes' : '+' + (c.notes.length - 3) + ' more' }); mb.addEventListener('click', function () { TD.callsAll = !all; renderAll(); }); w.appendChild(h('div', { class: 'td-cfoot' }, mb)); } }
+    w.appendChild(h('div', { class: 'td-cfoot', text: 'CloudTalk · ' + (c.weekLabel || 'this week') + ' vs ' + (c.priorLabel || 'last week') + ' · team ' + tot.w + ' vs ' + tot.p + ' · read ' + new Date(t(c.asOf)).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' }) + ' ' + tdClock(t(c.asOf)) }));
+    return h('div', { class: 'td-box td-callbox' }, h('div', { class: 'eyebrow' }, h('span', { text: 'Phones · CloudTalk' }), h('span', { text: c.weekLabel || 'this week' })), w);
   }
   function tdMid(run) {
     var mid = h('main', { class: 'td-mid' }), doc = TD.doc;

@@ -43,7 +43,7 @@ try {
     writeFileSync(file, JSON.stringify(doc) + "\n");
     writeFileSync(join(out, "writes-1.json"), JSON.stringify(writesFor(date!, file, version), null, 2) + "\n");
     const leads = doc.sheets.reduce((n, s) => n + s.leads.length, 0);
-    console.log(`daily/${date} (${doc.label}, pillar ${String(doc.pillar.n).padStart(2, "0")} ${doc.pillar.name}): ${doc.run.length} run, ${doc.must.length} must, ${doc.decisions.length} decisions, ${doc.qc.length} qc, ${doc.sheets.length} sheet(s) with ${leads} leads, study ${doc.study ? doc.study.ref : "none"}.`);
+    console.log(`daily/${date} (${doc.label}, pillar ${String(doc.pillar.n).padStart(2, "0")} ${doc.pillar.name}): ${doc.run.length} run, ${doc.must.length} must, ${doc.decisions.length} decisions, ${doc.qc.length} qc, ${doc.sheets.length} sheet(s) with ${leads} leads, study ${doc.study ? doc.study.ref : "none"}, calls ${doc.calls ? doc.calls.people.length + " people" : "none"}.`);
     console.log(`${redactions.length} redaction(s)${redactions.length ? ":\n  " + redactions.join("\n  ") : "."}`);
     for (const w of warnings) console.warn(`WARNING ${w}`);
     console.log(`Push ${join(out, "writes-1.json")} as one ArtifactData batch (${version !== undefined ? `pinned at version ${version}` : "new document, no if_version"}). Ticks (daily/${date}/ticks) are not touched.`);
