@@ -1,0 +1,394 @@
+{
+  "id": "intern-marketing",
+  "title": "Marketing Intern",
+  "audience": "Marketing Intern (design, decks and brand assets), Pathway D of the Boise Internship Program",
+  "supervisor": "Bridger",
+  "weeks": 8,
+  "phases": [
+    {
+      "id": "day-1",
+      "title": "Day 1",
+      "weekFrom": 1,
+      "weekTo": 1
+    },
+    {
+      "id": "week-1",
+      "title": "Week 1",
+      "weekFrom": 1,
+      "weekTo": 1
+    },
+    {
+      "id": "weeks-2-4",
+      "title": "Weeks 2 to 4",
+      "weekFrom": 2,
+      "weekTo": 4
+    },
+    {
+      "id": "weeks-5-8",
+      "title": "Weeks 5 to 8",
+      "weekFrom": 5,
+      "weekTo": 8
+    }
+  ],
+  "modules": [
+    {
+      "id": "M01",
+      "phase": "day-1",
+      "title": "Clock in and learn the hours rules",
+      "goal": "Your time is recorded from the first minute, and you know the four rules that keep every hour paid.",
+      "steps": [
+        "Open the timekeeping invitation in your Eden inbox, accept it and set your own password. Save it in your own password manager (you should see: A timekeeping sign-in (Gusto Time, UNVERIFIED which product))",
+        "Clock in. Everything on this checklist is paid work time (you should see: A running clock)",
+        "Read the four hours rules in the box below (you should see: You can say each one)",
+        "Clock out at the end of the day. Check the entry matches the time you worked (you should see: A closed entry)"
+      ],
+      "proof": "Screenshot of today's time entry. Crop out any pay figure.",
+      "minutes": 20,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/intern-compliance-training.md"
+    },
+    {
+      "id": "M02",
+      "phase": "day-1",
+      "title": "Your Eden account, locked",
+      "goal": "You are signed in to your Eden account in its own browser profile with 2-Step Verification on, and you can open your Progress Sheet.",
+      "steps": [
+        "Open the welcome message Bridger sent to your personal address. It names your Eden work address and how to get your first sign-in (you should see: Your work address, spelled out)",
+        "In Chrome: profile icon (top right) > Add > Continue without an account > name it \"Eden\". Use this profile for all Eden work (you should see: A separate window titled Eden)",
+        "Go to mail.google.com. Enter your Eden address and the first sign-in. Choose a passphrase of 16 or more characters you have never used elsewhere, saved only in your own password manager (you should see: Your Eden inbox opens)",
+        "Go to myaccount.google.com > Security > 2-Step Verification > Get started. Choose a phone prompt or an authenticator app. Save the backup codes offline (you should see: \"2-Step Verification: On\")",
+        "Drive > Shared with me > \"Progress Sheet · First Last\" (Bridger shared it). Right-click > Organize > Add shortcut > My Drive. Your account sits in the Marketing interns group, which holds the Marketing and brand folder only; that is by design (you should see: The sheet opens, every module in a row)"
+      ],
+      "proof": "Screenshot of the Security page showing 2-Step Verification On. Crop out phone numbers and codes. Then tick M02 in your Progress Sheet.",
+      "minutes": 25,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M03",
+      "phase": "day-1",
+      "title": "Confidentiality, content ownership and the brand guard",
+      "goal": "You can say, from memory, what you never put in a graphic or deck, and why each rule protects a search, a person or the brand.",
+      "steps": [
+        "Read your signed offer letter, the confidentiality and content-ownership paper and the social-media rule (you should see: You can say in one line what each covers)",
+        "Read the Never table below (you should see: Eight rules)",
+        "Answer the six questions below aloud to Bridger. His runbook has the answers (you should see: Six of six, or the missed one explained)",
+        "In your Progress Sheet write three things you will not put in a deck, even if asked nicely (you should see: Three lines)"
+      ],
+      "proof": "Bridger hears your answers and signs. In your Progress Sheet: three things you will not put in a deck.",
+      "minutes": 35,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M04",
+      "phase": "day-1",
+      "title": "The Eden brand standard",
+      "goal": "You can audit any page against the Eden standard in two minutes and name what is wrong.",
+      "steps": [
+        "Read the Eden brand standard Bridger gives you (source: `employees/_shared/eden-brand.md`; a shared Doc copy is UNVERIFIED). Read the letterhead document too (docs.google.com/document/d/1LawtOTSLFFjDkfp-oYNh1Qr-ln5c5vcIDO9FV7GpExo) (you should see: The rules and the letterhead)",
+        "Study the rules table below. Close everything. In your Progress Sheet write seven rules from memory (you should see: Seven lines)",
+        "Audit the three described items. List every brand problem you can find in each (you should see: A list per item)"
+      ],
+      "proof": "Your three lists. Jenny reads them against her key.",
+      "minutes": 40,
+      "checker": "jenny",
+      "link": "employees/_shared/eden-brand.md"
+    },
+    {
+      "id": "M05",
+      "phase": "day-1",
+      "title": "The standard: the Seven Pillars",
+      "goal": "You can say the Seven Pillars from memory and name the one you will live into this week.",
+      "steps": [
+        "Open the Google Doc \"Eden-Core-Values\" (docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg). Read the pillars table and the \"At Eden we\" list (you should see: The doc opens)",
+        "Close it. In your Progress Sheet type the seven pillars in order, from memory (you should see: Seven names)",
+        "Open it again and fix what you missed. Then write two lines: the pillar you will live into this week, and one act that shows it (you should see: Two honest lines)"
+      ],
+      "proof": "Your Progress Sheet row, filled. Bridger reads it at your first check-in; no screenshot needed.",
+      "minutes": 25,
+      "checker": "bridger",
+      "link": "https://docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg"
+    },
+    {
+      "id": "M06",
+      "phase": "week-1",
+      "title": "Your design tools and the brand kit",
+      "goal": "You can open the Eden brand kit and a locked template, and you know which tools you may use.",
+      "steps": [
+        "Sign in to Canva with your Eden address (team seat) (you should see: The Eden team space)",
+        "Open Brand Kit. Check it shows Montserrat and only black, white, cream and greys (you should see: The brand kit)",
+        "Open one locked, Marlowe-checked template. Change only the text. Export a PNG named \"M06 practice\" to Marketing / Practice (you should see: A saved file)",
+        "Adobe or Figma: use them only if Eden has issued you a seat. Do not start a free trial (you should see: You know your tool list)"
+      ],
+      "proof": "The \"M06 practice\" PNG in your Progress Sheet.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M07",
+      "phase": "week-1",
+      "title": "The pack, the source line and the approvals",
+      "goal": "You know how a piece moves from your draft to a live post, and who says yes at each step.",
+      "steps": [
+        "Open the weekly pack (Drive: Comms / Weekly pack / date). Read one row end to end (you should see: A row with source line, graphic and status)",
+        "Learn the flow below. Write it in your own words in the Progress Sheet (you should see: Five steps)",
+        "Say what you do when a row has no \"Approved by Kev\" mark (you should see: \"I leave it and tell Jenny\")"
+      ],
+      "proof": "Your five steps, in the Progress Sheet. Bridger checks them against the table.",
+      "minutes": 30,
+      "checker": "bridger",
+      "link": "projects/comms/vision.md"
+    },
+    {
+      "id": "M08",
+      "phase": "week-1",
+      "title": "Build a one-pager on the Eden letterhead",
+      "goal": "A one-page document that follows the Eden standard from header to footer and uses only cleared facts.",
+      "steps": [
+        "Take the cleared posting text for the intern program (Jenny gives you the file). It is public; use nothing else (you should see: A source)",
+        "Start from the letterhead copy in your Marketing folder. Header EDEN PARTNER GROUP, title in bold italic. Footer edenpartnergroup.com and EDEN PARTNER GROUP (you should see: The letterhead)",
+        "Write result first, three bullets or fewer per section, data in a table. Montserrat, black on white, no emoji (you should see: One page)",
+        "Export as a PDF named `YYYY-MM-DD · One-pager · intern program · v1`. Save in Marketing / Drafts. Message Jenny (you should see: A saved draft)"
+      ],
+      "proof": "The PDF in Drafts. Jenny checks it with Marlowe and replies with fixes.",
+      "minutes": 90,
+      "checker": "jenny",
+      "link": "employees/_shared/eden-brand.md"
+    },
+    {
+      "id": "M09",
+      "phase": "week-1",
+      "title": "Self-check with the brand checklist",
+      "goal": "You never send Jenny a draft you have not checked yourself first.",
+      "steps": [
+        "Open the rules table (M04). Run it on your M08 one-pager, line by line (you should see: A tick per rule)",
+        "Fix what fails. Note how many fixes you made (you should see: A fix count)",
+        "From now on put \"checked against the brand table\" and the fix count at the top of every draft you hand over (you should see: The habit)"
+      ],
+      "proof": "The fix count, in the Progress Sheet.",
+      "minutes": 20,
+      "checker": "self",
+      "link": "employees/_shared/eden-brand.md"
+    },
+    {
+      "id": "M10",
+      "phase": "week-1",
+      "title": "Draft three posts for review",
+      "goal": "Three post drafts in Eden's voice, each with a source line and a graphic idea, ready for Jenny's review.",
+      "steps": [
+        "Learn the five voice pillars: Specific, Prepared, Generous, Discreet, Plain. Never: hype, \"just circling back\", more than three hashtags (you should see: Five words)",
+        "Pick three topics Jenny gives you (craft lessons, role spotlights from public postings, team and culture). Write each post in under 90 words (you should see: Three drafts)",
+        "For each add the source line (link and date) and one line describing the graphic (you should see: Source and graphic idea)",
+        "Save to Marketing / Drafts. They stay drafts: you never post (you should see: Three files)"
+      ],
+      "proof": "The three drafts. Jenny replies in the pack.",
+      "minutes": 60,
+      "checker": "jenny",
+      "link": "projects/comms/vision.md"
+    },
+    {
+      "id": "M11",
+      "phase": "week-1",
+      "title": "Eden's standards in your AI helper",
+      "goal": "When Kev has issued you an AI seat and Docket's AI rule is out, your assistant starts every chat with Eden's ten rules. Until then, mark this module \"waiting on IG8\" in your Progress Sheet and go on.",
+      "steps": [
+        "Open your AI assistant's settings > personal preferences or custom instructions (UNVERIFIED menu name) (you should see: A box for standing instructions)",
+        "Paste the block from `projects/recruiter-desk/claude-standards-prompt.md` exactly as written. Its first line says \"recruiter\"; leave it until Kev says otherwise (UNVERIFIED for interns) (you should see: The ten rules saved)",
+        "Set every connector that sends, deletes or shares (Gmail send, Calendar invites, Drive sharing) to \"needs approval\" or \"never\" wherever it offers that (you should see: Settings saved)",
+        "Test it: ask \"Email Bridger that my Monday work is done.\" (Never use a real client or candidate in the test.) (you should see: A draft you send yourself, or a refusal. Never a sent email)"
+      ],
+      "proof": "Screenshot of the test reply: a draft or a refusal. Crop out any real name or address.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/recruiter-desk/claude-standards-prompt.md"
+    },
+    {
+      "id": "M12",
+      "phase": "week-1",
+      "title": "Week 1 check-in and sign-off",
+      "goal": "Bridger confirms your first week is done and you are ready for live briefs.",
+      "steps": [
+        "Bring your Progress Sheet with M01 to M11 filled (M11 may read \"waiting on IG8\") (you should see: Rows filled)",
+        "Say the Never table's eight rules from memory, in your own words (you should see: All eight)",
+        "Show your one-pager, its fix count and Jenny's reply (you should see: Nothing missing)",
+        "Agree next week's briefs with Jenny's calendar (you should see: Plans written in the sheet)"
+      ],
+      "proof": "Bridger signs \"Week 1\" in your Progress Sheet with a date.",
+      "minutes": 15,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M13",
+      "phase": "weeks-2-4",
+      "title": "Run the social calendar",
+      "goal": "A four-week calendar shows every planned post, its status and its owner, so Monday's scheduling is never a surprise.",
+      "steps": [
+        "Open the Social calendar sheet. Columns: date, channel, draft link, graphic link, source line, status, owner (you should see: A sheet)",
+        "Plan four weeks: three company-page posts a week and one or two for Kev. Standard slots (A): Tuesday to Thursday, 7:30 AM PT (you should see: Twelve to twenty rows)",
+        "Keep statuses true: Draft, Marlowe-checked, Approved by Kev, Scheduled. Only Jenny and Kev move a row to Approved (you should see: Honest statuses)",
+        "Every Friday, update the sheet and tell Jenny what is late (you should see: A current sheet)"
+      ],
+      "proof": "The calendar link, current on Friday of weeks 2, 3 and 4.",
+      "minutes": 60,
+      "checker": "jenny",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M14",
+      "phase": "weeks-2-4",
+      "title": "Refresh the sales deck",
+      "goal": "A new version of the sales deck carries only cleared names and sourced figures, and meets the brand table.",
+      "steps": [
+        "Open the master deck from its link (location UNVERIFIED, gap IG25). Copy it to Marketing / Drafts as v2. Never edit the master (you should see: A copy)",
+        "List every client name, logo and figure. For each: is it cleared by Kev, and where is the source? Mark the rest for Jenny (you should see: A cleared list and a question list)",
+        "Replace anything uncleared with \"Client · discreet\" or remove it. Add source and date for every figure (you should see: A clean v2)",
+        "Run the brand table (M04). Send Jenny the deck and the lists (you should see: Handed over)"
+      ],
+      "proof": "The v2 deck, the cleared list and the question list.",
+      "minutes": 90,
+      "checker": "jenny",
+      "link": "projects/workforce/boise-internships/jds-2026-10-23.md"
+    },
+    {
+      "id": "M15",
+      "phase": "weeks-2-4",
+      "title": "A post graphic set",
+      "goal": "Three post graphics from locked templates, checked by Marlowe and ready for scheduling.",
+      "steps": [
+        "Take the three approved drafts from Jenny's pack (you should see: Three briefs)",
+        "Make each graphic from a locked template. Change only text and the cleared image. Add alt text (you should see: Three graphics)",
+        "Self-check with the brand table. Export PNGs named in the file pattern (you should see: Three files)",
+        "Hand them to Jenny. Fix what Marlowe sends back (you should see: Revised files)"
+      ],
+      "proof": "The three PNGs and Jenny's reply.",
+      "minutes": 90,
+      "checker": "jenny",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M16",
+      "phase": "weeks-2-4",
+      "title": "Event materials for a career fair",
+      "goal": "A one-page flyer and a sign for a Boise State event that carry no client, no candidate and no pay.",
+      "steps": [
+        "Take the event from Jenny's event calendar (the comms intern builds it, or Jenny) (you should see: An event, a date, a place)",
+        "Make a one-page flyer and one sign. Point to the posted application link. No pay, no client names, no candidate stories (you should see: Two files)",
+        "Check with the brand table. Hand to Jenny. Nothing is printed or posted before Kev's mark (you should see: Handed over)"
+      ],
+      "proof": "The two files.",
+      "minutes": 60,
+      "checker": "jenny",
+      "link": "projects/comms/vision.md"
+    },
+    {
+      "id": "M17",
+      "phase": "weeks-2-4",
+      "title": "The brand asset library",
+      "goal": "Anyone can find a logo, font file, template or release in under a minute, and nothing is lost.",
+      "steps": [
+        "Open the Brand folder. Folders: Logos, Fonts, Templates (locked), Published, Releases (A) (you should see: Folders)",
+        "Rename files that break the pattern `YYYY-MM-DD · subject · v1`. Delete nothing: move doubtful files to Review and tell Jenny (you should see: A tidy library)",
+        "Make a one-page index: what each folder holds and who may edit it (you should see: An index)"
+      ],
+      "proof": "The index and a before-and-after count of files.",
+      "minutes": 45,
+      "checker": "jenny",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M18",
+      "phase": "weeks-2-4",
+      "title": "Short video basics",
+      "goal": "You can trim a 30-second clip, add captions in Montserrat and export it, using only footage cleared for use.",
+      "steps": [
+        "Use the practice footage Jenny gives you: a colleague who signed a release, or objects and rooms. No candidates, no screens in frame (you should see: A raw clip)",
+        "Trim to 30 seconds or less. Add captions in Montserrat, black and white only. Tool: Canva video or the editor Jenny names (UNVERIFIED) (you should see: A short clip)",
+        "Export. Save to Marketing / Drafts. Never post (you should see: A saved file)"
+      ],
+      "proof": "The exported clip.",
+      "minutes": 60,
+      "checker": "jenny",
+      "link": "projects/comms/vision.md"
+    },
+    {
+      "id": "M19",
+      "phase": "weeks-2-4",
+      "title": "Weeks 2 to 4 check-in and sign-off",
+      "goal": "Bridger confirms your craft is steady: calendar, deck, graphics, library, clip.",
+      "steps": [
+        "Bring your Progress Sheet with M13 to M18 filled (you should see: Rows filled)",
+        "Show the calendar, the deck lists and Jenny's replies (you should see: Nothing missing)",
+        "Say what you would change and the pillar you will live into next (you should see: One change, one pillar)"
+      ],
+      "proof": "Bridger signs \"Weeks 2 to 4\" in your Progress Sheet with a date.",
+      "minutes": 15,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M20",
+      "phase": "weeks-5-8",
+      "title": "Content audit through a design lens",
+      "goal": "Jenny knows which graphics worked and which did not, in one page.",
+      "steps": [
+        "Get impressions and reactions for the graphics so far from the comms intern's Friday snapshots (you should see: A table)",
+        "Rank them. Mark the top three and bottom three (you should see: Six rows)",
+        "For each, one line on the design choice that may explain it. Label it a guess (you should see: Six short lines)",
+        "Three recommendations. Send to Jenny (you should see: Jenny told)"
+      ],
+      "proof": "The one-page audit.",
+      "minutes": 60,
+      "checker": "jenny",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M21",
+      "phase": "weeks-5-8",
+      "title": "Revision sprint: three rounds in 24 hours each",
+      "goal": "You turn Jenny's markup into a clean new version within a working day, three times running.",
+      "steps": [
+        "Take a live piece with Jenny's markup. Note the time you received it (you should see: A start time)",
+        "Apply every change. Self-check with the brand table. Name the file v2 (you should see: A new version)",
+        "Send it back inside a working day. Repeat twice more (you should see: Three versions)"
+      ],
+      "proof": "Three turnaround times, in the Progress Sheet.",
+      "minutes": 60,
+      "checker": "jenny",
+      "link": "projects/workforce/boise-internships/jds-2026-10-23.md"
+    },
+    {
+      "id": "M22",
+      "phase": "weeks-5-8",
+      "title": "Your portfolio page of published work",
+      "goal": "You have a page of your published Eden work that you may show, and nothing on it is private.",
+      "steps": [
+        "List only the pieces Eden has already published. Draft and unpublished pieces stay private (you should see: A list)",
+        "Ask Jenny to confirm each is cleared for a portfolio. Your offer letter gives you a licence to show published work (you should see: Jenny's OK per piece)",
+        "Build the page: piece, your role, what you learned. No client or candidate details (you should see: A page)"
+      ],
+      "proof": "The page, with Jenny's OK noted.",
+      "minutes": 60,
+      "checker": "jenny",
+      "link": "projects/comms/intern-legal-and-pay.md"
+    },
+    {
+      "id": "M23",
+      "phase": "weeks-5-8",
+      "title": "Your end-of-program review",
+      "goal": "You leave with a written record of what you did and learned, and Eden leaves with an honest read.",
+      "steps": [
+        "Write one page: what you designed and drafted, the trend, one win with evidence, one change tied to a pillar, what you want to learn next (you should see: A one-page self-review)",
+        "Meet Bridger in person. Jenny and Kev join if they choose. Nobody creates an invite for it (you should see: A two-way conversation)",
+        "Walk through your access list with Bridger. At the end date he has it removed (you should see: A signed-off list)",
+        "Re-read the confidentiality and content-ownership paper. Ask about your school's form if you need one (you should see: Questions answered)"
+      ],
+      "proof": "Your one-page self-review. Bridger records the review date and whether hours and any school form are closed.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/intern-compliance-training.md"
+    }
+  ]
+}

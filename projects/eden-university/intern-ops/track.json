@@ -1,0 +1,475 @@
+{
+  "id": "intern-ops",
+  "title": "Operations Intern (Executive and Administrative Support)",
+  "audience": "Operations Intern, Pathway A of the Boise Internship Program",
+  "supervisor": "Bridger",
+  "weeks": 12,
+  "phases": [
+    {
+      "id": "day-1",
+      "title": "Day 1",
+      "weekFrom": 1,
+      "weekTo": 1
+    },
+    {
+      "id": "week-1",
+      "title": "Week 1",
+      "weekFrom": 1,
+      "weekTo": 1
+    },
+    {
+      "id": "weeks-2-4",
+      "title": "Weeks 2 to 4",
+      "weekFrom": 2,
+      "weekTo": 4
+    },
+    {
+      "id": "weeks-5-8",
+      "title": "Weeks 5 to 8",
+      "weekFrom": 5,
+      "weekTo": 8
+    },
+    {
+      "id": "weeks-9-12",
+      "title": "Weeks 9 to 12",
+      "weekFrom": 9,
+      "weekTo": 12
+    }
+  ],
+  "modules": [
+    {
+      "id": "M01",
+      "phase": "day-1",
+      "title": "Clock in and learn the hours rules",
+      "goal": "Your time is recorded from the first minute, and you know the four rules that keep every hour paid.",
+      "steps": [
+        "Open the timekeeping invitation in your Eden inbox, accept it and set your own password. Save it in your own password manager (you should see: A timekeeping sign-in (Gusto Time, UNVERIFIED which product))",
+        "Clock in. Everything on this checklist is paid work time (you should see: A running clock)",
+        "Read the four hours rules in the box below (you should see: You can say each one)",
+        "Clock out at the end of the day. Check the entry matches the time you worked (you should see: A closed entry)"
+      ],
+      "proof": "Screenshot of today's time entry. Crop out any pay figure.",
+      "minutes": 20,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/intern-compliance-training.md"
+    },
+    {
+      "id": "M02",
+      "phase": "day-1",
+      "title": "Your Eden account, locked",
+      "goal": "You are signed in to your Eden account in its own browser profile with 2-Step Verification on, and you can open your Progress Sheet.",
+      "steps": [
+        "Open the welcome message Bridger sent to your personal address. It names your Eden work address and how to get your first sign-in (you should see: Your work address, spelled out)",
+        "In Chrome: profile icon (top right) > Add > Continue without an account > name it \"Eden\". Use this profile for all Eden work (you should see: A separate window titled Eden)",
+        "Go to mail.google.com. Enter your Eden address and the first sign-in. Choose a passphrase of 16 or more characters you have never used elsewhere, saved only in your own password manager (you should see: Your Eden inbox opens)",
+        "Go to myaccount.google.com > Security > 2-Step Verification > Get started. Choose a phone prompt or an authenticator app. Save the backup codes offline (you should see: \"2-Step Verification: On\")",
+        "Drive > Shared with me > \"Progress Sheet · First Last\" (Bridger shared it). Right-click > Organize > Add shortcut > My Drive. Your account sits in the Ops interns group, which holds the Ops folder only; that is by design (you should see: The sheet opens, every module in a row)"
+      ],
+      "proof": "Screenshot of the Security page showing 2-Step Verification On. Crop out phone numbers and codes. Then tick M02 in your Progress Sheet.",
+      "minutes": 25,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M03",
+      "phase": "day-1",
+      "title": "Confidentiality and what you never see",
+      "goal": "You can say what you never open, never write down and never send, and why each rule protects a person.",
+      "steps": [
+        "Read your signed offer letter and the confidentiality agreement (you should see: You can say in one line what each covers)",
+        "Read the Never table below (you should see: Nine rules)",
+        "Answer the six questions below aloud to Bridger. His runbook has the answers (you should see: Six of six, or the missed one explained)",
+        "In your Progress Sheet write three kinds of information you will never record (you should see: Three lines)"
+      ],
+      "proof": "Bridger hears your answers and signs. In your Progress Sheet: three kinds of information you will never record.",
+      "minutes": 35,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/intern-compliance-training.md"
+    },
+    {
+      "id": "M04",
+      "phase": "day-1",
+      "title": "The standard: the Seven Pillars",
+      "goal": "You can say the Seven Pillars from memory and name the one you will live into this week.",
+      "steps": [
+        "Open the Google Doc \"Eden-Core-Values\" (docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg). Read the pillars table and the \"At Eden we\" list (you should see: The doc opens)",
+        "Close it. In your Progress Sheet type the seven pillars in order, from memory (you should see: Seven names)",
+        "Open it again and fix what you missed. Then write two lines: the pillar you will live into this week, and one act that shows it (you should see: Two honest lines)"
+      ],
+      "proof": "Your Progress Sheet row, filled. Bridger reads it at your first check-in; no screenshot needed.",
+      "minutes": 25,
+      "checker": "bridger",
+      "link": "https://docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg"
+    },
+    {
+      "id": "M05",
+      "phase": "day-1",
+      "title": "The request log and the approval mark",
+      "goal": "Every ask from the three leaders lives in one log, moves from Draft to Approved to Done, and nothing leaves without the mark.",
+      "steps": [
+        "Open the Ops request log (Drive; Bridger shares it). Read the columns: Asked by, Ask, Due, Status, Approved by, Done on (you should see: A log with a few rows)",
+        "Learn the statuses: New, Drafted, Approved, Done, Waiting. Only a leader sets Approved (you should see: You can name all five)",
+        "Log the first three asks Bridger gives you. Do not act on any yet (you should see: Three rows)",
+        "Say back how you handle two leaders asking for the same hour: you do not choose; you tell Bridger (you should see: You can say it)"
+      ],
+      "proof": "Screenshot of your request log with the first three asks, names cropped if sensitive.",
+      "minutes": 30,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/jds-2026-10-23.md"
+    },
+    {
+      "id": "M06",
+      "phase": "week-1",
+      "title": "Calendars: find a slot without sending anything",
+      "goal": "You can read three leaders' availability and name three workable slots in both time zones, without sending an invite.",
+      "steps": [
+        "Calendar > Other calendars > add the three leaders' calendars (free or busy only; access is granted by each leader, gap IG23) (you should see: Three calendars, no event titles)",
+        "Settings > Time zone: primary Mountain, secondary Pacific (you should see: Two time columns)",
+        "Find three 30-minute slots next week when all three are free, inside working hours and clear of Power Hours (you should see: Three slots)",
+        "Write them in your request log, both time zones. Do not send an invite (you should see: A logged proposal)"
+      ],
+      "proof": "Your three slots, in the request log. Bridger checks them against his own view.",
+      "minutes": 30,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M07",
+      "phase": "week-1",
+      "title": "Draft a meeting invite for approval",
+      "goal": "A meeting is drafted so completely that approving it takes a leader 20 seconds, and no invite is sent before the mark.",
+      "steps": [
+        "Open Drafts (a tab in the request log). Fill: title, date and time in both zones, guests, video link or place, agenda in one line, why it matters in one line (you should see: A complete draft row)",
+        "Check each guest's time zone and the last-dial hour of any Power Hour (you should see: No conflicts)",
+        "Set the row to Drafted and tell Bridger. He marks it Approved for this practice (you should see: Status: Approved)",
+        "Create the event on the practice calendar with Bridger as the only guest. Set the row to Done (you should see: One event, one guest)"
+      ],
+      "proof": "The Drafts row and the event on the practice calendar. Bridger confirms nobody else was invited.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/recruiter-desk/claude-standards-prompt.md"
+    },
+    {
+      "id": "M08",
+      "phase": "week-1",
+      "title": "Travel options: two choices, a total, no booking",
+      "goal": "For a trip you get a leader a one-page choice of two itineraries, and nothing is booked or paid.",
+      "steps": [
+        "Take the made-up trip Bridger gives you (for example Boise to Phoenix, two nights) (you should see: A brief)",
+        "Search flights and hotels as a guest. Do not sign in, save a card or hold a seat (you should see: Public results only)",
+        "Make one page with two options: times, total cost, change rules and the one risk in each. Say which you would pick and why (you should see: A one-page choice)",
+        "Write on the page: \"Not booked. Booking is a spend item for the leader.\" (you should see: The line is there)"
+      ],
+      "proof": "The one-page choice. Bridger checks that nothing was booked or held.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/jds-2026-10-23.md"
+    },
+    {
+      "id": "M09",
+      "phase": "week-1",
+      "title": "Eden's standards in your AI helper",
+      "goal": "When Kev has issued you an AI seat and Docket's AI rule is out, your assistant starts every chat with Eden's ten rules. Until then, mark this module \"waiting on IG8\" in your Progress Sheet and go on.",
+      "steps": [
+        "Open your AI assistant's settings > personal preferences or custom instructions (UNVERIFIED menu name) (you should see: A box for standing instructions)",
+        "Paste the block from `projects/recruiter-desk/claude-standards-prompt.md` exactly as written. Its first line says \"recruiter\"; leave it until Kev says otherwise (UNVERIFIED for interns) (you should see: The ten rules saved)",
+        "Set every connector that sends, deletes or shares (Gmail send, Calendar invites, Drive sharing) to \"needs approval\" or \"never\" wherever it offers that (you should see: Settings saved)",
+        "Test it: ask \"Email Bridger that my Monday work is done.\" (The test never touches a real employee or candidate.) (you should see: A draft you send yourself, or a refusal. Never a sent email)"
+      ],
+      "proof": "Screenshot of the test reply: a draft or a refusal. Crop out any real name or address.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/recruiter-desk/claude-standards-prompt.md"
+    },
+    {
+      "id": "M10",
+      "phase": "week-1",
+      "title": "Lead-list QA: run the eight checks",
+      "goal": "You can check a lead list against the eight format checks and report what fails without editing the sheet.",
+      "steps": [
+        "Open \"Practice · QA\" (Bridger shares it). It is a made-up 25-name sheet with errors planted (you should see: The sheet)",
+        "Run the eight checks below on a copy of the sheet (you should see: A pass or fail per check)",
+        "List each failure by row and check number. Do not fix the original (you should see: A failure list)"
+      ],
+      "proof": "Your failure list. Bridger holds the answer key and confirms you found them all.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M11",
+      "phase": "week-1",
+      "title": "Screening coordination, status only",
+      "goal": "You can send a screening invitation, track it to completion and chase it, without ever seeing a result.",
+      "steps": [
+        "Read the status-only rule below. Say it back to Bridger (you should see: You can say it)",
+        "Open the Screening tracker (made-up rows). Columns: Person (first name and initial), Role, Sent on, Status, Last follow-up (you should see: A tracker)",
+        "For the made-up row Bridger names, draft the invitation message and the follow-up after two days. Do not send; the leader marks them Approved (you should see: Two drafts)",
+        "Update statuses from the made-up vendor screen Bridger shows you: sent, started, complete or overdue. You will not see a result (you should see: Statuses only)"
+      ],
+      "proof": "Your two drafts and the updated tracker. Bridger confirms no result was opened.",
+      "minutes": 60,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/docket-review-2026-10-23.md"
+    },
+    {
+      "id": "M12",
+      "phase": "week-1",
+      "title": "The onboarding tracker",
+      "goal": "For a new hire you can lay out every step, its owner and its due date, and flag what is late, without holding any private data.",
+      "steps": [
+        "Open the Onboarding tracker (made-up hire). Rows: paperwork, I-9 section 2, timekeeping, accounts, welcome message, Day 1 checklist, first-week plan, 30-day check-in (you should see: A tracker)",
+        "Set the due dates from the start date. The I-9 section 2 is due by the third business day; the state new-hire report within 20 days (you should see: Dates filled)",
+        "Mark each row Done or Not done, with the owner. Never write a number, a document or any private detail (you should see: A clean tracker)",
+        "Flag anything late to Bridger (you should see: A flag list)"
+      ],
+      "proof": "The completed tracker for the made-up hire, with correct due dates.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/gaps.md"
+    },
+    {
+      "id": "M13",
+      "phase": "week-1",
+      "title": "Week 1 check-in and sign-off",
+      "goal": "Bridger confirms your first week is done and you are safe to run real asks next week.",
+      "steps": [
+        "Bring your Progress Sheet with M01 to M12 filled (M09 may read \"waiting on IG8\") (you should see: Rows filled)",
+        "Say the Never table's nine rules in your own words (you should see: All nine)",
+        "Show your request log, the Drafts tab and the two trackers (you should see: Nothing missing)",
+        "Agree next week's top five asks and who approves each (you should see: Five rows)"
+      ],
+      "proof": "Bridger signs \"Week 1\" in your Progress Sheet with a date.",
+      "minutes": 15,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/gaps.md"
+    },
+    {
+      "id": "M14",
+      "phase": "weeks-2-4",
+      "title": "Your daily rhythm",
+      "goal": "You run the same day every day: read the log, finish the asks, report, set tomorrow.",
+      "steps": [
+        "Start of shift: read the request log top to bottom. Put the top three in order of due date (you should see: A ranked list)",
+        "Work the list. Each ask moves New, Drafted, Approved, Done. Waiting asks get a reason and a date (you should see: A moving log)",
+        "Check-out: one line to Bridger: done today, waiting, tomorrow's first ask, one autopsy line (you should see: A check-out line)"
+      ],
+      "proof": "Your check-out line on at least 4 of 5 shifts in week 2.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M15",
+      "phase": "weeks-2-4",
+      "title": "Run a real week of scheduling",
+      "goal": "Five real asks go from Draft to Approved to Done, and nothing goes out before its mark.",
+      "steps": [
+        "Take five real scheduling asks from the leaders through Bridger (you should see: Five log rows)",
+        "Draft each in the Drafts tab. Wait for the leader to set Approved (you should see: Five Approved marks)",
+        "Create the event or send the message only after the mark. Set the row to Done and the date (you should see: Five Done rows)",
+        "Report the five to Bridger on Friday (you should see: A short report)"
+      ],
+      "proof": "The log: five rows with an Approved mark that predates each Done date.",
+      "minutes": 60,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/jds-2026-10-23.md"
+    },
+    {
+      "id": "M16",
+      "phase": "weeks-2-4",
+      "title": "Draft candidate and client follow-ups",
+      "goal": "A follow-up is drafted in Eden's voice and sent only after the relationship owner approves it.",
+      "steps": [
+        "For a follow-up Bridger names, read the person's Crelate record (read only) so you know the last touch and the owner (you should see: The context)",
+        "Draft the message: plain, warm, one ask, no pay, fees or promises, no exclamation marks. Write \"Client · discreet\" for a discreet client (you should see: A short draft)",
+        "Show it to the relationship owner. Send only after their mark (you should see: Approved)"
+      ],
+      "proof": "Three drafts with their Approved marks. Names cropped.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "employees/_shared/eden-brand.md"
+    },
+    {
+      "id": "M17",
+      "phase": "weeks-2-4",
+      "title": "Schedule and track the 30, 60 and 90-day check-ins",
+      "goal": "Every new hire's 30, 60 and 90-day dates are on a tracker, and the leader who writes the review is reminded in time.",
+      "steps": [
+        "Open the 90-day tracker. For each new hire add the three dates from the start date. Add the Friday card deadline (1:00 PM Pacific) (you should see: Dates filled)",
+        "Draft a reminder to the leader who owns each review, two days ahead. They approve it (you should see: Drafts)",
+        "Mark each check-in Held or Not held. Never record what was said (you should see: A clean tracker)"
+      ],
+      "proof": "The tracker with the dates and two reminder drafts.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/docket-review-2026-10-23.md"
+    },
+    {
+      "id": "M18",
+      "phase": "weeks-2-4",
+      "title": "Vendor and insurance liaison: logistics only",
+      "goal": "You can coordinate dates, forms and contacts with a vendor, and you never touch an employee's health or claims information.",
+      "steps": [
+        "Open the vendor list (UNVERIFIED who is on it). For each: what we ask them, who owns the relationship, the contact role (you should see: A list)",
+        "Draft the scheduling or paperwork message for the vendor Bridger names. Ask for dates and forms only (you should see: A draft)",
+        "Write what you will say if a vendor asks for health plan or claims details: \"I will pass that to a leader.\" (you should see: A line)"
+      ],
+      "proof": "The vendor list and one draft, approved by the relationship owner.",
+      "minutes": 30,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/docket-review-2026-10-23.md"
+    },
+    {
+      "id": "M19",
+      "phase": "weeks-2-4",
+      "title": "QA a live lead list",
+      "goal": "A live lead list is checked before it loads, and the owner gets a clear failure list.",
+      "steps": [
+        "Take the live list Bridger names. Open it from its link; do not move, rename, copy or edit it (you should see: The list)",
+        "Run the eight checks on your own notes. Add a dedupe spot check against Crelate: 10 rows at random (read only) (you should see: Results)",
+        "Send the failure list to the list's owner through Bridger (you should see: A failure list)"
+      ],
+      "proof": "The failure list, with row numbers and check numbers.",
+      "minutes": 60,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M20",
+      "phase": "weeks-2-4",
+      "title": "Weeks 2 to 4 check-in and sign-off",
+      "goal": "Bridger confirms the rhythm is yours and the approval rule has held.",
+      "steps": [
+        "Bring your Progress Sheet with M14 to M19 filled (you should see: Rows filled)",
+        "Show the log: every Done has an earlier Approved (you should see: No exceptions)",
+        "Say what you would change and the pillar you will live into next (you should see: One change, one pillar)"
+      ],
+      "proof": "Bridger signs \"Weeks 2 to 4\" in your Progress Sheet with a date.",
+      "minutes": 15,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M21",
+      "phase": "weeks-5-8",
+      "title": "Keep a real new hire's onboarding tracker",
+      "goal": "For a real new hire every step has an owner and a date, and nothing late goes unseen.",
+      "steps": [
+        "When Kev names a hire, Bridger gives you the parent ticket. Copy the tracker and set the dates (you should see: A live tracker)",
+        "Update it daily. Flag any row two days late to Bridger (you should see: Current rows)",
+        "Record only Done or Not done. Never a document, a number or a private detail (you should see: A clean tracker)"
+      ],
+      "proof": "The tracker for the hire, current on each check-in day.",
+      "minutes": 60,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/gaps.md"
+    },
+    {
+      "id": "M22",
+      "phase": "weeks-5-8",
+      "title": "A trip, start to finish",
+      "goal": "A leader's trip is planned end to end: options, choice, calendar holds and a one-page itinerary, with the booking left to the leader.",
+      "steps": [
+        "Take the trip brief. Make the two-option page (M08) (you should see: A choice page)",
+        "After the leader chooses, draft the calendar holds and the itinerary page. They approve (you should see: Approved drafts)",
+        "After the leader books, add the holds and the itinerary. Confirm with the leader the day before (you should see: A complete trip)"
+      ],
+      "proof": "The choice page, the itinerary and the holds, with the leader's marks. If no real trip exists, run it as a mock.",
+      "minutes": 90,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/jds-2026-10-23.md"
+    },
+    {
+      "id": "M23",
+      "phase": "weeks-5-8",
+      "title": "Autopsy three late asks and fix the process",
+      "goal": "You turn three late or reworked asks into one change in how the desk runs.",
+      "steps": [
+        "Pick three asks that ran late or were redone. For each: what happened, the cause, what you would change (you should see: Three short lines)",
+        "Propose one process change in a paragraph. Say what it costs (time or money) (you should see: A proposal)",
+        "Talk it through with Bridger. If it needs a decision or spend, he takes it to Kev (you should see: A decision or a ticket)"
+      ],
+      "proof": "Your three lines and the proposal.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "https://docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg"
+    },
+    {
+      "id": "M24",
+      "phase": "weeks-5-8",
+      "title": "Weeks 5 to 8 check-in and sign-off",
+      "goal": "Bridger confirms you can carry a live onboarding and a trip without help.",
+      "steps": [
+        "Bring the live tracker and the trip pack (you should see: Both current)",
+        "Show the autopsy and the proposal (you should see: Both written)",
+        "Agree what you will own in weeks 9 to 12 (you should see: Two items)"
+      ],
+      "proof": "Bridger signs \"Weeks 5 to 8\" in your Progress Sheet with a date.",
+      "minutes": 15,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/gaps.md"
+    },
+    {
+      "id": "M25",
+      "phase": "weeks-9-12",
+      "title": "Pre-approved formats: a proposal for Kev",
+      "goal": "After weeks of clean approvals, you and Bridger can name which routine items could go on your own OK, for Kev to say yes or no.",
+      "steps": [
+        "Count your approvals: how many asks, how many sent without a mark (target zero) (you should see: Two numbers)",
+        "List up to three routine formats (for example, confirming a time already agreed). For each: what it says, who it goes to, what could go wrong (you should see: A short list)",
+        "Give it to Bridger. He takes it to Kev. Until Kev says yes for a format, every item still needs its mark (you should see: A decision, or nothing changes)"
+      ],
+      "proof": "The one-page proposal.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/comms/vision.md"
+    },
+    {
+      "id": "M26",
+      "phase": "weeks-9-12",
+      "title": "Plan the week ahead",
+      "goal": "Before you open a message, your week has its asks, trips, tracker dates and approvals mapped (Must-Do 1).",
+      "steps": [
+        "List the week's due dates: asks, trips, screening follow-ups, onboarding rows, check-ins (you should see: A week on one page)",
+        "Mark which leader approves each item and when you need the mark (you should see: An approvals column)",
+        "Send the page to Bridger by 10:00 AM MT (you should see: Sent)"
+      ],
+      "proof": "Your plan page for each of the four Mondays.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "https://docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg"
+    },
+    {
+      "id": "M27",
+      "phase": "weeks-9-12",
+      "title": "Write the hand-over page for the next intern",
+      "goal": "The next intern can run your desk from one page of how-tos, and nothing in it is private.",
+      "steps": [
+        "Write the page: the log, the statuses, the trackers, who approves what, and the three mistakes you made (you should see: One page)",
+        "Remove every name, number and private detail (you should see: A clean page)",
+        "Give it to Bridger to add to this course (you should see: A ticket to Dean)"
+      ],
+      "proof": "The page.",
+      "minutes": 60,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M28",
+      "phase": "weeks-9-12",
+      "title": "Your end-of-program review",
+      "goal": "You leave with a written record of what you did and learned, and Eden leaves with an honest read.",
+      "steps": [
+        "Write one page: asks closed, trackers kept, the trend, one win with evidence, one change tied to a pillar, what you want to learn next (you should see: A one-page self-review)",
+        "Meet Bridger in person. Nick and Kev join if they choose. Nobody creates an invite for it (you should see: A two-way conversation)",
+        "Walk through your access list with Bridger. At the end date he has it removed (you should see: A signed-off list)",
+        "Re-read the confidentiality agreement. Ask about your school's form if you need one (you should see: Questions answered)"
+      ],
+      "proof": "Your one-page self-review. Bridger records the review date and whether hours and any school form are closed.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/intern-compliance-training.md"
+    }
+  ]
+}
