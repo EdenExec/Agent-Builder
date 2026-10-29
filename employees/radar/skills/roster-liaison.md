@@ -29,3 +29,10 @@ Every employee reports weekly like a founder to an investor: one eight-slide dec
 - Radar never edits another employee's brief, memory or files. It asks, records and relays.
 
 Friction log (Kev, 21 Oct 2026): Radar keeps `employees/radar/memory/live/friction.md`, one dated line per permission prompt, connector sign-in, missing trigger or manual step that slowed a run. Every Friday it hands the log to Q, who owns cutting it down (`employees/q/persona.md`, "Friction is your scorecard").
+
+## Handing work to an employee (Kev, 29 Oct 2026: "how do we get these tasks moving quicker? i just pinged Jenny and she hadn't heard")
+A copy of an employee run inside Radar's session is invisible to that employee's own session. So every handoff, the moment it starts:
+1. A `working` ticket on the owner's desk in the Command Center (`tickets/`, `agent` = the employee, `createdBy: "radar"`), so Kev sees it where he looks.
+2. One `send_message` to the employee's standing session (`projects/virtual-office/sessions.json`) saying what it is, who is doing it and where the file will land, so the employee can answer Kev if asked.
+3. On finish: the ticket goes `done` with the file or link, the same hour.
+Short jobs (under about an hour) run as a copy inside Radar's session for speed; longer or ongoing work goes to the employee's own session by `send_message`.
