@@ -23,7 +23,7 @@ You may already have these running on their own. If not, one idea: set each one 
 
 **What's made it work for us**
 
-- **One home.** One plain folder on your computer (no GitHub or coding setup needed) holds every playbook, your house format and a short "rules" file. Each agent reads the same rules, so the output always looks like PB South.
+- **One home.** One folder holds every playbook, your house format and a short "rules" file. Each agent reads the same rules, so the output always looks like PB South. Where that folder lives is up to you (options below).
 - **Playbooks, not prompts.** Each workflow is a written playbook the agent follows every time. When you fix something once, it stays fixed.
 - **A gate on everything outward.** Agents draft; you approve. Nothing is sent, filed or written to the schedule without your yes. A one-page dashboard shows what ran, what's waiting on you and what failed.
 
@@ -33,23 +33,30 @@ You may already have these running on their own. If not, one idea: set each one 
 - **OAC meeting packets:** built the night before from the look-ahead, open RFIs and the last minutes.
 - **Pay app check:** sub pay apps checked against the schedule of values and percent complete from the daily logs.
 
-If any of this is new and you want to try it, the starter prompt below sets up the folder, the rules file and your daily run as a scheduled task in the Claude desktop app, no GitHub needed; the other five follow the same pattern. And if you're already further along than this, I'd love to see how you've done it. Either way, happy to get on a 30-minute call and compare notes.
+If any of this is new and you want to try it, pick where you'd like it to live, then paste the starter prompt below; it sets up the folder, the rules file and your daily run; the other five follow the same pattern. And if you're already further along than this, I'd love to see how you've done it. Either way, happy to get on a 30-minute call and compare notes.
 
 Kev
 
 ---
 
-**Setup (about 20 minutes)**
+**Where it can live: your call**
 
-1. In the Claude desktop app, open the Code tab and pick a new, empty folder on your computer (a plain folder is fine; no Git or GitHub).
-2. Connect Microsoft 365 (Outlook and calendar) and your recorder apps under Connectors. Microsoft 365 needs your company's Microsoft account, and your IT admin may need to approve it.
-3. Paste the prompt below. When it sets up the 5:30am run, it uses the app's scheduled tasks; turn on "Keep computer awake" in Settings, because a local task only runs while the app is open and the computer is awake.
-4. Run the daily brief by hand once or twice before trusting the schedule.
+| Option | Good fit if | Runs with your laptop closed? |
+|---|---|---|
+| A folder on your computer | You want the fastest start, just for you | No: the Claude desktop app runs it while the computer is on |
+| Your company OneDrive or SharePoint | PB South lives in Microsoft 365 and you want it shared, backed up and owned by the company | No, same as above (the folder syncs to your computer) |
+| Google Drive or iCloud | Your files already live there | No, same as above |
+| GitHub (private repo) | You want full version history and runs in the cloud | Yes |
+| Cloud only, no files | A simple daily brief that just reads email and calendar | Yes |
+
+You can mix them: playbooks in a company folder, the daily run on your desktop, one cloud task for anything that has to run with the laptop shut. Microsoft 365 needs your work Microsoft account for the Outlook and calendar connector, and your IT admin may need to approve it. Whichever you pick, run the daily brief by hand once or twice before trusting the schedule.
 
 **Starter prompt**
 
 ```
-You are helping me turn my construction-management workflows into scheduled agents. I am a project manager at a general contractor running two jobs. Set up this project folder as my operations system.
+You are helping me turn my construction-management workflows into scheduled agents. I am a project manager at a general contractor running two jobs.
+
+0. First ask me where I want this to live: a folder on my computer, my company OneDrive or SharePoint, Google Drive, iCloud, a private GitHub repo, or cloud only. Ask whether it must run with my laptop closed and who else needs to see it. Recommend one option with the reason, then set it up the way I choose.
 
 1. Create RULES.md: my house format for every document (headings, tone, length, how dates, names and dollar figures are written). Ask me 5 questions to fill it in, then write it.
 
@@ -63,7 +70,7 @@ You are helping me turn my construction-management workflows into scheduled agen
    - a one-page daily brief: today's meetings, open actions due, anything overdue, and the three things I should do first.
    Save them to a dated folder (outputs/YYYY-MM-DD/). Never send an email or accept an invite.
 
-4. Set daily-run to run every weekday at 5:30am Eastern as a scheduled task in this app, on this computer. Remind me to keep the app open and the computer awake, and show me how to run it by hand too.
+4. Set daily-run to run every weekday at 5:30am Eastern as a scheduled task, in the way that fits where I chose to keep it (on my computer, the app must stay open and the computer awake; in the cloud it runs on its own). Show me how to run it by hand too.
 
 5. Create OUTBOX.md: anything an agent wants to send, file or change waits here as a draft with one line on why. I approve or reject each item; nothing leaves without my yes.
 
