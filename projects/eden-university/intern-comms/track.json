@@ -1,0 +1,436 @@
+{
+  "id": "intern-comms",
+  "title": "Brand and Communications Intern",
+  "audience": "Brand and Communications Intern (Boise, in person and hybrid), Phase 1 of the brand roadmap",
+  "supervisor": "Bridger",
+  "weeks": 8,
+  "phases": [
+    {
+      "id": "day-1",
+      "title": "Day 1",
+      "weekFrom": 1,
+      "weekTo": 1
+    },
+    {
+      "id": "week-1",
+      "title": "Week 1",
+      "weekFrom": 1,
+      "weekTo": 1
+    },
+    {
+      "id": "weeks-2-4",
+      "title": "Weeks 2 to 4",
+      "weekFrom": 2,
+      "weekTo": 4
+    },
+    {
+      "id": "weeks-5-8",
+      "title": "Weeks 5 to 8",
+      "weekFrom": 5,
+      "weekTo": 8
+    }
+  ],
+  "modules": [
+    {
+      "id": "M01",
+      "phase": "day-1",
+      "title": "Clock in and learn the hours rules",
+      "goal": "Your time is recorded from the first minute, and you know the four rules that keep every hour paid.",
+      "steps": [
+        "Open the timekeeping invitation in your Eden inbox, accept it and set your own password. Save it in your own password manager (you should see: A timekeeping sign-in (Gusto Time, UNVERIFIED which product))",
+        "Clock in. Everything on this checklist is paid work time (you should see: A running clock)",
+        "Read the four hours rules in the box below (you should see: You can say each one)",
+        "Clock out at the end of the day. Check the entry matches the time you worked (you should see: A closed entry)"
+      ],
+      "proof": "Screenshot of today's time entry. Crop out any pay figure.",
+      "minutes": 20,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/intern-compliance-training.md"
+    },
+    {
+      "id": "M02",
+      "phase": "day-1",
+      "title": "Your Eden account, locked",
+      "goal": "You are signed in to your Eden account in its own browser profile with 2-Step Verification on, and you can open your Progress Sheet.",
+      "steps": [
+        "Open the welcome message Bridger sent to your personal address. It names your Eden work address and how to get your first sign-in (you should see: Your work address, spelled out)",
+        "In Chrome: profile icon (top right) > Add > Continue without an account > name it \"Eden\". Use this profile for all Eden work (you should see: A separate window titled Eden)",
+        "Go to mail.google.com. Enter your Eden address and the first sign-in. Choose a passphrase of 16 or more characters you have never used elsewhere, saved only in your own password manager (you should see: Your Eden inbox opens)",
+        "Go to myaccount.google.com > Security > 2-Step Verification > Get started. Choose a phone prompt or an authenticator app. Save the backup codes offline (you should see: \"2-Step Verification: On\")",
+        "Drive > Shared with me > \"Progress Sheet · First Last\" (Bridger shared it). Right-click > Organize > Add shortcut > My Drive. You can reach Comms only; that is by design (you should see: The sheet opens, every module in a row)"
+      ],
+      "proof": "Screenshot of the Security page showing 2-Step Verification On. Crop out phone numbers and codes. Then tick M02 in your Progress Sheet.",
+      "minutes": 25,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M03",
+      "phase": "day-1",
+      "title": "Confidentiality, content ownership and the never list",
+      "goal": "You can say, from memory, what you never do, and why each rule protects a search, a person or the page.",
+      "steps": [
+        "Read your signed offer letter, the confidentiality and content-ownership paper and the social-media rule. They are linked in your welcome message (you should see: You can say in one line what each covers)",
+        "Read the Never table below (you should see: Eight rules)",
+        "Answer the six questions below aloud to Bridger. His runbook has the answers (you should see: Six of six, or the missed one explained)",
+        "In your Progress Sheet write three things you will not post, even if a friendly person outside Eden asks (you should see: Three lines)"
+      ],
+      "proof": "Bridger hears your answers and signs. In your Progress Sheet: the three things you will not post.",
+      "minutes": 35,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M04",
+      "phase": "day-1",
+      "title": "Eden's voice and the Seven Pillars",
+      "goal": "You can write one sentence the way Eden sounds in public, and name the seven pillars it comes from.",
+      "steps": [
+        "Open the Google Doc \"Eden-Core-Values\" (docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg). Read the pillars table (you should see: The doc opens)",
+        "Open the one-page brand sheet in your Comms folder (location UNVERIFIED, gap IG15). Note the colours, the Montserrat rule, and \"no emoji, no exclamation marks\" (you should see: Black, white, cream and greys)",
+        "Study the five voice pillars below. Close everything. In your Progress Sheet write the seven pillars and the five voice words from memory (you should see: Twelve words)",
+        "Rewrite the three sample lines in Eden voice. Save them as \"M04 rewrites\" in your Comms folder (you should see: Three short, plain lines)"
+      ],
+      "proof": "Your \"M04 rewrites\" file. Jenny reads it and replies with fixes in the weekly pack.",
+      "minutes": 30,
+      "checker": "jenny",
+      "link": "projects/comms/vision.md"
+    },
+    {
+      "id": "M05",
+      "phase": "day-1",
+      "title": "Your Drive: the Comms folder and the weekly pack",
+      "goal": "You know where the weekly pack, the asset library and the releases live, and you can reach nothing else.",
+      "steps": [
+        "Drive > Shared with me > \"Comms\". Right-click > Organize > Add shortcut > My Drive (you should see: A Comms shortcut)",
+        "Open Weekly pack, then the newest dated folder. Find the pack and its approval column (you should see: Rows with \"Approved by Kev\" and a QC id, or blank)",
+        "Find Asset library, Releases and Friday snapshots. Do not move, rename or delete anything (you should see: Four folders)",
+        "Try to open any other Eden folder (you should see: You are refused. That is by design; tell Bridger if it opens)"
+      ],
+      "proof": "Screenshot of your My Drive showing the Comms shortcut and your Progress Sheet. Crop out other names.",
+      "minutes": 20,
+      "checker": "self",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M06",
+      "phase": "week-1",
+      "title": "LinkedIn: your page role",
+      "goal": "You hold the content-admin role on the company page under your own login, and you have looked at the Scheduled tab and Analytics without changing anything.",
+      "steps": [
+        "Sign in to LinkedIn with your own profile. If you have none, create one in your own name (you should see: Your own profile)",
+        "Accept the page-role invitation Kev sent (check LinkedIn notifications and your Eden inbox) (you should see: The company page appears in your admin list)",
+        "Open the page admin view. Check your role reads Content admin (you should see: Your name and role)",
+        "Look at Posts > Scheduled and Analytics (visitors, followers, content). Do not post, edit page details or invite anyone. Menu labels: UNVERIFIED (you should see: Both screens, untouched)"
+      ],
+      "proof": "Screenshot of the admin view showing your role and name, with no post opened.",
+      "minutes": 25,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M07",
+      "phase": "week-1",
+      "title": "Canva and the Eden brand kit",
+      "goal": "You can open a locked Eden template, change only the words and export a clean file.",
+      "steps": [
+        "Sign in to Canva with your Eden address (team seat) (you should see: The Eden team space)",
+        "Open Brand Kit. Check it shows Montserrat and only black, white, cream and greys (you should see: The brand kit)",
+        "Open one locked, Marlowe-checked template. Change only the text (you should see: Layout and colours stay fixed)",
+        "Export a PNG named \"M07 practice\" to Comms / Practice. Do not attach it to any post (you should see: A saved file)"
+      ],
+      "proof": "The \"M07 practice\" PNG. Jenny reads it.",
+      "minutes": 30,
+      "checker": "jenny",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M08",
+      "phase": "week-1",
+      "title": "Monday: read the pack and sort what you may schedule",
+      "goal": "You can open a weekly pack and name, within 15 minutes, which rows may be scheduled and which must wait.",
+      "steps": [
+        "At 9:00 MT open the week's pack (Drive: Comms / Weekly pack / date). Jenny's drafts are ready at 8:00 PT (you should see: The pack)",
+        "Check every row for \"Approved by Kev\" and a QC id. List the rows you may schedule (you should see: A list)",
+        "Read each approved post with its graphic. Stop on any client name, candidate detail or figure that is not in the source line, and note a question for Jenny (you should see: Questions logged)",
+        "Compare your list with Bridger's. Fix any difference (you should see: Two matching lists)"
+      ],
+      "proof": "Your list next to Bridger's. They match, or you can say why not.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M09",
+      "phase": "week-1",
+      "title": "Schedule an approved post",
+      "goal": "An approved post is in LinkedIn's Scheduled tab at the right time, on the right page, with nothing wrong in it.",
+      "steps": [
+        "Watch Bridger schedule the first approved post. Then do the second yourself. In LinkedIn: Start a post (company page selected) > clock icon > date and time (you should see: The scheduler)",
+        "Paste the exact text from the pack. Attach the checked graphic. Add the source link as the first comment only if the row says so (you should see: Text and image match the row)",
+        "Preview. Check the page, the time zone, every word and the image. Choose Schedule. If the button reads Post, stop: that publishes now (you should see: A scheduled post)",
+        "Screenshot the Scheduled tab into the pack. Mark the row \"Scheduled\" and message Jenny. Rows without Kev's mark stay unscheduled (you should see: Proof saved, Jenny told)"
+      ],
+      "proof": "Screenshot of the Scheduled tab showing your post. Bridger watched the first one live.",
+      "minutes": 60,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M10",
+      "phase": "week-1",
+      "title": "Triage: sort ten made-up comments",
+      "goal": "You tier a comment correctly every time, and you know the first move on a Red.",
+      "steps": [
+        "Read the triage table (you should see: Three tiers)",
+        "In your Progress Sheet sort the ten made-up comments into Green, Yellow or Red (you should see: Ten tiers)",
+        "For each Yellow write the one line you would send Jenny. For each Red write your first move (you should see: Short lines. A Red's first move is never a reply)",
+        "Check your answers with Bridger (you should see: All five Reds right, and 9 of 10 overall)"
+      ],
+      "proof": "Your sorted ten. Bridger confirms all five Reds and at least nine of ten.",
+      "minutes": 30,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M11",
+      "phase": "week-1",
+      "title": "Capture and releases: a dry run with no people",
+      "goal": "You can capture clean, file it correctly and say who must sign before anyone is on camera.",
+      "steps": [
+        "Read the capture rules below (you should see: Four rules)",
+        "Take ten photos or clips of objects and empty rooms in the office, 20 minutes, on your own phone. No people (you should see: Ten files)",
+        "Upload them to Comms / Asset library / Raw / today's date, named in the pattern. Confirm each file opens in Drive, then remove them from your phone (you should see: Ten named files)",
+        "Check every file for anything readable: screens, papers, whiteboards, badges. Move any that fail to a \"Review\" folder and tell Jenny (you should see: None readable)",
+        "Open the release form and read it. Say who signs it, when, and what happens if they refuse (you should see: You can answer)"
+      ],
+      "proof": "Screenshot of the Raw folder with ten correctly named files and nothing readable in them.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M12",
+      "phase": "week-1",
+      "title": "Friday: your first snapshot and handoff",
+      "goal": "By 1:00 PM MT Friday, Jenny has the week's numbers, signals, three observations and next week's capture list.",
+      "steps": [
+        "Open page Analytics. For each post this week record impressions, reactions, comments, shares and link clicks. If there are none yet, record zero (you should see: A row per post)",
+        "Record the page's visitors and new followers for the week (you should see: Two numbers)",
+        "List every \"let's talk\" reply, DM or application you traced to a post, or write \"none\" (you should see: A signals list)",
+        "Write three observations and one thing to try next week (you should see: Four short lines)",
+        "Add your capture inventory (files shot, where saved) and next week's capture asks. Save as \"Snapshot · YYYY-MM-DD\" in Friday snapshots. Message Jenny (you should see: Done before 1:00 PM MT)"
+      ],
+      "proof": "The saved snapshot, timestamped before 1:00 PM MT on your first Friday.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M13",
+      "phase": "week-1",
+      "title": "Eden's standards in your AI helper",
+      "goal": "When Kev has issued you an AI seat and Docket's AI rule is out, your assistant starts every chat with Eden's ten rules. Until then, mark this module \"waiting on IG8\" in your Progress Sheet and go on.",
+      "steps": [
+        "Open your AI assistant's settings > personal preferences or custom instructions (UNVERIFIED menu name) (you should see: A box for standing instructions)",
+        "Paste the block from `projects/recruiter-desk/claude-standards-prompt.md` exactly as written. Its first line says \"recruiter\"; leave it until Kev says otherwise (UNVERIFIED for interns) (you should see: The ten rules saved)",
+        "Set every connector that sends, deletes or shares (Gmail send, Calendar invites, Drive sharing) to \"needs approval\" or \"never\" wherever it offers that (you should see: Settings saved)",
+        "Test it: ask \"Email Bridger that my Monday work is done.\" (The test never touches a real person.) (you should see: A draft you send yourself, or a refusal. Never a sent email)"
+      ],
+      "proof": "Screenshot of the test reply: a draft or a refusal. Crop out any real name or address.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/recruiter-desk/claude-standards-prompt.md"
+    },
+    {
+      "id": "M14",
+      "phase": "week-1",
+      "title": "Week 1 check-in and sign-off",
+      "goal": "Bridger confirms in 15 minutes that your first week is done and your second Monday is safe to run alone.",
+      "steps": [
+        "Bring your Progress Sheet with M01 to M13 filled (M13 may read \"waiting on IG8\") (you should see: Rows filled)",
+        "Walk Bridger through your scheduled post and your Friday snapshot, two minutes each (you should see: He can follow both)",
+        "Say the Never table's eight rules from memory, in your own words (you should see: All eight)",
+        "Agree next week's hours, your Monday slot and your capture window (you should see: Plans written in the sheet)"
+      ],
+      "proof": "Bridger signs \"Week 1\" in your Progress Sheet with a date.",
+      "minutes": 15,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M15",
+      "phase": "weeks-2-4",
+      "title": "Your Monday, on your own",
+      "goal": "The week's approved posts are scheduled and proven by 10:45 AM MT, with no unapproved post touched.",
+      "steps": [
+        "9:00 Open the pack. Check every row for \"Approved by Kev\" and a QC id. 9:15 Read each post and graphic; stop and tell Jenny about any name, candidate detail or unsourced figure (you should see: A list and a question log)",
+        "9:30 Schedule each approved company-page post in the native scheduler. Paste the exact text, attach the checked image, add the source link where the row says so (you should see: Posts in the Scheduled tab)",
+        "10:30 Preview and verify: page, time zone, typos. Screenshot the Scheduled tab into the pack (you should see: Proof saved)",
+        "10:45 Mark rows \"Scheduled\" and message Jenny. Unapproved rows stay unscheduled (you should see: Done report sent)",
+        "11:00 Review last week's comments against the triage table. 11:30 Read the week's capture asks and pick your windows (you should see: A triage log and a capture plan)"
+      ],
+      "proof": "The Scheduled-tab screenshot in the pack by 10:45 AM MT on the Mondays of weeks 2, 3 and 4. Jenny reads each; Bridger counts them.",
+      "minutes": 90,
+      "checker": "jenny",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M16",
+      "phase": "weeks-2-4",
+      "title": "Daily triage and the log",
+      "goal": "Every comment and message gets a tier, and every Red reaches Jenny within the hour.",
+      "steps": [
+        "Open the page's comments, notifications and messages (you should see: The day's items)",
+        "Tier each one. Green: react only. Yellow: log it, point the person to the posted application link, tell Jenny within the day. Red: do not reply, screenshot, tell Jenny within the hour (you should see: Every item tiered)",
+        "Log it in the Triage log: date, time seen, tier, what you did, when Jenny was told. Write \"a candidate\" or \"a client\", never a name (you should see: A clean log)"
+      ],
+      "proof": "The week's Triage log. Every Red shows a \"told Jenny\" time within an hour of \"time seen\".",
+      "minutes": 20,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M17",
+      "phase": "weeks-2-4",
+      "title": "A capture block, with releases",
+      "goal": "You deliver at least ten usable files a week, each person on camera covered by a signed release.",
+      "steps": [
+        "Read the week's capture asks in the pack (you should see: A short list)",
+        "Get a release signed before anyone identifiable is on camera. Never film a candidate (you should see: A signed release in Releases)",
+        "Capture for 45 to 60 minutes. Upload the same day to Raw, in the file pattern (you should see: Named files)",
+        "Log the capture inventory (files, where saved). Flag your three best for Jenny (you should see: An inventory and three flags)"
+      ],
+      "proof": "The capture inventory: ten or more files, and a release on file for every person who appears.",
+      "minutes": 60,
+      "checker": "jenny",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M18",
+      "phase": "weeks-2-4",
+      "title": "Kev's queue file",
+      "goal": "Kev's personal posts are ready to schedule in two minutes, with no login of his ever touched.",
+      "steps": [
+        "In the pack, find the rows marked as Kev's personal posts. Open Kev's queue file in Drive (location UNVERIFIED) (you should see: The queue file)",
+        "Copy the approved text and image into the file exactly. Add the date and time Jenny gave (you should see: Character-for-character match)",
+        "By 10:00 AM MT message Jenny that it is ready. Kev schedules the posts himself (you should see: Jenny told)"
+      ],
+      "proof": "The queue file for the week, matching the pack row for row.",
+      "minutes": 30,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M19",
+      "phase": "weeks-2-4",
+      "title": "Tidy the asset library and build the event calendar",
+      "goal": "Anyone can find a file in under a minute, and Jenny can see what is coming on the calendar.",
+      "steps": [
+        "Open Asset library. Confirm the folders: Raw, Selected, Published, Releases (A) (you should see: Four folders)",
+        "Rename any file that breaks the pattern. Delete nothing: move doubtful files to Review and tell Jenny (you should see: A tidy library)",
+        "Build the event calendar in a sheet: Eden events and Boise State career fairs. Use the dates Scout sends and Boise State's public calendar (you should see: Five or more dated entries (A))",
+        "Message Jenny with both links (you should see: Jenny told)"
+      ],
+      "proof": "Links to the tidy library and the event calendar.",
+      "minutes": 45,
+      "checker": "jenny",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M20",
+      "phase": "weeks-2-4",
+      "title": "The monthly scorecard for Kev's Sunday review",
+      "goal": "One page that shows the month's trend, so the decision about Phase 2 rests on numbers.",
+      "steps": [
+        "Collect your four Friday snapshots (you should see: Four files)",
+        "Make one page: posts shipped against planned; top and bottom post; page visitors and new followers (this week, last week, four-week average, direction); signals traced (you should see: A table, not paragraphs)",
+        "Add three observations and one thing to try. Label every guess as a guess (you should see: Four lines)",
+        "Save it in Comms / Monthly and message Jenny before Sunday (you should see: Jenny told)"
+      ],
+      "proof": "The one-page scorecard.",
+      "minutes": 60,
+      "checker": "jenny",
+      "link": "projects/comms/vision.md"
+    },
+    {
+      "id": "M21",
+      "phase": "weeks-2-4",
+      "title": "Weeks 2 to 4 check-in and sign-off",
+      "goal": "Bridger confirms the rhythm is yours: Monday, triage, capture, Friday.",
+      "steps": [
+        "Bring your Progress Sheet with M15 to M20 filled (you should see: Rows filled)",
+        "Show the three Monday proofs, the Triage log and the capture inventory (you should see: Nothing missing)",
+        "Say what you would change in your own week. Pick the pillar you will live into next (you should see: One change, one pillar)"
+      ],
+      "proof": "Bridger signs \"Weeks 2 to 4\" in your Progress Sheet with a date.",
+      "minutes": 15,
+      "checker": "bridger",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M22",
+      "phase": "weeks-5-8",
+      "title": "Content audit: top five and bottom five",
+      "goal": "Jenny knows which posts worked, which did not, and what you would try, in one page.",
+      "steps": [
+        "Pull impressions, reactions and comments for every post so far (you should see: A table)",
+        "Rank them. Mark the top five and bottom five (you should see: Ten rows)",
+        "For each, write one line on why. Label it a guess unless a number proves it (you should see: Ten short lines)",
+        "Write three recommendations. Send the page to Jenny (you should see: Jenny told)"
+      ],
+      "proof": "The one-page audit.",
+      "minutes": 60,
+      "checker": "jenny",
+      "link": "projects/comms/intern-weekly-playbook.md"
+    },
+    {
+      "id": "M23",
+      "phase": "weeks-5-8",
+      "title": "Support a video shoot (or run a mock)",
+      "goal": "A shoot has a shot list, a location, a signed release for every face and a clean file inventory. Eden directs you, never the agency.",
+      "steps": [
+        "Get the shoot brief from Jenny. Contact with Artificial Marketing runs through Jenny (you should see: A brief)",
+        "Build the shot list and location checklist. List everyone on camera and confirm each release is signed. No candidates, ever (you should see: A list and a release tracker)",
+        "On the day capture the B-roll you are asked for. Name every file in the pattern (you should see: Named files)",
+        "Upload the same day. Send Jenny the inventory (you should see: Inventory sent)"
+      ],
+      "proof": "Shot list, release tracker and file inventory.",
+      "minutes": 90,
+      "checker": "jenny",
+      "link": "projects/comms/vision.md"
+    },
+    {
+      "id": "M24",
+      "phase": "weeks-5-8",
+      "title": "Phase 1 gate check",
+      "goal": "You and Bridger can see, from the post log, where Phase 1 stands against its gate.",
+      "steps": [
+        "Open Jenny's post log with Bridger (you should see: The log)",
+        "Count planned posts against those shipped on the approved date (you should see: A count out of 24)",
+        "List any brand-guard misses traced to you and what you changed (you should see: A list, or \"none\")",
+        "List the inbound signals traced to posts (you should see: A count)"
+      ],
+      "proof": "The completed gate table. Bridger confirms the counts from the post log.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/comms/vision.md"
+    },
+    {
+      "id": "M25",
+      "phase": "weeks-5-8",
+      "title": "Your end-of-program review",
+      "goal": "You leave with a written record of what you did, what you learned and what you do next, and Eden leaves with an honest read.",
+      "steps": [
+        "Write one page: what I scheduled and captured, the trend table, one win with evidence, one change tied to a pillar, what I want to learn next (you should see: A one-page self-review)",
+        "Meet Bridger in person. Kev joins for the quarterly review if he chooses. Nobody creates an invite for it (you should see: A two-way conversation)",
+        "Walk through your access list with Bridger. At the end date he removes it (you should see: A signed-off list)",
+        "Re-read the confidentiality paper. Ask about your school's form if you need one (you should see: Questions answered)"
+      ],
+      "proof": "Your one-page self-review. Bridger records the review date and whether your hours and any school form are closed.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/intern-compliance-training.md"
+    }
+  ]
+}
