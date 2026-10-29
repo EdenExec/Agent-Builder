@@ -17,6 +17,7 @@
 //   --jobs-read-at ISO     when those jobs were read (default: the file's mtime)
 //   --board board.json     a fresh read-only Crelate pull (npm run recruiting-board -- --out ...): the Recruiting and Hiring ramp benches (default: the repo's Round Table board file)
 //   (the --ledger file also feeds the Family bench: counts of the Home lane only)
+//   --no-projects          leave the desk sheets' `projects` out of the agent documents (they are built from projects/*/brief.* and project-owners.yaml)
 //   --now ISO              pretend it is this time (tests)
 // npm run office -- build-page   copy workshop/core/office-game.js into the page between its GAME-CORE markers (a test fails if they drift)
 // Reads only. Never talks to Crelate, Notion, Gmail or the artifact.
@@ -26,7 +27,9 @@ import { join } from "node:path";
 import { parse } from "yaml";
 import { list as listQc } from "../core/qc.ts";
 import { list as listGates } from "../core/numbers-gate.ts";
-import { buildGameBlock, injectGameBlock } from "./page-game.ts";
+import { buildGameBlock, injectGameBlock, buildProjectsBlock, injectProjectsBlock } from "./page-game.ts";
+import { pacificDate } from "../core/office-game.js";
+import { loadProjectDefs } from "./projects-load.ts";
 import { buildBenches } from "../core/benches.ts";
 import { loadBenchInputs } from "./benches.ts";
 import { buildFeed, chunk, planWrites, type AgentLite, type NowFile, type RoutineLite, type SyncInput, type Tool } from "../core/office.ts";
@@ -72,16 +75,18 @@ function loadAgents(): { agents: AgentLite[]; routines: RoutineLite[]; nowFiles:
 try {
   if (cmd === "build-page") {
     const page = "projects/virtual-office/draft/eden-office.html";
-    const next = injectGameBlock(readFileSync(page, "utf8"), buildGameBlock(readFileSync("workshop/core/office-game.js", "utf8")));
+    const next = injectProjectsBlock(injectGameBlock(readFileSync(page, "utf8"), buildGameBlock(readFileSync("workshop/core/office-game.js", "utf8"))), buildProjectsBlock(readFileSync("workshop/core/office-projects.js", "utf8")));
     writeFileSync(page, next);
-    console.log(`Game core copied into ${page}.`);
+    console.log(`Game core and projects core copied into ${page}.`);
     process.exit(0);
   }
   if (cmd !== "sync") throw new Error("Usage: office sync [--dry] [--out dir] [--ledger f] [--inbox f] [--calls f] [--runs f] [--tickets f] [--actions f] [--asks f] [--seen f] [--activity f] [--existing f] [--now ISO] | build-page");
   const { agents, routines, nowFiles, heard } = loadAgents();
+  const now = flags.has("now") ? new Date(flags.get("now")!) : new Date();
   const input: SyncInput = {
-    now: flags.has("now") ? new Date(flags.get("now")!) : new Date(),
+    now,
     agents, routines, nowFiles, heard,
+    projectDefs: flags.has("no-projects") ? undefined : loadProjectDefs("projects", pacificDate(now.getTime())),
     qc: listQc("qc"), gates: listGates("gates"),
     ledger: json("ledger"), inbox: json("inbox"), calls: json("calls"), runs: json("runs"),
     tickets: flat(json<unknown[]>("tickets")), actions: flat(json<unknown[]>("actions")), asks: flat(json<unknown[]>("asks")),

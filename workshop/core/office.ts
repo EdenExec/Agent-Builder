@@ -4,6 +4,7 @@
 // Spec: projects/virtual-office/research/q-architecture.md
 import { qcExact, approvalHash, type QcItem } from "./qc.ts";
 import type { GateRecord } from "./numbers-gate.ts";
+import { buildAgentProjects, type DeskProject, type ProjectDef } from "./desk-projects.ts";
 import { buildGame, mergeRecords, pacificDate, slaFindings, slaTitle, type GameAction, type Records } from "./office-game.js";
 
 /** One light per desk. Priority (Radar's proposal, Kev to confirm): urgent > reply > review > blocked > working > idle. */
@@ -42,7 +43,9 @@ export type InboxItem = { agent?: string; title: string; from?: string; why?: st
 export type CallItem = { who: string; company?: string; at: string; returned?: boolean };
 export type RunResult = { routine: string; agent?: string; lastRunAt?: string; ok: boolean; note?: string };
 /** A ticket as the sync reads it from the tickets collection. The SLA and the game need ask, createdAt, doneAt and result too. */
-export type TicketLite = { id: string; agent: string; status: string; pickedAt?: string; priority?: string; ask?: string; createdAt?: string; updatedAt?: string; doneAt?: string; result?: { summary?: string; link?: string } | null };
+export type TicketLite = { id: string; agent: string; status: string; pickedAt?: string; priority?: string; ask?: string; createdAt?: string; updatedAt?: string; doneAt?: string; result?: { summary?: string; link?: string } | null;
+  /** Short title the runner writes (8 words or fewer), the project it belongs to, why it is blocked, and what is waiting for Kev's Approve. */
+  title?: string; project?: string; blockedOn?: string; proposed?: { exact?: string } | null };
 /** An ask an agent posted to the recruiters on the Team Hub (`team_asks`); only `from` and the times matter here. */
 export type AskLite = { id?: string; from?: string; createdAt?: string };
 /** A row of the actions collection (Kev's Done / Follow up / Zzz taps). */
@@ -68,6 +71,8 @@ export type SyncInput = {
   /** The Team Hub's team_asks collection: an ask an agent posted counts as hearing from it. */
   asks?: AskLite[];
   /** Bench documents Q computes (workshop/core/benches.ts): benches/client, recruiting, depth, university, projects, family. Never finance or revenue. */
+  /** Projects read from the briefs and schedules (workshop/office/projects-load.ts): each agent's desk lists its own. Absent: agents get no `projects` field. */
+  projectDefs?: ProjectDef[];
   benches?: { docs: Record<string, unknown>; skipped: string[]; /** meta/crelate: the recruiter leaderboard's counts (core/recruiter-board.ts) */ crelate?: unknown };
 };
 
@@ -99,6 +104,8 @@ export type AgentDoc = {
   task: string | null; taskSince: string | null;
   lastHeard: string | null; stale: boolean; silent: boolean; expectedEveryHours: number;
   openTickets: number; pendingQc: number;
+  /** The projects this agent works, for the desk sheet (office-projects.ts). Omitted when the sync had no project definitions. */
+  projects?: DeskProject[];
   updated: string; source: string;
 };
 
@@ -264,6 +271,7 @@ export function buildAgents(input: SyncInput, alerts: Alert[]): AgentDoc[] {
       lastHeard, stale: claimsWorking && !fresh && !ticketWorking, silent, expectedEveryHours: expected,
       openTickets: myTickets.filter((t) => ["open", "picked", "working", "blocked", "gated"].includes(t.status)).length,
       pendingQc: input.qc.filter((q) => q.employee === a.id && q.status === "pending").length,
+      ...(input.projectDefs ? { projects: buildAgentProjects(a, input.projectDefs, input.tickets ?? [], now, repoLink, scrub) } : {}),
       updated: now.toISOString(), source: "office sync",
     };
   });

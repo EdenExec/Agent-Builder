@@ -392,7 +392,56 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .tkd>summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .tkd .ask{margin:6px 0 0;font-size:13px}
 .tkd>small{display:block;font:500 10px/1.4 var(--mono);color:var(--mute);letter-spacing:.06em}
-/* the feed (Kev, 23 Oct): a timeline of the work handed to this desk */
+/* the desk sheet (Kev, 29 Oct): needs your input, projects, other open work */
+.panel-b.desk section{border-right:0;border-bottom:1px solid var(--line);padding:14px 18px;gap:6px}
+.panel-b.desk section:last-child{border-bottom:0}
+.need{display:flex;flex-direction:column;gap:5px;padding:9px 0;border-top:1px solid var(--line)}
+.need:first-of-type{border-top:0}
+.need .nt{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}
+.need .nt b{font-size:13.5px;font-weight:700;overflow-wrap:anywhere;min-width:0}
+.need .ago{font:500 10.5px/1 var(--mono);letter-spacing:.04em;color:var(--mute);white-space:nowrap}
+.need .who{margin-left:auto;font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.need .nl{font-size:12.5px;line-height:1.4;overflow-wrap:anywhere;padding-left:20px}
+.need .nacts{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;padding-left:20px}
+.need .nacts .mini{white-space:nowrap}
+.need input.fu{flex:1 1 180px;min-width:0;font:inherit;font-size:13px;padding:7px 8px;border:1px solid var(--ink);background:var(--paper);color:var(--ink)}
+.need .exact{margin-left:20px}
+.handled{display:flex;align-items:baseline;gap:8px;font:500 10.5px/1.4 var(--mono);letter-spacing:.03em;color:var(--mute)}
+.handled .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.panel-b.desk section.handled-s{padding-block:8px;gap:2px}
+.prj{border-top:1px solid var(--line)}
+.prj:first-of-type{border-top:0}
+.prj-r{display:flex;align-items:flex-start;gap:6px}
+.prj-h{flex:1;min-width:0;display:grid;grid-template-columns:14px minmax(0,1fr) auto;gap:3px 8px;align-items:baseline;text-align:left;background:none;border:0;padding:10px 0;cursor:pointer}
+.prj-h .car::before{content:"+";font:500 12px var(--mono);color:var(--mute)}
+.prj-h[aria-expanded="true"] .car::before{content:"\2212"}
+.prj-h .pt{font-weight:700;font-size:14px;overflow-wrap:anywhere}
+.prj-h .chips{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.chip{font:500 9.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);padding:3px 6px;white-space:nowrap;color:var(--mute)}
+.chip.n{border-color:var(--a);color:var(--a)}
+.prj-h .ps{grid-column:2/-1;font-size:12px;line-height:1.35;color:var(--mute);overflow-wrap:anywhere}
+.prj-b{padding:0 0 10px 22px;display:flex;flex-direction:column;gap:4px}
+.gh{margin:6px 0 0;font:500 9.5px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.its{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.it{border-top:1px dotted var(--line);padding:5px 0}
+.it:first-child{border-top:0}
+.it-r{display:flex;align-items:center;gap:8px;min-width:0}
+.it-t{flex:1;min-width:0;background:none;border:0;padding:3px 0;text-align:left;font-size:13px;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+button.it-t{cursor:pointer} button.it-t:hover{text-decoration:underline}
+.it.needs .it-t{font-weight:600} .it.shipped .it-t{color:var(--mute)}
+.it .st{font:500 9.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.lk{flex:none;font:600 14px/1 var(--sans);text-decoration:none;padding:5px 8px;border:1px solid var(--line);min-width:28px;text-align:center}
+.lk:hover{border-color:var(--ink)}
+.it-x{padding:2px 0 2px 0}
+.clip{margin:0;font-size:12.5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.clip.open{-webkit-line-clamp:unset;display:block}
+.more{background:none;border:0;padding:2px 0;font:500 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);text-decoration:underline;cursor:pointer;align-self:flex-start}
+.prj-h:focus-visible,.it-t:focus-visible,.lk:focus-visible,.more:focus-visible,.need input.fu:focus-visible,.tools-d>summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.desk-foot .keys{display:flex;flex-wrap:wrap;gap:8px}
+.tools-d>summary{cursor:pointer;font:500 10.5px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.td-needs{display:flex;flex-direction:column;padding:0 12px}
+.td-needh{border-top:1px solid var(--line)}
+/* the feed (Kev, 23 Oct): a timeline of the work handed to this desk; the desk sheet no longer uses it, the classes stay for the board */
 .feed{gap:0!important}
 .post{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;padding:10px 0;border-top:1px solid var(--line)}
 .post:first-child{border-top:0}
@@ -1142,6 +1191,141 @@ function newRecords(rec, today) {
 return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR: RUNNER_START_HOUR, RUNNER_END_HOUR: RUNNER_END_HOUR, POINTS: POINTS, OPEN_STATUSES: OPEN_STATUSES, RECORD_FLOORS: RECORD_FLOORS, pacificDate: pacificDate, dayOfWeek: dayOfWeek, addDays: addDays, weekStart: weekStart, SABBATH_PLACES: SABBATH_PLACES, sabbathPlace: sabbathPlace, sunsetAt: sunsetAt, sabbathWindow: sabbathWindow, isSabbathAt: isSabbathAt, isSabbathDay: isSabbathDay, isRunnerTime: isRunnerTime, runnerMinutes: runnerMinutes, addRunnerMinutes: addRunnerMinutes, fmtWait: fmtWait, clip: clip, slaTitle: slaTitle, pickupAt: pickupAt, failDeadline: failDeadline, failedAt: failedAt, slaState: slaState, slaFindings: slaFindings, ticketScore: ticketScore, buildGame: buildGame, mergeRecords: mergeRecords, newRecords: newRecords };
 })();
 /* GAME-CORE:END */
+  /* PROJECTS-CORE:START generated from workshop/core/office-projects.js by `npm run office -- build-page`. Do not edit here. */
+var Proj = (function () {
+// Eden Office projects core: short titles, which project a ticket belongs to, and the item lists on an agent's desk.
+// ONE source, two homes (same pattern as office-game.js). The sync (workshop/core/office-projects.ts, run hourly by office-prep) imports it;
+// the Office page carries a verbatim copy between the PROJECTS-CORE markers (`npm run office -- build-page` refreshes it; a test fails on drift).
+// So: plain ES2015, no imports, no DOM, only exported functions and vars (the page wraps them in a closure named Proj).
+//
+// Kev, 29 Oct 2026: "we need the feed to be a list of clickable projects we're working on with each bot. Tasks should be far more collapsed and have a
+// title on them explaining what is done. but less is more here."
+
+var TITLE_WORDS = 8;     // a ticket or item title
+var STATUS_WORDS = 10;   // a project's one-line status
+var NEED_WORDS = 12;     // the "what I need from Kev" line
+var SHIPPED_DAYS = 7;    // shipped items stay on the desk this long
+var DAY_MS = 86400000;
+
+/** Collapse whitespace. */
+function squash(text) { return String(text == null ? '' : text).replace(/\s+/g, ' ').trim(); }
+
+/** Cut at n words, never mid-word; an ellipsis marks a cut. Trailing punctuation and open brackets are dropped before the ellipsis. */
+function cutWords(text, n) {
+  var s = squash(text); if (!s) return '';
+  var w = s.split(' '); if (w.length <= n) return s;
+  return w.slice(0, n).join(' ').replace(/[\s,;:.\-–—(\[]+$/, '') + '…';
+}
+
+/** The first clause: up to the first sentence end, semicolon, colon, dash or opening bracket. "Matched 6 of 8; 2 left unknown" -> "Matched 6 of 8". */
+function firstClause(text) {
+  var s = squash(text).replace(/^[#>*\-\s"']+/, '');
+  var m = /^(.{3,}?)(?:[.;:!?](?:\s|$)|\s[—–-]\s|\s\(|$)/.exec(s);
+  return m ? m[1] : s;
+}
+
+/** The title the desk shows: the ticket's own `title` if the runner wrote one, else the first clause of the result summary (finished work) or of the ask. */
+function ticketTitle(x) {
+  if (x.title) return cutWords(x.title, TITLE_WORDS);
+  var summary = x.result && x.result.summary;
+  var src = x.status === 'done' && summary ? summary : x.ask, c = firstClause(src);
+  return cutWords(c.split(' ').length < 3 ? squash(src) : c, TITLE_WORDS);   // a one- or two-word clause ("Passed 3/3") says nothing: take the opening words instead
+}
+
+/** What is needed from Kev, in about 12 words: why a ticket is blocked (`blockedOn`), or the exact action waiting for his Approve (`proposed.exact`). */
+function needLine(x) {
+  var s = x.status === 'blocked' ? x.blockedOn : x.status === 'gated' ? (x.proposed && x.proposed.exact) : (x.blockedOn || (x.proposed && x.proposed.exact));
+  return cutWords(s, NEED_WORDS);
+}
+
+/** needs = waiting on Kev (blocked or gated); shipped = done; open = everything else still moving (open, picked, working, waiting). */
+function ticketState(x) {
+  return x.status === 'blocked' || x.status === 'gated' ? 'needs' : x.status === 'done' ? 'shipped' : 'open';
+}
+function isLive(x) { return ['open', 'picked', 'working', 'waiting', 'blocked', 'gated'].indexOf(x.status) >= 0; }
+
+function esc(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+/** Which project a ticket belongs to (defs = [{id, keywords}]). Order, first hit wins:
+ *   1. the ticket's own `project` field, when it names a known project;
+ *   2. a repo path in the ticket text or result link ("projects/eden-crm/..."): the folder name is the project;
+ *   3. keywords: the project with the most whole-word keyword hits in the ask, title and result summary.
+ *  Returns {id, how: 'field'|'path'|'keyword'} or null (the ticket is "other open work"). */
+function inferProject(x, defs) {
+  var list = defs || [], i, j;
+  if (x.project) for (i = 0; i < list.length; i++) if (list[i].id === x.project) return { id: list[i].id, how: 'field' };
+  var hay = [x.ask, x.title, x.result && x.result.summary, x.result && x.result.link].join(' ').toLowerCase();
+  for (i = 0; i < list.length; i++) if (hay.indexOf('projects/' + list[i].id + '/') >= 0) return { id: list[i].id, how: 'path' };
+  var best = null, bestN = 0;
+  for (i = 0; i < list.length; i++) {
+    var n = 0, ks = list[i].keywords || [];
+    for (j = 0; j < ks.length; j++) if (ks[j] && new RegExp('(^|[^a-z0-9])' + esc(String(ks[j]).toLowerCase()) + '([^a-z0-9]|$)').test(hay)) n++;
+    if (n > bestN) { best = list[i].id; bestN = n; }
+  }
+  return best ? { id: best, how: 'keyword' } : null;
+}
+
+/** One item from a ticket. `link` is whatever the ticket carries (result.link); each home turns it into an http(s) URL. */
+function ticketItem(x) {
+  return { title: ticketTitle(x), state: ticketState(x), link: (x.result && x.result.link) || '', at: x.doneAt || x.updatedAt || x.createdAt || null, ticket: x.id };
+}
+
+/** Split an agent's tickets into per-project lists and the rest. Done tickets older than SHIPPED_DAYS drop out; so do cancelled ones. */
+function groupTickets(tickets, defs, now) {
+  var by = {}, loose = [];
+  (tickets || []).forEach(function (x) {
+    if (!isLive(x) && !(x.status === 'done' && recent(x.doneAt || x.updatedAt || x.createdAt, now))) return;
+    var p = inferProject(x, defs);
+    if (p) (by[p.id] = by[p.id] || []).push(x); else loose.push(x);
+  });
+  return { byProject: by, loose: loose };
+}
+
+function recent(at, now) {
+  if (!at) return true;
+  var ms = typeof at === 'number' ? at : Date.parse(at);
+  return isNaN(ms) || now - ms <= SHIPPED_DAYS * DAY_MS;
+}
+
+var ORDER = { needs: 0, open: 1, shipped: 2 };
+/** A project's items: file items (a schedule's rows) plus its tickets' items, shipped ones only if recent, grouped needs / open / shipped (shipped newest first). */
+function mergeItems(fileItems, tickets, now) {
+  var items = (fileItems || []).concat((tickets || []).map(ticketItem)).filter(function (i) { return i.state !== 'shipped' || recent(i.at, now); });
+  return items.map(function (i, n) { return { i: i, n: n }; }).sort(function (a, b) {
+    var d = ORDER[a.i.state] - ORDER[b.i.state];
+    if (d) return d;
+    if (a.i.state === 'shipped') { var t = (Date.parse(b.i.at) || 0) - (Date.parse(a.i.at) || 0); if (t) return t; }
+    return a.n - b.n;
+  }).map(function (o) { return o.i; });
+}
+
+function countItems(items) {
+  var c = { needs: 0, open: 0, shipped: 0 };
+  (items || []).forEach(function (i) { if (c[i.state] !== undefined) c[i.state]++; });
+  return c;
+}
+
+/** The chips on a project row: "2 open · 1 needs you · 3 shipped" as separate strings, zeros left out. */
+function chips(c) {
+  var out = [];
+  if (c.open) out.push(c.open + ' open');
+  if (c.needs) out.push(c.needs + ' needs you');
+  if (c.shipped) out.push(c.shipped + ' shipped');
+  return out;
+}
+
+/** The status line when no file says one: the newest shipped item, else what is waiting. At most STATUS_WORDS words. */
+function autoStatus(items) {
+  var c = countItems(items);
+  var shipped = (items || []).filter(function (i) { return i.state === 'shipped'; })[0];
+  if (c.needs) return cutWords('Waiting on Kev: ' + items.filter(function (i) { return i.state === 'needs'; })[0].title, STATUS_WORDS);
+  if (c.open) return cutWords('Working: ' + items.filter(function (i) { return i.state === 'open'; })[0].title, STATUS_WORDS);
+  if (shipped) return cutWords('Last shipped: ' + shipped.title, STATUS_WORDS);
+  return 'Quiet this week';
+}
+return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_WORDS, SHIPPED_DAYS: SHIPPED_DAYS, squash: squash, cutWords: cutWords, firstClause: firstClause, ticketTitle: ticketTitle, needLine: needLine, ticketState: ticketState, isLive: isLive, inferProject: inferProject, ticketItem: ticketItem, groupTickets: groupTickets, recent: recent, mergeItems: mergeItems, countItems: countItems, chips: chips, autoStatus: autoStatus };
+})();
+/* PROJECTS-CORE:END */
 
   /* Mirrors projects/virtual-office/tools.json (a test keeps the urls in step). Live `tools` docs override by id. */
   var DEFAULT_TOOLS = [
@@ -1568,6 +1752,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var id = 't-' + new Date().toISOString().replace(/[-:T]/g, '').slice(0, 12) + '-' + Math.random().toString(36).slice(2, 6);
     var now = new Date().toISOString();
     var doc = { id: id, agent: o.agent, ask: o.ask, due: o.due || null, priority: o.priority || 'today', status: 'open', owner: 'kev', createdBy: 'kev', lever: o.lever || null, attachments: o.attachments || null, createdAt: now, updatedAt: now };
+    if (o.project) doc.project = o.project;
     S.tickets[id] = doc; renderAll();
     if (S.live && S.db) S.db.doc('tickets/' + id).set(doc).catch(function () { delete S.tickets[id]; S.flash = 'That ticket did not save. Try again.'; renderAll(); });
     return doc;
@@ -2043,113 +2228,210 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     }, function () { S.unsub['chat-' + id] = null; });
   }
 
-  var trayOpen = {};
-  /* A tray ticket's title: its own title if it has one, else the result's first sentence once done, else the ask's, cut at a word near 72 characters. */
-  function smartTitle(x) {
-    if (x.title) return x.title;
-    var s = String((x.status === 'done' && x.result && x.result.summary) || x.ask || '').replace(/\s+/g, ' ').trim(), m = /^(.{12,90}?)[.!?;:](\s|$)/.exec(s);
-    s = m ? m[1] : s;
-    return s.length > 72 ? s.slice(0, 71).replace(/\s+\S*$/, '') + '\u2026' : s;
-  }
-  /* One post on an agent's feed: who handed it over, when, the ask, the state, and the result once it is back. */
-  var FEED_WORD = { open: 'Waiting', picked: 'Picked up', working: 'Working', blocked: 'Blocked', gated: 'Needs your yes', done: 'Done' };
+  /* ---------- the desk sheet (Kev, 29 Oct 2026): projects, not a feed ----------
+     "we need the feed to be a list of clickable projects we're working on with each bot. Tasks should be far more collapsed and have a title on them
+     explaining what is done. but less is more here... use less words, show tasks that are shipped, open to work on, or need input."
+     Top to bottom: header; NEEDS YOUR INPUT (open, one line each, answer on the line); PROJECTS (collapsed rows with chips); other open work;
+     Hand a ticket behind a button; chat. Titles, the project a ticket belongs to and the item lists come from Proj (workshop/core/office-projects.js);
+     the hourly sync writes agents/{id}.projects, and the page lays this hour's live tickets over it so a closed ticket moves to Shipped at once. */
+  var FEED_WORD = { open: 'Waiting', picked: 'Picked up', working: 'Working', waiting: 'Waiting', blocked: 'Blocked', gated: 'Needs your yes', done: 'Done' };
   function fromOf(x) { return x.createdBy === 'radar' || /^(radar|runner|radar-chat)$/.test(x.lever || '') ? { who: 'Radar', av: 'R', cls: 'r' } : x.lever === 'session' ? { who: 'Kev · session', av: 'K', cls: 'k' } : { who: 'Kev', av: 'K', cls: 'k' }; }
-  function feedPost(x, a) {
-    var fr = fromOf(x), f = derived().sla[x.id], st = f ? f.state : null;
-    var li = h('li', { class: 'post' + (st ? ' ' + st : '') + (x.status === 'gated' || x.status === 'blocked' ? ' pin' : '') });
-    li.appendChild(h('span', { class: 'av ' + fr.cls, text: fr.av, 'aria-hidden': 'true' }));
-    var pb = h('div', { class: 'pb' }); li.appendChild(pb);
-    pb.appendChild(h('div', { class: 'ph' }, h('b', { text: fr.who }), ' \u2192 ' + a.name + ' · ' + ago(x.updatedAt || x.createdAt), h('span', { class: 'pill p-' + x.status, text: st === 'fail' ? 'FAIL' : st === 'stall' ? 'STALL' : (FEED_WORD[x.status] || x.status) })));
-    var tx = h('p', { class: 'ptext' + (trayOpen[x.id] ? ' open' : ''), text: x.ask || '' });
-    if (String(x.ask || '').length > 220) { tx.title = 'Tap to expand'; tx.addEventListener('click', function () { trayOpen[x.id] = !trayOpen[x.id]; tx.classList.toggle('open', !!trayOpen[x.id]); }); }
-    pb.appendChild(tx);
-    (x.attachments || []).forEach(function (f2) { if (!f2 || !f2.asset) return; if (/^image\//.test(f2.type || 'image/')) pb.appendChild(h('img', { class: 'thumb', src: '/_blob/' + f2.asset, alt: f2.name || 'Photo sent with this ticket' })); else pb.appendChild(h('a', { class: 'mini txt', href: '/_blob/' + f2.asset, target: '_blank', rel: 'noopener', text: (f2.name || 'File') })); });
-    if (x.proposed) pb.appendChild(h('div', { class: 'exact', text: 'Waiting for your Approve (' + x.proposed.kind + '):\n' + x.proposed.exact }));
-    if (x.result && (x.result.summary || x.result.link)) {
-      var rr = h('div', { class: 'presult' }, h('b', { text: x.status === 'done' ? '\u2713 ' : '\u2192 ' }), x.result.summary || '');
-      if (x.result.link) rr.appendChild(h('a', { class: 'mini txt', href: linkUrl(x.result.link), target: '_blank', rel: 'noopener', text: 'Open the result' }));
-      pb.appendChild(rr);
-    }
-    if (x.status === 'gated' || x.status === 'blocked') pb.appendChild(closeControls(x));
-    return li;
-  }
-  /* Kev, 26 Oct: a ticket waiting on him ("Needs your yes", "Blocked") closes from its own post. Done = he handled it himself and no agent
-     carries it out; Follow up sends it back. Both are his taps in the actions collection, which Radar applies next sweep. Never an approve here. */
   /* Kev, 27 Oct: once he taps Approve, Done or Follow up on a ticket waiting on him, it leaves the open line at once; Radar still applies it next sweep */
   function kevClosed(x) { if (x.status !== 'gated' && x.status !== 'blocked') return false; var key = 'ticket-' + x.id + '-' + x.status, act = S.actions[key]; return !!act && act.action !== 'snooze' && acted(key); }
-  function closeControls(x) {
-    var key = 'ticket-' + x.id + '-' + x.status, act = S.actions[key], row = h('span', { class: 'sacts', style: 'padding:0;justify-content:flex-start' });
-    if (act && acted(key) && act.action !== 'snooze') {
-      row.appendChild(h('span', { class: 'small', text: (act.action === 'done' ? 'You closed it' : act.action === 'approve' ? 'You approved it' : 'Sent back') + ' ' + ago(act.at) + (act.applied ? ' · Radar applied it' : ' · Radar files it next sweep') }));
-      if (act.action !== 'approve') { var u = h('button', { class: 'mini txt', text: 'Undo', 'data-undo': key }); u.disabled = !S.canWrite; row.appendChild(u); }
-      return row;
+
+  var prjOpen = {}, itemOpen = {}, moreOpen = {}, fuOpen = {}, fuDraft = {};
+  var CONNECTORS_URL = 'https://claude.ai/settings/connectors';
+  var STAFFING = { id: 'eden-staffing', title: 'Eden Staffing', keywords: ['Eden Staffing', 'EOR', 'BaaS', 'temp staffing'] };
+  function rerender() { S.forceSheet = true; renderAll(); }
+
+  /* Project definitions the page knows: every project in a visible desk's synced document (Screen share drops the private desks'), plus Eden Staffing. */
+  function projectDefs() {
+    var m = {}; m[STAFFING.id] = STAFFING;
+    Object.keys(S.agents).forEach(function (k) { var a = S.agents[k]; if (hidden(a)) return; (a.projects || []).forEach(function (p) { if (!m[p.id] || m[p.id] === STAFFING) m[p.id] = { id: p.id, title: p.title, keywords: p.keywords || [] }; }); });
+    return Object.keys(m).map(function (k) { return m[k]; });
+  }
+  /* A ticket from the Special projects bay ("Hand to PM") is an Eden Staffing ticket whatever its words are. */
+  function projTicket(x) { return x.project || x.lever !== 'projects' ? x : Object.assign({}, x, { project: STAFFING.id }); }
+  /* Eden Staffing before the sync has carried the schedule's rows: the working doc's deliverables (PROJECT_ITEMS) as open items. */
+  function staffingFallback() {
+    var asked = {}; Object.keys(S.tickets).forEach(function (k) { var x = S.tickets[k]; if (x.agent === 'pm' && x.status !== 'done') asked[x.ask] = true; });
+    var items = []; PROJECT_ITEMS.forEach(function (g) { g[1].forEach(function (ask) { if (!asked[ask]) items.push({ title: Proj.cutWords(Proj.firstClause(ask), Proj.TITLE_WORDS), state: 'open', link: '', note: ask }); }); });
+    return { id: STAFFING.id, title: STAFFING.title, status: 'Launch deliverables from the working doc', statusAuto: false, items: items };
+  }
+  /* The projects on one desk, laid out for the page: the synced document's, with this moment's tickets merged in. */
+  function agentProjects(a) {
+    var now = Date.now(), defs = projectDefs();
+    var mine = Object.keys(S.tickets).map(function (k) { return projTicket(S.tickets[k]); }).filter(function (x) { return x.agent === a.id && !ticketHidden(x) && !kevClosed(x); });
+    var g = Proj.groupTickets(mine, defs, now), docs = (a.projects || []).slice();
+    if (a.id === 'pm' && !docs.some(function (p) { return p.id === STAFFING.id; })) docs.push(staffingFallback());
+    var seen = {}, out = [];
+    function add(p, tks) {
+      var file = (p.items || []).filter(function (i) { return !i.ticket; });          // the sync's ticket items are re-made from the live tickets
+      var items = Proj.mergeItems(file, tks || [], now).map(function (i) { return Object.assign({}, i, { url: i.link ? linkUrl(i.link) : '' }); });
+      var c = Proj.countItems(items);
+      out.push({ id: p.id, title: p.title, status: p.statusAuto === false ? p.status : Proj.autoStatus(items), url: p.link ? linkUrl(p.link) : '', items: items, counts: c });
+      seen[p.id] = true;
     }
-    var seg = h('span', { class: 'seg', role: 'group', 'aria-label': 'Close this ticket' });
-    var done = h('button', { class: 'mini primary', text: 'Done', title: 'You handled it yourself. The ticket closes and no agent acts on it.', 'data-act': 'done', 'data-key': key }); done.disabled = !S.canWrite;
-    var fu = h('button', { class: 'mini', text: 'Follow up', title: 'Send it back with a question', 'data-act': 'followup', 'data-key': key }); fu.disabled = !S.canWrite;
-    seg.appendChild(done); seg.appendChild(fu); row.appendChild(seg);
+    docs.forEach(function (p) { add(p, g.byProject[p.id]); });
+    Object.keys(g.byProject).forEach(function (id) { if (seen[id]) return; var d = defs.filter(function (x) { return x.id === id; })[0]; add({ id: id, title: d ? d.title : id, statusAuto: true, items: [] }, g.byProject[id]); });
+    var proj = {}; out.forEach(function (p) { proj[p.id] = true; });
+    var loose = g.loose.filter(function (x) { return Proj.ticketState(x) === 'open'; }).sort(function (x, y) { return t(y.updatedAt || y.createdAt) - t(x.updatedAt || x.createdAt); });
+    out.sort(function (x, y) { return (y.counts.needs * 100 + y.counts.open) - (x.counts.needs * 100 + x.counts.open) || x.title.localeCompare(y.title); });
+    return { projects: out, loose: loose };
+  }
+
+  /* ---- NEEDS YOUR INPUT: what is waiting on Kev, with the answer on the line (Kev, 29 Oct: "these are blocked by me but idk even how to move them forward without clicking in here") ---- */
+  var LRANK = { urgent: 0, reply: 1, review: 2, blocked: 3 };
+  function agentNeeds(id) {
+    return agentItems(id).filter(function (i) { return i.needsKev && i.kind !== 'sla' && !/^ticket-.+-done$/.test(i.key || ''); })
+      .sort(function (x, y) { return ((x.rank == null ? 99 : x.rank) - (y.rank == null ? 99 : y.rank)) || ((LRANK[x.light] || 0) - (LRANK[y.light] || 0)) || (t(x.raisedAt) - t(y.raisedAt)); });
+  }
+  function allNeeds() {
+    var out = []; Object.keys(S.agents).forEach(function (id) { if (!hidden(S.agents[id])) out = out.concat(agentNeeds(id)); });
+    return out.sort(function (x, y) { return ((LRANK[x.light] || 0) - (LRANK[y.light] || 0)) || (t(x.raisedAt) - t(y.raisedAt)); });
+  }
+  /* The thing he needs to act on, when there is one: a link the ticket or alert carries, a URL named in blockedOn, or the connector settings page when it is a sign-in. */
+  function needLink(i, tk) {
+    var why = tk ? (tk.blockedOn || '') : (i.kind === 'blocked' ? i.title : ''), m = /https?:\/\/[^\s)>\]]+/.exec(why);
+    var u = (tk && tk.blockedLink) || usefulLink(i.link) || (m && m[0]) || (/connector|sign[- ]?in|re-?auth|log[- ]?in|authori[sz]/i.test(why) ? CONNECTORS_URL : '') || (tk && tk.result && tk.result.link) || '';
+    if (!u) return null;
+    var url = linkUrl(u);
+    return { url: url, label: url === CONNECTORS_URL ? 'Open connectors' : openLabel(url) };
+  }
+  function needRow(i, withWho) {
+    var m = /^ticket-(.+)-(?:gated|blocked)$/.exec(i.key || ''), tk = m && S.tickets[m[1]], key = i.key;
+    var title = (i.rank != null ? '#' + i.rank + ' ' : '') + (tk ? Proj.ticketTitle(tk) : Proj.cutWords(i.title, Proj.TITLE_WORDS));
+    var line = tk ? (Proj.needLine(tk) || 'No reason recorded. Follow up to ask.') : (i.why ? Proj.cutWords(i.why, Proj.NEED_WORDS) : '');
+    var row = h('div', { class: 'need' });
+    var top = h('div', { class: 'nt' }, led(i.light, true), h('b', { text: title }), h('span', { class: 'ago', text: ago(i.raisedAt) }));
+    if (withWho) top.appendChild(h('span', { class: 'who', text: nameOf(i.agent) }));
+    row.appendChild(top);
+    if (line) row.appendChild(h('div', { class: 'nl', text: line }));
+    var acts = h('div', { class: 'nacts' }), lk = needLink(i, tk), appr = needsApproval(i), px = appr ? approvalOf(i) : null;
+    if (lk) acts.appendChild(h('a', { class: 'mini txt', href: lk.url, target: '_blank', rel: 'noopener', text: lk.label }));
+    if (i.preview) { var rd = h('button', { class: 'mini txt', text: openDrafts[key] ? 'Hide draft' : 'Read draft' }); rd.addEventListener('click', function () { openDrafts[key] = !openDrafts[key]; rerender(); }); acts.appendChild(rd); }
+    if (appr && approveOpen[key] && px) {                    // second tap: the confirm names the exact action; only this saves the yes
+      var yes = h('button', { class: 'mini primary', text: 'Confirm: ' + clip1(px.exact, 60) }); yes.disabled = !S.canWrite;
+      yes.addEventListener('click', function () { delete approveOpen[key]; markAction(key, 'approve', { confirmed: true, qc: px.qc, hash: px.hash, exact: px.exact }); rerender(); });
+      var no = h('button', { class: 'mini txt', text: 'Cancel' }); no.addEventListener('click', function () { delete approveOpen[key]; rerender(); });
+      acts.appendChild(yes); acts.appendChild(no);
+    } else if (fuOpen[key]) {
+      var send = function () { var v = (fuDraft[key] || '').trim(); delete fuOpen[key]; delete fuDraft[key]; markAction(key, 'followup', v ? { note: v.slice(0, 300) } : {}); rerender(); };
+      var inp = h('input', { class: 'fu', type: 'text', maxlength: '200', 'data-td-in': 'fu-' + key, placeholder: 'What should ' + nameOf(i.agent) + ' do next?', 'aria-label': 'Follow-up note for ' + nameOf(i.agent) });
+      inp.value = fuDraft[key] || ''; inp.disabled = !S.canWrite;
+      inp.addEventListener('input', function () { fuDraft[key] = inp.value; });
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); send(); } });
+      var go = h('button', { class: 'mini primary', text: 'Send' }); go.disabled = !S.canWrite; go.addEventListener('click', send);
+      var cx = h('button', { class: 'mini txt', text: 'Cancel' }); cx.addEventListener('click', function () { delete fuOpen[key]; rerender(); });
+      acts.appendChild(inp); acts.appendChild(go); acts.appendChild(cx);
+    } else {
+      var seg = h('span', { class: 'seg', role: 'group', 'aria-label': 'Answer' });
+      if (appr) { var ok = h('button', { class: 'mini primary', text: 'Approve', title: px ? 'Your yes for exactly the action shown. A second tap confirms.' : 'Waiting for the next sync to show the exact action' }); ok.disabled = !S.canWrite || !px; ok.addEventListener('click', function () { approveOpen[key] = true; rerender(); }); seg.appendChild(ok); }
+      var dn = h('button', { class: appr ? 'mini' : 'mini primary', text: appr ? 'Did it myself' : 'Done (I handled it)', title: 'You handled it yourself. It closes and no agent acts on it.', 'data-act': 'done', 'data-key': key }); dn.disabled = !S.canWrite;
+      var fu = h('button', { class: 'mini', text: 'Follow up', title: 'Send it back with a note' }); fu.disabled = !S.canWrite;
+      fu.addEventListener('click', function () { fuOpen[key] = true; rerender(); var n = document.querySelector('[data-td-in="fu-' + key + '"]'); if (n) n.focus(); });
+      seg.appendChild(dn); seg.appendChild(fu); acts.appendChild(seg);
+    }
+    row.appendChild(acts);
+    if (appr && px && approveOpen[key]) row.appendChild(h('div', { class: 'exact' }, h('b', { text: 'Approve carries out exactly this, once:' }), '\n' + px.exact));
+    if (i.preview && openDrafts[key]) row.appendChild(h('div', { class: 'exact draft' }, h('b', { text: 'To: ' + ((i.preview.to || []).join(', ') || 'blank, add before sending') }), '\n' + i.preview.text + '\n\nNothing sends from here. Proof it, then open Superhuman to edit and send.'));
     return row;
   }
+  /* What Kev just answered stays one line with Undo until the next sync clears it; a snooze shows when it wakes. */
+  function handledLines(a) {
+    var out = [], now = Date.now();
+    Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return x.agent === a.id && x.action !== 'snooze' && x.source !== 'daily' && !/^daily-/.test(x.key || '') && acted(x.key) && now - t(x.at) < DAY; })
+      .sort(function (x, y) { return t(y.at) - t(x.at); }).slice(0, 3).forEach(function (x) {
+        var u = h('button', { class: 'mini txt', text: 'Undo', 'data-undo': x.key }); u.disabled = !S.canWrite;
+        var tm = /^ticket-(.+)-(?:gated|blocked|done)$/.exec(x.key || ''), tt = tm && S.tickets[tm[1]] ? Proj.ticketTitle(S.tickets[tm[1]]) : Proj.cutWords(x.title, 6);
+        out.push(h('div', { class: 'handled' }, h('span', { class: 't', text: (x.action === 'done' ? 'Done' : x.action === 'approve' ? 'Approved' : 'Sent back') + ' · ' + tt + ' · ' + ago(x.at) + (x.applied ? '' : ' · Radar files it next sweep') }), u));
+      });
+    snoozedFor(a.id).forEach(function (x) {
+      var w = h('button', { class: 'mini txt', text: 'Wake now', 'data-undo': x.key }); w.disabled = !S.canWrite;
+      out.push(h('div', { class: 'handled' }, h('span', { class: 't', text: 'Snoozed · ' + Proj.cutWords(x.title, 6) + ' · back ' + untilLabel(x.until) }), w));
+    });
+    return out;
+  }
+
+  /* ---- PROJECTS ---- */
+  var ITEM_CAP = 6;
+  function itemText(i) {
+    var tk = i.ticket && S.tickets[i.ticket];
+    if (tk) return tk.status === 'done' && tk.result && tk.result.summary ? tk.result.summary : (tk.ask || '');
+    return i.note || '';
+  }
+  function itemLi(i, key) {
+    var li = h('li', { class: 'it ' + i.state }), txt = itemText(i), row = h('div', { class: 'it-r' }), x = null;
+    if (txt) {
+      var open = !!itemOpen[key], b = h('button', { class: 'it-t', type: 'button', 'aria-expanded': String(open), text: i.title });
+      x = h('div', { class: 'it-x' }); x.hidden = !open;
+      var p = h('p', { class: 'clip' + (moreOpen[key] ? ' open' : ''), text: txt }); x.appendChild(p);
+      if (txt.length > 110) { var mb = h('button', { class: 'more', type: 'button', text: moreOpen[key] ? 'less' : 'more' }); mb.addEventListener('click', function () { moreOpen[key] = !moreOpen[key]; p.classList.toggle('open', !!moreOpen[key]); mb.textContent = moreOpen[key] ? 'less' : 'more'; }); x.appendChild(mb); }
+      b.addEventListener('click', function () { itemOpen[key] = !itemOpen[key]; b.setAttribute('aria-expanded', String(!!itemOpen[key])); x.hidden = !itemOpen[key]; });
+      row.appendChild(b);
+    } else row.appendChild(h('span', { class: 'it-t', text: i.title }));
+    if (i.url) row.appendChild(h('a', { class: 'lk', href: i.url, target: '_blank', rel: 'noopener', 'aria-label': 'Open ' + i.title, title: 'Open the document', text: '↗' }));
+    li.appendChild(row); if (x) li.appendChild(x);
+    return li;
+  }
+  var GROUPS = [['needs', 'Needs input'], ['open', 'Open'], ['shipped', 'Shipped · last 7 days']];
+  function projectRow(a, p, expandDefault) {
+    var key = a.id + ':' + p.id, open = prjOpen[key] !== undefined ? prjOpen[key] : expandDefault, pid = 'prj-' + a.id + '-' + p.id;
+    var wrap = h('div', { class: 'prj' + (open ? ' open' : ''), 'data-project': p.id });
+    var chips = h('span', { class: 'chips' }); Proj.chips(p.counts).forEach(function (c) { chips.appendChild(h('span', { class: 'chip' + (/needs/.test(c) ? ' n' : ''), text: c })); });
+    var b = h('button', { class: 'prj-h', type: 'button', 'aria-expanded': String(open), 'aria-controls': pid }, h('span', { class: 'car', 'aria-hidden': 'true' }), h('span', { class: 'pt', text: p.title }), chips, h('span', { class: 'ps', text: p.status }));
+    var r = h('div', { class: 'prj-r' }, b);
+    if (p.url) r.appendChild(h('a', { class: 'lk', href: p.url, target: '_blank', rel: 'noopener', 'aria-label': 'Open the ' + p.title + ' plan', title: 'Open the plan', text: '↗' }));
+    var body = h('div', { class: 'prj-b', id: pid }); body.hidden = !open;
+    GROUPS.forEach(function (g) {
+      var xs = p.items.filter(function (i) { return i.state === g[0]; }); if (!xs.length) return;
+      var gk = key + ':' + g[0], ul = h('ul', { class: 'its' });
+      xs.forEach(function (i, n) { var li = itemLi(i, key + ':' + (i.ticket || i.title)); if (n >= ITEM_CAP && !moreOpen[gk]) li.hidden = true; ul.appendChild(li); });
+      body.appendChild(h('h4', { class: 'gh', text: g[1] + ' · ' + xs.length })); body.appendChild(ul);
+      if (xs.length > ITEM_CAP && !moreOpen[gk]) { var mo = h('button', { class: 'more', type: 'button', text: '+' + (xs.length - ITEM_CAP) + ' more' }); mo.addEventListener('click', function () { moreOpen[gk] = true; [].forEach.call(ul.children, function (li) { li.hidden = false; }); mo.remove(); }); body.appendChild(mo); }
+    });
+    if (!p.items.length) body.appendChild(h('p', { class: 'small', text: 'Nothing open or shipped this week.' }));
+    b.addEventListener('click', function () { var o = b.getAttribute('aria-expanded') !== 'true'; prjOpen[key] = o; b.setAttribute('aria-expanded', String(o)); body.hidden = !o; wrap.classList.toggle('open', o); });
+    wrap.appendChild(r); wrap.appendChild(body);
+    return wrap;
+  }
+
   function deskSheet(p, a) {
     var e = effective(a), hide = hidden(a);
-    p.appendChild(head(a.name, hide ? 'idle' : e.light, (a.role || '') + ' · ' + (hide ? 'Hidden' : stateChip(e.light, e)) + ' · heard ' + short(heardAt(a))));
-    var su0 = !hide && sessionUrl(a.id); if (su0) { var hd0 = p.lastChild, sb0 = hd0.querySelector('.stand'); hd0.insertBefore(toolLink({ id: 'session-' + a.id, name: 'Session \u2197', url: su0 }, 'stand sess'), sb0); }
-    var body = h('div', { class: 'panel-b' + (a.id === 'host' ? ' wide-tray' : '') }); p.appendChild(body);
-    if (hide) { body.className = 'panel-b one'; body.appendChild(h('section', null, h('p', { class: 'small', text: 'Hidden in Screen share mode.' }))); return; }
-    var mine = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).filter(function (x) { return x.agent === a.id; })
-      .sort(function (x, y) { var rx = x.status === 'gated' || x.status === 'blocked' ? 0 : 1, ry = y.status === 'gated' || y.status === 'blocked' ? 0 : 1; return (rx - ry) || (t(y.updatedAt || y.createdAt) - t(x.updatedAt || x.createdAt)); }).slice(0, 12);
-    var naps = snoozedFor(a.id);
-    var answer = a.id === 'host' ? e.items.filter(function (i) { return i.light === 'reply'; }).sort(function (x, y) { return ((x.rank == null ? 99 : x.rank) - (y.rank == null ? 99 : y.rank)) || (t(x.raisedAt) - t(y.raisedAt)); }) : [];
-    var tray = h('section');
-    if (a.id === 'host') {
-      tray.appendChild(h('h3', { text: 'To answer · ranked by Jenny · ' + answer.length }));
-      if (answer.length) answer.forEach(function (i) { tray.appendChild(itemRow(i)); });
-      else tray.appendChild(h('p', { class: 'small', text: 'Nothing waiting on your reply. Jenny ranks new ones each sweep, with a draft ready in Superhuman.' }));
+    p.appendChild(head(a.name, hide ? 'idle' : e.light, Proj.cutWords(a.role || '', 6) + ' · ' + (hide ? 'Hidden' : stateChip(e.light, e))));
+    var su0 = !hide && sessionUrl(a.id); if (su0) { var hd0 = p.lastChild, sb0 = hd0.querySelector('.stand'); hd0.insertBefore(toolLink({ id: 'session-' + a.id, name: 'Session ↗', url: su0 }, 'stand sess'), sb0); }
+    var body = h('div', { class: 'panel-b one desk' }); p.appendChild(body);
+    if (hide) { body.appendChild(h('section', null, h('p', { class: 'small', text: 'Hidden in Screen share mode.' }))); return; }
+    // 2. NEEDS YOUR INPUT: open by default, gone when empty
+    var needs = agentNeeds(a.id);
+    if (needs.length) { var ns = h('section', { class: 'needs' }, h('h3', { text: 'Needs your input · ' + needs.length })); needs.forEach(function (i) { ns.appendChild(needRow(i, false)); }); body.appendChild(ns); }
+    var hl = handledLines(a); if (hl.length) { var hs = h('section', { class: 'handled-s' }); hl.forEach(function (x) { hs.appendChild(x); }); body.appendChild(hs); }
+    // 3. PROJECTS: collapsed, except the first with something needing input
+    var ap = agentProjects(a), firstNeeds = ap.projects.filter(function (x) { return x.counts.needs > 0; })[0];
+    if (ap.projects.length) {
+      var ps = h('section', { class: 'projects' }, h('h3', { text: 'Projects · ' + ap.projects.length }));
+      ap.projects.forEach(function (x) { ps.appendChild(projectRow(a, x, x === firstNeeds)); });
+      body.appendChild(ps);
     }
-    // Kev, 23 Oct: the tray becomes a feed: the latest work Radar (or Kev) handed this agent, newest first, like a timeline.
-    var openN = mine.filter(function (x) { return x.status !== 'done'; }).length;
-    var th = h('h3', { text: 'Feed · ' + openN + ' open' + (naps.length ? ' · ' + naps.length + ' snoozed' : '') }); if (a.id === 'host') th.className = 'gap'; tray.appendChild(th);
-    var ul = h('ul', { class: 'feed' });
-    mine.forEach(function (x) { ul.appendChild(feedPost(x, a)); });
-    naps.forEach(function (x) {
-      var wake = h('button', { class: 'mini', text: 'Wake now', 'data-undo': x.key }); wake.disabled = !S.canWrite;
-      ul.appendChild(h('li', { class: 'post' }, h('span', { class: 'av zz', text: 'Z' }), h('div', { class: 'pb' }, h('div', { class: 'ph' }, h('b', { text: 'Snoozed' }), ' · back ' + untilLabel(x.until)), h('p', { class: 'ptext', text: x.title }), wake)));
-    });
-    if (!mine.length && !naps.length) ul.appendChild(h('li', { class: 'small', text: 'Nothing on the feed yet. Work Radar or you hand ' + a.name + ' shows up here.' }));
-    tray.appendChild(ul); body.appendChild(tray);
-    var blot = h('section', null, h('h3', { text: 'Blotter · now' }), h('p', { class: 'now', text: a.task || 'No task posted' }));
-    if (a.taskSince) blot.appendChild(h('p', { class: 'small', text: 'Since ' + ago(a.taskSince) + ' · last heard ' + ago(heardAt(a)) }));
-    if (e.stale) blot.appendChild(h('p', { class: 'small', text: 'Stale: ' + e.staleWhy + '.' }));
-    var need = a.id === 'host' ? e.items.filter(function (i) { return i.light !== 'reply'; }) : e.items;
-    if (need.length) { blot.appendChild(h('h3', { text: 'Needs you' })); need.forEach(function (i) { blot.appendChild(itemRow(i)); }); }
-    var later = Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return x.agent === a.id && x.action !== 'snooze' && acted(x.key); }).sort(function (x, y) { return t(y.at) - t(x.at); });
-    if (later.length) {
-      blot.appendChild(h('h3', { text: 'Done and follow-ups' }));
-      later.slice(0, 8).forEach(function (x) {
-        var u = h('button', { class: 'mini', text: 'Undo', 'data-undo': x.key }); u.disabled = !S.canWrite;
-        blot.appendChild(h('div', { class: 'item' }, h('span', { class: 'role', text: x.action === 'done' ? 'Done' : x.action === 'approve' ? 'Approved' : x.action === 'snooze' ? 'Zzz' : 'Follow up' }), h('span', { class: 't', text: x.title + ' · ' + (x.action === 'snooze' ? 'back ' + untilLabel(x.until) : ago(x.at) + (x.applied ? ' · Radar applied it' : ' · Radar applies it next sweep')) }), u));
-      });
+    // 4. other open work: open tickets that belong to no project
+    if (ap.loose.length) {
+      var os = h('section', { class: 'other' }, h('h3', { text: 'Other open work · ' + ap.loose.length })), ul = h('ul', { class: 'its' });
+      ap.loose.forEach(function (x) { var it = Proj.ticketItem(x); it.url = it.link ? linkUrl(it.link) : ''; var li = itemLi(it, a.id + ':o:' + x.id); li.querySelector('.it-r').appendChild(h('span', { class: 'st', text: FEED_WORD[x.status] || x.status })); ul.appendChild(li); });
+      os.appendChild(ul); body.appendChild(os);
     }
-    blot.appendChild(h('h3', { text: 'Last five' }));
-    var log = (S.logs[a.id] || []).slice(0, 5), lu = h('ul', { class: 'log' });
-    log.forEach(function (l) { lu.appendChild(h('li', null, h('b', { text: ago(l.at) }), ' ' + l.text)); });
-    if (!log.length) lu.appendChild(h('li', { text: 'No log lines yet.' }));
-    blot.appendChild(lu); body.appendChild(blot);
-    var drawer = h('section', null, h('h3', { text: 'Drawer' }));
-    var st = h('button', { class: 'key', text: 'Status report' }); st.disabled = !S.canWrite;
-    st.addEventListener('click', function () { makeTicket({ agent: a.id, ask: 'Status in three lines: working on, done since last status, blocked on Kev. Names and roles only.', priority: 'today', lever: 'status' }); S.flash = 'Status ticket created.'; renderSheet(); });
-    var ht = h('button', { class: 'key', text: S.formOpen ? 'Close ticket form' : 'Hand a ticket' });
+    if (!needs.length && !ap.projects.length && !ap.loose.length) body.appendChild(h('section', null, h('p', { class: 'small', text: 'Nothing open at this desk.' })));
+    // 5. Hand a ticket, behind a button
+    var foot = h('section', { class: 'desk-foot' }), row = h('div', { class: 'keys' });
+    var ht = h('button', { class: 'key', type: 'button', 'aria-expanded': String(!!S.formOpen), text: S.formOpen ? 'Close ticket form' : 'Hand a ticket' });
     ht.addEventListener('click', function () { S.formOpen = !S.formOpen; S.flash = ''; renderSheet(); });
-    var cb = h('button', { class: 'key', text: 'Chat' }); cb.addEventListener('click', focusChat);
-    if (S.assets) { var pb = h('button', { class: 'key', text: 'Upload a file' }); pb.disabled = !S.canWrite; pb.addEventListener('click', function () { pickPhoto(a.id); }); drawer.appendChild(pb); }
-    drawer.appendChild(cb); drawer.appendChild(st); drawer.appendChild(ht);
-    if (S.formOpen) drawer.appendChild(ticketForm(a.id, false));
-    var gl = h('div', { class: 'golinks' }), su = sessionUrl(a.id);
-    if (su) gl.appendChild(toolLink({ id: 'session-' + a.id, name: 'Work with ' + a.name + ' · session', url: su }, 'golink session'));
-    toolsFor(['org-chart'].concat((AGENT_TOOLS[a.id] || []).filter(function (id) { return id !== 'eden-desk' && id !== 'hub'; }))).forEach(function (x) { gl.appendChild(toolLink(Object.assign({}, x, { name: x.id === 'org-chart' ? 'Go to the org chart' : 'Open ' + x.name }), 'golink')); });
-    drawer.insertBefore(gl, drawer.childNodes[1]);
-    drawer.appendChild(h('p', { class: 'small', text: S.flash || 'A ticket is delegation, never approval. You stay accountable; sends, spends and publishing still go through QC with the exact action shown.' }));
-    body.appendChild(drawer);
+    row.appendChild(ht);
+    if (S.assets) { var pb = h('button', { class: 'key', type: 'button', text: 'Upload a file' }); pb.disabled = !S.canWrite; pb.addEventListener('click', function () { pickPhoto(a.id); }); row.appendChild(pb); }
+    foot.appendChild(row);
+    if (S.formOpen) foot.appendChild(ticketForm(a.id, false));
+    else if (S.flash) foot.appendChild(h('p', { class: 'small', text: S.flash }));
+    var tl = toolsFor(['org-chart'].concat((AGENT_TOOLS[a.id] || []).filter(function (id) { return id !== 'eden-desk' && id !== 'hub'; })));
+    if (tl.length) { var gl = h('div', { class: 'golinks' }); tl.forEach(function (x) { gl.appendChild(toolLink(Object.assign({}, x, { name: x.id === 'org-chart' ? 'Go to the org chart' : 'Open ' + x.name }), 'golink')); }); foot.appendChild(h('details', { class: 'tools-d' }, h('summary', { text: 'Tools' }), gl)); }
+    body.appendChild(foot);
     var cw = h('div', { class: 'panel-b one' }); cw.appendChild(chatSection(a)); p.appendChild(cw);
   }
   /* ---------- the board's breakdowns (Kev, 27 Oct): click a count, see the tickets behind it; a FAIL gets an autopsy ---------- */
@@ -2279,7 +2561,7 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
       g[1].forEach(function (ask) {
         var tk = open.filter(function (x) { return x.ask === ask; })[0];
         var b = h('button', { class: 'mini', text: tk ? 'With the PM · ' + tk.status : 'Hand to PM' }); b.disabled = !!tk || !S.canWrite;
-        b.addEventListener('click', function () { makeTicket({ agent: 'pm', ask: ask, priority: 'today', lever: 'projects' }); S.forceSheet = true; renderSheet(); });
+        b.addEventListener('click', function () { makeTicket({ agent: 'pm', ask: ask, priority: 'today', lever: 'projects', project: 'eden-staffing' }); S.forceSheet = true; renderSheet(); });
         sec.appendChild(h('div', { class: 'item' }, h('span', { class: 'role', text: '·' }), h('span', { class: 't', text: ask }), h('span', { class: 'sacts', style: 'padding:0;grid-column:2;justify-content:flex-start' }, b)));
       });
     });
@@ -2818,7 +3100,9 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var grid = h('div', { class: 'td-grid' });
     var left = h('div', { class: 'td-left' }), right = h('div', { class: 'td-right' });
     left.appendChild(tdNowBox(run, now)); left.appendChild(tdRunBox(run, now)); if (doc) left.appendChild(tdHabitBox());
-    grid.appendChild(left); grid.appendChild(tdMid(run)); if (doc) { right.appendChild(tdMustBox()); right.appendChild(tdDecBox()); right.appendChild(tdScriptureBox()); right.appendChild(tdCheckoutBox()); } grid.appendChild(right);
+    grid.appendChild(left); grid.appendChild(tdMid(run)); if (doc) { right.appendChild(tdMustBox()); }
+    var decBox = tdDecBox(); if (decBox) right.appendChild(decBox);
+    if (doc) { right.appendChild(tdScriptureBox()); right.appendChild(tdCheckoutBox()); } grid.appendChild(right);
     box.appendChild(grid);
     if (TD.study && doc && doc.study) box.appendChild(tdStudy());
   }
@@ -2944,20 +3228,32 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     var done = m.filter(function (x) { return tdTick('must', x.id).value; }).length;
     return h('div', { class: 'td-box td-must-box' }, h('div', { class: 'eyebrow' }, h('span', { text: 'Must-hits' }), h('span', { text: done + ' / ' + m.length })), ol);
   }
+  /* Decisions, then NEEDS YOUR INPUT (Kev, 29 Oct: "so he never has to open a desk to unblock an agent"): every agent's blocked or gated ticket and needs-Kev alert,
+     with the same answer controls as on the desk. */
+  var TD_NEED_CAP = 6;
   function tdDecBox() {
-    var d = TD.doc.decisions || [], bx = h('div', { class: 'td-box td-dec-box' });
-    var open = d.filter(function (x) { return !S.actions['daily-' + TD.date + '-' + x.id]; }).length;
-    bx.appendChild(h('div', { class: 'eyebrow' }, h('span', { text: 'Decisions · answer first' }), h('span', { text: open + ' open' })));
-    d.forEach(function (x) {
-      var key = 'daily-' + TD.date + '-' + x.id, a = S.actions[key], el = h('div', { class: 'td-dec' + (a ? ' ans' : '') });
-      el.appendChild(h('div', { class: 'dt', text: S.share ? 'Decision' : x.text }));
-      if (x.pick && !S.share) el.appendChild(h('div', { class: 'pk', text: 'My pick: ' + x.pick }));
-      var row = h('span', { class: 'sacts', style: 'padding:0;justify-content:flex-start' });
-      if (a) { row.appendChild(h('span', { class: 'pk', text: 'You said ' + String(a.action).toUpperCase() + ' · ' + tdClock(t(a.at)) })); var u = h('button', { class: 'mini txt', text: 'Undo' }); u.addEventListener('click', function () { delete S.actions[key]; if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).delete().catch(function () {}); renderAll(); }); row.appendChild(u); }
-      else { var seg = h('span', { class: 'seg', role: 'group', 'aria-label': 'Answer' }); [['yes', 'Yes'], ['no', 'No'], ['talk', 'Talk']].forEach(function (o) { var b = h('button', { class: 'mini' + (o[0] === 'yes' ? ' primary' : ''), text: o[1] }); b.disabled = !S.canWrite; b.addEventListener('click', function () { tdAction(key, o[0], x.text); }); seg.appendChild(b); }); row.appendChild(seg); }
-      el.appendChild(row); bx.appendChild(el);
-    });
-    if (!d.length) bx.appendChild(h('div', { class: 'td-in' }, h('span', { class: 'pk', text: 'No decisions filed.' })));
+    var d = (TD.doc && TD.doc.decisions) || [], bx = h('div', { class: 'td-box td-dec-box' }), needs = allNeeds();
+    if (!TD.doc && !needs.length) return null;
+    if (TD.doc) {
+      var open = d.filter(function (x) { return !S.actions['daily-' + TD.date + '-' + x.id]; }).length;
+      bx.appendChild(h('div', { class: 'eyebrow' }, h('span', { text: 'Decisions · answer first' }), h('span', { text: open + ' open' })));
+      d.forEach(function (x) {
+        var key = 'daily-' + TD.date + '-' + x.id, a = S.actions[key], el = h('div', { class: 'td-dec' + (a ? ' ans' : '') });
+        el.appendChild(h('div', { class: 'dt', text: S.share ? 'Decision' : x.text }));
+        if (x.pick && !S.share) el.appendChild(h('div', { class: 'pk', text: 'My pick: ' + x.pick }));
+        var row = h('span', { class: 'sacts', style: 'padding:0;justify-content:flex-start' });
+        if (a) { row.appendChild(h('span', { class: 'pk', text: 'You said ' + String(a.action).toUpperCase() + ' · ' + tdClock(t(a.at)) })); var u = h('button', { class: 'mini txt', text: 'Undo' }); u.addEventListener('click', function () { delete S.actions[key]; if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).delete().catch(function () {}); renderAll(); }); row.appendChild(u); }
+        else { var seg = h('span', { class: 'seg', role: 'group', 'aria-label': 'Answer' }); [['yes', 'Yes'], ['no', 'No'], ['talk', 'Talk']].forEach(function (o) { var b = h('button', { class: 'mini' + (o[0] === 'yes' ? ' primary' : ''), text: o[1] }); b.disabled = !S.canWrite; b.addEventListener('click', function () { tdAction(key, o[0], x.text); }); seg.appendChild(b); }); row.appendChild(seg); }
+        el.appendChild(row); bx.appendChild(el);
+      });
+      if (!d.length) bx.appendChild(h('div', { class: 'td-in' }, h('span', { class: 'pk', text: 'No decisions filed.' })));
+    }
+    if (needs.length) {
+      var all = !!TD.needAll, shown = all ? needs : needs.slice(0, TD_NEED_CAP);
+      bx.appendChild(h('div', { class: 'eyebrow td-needh' }, h('span', { text: 'Needs your input' }), h('span', { text: needs.length + ' open' })));
+      var nl = h('div', { class: 'td-needs' }); shown.forEach(function (i) { nl.appendChild(needRow(i, true)); }); bx.appendChild(nl);
+      if (needs.length > TD_NEED_CAP) { var mb = h('button', { class: 'mini txt', text: all ? 'Show fewer' : '+' + (needs.length - TD_NEED_CAP) + ' more' }); mb.addEventListener('click', function () { TD.needAll = !all; renderAll(); }); bx.appendChild(h('div', { class: 'td-in' }, mb)); }
+    }
     return bx;
   }
   function tdScriptureBox() {
@@ -3080,16 +3376,35 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
   /* ---------- example data (clearly labelled; no client names, pay, phones, family or health) ---------- */
   function exampleData() {
     var n = Date.now(), iso = function (ago) { return new Date(n - ago).toISOString(); };
+    var BLOB = 'https://github.com/EdenExec/Agent-Builder/blob/claude/pensive-brown-18gll8/';
     var SENS = ['tally', 'docket', 'atlas', 'housing-architect', 'keys', 'dean', 'hale', 'jethro', 'barnabas'];
     function ag(id, name, desk, role, o) { var a = { id: id, name: name, desk: desk, role: role, sensitive: SENS.indexOf(id) >= 0, light: 'idle', counts: {}, task: null, lastHeard: iso(2 * HOUR), pendingQc: 0, openTickets: 0, expectedEveryHours: 96, updated: iso(20 * MIN) }; for (var k in o) a[k] = o[k]; S.agents[id] = a; }
-    ag('radar', 'Radar', 'centre', 'Chief of staff', { task: 'Hourly sweep (example)', counts: { working: 1 }, lastHeard: iso(30 * MIN), expectedEveryHours: 30, openTickets: 2 });
+    ag('radar', 'Radar', 'centre', 'Chief of staff', { task: 'Hourly sweep (example)', counts: { working: 1 }, lastHeard: iso(30 * MIN), expectedEveryHours: 30, openTickets: 2, projects: [
+      { id: 'virtual-office', title: 'Command Center', status: 'Today view live, desk sheets by project next', statusAuto: false, owner: 'q', keywords: ['Command Center', 'ticket runner'], items: [
+        pi('Desk sheets by project', 'open', { note: 'Kev, 29 Oct: a list of clickable projects with each bot (example).' }),
+        pi('Today view in the Command Center', 'shipped', { at: iso(DAY), link: BLOB + 'projects/virtual-office/draft/eden-office.html' })] }] });
     ag('scout', 'Scout', 'recruiting', 'Lead research', { task: "Tonight's lead buckets (example)", lastHeard: iso(HOUR), openTickets: 1 });
     ag('dean', 'Dean', 'recruiting', 'Workforce', { task: 'Friday scorecard prep (example)', lastHeard: iso(5 * HOUR), pendingQc: 1, openTickets: 1 });
     ag('host', 'Jenny', 'finance', 'Comms director', { lastHeard: iso(8 * DAY) });
     ag('tally', 'Tally', 'finance', 'Finance', { task: 'Month-end packet (example)', lastHeard: iso(3 * HOUR) });
     ag('docket', 'Docket', 'finance', 'Counsel and risk', { task: 'Second key on the packet (example)', counts: { working: 1 }, lastHeard: iso(30 * HOUR) });
-    ag('q', 'Q', 'recruiting', 'Engineering', { task: 'Office status feed (example)', counts: { working: 1 }, lastHeard: iso(20 * MIN), pendingQc: 1 });
-    ag('pm', 'Pam', 'projects', 'Special projects PM', { task: 'Eden Staffing: chasing EOR and BaaS quotes (example)', counts: { working: 1 }, lastHeard: iso(2 * HOUR), openTickets: 1 });
+    ag('q', 'Q', 'recruiting', 'Engineering', { task: 'Office status feed (example)', counts: { working: 1 }, lastHeard: iso(20 * MIN), pendingQc: 1, projects: [
+      { id: 'eden-crm', title: 'Eden CRM', status: 'Mirror schema drafted, nightly read waiting', statusAuto: false, owner: 'q', keywords: ['Eden CRM', 'Crelate mirror'], link: BLOB + 'projects/eden-crm/brief.md', items: [
+        pi('Nightly Crelate read-only mirror', 'open', { note: 'First job: a copy Eden owns, read-only (example).' }),
+        pi('Mirror schema draft', 'shipped', { at: iso(2 * DAY), link: BLOB + 'projects/eden-crm/brief.md' })] },
+      { id: 'cloudtalk-nightly', title: 'CloudTalk nightly load', statusAuto: true, owner: 'q', keywords: ['CloudTalk nightly'], link: BLOB + 'projects/cloudtalk-nightly/brief.md', items: [] },
+      { id: 'recruiter-desk', title: 'Recruiter Desk', status: 'Spec and v0 built, not shared', statusAuto: false, owner: 'q', keywords: ['Recruiter Desk'], link: BLOB + 'projects/recruiter-desk/brief.md', items: [pi('Stamp-out command and tests', 'shipped', { at: iso(3 * DAY), link: BLOB + 'projects/recruiter-desk/brief.md' })] }] });
+    function pi(title, state, o) { var x = { title: title, state: state, link: '', at: null }; for (var k in o) x[k] = o[k]; return x; }
+    ag('pm', 'Pam', 'projects', 'Special projects PM', { task: 'Eden Staffing: chasing EOR and BaaS quotes (example)', counts: { working: 1 }, lastHeard: iso(2 * HOUR), openTickets: 1, projects: [
+      { id: 'eden-staffing', title: 'Eden Staffing', status: '3 of 40 rows done, 1 slipped, 1 at risk', statusAuto: false, owner: 'pm', keywords: ['Eden Staffing', 'EOR', 'BaaS'], link: BLOB + 'projects/eden-staffing/schedule.md', items: [
+        pi('ES-01 Owners and dates confirmed', 'needs', { note: 'Kev confirms the batch in the brief (example). Slipped, recovery Thu 29 Oct.', link: BLOB + 'employees/pm/briefs/eden-staffing-confirm-owners-dates.md' }),
+        pi('ES-02 Answers to the three open questions', 'needs', { note: 'Florida demand and pay; who runs it day to day; was 40% of spread promised (example).' }),
+        pi('AB-02 Kev decisions from the issues memo', 'needs', { note: 'Ranked questions with Docket picks (example).', link: BLOB + 'projects/eden-staffing/legal/05-issues-memo.md' }),
+        pi('ES-03 Trades list for the quote requests', 'open', { note: 'Nick sends the trades and class codes (example).', link: BLOB + 'projects/eden-staffing/nick-chase-draft.md' }),
+        pi('ES-04 Quote request pack', 'open', { note: 'One assumption sheet and the request text (example).' }),
+        pi('ES-06 Broker and attorney shortlists', 'open', { note: 'Docket researches; no contact (example).' }),
+        pi('AB-01 First drafts from Docket', 'shipped', { at: iso(5 * DAY), note: 'Five drafts saved for attorney review (example).', link: BLOB + 'projects/eden-staffing/legal' }),
+        pi('AB-04 Names and marks contact sheet', 'shipped', { at: iso(5 * DAY), link: BLOB + 'projects/eden-staffing/brand/names.md' })] }] });
     ag('atlas', 'Atlas', 'family', 'Tutor', { lastHeard: iso(2 * DAY) });
     ag('housing-architect', 'Marlowe', 'family', 'Architect', { task: 'Floor plan (example)', counts: { working: 1 }, lastHeard: iso(HOUR) });
     ag('keys', 'Keys', 'family', 'Rental ops', { lastHeard: iso(3 * DAY) });
@@ -3108,8 +3423,12 @@ return { SLA_PICKUP_MIN: SLA_PICKUP_MIN, STALL_MIN: STALL_MIN, RUNNER_START_HOUR
     S.tickets = {
       x1: { id: 'x1', agent: 'scout', ask: 'Refresh a lead bucket (example)', priority: 'today', status: 'working', createdAt: iso(2 * HOUR), pickedAt: iso(HOUR), owner: 'kev' },
       x2: { id: 'x2', agent: 'dean', ask: 'Draft a day-one page (example)', priority: 'whenever', status: 'gated', createdAt: iso(DAY), owner: 'kev', proposed: { kind: 'send_message', exact: 'To: Kev (review copy)\nSubject: Next steps before you start\n(the exact text appears here, from the QC item)', qc: 'example', hash: 'example' } },
-      x3: { id: 'x3', agent: 'q', ask: 'Match missed calls to Crelate (example)', priority: 'now', status: 'done', createdAt: iso(3 * DAY), pickedAt: iso(3 * DAY - 10 * MIN), doneAt: iso(2 * HOUR), owner: 'kev', result: { summary: 'Matched 6 of 8; 2 left unknown (example).', link: 'https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6' } }
+      x3: { id: 'x3', agent: 'q', ask: 'Match missed calls to Crelate (example)', title: 'Matched 6 of 8 missed calls', project: 'eden-crm', priority: 'now', status: 'done', createdAt: iso(3 * DAY), pickedAt: iso(3 * DAY - 10 * MIN), doneAt: iso(2 * HOUR), owner: 'kev', result: { summary: 'Matched 6 of 8; 2 left unknown (example).', link: 'https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6' } }
     };
+    S.tickets.xq1 = { id: 'xq1', agent: 'q', ask: 'Load tonight\'s lead sheet into CloudTalk (example)', title: 'CloudTalk nightly load stalled', project: 'cloudtalk-nightly', priority: 'today', status: 'blocked', createdAt: iso(5 * HOUR), pickedAt: iso(4 * HOUR), updatedAt: iso(3 * HOUR), owner: 'kev', blockedOn: 'CloudTalk connector sign-in expired; reconnect it so the load can run (example)' };
+    S.tickets.xr1 = { id: 'xr1', agent: 'radar', ask: 'Read the Notion ledger view for the Family bench (example)', priority: 'today', status: 'blocked', createdAt: iso(7 * HOUR), updatedAt: iso(6 * HOUR), owner: 'kev', blockedOn: 'Notion needs a doc link: which ledger view should the Family bench read? (example)', blockedLink: 'https://www.notion.so/' };
+    S.tickets.xq2 = { id: 'xq2', agent: 'q', ask: 'Draft the Crelate mirror schema from the API field list (example)', title: 'Crelate mirror schema', project: 'eden-crm', priority: 'today', status: 'working', createdAt: iso(2 * HOUR), pickedAt: iso(HOUR), owner: 'kev' };
+    S.tickets.xq3 = { id: 'xq3', agent: 'q', ask: 'Tidy the ZoomInfo pull notes for Scout (example)', priority: 'whenever', status: 'open', createdAt: iso(40 * MIN), owner: 'kev' };
     /* tickets for the board: closed today, a FAIL, a STALL, and a few past days (all invented) */
     var tk = function (id, agent, ask, pr, st, created, o) { var x = { id: id, agent: agent, ask: ask + ' (example)', priority: pr, status: st, createdAt: iso(created), owner: 'kev', updatedAt: iso(created) }; for (var k in o) x[k] = o[k] == null ? undefined : (typeof o[k] === 'number' ? iso(o[k]) : o[k]); S.tickets[id] = x; };
     tk('y1', 'scout', 'Refresh the lead bucket', 'today', 'done', 5 * HOUR, { pickedAt: 4.6 * HOUR, doneAt: 3 * HOUR, result: { summary: 'Done (example)' } });
