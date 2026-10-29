@@ -1,9 +1,9 @@
 ---
-title: Boise office hit list (draft 4)
+title: Boise office hit list (draft 5)
 org: eden
 ---
 
-# Boise office hit list, draft 4
+# Boise office hit list, draft 5
 
 Direction: Danish, sustainable, sleek and calming. Budget $2,500 to $3,000 for the office, excluding Kev's own desk and furniture. Nick and Bridger bring their own.
 All prices below are my planning ranges and are UNVERIFIED. None comes from a page opened this session.
@@ -17,25 +17,22 @@ All prices below are my planning ranges and are UNVERIFIED. None comes from a pa
 | Zone | Who and what | Furniture idea |
 |---|---|---|
 | Front studio | Reception as a shared studio or lab. 4 interns co-work. Bridger's office opens onto it and watches the front. | One long shared butcher-block bench for the interns, not 4 separate desks. Low felt dividers. |
-| Bullpen (behind the door) | 4 to 6 recruiter desks on a hybrid basis, plus Juicy later. Nick's office overlooks it. Door closes when calls are live. | Butcher-block tops on hairpin or IKEA legs, one divider per pair. |
+| Bullpen (behind the door) | 6 recruiter desks, one each, plus Juicy later. Nick's office overlooks it. Door closes when calls are live. | Butcher-block tops on hairpin or IKEA legs, one divider per pair. |
 | Back room | Kev's room. Desk with two chairs or a loveseat, large table that works for Zoom, quiet space for anyone. | Table, guest chairs, 3-screen dashboard wall. |
 
 Nick's office stays his own: he brings his own furniture.
 
-## Cost check: the budget no longer covers the plan
+## Cost check (Kev, 29 Oct 2026: the $2.5k to $3k is for the workstations only)
 Planning ranges, UNVERIFIED, none sourced:
 
 | Item | Range |
 |---|---|
-| Butcher-block top, per station | $100 to $200 |
-| Legs, per station | $40 to $70 |
-| Divider, per station (DIY plywood and felt) | $20 to $40 |
-| 10 stations (6 recruiters, 4 interns) | about $1,600 to $3,100 |
-| 3-screen dashboard wall (3 TVs, mounts) | about $600 to $1,200 |
-| Back room items already on this list | about $1,500 to $2,200 |
-| Total | about $3,700 to $6,500 |
+| 6 recruiter desks, one each (top $100 to $200, legs $40 to $70, divider $20 to $40) | $960 to $1,860 |
+| Intern bench for 4 (one long top or two joined, legs, low dividers) | $250 to $450 |
+| Task chairs, 10 (used office chairs) | $400 to $900 |
+| Workstation total | about $1,600 to $3,200 |
 
-Hybrid is the lever. If 4 to 6 recruiters share fewer desks and the interns use one long bench, I think the stations drop to roughly $900 to $1,500.
+This fits the $2.5k to $3k if chairs are bought used. Kev's room, the conference table, guest chairs, drapes, film and the 3-screen dashboard wall (about $600 to $1,200) are costed separately and are not covered here.
 
 ## The space as found (from Kev's walkthrough video stills, 9 frames, 29 Oct 2026)
 - Window wall faces west onto N. Milwaukie St: floor-to-ceiling black-framed glazing with roller shades, trees outside. Expect strong afternoon glare.
