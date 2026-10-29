@@ -606,6 +606,12 @@
       "stage": "landed"
     },
     {
+      "title": "EL-028 · 2026-10-29 · Juicy - Super Reload 10_29_26 · Supers + MEP, Miami and WPB · 33 leads",
+      "landedAt": "2026-10-28",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
       "file": "2026-10-29-juicy-super-reload-wpb-miami.csv",
       "rows": 33,
       "tiers": {
@@ -614,16 +620,10 @@
       },
       "built": "2026-10-29",
       "discreet": false,
-      "driveUrl": null,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/15_c3RchEiZP92rXYGyNa5NKb7EOdQxOf15eF5t5sD40/edit",
       "status": "ok",
       "errors": 0,
-      "title": null,
-      "landedAt": null,
-      "phonesAt": null,
-      "crelateAt": null,
-      "movedAt": null,
-      "note": "",
-      "stage": "staged"
+      "stage": "landed"
     },
     {
       "title": "20 · Pool · Estimating + Procurement, South FL · 63 leads",
