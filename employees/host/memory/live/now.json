@@ -1,14 +1,14 @@
 {
-  "updated": "2026-10-27T17:10:00Z",
-  "on": "Company-page LinkedIn series (scarcity of skilled humans): post 1 image done, posts 2-4 drafted; all 4 QC publish items waiting on Kev",
+  "updated": "2026-10-29T10:50:00Z",
+  "on": "Una Residences (post 3) draft + image brief ready for inbox sweep; PNG still to render; nothing published",
   "doc": "https://claude.ai/artifact/3n2h6vUU7UsMMYk13rw61L",
-  "ticket": "t-202610271600-hmzt (gated)",
+  "ticket": "t-202610291045-lknd",
   "waitingOnKev": [
     "Approve and send the Nick email (attach the .docx first)",
     "Pay ranges, hours, start date, links (Nick fills)",
     "Sales Intern commission terms (TBD)"
   ],
-  "next": "When blanks are filled, queue each posting as a QC publish item",
+  "next": "Sweep moves projects/comms/drafts/2026-10-31-una-post3.md into Superhuman Drafts; render una.png; Marlowe check",
   "docket": [
     "projects/workforce/boise-internships/docket-review-2026-10-23.md",
     "projects/workforce/boise-internships/docket-1099-and-offer-letters-2026-10-23.md",
