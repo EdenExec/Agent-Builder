@@ -34,7 +34,8 @@
     "scorecard-rows": "node workshop/workforce/scorecard-rows.ts",
     "submittal": "node workshop/submittal/cli.ts",
     "benches": "node workshop/office/benches.ts",
-    "daily": "node workshop/office/daily.ts"
+    "daily": "node workshop/office/daily.ts",
+    "eu": "node workshop/office/eu.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",

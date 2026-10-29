@@ -1,0 +1,625 @@
+<title>Eden University</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Eden University (Q, 29 Oct 2026). One page, three audiences: a learner works a track, a supervisor signs it off, Kev reads one strip.
+   Data: tracks/{id} (Dean's track.json, loaded by `npm run eu -- load`), progress/{trackId}--{userId} (the learner), signoff/{trackId}--{userId} (a supervisor).
+   Brand: Montserrat, IBM Plex Mono, ink on cream, hairlines, no colour but muted state tones. */
+:root{
+  --bg:#FAF8F4; --paper:#FFFFFF; --ink:#141414; --mute:#6F695D; --line:#E4DED2; --line2:#CFC8B8; --wash:#F2EFE8;
+  --pos:#3D6B4F; --pos-bg:#E4EEE7; --warn:#7A5E1B; --warn-bg:#F3EAD0; --neg:#8A3A32; --neg-bg:#F1DDD9; --btn:#141414; --btn-ink:#FAF8F4;
+  --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F0F0E; --paper:#171716; --ink:#EDEAE3; --mute:#A09A8D; --line:#2B2A27; --line2:#3C3A35; --wash:#1E1E1C;
+  --pos:#8FBF9E; --pos-bg:#1C2B21; --warn:#D4B467; --warn-bg:#2B2512; --neg:#D98A80; --neg-bg:#331D1A; --btn:#EDEAE3; --btn-ink:#0F0F0E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F0F0E; --paper:#171716; --ink:#EDEAE3; --mute:#A09A8D; --line:#2B2A27; --line2:#3C3A35; --wash:#1E1E1C;
+  --pos:#8FBF9E; --pos-bg:#1C2B21; --warn:#D4B467; --warn-bg:#2B2512; --neg:#D98A80; --neg-bg:#331D1A; --btn:#EDEAE3; --btn-ink:#0F0F0E; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);padding-block:12px 32px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));-webkit-text-size-adjust:100%}
+.wrap{max-width:1180px;margin:0 auto}
+a{color:inherit}
+h1,h2,h3,h4,p,ul,dl{margin:0}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.mono{font-family:var(--mono)}
+.mute{color:var(--mute)}
+
+/* header */
+.top{padding:28px 0 18px;border-bottom:1px solid var(--ink);display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+.org{font-size:11px;font-weight:700;letter-spacing:.22em;color:var(--mute)}
+.top h1{font-size:30px;line-height:1.1;font-weight:700;font-style:italic;letter-spacing:-.01em;margin-top:6px}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:8px 14px;border:1px solid transparent;color:var(--mute)}
+nav a[aria-current="page"]{color:var(--ink);border-color:var(--ink)}
+nav a:hover{color:var(--ink)}
+.banner{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin-top:14px;padding:10px 14px;border:1px solid var(--line2);background:var(--wash);font-size:12px}
+.banner b{letter-spacing:.14em;font-size:11px}
+.banner label{display:flex;align-items:center;gap:8px}
+select,input[type=text],input[type=url],input[type=date],textarea{background:var(--paper);border:1px solid var(--line2);border-radius:0;padding:8px 10px;min-height:40px;width:100%}
+.banner select{width:auto;min-height:34px;padding:4px 8px}
+#status{min-height:20px;margin-top:10px;font-size:12px;color:var(--mute)}
+#status.err{color:var(--neg)}
+
+/* sections */
+main{padding-top:6px}
+.sec{margin-top:36px}
+.sec>h2{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding-bottom:8px;border-bottom:1px solid var(--line2);display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.sec>h2 span{font:400 11px var(--mono);letter-spacing:0;text-transform:none;color:var(--mute)}
+.lead{margin-top:14px;max-width:62ch;color:var(--mute)}
+.empty{margin-top:14px;padding:18px;border:1px dashed var(--line2);color:var(--mute)}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:16px}
+.card{display:flex;flex-direction:column;gap:10px;min-width:0;background:var(--paper);border:1px solid var(--line);padding:18px;text-decoration:none}
+.card:hover{border-color:var(--ink)}
+.card h3{font-size:16px;line-height:1.25;font-weight:700}
+.card .aud{color:var(--mute);font-size:12px}
+.card dl{display:grid;grid-template-columns:repeat(3,auto);gap:4px 14px;justify-content:start;margin-top:auto;padding-top:8px;border-top:1px solid var(--line)}
+.card dt{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.card dd{margin:0;font:500 13px var(--mono)}
+.card .go{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.mine{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:16px}
+.mine .card{gap:8px}
+.mine .nxt{font-size:12px;color:var(--mute)}
+
+/* bars and pills */
+.bar{height:6px;background:var(--wash);border:1px solid var(--line2);position:relative;min-width:60px}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--ink)}
+.bar i.sub{background:repeating-linear-gradient(135deg,var(--line2) 0 3px,transparent 3px 6px);background-color:transparent}
+.pct{font:500 12px var(--mono)}
+.pill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--line2);white-space:nowrap}
+.pill.new{color:var(--mute)}
+.pill.progress{color:var(--ink);border-color:var(--ink)}
+.pill.submitted{color:var(--warn);background:var(--warn-bg);border-color:var(--warn-bg)}
+.pill.signed,.pill.self{color:var(--pos);background:var(--pos-bg);border-color:var(--pos-bg)}
+.flag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.flag.behind{color:var(--neg)}
+.flag.ok{color:var(--pos)}
+.flag.idle{color:var(--mute)}
+.tag-behind{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--neg);border:1px solid var(--neg);padding:1px 6px;margin-left:8px;white-space:nowrap}
+
+/* buttons */
+.btn{display:inline-block;background:var(--btn);color:var(--btn-ink);border:1px solid var(--btn);padding:9px 16px;min-height:40px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.small{min-height:34px;padding:6px 12px}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+
+/* tables */
+.tw{margin-top:14px;overflow-x:auto}
+table.rt{width:100%;border-collapse:collapse}
+.rt th{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-align:left;color:var(--mute);padding:8px 12px;border-bottom:1px solid var(--ink)}
+.rt td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.rt td.nm{font-weight:600}
+.rt .barcell{min-width:170px}
+.rt .barcell .pct{display:block;margin-bottom:4px}
+.rt tr.who>td{cursor:pointer}
+.rt tr.who:hover>td{background:var(--wash)}
+.rt tr.dd>td{background:var(--paper);padding:0;border-bottom:1px solid var(--ink)}
+.rt .num{font-family:var(--mono);font-size:12px}
+.linkbtn{background:none;border:0;padding:0;font-weight:600;text-align:left;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* track view */
+.crumb{margin-top:22px;font-size:12px}
+.thead{margin-top:10px;display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;align-items:flex-end}
+.thead h2{font-size:26px;line-height:1.15;font-weight:700}
+.meta{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:8px;font-size:12px;color:var(--mute)}
+.meta b{color:var(--ink);font-family:var(--mono);font-weight:500}
+.startbox{margin-top:18px;padding:16px;border:1px solid var(--ink);background:var(--paper);display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-end}
+.startbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);min-width:200px;flex:1}
+.progress-line{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.progress-line .bar{flex:1;min-width:160px;max-width:420px}
+.phase{display:grid;grid-template-columns:200px minmax(0,1fr);gap:0 28px;margin-top:30px;padding-top:14px;border-top:1px solid var(--ink)}
+.phase>header{min-width:0}
+.phase h3{font-size:15px;font-weight:700;line-height:1.25}
+.phase .win{margin-top:4px;font:400 11px/1.5 var(--mono);color:var(--mute)}
+.mods{min-width:0;border-top:1px solid var(--line)}
+.mod{border-bottom:1px solid var(--line)}
+.mod-h{display:grid;grid-template-columns:52px minmax(0,1fr) 70px 96px 112px;gap:6px 12px;align-items:center;width:100%;background:none;border:0;padding:14px 4px;text-align:left;cursor:pointer}
+.mod-h:hover{background:var(--wash)}
+.mod-h .mid{font:500 11px var(--mono);color:var(--mute)}
+.mod-h .mt{font-weight:600;min-width:0;overflow-wrap:anywhere}
+.mod-h .mm,.mod-h .mc{font:400 12px var(--mono);color:var(--mute)}
+.mod-h[aria-expanded=true]{background:var(--wash)}
+.mod-d{padding:6px 4px 22px 68px;display:grid;gap:18px;max-width:78ch}
+.mod-d h4{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.steps{display:grid;gap:6px;list-style:none;padding:0;margin:0}
+.step{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.step input{margin-top:4px;width:16px;height:16px;accent-color:var(--ink);flex:none}
+.step span{min-width:0;overflow-wrap:anywhere}
+.step.on span{color:var(--mute);text-decoration:line-through}
+.warnbox{padding:10px 12px;border:1px solid var(--warn);background:var(--warn-bg);color:var(--warn);font-size:12px}
+.fld{display:grid;gap:4px}
+.fld label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+textarea{min-height:110px;resize:vertical}
+.note{font-size:12px;color:var(--mute)}
+.signed-by{padding:10px 12px;border:1px solid var(--pos);background:var(--pos-bg);color:var(--pos);font-size:12px}
+.act{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.proof{white-space:pre-wrap;overflow-wrap:anywhere;padding:10px 12px;border:1px solid var(--line);background:var(--bg);font-size:13px}
+
+/* supervisor drill-down */
+.dd-in{padding:6px 12px 18px}
+.dd-in .dmod{display:grid;grid-template-columns:52px minmax(0,1fr) 112px;gap:6px 12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.dd-in .dmod>div{min-width:0}
+.dd-in .dmod .proof{margin-top:8px}
+.dd-in .sg{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.dd-in .sg input{flex:1;min-width:180px}
+.dd-top{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;padding:12px 0;font-size:12px}
+.dd-top input{width:auto;min-height:34px}
+
+footer{margin-top:56px;padding-top:14px;border-top:1px solid var(--ink);display:flex;flex-wrap:wrap;gap:6px 24px;justify-content:space-between;font-size:11px;letter-spacing:.14em;color:var(--mute)}
+footer .sync{font:400 11px var(--mono);letter-spacing:0}
+
+@media (max-width:760px){
+  .top h1{font-size:24px}
+  .phase{grid-template-columns:minmax(0,1fr);gap:8px}
+  .mods{margin-top:6px}
+  .mod-h{grid-template-columns:44px minmax(0,1fr) auto;grid-template-areas:"id t t" ". m s"}
+  .mod-h .mid{grid-area:id}.mod-h .mt{grid-area:t}.mod-h .mm{grid-area:m}.mod-h .mc{display:none}.mod-h .st{grid-area:s;justify-self:end}
+  .mod-d{padding-left:4px}
+  .rt thead{display:none}
+  .rt,.rt tbody,.rt tr,.rt td{display:block;width:100%}
+  .rt tr.who{border-bottom:1px solid var(--line);padding:10px 0}
+  .rt tr.who>td{border:0;padding:3px 4px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+  .rt tr.who>td::before{content:attr(data-l);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);flex:none}
+  .rt tr.who>td.nm{font-size:15px}
+  .rt .barcell{min-width:0}
+  .rt .barcell .pct{display:inline;margin:0}
+  .rt .barcell .bar{width:120px}
+  .dd-in .dmod{grid-template-columns:40px minmax(0,1fr)}
+  .dd-in .dmod>.st{grid-column:2}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div><div class="org">EDEN PARTNER GROUP</div><h1>Eden University</h1></div>
+    <nav id="nav" aria-label="Sections"></nav>
+  </header>
+  <div id="banner"></div>
+  <div id="status" role="status" aria-live="polite"></div>
+  <main id="app" aria-live="off"></main>
+  <footer><span>edenpartnergroup.com</span><span class="sync" id="sync"></span><span>EDEN PARTNER GROUP</span></footer>
+</div>
+
+<!-- Example tracks, invented for the example mode. Real tracks come from tracks/{id} (Dean's track.json files, loaded with `npm run eu -- load`). -->
+<script type="application/json" id="eu-sample-tracks">
+[
+ {"id":"sample-intern-comms","title":"Sample · Intern, Communications","audience":"Example only: a communications intern","supervisor":"Bridger","weeks":4,
+  "phases":[{"id":"p1","title":"Orientation","weekFrom":1,"weekTo":1},{"id":"p2","title":"Practice","weekFrom":2,"weekTo":3},{"id":"p3","title":"Showcase","weekFrom":4,"weekTo":4}],
+  "modules":[
+   {"id":"M01","phase":"p1","title":"Sign in and find your tools","goal":"Reach every tool you will use, with 2-Step on.","steps":["Open your Eden Google account","Turn on 2-Step Verification","Open the shared Drive folder"],"proof":"One sentence saying which tools you opened, and a screenshot link of the Drive folder.","minutes":30,"checker":"self","link":""},
+   {"id":"M02","phase":"p1","title":"Read the Eden standard","goal":"Know the brand and writing rules before you write anything.","steps":["Read the visual identity page","Read the writing rules","List three rules you will use first"],"proof":"Your three rules, in your own words.","minutes":45,"checker":"bridger","link":""},
+   {"id":"M03","phase":"p2","title":"Draft a three-line post","goal":"Write a post that follows the standard.","steps":["Pick a topic from the list","Write three lines","Check them against the rules"],"proof":"A link to the draft and one line on what you changed after checking.","minutes":60,"checker":"bridger","link":"https://example.com/sample-doc"},
+   {"id":"M04","phase":"p2","title":"Edit a client-ready one-pager","goal":"Cut a one-pager to what a client reads in one minute.","steps":["Open the sample one-pager","Cut it to one page","Explain your three biggest cuts"],"proof":"Link to the edited page and a short note on the cuts.","minutes":90,"checker":"jenny","link":""},
+   {"id":"M05","phase":"p2","title":"Schedule a week of posts","goal":"Plan five posts and the day each goes out.","steps":["List five posts","Assign a day to each","Share the plan with your supervisor"],"proof":"Link to the plan.","minutes":60,"checker":"bridger","link":""},
+   {"id":"M06","phase":"p3","title":"Present your best piece","goal":"Show one piece of work and what you learned.","steps":["Choose the piece","Prepare three talking points","Present it live"],"proof":"The three talking points.","minutes":45,"checker":"kev","link":""}
+  ]},
+ {"id":"sample-recruiter-desk","title":"Sample · Recruiter Desk","audience":"Example only: a new recruiter","supervisor":"Nick","weeks":6,
+  "phases":[{"id":"a","title":"Set up","weekFrom":1,"weekTo":2},{"id":"b","title":"Work the desk","weekFrom":3,"weekTo":6}],
+  "modules":[
+   {"id":"M01","phase":"a","title":"Stand up your desk","goal":"Have the desk open and the day-one checklist done.","steps":["Open the desk","Work the day-one checklist","Note what was unclear"],"proof":"The checklist, ticked, and anything unclear.","minutes":60,"checker":"nick","link":""},
+   {"id":"M02","phase":"a","title":"Your first call list","goal":"Build a list of 25 calls for tomorrow.","steps":["Choose a job order","Pull 25 names","Write one opener"],"proof":"Link to the list and your opener.","minutes":45,"checker":"nick","link":""},
+   {"id":"M03","phase":"b","title":"Fifteen calls by noon","goal":"Make your first fifteen calls before noon.","steps":["Block the time","Make the calls","Log them"],"proof":"Number of calls and one thing you learned.","minutes":120,"checker":"nick","link":""},
+   {"id":"M04","phase":"b","title":"Autopsy of the week","goal":"Look back on the week and name one change.","steps":["List what worked","List what did not","Pick one change"],"proof":"Your one change for next week.","minutes":30,"checker":"self","link":""}
+  ]}
+]
+</script>
+
+<script>
+(function(){
+'use strict';
+var DAY=864e5, GRACE=3;
+var CHECKER={bridger:'Bridger',jenny:'Jenny',nick:'Nick',kev:'Kev',self:'Self-check'};
+var STATUS={new:'Not started',progress:'In progress',submitted:'Submitted',signed:'Signed off',self:'Done'};
+var state={mode:'boot',example:false,db:null,me:null,myName:'',isSup:false,tracks:[],progress:{},signoff:{},unsubs:[],unsubT:null,subKey:'',
+  drafts:{},open:{},openL:{},startDraft:{},msg:'',err:false,syncedAt:null,loaded:false};
+var $=function(s){return document.querySelector(s)};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var now=function(){return Date.now()};
+var pkey=function(t,u){return t+'--'+u};
+var fmtDate=function(ts){return new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric'})};
+var isoDay=function(ts){var d=new Date(ts);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+var dayTs=function(s){return new Date(s+'T00:00:00').getTime()};
+var qa=function(s){return String(s).replace(/["\\]/g,'')};
+var safeUrl=function(u){return /^https?:\/\/[^\s]+$/i.test(String(u||''))};
+
+/* ---------- the arithmetic (mirrors workshop/core/eden-university.ts, which has the unit tests) ---------- */
+function moduleStatus(m,p,s){
+  if(s&&s.modules&&s.modules[m.id])return 'signed';
+  if(p&&p.submissions&&p.submissions[m.id])return m.checker==='self'?'self':'submitted';
+  return(p&&p.steps&&p.steps[m.id]&&p.steps[m.id].length>0)?'progress':'new';
+}
+var isDone=function(st){return st==='signed'||st==='self'};
+function percent(t,p,s){var n=t.modules.length;if(!n)return 0;return Math.round(100*t.modules.filter(function(m){return isDone(moduleStatus(m,p,s))}).length/n)}
+function phaseOf(t,m){return t.phases.find(function(x){return x.id===m.phase})}
+function phaseEnd(t,m,start){var ph=phaseOf(t,m);return dayTs(start)+(ph?ph.weekTo:t.weeks)*7*DAY}
+function behind(t,p,s){
+  if(!p||!p.startDate)return[];
+  return t.modules.filter(function(m){var st=moduleStatus(m,p,s);return st!=='signed'&&st!=='self'&&st!=='submitted'&&now()>phaseEnd(t,m,p.startDate)+GRACE*DAY});
+}
+function awaiting(t,p,s){return t.modules.filter(function(m){return moduleStatus(m,p,s)==='submitted'}).length}
+function lastAct(p){return p&&(p.lastActivity||p.startedAt)||''}
+function rel(iso){
+  if(!iso)return 'no activity yet';
+  var d=Math.floor((now()-new Date(iso).getTime())/DAY);
+  if(d<=0)return 'today';if(d===1)return 'yesterday';if(d<14)return d+' days ago';return Math.floor(d/7)+' weeks ago';
+}
+
+/* ---------- what may be typed into the proof box ---------- */
+function scanText(txt,link){
+  var t=String(txt||'');
+  if(/[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Za-z]{2,}/.test(t))return 'It looks like it contains an email address.';
+  if(/(?:\+?1[\s.-]?)?\(?\b\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}\b/.test(t))return 'It looks like it contains a phone number.';
+  if(/\b\d{3}-\d{2}-\d{4}\b/.test(t))return 'It looks like it contains an ID number.';
+  if(/(password|passwd|pwd|api[_ -]?key|secret|token)\s*[:=]\s*\S+/i.test(t)||/\b(sk|pk|ghp|xox[bp]|AKIA)[-_A-Za-z0-9]{12,}/.test(t))return 'It looks like it contains a password or key.';
+  if(/(salary|pay|wage|rate|comp\w*|stipend)\D{0,14}\$\s?\d/i.test(t))return 'It looks like it contains a pay figure.';
+  if(link){if(!safeUrl(link))return 'The link must start with http:// or https://.';if(/(token|key|password|secret|sig)=/i.test(link))return 'The link looks like it carries a key or token. Use a plain share link.'}
+  return '';
+}
+
+/* ---------- example mode: the same db interface, in memory, with the same write rules the live page declares ---------- */
+function memDb(seed,level){
+  var data=JSON.parse(JSON.stringify(seed)),subs=[];
+  var parts=function(p){var a=p.split('/');return{col:a[0],id:a.slice(1).join('/')}};
+  var can=function(col){return col==='tracks'?level()==='admin':col==='signoff'?level()==='admin':true};
+  var emit=function(){subs.slice().forEach(function(f){f()})};
+  var snapDoc=function(p){var x=parts(p);var v=(data[x.col]||{})[x.id];return{exists:v!==undefined,id:x.id,data:function(){return v===undefined?undefined:JSON.parse(JSON.stringify(v))}}};
+  var snapCol=function(c){var o=data[c]||{};return{docs:Object.keys(o).map(function(id){return{id:id,data:function(){return JSON.parse(JSON.stringify(o[id]))}}})}};
+  var reject=function(){return Promise.reject(new Error('Not allowed for your access level.'))};
+  return{
+    doc:function(p){var x=parts(p);return{
+      onSnapshot:function(cb){var f=function(){setTimeout(function(){cb(snapDoc(p))},0)};subs.push(f);f();return function(){subs=subs.filter(function(y){return y!==f})}},
+      set:function(v){if(!can(x.col))return reject();(data[x.col]=data[x.col]||{})[x.id]=JSON.parse(JSON.stringify(v));emit();return Promise.resolve()},
+      update:function(v){if(!can(x.col))return reject();var o=(data[x.col]=data[x.col]||{});o[x.id]=Object.assign({},o[x.id],JSON.parse(JSON.stringify(v)));emit();return Promise.resolve()},
+      delete:function(){if(!can(x.col))return reject();if(data[x.col])delete data[x.col][x.id];emit();return Promise.resolve()}}},
+    collection:function(c){return{onSnapshot:function(cb){var f=function(){setTimeout(function(){cb(snapCol(c))},0)};subs.push(f);f();return function(){subs=subs.filter(function(y){return y!==f})}}}}
+  };
+}
+function exampleSeed(){
+  var tracks=JSON.parse($('#eu-sample-tracks').textContent),t=now(),iso=function(ago){return new Date(t-ago*DAY).toISOString()};
+  var seed={tracks:{},progress:{},signoff:{}};
+  tracks.forEach(function(x){seed.tracks[x.id]=x});
+  var by={by:'sup-example',byName:'Bridger'};
+  seed.progress[pkey('sample-intern-comms','u-alex')]={trackId:'sample-intern-comms',userId:'u-alex',name:'Alex Sample',startedAt:iso(30),startDate:isoDay(t-30*DAY),
+    steps:{M01:[0,1,2],M02:[0,1,2],M03:[0,1,2],M04:[0,1,2],M05:[0]},
+    submissions:{M01:{text:'Opened mail, Drive and the Docs. 2-Step is on.',link:'',at:iso(29)},M02:{text:'1. Result first. 2. Three bullets at most. 3. No emoji.',link:'',at:iso(27)},M03:{text:'Three lines drafted, cut one adjective after checking.',link:'https://example.com/sample-draft',at:iso(20)},M04:{text:'Cut the history section and the second table; kept the fee line.',link:'',at:iso(2)}},lastActivity:iso(2),updatedAt:iso(2)};
+  seed.signoff[pkey('sample-intern-comms','u-alex')]={trackId:'sample-intern-comms',userId:'u-alex',modules:{M02:Object.assign({at:iso(25),note:''},by),M03:Object.assign({at:iso(18),note:'Tight. Good.'},by)}};
+  seed.progress[pkey('sample-recruiter-desk','u-jordan')]={trackId:'sample-recruiter-desk',userId:'u-jordan',name:'Jordan Sample',startedAt:iso(5),startDate:isoDay(t-5*DAY),
+    steps:{M01:[0,1,2],M02:[0]},submissions:{M01:{text:'Desk open, checklist done. The Crelate step was unclear.',link:'',at:iso(4)}},lastActivity:iso(1),updatedAt:iso(1)};
+  seed.signoff[pkey('sample-recruiter-desk','u-jordan')]={trackId:'sample-recruiter-desk',userId:'u-jordan',modules:{M01:Object.assign({at:iso(3),note:''},{by:'sup-example',byName:'Nick'})}};
+  return seed;
+}
+var PERSONAS=[{id:'u-alex',name:'Alex Sample',sup:false,label:'Alex Sample (learner)'},{id:'u-jordan',name:'Jordan Sample',sup:false,label:'Jordan Sample (learner)'},{id:'sup-example',name:'Bridger',sup:true,label:'Bridger (supervisor)'}];
+
+/* ---------- subscriptions ---------- */
+function unsubMine(){state.unsubs.forEach(function(f){try{f()}catch(_){}});state.unsubs=[]}
+function unsubAll(){unsubMine();if(state.unsubT){try{state.unsubT()}catch(_){}state.unsubT=null}}
+function touch(){state.syncedAt=now();state.loaded=true;scheduleRender()}
+function mapDocs(s){var o={};s.docs.forEach(function(d){o[d.id]=d.data()});return o}
+function subscribe(){
+  unsubAll();state.subKey='';var db=state.db;if(!db)return;
+  state.unsubT=db.collection('tracks').onSnapshot(function(s){
+    state.tracks=s.docs.map(function(d){return normTrack(d.data(),d.id)}).sort(function(a,b){return String(a.title).localeCompare(b.title)});
+    touch();subscribeMine();
+  },function(){fail('Could not read the tracks.')});
+}
+function subscribeMine(){
+  var db=state.db,me=state.me;if(!db||!me)return;
+  var key=(state.isSup?'S:':'L:')+me.id+':'+state.tracks.map(function(t){return t.id}).join(',');
+  if(key===state.subKey)return;state.subKey=key;
+  unsubMine();
+  if(state.isSup){
+    state.unsubs.push(db.collection('progress').onSnapshot(function(s){state.progress=mapDocs(s);touch()},function(){fail('Could not read progress.')}));
+    state.unsubs.push(db.collection('signoff').onSnapshot(function(s){state.signoff=mapDocs(s);touch()},function(){fail('Could not read sign-offs.')}));
+  }else{
+    state.progress={};state.signoff={};
+    state.tracks.forEach(function(t){var k=pkey(t.id,me.id);
+      state.unsubs.push(db.doc('progress/'+k).onSnapshot(function(s){if(s.exists)state.progress[k]=s.data();else delete state.progress[k];touch()},function(){}));
+      state.unsubs.push(db.doc('signoff/'+k).onSnapshot(function(s){if(s.exists)state.signoff[k]=s.data();else delete state.signoff[k];touch()},function(){}));
+    });
+  }
+}
+function normTrack(t,id){
+  t=t||{};return{id:t.id||id,title:t.title||id,audience:t.audience||'',supervisor:t.supervisor||'',weeks:Number(t.weeks)||0,
+    phases:Array.isArray(t.phases)?t.phases:[],
+    modules:(Array.isArray(t.modules)?t.modules:[]).map(function(m){return{id:String(m.id),phase:m.phase,title:m.title||m.id,goal:m.goal||'',steps:Array.isArray(m.steps)?m.steps:[],proof:m.proof||'',minutes:Number(m.minutes)||0,checker:String(m.checker||'self').toLowerCase(),link:m.link||''}})};
+}
+function fail(msg){say(msg,true)}
+function say(msg,err){state.msg=msg;state.err=!!err;var el=$('#status');if(el){el.textContent=msg;el.className=err?'err':''}}
+
+/* ---------- writes ---------- */
+function myProgress(tid){return state.progress[pkey(tid,state.me&&state.me.id)]}
+function save(label,run,rollback){
+  say('Saving…');
+  return Promise.resolve().then(run).then(function(){say(label+' saved.')},function(e){if(rollback)rollback();say('Could not save: '+((e&&e.message)||e),true);scheduleRender()});
+}
+function startTrack(tid){
+  var me=state.me;if(!me)return;
+  var name=(state.myName||(state.startDraft.name||'')).trim(),date=state.startDraft.date||isoDay(now());
+  if(!name){say('Type your name first.',true);return}
+  if(name.indexOf('@')>=0||/\d{6,}/.test(name)){say('Use your name only: no email address or number.',true);return}
+  var k=pkey(tid,me.id),iso=new Date(now()).toISOString();
+  var doc={trackId:tid,userId:me.id,name:name,startedAt:iso,startDate:date,steps:{},submissions:{},lastActivity:iso,updatedAt:iso};
+  state.myName=name;state.progress[k]=doc;render();
+  save('Track started',function(){return state.db.doc('progress/'+k).set(doc)},function(){delete state.progress[k]});
+}
+function tick(tid,mid,i,on){
+  var k=pkey(tid,state.me.id),cur=state.progress[k];if(!cur)return;
+  var steps=Object.assign({},cur.steps),a=(steps[mid]||[]).filter(function(x){return x!==i});if(on)a.push(i);a.sort(function(x,y){return x-y});
+  if(a.length)steps[mid]=a;else delete steps[mid];
+  var iso=new Date(now()).toISOString(),next=Object.assign({},cur,{steps:steps,lastActivity:iso,updatedAt:iso});
+  state.progress[k]=next;render();
+  save('Step',function(){return state.db.doc('progress/'+k).set(next)},function(){state.progress[k]=cur});
+}
+function submitProof(tid,mid){
+  var k=pkey(tid,state.me.id),cur=state.progress[k];if(!cur)return;
+  var d=state.drafts[tid+':'+mid]||{},text=String(d.text!=null?d.text:((cur.submissions&&cur.submissions[mid]||{}).text||'')).trim(),link=String(d.link!=null?d.link:((cur.submissions&&cur.submissions[mid]||{}).link||'')).trim();
+  if(!text&&!link){say('Write a line of proof or add a link first.',true);return}
+  var bad=scanText(text,link);if(bad){say(bad+' Remove it and submit again.',true);return}
+  var iso=new Date(now()).toISOString(),subs=Object.assign({},cur.submissions);subs[mid]={text:text,link:link,at:iso};
+  var next=Object.assign({},cur,{submissions:subs,lastActivity:iso,updatedAt:iso});
+  state.progress[k]=next;delete state.drafts[tid+':'+mid];render();
+  save('Proof',function(){return state.db.doc('progress/'+k).set(next)},function(){state.progress[k]=cur});
+}
+function signOff(tid,uid,mid){
+  var k=pkey(tid,uid),cur=state.signoff[k],noteEl=document.querySelector('[data-note="'+qa(k+':'+mid)+'"]'),note=noteEl?noteEl.value.trim().slice(0,300):'';
+  if(note&&scanText(note,'')){say(scanText(note,'')+' Remove it from the note.',true);return}
+  var mods=Object.assign({},cur&&cur.modules);mods[mid]={by:state.me.id,byName:state.myName||'Supervisor',at:new Date(now()).toISOString(),note:note};
+  var next={trackId:tid,userId:uid,modules:mods,updatedAt:new Date(now()).toISOString()};
+  state.signoff[k]=next;render();
+  save('Sign-off',function(){return state.db.doc('signoff/'+k).set(next)},function(){if(cur)state.signoff[k]=cur;else delete state.signoff[k]});
+}
+function undoSignoff(tid,uid,mid){
+  var k=pkey(tid,uid),cur=state.signoff[k];if(!cur)return;
+  var mods=Object.assign({},cur.modules);delete mods[mid];var next=Object.assign({},cur,{modules:mods,updatedAt:new Date(now()).toISOString()});
+  state.signoff[k]=next;render();
+  save('Change',function(){return state.db.doc('signoff/'+k).set(next)},function(){state.signoff[k]=cur});
+}
+function setStartDate(tid,uid,date){
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return;var k=pkey(tid,uid),cur=state.progress[k];if(!cur)return;
+  state.progress[k]=Object.assign({},cur,{startDate:date});render();
+  save('Start date',function(){return state.db.doc('progress/'+k).update({startDate:date})},function(){state.progress[k]=cur});
+}
+
+/* ---------- views ---------- */
+function bar(done,sub){return'<div class="bar" role="img" aria-label="'+done+' percent signed off'+(sub?', '+sub+' more submitted':'')+'"><i class="sub" style="width:'+Math.min(100,done+sub)+'%"></i><i style="width:'+done+'%"></i></div>'}
+function barFor(t,p,s){var d=percent(t,p,s),sub=Math.round(100*t.modules.filter(function(m){return moduleStatus(m,p,s)==='submitted'}).length/(t.modules.length||1));return{done:d,sub:sub,html:bar(d,sub)}}
+function trackById(id){return state.tracks.find(function(t){return t.id===id})}
+function pill(st){return'<span class="pill '+st+'">'+STATUS[st]+'</span>'}
+function route(){
+  var h=(location.hash||'').replace(/^#/,'');
+  if(h==='team')return{v:state.isSup?'team':'home'};
+  if(h.indexOf('track-')===0)return{v:'track',id:h.slice(6)};
+  return{v:'home'};
+}
+function renderNav(){
+  var r=route();
+  $('#nav').innerHTML='<a href="#home"'+(r.v==='home'?' aria-current="page"':'')+'>Home</a>'+(state.isSup?'<a href="#team"'+(r.v==='team'?' aria-current="page"':'')+'>Team</a>':'');
+}
+function renderBanner(){
+  var el=$('#banner');
+  if(!state.example){el.innerHTML=state.me?'':'<div class="banner"><span><b>SIGN-IN NEEDED</b> &nbsp;Open this page signed in to Claude to start a track. You can read the tracks without it.</span></div>';return}
+  el.innerHTML='<div class="banner"><span><b>EXAMPLE DATA</b> &nbsp;Invented people and tracks. Nothing here is saved or real.</span>'+
+   '<label>Viewing as <select id="persona" aria-label="Viewing as">'+PERSONAS.map(function(p){return'<option value="'+p.id+'"'+(state.me&&state.me.id===p.id?' selected':'')+'>'+esc(p.label)+'</option>'}).join('')+'</select></label></div>';
+}
+function stripRows(){
+  var rows=[];
+  Object.keys(state.progress).forEach(function(k){
+    var p=state.progress[k],t=trackById(p.trackId);if(!t)return;var s=state.signoff[k],b=behind(t,p,s);
+    rows.push({k:k,p:p,t:t,s:s,pct:percent(t,p,s),beh:b.length,aw:awaiting(t,p,s),last:lastAct(p)});
+  });
+  rows.sort(function(a,b){return(b.beh>0)-(a.beh>0)||b.beh-a.beh||String(a.p.name).localeCompare(String(b.p.name))});
+  return rows;
+}
+function flagHtml(r){return r.beh?'<span class="flag behind">Behind · '+r.beh+(r.beh===1?' module':' modules')+'</span>':'<span class="flag ok">On track</span>'}
+function stripView(){
+  var rows=stripRows(),beh=rows.filter(function(r){return r.beh}).length,aw=rows.reduce(function(a,r){return a+r.aw},0);
+  var h='<section class="sec" id="strip"><h2>Across the university<span>'+rows.length+' learner'+(rows.length===1?'':'s')+' · '+beh+' behind · '+aw+' waiting for sign-off</span></h2>';
+  if(!rows.length)return h+'<p class="empty">Nobody has started a track yet.</p></section>';
+  h+='<div class="tw"><table class="rt"><thead><tr><th>Person</th><th>Track</th><th>Done</th><th>Waiting</th><th>Last activity</th><th>Flag</th></tr></thead><tbody>';
+  rows.forEach(function(r){
+    var b=barFor(r.t,r.p,r.s);
+    h+='<tr class="who"><td class="nm" data-l="Person">'+esc(r.p.name||'Learner')+'</td><td data-l="Track">'+esc(r.t.title)+'</td><td class="barcell" data-l="Done"><span class="pct">'+r.pct+'%</span>'+b.html+'</td><td class="num" data-l="Waiting">'+r.aw+'</td><td class="num" data-l="Last activity">'+esc(rel(r.last))+'</td><td data-l="Flag">'+flagHtml(r)+'</td></tr>';
+  });
+  return h+'</tbody></table></div></section>';
+}
+function homeView(){
+  var h='';
+  if(state.isSup)h+=stripView();
+  var mine=state.tracks.filter(function(t){return state.me&&myProgress(t.id)});
+  h+='<section class="sec" id="mine"><h2>My progress</h2>';
+  if(!state.me)h+='<p class="empty">Sign in to see your progress.</p>';
+  else if(!mine.length)h+='<p class="empty">You have not started a track. Choose one below and press Start.</p>';
+  else{
+    h+='<div class="mine">';
+    mine.forEach(function(t){
+      var p=myProgress(t.id),s=state.signoff[pkey(t.id,state.me.id)],b=barFor(t,p,s),nx=t.modules.find(function(m){var st=moduleStatus(m,p,s);return st==='new'||st==='progress'}),bh=behind(t,p,s).length;
+      h+='<a class="card" href="#track-'+esc(t.id)+'"><h3>'+esc(t.title)+'</h3><div class="pct">'+b.done+'% signed off · '+t.modules.filter(function(m){return isDone(moduleStatus(m,p,s))}).length+' of '+t.modules.length+' modules</div>'+b.html+
+        '<div class="nxt">'+(nx?'Next: '+esc(nx.id)+' '+esc(nx.title):'Every module is submitted.')+'</div>'+(bh?'<span class="flag behind">Behind · '+bh+(bh===1?' module':' modules')+'</span>':'')+'<span class="go">Continue</span></a>';
+    });
+    h+='</div>';
+  }
+  h+='</section><section class="sec" id="tracks"><h2>Tracks</h2>';
+  if(!state.tracks.length)h+='<p class="empty">'+(state.loaded?'No tracks are loaded yet. They appear here as soon as they are added.':'Loading tracks…')+'</p>';
+  else{
+    h+='<div class="cards">';
+    state.tracks.forEach(function(t){
+      var started=state.me&&myProgress(t.id),mins=t.modules.reduce(function(a,m){return a+m.minutes},0);
+      h+='<a class="card" href="#track-'+esc(t.id)+'"><h3>'+esc(t.title)+'</h3><div class="aud">'+esc(t.audience)+'</div>'+
+        '<dl><div><dt>Weeks</dt><dd>'+t.weeks+'</dd></div><div><dt>Modules</dt><dd>'+t.modules.length+'</dd></div><div><dt>Hours</dt><dd>'+(Math.round(mins/6)/10)+'</dd></div></dl><span class="go">'+(started?'Continue':'View track')+'</span></a>';
+    });
+    h+='</div>';
+  }
+  return h+'</section>';
+}
+function phaseWindow(t,ph,start){
+  var a='Weeks '+(ph.weekFrom===ph.weekTo?ph.weekFrom:ph.weekFrom+' to '+ph.weekTo);
+  if(!start)return a;
+  return a+'<br>'+fmtDate(dayTs(start)+(ph.weekFrom-1)*7*DAY)+' to '+fmtDate(dayTs(start)+ph.weekTo*7*DAY-DAY);
+}
+function modDetail(t,m,p,s){
+  var k=t.id+':'+m.id,st=moduleStatus(m,p,s),started=!!p,sub=p&&p.submissions&&p.submissions[m.id],sg=s&&s.modules&&s.modules[m.id],ticked=(p&&p.steps&&p.steps[m.id])||[],lock=!started||st==='signed';
+  var d=state.drafts[k]||{},text=d.text!=null?d.text:(sub?sub.text||'':''),link=d.link!=null?d.link:(sub?sub.link||'':'');
+  var h='<div class="mod-d" id="d-'+esc(k)+'"'+(state.open[k]?'':' hidden')+'>';
+  if(m.goal)h+='<div><h4>Goal</h4><p>'+esc(m.goal)+'</p></div>';
+  h+='<div><h4>Steps</h4><ul class="steps">'+m.steps.map(function(x,i){var on=ticked.indexOf(i)>=0;
+    return'<li><label class="step'+(on?' on':'')+'"><input type="checkbox" data-act="tick" data-t="'+esc(t.id)+'" data-m="'+esc(m.id)+'" data-i="'+i+'"'+(on?' checked':'')+(lock?' disabled':'')+'><span>'+esc(x)+'</span></label></li>'}).join('')+'</ul></div>';
+  if(m.proof)h+='<div><h4>Proof to submit</h4><p>'+esc(m.proof)+'</p></div>';
+  if(!started)h+='<p class="note">Start the track to tick steps and submit your proof.</p>';
+  else if(st==='signed')h+='<div class="signed-by">Signed off by '+esc(sg.byName||'a supervisor')+' on '+fmtDate(new Date(sg.at).getTime())+'.'+(sg.note?' “'+esc(sg.note)+'”':'')+'</div>'+(sub?'<div><h4>Your proof</h4><div class="proof">'+esc(sub.text||'')+'</div>'+(safeUrl(sub.link)?'<p class="note"><a href="'+esc(sub.link)+'" target="_blank" rel="noopener noreferrer">'+esc(sub.link)+'</a></p>':'')+'</div>':'');
+  else{
+    h+='<div class="fld"><div class="warnbox">Do not paste passwords, keys, pay, phone numbers, email addresses or anything about health. Say what you did and link to where it lives.</div></div>'+
+      '<div class="fld"><label for="pt-'+esc(k)+'">Your proof</label><textarea id="pt-'+esc(k)+'" data-draft="'+esc(k)+':text" maxlength="4000" placeholder="What you did, in a few lines">'+esc(text)+'</textarea></div>'+
+      '<div class="fld"><label for="pl-'+esc(k)+'">Link (optional)</label><input type="url" id="pl-'+esc(k)+'" data-draft="'+esc(k)+':link" maxlength="500" inputmode="url" placeholder="https://" value="'+esc(link)+'"></div>'+
+      '<div class="act"><button class="btn" data-act="submit" data-t="'+esc(t.id)+'" data-m="'+esc(m.id)+'">'+(sub?'Resubmit':m.checker==='self'?'Mark done':'Submit for sign-off')+'</button>'+
+      (sub?'<span class="note">Submitted '+fmtDate(new Date(sub.at).getTime())+(m.checker==='self'?'.':'. '+esc(CHECKER[m.checker]||m.checker)+' signs it off.')+'</span>':m.checker==='self'?'<span class="note">You check this one yourself.</span>':'<span class="note">'+esc(CHECKER[m.checker]||m.checker)+' signs it off.</span>')+'</div>';
+  }
+  if(safeUrl(m.link))h+='<p><a href="'+esc(m.link)+'" target="_blank" rel="noopener noreferrer">Open the module doc</a></p>';
+  else if(m.link)h+='<p class="note">Doc: '+esc(m.link)+'</p>';
+  return h+'</div>';
+}
+function trackView(id){
+  var t=trackById(id);
+  if(!t)return'<p class="crumb"><a href="#home">Home</a></p><p class="empty">'+(state.loaded?'That track is not available.':'Loading…')+'</p>';
+  var p=state.me?myProgress(t.id):null,s=state.me?state.signoff[pkey(t.id,state.me.id)]:null,mins=t.modules.reduce(function(a,m){return a+m.minutes},0),b=barFor(t,p,s);
+  var h='<p class="crumb"><a href="#home">Home</a> &nbsp;/&nbsp; <span class="mute">Track</span></p><div class="thead"><div><h2>'+esc(t.title)+'</h2><div class="meta"><span>'+esc(t.audience)+'</span><span>Supervisor <b>'+esc(t.supervisor)+'</b></span><span><b>'+t.weeks+'</b> weeks</span><span><b>'+t.modules.length+'</b> modules</span><span><b>'+(Math.round(mins/6)/10)+'</b> hours</span></div></div></div>';
+  if(!p){
+    var nm=state.myName||'',sd=state.startDraft.date||isoDay(now());
+    h+='<div class="startbox">'+(nm?'':'<label>Your name<input type="text" id="sname" maxlength="60" autocomplete="name" value="'+esc(state.startDraft.name||'')+'" placeholder="First and last name"></label>')+
+      '<label>Your first day<input type="date" id="sdate" value="'+esc(sd)+'"></label><button class="btn" data-act="start" data-t="'+esc(t.id)+'"'+(state.me?'':' disabled')+'>Start this track</button></div>'+
+      '<p class="note" style="margin-top:8px">Your name and progress are visible to your supervisors.'+(state.me?'':' Sign in to start.')+'</p>';
+  }else{
+    var bh=behind(t,p,s).length;
+    h+='<div class="progress-line"><span class="pct">'+b.done+'% signed off</span>'+b.html+'<span class="pct mute">'+b.sub+'% waiting for sign-off</span>'+(bh?'<span class="flag behind">Behind · '+bh+(bh===1?' module':' modules')+'</span>':'')+'<span class="note">Started '+fmtDate(dayTs(p.startDate))+'</span></div>';
+  }
+  var phases=t.phases.slice();
+  if(t.modules.some(function(m){return!phases.some(function(x){return x.id===m.phase})}))phases.push({id:'__other',title:'Other',weekFrom:1,weekTo:t.weeks||1,none:true});
+  phases.forEach(function(ph){
+    var ms=t.modules.filter(function(m){return ph.none?!t.phases.some(function(x){return x.id===m.phase}):m.phase===ph.id});if(!ms.length)return;
+    h+='<section class="phase"><header><h3>'+esc(ph.title)+'</h3><div class="win">'+(ph.none?'':phaseWindow(t,ph,p&&p.startDate))+'</div></header><div class="mods">';
+    ms.forEach(function(m){
+      var st=moduleStatus(m,p,s),k=t.id+':'+m.id,late=p&&behind(t,p,s).some(function(x){return x.id===m.id});
+      h+='<div class="mod" data-mod="'+esc(k)+'"><button class="mod-h" data-act="toggle" data-k="'+esc(k)+'" aria-expanded="'+(state.open[k]?'true':'false')+'" aria-controls="d-'+esc(k)+'">'+
+        '<span class="mid">'+esc(m.id)+'</span><span class="mt">'+esc(m.title)+(late?'<span class="tag-behind">Behind</span>':'')+'</span><span class="mm">'+m.minutes+' min</span><span class="mc">'+esc(CHECKER[m.checker]||m.checker)+'</span><span class="st">'+pill(st)+'</span></button>'+modDetail(t,m,p,s)+'</div>';
+    });
+    h+='</div></section>';
+  });
+  return h;
+}
+function rosterRow(t,r){
+  var k=r.k,open=!!state.openL[k],b=barFor(t,r.p,r.s),colspan=6,h='';
+  h+='<tr class="who" data-act="learner" data-k="'+esc(k)+'"><td class="nm" data-l="Learner"><button class="linkbtn" data-act="learner" data-k="'+esc(k)+'" aria-expanded="'+open+'">'+esc(r.p.name||'Learner')+'</button></td>'+
+    '<td class="num" data-l="Started">'+(r.p.startDate?fmtDate(dayTs(r.p.startDate)):'')+'</td><td class="barcell" data-l="Done"><span class="pct">'+r.pct+'%</span>'+b.html+'</td><td class="num" data-l="Waiting">'+r.aw+'</td><td class="num" data-l="Last activity">'+esc(rel(r.last))+'</td><td data-l="Flag">'+flagHtml(r)+'</td></tr>';
+  if(open){
+    h+='<tr class="dd"><td colspan="'+colspan+'"><div class="dd-in"><div class="dd-top"><span>Start date <input type="date" data-act="startdate" data-t="'+esc(t.id)+'" data-u="'+esc(r.p.userId)+'" value="'+esc(r.p.startDate||'')+'" aria-label="Start date"></span><span class="mute">Behind means a module not submitted more than '+GRACE+' days after its phase window closed.</span></div>';
+    t.modules.forEach(function(m){
+      var st=moduleStatus(m,r.p,r.s),sub=r.p.submissions&&r.p.submissions[m.id],sg=r.s&&r.s.modules&&r.s.modules[m.id],late=behind(t,r.p,r.s).some(function(x){return x.id===m.id});
+      h+='<div class="dmod"><span class="mono mute">'+esc(m.id)+'</span><div><b>'+esc(m.title)+'</b>'+(late?'<span class="tag-behind">Behind</span>':'')+'<div class="note">'+esc(CHECKER[m.checker]||m.checker)+' · '+m.minutes+' min'+(r.p.startDate?' · due '+fmtDate(phaseEnd(t,m,r.p.startDate)-DAY):'')+'</div>';
+      if(sub){
+        h+='<div class="proof">'+esc(sub.text||'(no text)')+'</div>'+(safeUrl(sub.link)?'<p class="note"><a href="'+esc(sub.link)+'" target="_blank" rel="noopener noreferrer">'+esc(sub.link)+'</a></p>':'')+'<p class="note">Submitted '+fmtDate(new Date(sub.at).getTime())+'</p>';
+        if(st==='submitted')h+='<div class="sg"><input type="text" maxlength="300" data-note="'+esc(k)+':'+esc(m.id)+'" placeholder="Note (optional)" aria-label="Sign-off note"><button class="btn small" data-act="signoff" data-t="'+esc(t.id)+'" data-u="'+esc(r.p.userId)+'" data-m="'+esc(m.id)+'">Sign off</button></div>';
+        if(st==='signed')h+='<div class="sg"><span class="note">Signed off by '+esc(sg.byName||'a supervisor')+' on '+fmtDate(new Date(sg.at).getTime())+(sg.note?' · “'+esc(sg.note)+'”':'')+'</span><button class="btn ghost small" data-act="undo" data-t="'+esc(t.id)+'" data-u="'+esc(r.p.userId)+'" data-m="'+esc(m.id)+'">Undo</button></div>';
+      }
+      h+='</div><span class="st">'+pill(st)+'</span></div>';
+    });
+    h+='</div></td></tr>';
+  }
+  return h;
+}
+function teamView(){
+  var h='<p class="lead">Learners appear here once they start a track. Open a name to read their proof and sign off submitted modules.</p>'+(state.myName?'':'<div class="startbox"><label>Your name, shown on your sign-offs<input type="text" id="supname" maxlength="60" placeholder="First and last name"></label></div>')+stripView();
+  var rows=stripRows();
+  state.tracks.forEach(function(t){
+    var rs=rows.filter(function(r){return r.t.id===t.id});if(!rs.length)return;
+    h+='<section class="sec"><h2>'+esc(t.title)+'<span>Supervisor '+esc(t.supervisor)+' · '+rs.length+' learner'+(rs.length===1?'':'s')+'</span></h2><div class="tw"><table class="rt"><thead><tr><th>Learner</th><th>Started</th><th>Done</th><th>Waiting</th><th>Last activity</th><th>Flag</th></tr></thead><tbody>';
+    rs.forEach(function(r){h+=rosterRow(t,r)});
+    h+='</tbody></table></div></section>';
+  });
+  return h;
+}
+
+/* ---------- render ---------- */
+var raf=0;
+function scheduleRender(){if(raf)return;raf=setTimeout(function(){raf=0;render()},30)}
+function ensureName(){
+  if(state.myName||!state.me)return;
+  try{var n=localStorage.getItem('eu-name');if(n&&n.indexOf('@')<0){state.myName=n;return}}catch(_){}
+  Object.keys(state.progress).some(function(k){var p=state.progress[k];if(p&&p.userId===state.me.id&&p.name){state.myName=p.name;return true}});
+}
+function render(){
+  ensureName();
+  var a=document.activeElement,keep=null;
+  if(a&&a.closest&&a.closest('#app')&&(a.tagName==='TEXTAREA'||a.tagName==='INPUT')&&(a.dataset.draft||a.id)){keep={sel:a.dataset.draft?'[data-draft="'+qa(a.dataset.draft)+'"]':'#'+qa(a.id).replace(/[^A-Za-z0-9_:-]/g,''),s:a.selectionStart,e:a.selectionEnd}}
+  renderNav();renderBanner();
+  var r=route(),app=$('#app');
+  app.innerHTML=r.v==='track'?trackView(r.id):r.v==='team'?teamView():homeView();
+  if(keep){var el=app.querySelector(keep.sel);if(el){el.focus();try{el.setSelectionRange(keep.s,keep.e)}catch(_){}}}
+  $('#sync').textContent=state.syncedAt?((state.example?'Example data':'Live')+' · updated '+new Date(state.syncedAt).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})):'';
+  if(state.msg){var st=$('#status');st.textContent=state.msg;st.className=state.err?'err':''}
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',function(e){
+  var el=e.target.closest('[data-act]');if(!el||el.tagName==='INPUT'&&el.type!=='button')return;
+  var act=el.dataset.act;
+  if(act==='toggle'){var k=el.dataset.k;state.open[k]=!state.open[k];el.setAttribute('aria-expanded',state.open[k]?'true':'false');var d=document.getElementById('d-'+k);if(d)d.hidden=!state.open[k];return}
+  if(act==='start'){var nm=$('#sname');if(nm)state.startDraft.name=nm.value;var dt=$('#sdate');if(dt&&dt.value)state.startDraft.date=dt.value;startTrack(el.dataset.t);return}
+  if(act==='submit'){submitProof(el.dataset.t,el.dataset.m);return}
+  if(act==='learner'){var lk=el.dataset.k;state.openL[lk]=!state.openL[lk];render();return}
+  if(act==='signoff'){signOff(el.dataset.t,el.dataset.u,el.dataset.m);return}
+  if(act==='undo'){undoSignoff(el.dataset.t,el.dataset.u,el.dataset.m);return}
+});
+document.addEventListener('input',function(e){
+  var d=e.target.dataset&&e.target.dataset.draft;if(!d)return;
+  var i=d.lastIndexOf(':'),k=d.slice(0,i),f=d.slice(i+1);(state.drafts[k]=state.drafts[k]||{})[f]=e.target.value;
+});
+document.addEventListener('change',function(e){
+  var el=e.target;
+  if(el.dataset.act==='tick'){tick(el.dataset.t,el.dataset.m,Number(el.dataset.i),el.checked);return}
+  if(el.dataset.act==='startdate'){setStartDate(el.dataset.t,el.dataset.u,el.value);return}
+  if(el.id==='sdate')state.startDraft.date=el.value;
+  if(el.id==='sname')state.startDraft.name=el.value;
+  if(el.id==='supname'){var v=el.value.trim();if(v&&v.indexOf('@')<0){state.myName=v;try{localStorage.setItem('eu-name',v)}catch(_){}render()}}
+  if(el.id==='persona')usePersona(el.value);
+});
+window.addEventListener('hashchange',function(){render();window.scrollTo(0,0)});
+
+/* ---------- boot ---------- */
+var exDb=null,exLevel='interact';
+function usePersona(id){
+  var p=PERSONAS.find(function(x){return x.id===id})||PERSONAS[0];
+  state.me={id:p.id};state.myName=p.name;state.isSup=p.sup;exLevel=p.sup?'admin':'interact';
+  state.progress={};state.signoff={};state.openL={};say('');
+  subscribe();render();
+}
+function bootExample(why){
+  state.example=true;exDb=memDb(exampleSeed(),function(){return exLevel});state.db=exDb;
+  usePersona(PERSONAS[0].id);
+  if(why)say(why,true);
+}
+function boot(){
+  var rt=window.claude;
+  if(!rt||typeof rt.use!=='function'){bootExample();return}
+  rt.use('db').then(function(db){
+    if(!db){bootExample('The university database is not connected, so this is example data.');return}
+    state.db=db;
+    return Promise.resolve(rt.use('user').catch(function(){return null})).then(function(u){
+      var meP=u&&typeof u.me==='function'?Promise.resolve(u.me()).catch(function(){return null}):Promise.resolve(null);
+      var supP=u&&typeof u.can==='function'?Promise.resolve(u.can('data.write')).catch(function(){return false}):Promise.resolve(false);
+      return Promise.all([meP,supP]);
+    }).then(function(r){
+      var me=r[0];state.isSup=r[1]===true;
+      if(me&&me.id){state.me={id:String(me.id)};var n=String(me.name||me.displayName||'');if(n&&n.indexOf('@')<0)state.myName=n}
+      subscribe();render();
+    });
+  }).catch(function(){bootExample('The university database is not connected, so this is example data.')});
+}
+render();boot();
+window.__eu={state:state,scanText:scanText,moduleStatus:moduleStatus,percent:percent,behind:behind};
+})();
+</script>

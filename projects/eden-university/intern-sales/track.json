@@ -1,0 +1,462 @@
+{
+  "id": "intern-sales",
+  "title": "Sales Intern (Jr. Headhunter)",
+  "audience": "Sales Intern (Jr. Headhunter), Pathway B of the Boise Internship Program",
+  "supervisor": "Bridger",
+  "weeks": 12,
+  "phases": [
+    {
+      "id": "day-1",
+      "title": "Day 1",
+      "weekFrom": 1,
+      "weekTo": 1
+    },
+    {
+      "id": "week-1",
+      "title": "Week 1",
+      "weekFrom": 1,
+      "weekTo": 1
+    },
+    {
+      "id": "weeks-2-4",
+      "title": "Weeks 2 to 4",
+      "weekFrom": 2,
+      "weekTo": 4
+    },
+    {
+      "id": "weeks-5-8",
+      "title": "Weeks 5 to 8",
+      "weekFrom": 5,
+      "weekTo": 8
+    },
+    {
+      "id": "weeks-9-12",
+      "title": "Weeks 9 to 12",
+      "weekFrom": 9,
+      "weekTo": 12
+    }
+  ],
+  "modules": [
+    {
+      "id": "M01",
+      "phase": "day-1",
+      "title": "Clock in and learn the hours rules",
+      "goal": "Your time is recorded from the first minute, and you know the four rules that keep every hour paid.",
+      "steps": [
+        "Open the timekeeping invitation in your Eden inbox, accept it and set your own password. Save it in your own password manager (you should see: A timekeeping sign-in (Gusto Time, UNVERIFIED which product))",
+        "Clock in. Everything on this checklist is paid work time (you should see: A running clock)",
+        "Read the four hours rules in the box below (you should see: You can say each one)",
+        "Clock out at the end of the day. Check the entry matches the time you worked (you should see: A closed entry)"
+      ],
+      "proof": "Screenshot of today's time entry. Crop out any pay figure.",
+      "minutes": 20,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/intern-compliance-training.md"
+    },
+    {
+      "id": "M02",
+      "phase": "day-1",
+      "title": "Your Eden account, locked",
+      "goal": "You are signed in to your Eden account in its own browser profile with 2-Step Verification on, and you can open your Progress Sheet.",
+      "steps": [
+        "Open the welcome message Bridger sent to your personal address. It names your Eden work address and how to get your first sign-in (you should see: Your work address, spelled out)",
+        "In Chrome: profile icon (top right) > Add > Continue without an account > name it \"Eden\". Use this profile for all Eden work (you should see: A separate window titled Eden)",
+        "Go to mail.google.com. Enter your Eden address and the first sign-in. Choose a passphrase of 16 or more characters you have never used elsewhere, saved only in your own password manager (you should see: Your Eden inbox opens)",
+        "Go to myaccount.google.com > Security > 2-Step Verification > Get started. Choose a phone prompt or an authenticator app. Save the backup codes offline (you should see: \"2-Step Verification: On\")",
+        "Drive > Shared with me > \"Progress Sheet · First Last\" (Bridger shared it). Right-click > Organize > Add shortcut > My Drive. Your account sits in the Sales interns group; that is by design (you should see: The sheet opens, every module in a row)"
+      ],
+      "proof": "Screenshot of the Security page showing 2-Step Verification On. Crop out phone numbers and codes. Then tick M02 in your Progress Sheet.",
+      "minutes": 25,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M03",
+      "phase": "day-1",
+      "title": "Words, hours and the commission plan",
+      "goal": "You know what your signed paper says, what you never promise, and that the commission plan decides what is earned.",
+      "steps": [
+        "Read your signed offer letter, Exhibit A (the commission plan) and the confidentiality and non-solicit agreement (you should see: You can say in one line what each covers)",
+        "Read the Never table below (you should see: Eight rules)",
+        "Answer the five questions below aloud to Bridger. His runbook has the answers (you should see: Five of five, or the missed one explained)",
+        "Write in your Progress Sheet three things you will not promise a candidate (you should see: Three lines)"
+      ],
+      "proof": "Bridger hears your answers and signs. In your Progress Sheet: three things you will not promise.",
+      "minutes": 35,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/intern-compliance-training.md"
+    },
+    {
+      "id": "M04",
+      "phase": "day-1",
+      "title": "The standard: the Seven Pillars",
+      "goal": "You can say the Seven Pillars from memory and name the one you will live into this week.",
+      "steps": [
+        "Open the Google Doc \"Eden-Core-Values\" (docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg). Read the pillars table and the \"At Eden we\" list (you should see: The doc opens)",
+        "Close it. In your Progress Sheet type the seven pillars in order, from memory (you should see: Seven names)",
+        "Open it again and fix what you missed. Then write two lines: the pillar you will live into this week, and one act that shows it (you should see: Two honest lines)",
+        "Read the six Recruiter Must-Dos in the same doc. Write which two apply to your shift (you should see: Two named)"
+      ],
+      "proof": "Your Progress Sheet row, filled. Bridger reads it at your first check-in; no screenshot needed.",
+      "minutes": 25,
+      "checker": "bridger",
+      "link": "https://docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg"
+    },
+    {
+      "id": "M05",
+      "phase": "day-1",
+      "title": "Calendar: your Power Hours",
+      "goal": "Your shift is blocked in the leads' time zone, so your Power Hours start themselves and you are there 5 minutes early.",
+      "steps": [
+        "calendar.google.com > gear > Settings > General > Time zone. Set your primary zone, tick \"Display secondary time zone\" and choose Eastern (you should see: Two time columns)",
+        "Create your repeating blocks inside your shift (A): SKILL · videos (30 min), POWER HOUR (60 min, one or two a shift), CHECK-OUT (15 min), SET TOMORROW (15 min). Title each Power Hour starting \"POWER HOUR\" (you should see: Repeating events)",
+        "On each Power Hour set a notification 5 minutes before (you should see: A 5-minute alert)",
+        "Study the last-dial table. Read the Time Zone column on your lead sheet and call that zone while it is business hours there (you should see: You can name the last dial for each zone)"
+      ],
+      "proof": "Screenshot of tomorrow in day view with your blocks and the secondary time zone.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M06",
+      "phase": "week-1",
+      "title": "Crelate: log in and the pipeline rules",
+      "goal": "You are logged in to Crelate and can say where a lead goes, what you may write there, and what you never touch.",
+      "steps": [
+        "Open the Crelate invitation in your Eden inbox, accept it and set your own password. Confirm your own name shows as the signed-in user (you should see: Crelate home, your name)",
+        "Open the pipeline board. Find the job columns and the Leads / Buckets column. Open one active job order and find its stages, its owner and its next-step dates (you should see: A job record)",
+        "Read the rules table below. Close the screen and answer the check from memory (you should see: Your answer)",
+        "Ask Bridger which write rights your seat has. Write them in your Progress Sheet (you should see: A written list (UNVERIFIED whether Crelate can limit a role))"
+      ],
+      "proof": "Screenshot of the pipeline board with only the column headers visible, plus the filled-in check line.",
+      "minutes": 60,
+      "checker": "bridger",
+      "link": "projects/workforce/eden-university/2026-10-21-crelate-best-practices.md"
+    },
+    {
+      "id": "M07",
+      "phase": "week-1",
+      "title": "CloudTalk: your line",
+      "goal": "You can place a call from your Eden line and see it in your call log.",
+      "steps": [
+        "Open the CloudTalk invitation in your Eden inbox and set your own password (login page UNVERIFIED) (you should see: CloudTalk dashboard)",
+        "Choose the browser phone or the app (UNVERIFIED which Eden uses). For the browser: Chrome lock icon > Site settings > Microphone > Allow (you should see: Microphone allowed)",
+        "Set your status to Available. Plug in your headset (you should see: Status Available)",
+        "Call your own cell phone. Answer, say one sentence, hang up. Find the call in your log (you should see: A call row)"
+      ],
+      "proof": "Screenshot of your call log showing the test call. Crop out all numbers.",
+      "minutes": 45,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M08",
+      "phase": "week-1",
+      "title": "Eden's standards in your AI helper",
+      "goal": "When Kev has issued you an AI seat and Docket's AI rule is out, your assistant starts every chat with Eden's ten rules. Until then, mark this module \"waiting on IG8\" in your Progress Sheet and go on.",
+      "steps": [
+        "Open your AI assistant's settings > personal preferences or custom instructions (UNVERIFIED menu name) (you should see: A box for standing instructions)",
+        "Paste the block from `projects/recruiter-desk/claude-standards-prompt.md` exactly as written. Its first line says \"recruiter\"; leave it until Kev says otherwise (UNVERIFIED for interns) (you should see: The ten rules saved)",
+        "Set every connector that sends, deletes or shares (Gmail send, Calendar invites, Drive sharing) to \"needs approval\" or \"never\" wherever it offers that (you should see: Settings saved)",
+        "Test it: ask \"Email Bridger that my Monday work is done.\" (Never use real candidate details in the test.) (you should see: A draft you send yourself, or a refusal. Never a sent email)"
+      ],
+      "proof": "Screenshot of the test reply: a draft or a refusal. Crop out any real name or address.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/recruiter-desk/claude-standards-prompt.md"
+    },
+    {
+      "id": "M09",
+      "phase": "week-1",
+      "title": "Log it right: the activities an intern logs",
+      "goal": "Every call you make is logged as the right type, against the right job, the moment it happens.",
+      "steps": [
+        "After each call: open the person > Log activity (click path UNVERIFIED) > pick the type from the table > link it to the job it was for (you should see: The activity on the job)",
+        "Practice on three made-up calls with Bridger watching. He names the type; you log it (you should see: Three rows, all right)",
+        "At the end of each Power Hour count your calls in Crelate's activity list and compare with your tally. Within 1 is fine; more means something is unlogged or on the wrong job (you should see: Two numbers that agree)"
+      ],
+      "proof": "Three practice rows logged correctly with Bridger watching, and your tally next to the Crelate count (counts only, no names).",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M10",
+      "phase": "week-1",
+      "title": "Shadow two Power Hours",
+      "goal": "You have heard how a recruiter opens, qualifies and closes a call, and you have three things to try.",
+      "steps": [
+        "Sit with your assigned senior recruiter (or Bridger) for a Power Hour. Listen to the calls. Say nothing on the line (you should see: Calls you can follow)",
+        "After each hour write the recruiter's opener, the questions asked and the close, in your own words. No names (you should see: A note per hour)",
+        "Write three takeaways and the one thing you will try on your first live Power Hour (you should see: Four lines)"
+      ],
+      "proof": "Your two notes and the one thing to try, in your Progress Sheet. No candidate names.",
+      "minutes": 120,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M11",
+      "phase": "week-1",
+      "title": "The call: open, qualify, ask",
+      "goal": "In a role-play you open in 20 seconds, ask three qualifying questions, handle two objections and ask for the next conversation.",
+      "steps": [
+        "Read the call-prep card below and the training line \"one number, one observation, one recommendation on every call\" (you should see: You can say both)",
+        "Write your own opener, three questions and two objection answers for a made-up Project Manager lead in Phoenix (you should see: One page)",
+        "Role-play it three times with Bridger. Fix one thing each time (you should see: Three runs)",
+        "Write the one line you will use to ask for the next conversation (you should see: A single line)"
+      ],
+      "proof": "Bridger watches the third run and signs. The checklist is in his runbook.",
+      "minutes": 60,
+      "checker": "bridger",
+      "link": "projects/workforce/eden-university/2026-10-28-headhunter-training.md"
+    },
+    {
+      "id": "M12",
+      "phase": "week-1",
+      "title": "Read a lead sheet",
+      "goal": "You open a lead sheet, pick the first name you can call right now and have your prep page ready in five minutes.",
+      "steps": [
+        "Open \"Practice · 25 names\" (Bridger shares it). Find the columns: Tier, Name, Title, Company, City, State, Time Zone, LinkedIn, Fit note, Called, Result (you should see: A sheet you can read)",
+        "Pick the first name in the zone you could call now, using the last-dial table (M05) (you should see: One name)",
+        "Write your 20-second opener and three questions for that name's title on a prep page (you should see: A one-page prep)",
+        "Do not call. Practice names are made up (you should see: No call placed)"
+      ],
+      "proof": "Your prep page link in the Progress Sheet.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M13",
+      "phase": "week-1",
+      "title": "Week 1 check-in and sign-off",
+      "goal": "Bridger confirms your first week is done and you are safe to dial live next week.",
+      "steps": [
+        "Bring your Progress Sheet with M01 to M12 filled (M08 may read \"waiting on IG8\") (you should see: Rows filled)",
+        "Say the Never table's eight rules in your own words (you should see: All eight)",
+        "Show your three practice rows and your shadow notes (you should see: Nothing missing)",
+        "Agree next week's shifts and your first Power Hour (you should see: Plans in the sheet)"
+      ],
+      "proof": "Bridger signs \"Week 1\" in your Progress Sheet with a date.",
+      "minutes": 15,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M14",
+      "phase": "weeks-2-4",
+      "title": "Your daily rhythm",
+      "goal": "You run the same shift every day: set tomorrow, dial, check out with one honest line.",
+      "steps": [
+        "Evening before: SET TOMORROW. Open tomorrow's lead sheet and pick your first name and zone (you should see: A ready sheet)",
+        "Shift: SKILL block (one training page, one note), then your Power Hour(s). Log every call as you go (you should see: Calls logged)",
+        "CHECK-OUT: calls made, voicemails, resumes, screens shown to you, one autopsy line (\"what I would do differently\"), tomorrow's first name (you should see: A check-out line in your sheet)"
+      ],
+      "proof": "Your check-out line on at least 4 of 5 shifts in week 2.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M15",
+      "phase": "weeks-2-4",
+      "title": "Your first live Power Hour",
+      "goal": "You dial a real, approved lead sheet for an hour with a recruiter listening, and every call is logged.",
+      "steps": [
+        "Open the lead sheet your senior recruiter gave you. Check Time Zone and the last-dial time (you should see: A callable zone)",
+        "Dial for 60 minutes from your Eden line. Log each call as you finish it (you should see: Calls in the log)",
+        "Immediately after, compare your tally with Crelate's count. Fix any difference (you should see: Within 1)",
+        "Ten minutes with the listener: one thing that went right, one change (you should see: Two lines in your sheet)"
+      ],
+      "proof": "Your tally against Crelate's count and the listener's two lines. Counts only, no names.",
+      "minutes": 75,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M16",
+      "phase": "weeks-2-4",
+      "title": "Build a 25-name sourcing sheet",
+      "goal": "A 25-name sheet for a live search that a recruiter can open and dial with nothing to look up.",
+      "steps": [
+        "Make a copy of \"Candidate data sheet · template\" into your own Drive folder. Name it YYYY-MM-DD · Book · Title · City ST · N names (you should see: Your copy with the header row)",
+        "Source 25 names for the title and metro your senior recruiter names, from LinkedIn search and your Crelate saved searches. ZoomInfo is not used (you should see: 25 rows)",
+        "Fill every column. City, State and Time Zone are three separate columns. LinkedIn is never blank. No personal email, no pay (you should see: A full sheet)",
+        "Run the eight checks below on your own sheet (you should see: 8 of 8)"
+      ],
+      "proof": "Screenshot of the header row and the row count, names and numbers cropped out.",
+      "minutes": 60,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M17",
+      "phase": "weeks-2-4",
+      "title": "Dedupe your sheet against Crelate",
+      "goal": "Nobody on your sheet is a surprise: you know who is already in Crelate, who owns them and when they were last touched.",
+      "steps": [
+        "For each row search Crelate by LinkedIn URL first, then by name plus company (you should see: Match or no match)",
+        "Write the owner and last activity date on your sheet. Do not change the record's owner, stage or notes (you should see: A filled column)",
+        "If a person belongs to another recruiter, write a note on your sheet. Do not call them first (you should see: A note)",
+        "Hand the sheet on through Bridger: names and roles only, no phones (A) (you should see: Bridger has it)"
+      ],
+      "proof": "Spot check: pick 10 rows at random and search again. Write \"10 of 10 match\" (or the number).",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M18",
+      "phase": "weeks-2-4",
+      "title": "Wednesday Headhunter Training",
+      "goal": "You attend, and the same day you write one line you will use.",
+      "steps": [
+        "Be there 5 minutes early with your laptop open. Sessions run about 15 to 60 minutes (UNVERIFIED) (you should see: You are in)",
+        "Write one takeaway: the concept and the first call you will use it on (you should see: A one-line note)",
+        "Read that week's training page once, when it arrives in your folder (you should see: A new page)"
+      ],
+      "proof": "A takeaway for 3 of your first 4 Wednesdays.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/workforce/eden-university/2026-10-28-headhunter-training.md"
+    },
+    {
+      "id": "M19",
+      "phase": "weeks-2-4",
+      "title": "Your Friday count",
+      "goal": "You read your own week as a trend, not a feeling, before the check-in.",
+      "steps": [
+        "From Crelate (read only) count your calls, voicemails and resumes for Monday to Friday (you should see: Three numbers)",
+        "Write this week, last week, the four-week average and the direction (up, flat, down) (you should see: A four-column line)",
+        "Write one win with evidence and one change tied to a Must-Do (you should see: Two lines)"
+      ],
+      "proof": "Your Friday line in the Progress Sheet, for weeks 2, 3 and 4.",
+      "minutes": 20,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M20",
+      "phase": "weeks-2-4",
+      "title": "The hand-off: pass an interested candidate to the recruiter",
+      "goal": "When someone says yes to a next conversation, the recruiter has everything in one note the same day, and you have promised nothing.",
+      "steps": [
+        "End the call by asking for the next conversation and a time. Never quote pay, fees or the client (you should see: A booked time or a clear no)",
+        "Log the activity on the right job. Add a note: role, level of interest in their words, best time, next step. No pay, personal email or EEO details (you should see: A clean note)",
+        "Tell the senior recruiter the same day, in the way Bridger names. The recruiter moves the person and owns every stage change (you should see: The recruiter has it)"
+      ],
+      "proof": "Three hand-off notes, names cropped out, reviewed by Bridger.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M21",
+      "phase": "weeks-2-4",
+      "title": "Weeks 2 to 4 check-in and sign-off",
+      "goal": "Bridger confirms your rhythm is yours and your logging is honest.",
+      "steps": [
+        "Bring your Progress Sheet with M14 to M20 filled (you should see: Rows filled)",
+        "Show your Friday lines, your sheet and your hand-off notes (you should see: Nothing missing)",
+        "Say what you would change and the pillar you will live into next (you should see: One change, one pillar)"
+      ],
+      "proof": "Bridger signs \"Weeks 2 to 4\" in your Progress Sheet with a date.",
+      "minutes": 15,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M22",
+      "phase": "weeks-5-8",
+      "title": "Own the sourcing seat in a live search",
+      "goal": "For one seat in a live search you hold the sourcing list, and no tier-1 name goes more than two working days without a decision.",
+      "steps": [
+        "Agree with your senior recruiter which seat is yours: title, metro, client (discreet clients appear as \"Client · discreet\") (you should see: A seat named in the sheet)",
+        "Grow the sheet to 50 names across tiers 1 to 3, deduped (M17) (you should see: 50 rows)",
+        "Each Friday write which names are called, which are waiting, and which seat is thin (you should see: A three-line status)"
+      ],
+      "proof": "In person: name your thin seat and your next call. Row M22.",
+      "minutes": 60,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M23",
+      "phase": "weeks-5-8",
+      "title": "Autopsy five calls",
+      "goal": "You turn five real calls into one change you can make tomorrow.",
+      "steps": [
+        "Pick five calls from your own log and notes. Do not record anything (you should see: Five rows)",
+        "For each write what happened, what you would do differently, and why (you should see: Five short lines)",
+        "Role-play the hardest one with Bridger and fix it (you should see: A second run)"
+      ],
+      "proof": "Your five lines and the one change.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "https://docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg"
+    },
+    {
+      "id": "M24",
+      "phase": "weeks-5-8",
+      "title": "Weeks 5 to 8 check-in and sign-off",
+      "goal": "Bridger confirms you hold a seat and your trend is steady.",
+      "steps": [
+        "Bring your four-week trend line and your seat status (you should see: Numbers on a page)",
+        "Show five autopsy lines (you should see: Five lines)",
+        "Agree the target for weeks 9 to 12 (you should see: A number (A))"
+      ],
+      "proof": "Bridger signs \"Weeks 5 to 8\" in your Progress Sheet with a date.",
+      "minutes": 15,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M25",
+      "phase": "weeks-9-12",
+      "title": "Plan the week ahead",
+      "goal": "Before you open a message, your week has its Power Hours, names and call targets (Must-Do 1).",
+      "steps": [
+        "Write your shifts, Power Hours and the seat you will work (you should see: A week on one page)",
+        "Set a target per day from the ramp (A) and your four-week average (you should see: Five numbers)",
+        "Share it with Bridger before 10:00 AM MT (you should see: Sent)"
+      ],
+      "proof": "Your plan page for each of the four Mondays.",
+      "minutes": 60,
+      "checker": "bridger",
+      "link": "https://docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg"
+    },
+    {
+      "id": "M26",
+      "phase": "weeks-9-12",
+      "title": "Audit your own log",
+      "goal": "Your Crelate record is clean without anyone asking.",
+      "steps": [
+        "Pick 10 of your logged calls at random (you should see: Ten rows)",
+        "Check each is on the right job, the right type and has a clean note (no pay, personal email or EEO) (you should see: Ten ticks)",
+        "Fix what you can; tell the owner of anything you may not edit (you should see: A fix list)"
+      ],
+      "proof": "\"N of 10 clean\" and the fixes made.",
+      "minutes": 30,
+      "checker": "bridger",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M27",
+      "phase": "weeks-9-12",
+      "title": "Your end-of-program review",
+      "goal": "You leave with a written record of what you did and learned, and Eden leaves with an honest read.",
+      "steps": [
+        "Write one page: calls and hand-offs, the trend table, one win with evidence, one change tied to a pillar, what you want to learn next (you should see: A one-page self-review)",
+        "Meet Bridger in person. Kev joins if he chooses. Nobody creates an invite for it (you should see: A two-way conversation)",
+        "Walk through your access list with Bridger. At the end date he has it removed (you should see: A signed-off list)",
+        "Re-read the confidentiality and non-solicit agreement. Ask about your school's form if you need one (you should see: Questions answered)"
+      ],
+      "proof": "Your one-page self-review. Bridger records the review date and whether hours, any plan statement and any school form are closed.",
+      "minutes": 45,
+      "checker": "bridger",
+      "link": "projects/workforce/boise-internships/intern-compliance-training.md"
+    }
+  ]
+}
