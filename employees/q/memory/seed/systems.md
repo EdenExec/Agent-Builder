@@ -20,4 +20,4 @@ Facts as Radar knew them on hire day. Check a row before relying on it; write wh
 | Claude artifacts | The Eden Desk (https://claude.ai/artifact/5SuFoioujKFV6KgX4dXi3G), Atlas Desk, Marlowe's Desk. Each has a small shared database. | Radar, Atlas, Marlowe | Artifact and ArtifactData tools | Another session may publish the same page; merge onto the live version, never overwrite. |
 | ElevenLabs | Voice audio for Atlas episodes and tours. | Kev | `ELEVENLABS_API_KEY` (Network secret) | Creator plan, character budget limited: check before a long render. |
 | QuickBooks, Gusto | Books and payroll. | Kev | Connectors | Read only unless Kev asks; never touch payroll. |
-| This repo (EdenExec/Agent-Builder) | The employees, Radar's routines, the workshop code, QC queue, project briefs. | Kev | Git | No pushes on Saturday. |
+| This repo (EdenExec/Agent-Builder) | The employees, Radar's routines, the workshop code, QC queue, project briefs. | Kev | Git | No pushes during the Sabbath, Friday sunset to Saturday sunset. |

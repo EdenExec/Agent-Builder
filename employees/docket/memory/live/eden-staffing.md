@@ -1,0 +1,1 @@
+- 2026-10-23: 2026-10-23: Eden Staffing first drafts in projects/eden-staffing/legal/ (01 agreement, 02 SOW, 03 partnership options, 04 EOR checklist, 05 issues memo). Gate 2026-10-23-20b564 open with Tally (15 plan-doc and statutory figures). Verdict NEEDS COUNSEL.

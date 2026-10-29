@@ -86,6 +86,7 @@ describe("render", () => {
     assert.doesNotMatch(renderDoc(good), /line-height:1\.45/);
   });
   test("escapes HTML, links only http(s), supports page breaks and inline styles", () => {
+    assert.match(renderDocBody("~~Out~~ stays").html, /<del>Out<\/del> stays/, "strikethrough renders as del");
     const { html } = renderDocBody("<script>x</script> **bold** *it* [ok](https://a.co) [bad](javascript:alert(1))\n\n<!-- pagebreak -->\n\n1. one\n2. two\n");
     assert.doesNotMatch(html, /<script>/);
     assert.match(html, /<strong>bold<\/strong>/);

@@ -29,7 +29,7 @@ The Supabase project "Eden Daily" (org Eden) is the default home. Its read-only 
 
 ## The job
 
-1. Nightly at 2am Pacific, skipped on Saturday (Sabbath) unless Kev says otherwise.
+1. Nightly at 2am Pacific, skipped on Saturday (the Sabbath runs Friday sunset to Saturday sunset; `npm run sabbath`) unless Kev says otherwise.
 2. Incremental by modified date after the first full pull; the first full pull is a QC item if it would run more than an hour.
 3. Upsert, never delete: a record gone from Crelate gets `removed_at` set.
 4. Write one `sync_log` row. If errors exceed 1% of rows, stop and tell Radar.

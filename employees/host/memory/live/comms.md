@@ -1,0 +1,1 @@
+- 2026-10-27: 2026-10-27: Kev (26 Oct): PR/comms/brand arm with Boise State interns; weekly LinkedIn drafts ready Monday 8am PT, intern schedules approved posts in LinkedIn's native scheduler; company page opened; nothing posts without Kev's yes until he opens a stage. Docs in projects/comms/.

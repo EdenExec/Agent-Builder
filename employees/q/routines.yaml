@@ -1,0 +1,19 @@
+# Q's scheduled bots. `npm run ct-routine -- compile` turns each into a self-contained prompt in employees/q/routines/<id>.md
+# and `npm run ct-routine -- deploy` prints the trigger payload. Same shape as employees/radar/routines.yaml.
+#
+# The bot is Q's playbook run by a Radar session in Kev's account: it needs Kev's Gmail (or Superhuman Mail) and CloudTalk
+# connectors. Routines created by an agent in this organisation carry NO connectors, so trigger_id stays null until Kev
+# creates the trigger himself (claude.ai > Routines > New, connectors attached) and the id is pasted here.
+# Times are Pacific. Mon-Fri only (cron days 1-5): never Saturday. The Sabbath runs Friday sunset to Saturday sunset, so the
+# Friday 11pm run always falls inside it and stops at its sabbath check.
+branch: claude/pensive-brown-18gll8
+routines:
+  - id: cloudtalk-nightly
+    name: "Q · CloudTalk nightly lead load (11pm, Mon-Fri)"
+    trigger_id: null            # Kev creates the trigger from his account; paste the id here (agent-made triggers carry no connectors: tried 21 Oct)
+    cron: "CRON_TZ=America/Los_Angeles 3 23 * * 1-5"
+    model: claude-sonnet-5
+    skills: [standing-rules, cloudtalk-nightly]
+    seeds: [systems]
+    connectors: [gmail, cloudtalk]
+    notify: none

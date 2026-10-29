@@ -1,4 +1,4 @@
-// `npm run images -- "warm minimal kitchen" [--count 8] [--providers openverse,pexels] [--orientation landscape] [--json]`
+// `npm run images -- "warm minimal kitchen" [--count 8] [--providers openverse,pexels,pixabay] [--orientation landscape] [--json]`
 import "../lib/env.ts";
 import { searchImages, type ProviderName } from "../sources/index.ts";
 import type { Orientation } from "../sources/types.ts";

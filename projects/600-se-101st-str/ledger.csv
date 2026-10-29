@@ -1,0 +1,10 @@
+date,type,category,vendor,description,amount_usd,status,paid_by,receipt,qc_id,notes
+2026-11-09,expense,setup-repairs,TBD,Cleanout haul-away and deep clean,2500.00,forecast,,,,"Keys planning allowance (A), base case, no quote; see launch-plan.md use of funds; low 25000 high 50000"
+2026-11-23,expense,setup-repairs,TBD (Chris),Bathrooms renovation,10000.00,forecast,,,,"Keys planning allowance (A), base case, no quote; see launch-plan.md use of funds; low 25000 high 50000; bath count unknown; repair vs capital for Tally and Chris"
+2026-12-07,expense,setup-repairs,TBD,Floors baseboards and paint,8000.00,forecast,,,,"Keys planning allowance (A), base case, no quote; see launch-plan.md use of funds; low 25000 high 50000; sq ft unknown"
+2026-12-21,expense,setup-furnishing,TBD,Furnishing and linens,8000.00,forecast,,,,"Keys planning allowance (A), base case, no quote; see launch-plan.md use of funds; low 25000 high 50000"
+2026-12-28,expense,setup-supplies,TBD,Smoke and CO alarms extinguisher smart lock noise monitor,700.00,forecast,,,,"Keys planning allowance (A), base case, no quote; see launch-plan.md use of funds; low 25000 high 50000; RCW 64.37.030 safety items"
+2026-11-16,expense,permits-licences,City of Vancouver,STR permit and business licence,500.00,forecast,,,,"Permit 265 (VMC Title 20 fee table, SETTLED 22 Oct 2026) + state licence 50 + City licence 53 to 512 (SETTLED); range 368 to 827; allowance held at 500"
+2026-12-15,expense,insurance,TBD,First STR insurance premium (RCW 64.37.050 minimum 1000000 liability),1500.00,forecast,,,,"Keys allowance (A), no quote; insurer quote is a QC send_message item"
+2026-12-30,expense,professional-fees,TBD,Listing photographer,600.00,forecast,,,,"Keys planning allowance (A), base case, no quote; see launch-plan.md use of funds; low 25000 high 50000"
+2026-12-31,expense,other,n/a,Setup reserve (about 15 percent),5700.00,forecast,,,,"Keys planning allowance (A), base case, no quote; see launch-plan.md use of funds; low 25000 high 50000"

@@ -6,12 +6,12 @@ So every employee is the project manager of its own projects. Once a week it rep
 
 ## What each employee builds
 
-One deck per active project, by **Friday 1:50pm Pacific** (moved from Saturday 8pm on 13 October 2026 so the Sabbath stays clear; the routine "Radar · EOW agent reports", `trig_019qLwVnxBotcrE3J9gZh4YE`, builds any that are missing and emails Kev the roster), no more than eight slides, in this order. Numbers come from the project's own ledger rows, QC items, Desk cards and files; nothing is invented, and anything not checked this week is marked UNVERIFIED.
+One deck per active project, by **Friday 1:50pm Pacific** (moved from Saturday 8pm on 13 October 2026 so the Sabbath, Friday sunset to Saturday sunset, stays clear; the routine "Radar · EOW agent reports", `trig_019qLwVnxBotcrE3J9gZh4YE`, builds any that are missing and emails Kev the roster), no more than eight slides, in this order. Numbers come from the project's own ledger rows, QC items, Desk cards and files; nothing is invented, and anything not checked this week is marked UNVERIFIED.
 
 | # | Slide | What goes on it |
 |---|---|---|
 | 1 | Title | Project, employee, week ending, one word of status (On track, Behind, Blocked) with the reason in one line |
-| 2 | The ask | The one thing you need from Kev this week, with your recommendation first. If nothing, say "No ask" |
+| 2 | The asks | Two to three projects or decisions you need Kev's help on this week, each with your recommendation first and what silence does. Kev and Radar work them in the admin windows on his calendar. If truly nothing, say "No ask" and why |
 | 3 | Shipped | What was finished this week, each with a link to the evidence (Desk file, Drive doc, artifact) |
 | 4 | Numbers | The project's three to five metrics against plan, as a table: planned, actual, delta. Same metrics every week so the trend shows |
 | 5 | Blocked and at risk | What is stuck, why, what a week of delay costs, and what you tried |
@@ -33,5 +33,7 @@ Rules: decks for home, family and learning projects (Atlas, Marlowe) carry KDTW 
 - **Saturday night, in the Sunday Edition build:** collect every `status` card and status file, render any deck that has no artifact, file all of them on the Eden Desk Sunday row (`kind: "deck"`) and in the Sunday Drive folder, and build the **Lab review** page of the Sunday Edition: one row per project (employee, status word, the ask, the deck link), then Kev's advice lines (blank, pen-in-hand). A project with no deck gets a row that says so.
 - **Sunday evening, with Kev:** walk the decks in order of the ask's size. Kev reads the ask and the numbers and gives his advice. Radar writes each answer onto the status card (`status: "answered"`, `answer: {choice, text, at}`), onto a ledger row "Lab review · <date> · <employee>" (Lane Mine or Batch, Owner the employee, Source "lab review <date>"), and into the journal. Spending or sending Kev approves is still one QC approval each.
 - **Monday:** each employee's next session reads its answered card first, writes the advice into `memory/live/` and goes back to the lab. Radar chases a card that is still unread on Wednesday.
+
+Kev's rule, 18 October 2026: "All agents should be giving a lab update every Sunday... All of them gotta do a status report and 2 to 3 projects they needed my help with and we can sync on that during admin windows on the calendar. Lab updates should ensure we keep ideas and projects moving forward." So no employee is skipped: a missing deck is a miss Radar reports at the top of the Sunday Edition, and every ask that Kev does not answer on Sunday goes onto the next admin window on his calendar as an agenda line (Radar proposes the slot; nothing is booked without Kev).
 
 Radar reviews its own week the same way, as one deck with the roster's status on slide 4, so Kev sees the whole lab on one page.

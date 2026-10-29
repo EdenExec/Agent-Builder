@@ -7,6 +7,7 @@ import type { Fetcher } from "../lib/http.ts";
 import type { ImageCandidate, ImageSource } from "../sources/types.ts";
 import { curate, type Found } from "./curate.ts";
 import { embedTiles } from "./embed.ts";
+import { mapPixabay } from "../sources/pixabay.ts";
 import { renderBoard, renderBoardFragment, esc } from "./render.ts";
 import { makeBoard, rebuildBoard, loadSpec } from "./make.ts";
 import { parseFeedback, applyFeedback, loadExcluded } from "./feedback.ts";
@@ -94,6 +95,16 @@ describe("embed", () => {
     const r = await embedTiles([t], { fetcher: imgFetcher(() => ({})) });
     assert.equal(r.failed.length, 0);
     assert.match(t.dataUri!, /^data:image\/jpeg;base64,/);
+  });
+  test("Pixabay tiles are embedded as data URIs (no permanent hotlinking) and keep their credit", async () => {
+    const c = mapPixabay({ id: 5, pageURL: "https://pixabay.com/photos/x-5/", tags: "x", webformatURL: "https://cdn.pixabay.com/photo/x_640.jpg", largeImageURL: "https://cdn.pixabay.com/photo/x_1280.jpg", user: "Someone", user_id: 9 })!;
+    const t = tileOf(c);
+    const seen: string[] = [];
+    const r = await embedTiles([t], { fetcher: imgFetcher((u) => { seen.push(u); return {}; }) });
+    assert.equal(r.failed.length, 0);
+    assert.deepEqual(seen, ["https://cdn.pixabay.com/photo/x_1280.jpg"]);
+    assert.match(t.dataUri!, /^data:image\/jpeg;base64,/);
+    assert.match(renderBoard(spec({ tiles: [t] })), /Photo by Someone on Pixabay/);
   });
   test("falls back to the thumbnail when the full image fails or is too big", async () => {
     const a = tileOf(cand()), b = tileOf(cand());

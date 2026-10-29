@@ -1,0 +1,9 @@
+{
+  "id": "2026-10-27-ce0351",
+  "status": "pending",
+  "createdAt": "2026-10-27T06:46:10.835Z",
+  "employee": "q",
+  "kind": "publish",
+  "summary": "Publish patched Eden Office page (scroll-preserving refresh)",
+  "detail": "Republish https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW from projects/virtual-office/draft/eden-office.html. Ticket t-202610270638-0w3m. Saves window/inner scroll before each rebuild and restores before paint. Syntax-checked only; not browser-tested."
+}

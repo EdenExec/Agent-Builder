@@ -1,0 +1,8 @@
+[
+  { "slug": "kyle", "name": "Kyle Cockell", "start": "2026-11-02", "office": "Boise", "track": "accelerated", "hubName": "Kyle" },
+  { "slug": "max", "name": "Max Betcher", "start": "2026-11-09", "office": "Vancouver", "track": "established", "hubName": "Max" },
+  { "slug": "evan", "name": "Evan MacArthur", "start": "2026-11-09", "office": "Vancouver", "track": "established", "hubName": "Evan" },
+  { "slug": "noah", "name": "Noah Fields", "start": "2026-11-16", "office": "Vancouver", "track": "established", "hubName": "Noah" },
+  { "slug": "andrew", "name": "Andrew Johnson", "start": "2026-11-16", "office": "Vancouver", "track": "established", "hubName": "Andrew" },
+  { "slug": "bridger", "name": "Bridger Stainbrook", "start": "2026-11-16", "office": "Remote", "track": "established", "hubName": "Bridger" }
+]

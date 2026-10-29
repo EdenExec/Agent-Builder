@@ -1,0 +1,651 @@
+{
+  "note": "Repo mirror of the sheets the leads artifact reads. Internal, Eden only. Written by npm run leads -- stage.",
+  "sheets": [
+    {
+      "title": "12 v2 · Hoffman · Low Voltage Superintendents, Amarillo TX · 77 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-hoffman-amarillo-low-voltage-supers.csv",
+      "rows": 77,
+      "tiers": {
+        "1": 12,
+        "2": 62,
+        "3": 3
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/15HKHQFFN0S1mUychkOrugg89MRKOKuElrf0s5HNHvng/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "13 · Hoffman · PMs and PEs, Boise ID (HSI project) · 70 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-hoffman-boise-pm-pe.csv",
+      "rows": 70,
+      "tiers": {
+        "1": 55,
+        "2": 15
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1WZU6mOJSfX6X3Z-tB51_NQhrtfug2H8NWGBHjpNXoug/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "14 · Hoffman · Area Superintendents, Houston TX · 40 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-hoffman-houston-area-supers.csv",
+      "rows": 40,
+      "tiers": {
+        "1": 12,
+        "2": 23,
+        "3": 5
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1cJmTGARwDsMCeUdI2ajkVH-agX2BWAhzq4MV4PhV3pw/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "18 v2 · INL · Safety, NQA-1 / Nuclear Construction, Idaho Falls ID · 89 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-inl-safety-manager-idaho-falls-v2.csv",
+      "rows": 89,
+      "tiers": {
+        "1": 20,
+        "2": 55,
+        "3": 14
+      },
+      "built": "2026-10-19",
+      "discreet": true,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1_Xxmzx7QEqHXti9SNzYUN9Gu8uUh7JEBglULpm3yGTg/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "16 v2 · Megawatt · Project Manager, Quincy WA (traveling, national) · 288 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-megawatt-project-manager-quincy-wa-v2.csv",
+      "rows": 288,
+      "tiers": {
+        "1": 145,
+        "2": 112,
+        "3": 31
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/13kKbFcoaoGvnyd28WBgn7Rf9vpms9hDcYG6kInGQd8M/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "17 · Megawatt · Senior PM or Project Executive, San Jose CA · 119 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-megawatt-senior-pm-or-project-executive-san-jose-ca.csv",
+      "rows": 119,
+      "tiers": {
+        "1": 99,
+        "2": 19,
+        "3": 1
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1oWyolc_tpo13JbNsEx61XlhPyul2T4Zag4yVYfBHXDg/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "09 · Moss · Interior Superintendent, Surfside FL · 34 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-moss-interior-superintendent.csv",
+      "rows": 34,
+      "tiers": {
+        "1": 6,
+        "2": 25,
+        "3": 3
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1mYgElQcfk3yyhD8XNINji1tTy3KBsJ5aqtzu-tOF4Do/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "11 · Moss · Preconstruction Manager, South FL · 44 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-moss-preconstruction-manager.csv",
+      "rows": 44,
+      "tiers": {
+        "1": 27,
+        "2": 15,
+        "3": 2
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1eE1YLiNynw4r1WFv3PEifsy1hAN21Btim9-L9o4WbWE/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "10 · Moss · VDC / BIM x2, Fort Lauderdale · 26 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-moss-vdc-bim-fort-lauderdale.csv",
+      "rows": 26,
+      "tiers": {
+        "1": 10,
+        "2": 10,
+        "3": 6
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1pAVP_QD0x537lXIdP152v_4Qm-Doeb59nOrT81swGU4/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "01 · PB South · WPB Field Engineer · 60 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-pb-south-wpb-field-engineer.csv",
+      "rows": 60,
+      "tiers": {
+        "1": 38,
+        "2": 19,
+        "3": 3
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1ovBpIyQ9A_b81__hLk4KD8PY60-IH0keGpuRtw4AVso/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "02 · PB South · WPB + Broward + Miami-Dade Safety · 77 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-pb-south-wpb-safety.csv",
+      "rows": 77,
+      "tiers": {
+        "1": 36,
+        "2": 23,
+        "3": 18
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1JBZ0Ers2-XVfRoGuZEElmEHudPUwsDW3u7vXKfLipjM/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "15 · Prometheus · Sr Construction Manager, Retail TI · 38 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-prometheus-sr-construction-manager-retail-ti.csv",
+      "rows": 38,
+      "tiers": {
+        "1": 26,
+        "2": 10,
+        "3": 2
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1dmN6eZIpSEHD6yMofH7f3n6YXjf723f8ce1LSn2rh6M/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "19 · Triton · Project Manager, West Palm Beach FL · 130 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-triton-project-manager-west-palm-beach.csv",
+      "rows": 130,
+      "tiers": {
+        "1": 112,
+        "2": 12,
+        "3": 6
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1hVL613WhdhjON-RSqDDOJGVxeY1Zrbx0pJk7AAF7hp8/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "08 · Triton · MEP + Lead Superintendents, Miami and WPB · 57 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-triton-supers-miami-wpb.csv",
+      "rows": 57,
+      "tiers": {
+        "1": 24,
+        "2": 31,
+        "3": 2
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1UsSHarrlvYngqm-GiYMcHWgDGjmzKtn5xCaZoYkRIl8/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "07 · VMG · Project Engineers, DC metro · 107 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-vmg-project-engineers-dc.csv",
+      "rows": 107,
+      "tiers": {
+        "1": 96,
+        "2": 6,
+        "3": 5
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1WY3QyGkeDXTWOWPHLu0dgxoPPLTYq6gu4q5FGIOeICU/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "03 · VMG · Project Executive, Baltimore or DC · 131 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-vmg-project-executive-baltimore-dc.csv",
+      "rows": 131,
+      "tiers": {
+        "1": 120,
+        "2": 10,
+        "3": 1
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1t3djWsl6660MHqqL2i3iNcN5Deso3w49QVpCxT1LXXc/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "06 · VMG · Project Managers, DC metro · 82 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-vmg-project-managers-dc.csv",
+      "rows": 82,
+      "tiers": {
+        "1": 70,
+        "2": 8,
+        "3": 4
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1Ru7pK8IRd-Rfi_BBcqTP4xxUP6Hr2GzkZpZdRB8eUfw/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "05 · VMG · Superintendents, DC metro · 96 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-vmg-superintendents-dc.csv",
+      "rows": 96,
+      "tiers": {
+        "1": 87,
+        "2": 9
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/14RNwIaNfCVg3a0L507lClwK1ufW-_oB7oquDYp0Ky9Q/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "04 · VMG · VDC Manager, Reston VA · 28 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-19-vmg-vdc-manager-reston.csv",
+      "rows": 28,
+      "tiers": {
+        "1": 23,
+        "2": 4,
+        "3": 1
+      },
+      "built": "2026-10-19",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1VD78hxFaVK1SmB0L5_Z43D3lCTabZZVZoHKTE4EfNko/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": null,
+      "landedAt": null,
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-23-dfw-superintendents.csv",
+      "rows": 197,
+      "tiers": {
+        "1": 180,
+        "2": 1,
+        "3": 16
+      },
+      "built": "2026-10-23",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0,
+      "stage": "staged"
+    },
+    {
+      "title": "EL-021 · 2026-10-23 · Pruter Construction · Concrete PM, SoCal · 132 leads",
+      "landedAt": "2026-10-23",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-23-socal-concrete-pm.csv",
+      "rows": 132,
+      "tiers": {
+        "1": 63,
+        "2": 67,
+        "3": 2
+      },
+      "built": "2026-10-23",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/10aA0Bv5Ery0jzlJBUXSePUKGz4vngrQzV29w1HiWSD4/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": null,
+      "landedAt": null,
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-26-pb-south-demo-to-vertical-superintendent-miami.csv",
+      "rows": 97,
+      "tiers": {
+        "1": 27,
+        "2": 52,
+        "3": 18
+      },
+      "built": "2026-10-26",
+      "discreet": false,
+      "driveUrl": null,
+      "status": "ok",
+      "errors": 0,
+      "stage": "staged"
+    },
+    {
+      "title": "EL-023 · 2026-10-27 · PB South · Bench Project Manager, West Palm Beach · 53 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-27-pb-south-bench-pm-west-palm-beach.csv",
+      "rows": 53,
+      "tiers": {
+        "1": 38,
+        "2": 15
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1wvb1TElHmD5zV16WMp1aot3c0lgfS2vnpPWiRcY0I74/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-027 · 2026-10-27 · PB South · Field Operations Leader backups, Miami · 7 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-27-pb-south-field-operations-leader-backups-miami.csv",
+      "rows": 7,
+      "tiers": {
+        "1": 3,
+        "2": 4
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1IkPeJY4crVmr0Sd2ayy7vUEpP7Osv5kejj24i5dRbhQ/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-026 · 2026-10-27 · PB South · Junior MEP: inspections, permits, doc control, Miami · 26 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-27-pb-south-junior-mep-inspections-doc-control-miami.csv",
+      "rows": 26,
+      "tiers": {
+        "1": 15,
+        "2": 11
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1EevcVsWSumptDAVbLOeOj9JBKll2mbftcqxwyAcQPKY/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-025 · 2026-10-27 · PB South · MEP Project Executive, Miami · 16 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-27-pb-south-mep-project-executive-miami.csv",
+      "rows": 16,
+      "tiers": {
+        "1": 6,
+        "2": 9,
+        "3": 1
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/129uoZOuQF2S3wLOS5znRN43Jij96_V3uqUTEfME8ElA/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-024 v2 · 2026-10-27 · PB South · Vertical Transportation Specialist / Engineer / PM, Miami · 115 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-27-pb-south-vertical-transportation-sme-miami-v2.csv",
+      "rows": 115,
+      "tiers": {
+        "1": 16,
+        "2": 74,
+        "3": 25
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/10vS74SeIgn0Ln-Wn-4ikdrPma1KfzH0ShcYF3wFcakE/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-022 v2 · 2026-10-27 · Candidate marketing (Kev) · Development leaders: multifamily, life science, data centers · 198 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-27-todd-christensen-outreach-v2.csv",
+      "rows": 198,
+      "tiers": {
+        "1": 97,
+        "2": 89,
+        "3": 12
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1eQPAmClGtFrsDVCqpSY9134NrvFqSQYXjqCX9FxFAdA/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-022 · 2026-10-27 · Candidate marketing (Kev) · Development leaders, FL NC DC + data centers · 101 leads",
+      "landedAt": "2026-10-27",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-27-todd-christensen-outreach.csv",
+      "rows": 101,
+      "tiers": {
+        "Tier 1": 66,
+        "Tier 2": 32,
+        "Tier 3": 3
+      },
+      "built": "2026-10-27",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1RLqkazqL1yrsdeEBNUkKkvH8VBopWbATuOhSbQIRp1U/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-028 · 2026-10-29 · Juicy - Super Reload 10_29_26 · Supers + MEP, Miami and WPB · 33 leads",
+      "landedAt": "2026-10-28",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-29-juicy-super-reload-wpb-miami.csv",
+      "rows": 33,
+      "tiers": {
+        "1": 29,
+        "2": 4
+      },
+      "built": "2026-10-29",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/15_c3RchEiZP92rXYGyNa5NKb7EOdQxOf15eF5t5sD40/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "20 · Pool · Estimating + Procurement, South FL · 63 leads",
+      "landedAt": "2026-10-21",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "sofla-estimating-procurement-2026-10-12-v2.csv",
+      "rows": 63,
+      "tiers": {
+        "1": 34,
+        "2": 24,
+        "3": 1,
+        "?": 4
+      },
+      "built": "2026-10-12",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1rSw4QhHG3sVsS5gjAK-tGSfaZMdDYGw-q-a8Mh2U4jI/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    }
+  ]
+}

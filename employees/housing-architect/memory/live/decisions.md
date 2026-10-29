@@ -1,3 +1,8 @@
 - 2026-10-11: Two ranches wanted: (1) Treasure Valley ID on a river or near water within 50 min of BOI, primary home, hospitality-capable, with small income outbuildings; (2) NorCal near Lincoln/Auburn/Grass Valley/Nevada City (Ally's parents have 11 acres off Big Ben Rd, Lincoln, and 1000+ acres of rice near Colusa). Kev, 11 Oct 2026.
 - 2026-10-11: Idaho ranch budget: $1.5M to $3M land plus build, rough (Kev, 11 Oct 2026). Implies phasing and compromise on acreage or frontage.
 - 2026-10-15: Citrus greenhouse (mandarin, lemon, lime, year-round): attached glass room off the main house (Kev, 15 Oct 2026). First board at claude.ai/artifact/CmnSXHF1qFzHCXhvfCuifY; image sources thin (Openverse only).
+- 2026-10-15: 2026-10-15: Kev said (via Radar, 5 Oct) he will add Unsplash and Pexels keys; check env before each board.
+- 2026-10-15: 2026-10-15: Water: river OR pond/irrigation water on site is acceptable. Outbuilding income is a goal, plan for it from day one (Kev, 15 Oct 2026).
+- 2026-10-15: 2026-10-15: Orangery board: Pixabay and Openverse returned weak results (fruit, historic palm houses). Kev chose a written spec plus plan sketch instead (projects/eden-ranch-idaho/orangery-spec.md). Rebuild board when Unsplash works.
+- 2026-10-22: 2026-10-22: Kev approved adding his four interior-design principles to the Idaho ranch brief as design rules, and a required quiet-room check in every plan (skill and rubric updated).
+- 2026-10-22: 2026-10-22: Land purchase around 2028, Kev's rough guess. Brief has no open questions.

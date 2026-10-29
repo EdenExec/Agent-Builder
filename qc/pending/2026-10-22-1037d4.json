@@ -1,0 +1,10 @@
+{
+  "id": "2026-10-22-1037d4",
+  "status": "pending",
+  "createdAt": "2026-10-22T06:13:17.017Z",
+  "employee": "host",
+  "kind": "spend",
+  "summary": "SUPERSEDED by 2026-10-23-52fd95 (refundable fare, Kev 23 Oct), do not approve: Joey Walker (PB South candidate) travel, ABI to West Palm Beach, 11 to 13 Nov 2026: Option 1, about $900 estimated",
+  "detail": "SUPERSEDED 23 Oct 2026 by QC 2026-10-23-52fd95 (Kev requires a fully refundable fare). Kept for the record; reject, do not approve.\n\nRECOMMENDED OPTION 1 (estimate, nothing booked or held; prices are web estimates seen 22 Oct 2026 and may change before Kev or Noah books). Flights: American Main Cabin round trip ABI-DFW-PBI, about $500. Out Wed 11 Nov: ABI 8:00am, land PBI about 2:39pm (nearest schedule seen, UNVERIFIED for the 11th). Back Fri 13 Nov: PBI to DFW nonstop about 3:24pm then DFW to ABI evening connection, home about 9pm (UNVERIFIED; depends on PB South finish time). Hotel: Courtyard by Marriott West Palm Beach, 2 nights 11-13 Nov, about $150 a night, about $340 with tax (November rate UNVERIFIED; Oct sample $116); free cancellation usually until about 4pm the day before (confirm). Ground: rideshare PBI to hotel and back, about $60. Estimated total about $900, range $780 to $1,050. Alternatives: Option 2 ABI-DFW-FLL plus Brightline, about $900, longest day; Option 3 drive ABI to DFW (about 3 hours) and fly nonstop DFW-PBI, about $930, no connection risk but 6 hours of driving. Sources: Kayak ABI-PBI route page, Kayak DFW-PBI, AA ABI-FLL, Expedia and HotelPlanner for the hotel. Full options and sources: projects/travel/2026-11-joey-walker-pbsouth.md. Approval means Kev (or Noah on Kev's word) books; Joey's DOB and traveler details go to the booker directly, never into the repo. Silence means nothing is booked. Tickets t-202610212325-fbr6 and t-202610212327-35nw.",
+  "amountUsd": 900
+}

@@ -16,7 +16,7 @@ What it is: a polymath's snapshot of one subject, understood at the base level, 
 ## Craft
 
 - Load `dataviz` before any chart and `artifact-diagramming` before any diagram. Charts are black, grey and one muted accent at most. Diagrams are line art.
-- Illustrations: public-domain or Creative Commons images with attribution (Wikimedia Commons, Openverse, Unsplash, Pexels via `npm run images`), or your own SVG line drawings. Never hotlink. Never use an image whose licence you did not read.
+- Illustrations: public-domain or Creative Commons images with attribution (Wikimedia Commons, Openverse, Pixabay, Unsplash, Pexels via `npm run images`), or your own SVG line drawings. Never hotlink. Never use an image whose licence you did not read.
 - Reading levels: the "For G" page at roughly grade 5, the study at adult level with every term glossed on first use.
 - Build: Markdown or HTML through the workshop's PDF pipeline (Playwright Chromium at `/opt/pw-browsers/chromium`, Montserrat and IBM Plex Mono embedded, Letter, Eden letterhead, footer edenpartnergroup.com). QC: `pdffonts` shows no Type 3, `pdftotext -layout` shows no split words, render page 1 and the map page and look at them. Lint the Markdown with `npm run doc -- <file.md>` where it applies.
 - Score against `rubrics/report.md` before presenting; show the score.

@@ -21,8 +21,8 @@ export type RoutinesFile = { branch: string; routines: RoutineSpec[] };
 const REPO = "https://github.com/EdenExec/Agent-Builder";
 /** The playbook a routine runs first; the others listed in routines.yaml are read for rules or for a day-specific variant. */
 const PRIMARY: Record<string, string> = { brief: "morning-brief", sweep: "inbox-sweep", "check-out": "check-out", "stand-up": "stand-up-tomorrow" };
-/** Routines that must never fire on Saturday. stand-up is exempt: its Saturday run builds the Sunday Edition. */
-const SABBATH_IDS = new Set(["brief", "sweep", "check-out", "week-review"]);
+/** Routines that must never fire on Saturday (the Sabbath runs Friday sunset to Saturday sunset). stand-up is exempt: its Saturday run, after sundown, builds the Sunday Edition. */
+const SABBATH_IDS = new Set(["brief", "sweep", "check-out", "week-review", "cloudtalk-nightly"]);
 
 export function loadRoutines(employeeDir: string): RoutinesFile {
   const path = join(employeeDir, "routines.yaml");
@@ -78,7 +78,7 @@ STEP 0, READ THE LIVE FILES. The authoritative version of everything below lives
 1. If employees/radar/ exists in the working directory, read persona.md, the skills listed here, and memory/seed/ and memory/live/ from there. They override the embedded copies below.
 2. Otherwise run: git clone --depth 1 --branch ${file.branch} ${REPO} /tmp/agent-builder, then read the same files from /tmp/agent-builder/employees/radar/.
 3. If both fail, the embedded copies below are authoritative. Say so in your closing summary.
-Saturday is the Sabbath: if today is Saturday in Pacific time, stop now with one line, unless this is the stand-up routine, whose Saturday run builds the Sunday Edition (playbook "sunday-edition") instead of a weekday paper.
+THE SABBATH is Friday sunset to Saturday sunset. After step 0 run \`node workshop/office/sabbath.ts\` (exit 0 = inside it): stop with one line, holding what Kev sent until after Saturday sundown. Exception: the stand-up's Saturday run after sundown builds the Sunday Edition (playbook "sunday-edition").
 
 Then do exactly what the playbook "${primary}" says, honouring every standing rule, the interrupt rules and the trust ramp where they apply. Close with a short plain summary of what you did, what you sent, and anything you could not do.`;
   let out = head;

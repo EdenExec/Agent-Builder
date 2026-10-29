@@ -1,0 +1,18 @@
+{
+  "id": "2026-10-21-4b8c39",
+  "status": "pending",
+  "createdAt": "2026-10-21T16:37:31.344Z",
+  "employee": "radar",
+  "kind": "send_message",
+  "summary": "Email to Evan: he owns the 4 LinkedIn posts, runs his own Monday 20-min gut check and sends Kev a short status with one suggested tweak per job (Kev not on it)",
+  "detail": "Draft in Superhuman (draft0055ee5844a3eb4b), subject: You own the LinkedIn job posts: weekly 20-min gut check. Evan puts the recurring block on his own calendar; Monday status: applicants per job, what's pulling vs noise, one tweak per job; Kev says yes or no.",
+  "recipients": [
+    "evan@edenexec.com"
+  ],
+  "draft": {
+    "app": "superhuman",
+    "id": "draft0055ee5844a3eb4b",
+    "threadId": "draft0036ac6e10de2f47",
+    "subject": "You own the LinkedIn job posts: weekly 20-min gut check"
+  }
+}

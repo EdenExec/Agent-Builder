@@ -1,6 +1,6 @@
 import type { Fetcher } from "../lib/http.ts";
 
-export type ProviderName = "openverse" | "wikimedia" | "unsplash" | "pexels";
+export type ProviderName = "openverse" | "wikimedia" | "unsplash" | "pexels" | "pixabay";
 
 /** One image the employee may pin to a board. Every field needed for attribution travels with it. */
 export type ImageCandidate = {

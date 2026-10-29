@@ -1,0 +1,876 @@
+<title>Recruiter Desk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+<style>
+/* Eden recruiter desk, template v0.1 (Q, 21 Oct 2026). One private desk per recruiter, stamped by `npm run recruiter-desk -- new <slug>`.
+   Look and code patterns from Eden Office (tokens, Now/Next band, quick chat, tickets, Done / Follow up / Zzz). Montserrat only (brand rule);
+   ink on cream, matte dark at night, no colour except small state marks. Spec: projects/recruiter-desk/brief.md. */
+:root{
+  --floor:#F3F0E8; --paper:#FCFBF7; --ink:#141412; --mute:#5E5B54; --line:#D9D4C8; --soft:#EAE6DC; --veil:rgba(243,240,232,.86);
+  --lift:0 1px 0 rgba(20,20,18,.05),0 3px 8px rgba(20,20,18,.06);
+  --g:#2E8A55; --b:#2F66AE; --r:#B03A2E; --a:#A8730F;
+  --sans:'Montserrat','Helvetica Neue',Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --floor:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B; --veil:rgba(18,18,16,.86);
+  --lift:0 1px 0 rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.35);
+  --g:#5FCF8A; --b:#72A6F0; --r:#F07462; --a:#E7B04C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --floor:#121210; --paper:#1B1A17; --ink:#EEEBE3; --mute:#A8A397; --line:#33312B; --soft:#201F1B; --veil:rgba(18,18,16,.86);
+  --lift:0 1px 0 rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.35);
+  --g:#5FCF8A; --b:#72A6F0; --r:#F07462; --a:#E7B04C; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--floor);color:var(--ink);font:400 14px/1.45 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:24px 96px}
+button{font:inherit;color:inherit}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font:600 10px/1.3 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.small{font:500 11px/1.5 var(--sans);color:var(--mute);margin:0;overflow-wrap:anywhere}
+
+/* top bar */
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 20px;flex-wrap:wrap;border-bottom:1.5px solid var(--ink);padding-bottom:14px}
+.mark{display:flex;flex-direction:column;gap:6px;min-width:0}
+.mark h1{margin:0;font-weight:800;font-style:italic;font-size:clamp(24px,4vw,34px);letter-spacing:-.005em;line-height:1.05;overflow-wrap:anywhere}
+.clock{font:600 10.5px/1.3 var(--sans);letter-spacing:.12em;color:var(--mute);text-transform:uppercase}
+.clockrow{display:flex;flex-wrap:wrap;gap:2px 0}
+#sync:not(:empty)::before{content:"\00a0·\00a0"}
+.switches{display:flex;gap:6px;flex-wrap:wrap}
+.sw{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--paper);padding:0 12px;min-height:36px;cursor:pointer;
+  font:600 10px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.sw i{width:18px;height:10px;border:1px solid var(--mute);position:relative;flex:none}
+.sw i::after{content:"";position:absolute;top:1px;left:1px;width:6px;height:6px;background:var(--mute);transition:transform .16s}
+.sw[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
+.sw[aria-pressed="true"] i{border-color:var(--ink)} .sw[aria-pressed="true"] i::after{transform:translateX(8px);background:var(--ink)}
+button:focus-visible,a:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.notice{padding:8px 12px;border:1px dashed var(--line);font:500 11px/1.45 var(--sans);color:var(--mute);background:var(--paper)}
+
+/* now and next (same pattern as Eden Office) */
+.nextup{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr);border:1px solid var(--line);background:var(--paper)}
+.nextup>div{padding:12px 16px;min-width:0}
+.nowbox{border-right:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.nowbox b{font-weight:800;font-size:16px;line-height:1.25;overflow-wrap:anywhere}
+.nextlist{display:flex;flex-direction:column;gap:6px}
+.nx{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:10px;align-items:baseline;font-size:13.5px}
+.nx .tm{font:600 11px/1.2 var(--sans);letter-spacing:.04em;color:var(--mute)}
+.nx .ti{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nx .in{font:600 10.5px/1.2 var(--sans);letter-spacing:.04em;color:var(--mute);white-space:nowrap}
+.nx.first .ti{font-weight:700}
+.foot2{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:6px}
+.join{font:700 10.5px/1.2 var(--sans);letter-spacing:.1em;text-transform:uppercase}
+@media (max-width:820px){.nextup{grid-template-columns:minmax(0,1fr)} .nowbox{border-right:0;border-bottom:1px solid var(--line)}}
+
+/* layout */
+.grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:18px;align-items:start}
+.col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.card{background:var(--paper);border:1px solid var(--line);box-shadow:var(--lift);min-width:0}
+.card-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px 12px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line)}
+.card-h h2{margin:0;font:800 13px/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.card-b{padding:14px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+@media (max-width:900px){.grid{grid-template-columns:minmax(0,1fr)} .col{display:contents} .grid{display:flex;flex-direction:column}}   /* phone: one stack, scorecard second */
+
+/* buttons */
+.mini{font:600 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);border:1px solid var(--line);background:none;padding:8px 10px;min-height:32px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.mini:hover{border-color:var(--ink)}
+.mini:disabled{opacity:.45;cursor:default}
+.mini.primary{border-color:var(--ink)}
+.mini.txt{border-color:transparent;padding-inline:3px;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
+.mini.txt:hover{border-color:transparent;text-decoration-color:var(--ink)}
+.seg{display:inline-flex;flex-wrap:wrap}
+.seg>.mini+.mini{margin-left:-1px}
+.seg.snooze>.mini{border-style:dashed}
+.sacts{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center}
+.key{background:var(--floor);border:1px solid var(--ink);padding:10px 12px;cursor:pointer;text-align:left;color:var(--ink);
+  font:700 10.5px/1.25 var(--sans);letter-spacing:.1em;text-transform:uppercase;box-shadow:0 2px 0 var(--ink);transition:transform .06s,box-shadow .06s;text-decoration:none;display:block}
+.key:active{transform:translateY(2px);box-shadow:0 0 0 var(--ink)}
+.key:disabled{opacity:.45;cursor:default;box-shadow:none}
+.key small{display:block;font:500 10.5px/1.35 var(--sans);letter-spacing:.01em;text-transform:none;color:var(--mute);margin-top:3px}
+
+/* lights: a shape and a word on every state, colour only as a second cue */
+.led{--c:var(--mute);display:inline-block;width:10px;height:10px;background:var(--c);flex:none;margin-top:4px}
+.led[data-s="overdue"]{--c:var(--r);transform:rotate(45deg) scale(.9);border-radius:1px}
+.led[data-s="reply"]{--c:var(--b);border-radius:2px}
+.led[data-s="today"]{--c:var(--a);width:15px;height:6px;margin-top:6px;border-radius:1px}
+.led[data-s="info"]{border-radius:50%}
+.chip{display:inline-block;font:700 9.5px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:3px 5px;color:var(--mute);white-space:nowrap}
+.chip.warn{border-color:var(--r);color:var(--r)}
+.chip.ok{border-color:var(--g);color:var(--g)}
+
+/* needs you, items */
+.items{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 10px;align-items:start;border-top:1px solid var(--line);padding:10px 0;font-size:13px}
+.item:first-child{border-top:0;padding-top:0}
+.item .t{overflow-wrap:anywhere}
+.item .why{display:block;font:500 11px/1.4 var(--sans);color:var(--mute);margin-top:2px}
+.item .rk{font:700 10.5px/1 var(--sans);color:var(--mute);margin-right:6px}
+.item>.sacts{grid-column:2}
+.exact{background:var(--soft);padding:10px;font:500 12px/1.5 var(--sans);white-space:pre-wrap;overflow-wrap:anywhere;margin-top:6px;grid-column:2}
+
+/* job orders */
+.jo{border-top:1px solid var(--line);padding:12px 0;display:flex;flex-direction:column;gap:6px}
+.jo:first-child{border-top:0;padding-top:0}
+.jo-h{display:flex;justify-content:space-between;gap:6px 12px;flex-wrap:wrap;align-items:baseline}
+.jo-h b{font-weight:800;font-size:14px;overflow-wrap:anywhere}
+.jo .sub{font:500 11.5px/1.4 var(--sans);color:var(--mute);overflow-wrap:anywhere}
+.jo.rot{border-left:3px solid var(--r);padding-left:10px}
+.due{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;font-size:12.5px;align-items:baseline}
+.due span:first-child{overflow-wrap:anywhere}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+
+/* scorecard */
+.big{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.big b{font-weight:800;font-size:34px;line-height:1}
+.big span{color:var(--mute);font-weight:600}
+.bar{height:8px;background:var(--soft);border:1px solid var(--line);position:relative}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
+.bar.done i{background:var(--g)}
+.days{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:end;height:84px;position:relative;border-bottom:1px solid var(--ink);padding-bottom:0}
+.days .d{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%}
+.days .d i{display:block;width:100%;max-width:34px;background:var(--ink);min-height:2px}
+.days .d i.ok{background:var(--g)}
+.days .d i.now{background:repeating-linear-gradient(45deg,var(--ink) 0 3px,var(--mute) 3px 5px)}
+.days .d span{font:700 9.5px/1 var(--sans);color:var(--mute)}
+.dlab{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;text-align:center;font:600 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-top:-6px}
+.line15{position:absolute;left:0;right:0;border-top:1px dashed var(--mute);pointer-events:none}
+.line15::after{content:"15";position:absolute;right:0;top:-12px;font:700 9px/1 var(--sans);color:var(--mute)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.stat{border:1px solid var(--line);padding:8px 10px}
+.stat b{display:block;font-weight:800;font-size:20px;line-height:1.1}
+.stat span{font:600 9.5px/1.3 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+
+/* leads, training */
+.lead{border-top:1px solid var(--line);padding:10px 0;display:flex;flex-direction:column;gap:6px}
+.lead:first-child{border-top:0;padding-top:0}
+.lead b{font-weight:700;overflow-wrap:anywhere}
+.cp{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;font-size:13px;padding:6px 0;border-top:1px solid var(--line)}
+.cp:first-of-type{border-top:0}
+.cp.next{font-weight:700}
+.cp .dt{font:600 11px/1.4 var(--sans);color:var(--mute);white-space:nowrap}
+.keys{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tray li,.ticket{border:1px solid var(--line);padding:8px 10px;font-size:13px;overflow-wrap:anywhere;list-style:none}
+.ticket small{display:block;font:500 11px/1.4 var(--sans);color:var(--mute)}
+ul.tray{margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+
+/* chat */
+.chatlog{display:flex;flex-direction:column;gap:6px;max-height:300px;overflow:auto}
+.msg{padding:8px 10px;border:1px solid var(--line);font-size:13px;line-height:1.45;overflow-wrap:anywhere;white-space:pre-wrap;max-width:92%;align-self:flex-start;background:var(--paper)}
+.msg.me{align-self:flex-end;background:var(--soft)}
+.msg b{display:block;font:700 9.5px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:2px}
+.chatform{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
+select,textarea,input[type="text"],input[type="number"],input[type="date"]{font:400 14px/1.4 var(--sans);padding:8px;border:1px solid var(--line);background:var(--floor);color:var(--ink);min-width:0;width:100%}
+textarea{min-height:60px;resize:vertical}
+label{display:flex;flex-direction:column;gap:3px;font:600 10px/1.3 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+form .full{grid-column:1/-1}
+label.check{flex-direction:row;align-items:center;gap:10px;font:500 13px/1.3 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);padding:8px 10px;border:1px solid var(--line);cursor:pointer}
+label.check input{width:18px;height:18px;flex:none;accent-color:var(--ink)}
+
+/* sheet */
+.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.sheet-bg{position:absolute;inset:0;background:var(--veil)}
+.panel{position:relative;width:min(720px,100%);max-height:100%;overflow:auto;background:var(--paper);border:1.5px solid var(--ink);box-shadow:var(--lift)}
+.panel-h{position:sticky;top:0;background:var(--paper);display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding:14px 18px;border-bottom:1.5px solid var(--ink);z-index:1}
+.panel-h h2{margin:0;font-weight:800;font-size:18px;letter-spacing:.1em;text-transform:uppercase}
+.panel-h .stand{margin-left:auto}
+.stand{border:1px solid var(--ink);background:none;padding:8px 10px;cursor:pointer;font:700 10px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.panel-b{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.out{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--soft);padding:12px;font:500 13px/1.55 var(--sans)}
+
+.foot{border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;align-items:baseline}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.tools a{font:600 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:8px 10px;text-decoration:none;background:var(--paper)}
+.tools a:hover{border-color:var(--ink)}
+
+.dock{display:none;position:fixed;left:0;right:0;bottom:0;z-index:10;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;background:var(--paper);border-top:1.5px solid var(--ink);
+  padding:8px max(10px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
+.dock .key{padding:9px 4px;text-align:center;font-size:9.5px}
+
+:root.share .priv{display:none!important}
+
+@media (max-width:820px){
+  .switches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+  .sw{min-height:40px;justify-content:center}
+  .dock{display:grid}
+  .sheet{align-items:flex-end;padding:0}
+  .panel{max-height:92vh;border-bottom:0}
+  form{grid-template-columns:1fr}
+  .nx{grid-template-columns:64px minmax(0,1fr)} .nx .in{display:none}
+  .mini{min-height:36px}
+}
+@media (prefers-reduced-motion:reduce){.sw i::after,.key{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="mark">
+      <span class="eyebrow">Eden Partner Group</span>
+      <h1 id="title">Your Desk</h1>
+      <div class="clockrow"><span class="clock" id="clock"></span><span class="clock" id="sync"></span></div>
+    </div>
+    <div class="switches" role="group" aria-label="Desk switches">
+      <button class="sw" id="sw-share" aria-pressed="false" title="Hide client names and calendar titles before you share your screen"><i></i>Screen share</button>
+      <button class="sw" id="sw-theme" aria-pressed="false" title="Switch light and dark"><i></i>Dark</button>
+    </div>
+  </header>
+
+  <div class="notice" id="demo" hidden>Example data. This page is not reading a real desk, so nothing here is real and anything you create stays in this tab.</div>
+  <div class="notice" id="flag" hidden></div>
+
+  <section class="nextup" id="nextup" aria-label="Now and next"></section>
+
+  <div class="grid">
+    <div class="col">
+      <section class="card" style="order:1" aria-labelledby="h-needs">
+        <div class="card-h"><h2 id="h-needs">Needs you today</h2><span class="eyebrow" id="needs-count"></span></div>
+        <div class="card-b"><ul class="items" id="needs"></ul><p class="small" id="needs-note"></p></div>
+      </section>
+      <section class="card" style="order:3" aria-labelledby="h-jobs">
+        <div class="card-h"><h2 id="h-jobs">My job orders</h2><span class="eyebrow" id="jobs-count"></span></div>
+        <div class="card-b" id="jobs"></div>
+      </section>
+      <section class="card" style="order:4" aria-labelledby="h-leads">
+        <div class="card-h"><h2 id="h-leads">Today's lead sheet</h2><span class="eyebrow">From Scout</span></div>
+        <div class="card-b" id="leads"></div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="card" style="order:2" aria-labelledby="h-score">
+        <div class="card-h"><h2 id="h-score">My scorecard</h2><span class="eyebrow" id="score-src"></span></div>
+        <div class="card-b" id="score"></div>
+      </section>
+      <section class="card" style="order:5" aria-labelledby="h-work">
+        <div class="card-h"><h2 id="h-work">My workflows</h2><span class="eyebrow" id="checkout-due"></span></div>
+        <div class="card-b"><div class="keys" id="keys"></div><p class="small" id="keys-note"></p></div>
+      </section>
+      <section class="card" style="order:6" aria-labelledby="h-train">
+        <div class="card-h"><h2 id="h-train">Training</h2><span class="eyebrow" id="train-track"></span></div>
+        <div class="card-b" id="train"></div>
+      </section>
+      <section class="card" style="order:7" aria-labelledby="h-chat">
+        <div class="card-h"><h2 id="h-chat">My assistant</h2><span class="eyebrow">Quick chat</span></div>
+        <div class="card-b" id="chat"></div>
+      </section>
+      <section class="card" style="order:8" aria-labelledby="h-tray">
+        <div class="card-h"><h2 id="h-tray">My tickets</h2><span class="eyebrow" id="tray-count"></span></div>
+        <div class="card-b"><ul class="tray" id="tray"></ul></div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <div class="tools" id="tools" aria-label="Tools"></div>
+    <p class="small" id="foot-note"></p>
+  </footer>
+  <p class="small">A mirror of Crelate and the Hub, not the system of record. Crelate is the truth. edenpartnergroup.com &middot; EDEN PARTNER GROUP</p>
+</div>
+
+<nav class="dock" aria-label="Workflows">
+  <button class="key" data-wf="brief">Morning<br>brief</button>
+  <button class="key" data-wf="powerhour">Power<br>Hour</button>
+  <button class="key" data-wf="checkout">Check<br>out</button>
+  <button class="key" data-wf="ticket">Hand a<br>ticket</button>
+</nav>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <div class="sheet-bg" data-stand></div>
+  <div class="panel" id="panel" tabindex="-1"></div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  /* The stamp-out replaces the JSON between the markers (workshop/core/recruiter-desk.ts renderDesk). `example: true` means template demo mode. */
+  var CFG = /*DESK_CONFIG_START*/{"example":true,"slug":"example","name":"Alex Example","first":"Alex","hubName":"Alex","office":"Vancouver","startDate":"2026-10-12","track":"accelerated","standards":{"rpsDay":15,"rpsWeek":75,"rotateDays":14},"ramp":[],"checkpoints":[],"template":"v0.1","stampedOn":"2026-10-21"}/*DESK_CONFIG_END*/;
+
+  /* Data contract. The page reads: profile/me  scorecard/week  jobs/{id}  leads/{id}  replies/{id}  training/track  training/wednesday  checkouts/{date}  tickets/{id}  actions/{key}.
+     It writes only: tickets/, actions/, checkouts/. Chat is never stored. Every document in this database belongs to this one recruiter. */
+  var MIN = 60000, HOUR = 3600000, DAY = 86400000;
+  var S = { live: false, db: null, canWrite: true, share: false, sample: null, mcp: null, cal: null, profile: null, score: null, jobs: {}, leads: {}, replies: {}, train: null, wed: null, checkouts: {}, tickets: {}, actions: {}, chat: [], pending: null, sheet: null, flash: '', run: null, unsub: {}, zzzOpen: {}, openDrafts: {}, wrong: false };
+  var TOOLS = [{ name: 'Crelate', url: 'https://app.crelate.com' }, { name: 'Team Hub', url: 'https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6' }, { name: 'CloudTalk', url: 'https://phone.cloudtalk.io' }];
+  var BOXES = [['plan', 'Executed on the weekly plan'], ['chase', "Didn't chase the day (15 RPs on track by noon)"], ['ais', 'Activity / Inventory / Skill'], ['ph', 'Power Hours hit'], ['review', 'Reviewed my work'], ['cal', 'Calendar set for tomorrow'], ['sharp', 'Showed up sharp']];
+  var AGENTS = [['scout', 'Scout', 'lead sheets and research'], ['host', 'Jenny', 'writing and replies'], ['q', 'Q', 'a tool that is slowing you down']];
+
+  /* ---------- helpers ---------- */
+  function $(s, el) { return (el || document).querySelector(s); }
+  function h(tag, attrs) {
+    var e = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) { if (k === 'class') e.className = attrs[k]; else if (k === 'text') e.textContent = attrs[k]; else if (attrs[k] !== false && attrs[k] != null) e.setAttribute(k, attrs[k]); });
+    for (var i = 2; i < arguments.length; i++) { var c = arguments[i]; if (c == null) continue; e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); }
+    return e;
+  }
+  function t(iso) { var n = Date.parse(iso); return isNaN(n) ? 0 : n; }
+  function dayStart(d) { var x = new Date(d); x.setHours(0, 0, 0, 0); return x; }
+  function ymd(d) { var x = new Date(d); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); }
+  function short(iso) { if (!iso) return 'never'; var d = Date.now() - t(iso); if (d < MIN) return 'now'; if (d < HOUR) return Math.floor(d / MIN) + 'm'; if (d < DAY) return Math.floor(d / HOUR) + 'h'; return Math.floor(d / DAY) + 'd'; }
+  function ago(iso) { var s = short(iso); return s === 'now' ? 'just now' : s === 'never' ? 'never' : s + ' ago'; }
+  function safeUrl(u) { return /^https:\/\//.test(String(u || '')) ? String(u) : ''; }
+  var tf = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit' });
+  function dlabel(iso) { var d = new Date(iso.length === 10 ? iso + 'T12:00:00' : iso); return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
+  function daysSince(iso) { if (!iso) return 0; var s = Date.parse(iso.length === 10 ? iso + 'T00:00:00' : iso); return isNaN(s) ? 0 : Math.max(0, Math.floor((dayStart(new Date()) - dayStart(new Date(s))) / DAY)); }
+  function led(s) { var i = h('i', { class: 'led', 'data-s': s }); i.setAttribute('aria-hidden', 'true'); return i; }
+  function weekdayIdx(d) { return (new Date(d).getDay() + 6) % 7; }                   // Monday = 0
+  function mondayOf(d) { var x = dayStart(d); x.setDate(x.getDate() - weekdayIdx(x)); return x; }
+  /* a name, an email or a number does not belong in a ticket */
+  function leaksContact(s) { return /[\w.+-]+@[\w-]+\.[\w.-]+/.test(s) || /\(?\+?\d[\d\s().-]{8,}\d/.test(s) || /\$\s?\d/.test(s); }
+
+  /* ---------- check-out timing: Mon to Thu 4:30 pm PT, Friday 1:00 pm PT (Dean's rhythm) ---------- */
+  var PT = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false });
+  function ptNow() { var p = {}; PT.formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; }); return { wd: p.weekday, mins: (parseInt(p.hour, 10) % 24) * 60 + parseInt(p.minute, 10) }; }
+  function checkoutInfo() {
+    var n = ptNow(); if (['Sat', 'Sun'].indexOf(n.wd) >= 0) return { none: true };
+    var due = n.wd === 'Fri' ? 13 * 60 : 16 * 60 + 30, left = due - n.mins;
+    return { none: false, left: left, at: new Date(Date.now() + left * MIN), label: n.wd === 'Fri' ? '1:00 pm PT' : '4:30 pm PT' };
+  }
+
+  /* ---------- the ramp: the RP target for today ---------- */
+  function rampTarget() {
+    var r = CFG.ramp || [], today = ymd(new Date()), target = CFG.standards.rpsDay, ramping = false;
+    if (r.length && today < r[0].from) return { target: 0, ramping: true, pre: true };
+    r.forEach(function (x) { if (today >= x.from) { target = x.rpsDay; ramping = target < CFG.standards.rpsDay || today < (r[r.length - 1].from); } });
+    return { target: target, ramping: ramping && target < CFG.standards.rpsDay };
+  }
+
+  /* ---------- writes: tickets, actions and check-outs on a user action ---------- */
+  function put(path, doc, onFail) { if (S.live && S.db && S.canWrite) S.db.doc(path).set(doc).catch(function () { if (onFail) onFail(); }); }
+  function makeTicket(o) {
+    var id = 't-' + new Date().toISOString().replace(/[-:T]/g, '').slice(0, 12) + '-' + Math.random().toString(36).slice(2, 6), now = new Date().toISOString();
+    var doc = { id: id, to: o.to, ask: o.ask, jo: o.jo || null, due: o.due || null, priority: o.priority || 'today', status: 'open', createdBy: CFG.slug, createdAt: now, updatedAt: now };
+    S.tickets[id] = doc; renderAll();
+    put('tickets/' + id, doc, function () { delete S.tickets[id]; S.flash = 'That ticket did not save. Try again.'; renderAll(); });
+    return doc;
+  }
+  function markAction(i, action, until) {
+    var doc = { key: i.key, title: i.title, action: action, at: new Date().toISOString(), by: CFG.slug };
+    if (until) doc.until = until.toISOString();
+    S.actions[i.key] = doc; S.zzzOpen = {}; renderAll();
+    put('actions/' + i.key, doc, function () { delete S.actions[i.key]; S.flash = 'That did not save. Try again.'; renderAll(); });
+  }
+  function undoAction(key) { delete S.actions[key]; renderAll(); if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).delete().catch(function () {}); }
+  function acted(key) { var x = S.actions[key]; return !!x && (x.action !== 'snooze' || t(x.until) > Date.now()); }
+  function nextWorkday(d) { var x = new Date(d); do { x.setDate(x.getDate() + 1); } while (x.getDay() === 6 || x.getDay() === 0); return x; }
+  function snoozeOptions() {
+    var now = new Date(), opts = [['1 hour', new Date(now.getTime() + HOUR)]], co = checkoutInfo();
+    if (!co.none && co.left > 60) opts.push(['Till check-out', co.at]);
+    var tm = nextWorkday(now); tm.setHours(7, 0, 0, 0); opts.push(['Tomorrow 7am', tm]);
+    return opts;
+  }
+
+  /* ---------- what needs you: replies, activity due, rotate flags, the next checkpoint ---------- */
+  function needsItems() {
+    var out = [], sod = dayStart(new Date()).getTime(), eod = sod + DAY;
+    Object.keys(S.replies).forEach(function (k) {
+      var r = S.replies[k]; if (r.done) return;
+      out.push({ key: 'reply-' + k, kind: 'reply', light: 'reply', word: 'Reply', rank: r.rank, title: r.title, why: r.why, at: r.raisedAt, preview: r.preview, link: safeUrl(r.link), order: 1 });
+    });
+    Object.keys(S.jobs).forEach(function (k) {
+      var j = S.jobs[k], label = jobLabel(j);
+      (j.due || []).forEach(function (d, n) {
+        var on = t(d.on.length === 10 ? d.on + 'T12:00:00' : d.on), over = on < sod, today = on >= sod && on < eod;
+        if (!over && !today) return;
+        out.push({ key: 'due-' + k + '-' + n, kind: 'due', light: over ? 'overdue' : 'today', word: over ? 'Overdue' : 'Due today', title: d.text + ' (' + label + ')', why: 'Due ' + dlabel(d.on) + '. Done here hides it on this desk; log it in Crelate to close it.', at: d.on, order: over ? 0 : 2 });
+      });
+      if (isRotate(j)) out.push({ key: 'rot-' + k, kind: 'rotate', light: 'today', word: 'Rotate?', title: label + ': day ' + daysSince(j.since) + ' on this job', why: 'Past ' + CFG.standards.rotateDays + ' days. Kev decides whether to keep or rotate; nothing changes until he does.', at: j.since, order: 3 });
+    });
+    var cp = nextCheckpoint(); if (cp && cp.days >= 0 && cp.days <= 3) out.push({ key: 'cp-' + cp.cp.date, kind: 'checkpoint', light: 'today', word: 'Checkpoint', title: 'Checkpoint ' + cp.cp.name + ' on ' + dlabel(cp.cp.date), why: 'Signed in person by Kev or Nick. Evidence comes from Crelate as of the Friday pull.', at: cp.cp.date, order: 3 });
+    return out.filter(function (i) { return !acted(i.key); }).sort(function (a, b) { return (a.order - b.order) || ((a.rank == null ? 99 : a.rank) - (b.rank == null ? 99 : b.rank)) || (t(a.at) - t(b.at)); });
+  }
+  function isRotate(j) { return !j.standby && j.roleOnJob !== 'standby' && daysSince(j.since) > CFG.standards.rotateDays; }
+  function jobLabel(j) { return S.share ? j.role : j.role + ' · ' + j.client; }
+  function nextCheckpoint() {
+    var cps = (S.train && S.train.checkpoints) || CFG.checkpoints || [], today = ymd(new Date());
+    var up = cps.filter(function (c) { return c.date >= today; }).sort(function (a, b) { return a.date < b.date ? -1 : 1; })[0];
+    return up ? { cp: up, days: Math.round((t(up.date + 'T12:00:00') - dayStart(new Date()).getTime() - 12 * HOUR) / DAY) } : null;
+  }
+
+  function itemRow(i) {
+    var acts = h('span', { class: 'sacts' });
+    if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: i.link, target: '_blank', rel: 'noopener', text: 'Open' }));
+    if (i.preview) { var rd = h('button', { class: 'mini txt', text: S.openDrafts[i.key] ? 'Hide draft' : 'Read draft' }); rd.addEventListener('click', function () { S.openDrafts[i.key] = !S.openDrafts[i.key]; renderAll(); }); acts.appendChild(rd); }
+    var done = h('button', { class: 'mini primary', text: 'Done' }), fu = h('button', { class: 'mini', text: 'Follow up' });
+    done.disabled = fu.disabled = !S.canWrite;
+    done.addEventListener('click', function () { markAction(i, 'done'); }); fu.addEventListener('click', function () { markAction(i, 'followup'); });
+    acts.appendChild(h('span', { class: 'seg', role: 'group', 'aria-label': 'Decide' }, done, fu));
+    if (!S.zzzOpen[i.key]) { var z = h('button', { class: 'mini', text: 'Zzz', title: 'Snooze' }); z.disabled = !S.canWrite; z.addEventListener('click', function () { S.zzzOpen[i.key] = true; renderAll(); }); acts.appendChild(z); }
+    else {
+      var g = h('span', { class: 'seg snooze', role: 'group', 'aria-label': 'Snooze until' });
+      snoozeOptions().forEach(function (o) { var b = h('button', { class: 'mini', text: o[0] }); b.addEventListener('click', function () { markAction(i, 'snooze', o[1]); }); g.appendChild(b); });
+      acts.appendChild(g);
+      var c = h('button', { class: 'mini txt', text: 'Cancel' }); c.addEventListener('click', function () { delete S.zzzOpen[i.key]; renderAll(); }); acts.appendChild(c);
+    }
+    var title = S.share && i.kind === 'reply' ? 'A reply is waiting' : i.title;
+    var li = h('li', { class: 'item' }, led(i.light), h('span', { class: 't' }, i.rank != null ? h('span', { class: 'rk', text: '#' + i.rank }) : null, h('span', { class: 'chip', text: i.word }), ' ', title, (!S.share && i.why) ? h('span', { class: 'why', text: i.why }) : null), acts);
+    if (i.preview && S.openDrafts[i.key] && !S.share) li.appendChild(h('div', { class: 'exact', text: i.preview + '\n\nA draft to proof. Nothing sends from this desk.' }));
+    return li;
+  }
+  function renderNeeds() {
+    var ul = $('#needs'); ul.textContent = '';
+    var items = needsItems(), shown = items.slice(0, 7);
+    if (!shown.length) ul.appendChild(h('li', { class: 'item' }, led('info'), h('span', { class: 't', text: 'Nothing needs you right now. Use the time: a Power Hour, or a lead sheet.' })));
+    shown.forEach(function (i) { ul.appendChild(itemRow(i)); });
+    $('#needs-count').textContent = items.length ? items.length + ' open' : '';
+    var later = Object.keys(S.actions).map(function (k) { return S.actions[k]; }).filter(function (x) { return acted(x.key); });
+    var snoozed = later.filter(function (x) { return x.action === 'snooze'; }), fu = later.filter(function (x) { return x.action === 'followup'; });
+    var note = $('#needs-note'); note.textContent = '';
+    if (items.length > shown.length) note.appendChild(document.createTextNode((items.length - shown.length) + ' more below the fold. '));
+    if (fu.length || snoozed.length) {
+      note.appendChild(document.createTextNode((fu.length ? fu.length + ' follow-up' + (fu.length > 1 ? 's' : '') + ' · ' : '') + (snoozed.length ? snoozed.length + ' snoozed. ' : '')));
+      var u = h('button', { class: 'mini txt', text: 'Bring them back' }); u.addEventListener('click', function () { later.forEach(function (x) { undoAction(x.key); }); }); note.appendChild(u);
+    }
+  }
+
+  /* ---------- job orders ---------- */
+  function renderJobs() {
+    var box = $('#jobs'); box.textContent = '';
+    var list = Object.keys(S.jobs).map(function (k) { return S.jobs[k]; });
+    list.sort(function (a, b) { return (isRotate(b) - isRotate(a)) || (a.standby - b.standby) || (a.role < b.role ? -1 : 1); });
+    var rot = list.filter(isRotate).length;
+    $('#jobs-count').textContent = list.length + ' active' + (rot ? ' · ' + rot + ' to rotate' : '');
+    if (!list.length) box.appendChild(h('p', { class: 'small', text: 'No job orders on you in the Hub yet. Ask Kev or Nick, or check the Job Orders folder.' }));
+    list.forEach(function (j) {
+      var d = daysSince(j.since), rotate = isRotate(j), lastAct = j.lastActivityAt ? daysSince(j.lastActivityAt) : null;
+      var el = h('div', { class: 'jo' + (rotate ? ' rot' : '') });
+      el.appendChild(h('div', { class: 'jo-h' }, h('b', { text: j.role }), h('span', { class: 'tags' },
+        j.standby ? h('span', { class: 'chip', text: 'Standby' }) : null,
+        h('span', { class: 'chip', text: 'Day ' + d }),
+        rotate ? h('span', { class: 'chip warn', text: '14+ days, rotate?' }) : null,
+        (!j.standby && lastAct != null && lastAct >= 3) ? h('span', { class: 'chip warn', text: 'No activity in ' + lastAct + 'd' }) : null)));
+      el.appendChild(h('div', { class: 'sub', text: (S.share ? 'Client hidden' : j.client) + ' · ' + j.location + (j.roleOnJob ? ' · you are ' + j.roleOnJob : '') + ((j.coWorkers || []).length ? ' · with ' + j.coWorkers.map(function (c) { return c.name + (c.roleOnJob ? ' (' + c.roleOnJob + ')' : ''); }).join(', ') : '') }));
+      var sod = dayStart(new Date()).getTime();
+      (j.due || []).slice(0, 3).forEach(function (x) {
+        var over = t(x.on.length === 10 ? x.on + 'T12:00:00' : x.on) < sod;
+        el.appendChild(h('div', { class: 'due' }, h('span', { text: x.text }), h('span', { class: 'chip' + (over ? ' warn' : ''), text: (over ? 'Overdue ' : 'Due ') + dlabel(x.on) })));
+      });
+      var links = h('div', { class: 'sacts' });
+      (j.leads || []).forEach(function (l) { var u = safeUrl(l.url); if (u) links.appendChild(h('a', { class: 'mini txt', href: u, target: '_blank', rel: 'noopener', text: (S.share ? 'Lead sheet' : l.title) + (l.count != null ? ' (' + l.count + ')' : '') })); });
+      if (links.childNodes.length) el.appendChild(links);
+      box.appendChild(el);
+    });
+    box.appendChild(h('p', { class: 'small', text: 'From the Hub Job Orders folder' + (S.live ? '' : ' (example)') + '. Log each activity against its job in Crelate; that is how the client and the scorecard see the work.' }));
+  }
+
+  /* ---------- scorecard: this recruiter only ---------- */
+  function renderScore() {
+    var box = $('#score'); box.textContent = '';
+    var sc = S.score, rt = rampTarget(), std = CFG.standards;
+    if (!sc) { box.appendChild(h('p', { class: 'small', text: 'No numbers yet. Dean\'s Friday pull and the hourly Crelate read fill this in once your first activity is logged.' })); $('#score-src').textContent = ''; return; }
+    var target = rt.target, today = sc.today || 0, wk = (sc.days || []).reduce(function (a, b) { return a + (b || 0); }, 0);
+    if (sc.weekTotal != null) wk = sc.weekTotal;
+    $('#score-src').textContent = 'Crelate · ' + (sc.asOf ? tf.format(new Date(sc.asOf)) : 'n/a');
+    var head = h('div', { class: 'big' }, h('b', { text: String(today) }), h('span', { text: target ? '/ ' + target + ' RPs today' : 'RPs today' }));
+    box.appendChild(head);
+    if (rt.pre) box.appendChild(h('p', { class: 'small', text: 'Your start date is ahead. Nothing is expected yet.' }));
+    else if (!target) box.appendChild(h('p', { class: 'small', text: 'Shadow week: log every activity you do; there is no RP target yet.' }));
+    else {
+      var pct = Math.min(100, Math.round(today / target * 100)), bar = h('div', { class: 'bar' + (today >= target ? ' done' : ''), role: 'img', 'aria-label': today + ' of ' + target + ' RPs today' }, h('i', { style: 'width:' + pct + '%' }));
+      box.appendChild(bar);
+      var n = new Date(), pre = n.getHours() < 12;
+      box.appendChild(h('p', { class: 'small', text: (rt.ramping ? 'Ramp target ' + target + ' a day (standard ' + std.rpsDay + '). ' : 'Standard ' + std.rpsDay + ' a day. ') + (today >= target ? 'Target hit.' : pre ? 'The noon mark is ' + target + '. Don\'t chase the day.' : (target - today) + ' to go.') }));
+    }
+    box.appendChild(h('div', { class: 'big' }, h('b', { text: String(wk) }), h('span', { text: '/ ' + std.rpsWeek + ' this week' })));
+    box.appendChild(h('div', { class: 'bar' + (wk >= std.rpsWeek ? ' done' : ''), role: 'img', 'aria-label': wk + ' of ' + std.rpsWeek + ' RPs this week' }, h('i', { style: 'width:' + Math.min(100, Math.round(wk / std.rpsWeek * 100)) + '%' })));
+    var days = sc.days || [], mx = Math.max(std.rpsDay + 3, Math.max.apply(null, days.concat([0]))), wrap = h('div', { class: 'days' }), idx = weekdayIdx(new Date()), at15 = 0;
+    wrap.appendChild(h('span', { class: 'line15', style: 'bottom:' + Math.round(std.rpsDay / mx * 100) + '%' }));
+    ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].forEach(function (nm, n) {
+      var v = days[n] == null ? null : days[n]; if (v != null && v >= std.rpsDay) at15++;
+      var bar = h('i', { class: (v != null && v >= std.rpsDay ? 'ok ' : '') + (n === idx ? 'now' : ''), style: 'height:' + (v ? Math.max(3, Math.round(v / mx * 100)) : 0) + '%' });
+      wrap.appendChild(h('div', { class: 'd', title: nm + ': ' + (v == null ? 'not yet' : v) }, h('span', { text: v == null ? '' : String(v) }), bar));
+    });
+    box.appendChild(wrap);
+    box.appendChild(h('div', { class: 'dlab' }, h('span', { text: 'Mon' }), h('span', { text: 'Tue' }), h('span', { text: 'Wed' }), h('span', { text: 'Thu' }), h('span', { text: 'Fri' })));
+    box.appendChild(h('p', { class: 'small', text: at15 + ' of 5 days at ' + std.rpsDay + ' or more.' }));
+    var stats = h('div', { class: 'stats' });
+    [['PTCs', sc.ptcs], ['Submittals', sc.subs], ['FTIs', sc.ftis]].forEach(function (s) { stats.appendChild(h('div', { class: 'stat' }, h('b', { text: s[1] == null ? 'n/a' : String(s[1]) }), h('span', { text: s[0] }))); });
+    box.appendChild(stats);
+    var stale = sc.asOf && Date.now() - t(sc.asOf) > 3 * HOUR;
+    box.appendChild(h('p', { class: 'small', text: 'Your numbers only, per Crelate, as of ' + (sc.asOf ? ago(sc.asOf) : 'n/a') + (stale ? '. Older than 3 hours: tell Q.' : '') + '. A call not logged does not count.' + (sc.partial ? ' Partial week.' : '') }));
+  }
+
+  /* ---------- lead sheets (links and counts only; names and numbers stay in the sheet) ---------- */
+  function renderLeads() {
+    var box = $('#leads'); box.textContent = '';
+    var list = Object.keys(S.leads).map(function (k) { return S.leads[k]; }).sort(function (a, b) { return t(b.built) - t(a.built); });
+    if (!list.length) {
+      box.appendChild(h('p', { class: 'small', text: 'No sheet for today yet. Scout builds sheets overnight for the jobs you lead; if one is missing, ask.' }));
+      var ask = h('button', { class: 'mini primary', text: 'Ask Scout for one' }); ask.addEventListener('click', function () { openSheet('ticket', { to: 'scout', ask: 'Build or refresh a lead sheet for my lead job order.' }); }); box.appendChild(ask); return;
+    }
+    list.forEach(function (l) {
+      var u = safeUrl(l.url), old = daysSince(l.built) > 7;
+      var row = h('div', { class: 'lead' }, h('div', { class: 'jo-h' }, h('b', { text: S.share ? 'Lead sheet' : l.role }), h('span', { class: 'tags' }, h('span', { class: 'chip' + (old ? ' warn' : ''), text: 'Built ' + (daysSince(l.built) === 0 ? 'today' : daysSince(l.built) + 'd ago') }))));
+      row.appendChild(h('div', { class: 'sub small', text: 'Tier 1: ' + (l.tier1 == null ? 'n/a' : l.tier1) + ' · Tier 2: ' + (l.tier2 == null ? 'n/a' : l.tier2) + ' · New to Crelate: ' + (l.newCount == null ? 'n/a' : l.newCount) + ' · Already in Crelate: ' + (l.inCrelate == null ? 'n/a' : l.inCrelate) }));
+      var acts = h('div', { class: 'sacts' });
+      if (u) acts.appendChild(h('a', { class: 'mini primary', href: u, target: '_blank', rel: 'noopener', text: 'Open the sheet' }));
+      var rf = h('button', { class: 'mini', text: old ? 'Ask Scout to refresh' : 'Request a refresh' }); rf.addEventListener('click', function () { openSheet('ticket', { to: 'scout', ask: 'Refresh the lead sheet for ' + l.role + '.' }); }); acts.appendChild(rf);
+      row.appendChild(acts); box.appendChild(row);
+    });
+    box.appendChild(h('p', { class: 'small', text: 'Clients are excluded and rows already in Crelate are marked before you see the sheet. Fill in Called and Result as you dial.' }));
+  }
+
+  /* ---------- training ---------- */
+  function renderTrain() {
+    var box = $('#train'); box.textContent = '';
+    var label = { accelerated: 'Accelerated ramp', standard: 'New recruiter · 90 days', established: 'Weekly training' }[CFG.track] || CFG.track;
+    $('#train-track').textContent = label;
+    var cps = (S.train && S.train.checkpoints) || CFG.checkpoints || [], nx = nextCheckpoint();
+    cps.forEach(function (c) { box.appendChild(h('div', { class: 'cp' + (nx && nx.cp.date === c.date ? ' next' : '') }, h('span', { text: c.name }), h('span', { class: 'dt', text: dlabel(c.date) }))); });
+    if (cps.length) box.appendChild(h('p', { class: 'small', text: 'Checkpoints are signed in person by Kev or Nick, on Crelate evidence. Dates are proposed.' }));
+    var w = S.wed;
+    if (w) {
+      var u = safeUrl(w.url);
+      box.appendChild(h('div', { class: 'lead' }, h('span', { class: 'eyebrow', text: 'This Wednesday · ' + dlabel(w.date) }), h('b', { text: w.title }), w.outcome ? h('span', { class: 'small', text: w.outcome }) : null, u ? h('a', { class: 'mini primary', style: 'align-self:flex-start', href: u, target: '_blank', rel: 'noopener', text: 'Open the training page' }) : null));
+    } else box.appendChild(h('p', { class: 'small', text: 'The Wednesday page lands here Tuesday evening.' }));
+    ((S.train && S.train.week) || []).forEach(function (m) { var u = safeUrl(m.url); box.appendChild(h('div', { class: 'cp' }, u ? h('a', { href: u, target: '_blank', rel: 'noopener', text: m.title }) : h('span', { text: m.title }), h('span', { class: 'dt', text: 'This week' }))); });
+  }
+
+  /* ---------- workflows ---------- */
+  var WF = [
+    { id: 'brief', name: 'Morning brief', note: 'Your day in 120 words', ai: true },
+    { id: 'powerhour', name: 'Power Hour call sheet', note: 'Which job, which tier, how many dials', ai: true },
+    { id: 'leads', name: "Today's lead sheet", note: 'Open it, or ask Scout', ai: false },
+    { id: 'inbox', name: 'Inbox drafts', note: 'Drafts for your top replies', ai: true },
+    { id: 'checkout', name: 'End-of-day check-out', note: 'Feeds Dean\'s Friday scorecard', ai: false },
+    { id: 'ticket', name: 'Hand a ticket', note: 'To Scout, Jenny or Q', ai: false }
+  ];
+  function renderKeys() {
+    var box = $('#keys'); box.textContent = '';
+    WF.forEach(function (w) {
+      var b = h('button', { class: 'key', 'data-wf': w.id }, w.name, h('small', { text: w.note }));
+      if (w.ai && !S.sample) b.disabled = true;
+      box.appendChild(b);
+    });
+    $('#keys-note').textContent = S.sample ? 'Drafts only. Nothing sends, spends or publishes from this desk.' : 'The brief, call sheet and inbox drafts need Claude access on this page. Allow it when Claude asks, or reload to be asked again.';
+    var co = checkoutInfo(), filed = S.checkouts[ymd(new Date())];
+    $('#checkout-due').textContent = filed ? 'Check-out filed ' + tf.format(new Date(filed.at)) : co.none ? 'No check-out today' : co.left > 0 ? 'Check-out ' + co.label + ' · in ' + Math.floor(co.left / 60) + 'h ' + (co.left % 60) + 'm' : 'Check-out was due ' + co.label;
+  }
+  function context() {
+    var L = [], rt = rampTarget(), sc = S.score;
+    L.push('Recruiter: ' + CFG.first + ' (' + CFG.office + '), track: ' + CFG.track + ', started ' + CFG.startDate + '. Today is ' + new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) + '.');
+    L.push('Standards: 15 RPs a day, 75 a week. Today\'s target: ' + (rt.pre ? 'not started' : rt.target || 'none (shadow week)') + '.');
+    if (sc) L.push('Numbers per Crelate: ' + sc.today + ' RPs today, week by day ' + (sc.days || []).map(function (d) { return d == null ? '-' : d; }).join('/') + ', PTCs ' + sc.ptcs + ', submittals ' + sc.subs + ', FTIs ' + sc.ftis + '.');
+    Object.keys(S.jobs).forEach(function (k) { var j = S.jobs[k]; L.push('Job: ' + j.role + ', ' + j.client + ', ' + j.location + ', day ' + daysSince(j.since) + (j.standby ? ', standby' : '') + (isRotate(j) ? ', past ' + CFG.standards.rotateDays + ' days (Kev decides)' : '') + (j.due || []).map(function (d) { return '; due: ' + d.text + ' ' + d.on; }).join('') + '.'); });
+    Object.keys(S.leads).forEach(function (k) { var l = S.leads[k]; L.push('Lead sheet: ' + l.role + ', built ' + l.built + ', tier 1 ' + l.tier1 + ', tier 2 ' + l.tier2 + ', new to Crelate ' + l.newCount + '.'); });
+    Object.keys(S.replies).forEach(function (k) { var r = S.replies[k]; L.push('Reply waiting #' + r.rank + ': ' + r.title + (r.why ? ' (' + r.why + ')' : '') + '.'); });
+    var evs = calEvents().filter(function (e) { return e.start.toDateString() === new Date().toDateString(); });
+    if (evs.length) L.push('Calendar today: ' + evs.map(function (e) { return tf.format(e.start) + ' ' + e.title; }).join('; ') + '.');
+    var nx = nextCheckpoint(); if (nx) L.push('Next checkpoint: ' + nx.cp.name + ' on ' + nx.cp.date + '.');
+    if (S.wed) L.push('Wednesday training: ' + S.wed.title + ' on ' + S.wed.date + '.');
+    return L.join('\n');
+  }
+  var RULES = 'RULES: Use only the facts above; say "not on the desk" for anything missing. Never invent numbers, names or techniques, and never attribute a technique to Kev. No pay, no phone numbers, no email addresses. Plain words, no emoji. You draft; you never send, spend or publish.';
+  var PROMPTS = {
+    brief: function () { return 'Write ' + CFG.first + '\'s morning brief in under 120 words. Order: (1) the day in one line (events, Power Hours), (2) the RP plan: the target and the noon mark, (3) the top three actions on their job orders, overdue first, (4) one training reminder. Short lines.'; },
+    powerhour: function () { return 'Build a call sheet for one 60-minute Power Hour. Pick the one job order with the best lead sheet and the most due work, and say why in a line. Then give: minute-by-minute blocks (open the sheet and Crelate; dial Tier 1 first, then Tier 2; the last ten minutes log every call in Crelate against the job, because a call not logged does not count), a dial target, and what to do with a voicemail. Under 150 words.'; },
+    inbox: function () { return 'For each reply waiting (at most three, best first), write a short draft reply in ' + CFG.first + '\'s voice: warm, direct, one clear next step. Label each with its number. If there are no replies waiting, say so in one line.'; }
+  };
+  function runWorkflow(id) {
+    if (!S.sample) return;
+    var titles = { brief: 'Morning brief', powerhour: 'Power Hour call sheet', inbox: 'Inbox drafts' };
+    S.run = { id: id, title: titles[id], text: '', done: false, err: '' }; openSheet('run', id);
+    S.sample('You are ' + CFG.first + '\'s desk assistant at Eden Executive Search. ' + RULES + '\n\nTHE DESK RIGHT NOW (' + (S.live ? 'live' : 'example data') + '):\n' + context() + '\n\nTASK: ' + PROMPTS[id](), { modelTier: 'quick', cache: false, onText: function (x) {
+      if (!S.run || S.run.id !== id) return; S.run.text = x.text; var el = $('#run-out'); if (el) el.textContent = x.text;
+    } }).then(function (r) { if (S.run && S.run.id === id) { S.run.text = (r.text || '').trim(); S.run.done = true; renderSheet(); } },
+      function (err) { if (S.run) { S.run.err = COPY[err && err.code] || 'That did not come through. Try again.'; S.run.done = true; if (err && err.code === 'not_granted') S.sample = null; renderAll(); } });
+  }
+  var COPY = { not_granted: 'Claude access was declined for this page. Reload to be asked again.', rate_limited: 'Too many at once. Give it a few seconds.' };
+
+  /* ---------- quick chat: the fast model, briefed with this desk; nothing is saved ---------- */
+  function sendChat(text) {
+    if (!S.sample || S.pending) return;
+    S.chat.push({ role: 'me', text: text }); S.pending = { text: '' }; renderChat();
+    var hist = S.chat.slice(-9, -1).map(function (m) { return (m.role === 'me' ? CFG.first + ': ' : 'Assistant: ') + m.text; }).join('\n');
+    var prompt = 'You are ' + CFG.first + '\'s desk assistant at Eden Executive Search, a quick chat on their own desk. Reply in at most four short sentences, plain words. You help plan the day, prep a call, think through a job order and draft a message to proof. ' + RULES +
+      ' You only know the desk below; you have not looked at Crelate, email or files, so never say you did. When ' + CFG.first + ' needs real work from Scout (lead sheets, research), Jenny (writing, replies) or Q (a tool in the way), end with one line: "Ticket (Scout|Jenny|Q): <the ask in one sentence>".\n\nTHE DESK RIGHT NOW:\n' + context() + (hist ? '\n\nEARLIER IN THIS CHAT:\n' + hist : '') + '\n\n' + CFG.first + ': ' + text + '\n\nAssistant:';
+    S.sample(prompt, { modelTier: 'quick', cache: false, onText: function (x) { if (!S.pending) return; S.pending.text = x.text; var el = $('#pendingmsg'); if (el) el.lastChild.textContent = x.text; } }).then(function (r) {
+      S.pending = null; S.chat.push({ role: 'ai', text: (r.text || '').trim() }); renderChat(); var lg = $('.chatlog'); if (lg) lg.scrollTop = lg.scrollHeight;
+    }, function (err) {
+      var kept = S.pending && S.pending.text; S.pending = null; if (kept) S.chat.push({ role: 'ai', text: kept.trim() });
+      S.flash = COPY[err && err.code] || 'That reply did not come through. Try again.'; if (err && err.code === 'not_granted') S.sample = null; renderAll();
+    });
+  }
+  function renderChat() {
+    var box = $('#chat'), old = $('#chat-in'), keep = old ? old.value : '', hadFocus = !!old && document.activeElement === old; box.textContent = '';
+    if (!S.sample) { box.appendChild(h('p', { class: 'small', text: 'Chat needs Claude access on this page; it lights up in the Claude viewer. Hand a ticket meanwhile.' })); return; }
+    if (S.share) { box.appendChild(h('p', { class: 'small', text: 'Chat is hidden while you share your screen.' })); return; }
+    var log = h('div', { class: 'chatlog', 'aria-live': 'polite' });
+    S.chat.slice(-14).forEach(function (m) { log.appendChild(h('div', { class: 'msg ' + m.role }, h('b', { text: m.role === 'me' ? 'You' : 'Assistant' }), m.text)); });
+    if (S.pending) log.appendChild(h('div', { class: 'msg ai', id: 'pendingmsg' }, h('b', { text: 'Assistant' }), S.pending.text || 'Thinking...'));
+    if (!log.childNodes.length) log.appendChild(h('p', { class: 'small', text: 'Ask it to plan your hour, prep a call or think through a job. It knows this desk, not your files.' }));
+    box.appendChild(log);
+    var last = S.chat.filter(function (m) { return m.role === 'ai'; }).slice(-1)[0], tm = last && /^Ticket \((Scout|Jenny|Q)\):\s*(.+)$/m.exec(last.text);
+    if (tm && !S.pending) {
+      var mk = h('button', { class: 'mini', text: 'Make it a ticket to ' + tm[1] }); mk.disabled = !S.canWrite;
+      mk.addEventListener('click', function () { openSheet('ticket', { to: tm[1].toLowerCase() === 'jenny' ? 'host' : tm[1].toLowerCase(), ask: tm[2].trim().slice(0, 500) }); }); box.appendChild(mk);
+    }
+    var f = h('form', { class: 'chatform' }), ta = h('textarea', { id: 'chat-in', maxlength: '1000', placeholder: 'Ask your assistant. Enter sends; Shift+Enter for a new line.', 'aria-label': 'Message your assistant' });
+    var go = h('button', { class: 'key', type: 'submit', text: S.pending ? '...' : 'Send' }); go.disabled = !!S.pending;
+    ta.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); if (f.requestSubmit) f.requestSubmit(); else go.click(); } });
+    f.addEventListener('submit', function (ev) { ev.preventDefault(); var v = ta.value.trim(); if (!v) return; ta.value = ''; S.flash = ''; sendChat(v); });
+    f.appendChild(ta); f.appendChild(go); box.appendChild(f);
+    if (keep) ta.value = keep; if (hadFocus) ta.focus();
+    box.appendChild(h('p', { class: 'small', text: S.flash || 'Fast model. This chat is not saved anywhere: close the tab and it is gone. Tickets and check-outs are saved.' }));
+  }
+
+  /* ---------- tickets ---------- */
+  function renderTray() {
+    var ul = $('#tray'); ul.textContent = '';
+    var mine = Object.keys(S.tickets).map(function (k) { return S.tickets[k]; }).sort(function (a, b) { return t(b.createdAt) - t(a.createdAt); });
+    var open = mine.filter(function (x) { return ['done', 'closed'].indexOf(x.status) < 0; }).length;
+    $('#tray-count').textContent = open + ' open';
+    mine.slice(0, 6).forEach(function (x) {
+      var who = (AGENTS.filter(function (a) { return a[0] === x.to; })[0] || [0, x.to])[1];
+      var li = h('li', { class: 'ticket' }, S.share ? 'A ticket to ' + who : x.ask, h('small', { text: 'To ' + who + ' · ' + x.status + ' · ' + x.priority + (x.due ? ' · due ' + x.due : '') + ' · ' + ago(x.createdAt) }));
+      if (x.result && x.result.summary) li.appendChild(h('small', { text: 'Result: ' + x.result.summary }));
+      if (x.result && safeUrl(x.result.link)) li.appendChild(h('a', { class: 'mini txt', href: safeUrl(x.result.link), target: '_blank', rel: 'noopener', text: 'Open the result' }));
+      ul.appendChild(li);
+    });
+    if (!mine.length) ul.appendChild(h('li', { class: 'small', text: 'Nothing open. A ticket goes to Scout, Jenny or Q and is picked up in the next weekday sweep.' }));
+  }
+  function nextSweep() {
+    var start = Math.ceil(Date.now() / MIN) * MIN;
+    for (var i = 0; i < 8 * 24 * 60; i++) {
+      var p = {}; PT.formatToParts(new Date(start + i * MIN)).forEach(function (x) { p[x.type] = x.value; });
+      var hr = parseInt(p.hour, 10) % 24;
+      if (parseInt(p.minute, 10) === 7 && hr >= 7 && hr <= 18 && ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].indexOf(p.weekday) >= 0) return p.weekday + ' ' + (hr % 12 || 12) + ':07 ' + (hr < 12 ? 'am' : 'pm') + ' PT';
+    }
+    return 'the next weekday morning';
+  }
+
+  /* ---------- sheets ---------- */
+  var lastFocus = null;
+  function openSheet(kind, arg) {
+    lastFocus = document.activeElement; S.sheet = { kind: kind, arg: arg }; S.flash = '';
+    $('#sheet').hidden = false; renderSheet(); var p = $('#panel'); p.scrollTop = 0; p.focus();
+  }
+  function stand() { S.sheet = null; $('#sheet').hidden = true; if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (e) {} } }
+  function head(title, sub) {
+    return h('div', { class: 'panel-h' }, h('h2', { id: 'sheet-title', text: title }), sub ? h('span', { class: 'eyebrow', text: sub }) : null, h('button', { class: 'stand', 'data-stand': '', text: 'Close · Esc' }));
+  }
+  function ticketForm(pre) {
+    var f = h('form'), sel = h('select', { required: 'required', 'aria-label': 'Send to' });
+    AGENTS.forEach(function (a) { sel.appendChild(h('option', { value: a[0], text: a[1] + ' · ' + a[2] })); });
+    sel.value = (pre && pre.to) || 'scout';
+    var ask = h('textarea', { maxlength: '500', required: 'required', placeholder: 'What do you need? Names and roles only: no phone numbers, emails, pay or candidate contact details.' }); if (pre && pre.ask) ask.value = pre.ask;
+    var pr = h('select'); [['today', 'Today'], ['whenever', 'Whenever']].forEach(function (o) { pr.appendChild(h('option', { value: o[0], text: o[1] })); });
+    var jo = h('select'); jo.appendChild(h('option', { value: '', text: 'No job order' })); Object.keys(S.jobs).forEach(function (k) { jo.appendChild(h('option', { value: S.jobs[k].role, text: S.jobs[k].role })); });
+    var due = h('input', { type: 'date' });
+    f.appendChild(h('label', null, 'Send to', sel)); f.appendChild(h('label', null, 'Priority', pr));
+    f.appendChild(h('label', { class: 'full' }, 'Ask', ask)); f.appendChild(h('label', null, 'Job order', jo)); f.appendChild(h('label', null, 'Due (optional)', due));
+    var go = h('button', { class: 'key', type: 'submit', text: 'Create ticket' }); go.disabled = !S.canWrite;
+    var msg = h('p', { class: 'small full', id: 'ticket-msg', role: 'status', text: 'Picked up in the next weekday sweep (' + nextSweep() + '). A ticket never approves a send, a spend or a post.' });
+    f.appendChild(h('div', null, go)); f.appendChild(msg);
+    f.addEventListener('submit', function (ev) {
+      ev.preventDefault(); var v = ask.value.trim(); if (!v) return;
+      if (leaksContact(v)) { msg.textContent = 'Take the email, phone number or dollar amount out. A name and a role is enough; the sheet already has the rest.'; return; }
+      makeTicket({ to: sel.value, ask: v, priority: pr.value, jo: jo.value, due: due.value }); S.flash = 'Created. It shows under My tickets.'; stand();
+    });
+    return f;
+  }
+  function checkoutForm() {
+    var key = ymd(new Date()), prev = S.checkouts[key], sc = S.score, f = h('form');
+    var boxes = h('div', { class: 'full', style: 'display:grid;gap:8px' });
+    BOXES.forEach(function (b) { var c = h('input', { type: 'checkbox', name: b[0] }); if (prev && prev.boxes && prev.boxes[b[0]]) c.checked = true; boxes.appendChild(h('label', { class: 'check' }, c, b[1])); });
+    f.appendChild(boxes);
+    var rps = h('input', { type: 'number', min: '0', max: '999', name: 'rps' }); rps.value = prev ? prev.rpsSelf : (sc ? sc.today : '');
+    var focus = h('select', { name: 'focus' }); focus.appendChild(h('option', { value: '', text: 'Not set' })); Object.keys(S.jobs).forEach(function (k) { focus.appendChild(h('option', { value: S.jobs[k].role, text: S.jobs[k].role })); });
+    if (prev && prev.focus) focus.value = prev.focus;
+    var au = h('textarea', { name: 'autopsy', maxlength: '300', placeholder: 'One line: what I would do differently.' }); if (prev) au.value = prev.autopsy || '';
+    f.appendChild(h('label', null, 'RPs I made today' + (sc ? ' (Crelate shows ' + sc.today + ')' : ''), rps)); f.appendChild(h('label', null, "Tomorrow's Power Hour job", focus));
+    f.appendChild(h('label', { class: 'full' }, 'Autopsy', au));
+    var go = h('button', { class: 'key', type: 'submit', text: prev ? 'Update check-out' : 'File check-out' }); go.disabled = !S.canWrite;
+    f.appendChild(h('div', null, go));
+    f.appendChild(h('p', { class: 'small full', id: 'co-msg', role: 'status', text: 'Feeds Dean\'s Friday scorecard. Kev, Nick and Dean can read what you file here; no other recruiter can. Work only: no health, family or pay.' }));
+    f.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (leaksContact(au.value)) { $('#co-msg').textContent = 'Take the email, phone number or dollar amount out of the autopsy, then file.'; return; }
+      var bx = {}; BOXES.forEach(function (b) { bx[b[0]] = !!f.elements[b[0]].checked; });
+      var doc = { date: key, boxes: bx, boxCount: BOXES.filter(function (b) { return bx[b[0]]; }).length, rpsSelf: rps.value === '' ? null : parseInt(rps.value, 10), rpsCrelate: sc ? sc.today : null, focus: focus.value, autopsy: au.value.trim(), at: new Date().toISOString(), by: CFG.slug };
+      S.checkouts[key] = doc; put('checkouts/' + key, doc, function () { delete S.checkouts[key]; S.flash = 'The check-out did not save. Try again.'; renderAll(); });
+      stand(); renderAll();
+    });
+    return f;
+  }
+  function renderSheet() {
+    var sh = S.sheet; if (!sh) return;
+    var p = $('#panel'); p.textContent = '';
+    if (sh.kind === 'ticket') { p.appendChild(head('Hand a ticket', 'Scout · Jenny · Q')); p.appendChild(h('div', { class: 'panel-b' }, ticketForm(sh.arg))); }
+    else if (sh.kind === 'checkout') {
+      var co = checkoutInfo(); p.appendChild(head('End-of-day check-out', co.none ? 'No check-out today' : 'Due ' + co.label));
+      p.appendChild(h('div', { class: 'panel-b' }, checkoutForm()));
+    } else if (sh.kind === 'run') {
+      var r = S.run; p.appendChild(head(r ? r.title : 'Result', S.live ? 'Live desk' : 'Example data'));
+      var out = h('div', { class: 'out', id: 'run-out', 'aria-live': 'polite', text: r ? (r.err || r.text || 'Working...') : '' });
+      var body = h('div', { class: 'panel-b' }, out);
+      if (r && r.done && r.text) {
+        var cp = h('button', { class: 'key', style: 'align-self:flex-start', text: 'Copy' });
+        cp.addEventListener('click', function () { var done = function () { cp.textContent = 'Copied'; }, sel = function () { var rg = document.createRange(); rg.selectNodeContents(out); var s = getSelection(); s.removeAllRanges(); s.addRange(rg); cp.textContent = 'Selected: copy it'; };
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(r.text).then(done, sel); else sel(); });
+        body.appendChild(cp);
+      }
+      body.appendChild(h('p', { class: 'small', text: 'A draft from your desk assistant. It used only what is on this desk. Proof it; nothing sends.' }));
+      p.appendChild(body);
+    }
+  }
+
+  /* ---------- now and next: your calendar, live through your own Google Calendar connector (read only) ---------- */
+  function pad2(n) { return String(n).padStart(2, '0'); }
+  function isoLocal(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) + 'T' + pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds()); }
+  function calEvents() { return (S.cal && S.cal.events) || (S.demoCal || []); }
+  function normCal(list) {
+    return (list || []).filter(function (ev) {
+      if (!ev || ev.status === 'cancelled' || !ev.start || !ev.start.dateTime) return false;
+      var me = (ev.attendees || []).filter(function (a) { return a.self; })[0]; return !(me && me.responseStatus === 'declined');
+    }).map(function (ev) {
+      var eps = (ev.conferenceData && ev.conferenceData.entryPoints) || [], vid = eps.filter(function (x) { return x.entryPointType === 'video' && x.uri; })[0];
+      var url = ev.hangoutLink || (vid && vid.uri) || ((String(ev.location || '').match(/https:\/\/\S+/) || [''])[0]);
+      return { title: ev.summary || '(no title)', start: new Date(ev.start.dateTime), end: new Date(ev.end && ev.end.dateTime || ev.start.dateTime), join: /^https:\/\//.test(url || '') ? url : '' };
+    }).sort(function (a, b) { return a.start - b.start; });
+  }
+  function inLabel(ms) { var m = Math.round(ms / MIN); return m < 1 ? 'now' : m < 60 ? 'in ' + m + 'm' : 'in ' + Math.floor(m / 60) + 'h' + (m % 60 ? ' ' + (m % 60) + 'm' : ''); }
+  function isPH(e) { return /power\s*hour/i.test(e.title); }
+  function renderNext() {
+    var box = $('#nextup'); box.textContent = '';
+    var now = Date.now(), evs = calEvents(), cur = evs.filter(function (e) { return e.start <= now && e.end > now; })[0], up = evs.filter(function (e) { return e.start > now; }).slice(0, 4);
+    var nb = h('div', { class: 'nowbox' }, h('span', { class: 'eyebrow', text: 'Now' })), hideT = S.share;
+    if (cur) { nb.appendChild(h('b', { text: hideT ? 'In an event' : cur.title })); nb.appendChild(h('span', { class: 'small', text: 'until ' + tf.format(cur.end) })); if (cur.join && !hideT) nb.appendChild(h('a', { class: 'join', href: cur.join, target: '_blank', rel: 'noopener', text: 'Join →' })); }
+    else { nb.appendChild(h('b', { text: up[0] ? 'Open until ' + tf.format(up[0].start) : 'Open the rest of the day' })); nb.appendChild(h('span', { class: 'small', text: 'Use it: a Power Hour, your top reply, or a lead sheet.' })); }
+    var ph = (cur && isPH(cur)) || (up[0] && isPH(up[0]) && up[0].start - now < 15 * MIN);
+    { var cs = h('button', { class: 'mini primary', style: 'align-self:flex-start;margin-top:4px', text: ph ? 'Power Hour call sheet · now' : 'Power Hour call sheet' }); cs.disabled = !S.sample; cs.addEventListener('click', function () { runWorkflow('powerhour'); }); nb.appendChild(cs); }
+    box.appendChild(nb);
+    var nl = h('div', { class: 'nextlist' }, h('span', { class: 'eyebrow', text: 'Next' }));
+    if (!up.length) nl.appendChild(h('span', { class: 'small', text: S.cal && S.cal.error ? S.cal.error : (S.cal ? 'Nothing else today.' : 'Connect Google Calendar once and your day shows here.') }));
+    up.forEach(function (e, i) {
+      nl.appendChild(h('div', { class: 'nx' + (i === 0 ? ' first' : '') }, h('span', { class: 'tm', text: (e.start.toDateString() === new Date().toDateString() ? '' : e.start.toLocaleDateString('en-US', { weekday: 'short' }) + ' ') + tf.format(e.start) }), h('span', { class: 'ti', text: hideT ? 'Event' : e.title }), h('span', { class: 'in', text: inLabel(e.start - now) })));
+    });
+    nl.appendChild(h('div', { class: 'foot2' }, h('span', { class: 'small', text: S.cal && S.cal.events ? 'Live from your Google Calendar' + (S.cal.at ? ' · ' + tf.format(S.cal.at) : '') : (CFG.example || !S.live ? 'Example' : 'Not connected') })));
+    box.appendChild(nl);
+  }
+  var CAL_COPY = { needs_reauth: 'Google Calendar needs reconnecting in Claude settings.', server_not_connected: 'Google Calendar is not connected in Claude. Connect it once and this fills in.', approval_required: 'Allow this page to read your calendar when Claude asks.', consent_required: 'Allow this page to read your calendar when Claude asks.', not_in_manifest: 'Calendar is not enabled on this page.' };
+  function watchCalendar(mcp) {
+    var st = dayStart(new Date()), en = new Date(st.getTime() + 2 * DAY);
+    S.unsub.cal = mcp.watchTool('Google Calendar', 'list_events', { startTime: isoLocal(st), endTime: isoLocal(en), orderBy: 'startTime', pageSize: 100 }, function (ev) {
+      if (ev.type === 'data') { var p = ev.result && ev.result.payload; if (typeof p === 'string') { try { p = JSON.parse(p); } catch (e) { p = null; } } var list = Array.isArray(p) ? p : (p && Array.isArray(p.events) ? p.events : []); S.cal = { events: normCal(list), at: Date.now() }; }
+      else { var code = ev.error && ev.error.code; S.cal = { events: (S.cal && S.cal.events) || null, error: CAL_COPY[code] || 'Calendar did not answer; trying again.' }; }
+      renderNext(); renderKeys();
+    }, { refetchInterval: 60000 });
+  }
+
+  /* ---------- render ---------- */
+  function renderTop() {
+    $('#title').textContent = CFG.first + "'s Desk";
+    var d = new Date();
+    $('#clock').textContent = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) + ' · ' + tf.format(d);
+    $('#sync').textContent = S.live ? 'Live desk' : 'Example data';
+    $('#demo').hidden = S.live;
+    var fl = $('#flag');
+    if (S.wrong) { fl.hidden = false; fl.textContent = 'This database is not set up for ' + CFG.first + '. Nothing is shown. Tell Q.'; }
+    else if (S.live && !S.canWrite) { fl.hidden = false; fl.textContent = 'Read-only view: tickets, check-outs and Done marks are off.'; }
+    else fl.hidden = true;
+  }
+  function renderTools() {
+    var box = $('#tools'); box.textContent = '';
+    TOOLS.forEach(function (x) { box.appendChild(h('a', { href: x.url, target: '_blank', rel: 'noopener', text: x.name })); });
+    $('#foot-note').textContent = 'Private to you. Kev, Nick, Dean and Q can see what is saved on this desk.';
+  }
+  /* the open sheet is rebuilt only while a result streams in; a form you are filling in is never rebuilt under you */
+  function safe(fn) { try { fn(); } catch (e) { if (window.console) console.error('desk render: ' + fn.name + ': ' + e.message); } }   // one bad document never blanks the whole desk
+  function renderAll() { [renderTop, renderNext, renderNeeds, renderJobs, renderScore, renderLeads, renderTrain, renderKeys, renderChat, renderTray, renderTools].forEach(safe); if (S.sheet && S.sheet.kind === 'run') safe(renderSheet); }
+
+  /* ---------- example data: clearly labelled, no client names, phones, pay or real people ---------- */
+  function exampleData() {
+    var n = Date.now(), iso = function (ms) { return new Date(n - ms).toISOString(); }, day = function (offset) { return ymd(new Date(n + offset * DAY)); };
+    if (CFG.example) {   // the template demo: a recruiter eleven days in on the accelerated ramp
+      CFG.startDate = day(-11);
+      CFG.ramp = [{ from: day(-11), rpsDay: 0 }, { from: day(-4), rpsDay: 15 }];
+      CFG.checkpoints = [{ name: '1. Systems', date: day(-7) }, { name: '2. Pace', date: day(2) }, { name: '3. Solo craft', date: day(9) }, { name: '4. Day 30', date: day(20) }];
+    }
+    S.profile = { slug: CFG.slug };
+    var idx = weekdayIdx(new Date()), vals = [17, 15, 19, 12, 16], dd = [];
+    for (var i = 0; i < 5; i++) dd.push(i < idx ? vals[i] : (i === idx && idx < 5 ? Math.min(14, Math.max(0, Math.round((new Date().getHours() + new Date().getMinutes() / 60 - 7) * 2))) : null));
+    if (idx > 4) dd = vals.slice();
+    S.score = { today: idx > 4 ? 0 : dd[idx], days: dd, ptcs: 4, subs: 2, ftis: 1, partial: idx < 4, asOf: iso(12 * MIN), source: 'Crelate' };
+    S.jobs = {
+      'senior-pm': { id: 'senior-pm', role: 'Senior Project Manager', client: 'Client A', discreet: false, location: 'Metro area (example)', since: day(-3), roleOnJob: 'lead', standby: false, coWorkers: [{ name: 'Sam', roleOnJob: 'co-lead' }], leads: [{ title: 'Senior PM sheet', url: 'https://drive.google.com/drive/my-drive', count: 49, built: day(-1) }],
+        due: [{ text: 'Write up the why-submitted note for one submittal', on: day(0) }, { text: 'Schedule the next step for a screened candidate', on: day(-1) }], lastActivityAt: iso(3 * HOUR) },
+      'field-eng': { id: 'field-eng', role: 'Field Engineer', client: 'Client B', discreet: false, location: 'Region two (example)', since: day(-16), roleOnJob: 'lead', standby: false, coWorkers: [], leads: [], due: [], lastActivityAt: iso(4 * DAY) },
+      'safety-mgr': { id: 'safety-mgr', role: 'Safety Manager', client: 'Client · discreet', discreet: true, location: 'Remote site (example)', since: day(-6), roleOnJob: 'co-lead', standby: false, coWorkers: [{ name: 'Sam', roleOnJob: 'lead' }], leads: [{ title: 'Safety sheet', url: 'https://drive.google.com/drive/my-drive', count: 23, built: day(-1) }], due: [], lastActivityAt: iso(DAY) },
+      'estimator': { id: 'estimator', role: 'Estimator', client: 'Client C', discreet: false, location: 'Metro area (example)', since: day(-2), roleOnJob: 'standby', standby: true, coWorkers: [], leads: [], due: [], lastActivityAt: null }
+    };
+    S.leads = { 'senior-pm': { id: 'senior-pm', role: 'Senior Project Manager', built: day(-1), tier1: 31, tier2: 18, newCount: 44, inCrelate: 5, url: 'https://drive.google.com/drive/my-drive', source: 'Scout' } };
+    S.replies = {
+      r1: { rank: 1, title: 'A client contact: Re: shortlist timing', why: 'Waiting on interview dates; draft ready (example)', raisedAt: iso(25 * MIN), preview: 'Hi there,\n\nThursday or Friday works on our side. I will confirm times by end of day. (example)' },
+      r2: { rank: 2, title: 'A candidate: questions about the process', why: 'Deciding this week (example)', raisedAt: iso(2 * HOUR), preview: null }
+    };
+    S.train = { checkpoints: CFG.checkpoints, week: [{ title: 'The submittal: from screen to client note', url: '' }] };
+    var wed = new Date(); wed.setDate(wed.getDate() + ((3 - wed.getDay() + 7) % 7));
+    S.wed = { date: ymd(wed), title: 'Crelate best practices', outcome: 'Leave with clean boards on your active job orders. (example)', url: 'https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6' };
+    S.tickets = { x1: { id: 'x1', to: 'scout', ask: 'Refresh the lead sheet for the Safety Manager role (example)', priority: 'today', status: 'working', createdBy: CFG.slug, createdAt: iso(2 * HOUR) } };
+    var s = new Date(); s.setHours(9, 0, 0, 0); var e1 = new Date(s.getTime() + HOUR), c = new Date(s); c.setHours(11, 30); var c2 = new Date(c.getTime() + 30 * MIN), w = new Date(s); w.setHours(14, 0); var w2 = new Date(w.getTime() + 45 * MIN);
+    S.demoCal = [{ title: 'Power Hour', start: s, end: e1, join: '' }, { title: 'Client call (example)', start: c, end: c2, join: '' }, { title: 'Wednesday training', start: w, end: w2, join: '' }];
+  }
+  function clearData() { S.profile = null; S.score = null; S.jobs = {}; S.leads = {}; S.replies = {}; S.train = null; S.wed = null; S.checkouts = {}; S.tickets = {}; S.actions = {}; S.demoCal = []; }
+
+  /* ---------- live data: the example first, then the real desk when `db` resolves ---------- */
+  function listen(name, fn) {
+    if (S.unsub[name]) return;
+    S.unsub[name] = S.db.collection(name).onSnapshot(function (snap) {
+      var m = {}; snap.docs.forEach(function (d) { var v = d.data(); if (v) m[d.id] = Object.assign({ id: d.id }, v); });
+      if (!S.wrong) { fn(m); renderAll(); }
+    }, function () { S.unsub[name] = null; $('#sync').textContent = 'Could not read ' + name; });
+  }
+  function one(path, fn) {
+    S.unsub[path] = S.db.doc(path).onSnapshot(function (s) {
+      var v = s.exists ? s.data() : null;
+      if (path === 'profile/me' && v && v.slug && v.slug !== CFG.slug) { S.wrong = true; clearData(); }   // a desk never shows another desk's data
+      if (!S.wrong) fn(v); renderAll();
+    }, function () {});
+  }
+  function goLive(db) {
+    S.db = db; S.live = true; clearData();
+    one('profile/me', function (v) { S.profile = v; }); one('scorecard/week', function (v) { S.score = v; }); one('training/track', function (v) { S.train = v; }); one('training/wednesday', function (v) { S.wed = v; });
+    listen('jobs', function (m) { S.jobs = m; }); listen('leads', function (m) { S.leads = m; }); listen('replies', function (m) { S.replies = m; });
+    listen('tickets', function (m) { S.tickets = m; }); listen('actions', function (m) { S.actions = m; }); listen('checkouts', function (m) { S.checkouts = m; });
+    renderAll();
+  }
+
+  /* ---------- wiring ---------- */
+  document.addEventListener('click', function (ev) {
+    var el = ev.target.closest ? ev.target.closest('[data-stand],[data-wf]') : null; if (!el) return;
+    if (el.hasAttribute('data-stand')) return stand();
+    var id = el.getAttribute('data-wf');
+    if (id === 'brief' || id === 'powerhour' || id === 'inbox') return runWorkflow(id);
+    if (id === 'checkout') return openSheet('checkout');
+    if (id === 'ticket') return openSheet('ticket');
+    if (id === 'leads') { var a = $('#leads'); if (a && a.scrollIntoView) a.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+  window.addEventListener('keydown', function (e) { if ((e.key === 'Escape' || e.key === 'Esc') && S.sheet) { e.preventDefault(); stand(); } }, true);
+  var root = document.documentElement;
+  function toggle(btn, apply, key) {
+    btn.addEventListener('click', function () {
+      var on = btn.getAttribute('aria-pressed') !== 'true'; btn.setAttribute('aria-pressed', String(on)); apply(on);
+      if (key) { try { localStorage.setItem(key, on ? '1' : '0'); } catch (x) {} }
+      renderAll();
+    });
+  }
+  toggle($('#sw-share'), function (on) { S.share = on; root.classList.toggle('share', on); }, 'rd-share');
+  toggle($('#sw-theme'), function (on) { root.setAttribute('data-theme', on ? 'dark' : 'light'); });
+  if (matchMedia('(prefers-color-scheme: dark)').matches) $('#sw-theme').setAttribute('aria-pressed', 'true');
+  try { if (localStorage.getItem('rd-share') === '1') { $('#sw-share').setAttribute('aria-pressed', 'true'); S.share = true; root.classList.add('share'); } } catch (x) {}
+
+  function boot() {
+    exampleData(); renderAll();
+    var use = window.claude && typeof window.claude.use === 'function' ? window.claude.use.bind(window.claude) : function () { return Promise.resolve(null); };
+    use('db').then(function (db) { if (db) goLive(db); }, function () {});
+    use('mcp').then(function (m) { if (m) { S.mcp = m; watchCalendar(m); } }, function () {});
+    use('sample').then(function (fn) { if (fn) { S.sample = fn; renderAll(); } }, function () {});
+    use('user').then(function (u) { if (u && typeof u.can === 'function') return u.can('data.write').then(function (ok) { if (ok === false) { S.canWrite = false; renderAll(); } }); }, function () {}).catch(function () {});
+    setInterval(function () { renderAll(); }, 30000);
+  }
+  boot();
+})();
+</script>

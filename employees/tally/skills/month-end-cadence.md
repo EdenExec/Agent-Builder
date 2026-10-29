@@ -16,6 +16,10 @@ Sources: Drive docs "Finance Repeating Tasks Details" (`1FaG2dKAiDht00L4kK2aySvS
 3. Gusto payroll was not connected inside QuickBooks, so owner pay and payroll totals come from Gusto totals, not from QuickBooks. Say which one a figure came from.
 4. Joel's role doc (30 September) says September was only $1,150 booked as of 21 September. Do not forecast from months that are not closed.
 
+## Recurring pay runs (Kev, 21 Oct 2026)
+
+Watch every repeating wire and payroll run listed in `memory/live/recurring-payments.md`: on each run date, check it went out once, on time, to the right person. Any miss, double or late payment goes to Radar as a same-day Batch row. On any departure, follow `employees/_shared/offboarding.md` step 1: stop the money first.
+
 ## Controls to confirm each month (Joel answers; you do not fix)
 
 Receipts within 48 hours, mileage logs current, vendors assigned for 1099s, no personal charges on company cards, deferred revenue updated on every retained deal. Washington excise tax on the 25th; quarterly L&I, ESD, PFML and the federal 941 (Q3 due 31 October 2026).
