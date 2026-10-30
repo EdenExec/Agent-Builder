@@ -151,3 +151,4 @@
 - 2026-10-29 19:50 PT: picked 2, closed 2, gated 0, blocked 0, FAILs 0. Floor refresh (step 8) not run this pass.
 - 2026-10-29 20:5x PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Floor refreshed (77 writes, crelate-tasks set). Sabbath check passed (Thu). NOT done: 9a Today-view taps (10 decision taps d-2026-10-28/29, 3 QC touches) left applied:false; cockpit Doc (9), 8a benches, Notion ledger/Family bench skipped this run (short run); next run should apply taps.
 - 2026-10-29 21:44 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; floor refreshed (65 writes + crelate-tasks). Family bench and cockpit skipped (no Notion/Docs this run).
+- 2026-10-29 22:44 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; fired after the 10pm window, so the floor refresh (step 8) was not run.
