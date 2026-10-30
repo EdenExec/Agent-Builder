@@ -37,6 +37,7 @@
     "daily": "node workshop/office/daily.ts",
     "eu": "node workshop/office/eu.ts",
     "crelate-note": "node workshop/crelate/notes.ts",
+    "crelate-tasks": "node workshop/crelate/tasks.ts",
     "lookahead-mirror": "node workshop/office/lookahead-mirror.ts"
   },
   "dependencies": {
