@@ -668,8 +668,8 @@
       "stage": "landed"
     },
     {
-      "title": null,
-      "landedAt": null,
+      "title": "EL-029 · 2026-10-30 · Low voltage PM talent pool, Texas + South Dakota + traveling data center · 435 leads",
+      "landedAt": "2026-10-30",
       "phonesAt": null,
       "crelateAt": null,
       "movedAt": null,
@@ -683,10 +683,10 @@
       },
       "built": "2026-10-30",
       "discreet": false,
-      "driveUrl": null,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1kCGJuLBTuXpueG99YyN7CgHCk7-kNjK6CLPP-MDQv60/edit",
       "status": "ok",
       "errors": 0,
-      "stage": "staged"
+      "stage": "landed"
     },
     {
       "title": "20 · Pool · Estimating + Procurement, South FL · 63 leads",
