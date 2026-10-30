@@ -1,7 +1,7 @@
 {
-  "task": "Command Center v58: funnel ratios on the Recruiting bench; Crelate tasks on Today; Team pulse gauges; Radar's compiled prompts trimmed under the bound",
-  "since": "2026-10-30T05:05:00Z",
+  "task": "Recruiter kit staged in projects/recruiter-kit and leak-swept; sources scrubbed; repo creation gated on QC 2026-10-30-8e3c43",
+  "since": "2026-10-31T00:20:00Z",
   "state": "waiting",
-  "blockedOn": "Kev: yes on the Crelate clean-out of 34 stale tasks (t-202610300305-crcl); whether the Recruiting bench should rest on the Sabbath; Look Ahead answers (Ally's email, WPB dates, Lincoln return, move details, Hawk's name, Hawk's routines)",
-  "updated": "2026-10-30T05:05:00Z"
+  "blockedOn": "Kev: two taps on QC 2026-10-30-8e3c43 (create EdenExec/recruiter-kit, private, then push); yes on the Crelate clean-out of 34 stale tasks (t-202610300305-crcl); Look Ahead answers. Sabbath from Friday sunset: resume Saturday after sundown.",
+  "updated": "2026-10-31T00:20:00Z"
 }
