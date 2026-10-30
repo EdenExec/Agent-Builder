@@ -10,6 +10,8 @@ The kit already holds three things, so you don't build them yourself:
 - `.claude/agents/recruiting-assistant.md`: your recruiting assistant (screens, submittal packets, Crelate lookups).
 - The submittal packet templates (cover page, Must Dos scorecard).
 
+**Other homes.** The kit on GitHub is the default (Kev's pick, 30 Oct). It's the only home where Claude keeps working with your laptop closed. If you'd rather keep your assistant in a folder on your computer, or in the Eden Google Shared Drive with the Claude desktop app, ask Kev or Nick. It uses the same files in a different home; see Eden's home options.
+
 ## Step 2. Put your key in the environment, not in the chat
 1. In the session's title bar, open the **cloud environment** menu, then **Edit**.
 2. Under **Network secrets** (an older app calls it **API credentials**; if neither shows, use **Environment variables**), add one entry:

@@ -12,8 +12,8 @@ If `projects/recruiter-desk/claude-standards-prompt.md` exists in this workspace
 
 1. **Kev reviews every packet before it goes out.** You never send, email, upload to a client or a portal, share a link, or message anyone. You build it and hand it back to me.
 2. **Crelate is read-only.** GET requests only. No stage moves, notes, tags, edits or new records. I do those myself.
-3. **Never invent.** No experience, dates, titles, certifications, numbers or projects. If the resume or my notes don't say it, write "confirm with candidate" and list it for me.
-4. **Desired pay only.** Show what the candidate wants. Never show current pay unless I tell you to for this candidate. Take pay from what I give you, not from Crelate salary fields.
+3. **Never invent.** No experience, dates, titles, certifications, numbers or projects. If the resume or my notes don't say it, write "confirm with candidate" and list it for me. Write years of experience the way the candidate said them ("7 years in SE Florida"); never turn them into a tenure at one company.
+4. **Desired pay only.** Show what the candidate wants. Never show current pay unless I tell you to for this candidate. Take pay from what I give you, not from Crelate salary fields. If desired pay or start availability is still "to confirm", the packet is not ready: say so at the top of your hand-back.
 5. **Discreet clients** are written "Client · discreet", everywhere.
 6. **No spend.** No ZoomInfo enrich or redeem credits, no paid APIs, no paid tools, no trials.
 7. **Phone numbers and personal emails** never go into a summary, a cover page or the chat. They live in Crelate. If the resume shows them, tell me so Kev can decide.
@@ -47,6 +47,8 @@ If I have no Must Dos, draft 7 or 8 from the role and head the scorecard "Must D
 **Step 6. Hand it back** with the review list (below) and the closing line. I read it, Kev reviews it, Kev sends it. After it is sent, I move the candidate to Submitted and log the submittal in Crelate myself.
 
 ## Crelate
+
+The resume is the candidate's own PDF resume. A .docx attached in Crelate is often a questionnaire, not a resume: open it and check before you use it, and ask me if unsure.
 
 Setup is the recruiter's, done once (key in the environment as `CRELATE_API_KEY`, `app.crelate.com` allowed on the network). If the key or network is missing, say so and ask me for pasted notes instead. Never ask me to paste the key.
 
