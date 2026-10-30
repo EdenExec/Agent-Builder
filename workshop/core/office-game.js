@@ -1,6 +1,6 @@
 // Eden Office game core: the ticket SLA ("FAIL" and "STALL"), the points, the streak and the records.
 // ONE source, two homes. The sync script (workshop/core/office.ts) imports it; the Office page carries a verbatim copy between the
-// GAME-CORE markers in projects/virtual-office/draft/eden-office.html (`npm run office -- build-page` refreshes the copy; a test fails on drift).
+// GAME-CORE markers in projects/virtual-office/draft/office/core.js (`npm run office -- build-page` refreshes the copy; a test fails on drift).
 // So: plain ES2015, no imports, no DOM, only exported functions and vars (the page wraps them in a closure named Game).
 // Pure: every function takes `now` (ms) as an argument.
 //

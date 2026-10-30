@@ -4,6 +4,7 @@ import { buildFeed, buildAlerts, buildAgents, lastHeardOf, findUnused, planWrite
 import type { QcItem } from "./qc.ts";
 import type { GateRecord } from "./numbers-gate.ts";
 import { approvalHash } from "./qc.ts";
+import { readOfficePage } from "../office/page-game.ts";
 
 const now = new Date("2026-10-21T18:00:00Z");
 const agents = [
@@ -301,7 +302,7 @@ describe("the ticket SLA on the desks (Kev, 22 Oct 2026)", () => {
     assert.equal(DESKS.ember, "recruiting");
     assert.ok(!SENSITIVE_AGENTS.has("ember"));
     const { readFileSync } = await import("node:fs");
-    const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
+    const html = await readOfficePage();
     assert.ok(html.includes("casey: 'cli', ember: 'cli'"), "Ember's seat is in the Client work zone");
   });
 });
@@ -309,33 +310,33 @@ describe("the ticket SLA on the desks (Kev, 22 Oct 2026)", () => {
 describe("the page", () => {
   test("every tool url in tools.json is in the page, so the floor links to what exists", async () => {
     const { readFileSync } = await import("node:fs");
-    const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
+    const html = await readOfficePage();
     const tools = JSON.parse(readFileSync("projects/virtual-office/tools.json", "utf8")) as { id: string; url?: string }[];
     for (const t of tools.filter((x) => x.url)) assert.ok(html.includes(t.url!), `${t.id} ${t.url} missing from eden-office.html`);
   });
   test("the page names the three wing desks as sensitive", async () => {
     const { readFileSync } = await import("node:fs");
-    const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
+    const html = await readOfficePage();
     for (const id of ["hale", "jethro", "barnabas"]) assert.ok(html.includes(`'${id}'`), id);
   });
   test("the game core in the page is a verbatim copy of workshop/core/office-game.js (run `npm run office -- build-page` if this fails)", async () => {
     const { readFileSync } = await import("node:fs");
     const { buildGameBlock, currentGameBlock } = await import("../office/page-game.ts");
-    const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
+    const html = await readOfficePage();
     assert.equal(currentGameBlock(html), buildGameBlock(readFileSync("workshop/core/office-game.js", "utf8")));
   });
   test("the page's copy of the core gives the same answers as the sync's", async () => {
     const { readFileSync } = await import("node:fs");
     const { currentGameBlock } = await import("../office/page-game.ts");
     const core = await import("./office-game.js");
-    const Game = new Function(currentGameBlock(readFileSync("projects/virtual-office/draft/eden-office.html", "utf8"))! + "; return Game;")();
+    const Game = new Function(currentGameBlock(await readOfficePage())! + "; return Game;")();
     const t = { id: "t", agent: "scout", status: "open", createdAt: "2026-10-21T15:00:00Z", priority: "today" };
     assert.deepEqual(Game.slaState(t, now.getTime()), core.slaState(t, now.getTime()));
     assert.deepEqual(Game.buildGame({ now: now.getTime(), tickets: [t] }), core.buildGame({ now: now.getTime(), tickets: [t] }));
   });
   test("the page has the board, the line, the sound switch, the Special projects bay and the pm desk", async () => {
     const { readFileSync } = await import("node:fs");
-    const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
+    const html = await readOfficePage();
     for (const id of ['id="board"', 'id="line"', 'id="sw-sound"', 'id="d-spx"', "pm: 'spx'", "pm: ['staffing-doc', 'hub']", "eo-sound", "visibilitychange"]) assert.ok(html.includes(id), id);
   });
 });

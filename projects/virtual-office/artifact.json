@@ -1,5 +1,17 @@
 {
   "url": "https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW",
   "published": "2026-10-21",
-  "source": "projects/virtual-office/draft/eden-office.html"
+  "source": "projects/virtual-office/draft/eden-office.html",
+  "split": "2026-10-30: markup in eden-office.html, panels in draft/office/. Publish with the files map from officeFilesMap() in workshop/office/page-game.ts, every time.",
+  "files": {
+    "office/page.css": "projects/virtual-office/draft/office/page.css",
+    "office/core.js": "projects/virtual-office/draft/office/core.js",
+    "office/floor.js": "projects/virtual-office/draft/office/floor.js",
+    "office/pulse.js": "projects/virtual-office/draft/office/pulse.js",
+    "office/strip.js": "projects/virtual-office/draft/office/strip.js",
+    "office/family.js": "projects/virtual-office/draft/office/family.js",
+    "office/desks.js": "projects/virtual-office/draft/office/desks.js",
+    "office/today.js": "projects/virtual-office/draft/office/today.js",
+    "office/boot.js": "projects/virtual-office/draft/office/boot.js"
+  }
 }
