@@ -94,13 +94,54 @@
     });
     return n;
   }
+  /* Kev, 30 Oct: "shrink to expandable widgets with the trends... gauges for each guy, expanding from the Vancouver office as a group down into recruiters'
+     scores... very bare bones in the virtual office, more details in the recruiting area for Dean and I." The floor shows one office gauge that opens
+     into a gauge per recruiter; the day-by-day table lives on the Recruiting bench sheet (plTable), and each recruiter's charts in their sheet. */
+  function plArc(f) {                         // a semicircle from the left, f of the way round (0 to 1); centre (44,44), radius 36
+    f = Math.max(0, Math.min(1, f || 0)); var a = Math.PI * (1 - f);
+    return 'M8 44 A36 36 0 0 1 ' + (44 + 36 * Math.cos(a)).toFixed(2) + ' ' + (44 - 36 * Math.sin(a)).toFixed(2);
+  }
+  function plGauge(val, goal, due, cls, label) {
+    var NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 88 50'); svg.setAttribute('class', 'pl-g ' + (cls || '')); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', label);
+    function path(d, c) { var p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); p.setAttribute('class', c); svg.appendChild(p); }
+    path(plArc(1), 'bg');
+    if (goal > 0 && val > 0) path(plArc(val / goal), 'fg');
+    if (goal > 0 && due != null && due > 0) { var a = Math.PI * (1 - Math.min(1, due / goal)), l = document.createElementNS(NS, 'line');
+      l.setAttribute('x1', (44 + 29 * Math.cos(a)).toFixed(2)); l.setAttribute('y1', (44 - 29 * Math.sin(a)).toFixed(2)); l.setAttribute('x2', (44 + 42 * Math.cos(a)).toFixed(2)); l.setAttribute('y2', (44 - 42 * Math.sin(a)).toFixed(2)); l.setAttribute('class', 'due'); svg.appendChild(l); }
+    return svg;
+  }
+  function plTrendChip(wk, pr) { if (wk == null) return h('span', { class: 'pl-tr fl', text: 'no dials' }); var tr = plTrend(wk, pr); return h('span', { class: 'pl-tr ' + tr[1], text: wk + ' dials' + (tr[0] === 'new' || tr[0] === '–' ? '' : ' ' + tr[0]) }); }
   function renderPulse() {
     var box = $('#pulse'), body = $('#pl-body'), D = plData(), sab = derived().game.sabbath;
     if (S.share || sab) { box.hidden = true; body.textContent = ''; $('#pl-asof').textContent = ''; return; }
     box.hidden = false; body.textContent = '';
     if (!D) { $('#pl-asof').textContent = ''; body.appendChild(h('p', { class: 'pl-foot', text: 'Waiting for the office run to write the Crelate counts (meta/crelate). Crelate stays the system of record.' })); return; }
-    var c = D.c, ph = D.ph, rng = D.keys.length ? tdShort(D.keys[0]) + ' to ' + tdShort(D.keys[D.keys.length - 1]) : '';
+    var c = D.c, ph = D.ph, T = D.team, tw = c.team.week, due = c.team.standardToDate, behindN = c.team.behind || 0;
     $('#pl-asof').textContent = (ph ? 'Dials ' + ago(ph.asOf) + ' · ' : 'No dials yet · ') + 'Crelate ' + ago(c.asOf);
+    var cls = T.rpGoal && tw.rps >= T.rpGoal ? 'hit' : c.team.gap < 0 ? 'bh' : '';
+    var office = h('button', { class: 'pl-office', type: 'button', 'data-card': 'rec:__team', 'aria-label': 'Vancouver office: ' + tw.rps + ' of ' + T.rpGoal + ' RPs this week. Open the team charts.' },
+      plGauge(tw.rps, T.rpGoal, due, cls + ' big', 'Office RPs, ' + tw.rps + ' of ' + T.rpGoal),
+      h('span', { class: 'pl-ot' }, h('span', { class: 'pl-on', text: 'Vancouver office' }), h('b', { text: tw.rps + ' / ' + T.rpGoal + ' RPs' }),
+        h('span', { class: 'pl-os' }, plTrendChip(T.dials ? T.wk : null, T.pr), h('span', { class: behindN ? 'bhn' : '', text: behindN ? behindN + ' behind pace' : 'all on pace' }))));
+    var who = h('details', { class: 'pl-who' }); if (S.plWho) who.open = true;
+    who.addEventListener('toggle', function () { S.plWho = who.open; });
+    who.appendChild(h('summary', null, h('span', { class: 'eyebrow', text: 'Recruiters · ' + D.rows.length })));
+    var grid = h('div', { class: 'pl-gs' });
+    D.rows.forEach(function (x) {
+      var r = x.r, goal = r.inGoal ? D.goals.rpsWeek : 0, gc = r.inGoal ? (r.week.rps >= goal ? 'hit' : r.behind ? 'bh' : '') : 'ng';
+      grid.appendChild(h('button', { class: 'pl-card', type: 'button', 'data-card': 'rec:' + r.name, 'aria-label': r.name + ': ' + r.week.rps + ' RPs' + (r.inGoal ? ' of ' + goal + (r.behind ? ', behind pace' : '') : '') + '. Open the day-by-day charts.' },
+        plGauge(r.week.rps, goal, r.inGoal ? r.standardToDate : null, gc, r.name + ' RPs'),
+        h('span', { class: 'pl-cn', text: r.name }), h('b', { text: String(r.week.rps) + (r.inGoal ? ' / ' + goal : '') }), plTrendChip(x.ph ? x.ph.week.dials : null, x.ph ? x.ph.prior.dials : 0)));
+    });
+    who.appendChild(grid);
+    var more = h('button', { class: 'mini txt', type: 'button', text: 'Full charts · Recruiting bench' }); more.addEventListener('click', function () { openSheet('bench', 'recruiting', more); });
+    body.appendChild(h('div', { class: 'pl-top' }, office, who));
+    body.appendChild(h('div', { class: 'pl-foot pl-foot2' }, h('span', { text: 'RPs this week against ' + D.goals.rpsWeek + ' each; the tick is what is due so far; dials against the same days last week.' }), more));
+  }
+  /* The day-by-day table (dials and RPs by day per recruiter and the team), on the Recruiting bench sheet. */
+  function plTable(body, D) {
+    var c = D.c, ph = D.ph, rng = D.keys.length ? tdShort(D.keys[0]) + ' to ' + tdShort(D.keys[D.keys.length - 1]) : '';
     var hd = h('div', { class: 'pl-hd' }, h('span', { text: 'Who' }), h('span', { text: 'Dials by day · CloudTalk' }), h('span', { text: 'RPs by day · line = ' + D.perDay + ' a day' }), h('span', { class: 'n', text: 'This week' }));
     body.appendChild(hd);
     function open(row, name, label) { row.setAttribute('data-card', 'rec:' + name); row.setAttribute('role', 'button'); row.setAttribute('tabindex', '0'); row.setAttribute('aria-label', label + ' Open the day-by-day charts.'); return row; }
