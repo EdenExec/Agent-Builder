@@ -1,0 +1,237 @@
+{
+  "asOf": "2026-10-30T03:35:00Z",
+  "dayLabel": "Thu 29 Oct",
+  "weekLabel": "Mon 26–Thu 29",
+  "priorLabel": "Mon 19–Thu 22",
+  "dayKeys": [
+    "2026-10-19",
+    "2026-10-20",
+    "2026-10-21",
+    "2026-10-22",
+    "2026-10-23",
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-29"
+  ],
+  "people": [
+    {
+      "name": "Andrew Johnson",
+      "day": {
+        "dials": 128,
+        "conn": 110
+      },
+      "week": {
+        "dials": 502,
+        "conn": 416
+      },
+      "prior": {
+        "dials": 0,
+        "conn": 0
+      },
+      "days": [
+        0,
+        0,
+        0,
+        0,
+        78,
+        114,
+        124,
+        136,
+        128
+      ],
+      "four": {
+        "dials": 87,
+        "conn": 75
+      }
+    },
+    {
+      "name": "Noah Fields",
+      "day": {
+        "dials": 160,
+        "conn": 137
+      },
+      "week": {
+        "dials": 434,
+        "conn": 366
+      },
+      "prior": {
+        "dials": 0,
+        "conn": 0
+      },
+      "days": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        102,
+        87,
+        85,
+        160
+      ],
+      "four": {
+        "dials": 23,
+        "conn": 19
+      }
+    },
+    {
+      "name": "Bridger Stainbrook",
+      "day": {
+        "dials": 80,
+        "conn": 70
+      },
+      "week": {
+        "dials": 210,
+        "conn": 185
+      },
+      "prior": {
+        "dials": 254,
+        "conn": 213
+      },
+      "days": [
+        0,
+        0,
+        154,
+        100,
+        2,
+        0,
+        97,
+        33,
+        80
+      ],
+      "four": {
+        "dials": 260,
+        "conn": 217
+      }
+    },
+    {
+      "name": "Evan MacArthur",
+      "day": {
+        "dials": 55,
+        "conn": 47
+      },
+      "week": {
+        "dials": 81,
+        "conn": 69
+      },
+      "prior": {
+        "dials": 16,
+        "conn": 16
+      },
+      "days": [
+        null,
+        null,
+        null,
+        5,
+        0,
+        0,
+        0,
+        26,
+        55
+      ],
+      "four": {
+        "dials": 113,
+        "conn": 100
+      }
+    },
+    {
+      "name": "Kev Williams",
+      "day": {
+        "dials": 0,
+        "conn": 0
+      },
+      "week": {
+        "dials": 13,
+        "conn": 11
+      },
+      "prior": {
+        "dials": 0,
+        "conn": 0
+      },
+      "days": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        13,
+        0
+      ],
+      "four": {
+        "dials": 2,
+        "conn": 1
+      }
+    },
+    {
+      "name": "Max Betcher",
+      "day": {
+        "dials": 0,
+        "conn": 0
+      },
+      "week": {
+        "dials": 3,
+        "conn": 3
+      },
+      "prior": {
+        "dials": 161,
+        "conn": 133
+      },
+      "days": [
+        54,
+        86,
+        21,
+        0,
+        1,
+        2,
+        1,
+        0,
+        0
+      ],
+      "four": {
+        "dials": 304,
+        "conn": 258
+      }
+    },
+    {
+      "name": "Nick L",
+      "day": {
+        "dials": 0,
+        "conn": 0
+      },
+      "week": {
+        "dials": 0,
+        "conn": 0
+      },
+      "prior": {
+        "dials": 0,
+        "conn": 0
+      },
+      "inbound": {
+        "total": 40,
+        "missed": 40
+      },
+      "days": [
+        0,
+        0,
+        0,
+        null,
+        null,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "notes": [
+    "Noah's biggest day yet: 160 dials Thursday. Andrew 502 Mon–Thu, over 110 every day this week.",
+    "Max: no CloudTalk dials Wed or Thu; 3 Mon–Thu against 161 the same days last week. Worth asking where he is dialing from.",
+    "Inbound: 40 calls rang Nick Mon–Thu (17 on Thursday) and none were answered. Likely callbacks to the shared number. Who covers that line?",
+    "Evan's best day on CloudTalk: 55 Thursday. Bridger 210 Mon–Thu against 254.",
+    "Team 1,243 dials Mon–Thu against 431 the same days last week, mostly Andrew and Noah joining CloudTalk.",
+    "Picked up is CloudTalk's 'answered' and can include voicemail. Talk time is not reported yet. RPs stay on the Crelate board."
+  ]
+}

@@ -32,7 +32,13 @@ export type Game = {
 export function pacificDate(ms: number): string;
 export function dayOfWeek(date: string): number;
 export function addDays(date: string, n: number): string;
-export function isSabbath(date: string): boolean;
+export type SabbathPlace = { from: string; name: string; lat: number; lon: number; tz: string };
+export const SABBATH_PLACES: SabbathPlace[];
+export function sabbathPlace(date: string): SabbathPlace;
+export function sunsetAt(date: string, place?: SabbathPlace): number;
+export function sabbathWindow(ms: number): { start: number; end: number; friday: string; saturday: string; place: string; tz: string };
+export function isSabbathAt(ms: number): boolean;
+export function isSabbathDay(date: string): boolean;
 export function weekStart(date: string): string;
 export function isRunnerTime(ms: number): boolean;
 export function runnerMinutes(from: number, to: number): number;

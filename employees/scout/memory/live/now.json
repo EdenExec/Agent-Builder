@@ -1,7 +1,8 @@
 {
-  "task": "t-202610230509-sr33: DFW superintendent lead list (Kev via Radar: lead gen, leads folder, Noah to enrich) and research note for the Eden Daily",
-  "since": "2026-10-23T05:09:00Z",
-  "state": "list built and staged (197 rows, check PASS); NOT uploaded to Drive (no Drive tool in this run); Crelate dedupe not run",
-  "blockedOn": "Radar/Q: upload employees/scout/leads/2026-10-23-dfw-superintendents.csv to master folder 1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9, then npm run leads -- link; Kev: no job order named, DFW picked as uncovered core market, redirect if wanted",
-  "updated": "2026-10-23T06:00:00Z"
+  "task": "t-202610280057-vtsc: PB South VT JO (EL-024 v2, Must Do's draft), PB South lists landed, Jenny's email to Todd",
+  "since": "2026-10-27T19:35:00Z",
+  "state": "done; Radar ticket t-202610280130-vtmd for Casey/owner/priority",
+  "blockedOn": "Kev: review Todd email draft in Superhuman; QC 2026-10-27-d656c4",
+  "next": "stage + upload + link; exact LinkedIn for Tier 1 VT and bench PM rows; Recruiter run of the Booleans in 2026-10-27-pb-south-notes.md",
+  "updated": "2026-10-28T01:50:00Z"
 }

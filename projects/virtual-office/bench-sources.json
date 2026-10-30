@@ -1,0 +1,113 @@
+{
+  "updated": "2026-10-28",
+  "by": "Q (first sync patrol 27 Oct; recruiter leaderboard 28 Oct)",
+  "rule": "Counts and dates only; every tile names its source. A bench's asOf is the sync time while its source is inside sourceWindow, and the source's own age when it is not, so the page never says fresh over old data. Never write actions, never approve, never delete. Finance and revenue are Tally's: Q never writes a money figure there.",
+  "refresh": "npm run office-prep -- run <dump> <versions> <dest> (the hourly ticket runner). The dump must include `benches` (Command Center) and `jobs` (Team Hub) or the bench writes are dropped. Code: workshop/core/benches.ts (pure), workshop/office/benches.ts (reads the sources), tests beside each.",
+  "benches": [
+    {
+      "id": "client",
+      "owner": "Casey",
+      "writer": "Q",
+      "source": "Team Hub jobs collection (https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6), read each run; lead stages from projects/leads/index.json (the rows behind the Lead Log)",
+      "window": "2 h (jobs are read live each run)",
+      "sourceWindow": "7 d (lead stage dates)",
+      "compute": "active / on-hold / filled / killed JOs by status; new = opened in the last 7 days; no owner = active with an empty team; depth seat = active with depth[]; lead sheets landed / phones added = stage dates present in the index",
+      "never": "client names (counts only)"
+    },
+    {
+      "id": "recruiting",
+      "owner": "Dean",
+      "writer": "Q",
+      "source": "One read-only Crelate pull per run (workshop/workforce/cli.ts, the Round Table board). Falls back to projects/workforce/board/current.json (Dean's Friday pull) when there is no key or no network, and then shows that file's age",
+      "window": "24 h on weekdays",
+      "sourceWindow": "24 h",
+      "compute": "team totals this week: RPs against goal and against the 15-a-day standard to date (Mon to Fri, recruiters in goal), PTCs, submittals, FTIs",
+      "never": "names beside numbers, pay, revenue per person"
+    },
+    {
+      "id": "depth",
+      "owner": "Dean",
+      "writer": "Q",
+      "source": "Crelate roster from the same board pull (people with status 'starts'); 30-day plan files under projects/workforce/ (*prestart*.md, new-hires/*.md)",
+      "window": "24 h",
+      "sourceWindow": "7 d (plan files change only when a hire is added; the roster tiles are live)",
+      "compute": "new hires not yet started, next start date, 30-day plans open",
+      "never": "names, pay, health, candidate detail"
+    },
+    {
+      "id": "university",
+      "owner": "Dean",
+      "writer": "Q",
+      "source": "projects/workforce/eden-university/ files; the standing Wednesday Headhunter Training",
+      "window": "7 d",
+      "sourceWindow": "7 d",
+      "compute": "dated training sessions on file, modules written (.md, not emails), tracks live (0 until the 90-day track is written), next Wednesday",
+      "never": "attendee names"
+    },
+    {
+      "id": "projects",
+      "owner": "Pam",
+      "writer": "Q",
+      "source": "projects/eden-staffing/schedule.md (milestone table and deliverable rows, kept by Pam)",
+      "window": "24 h",
+      "sourceWindow": "24 h (shows the schedule file's own age until Pam records status)",
+      "compute": "milestones due this week / slipped / done (done = every deliverable on it is Done); deliverables open / slipped / done",
+      "never": "figures from the plan doc"
+    },
+    {
+      "id": "family",
+      "owner": "Radar",
+      "writer": "Q",
+      "source": "Notion ledger, Home lane, from the 'Radar · All open' view. Radar must pass the rows as <dump>/ledger.json; Q has no Notion connection",
+      "window": "24 h",
+      "sourceWindow": "24 h",
+      "compute": "open, due this week, overdue in the Home lane",
+      "never": "item text, names, anything private",
+      "status": "blocked: no ledger rows reach office-prep yet (ticket to Radar, 27 Oct)"
+    },
+    {
+      "id": "finance",
+      "owner": "Tally",
+      "writer": "Tally",
+      "source": "QuickBooks via Tally; numbers gate with Docket",
+      "window": "24 h",
+      "compute": "never by Q",
+      "status": "stale: QuickBooks sign-in expired (alert qbo-auth); ticket to Tally, 27 Oct"
+    },
+    {
+      "id": "revenue",
+      "owner": "Tally + Dean",
+      "writer": "Tally",
+      "source": "Hub Rev Report via Tally",
+      "window": "24 h",
+      "compute": "never by Q",
+      "status": "stale: same; ticket to Tally, 27 Oct"
+    }
+  ],
+  "documents": {
+    "meta/crelate": {
+      "owner": "Dean",
+      "writer": "Q",
+      "why": "Kev, 28 Oct 2026: \"pull in crelate stats here as well\" - the Recruiters · Crelate · this week table in the leaderboard area of the Command Center page. One document, read by the page with db.doc(\"meta/crelate\"); written by the hourly office run in the same batch as the benches.",
+      "source": "The same one read-only Crelate pull the recruiting and depth benches use (workshop/workforce/cli.ts, written to <dump>/board.json by office-prep run; code workshop/workforce/recruiting-board.ts). With no CRELATE_API_KEY or no network it falls back to projects/workforce/board/current.json (Dean's latest board file) and says so: live=false, asOf = that file's own generated_at, so the page shows its true age.",
+      "code": "workshop/core/recruiter-board.ts (pure: pace math, the document, the safety check); tests beside it",
+      "window": "24 h on weekdays (rewritten every hourly run; an unchanged fallback file is skipped)",
+      "compute": "Per recruiter in the Crelate roster with status active: week to date (Monday to Sunday, Pacific) and today (Pacific midnight on) counts of RPs (activities), MPs, PTCs, submittals and first interviews (unique contacts per recruiter, counted again inside each window; Dean's rules in employees/dean/memory/seed/crelate-scorecard-spec.md). standardToDate = 15 RPs x each completed weekday this week, plus today's 15 once it is noon Pacific at the moment of the read; gap = week RPs - standardToDate; behind = fewer RPs than are due (on the number is on pace). A trainee (not in the goal) is counted but has no standard and is never marked. team = totals over everyone counted, the standard and gap over those with a standard.",
+      "fields": "schema, asOf (when Crelate was read), syncedAt, source, live, ageMin, weekOf (Monday), through, weekIsCurrent, todayCurrent, weekBasis, perDay, goals{rpsWeek,mpsWeek} (per recruiter in goal: 75 and 100), dayKeys (the last 10 weekdays: last Monday to Friday, then this Monday to Friday), weekdaysCounted, recruiters[{name, inGoal, week{rps,mps,ptcs,subs,ftis}, today{...}|null, rpDays[10] (RPs on each dayKey; null = no data, a day not reached), fourWeeks{rps,mps,ptcs,subs,ftis}|null, standardToDate, gap, behind}], team{week, today, rpDays[10], fourWeeks|null, standardToDate, gap, behind, people}, fourFrom (the Monday the four trailing weeks start; null in an older file), notes[]",
+      "fourWeeks source": "Added 30 Oct 2026 for ratio tracking on the Recruiting bench (Dean's funnel ratios, employees/dean/skills/trends-and-values.md). Still the one activities call; its when_after now starts four Mondays before this one. Unique contacts are counted across the whole four weeks. The page works the ratios out; a denominator under 5 shows a dash.",
+      "rpDays source": "Added 30 Oct 2026 for the Team pulse panel. The same one activities call: its when_after window now starts at the earlier of last Sunday and the Monday before last Monday (only a Sunday read reaches further back), and RPs are also bucketed by Pacific day (rp_by_day_2w on the board). No per-person calls.",
+      "never": "pay, commission, revenue, phones, emails, candidate names, resumes or offers counts (assertCrelateSafe throws on any other field, an email, a phone number or a dollar figure). Leadership (Nick, Kev) and people who have not started are not rows",
+      "page": "Hidden whole under Screen share, and the page unsubscribes and drops the document: it is a name-by-name pace table, like the recruiting bench it sits beside (sensitive). Not shown in the Today view, which hides the leaderboard.",
+      "manual write": "npm run benches -- --board <board.json> --crelate-out <file>, then ArtifactData set meta/crelate with file_path (if_version from a get when the document exists)"
+    },
+    "meta/phones": {
+      "owner": "Radar",
+      "writer": "Radar (the stand-up, Step 1a, employees/radar/skills/stand-up-tomorrow.md)",
+      "why": "Kev, 30 Oct 2026: the Phones · CloudTalk panel \"needs to be more prominent\"; it feeds the Team pulse panel on the Floor view (dials by day, the week against the same days last week, per recruiter).",
+      "source": "The same calls block the stand-up puts in daily/{date}.calls (CallStats in workshop/core/daily.ts), from read-only CloudTalk agent stats.",
+      "fields": "schema, source, asOf, dayLabel, weekLabel, priorLabel, dayKeys, people[{name, day{dials,conn}, week{...}, prior{...}, four{dials,conn} (the four Monday weeks before this one; dials per RP on the Recruiting bench), inbound{total,missed}, days[]}], notes[]",
+      "never": "phone numbers, contacts, recordings, talk time. Counts and names only. There is no dials goal: the page shows the trend only",
+      "page": "Read by the page with db.doc(\"meta/phones\"); people are matched to Crelate recruiters by first name. Hidden whole under Screen share (with the unsubscribe), and with the rest of the leaderboard on the Sabbath and in the Today view."
+    }
+  }
+}

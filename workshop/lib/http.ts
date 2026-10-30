@@ -12,6 +12,8 @@ export const USER_AGENT =
 export type FetchInit = {
   method?: string;
   headers?: Record<string, string>;
+  /** Request body (JSON as a string). Only the Crelate note writer sends one. */
+  body?: string;
   signal?: AbortSignal;
 };
 
@@ -70,6 +72,7 @@ export const defaultFetcher: Fetcher = async (url, init = {}) => {
     const res = await undiciFetch(url, {
       method: init.method ?? "GET",
       headers,
+      body: init.body,
       signal: init.signal,
       dispatcher: getDispatcher(),
     });

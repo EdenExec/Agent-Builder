@@ -1,0 +1,30 @@
+{
+  "updated": "2026-10-29T10:50:00Z",
+  "on": "Una Residences (post 3) draft + image brief ready for inbox sweep; PNG still to render; nothing published",
+  "doc": "https://claude.ai/artifact/3n2h6vUU7UsMMYk13rw61L",
+  "ticket": "t-202610291045-lknd",
+  "waitingOnKev": [
+    "Approve and send the Nick email (attach the .docx first)",
+    "Pay ranges, hours, start date, links (Nick fills)",
+    "Sales Intern commission terms (TBD)"
+  ],
+  "next": "Sweep moves projects/comms/drafts/2026-10-31-una-post3.md into Superhuman Drafts; render una.png; Marlowe check",
+  "docket": [
+    "projects/workforce/boise-internships/docket-review-2026-10-23.md",
+    "projects/workforce/boise-internships/docket-1099-and-offer-letters-2026-10-23.md",
+    "projects/workforce/boise-internships/intern-compliance-training.md"
+  ],
+  "package": "projects/workforce/boise-internships/Eden Boise Hiring Package (for Nick).docx",
+  "decided": [
+    "Employer: Eden Partner Group",
+    "Remote recruiters: nationwide",
+    "No outside employment counsel call for now",
+    "Numbers gate 2026-10-23-f2f486 cleared by Tally 27/27"
+  ],
+  "qc": [
+    "2026-10-27-9a7497",
+    "2026-10-27-95b6f4",
+    "2026-10-27-7474f5",
+    "2026-10-27-ea8985"
+  ]
+}

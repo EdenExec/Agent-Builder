@@ -1,0 +1,465 @@
+{
+  "id": "recruiter-desk",
+  "title": "Stand up your desk · 90-day ramp for a new recruiter",
+  "audience": "New recruiter (first 90 days). Experienced hires follow the accelerated track from M21.",
+  "supervisor": "Nick",
+  "weeks": 13,
+  "phases": [
+    {
+      "id": "desk-live",
+      "title": "Desk live",
+      "weekFrom": 1,
+      "weekTo": 1
+    },
+    {
+      "id": "first-desk-running",
+      "title": "First desk running",
+      "weekFrom": 2,
+      "weekTo": 5
+    },
+    {
+      "id": "full-desk",
+      "title": "Full desk",
+      "weekFrom": 6,
+      "weekTo": 13
+    }
+  ],
+  "modules": [
+    {
+      "id": "M01",
+      "phase": "desk-live",
+      "title": "Sign in and lock your account",
+      "goal": "You are signed in to your Eden work account in its own browser profile, with 2-Step Verification on.",
+      "steps": [
+        "Open the welcome message Kev sent to your personal address. It names your Eden work address and how to get your first sign-in (you should see: Your work address, spelled out)",
+        "In Chrome: profile icon (top right) > Add > Continue without an account > name it \"Eden\". Use this profile for all Eden work (you should see: A separate Chrome window titled Eden)",
+        "Go to mail.google.com, enter your Eden address and the first sign-in from the welcome message (you should see: Google asks you to choose a new password)",
+        "Choose a passphrase of 16 or more characters you have never used elsewhere. Save it in your own password manager (Chrome's built-in one is fine until Eden names one, gap C8). Never in a Doc or Sheet (you should see: Gmail inbox opens)",
+        "Go to myaccount.google.com > Security > 2-Step Verification > Get started. Choose a phone prompt or an authenticator app, then save the backup codes somewhere offline (you should see: \"2-Step Verification: On\")"
+      ],
+      "proof": "Screenshot of the Security page showing 2-Step Verification On. Crop out phone numbers and codes. Paste into the Proof Sheet row M01.",
+      "minutes": 20,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M02",
+      "phase": "desk-live",
+      "title": "Your Eden email signature",
+      "goal": "Every email you send carries the Eden signature: white, black text, no emoji, no image.",
+      "steps": [
+        "Gmail > gear icon (top right) > See all settings > General > scroll to Signature > Create new. Name it \"Eden\" (you should see: An empty signature box)",
+        "Type the block below. Make the name line and the EDEN PARTNER GROUP line bold. Fill the square brackets with your own details. Type the website as plain text so it stays black (you should see: Four short lines)",
+        "Set the font to Sans Serif and the colour to black. Montserrat is not in Gmail's signature font list (UNVERIFIED), so the brand fallback (Helvetica Neue or Arial) applies (you should see: Black text on white)",
+        "Under Signature defaults, set both \"For new emails use\" and \"On reply/forward use\" to Eden. Scroll to the bottom > Save Changes (you should see: A new draft shows the signature)",
+        "Send yourself a test email (you should see: The signature at the foot of the message)"
+      ],
+      "proof": "Screenshot of the received test email, signature visible. Row M02.",
+      "minutes": 15,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M03",
+      "phase": "desk-live",
+      "title": "Drive: your folders and your Proof Sheet",
+      "goal": "One tidy home for your work in Drive, and a Proof Sheet that records everything you do in this course.",
+      "steps": [
+        "drive.google.com > New > New folder > \"Eden · First Last\" (you should see: The folder in My Drive)",
+        "Inside it make five folders: 01 Lead sheets, 02 Candidate data sheets, 03 Submittals, 04 Autopsies and notes, 05 University proofs (you should see: Five folders in order)",
+        "Left panel > Shared with me > find the folder \"Eden University · Stand up your desk\". Right-click > Organize > Add shortcut > into your Eden folder (you should see: A shortcut in your folder)",
+        "Open \"Proof Sheet · template\" in that folder > File > Make a copy > name it \"Proof Sheet · First Last\" > save in 05 University proofs (you should see: Your own copy)",
+        "Share your Proof Sheet with Nick and Kev as Commenter (you should see: They show in the sharing list)"
+      ],
+      "proof": "Screenshot of the left panel showing your five folders. Row M03.",
+      "minutes": 25,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M04",
+      "phase": "desk-live",
+      "title": "Calendar: your time blocks",
+      "goal": "Your week is blocked, in the leads' time zone, so your Power Hours start themselves.",
+      "steps": [
+        "calendar.google.com > gear > Settings > General > Time zone. Set your primary zone, tick \"Display secondary time zone\" and choose Eastern (you should see: Two time columns in week view)",
+        "Settings > Working hours & location > turn on working hours for Monday to Friday (you should see: Shaded off-hours)",
+        "Create the daily blocks in the table below: Create > Event, set time, \"Does not repeat\" > \"Every weekday\", Save (you should see: Repeating events)",
+        "On each Power Hour set Notification to 5 minutes before (\"5 minutes early is the bare minimum\") (you should see: A 5-minute alert)"
+      ],
+      "proof": "Screenshot of tomorrow in day view with the blocks and the secondary time zone visible. Row M04.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M05",
+      "phase": "desk-live",
+      "title": "The standard: Pillars and Must-Dos",
+      "goal": "You can say the standard from memory: seven pillars, six Must-Dos, 15 RPs a day, 75 a week.",
+      "steps": [
+        "Open the Google Doc \"Eden-Core-Values\" (docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg). Read the pillars table, the six Must-Dos, the \"At Eden we\" list and the motto (you should see: The doc opens (needs G4))",
+        "Close it. In the Proof Sheet type the seven pillars in order, the six Must-Dos in your own words, and the daily and weekly RP numbers (you should see: Your list from memory)",
+        "Open the doc again and fix what you missed. Then write two lines: the pillar you will live into this week, and the Must-Do you are most likely to miss first (you should see: Two honest lines)"
+      ],
+      "proof": "The Proof Sheet row M05, filled. Nick or Kev reads it in person at C1; no screenshot needed.",
+      "minutes": 30,
+      "checker": "nick",
+      "link": "https://docs.google.com/document/d/1b17pmgnzvhiBO4TkmH_JJNSp407bgrVjfMHbKSBdFmg"
+    },
+    {
+      "id": "M06",
+      "phase": "desk-live",
+      "title": "Gemini: help in Gmail and Docs",
+      "goal": "You use Gemini for first drafts and summaries, with Eden's three do-nots in your head.",
+      "steps": [
+        "Gmail > Compose. Look for the Gemini or \"Help me write\" pencil in the compose window (UNVERIFIED menu name). Type a prompt card from the table below with made-up details (you should see: A draft appears)",
+        "Read the draft. Change at least one line to your own voice. Never send it unread (you should see: Your edited draft)",
+        "Open any email thread. Open the Gemini panel (sparkle icon, top right, UNVERIFIED). Ask \"Summarize this thread in 3 bullets: what they asked, what I promised, the next step and date.\" (you should see: A short summary)",
+        "Docs > a new doc > Gemini or \"Help me write\" (UNVERIFIED). Try the call-prep card. Save the doc in 04 Autopsies and notes (you should see: A saved prep page)"
+      ],
+      "proof": "Screenshot of a Gemini draft reply to a made-up email in your Drafts (not sent), with the one line you changed highlighted. Row M06.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M07",
+      "phase": "desk-live",
+      "title": "The Team Hub as a Contributor",
+      "goal": "You can open the Hub, you can reply to an ask, and you know what never goes on it.",
+      "steps": [
+        "Open https://claude.ai/artifact/7kccfScydYDcWoXfeeE8q6 in your Eden Chrome profile. Sign in to claude.ai with your Eden address (Google sign-in, UNVERIFIED) (you should see: The Hub landing: closed client folders)",
+        "Find \"Asks for the team\". Pick your name under \"My asks\" (you should see: Your open asks, if any)",
+        "Open an ask, tap Done or Can't, type a one-line reply. Can't needs a reason. If the page says you are read-only, you were shared as Viewer: file a ticket (G11) (you should see: Status changes)",
+        "Open the Job Orders folder. Find the jobs you are on and the days on the job (14+ days shows \"rotate?\"). Close it (you should see: Rows load only while open)",
+        "Try Screen-share mode: type a client name, press Enter, then turn it off (you should see: Other clients disappear)"
+      ],
+      "proof": "Screenshot of \"My asks\" with your name picked and no read-only notice. Row M07.",
+      "minutes": 20,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M08",
+      "phase": "desk-live",
+      "title": "Open your desk (the Today view)",
+      "goal": "Your private desk opens and shows today's blocks from your own calendar.",
+      "steps": [
+        "Accept the Claude invite to your desk (sent to your Eden address after Kev shares it, G11) and sign in (you should see: Your desk opens)",
+        "Allow Claude on the page when asked (UNVERIFIED prompt) (you should see: Page unlocks)",
+        "Connect Google Calendar and allow the page to read it. Gmail is optional, day 2 or later (you should see: Now and Next show your blocks)",
+        "Check your name at the top. If the desk shows another person's name, close it and file a ticket (you should see: Your name)",
+        "Find the card \"My scorecard\" (RPs today against 15, week against 75) and the Training card (you should see: Both visible)"
+      ],
+      "proof": "Screenshot of Now and Next showing a POWER HOUR block from M04. Row M08.",
+      "minutes": 20,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M09",
+      "phase": "desk-live",
+      "title": "Next Level Exchange: log in and your first video",
+      "goal": "You are logged in and have watched the first video in Eden's order, with notes.",
+      "steps": [
+        "Find your Next Level Exchange invitation or login in your Eden inbox or the welcome message (G9). The site is believed to be nextlevelexchange.com; the exact login page is UNVERIFIED (you should see: A sign-in page)",
+        "Sign in and set your own password. Save it in your password manager (you should see: A member area)",
+        "Find the training library (Foundation Training, UNVERIFIED label). Open the first video on Eden's watch list (gap C1). Until the list exists, start at the first Foundation video, in order (you should see: The video plays)",
+        "In 04 Autopsies and notes write three takeaways and the one thing you will try on tomorrow's first Power Hour (you should see: A saved note)",
+        "From today the SKILL block (M04) is 30 minutes of videos before the first Power Hour (you should see: Daily habit)"
+      ],
+      "proof": "Paste your three takeaways and your one thing to try into Row M09. No screenshot of members-only content.",
+      "minutes": 45,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M10",
+      "phase": "desk-live",
+      "title": "Crelate: log in, and the pipeline rules",
+      "goal": "You are logged in to Crelate and you can say where a lead goes, when a person moves to a job order, and what Dawg Pound means.",
+      "steps": [
+        "Open the Crelate invitation in your Eden inbox (G6), accept it and set your own password. Or go to app.crelate.com (login page UNVERIFIED) (you should see: Crelate home)",
+        "Confirm your own name shows as the signed-in user. Everything you log is attributed to you (you should see: Your name)",
+        "Open the pipeline board (menu name UNVERIFIED). Find the job columns and the Leads / Buckets column (you should see: The column headers)",
+        "Open one active job order. Find its stages, its owner and where its next-step dates sit (you should see: A job record)",
+        "Read the rules table below, then close the screen and answer the check from memory (you should see: Your answer)"
+      ],
+      "proof": "Screenshot of the pipeline board with only the column headers visible (crop out names), plus one line: \"A new lead list goes to ___; a person moves to the job order when ___.\" Row M10.",
+      "minutes": 60,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M11",
+      "phase": "desk-live",
+      "title": "Recruiter U: log in and your first video",
+      "goal": "You are logged in to Recruiter U and have watched the first video on Eden's list, with notes.",
+      "steps": [
+        "Find your Recruiter U access in your Eden inbox or the welcome message (G10). The login page is UNVERIFIED, and whether it shares an account with Next Level Exchange is UNVERIFIED (you should see: A sign-in page)",
+        "Sign in, set your own password, save it in your password manager (you should see: A member area)",
+        "Open the first video on Eden's list (gap C1) (you should see: The video plays)",
+        "Three takeaways and one thing to try, saved in 04 Autopsies and notes (you should see: A saved note)",
+        "From today the SKILL block alternates: Next Level Exchange on odd days, Recruiter U on even days (A) (you should see: A rhythm)"
+      ],
+      "proof": "Three takeaways and one thing to try, pasted into Row M11.",
+      "minutes": 45,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M12",
+      "phase": "desk-live",
+      "title": "CloudTalk: your line",
+      "goal": "You can place a call from your Eden line and the call appears in your CloudTalk log.",
+      "steps": [
+        "Open the CloudTalk invitation in your Eden inbox (G8) and set your own password. Login page: UNVERIFIED (you should see: CloudTalk dashboard)",
+        "Choose how you will call: the browser phone or the app (UNVERIFIED which Eden uses). If the browser, Chrome lock icon > Site settings > Microphone > Allow (you should see: Microphone allowed)",
+        "Set your status to Available. Plug in your headset (you should see: Status Available)",
+        "Call your own cell phone from CloudTalk. Answer, say one sentence, hang up (you should see: Your Eden number on your phone)",
+        "Find the call in your call log. Find the contacts tagged \"Lead <date>\": these are last night's loaded leads. Then add your direct line to the signature (M02) (you should see: A call row)"
+      ],
+      "proof": "Screenshot of your call log showing the test call. Crop out all numbers. Row M12.",
+      "minutes": 45,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M13",
+      "phase": "desk-live",
+      "title": "Desk-live check and certification C1",
+      "goal": "Your proof pack is complete and a person confirms it, in person, in ten minutes.",
+      "steps": [
+        "Open your Proof Sheet. Every row M01 to M12 has a proof. Retake any that show a number, a code or a name you should not show (you should see: Twelve rows filled)",
+        "Dry run (20 min, no dialing): open the practice lead sheet \"Practice · 25 names\" (gap C6). Pick the first name in the zone you would call now. Use the call-prep card in Gemini for that name's title (you should see: A prep page)",
+        "Write next week's plan (Must-Do 1): which Power Hours, which jobs, your RP target for each day (the ramp is in M21) (you should see: A plan in 04)",
+        "Ask Nick or Kev for ten minutes in person or on a call you already have on your calendar. Show three things live: your desk, a lead sheet, your Crelate login (you should see: They sign C1)"
+      ],
+      "proof": "C1 signed with a date. Row M13.",
+      "minutes": 45,
+      "checker": "nick",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M14",
+      "phase": "first-desk-running",
+      "title": "Your daily rhythm",
+      "goal": "You run the same day every day: plan, 15 RPs on track by noon, audit, check out.",
+      "steps": [
+        "Evening before, SET TOMORROW: calendar set, inventory audited (\"chop tomorrow's wood today\"), tomorrow's lead sheet opened (you should see: a ready sheet and calendar)",
+        "7:30 AM PT, SKILL block: one video, one note (you should see: a saved note)",
+        "Power Hours: dial the sheet in the leads' zone and log every call as you go (you should see: calls on the right job)",
+        "12:00 PM, noon mark: RPs on the board against the ramp target (you should see: your count against target)",
+        "Check-out, 4:30 PM Mon to Thu and 1:00 PM Fri: the seven daily boxes, RPs made, one autopsy line, tomorrow's Power Hour job (you should see: a filed check-out)",
+        "Monday: plan the week ahead before opening the inbox (you should see: a written plan)"
+      ],
+      "proof": "Days 6 to 10: your check-out filed on at least 4 of 5 days (your desk shows the record). Row M14.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M15",
+      "phase": "first-desk-running",
+      "title": "Log it right: the ten activity types",
+      "goal": "Every call, screen and submittal is logged as the right type, against the right job, the moment it happens.",
+      "steps": [
+        "Learn the ten activity types: RP, MP, JO, Resume, Screen, PTC, Submittal, FTI, Referral, LVM (you should see: you can name each and say whether it counts as each activity or a unique contact)",
+        "After each call: open the person > Log activity (click path UNVERIFIED) > pick the type from the table > link it to the job it was for (you should see: The activity on the job)",
+        "At noon and at check-out compare your tally with the \"My scorecard\" card on your desk. Within 1 is fine; more means something is unlogged or on the wrong job (you should see: Two numbers that agree)"
+      ],
+      "proof": "Friday of week 2: your own tally and your desk count, side by side, in Row M15 (counts only, no names).",
+      "minutes": 45,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M16",
+      "phase": "first-desk-running",
+      "title": "Crelate in Claude (read-only)",
+      "goal": "You can ask Claude about your own Crelate activity in plain English, read-only.",
+      "steps": [
+        "Find your own Crelate API key in Crelate account settings. If it is not there, file the G7 ticket (you should see: A key you can copy)",
+        "Open https://claude.ai/code, start a session in the repository named in your ticket (G7) (you should see: A session)",
+        "Open the cloud environment menu in the title bar > Edit. Add the key under Network secrets as CRELATE_API_KEY. Never paste it into the chat (you should see: A secret saved)",
+        "In the same settings, under Network access, add app.crelate.com (you should see: Domain allowed)",
+        "Start a new session and say: \"Read projects/recruiter-desk/crelate-in-claude.md and use Crelate read-only.\" Then ask \"What did I log this week: calls, submittals, first interviews?\" (you should see: Counts by type)"
+      ],
+      "proof": "The counts Claude returned, pasted in Row M16, with no candidate details.",
+      "minutes": 15,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M17",
+      "phase": "first-desk-running",
+      "title": "Your candidate data sheet",
+      "goal": "A 25-name sheet in Scout's lead-list format that a recruiter can open and dial with nothing to look up.",
+      "steps": [
+        "Open \"Candidate data sheet · template\" in the course folder > File > Make a copy > into 02 Candidate data sheets. Name it YYYY-MM-DD · Book · Title · City ST · N names (you should see: Your copy with the header row)",
+        "Choose one title in one metro (for a job you are on, or the market your lead gives you, A). Source the names from your network, LinkedIn Recruiter if you have a seat (G12) or your Crelate saved searches (you should see: 25 candidate rows)",
+        "Fill every column in the table below. Recruiters fill Called and Result as they dial (you should see: A full sheet)",
+        "Run the eight format checks below on your own sheet (you should see: 8 of 8)"
+      ],
+      "proof": "Screenshot of the header row and the row count. Names and numbers cropped out. Row M17.",
+      "minutes": 60,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M18",
+      "phase": "first-desk-running",
+      "title": "Dedupe and tag your sheet",
+      "goal": "Nobody on your sheet is a surprise: you know who is already in Crelate, who owns them and when they were last touched.",
+      "steps": [
+        "For each row search Crelate by LinkedIn URL first, then by name plus company (you should see: Match or no match)",
+        "Write the owner and last activity date in the In Crelate column. Do not change the record's owner, stage or notes (you should see: A filled column)",
+        "Use only existing tags: book, sector, company type, title, and city, state and time zone as separate tags. Broad, few, one spelling (you should see: Tags that already exist)",
+        "Hand the sheet on: file a ticket to Scout with names and roles only, no phones (A, gap C7). Scout stages it; the BPO team loads it into a bucket overnight (you should see: A ticket)"
+      ],
+      "proof": "Spot check: pick 10 rows at random and search again. Write \"10 of 10 match\" (or the number) in Row M18.",
+      "minutes": 45,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M19",
+      "phase": "first-desk-running",
+      "title": "Friday: your 42-box card and first scorecards",
+      "goal": "Your card is in by 1:00 PM PT every Friday, and you read your own trend before the Round Table.",
+      "steps": [
+        "Open the Friday card (today on the Eden Desk, section \"Team · Friday scorecard\", access UNVERIFIED, G11). Fill the 35 daily boxes and 7 weekly boxes honestly (you should see: A saved card)",
+        "Enter RPs out of 75, a burn-out number from 1 (fried) to 10 (fresh), core values lived or fell short, your autopsy, wins and blockers, and what you will do next week (you should see: A complete card)",
+        "Look at your line: this week, last week, four-week average, direction. A win is 90% or better (38 of 42) (you should see: Your trend)"
+      ],
+      "proof": "Cards filed by 1:00 PM on Fridays of weeks 2, 3 and 4 (the Eden Desk record). Row M19.",
+      "minutes": 20,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M20",
+      "phase": "first-desk-running",
+      "title": "Wednesday Headhunter Training",
+      "goal": "You attend, and the same day you write one line you will use.",
+      "steps": [
+        "Be there 5 minutes early with your laptop open. Sessions run about 15 minutes (you should see: You are in)",
+        "In 04 Autopsies and notes write one takeaway: the concept and the first call you will use it on (you should see: A one-line note)",
+        "Each Wednesday evening the training page is added to your Eden University folder. Read it once (you should see: A new page)"
+      ],
+      "proof": "A takeaway for 3 of your first 4 Wednesdays. Row M20.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M21",
+      "phase": "first-desk-running",
+      "title": "The ramp: your weekly targets",
+      "goal": "You know your target for every week until day 30, and that a trend, not one week, decides.",
+      "steps": [
+        "Read the ramp (A): week 1 shadow Power Hours at 0 RPs a day, week 2 at 5, week 3 at 10, week 4 at 15 (you should see: your target for each week)",
+        "Experienced hires follow the accelerated track: 15 a day from week 2 (A) (you should see: which track you are on)",
+        "Write this week's target in one line in your Proof Sheet (you should see: one line)"
+      ],
+      "proof": "Your target for this week in one line. Row M21.",
+      "minutes": 15,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M22",
+      "phase": "full-desk",
+      "title": "The 30, 60 and 90-day check-ins",
+      "goal": "You arrive with your own trend and an honest read, so the conversation is about the work.",
+      "steps": [
+        "Before day 30, 60 and 90 prepare one page: trend table (this week, last week, four-week average, direction), one win with evidence, one change tied to a Must-Do, your pillar focus (you should see: one page)",
+        "At day 60 add your depth chart status (M23) and FTI prep pages (M24); at day 90 add your own-book progress (M26) (you should see: the extra lines)",
+        "Meet Kev or Nick in person at the Round Table or one to one. No individual calendar invite is created for a scorecard review (you should see: a conversation about the work)"
+      ],
+      "proof": "Your one-page self-review saved in 04. Row M22.",
+      "minutes": 30,
+      "checker": "kev",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M23",
+      "phase": "full-desk",
+      "title": "Own a search's depth chart (days 31 to 60)",
+      "goal": "For your job order, you know each seat, who is behind it and which seat is thin.",
+      "steps": [
+        "Open the Hub folder for your client and the depth chart for your job. Read the seats, the stages and the shot clock (days since presented, days waiting on feedback) (you should see: The chart)",
+        "Find thin seats: fewer than two presented back-ups behind the person interviewing. A thin seat is a call to make today (you should see: A list of thin seats)",
+        "Keep each person's stage current in Crelate. The chart reads the pipeline and Casey's board pass; the Hub itself only reads (A) (you should see: Stages match)"
+      ],
+      "proof": "In person: name your thin seat and the next call. Row M23.",
+      "minutes": 45,
+      "checker": "nick",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M24",
+      "phase": "full-desk",
+      "title": "Prepare a first-time interview (FTI)",
+      "goal": "Every candidate you put in front of a client has a one-page prep.",
+      "steps": [
+        "Open the interview's job. Write the seat: role, scope and the must-haves in the client's words (you should see: a seat section)",
+        "Write the story: why this person fits in three sentences and one concern stated plainly, using the why-submitted card from M06 (you should see: a story section)",
+        "Write three questions the client will ask and three the candidate should ask (you should see: six questions)",
+        "Add the clock: presented date and feedback due date. Keep pay and personal contact details off the page (you should see: two dates)"
+      ],
+      "proof": "One prep page reviewed in person. Row M24.",
+      "minutes": 30,
+      "checker": "nick",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M25",
+      "phase": "full-desk",
+      "title": "The monthly desk audit",
+      "goal": "Your desk stays clean without anyone asking.",
+      "steps": [
+        "Stages: same names on every job, in pipeline order (you should see: matching stage names)",
+        "Candidates: each in exactly one stage, current today (you should see: no duplicates)",
+        "Owner and next step set on the job and on each active candidate, with a date (you should see: dates filled)",
+        "Notes: every submittal has the why-submitted note (you should see: a note on each)",
+        "Hub rows older than 14 days read \"check with owner\": refresh yours. Drive: sheets in the right folder, named in the pattern (you should see: fresh rows and a tidy Drive)"
+      ],
+      "proof": "The checked list in Row M25, with the number of fixes made.",
+      "minutes": 30,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M26",
+      "phase": "full-desk",
+      "title": "Build your own book (days 61 to 90)",
+      "goal": "You hold a tagged pool of people in your own market that nobody else owns, and you are talking to them.",
+      "steps": [
+        "Pick one book (Construction, Oil and Gas or Development), one sector and one metro. Read Scout's market map for that metro if one exists (you should see: A target)",
+        "Build the pool with M17 and M18: tagged, deduped, tiered (you should see: A sheet)",
+        "Make 10 logged conversations from it before day 90 (A) (you should see: 10 RPs on your own pool)"
+      ],
+      "proof": "Own-book sheet link and the count of conversations. Row M26.",
+      "minutes": 90,
+      "checker": "kev",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    },
+    {
+      "id": "M27",
+      "phase": "full-desk",
+      "title": "Ask the Eden app (Rhaven)",
+      "goal": "When the Eden app is live you ask \"how do I...\" there first and get the answer from this course.",
+      "steps": [
+        "Open the Eden app and the assistant (menu name UNVERIFIED) (you should see: A question box)",
+        "Ask one question from the list in `rhaven.md`. Check the answer names a module ID (you should see: A cited answer)",
+        "If an answer is wrong or stale, use \"Report a step\" (A) and name the module (you should see: A ticket)"
+      ],
+      "proof": "Screenshot of one cited answer. Row M27.",
+      "minutes": 15,
+      "checker": "self",
+      "link": "projects/eden-university/stand-up-your-desk/course.md"
+    }
+  ]
+}

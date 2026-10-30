@@ -1,0 +1,1 @@
+- 2026-10-28: 2026-10-28 (Kev): build the self-serve course 'Stand up your desk · 90-day ramp' (projects/eden-university/stand-up-your-desk/): three phases, 27 modules, proofs in a per-hire Proof Sheet, sign-off in person. Design only. Course becomes Rhaven's knowledge base later; Crelate modules are swapped at the Crelate retirement (Kev, 28 Oct).

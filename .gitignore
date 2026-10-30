@@ -14,3 +14,4 @@ employees/atlas/episodes/*/*-episode-eleven.mp3
 
 # Walking-tour MP3s (deployed to the trip site repo, never committed here)
 employees/atlas/episodes/*/site/*/audio/
+projects/eden-university/site/load/

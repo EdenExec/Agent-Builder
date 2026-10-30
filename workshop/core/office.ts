@@ -4,6 +4,7 @@
 // Spec: projects/virtual-office/research/q-architecture.md
 import { qcExact, approvalHash, type QcItem } from "./qc.ts";
 import type { GateRecord } from "./numbers-gate.ts";
+import { buildAgentProjects, type DeskProject, type ProjectDef } from "./desk-projects.ts";
 import { buildGame, mergeRecords, pacificDate, slaFindings, slaTitle, type GameAction, type Records } from "./office-game.js";
 
 /** One light per desk. Priority (Radar's proposal, Kev to confirm): urgent > reply > review > blocked > working > idle. */
@@ -28,11 +29,11 @@ export const DEFAULT_EXPECTED_EVERY_HOURS = 96;
 
 export type Desk = "centre" | "recruiting" | "finance" | "family" | "projects" | "other";
 export const DESKS: Record<string, Desk> = {
-  radar: "centre", scout: "recruiting", q: "recruiting", dean: "recruiting", host: "finance",
-  tally: "finance", docket: "finance", pm: "projects", atlas: "family", "housing-architect": "family", keys: "family", hale: "family", jethro: "family", barnabas: "family",
+  radar: "centre", scout: "recruiting", casey: "recruiting", ember: "recruiting", q: "recruiting", dean: "recruiting", host: "finance",
+  tally: "finance", docket: "finance", pm: "projects", atlas: "family", "housing-architect": "family", keys: "family", hale: "family", jethro: "family", barnabas: "family", lookahead: "family",
 };
 /** Hidden or blanked under the Screen-share switch: finance, family and the coaching desk. */
-export const SENSITIVE_AGENTS = new Set(["tally", "docket", "atlas", "housing-architect", "keys", "dean", "hale", "jethro", "barnabas"]);
+export const SENSITIVE_AGENTS = new Set(["tally", "docket", "atlas", "housing-architect", "keys", "dean", "hale", "jethro", "barnabas", "lookahead"]);
 
 export type AgentLite = { id: string; name: string; title?: string };
 export type NowFile = { task?: string; since?: string; state?: "working" | "idle" | "blocked"; blockedOn?: string; updated?: string };
@@ -42,7 +43,11 @@ export type InboxItem = { agent?: string; title: string; from?: string; why?: st
 export type CallItem = { who: string; company?: string; at: string; returned?: boolean };
 export type RunResult = { routine: string; agent?: string; lastRunAt?: string; ok: boolean; note?: string };
 /** A ticket as the sync reads it from the tickets collection. The SLA and the game need ask, createdAt, doneAt and result too. */
-export type TicketLite = { id: string; agent: string; status: string; pickedAt?: string; priority?: string; ask?: string; createdAt?: string; updatedAt?: string; doneAt?: string; result?: { summary?: string; link?: string } | null };
+export type TicketLite = { id: string; agent: string; status: string; pickedAt?: string; priority?: string; ask?: string; createdAt?: string; updatedAt?: string; doneAt?: string; result?: { summary?: string; link?: string } | null;
+  /** Short title the runner writes (8 words or fewer), the project it belongs to, why it is blocked, and what is waiting for Kev's Approve. */
+  title?: string; project?: string; blockedOn?: string; proposed?: { exact?: string } | null };
+/** An ask an agent posted to the recruiters on the Team Hub (`team_asks`); only `from` and the times matter here. */
+export type AskLite = { id?: string; from?: string; createdAt?: string };
 /** A row of the actions collection (Kev's Done / Follow up / Zzz taps). */
 export type ActionLite = GameAction;
 export type RoutineLite = { id: string; name: string; agent: string; trigger_id: string | null; cron?: string };
@@ -63,6 +68,12 @@ export type SyncInput = {
   tickets?: TicketLite[];
   /** The actions collection: each Done or Follow up tap is one of Kev's moves in the game. */
   actions?: ActionLite[];
+  /** The Team Hub's team_asks collection: an ask an agent posted counts as hearing from it. */
+  asks?: AskLite[];
+  /** Bench documents Q computes (workshop/core/benches.ts): benches/client, recruiting, depth, university, projects, family. Never finance or revenue. */
+  /** Projects read from the briefs and schedules (workshop/office/projects-load.ts): each agent's desk lists its own. Absent: agents get no `projects` field. */
+  projectDefs?: ProjectDef[];
+  benches?: { docs: Record<string, unknown>; skipped: string[]; /** meta/crelate: the recruiter leaderboard's counts (core/recruiter-board.ts) */ crelate?: unknown };
 };
 
 export type Alert = {
@@ -93,6 +104,8 @@ export type AgentDoc = {
   task: string | null; taskSince: string | null;
   lastHeard: string | null; stale: boolean; silent: boolean; expectedEveryHours: number;
   openTickets: number; pendingQc: number;
+  /** The projects this agent works, for the desk sheet (office-projects.ts). Omitted when the sync had no project definitions. */
+  projects?: DeskProject[];
   updated: string; source: string;
 };
 
@@ -199,7 +212,7 @@ export function buildAlerts(input: SyncInput): Alert[] {
   }
 
   // The ticket SLA (Kev, 22 Oct 2026): open more than 60 runner minutes is a FAIL (urgent); picked or working more than 4 runner hours with no result is a STALL (amber).
-  // Never on Saturday, never for done or gated tickets (slaFindings enforces both). The ids are stable, so a ticket picked up later deletes its own alert on the next sync.
+  // Never inside the Sabbath (Friday sunset to Saturday sunset), never for done or gated tickets (slaFindings enforces both). The ids are stable, so a ticket picked up later deletes its own alert on the next sync.
   const byId = new Map((input.tickets ?? []).map((t) => [t.id, t]));
   for (const f of slaFindings(input.tickets ?? [], now.getTime())) {
     const ask = byId.get(f.id)?.ask;
@@ -216,6 +229,23 @@ export function buildAlerts(input: SyncInput): Alert[] {
   return out;
 }
 
+/** Latest ISO time anything of this agent's moved: its memory (git, now.json), its QC items, its Command Center tickets
+ *  (created, picked, done, updated) and the Team Hub asks it posted. Kev, 26 Oct, on a floor of "stale" desks whose feeds showed
+ *  fresh work: a ticket closed this morning is hearing from the agent. Times in the future (clock skew, typos) are ignored. */
+export function lastHeardOf(id: string, input: SyncInput): string | null {
+  const nf = input.nowFiles?.[id];
+  const times = [input.heard?.[id], nf?.updated,
+    ...input.qc.filter((q) => q.employee === id).map((q) => q.createdAt),
+    ...(input.tickets ?? []).filter((t) => t.agent === id).flatMap((t) => [t.createdAt, t.pickedAt, t.doneAt, t.updatedAt]),
+    ...(input.asks ?? []).filter((x) => x.from === id).map((x) => x.createdAt)];   // doneAt and replies are the recruiter's, not the agent's
+  let best: number | null = null;
+  for (const v of times) {
+    const ms = v ? Date.parse(v) : NaN;
+    if (Number.isFinite(ms) && ms <= input.now.getTime() && (best === null || ms > best)) best = ms;
+  }
+  return best === null ? null : new Date(best).toISOString();
+}
+
 export function buildAgents(input: SyncInput, alerts: Alert[]): AgentDoc[] {
   const { now } = input;
   return input.agents.map((a) => {
@@ -223,8 +253,7 @@ export function buildAgents(input: SyncInput, alerts: Alert[]): AgentDoc[] {
     const counts = Object.fromEntries(PRIORITY.map((l) => [l, 0])) as Record<Light, number>;
     for (const x of mine) counts[x.light]++;
     const nf = input.nowFiles?.[a.id];
-    const heardCandidates = [input.heard?.[a.id], nf?.updated, ...input.qc.filter((q) => q.employee === a.id).map((q) => q.createdAt)].filter(Boolean) as string[];
-    const lastHeard = heardCandidates.sort().at(-1) ?? null;
+    const lastHeard = lastHeardOf(a.id, input);
     const expected = EXPECTED_EVERY_HOURS[a.id] ?? DEFAULT_EXPECTED_EVERY_HOURS;
     const sinceHeard = ageMs(lastHeard ?? undefined, now);
     const fresh = sinceHeard <= WORKING_FRESH_HOURS * HOUR;
@@ -242,6 +271,7 @@ export function buildAgents(input: SyncInput, alerts: Alert[]): AgentDoc[] {
       lastHeard, stale: claimsWorking && !fresh && !ticketWorking, silent, expectedEveryHours: expected,
       openTickets: myTickets.filter((t) => ["open", "picked", "working", "blocked", "gated"].includes(t.status)).length,
       pendingQc: input.qc.filter((q) => q.employee === a.id && q.status === "pending").length,
+      ...(input.projectDefs ? { projects: buildAgentProjects(a, input.projectDefs, input.tickets ?? [], now, repoLink, scrub) } : {}),
       updated: now.toISOString(), source: "office sync",
     };
   });
@@ -283,12 +313,15 @@ const strip = (v: unknown) => JSON.stringify(v, (k, x) => (k === "updated" || k 
  * Existing docs need if_version; unchanged docs are skipped; sync-owned alerts (id starts "sync-") that are no longer true are deleted
  * (they are derived mirror rows this script owns, never records of a system).
  */
-export function planWrites(docs: Record<string, unknown>, existing: Existing = {}): Op[] {
+export function planWrites(docs: Record<string, unknown>, existing: Existing = {}, now: Date = new Date()): Op[] {
   const ops: Op[] = [];
-  for (const [path, data] of Object.entries(docs)) {
+  for (let [path, data] of Object.entries(docs)) {
     const i = path.lastIndexOf("/");
     const collection = path.slice(0, i), doc_id = path.slice(i + 1);
     const ex = existing[path];
+    // Radar's runner snoozes an alert ("Later" on the Needs Kev strip) by setting snoozeUntil on its doc; the hourly rewrite must not wipe it while it is still in the future.
+    const snz = collection === "alerts" ? (ex?.data as { snoozeUntil?: unknown } | undefined)?.snoozeUntil : undefined;
+    if (typeof snz === "string" && Date.parse(snz) > now.getTime() && data && typeof data === "object") data = { ...(data as object), snoozeUntil: snz };
     if (ex) {
       // meta/sync is the heartbeat behind the page's "Synced Nm ago": never skipped, even when nothing else changed (strip() ignores syncedAt).
       if (path !== "meta/sync" && ex.data !== undefined && strip(ex.data) === strip(data)) continue;
@@ -337,6 +370,9 @@ export function buildFeed(input: SyncInput, tools: Tool[] = [], seen: Record<str
   else if (!input.actions) skipped.push("Kev's Done and Follow up taps, which score in the game (pass --actions)");
   const docs: Record<string, unknown> = {};
   const at = input.now.toISOString();
+  for (const [path, bench] of Object.entries(input.benches?.docs ?? {})) docs[path] = bench;
+  skipped.push(...(input.benches?.skipped ?? []));
+  if (input.benches?.crelate) docs["meta/crelate"] = input.benches.crelate;
   for (const a of agents) docs[`agents/${a.id}`] = a;
   for (const a of alerts) docs[`alerts/${a.id}`] = a;
   for (const t of tools) {

@@ -5,7 +5,7 @@
 - 5:30 brief and journaling, pray 5:45, office by 6. Power Hours and calls through the morning, home calls early afternoon, family after, 5:30pm check-out.
 - Scripture: ESV, book order, one chapter a day, currently in Romans.
 - Habit tracker on the paper: Bible, RPs, MPs, Workout, Drinks, Wisdom, Agency, Growth, Weight. Jethro adds no habit and no streak to it.
-- Saturday is the Sabbath: no paper, no brief, no prompts, no checks, no work from Jethro.
+- The Sabbath runs Friday sunset to Saturday sunset (Kev, 24 Oct 2026): no paper, no brief, no prompts, no checks, no work from Jethro; what Kev sends is held until after Saturday sundown.
 - Sunday is Main Street (Kev drums) and the Sunday Edition; the Sunday lab review is Sunday evening.
 - Boise move target Friday 6 November 2026; packing from 1 November. Expect a light two weeks: smaller reading pace, shorter prompts, no new changes started that week unless Kev asks.
 - Writing voice for drafts: short, direct, warm, result first, no filler, no exclamation marks.

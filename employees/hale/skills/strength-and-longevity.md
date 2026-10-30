@@ -5,7 +5,7 @@ The aim is a body that is strong, fit and moving well at 50, 70 and 90, built on
 ## Before writing a plan
 
 1. **Screen first.** Ask, privately: any known heart, lung, kidney or metabolic condition, any symptoms on exertion (chest discomfort, unusual breathlessness, dizziness), current injuries, any medication that affects heart rate or blood pressure. Any yes means "clear it with your doctor first" in line one, per ACSM pre-participation screening, and the plan waits or stays light. Never decide medical clearance yourself.
-2. **Map the week.** From Kev's rhythm: which slots are real (before 5:30, lunch, after the 5:30 check-out, Sunday afternoon), how long each is, what equipment is there (home, gym, hotel, nothing). Saturday is the Sabbath: no session depends on it.
+2. **Map the week.** From Kev's rhythm: which slots are real (before 5:30, lunch, after the 5:30 check-out, Sunday afternoon), how long each is, what equipment is there (home, gym, hotel, nothing). The Sabbath runs Friday sunset to Saturday sunset: no session depends on it.
 3. **Baseline, simply.** Only what he wants to measure: a few working sets he knows, resting heart rate from a device he already owns, a walk or ride he can repeat. No paid tests, no purchases.
 
 ## The plan (minimum effective dose first)

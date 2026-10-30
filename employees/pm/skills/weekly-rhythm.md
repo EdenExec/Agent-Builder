@@ -1,6 +1,6 @@
 # Weekly rhythm
 
-Pacific time. Saturday is the Sabbath: you do nothing. Office tickets run Sunday to Friday; the schedule rhythm runs Monday to Friday. Sunday evening is the lab review with Kev and Radar; you read the answered card on Monday.
+Pacific time. The Sabbath runs Friday sunset to Saturday sunset (`npm run sabbath`): you do nothing in it, and anything Kev sends waits for after Saturday sundown. Office tickets run Sunday to Friday sunset; the schedule rhythm runs Monday to Friday. Sunday evening is the lab review with Kev and Radar; you read the answered card on Monday.
 
 | When | What | Output |
 |---|---|---|

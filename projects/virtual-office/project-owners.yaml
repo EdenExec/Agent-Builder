@@ -1,0 +1,53 @@
+# Which agent works which project, for the desk sheets in the Command Center (Kev, 29 Oct 2026: "a list of clickable projects we're working on with each bot").
+# office-prep reads this plus each projects/<slug>/brief.yaml or brief.md. A brief can carry the same fields itself in an `office:` block
+# (YAML key, or in a markdown brief's front matter); the block wins over this file. This file exists so the briefs did not have to be edited.
+#   title     the name on the desk (family projects use a plain name, never an address)
+#   agents    agent ids; the first is the owner and sees every row, the others see only the rows that name them
+#   keywords  whole words that put a ticket in this project when it has no `project` field (be specific: "Eden Staffing", not "staffing")
+#   schedule  a markdown file with a deliverables table (ID, Deliverable, Owner, Due, Status, Next action); its rows become the project's items
+projects:
+  eden-staffing:
+    title: Eden Staffing
+    agents: [pm, docket, tally, host, housing-architect]
+    keywords: ["Eden Staffing", EOR, BaaS, "temp staffing", "staffing services agreement"]
+    schedule: projects/eden-staffing/schedule.md
+  eden-crm:
+    title: Eden CRM
+    agents: [q]
+    keywords: ["Eden CRM", "Crelate mirror", "crelate-mirror"]
+  cloudtalk-nightly:
+    title: CloudTalk nightly load
+    agents: [q]
+    keywords: ["CloudTalk nightly", "nightly lead load", leadplan]
+  recruiter-desk:
+    title: Recruiter Desk
+    agents: [q]
+    keywords: ["Recruiter Desk", "recruiter-desk"]
+  team-hub:
+    title: Team Hub
+    agents: [q, casey]
+    keywords: ["Team Hub", "depth chart"]
+  virtual-office:
+    title: Command Center
+    agents: [q, radar]
+    keywords: ["Command Center", "Eden Office", "office-prep", "ticket runner"]
+  finance:
+    title: Finance
+    agents: [tally]
+    keywords: ["cash pulse", "budget vs actual", "Rev Report"]
+  legal:
+    title: Legal and risk
+    agents: [docket]
+    keywords: ["risk register", "statement of work", "SOW"]
+  workforce:
+    title: Workforce
+    agents: [dean]
+    keywords: [scorecard, "Round Table", "Eden University"]
+  600-se-101st-str:
+    title: Vancouver rental
+    agents: [keys]
+    keywords: ["short-term rental", VRBO, Airbnb]
+  eden-ranch-idaho:
+    title: Idaho ranch
+    agents: [housing-architect]
+    keywords: ["Eden Ranch", "floor plan"]

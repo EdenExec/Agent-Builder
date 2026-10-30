@@ -4,8 +4,8 @@
 #
 # Why four, not six: routines created by an agent in this organisation carry no connectors, so every Radar routine
 # reuses a trigger Kev's account already holds with connectors attached. The Friday week review runs inside Friday's
-# check-out; the Sunday Edition is built by the stand-up routine's Saturday-night run (the one build allowed on the
-# Sabbath). The hourly sweep took over the retired "Calendar Auto-Fill" trigger (its original prompt is kept in
+# check-out; the Sunday Edition is built by the stand-up routine's Saturday-night run, after sundown, when the Sabbath
+# (Friday sunset to Saturday sunset) has ended. The hourly sweep took over the retired "Calendar Auto-Fill" trigger (its original prompt is kept in
 # docs/retired-routines.md).
 branch: claude/pensive-brown-18gll8
 routines:
@@ -22,7 +22,7 @@ routines:
     trigger_id: trig_012VfA1Y4EBzyFoixKVGmNug
     cron: "CRON_TZ=America/Los_Angeles 7 7-18 * * 1-5"
     model: claude-opus-5-5
-    skills: [standing-rules, ledger, interrupt-rules, trust-ramp, inbox-sweep, invoicing]
+    skills: [standing-rules, ledger, interrupt-rules, trust-ramp, inbox-sweep]   # invoicing is read from the repo on demand (30 Oct: prompt size)
     seeds: [sources, people]
     notify: none
   - id: check-out

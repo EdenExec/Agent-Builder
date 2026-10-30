@@ -9,3 +9,156 @@
 - 2026-10-23T03:44Z: picked 0, closed 0, gated 0 new (1 existing awaiting Kev), blocked 0, FAILs 0. Queue empty, no voice tickets; floor refresh skipped, nothing changed.
 - 2026-10-22 21:45 PT (Fri 04:45 UTC): picked 1, closed 0, gated 0, blocked 1 (k714 Dean, needs Serena's email), FAILs 0. Refresh/cockpit skipped this run.
 - 2026-10-22 22:55 PT: picked 4, closed 3, gated 0, blocked 1 (sr33 Drive upload), FAILs found 0 (all tickets under 60 min). Refresh: light (meta/sync only); benches/cockpit not run this late-night pass.
+2026-10-22 23:55 PT: picked 1, closed 0, gated 0, blocked 1 (hub27: Hub has no Rev Report), FAILs 0
+- 2026-10-23 00:48 PT: picked 1, closed 1 (hzqe Radar: Pruter prep on Desk, Lead Log Ref column), gated 0, blocked 0 new (kkfe, zink waiting on Kev), FAILs 0. Refresh: light (meta/sync only); benches/cockpit not run this late-night pass.
+- 2026-10-23 01:45 PT: picked 0, closed 0, gated 0 (fbr6 still gated), blocked 0 new (k714, kkfe, zink waiting on Kev), FAILs 0. Refresh: light (meta/sync only); benches/cockpit not run this pre-6am pass.
+- 2026-10-23 02:44 PT: picked 0, closed 0, gated 1, blocked 1, FAILs 0 (queue empty; sync stamp refreshed; benches/decisions/cockpit wait for 6am run)
+- 2026-10-23 03:46 PT: picked 0, closed 0, gated 0 (1 existing), blocked 0 new (1 existing), FAILs 0. Queue empty; sync stamp only.
+- 2026-10-23 04:45 PT (Fri): picked 0, closed 0, gated 1, blocked 1 (+2 waiting on Kev), FAILs 0. Queue empty; sync stamp refreshed only.
+- 2026-10-23 05:45 PT (Fri): picked 0, closed 0, gated 1, blocked 1 (+2 waiting on Kev), FAILs 0. Queue empty; sync stamp refreshed only.
+- 2026-10-23 06:46 PT: picked 0, closed 0, gated 0 new (1 existing gated, 1 blocked on Kev, 2 waiting), blocked 0 new, FAILs 0. Minimal sync stamp only.
+- 2026-10-23 07:45 PT: picked 0, closed 0, gated 0 new (1 gated, 2 waiting already), blocked 0, FAILs 0; sync stamp refreshed only.
+- 2026-10-23 08:46 PT: picked 0, closed 0, gated 1 (fbr6), blocked 0, FAILs 0; queue empty, sync stamp refreshed (light run)
+- 2026-10-23 09:45 PT: picked 0, closed 0, gated 0 (1 existing), blocked 0, FAILs 0. Queue empty; sync stamped only.
+- 2026-10-23 10:45 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0 (queue empty; 2 'waiting' q tickets scheduled for Saturday left alone; sync stamp refreshed only)
+- 2026-10-23 11:45 PT: picked 0, closed 0, gated 0 (2 existing), blocked 0, FAILs 0. Queue empty; sync stamped only.
+- 2026-10-23 12:44 PT: picked 0, closed 0, gated 0 (2 existing), blocked 0, FAILs 0. Queue empty (2 'waiting' q tickets left alone); sync stamped only.
+- 2026-10-23 13:46 PT: picked 0, closed 0, gated 0 new, blocked 0, FAILs 0 (no open tickets; 2 q tickets 'waiting' for tomorrow; 2 gated await Kev). Sync stamp refreshed only.
+- 2026-10-23 14:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting on Kev), blocked 0, FAILs 0. Queue empty; sync stamp only.
+- 2026-10-23 15:45 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0 (queue empty; 2 waiting on Kev: CloudTalk routine session, Q allow list). Minimal sync only.
+- 2026-10-23 16:45 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0 (queue empty; 2 waiting on Kev: CloudTalk routine session, Q allow list). Minimal sync only.
+- 2026-10-23 17:45 PT: picked 0, closed 0, gated 2, blocked/waiting 2, FAILs 0 (queue empty; sync stamp only)
+- 2026-10-23 18:45 PT: picked 0, closed 0, gated 0, blocked/waiting 0 new, FAILs 0 (queue empty; 2 gated + 2 waiting on Kev unchanged). Sync stamp only.
+- 23 Oct 19:43 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Sync stamp refreshed only.
+- 2026-10-23 20:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Queue empty; sync stamp only.
+- 2026-10-23 21:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting pre-existing), blocked 0, FAILs 0. Short run: sync stamp only.
+- 2026-10-23 22:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already on Kev), blocked 0, FAILs 0. Queue empty; light sync stamp only.
+- 2026-10-23 23:45 PT: picked 0, closed 0, gated 0 (2 already gated, 2 waiting), blocked 0, FAILs 0. Queue empty; sync stamp refreshed.
+- 2026-10-25 00:47 PT: picked 3, closed 3, gated 0, blocked 0, FAILs 3 (casey tickets open ~17h, filed on Sabbath, first run after)
+- 2026-10-25 01:45 PT: picked 0, closed 0, gated 0 new, blocked 0, FAILs 0 (queue empty; 2 q tickets waiting, 2 gated on Kev). Sync stamp only.
+- 2026-10-25 02:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already on Kev), blocked 0, FAILs 0. Sync stamp only.
+- 2026-10-25 10:46Z (03:46 PT, Sun): picked 0, closed 0, gated 0 new, blocked 0, FAILs 0. Queue empty (2 gated, 2 waiting from earlier). Sync stamp only; benches and decisions skipped (before 6am PT).
+- 2026-10-25 12:45Z (05:45 PT, Sun): picked 0, closed 0, gated 0 new, blocked 0, FAILs 0. Queue empty. Sync stamp only; benches and decisions skipped (before 6am PT).
+- 2026-10-25 13:55Z (06:55 PT, Sun): picked 1, closed 1 (casey Crelate pull, radar), gated 0 new, blocked 0, FAILs 0 (ticket filed 13:30Z). Sync stamp only; benches (8a), cockpit doc (9) deferred this run.
+- 2026-10-25 07:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting on Kev already), blocked 0, FAILs 0. Queue empty; sync stamp only.
+- 2026-10-25 08:46 PT: picked 0, closed 0, gated 2 (existing), blocked 0, FAILs 0; no open tickets, sync stamp refreshed
+- 2026-10-25 09:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Queue empty; sync stamp refreshed.
+- 2026-10-25 10:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Queue empty; sync stamp refreshed.
+- 2026-10-25 11:46 PT: picked 0, closed 0, gated 0 new (3 gated/waiting already with Kev), blocked 0, FAILs 0. Light run: sync stamp only.
+- 2026-10-25 12:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting from before), blocked 0, FAILs 0. Light run: stamped meta/sync only.
+- 2026-10-25 13:45 PT: picked 0, closed 0, gated 2 (existing), blocked 0, FAILs 0; sync stamp only
+- 2026-10-25 14:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting on Kev), blocked 0, FAILs 0. Queue empty; sync stamp refreshed only.
+- 2026-10-25 15:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting on Kev), blocked 0, FAILs 0. Queue empty; sync stamp refreshed only.
+- 2026-10-25 16:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting on Kev), blocked 0, FAILs 0. Queue empty; sync stamp refreshed only.
+- 2026-10-25 17:50 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Sync stamp refreshed.
+- 2026-10-25 18:46 PT: picked 0, closed 0, gated 2 (fbr6, wbnr), waiting 2 (kkfe, zink), blocked 0, FAILs 0; sync stamp only
+- 2026-10-25 19:48 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Queue empty; minimal sync stamp only.
+- 2026-10-25 20:43 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Queue empty; sync stamp only.
+- 2026-10-25 21:45 PT: picked 0, closed 0, gated 2 (existing), blocked 0, FAILs 0; queue empty, sync stamp only
+- 2026-10-25 22:45 PT: picked 0, closed 0, gated 0 new (2 gated + 2 waiting on Kev, unchanged), blocked 0, FAILs 0. Queue empty; minimal sync stamp only (after 10pm window).
+- 2026-10-25 23:47 PT: picked 1, closed 1 (t-202610260544-4fkx: Casey's care-list routine already covers it), gated 0 new (2 gated + 2 waiting on Kev, unchanged), blocked 0, FAILs 1 (filed 22:44 PT, after the 10pm window, open 60 min at run start). Minimal sync stamp only.
+- 2026-10-26 00:50 PT: picked 0, closed 0, gated 2, blocked 0, FAILs 0 (queue empty; sync stamp only)
+- 2026-10-26 01:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Sync stamp only.
+- 2026-10-26 02:45 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0 (queue empty; sync stamp only)
+- 2026-10-26 03:46 PT: picked 0, closed 0, gated 0 new (2 existing), blocked 0, FAILs 0. Queue empty; sync stamp only.
+- 2026-10-26 04:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting existing), blocked 0, FAILs 0; sync stamp only
+- 2026-10-26 05:50 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting on Kev), blocked 0, FAILs 0. Queue empty; sync stamp refreshed only.
+- 2026-10-26 06:56 PT: picked 0, closed 0, gated 0 new (1 gated, 2 waiting on Kev), blocked 0, FAILs 0. Queue empty; sync stamp refreshed only.
+- 2026-10-26 14:50Z: picked 0, closed 0, gated 0, blocked 0, FAILs 0 (queue empty; 2 gated, 2 waiting on Kev). Sync stamp refreshed only.
+- 2026-10-26 08:45 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting on Kev), blocked 0, FAILs 0. Queue empty; sync stamp refreshed only.
+- 2026-10-26 09:50 PT: picked 0, closed 0, gated 0 (2 older gated await Kev), blocked 0, FAILs 0. Light sync stamp only.
+- 2026-10-26 10:55 PT: picked 2, closed 2 (scout lead list 97 supers, radar FYI), gated 0, blocked 0, FAILs 0. 4 Casey team-ask tickets picked 17:11Z still in flight. Light sync stamp only.
+- 2026-10-26 11:46 PT: picked 0, closed 4 (Casey team-asks for Bridger, Andrew, Max, Noah, already posted to Team Hub), gated 0 new (2 older gated, 2 waiting on Kev), blocked 0, FAILs 0. Light sync stamp only.
+- 2026-10-26 12:50 PT: picked 0, closed 0, gated 0 new (2 gated + 2 waiting on Kev), blocked 0, FAILs 0. Short run: sync stamp only.
+- 2026-10-26 13:45 PT: picked 0, closed 0, gated 0 new (2 gated + 2 waiting on Kev), blocked 0, FAILs 0. Short run: sync stamp only.
+2026-10-26 14:50 PT: picked 1, closed 1, gated 0, blocked 0, FAILs 0 (ticket tg7k open 40 min at pickup).
+- 2026-10-26 15:46 PT: picked 0, closed 0, gated 0 new (2 gated, 2 waiting already), blocked 0, FAILs 0. Sync stamp only.
+- 2026-10-26 16:46 PT: picked 0, closed 0, gated 2 (waiting on Kev: t-202610212325-fbr6, t-202610231625-wbnr), blocked 0, FAILs 0. Sync stamp only.
+- 2026-10-26 17:50 PT: full floor refresh (not stamp-only) after Kev's "why do they all say stale": 35 writes, 15 desks refreshed, 15 fresh / 0 stale; picked 0, closed 0, FAILs 0. From now on every run does the full refresh (ticket-runner.md step 8).
+- 2026-10-26 18:5x PT: picked 2, closed 1 (casey tx2r), gated 0, blocked 1 (rdcr: Crelate API has no name search), FAILs 0 (both tickets filed under 60 min earlier). Full floor refresh: 31 writes.
+- 2026-10-26 18:5x PT (late run): picked 0, closed 0, gated 0 new (2 waiting, 1 blocked already), blocked 0 new, FAILs 0 (no open tickets). Full floor refresh: 31 writes. Cockpit rewrite skipped (cut first).
+2026-10-26 19:45 PT · picked 0 · closed 0 · gated 0 · blocked 0 new (1 existing) · FAILs 0 · floor refreshed (31 writes); benches/cockpit skipped
+- 2026-10-26 20:45 PT: picked 0, closed 0, gated 0, blocked 0 (1 existing), FAILs 0; floor refresh pushed (31 writes); cockpit/benches skipped (no Docs/QBO run in this routine)
+- 2026-10-26 21:45 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; floor refreshed (32 writes: 15 agents, alerts, meta/sync v80). 1 ticket 'working' (host, <2h).
+- 2026-10-26 22:55 PT: picked 1, closed 1 (radar tdrf: team touch-list draft in Superhuman Drafts), gated 0, blocked 0, FAILs 0. Floor refreshed (37 writes, meta/sync v81); benches/cockpit skipped.
+- 2026-10-26 23:50 PT: picked 1, closed 0, gated 1 (t-202610270638-0w3m, QC 2026-10-27-ce0351), blocked 0, FAILs 0
+- 2026-10-27 00:4x PT: picked 0, closed 0, gated 2 (existing), blocked 1 (existing), FAILs 0; floor refreshed (38 writes); cockpit skipped, benches/decisions wait for 6am run.
+- 2026-10-26 18:45 PT (Tue 08:45Z): picked 0, closed 0, gated 0 new (2 already gated: 0w3m, hmzt), blocked 0 new, FAILs 0. Floor refresh pushed (38 writes: agents, alerts, meta). Cockpit rewrite skipped (short run).
+- 2026-10-27 02:50 PT: picked 0, closed 0, gated 2 (existing), blocked 1 (existing), FAILs 0; floor refresh pushed (38 writes); benches/cockpit skipped (before 6am).
+- 2026-10-27 04:45 PT: picked 0, closed 0, gated 0 (2 pre-existing), blocked 0 new (1 pre-existing), FAILs 0; floor refreshed (38 writes); cockpit skipped (pre-6am).
+- 2026-10-27 05:46 PT: picked 0, closed 0, gated 2 (existing), blocked 1, FAILs 0. Floor refreshed (38 writes: agents, alerts, meta). Benches/cockpit skipped (before 6am / short run); npm ci needed for office-prep.
+- 2026-10-27 06:5x PT: picked 0, closed 0, gated 2 (existing), blocked 1 (existing), FAILs 0. Floor refreshed (38 writes). Benches: Tally has no QuickBooks connection, wrote nothing, raised needsKev alert qbo-auth. Cockpit doc skipped (short run).
+- 2026-10-27 07:5x PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0 (no open tickets; 2 'waiting' q tickets untouched). Floor refresh pushed (38 writes). Skipped 8a benches, 8b top-3, 9 cockpit this run.
+- 2026-10-27 08:5x PT: picked 1 (pm schedule refresh), closed 1, gated 0, blocked 0, FAILs 0. Floor refresh pushed (61 writes). Skipped 8a benches, 8b, 9 cockpit (short run); Notion ledger/Family bench skipped.
+- 2026-10-27 09:4x PT: picked 0, closed 0, gated 0, blocked 0 new, FAILs 0 (no open tickets). Floor refresh pushed (61 writes, 2 batches). Skipped 8a benches, 8b, 9 cockpit (short run); Notion ledger/Family bench skipped.
+- 2026-10-27 10:5x PT: picked 0, closed 0, gated 0 new (1 gated, 1 blocked, 2 waiting already on Kev), blocked 0 new, FAILs 0. Floor refreshed (61 writes, meta/sync v92); Notion Family ledger and cockpit doc skipped this run.
+- 2026-10-27 11:4x PT: picked 0, closed 0, gated 0 new, blocked 0 new, FAILs 0 (no open tickets; 2 'waiting' q tickets untouched). Floor refresh pushed (61 writes, meta/sync v93). Skipped 8a, 8b, Notion Family ledger, cockpit doc (short run).
+- 2026-10-27 12:5x PT: picked 2 (scout PB South lists, radar PB South questions), closed 2, gated 0, blocked 0 new, FAILs 0. Floor refresh pushed (61 writes, meta/sync v95). Skipped 8a benches, 8b, 9 cockpit, Notion Family ledger (short run). Scout lists not yet in Drive/Crelate.
+- 2026-10-27 13:5x PT: picked 0, closed 0, gated 0 new, blocked 0 new, FAILs 0 (no open tickets). Floor refresh pushed (62 writes, meta/sync v96). Skipped 8a, 8b, 9 cockpit, Notion Family ledger (short run).
+- 2026-10-27 14:5x PT: picked 0, closed 0, gated 0 new, blocked 0 new, FAILs 0 (no open tickets; 2 'waiting' q tickets untouched). Floor refresh pushed (62 writes, meta/sync v98). Skipped 8a, 8b, 9 cockpit, Notion Family ledger (short run).
+- 2026-10-27 15:50 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Floor refreshed (71 writes pushed). Skipped: Notion Family ledger, 8a benches, 8b/9 cockpit (short run).
+- 2026-10-27 16:5x PT: picked 0, closed 0, gated 0 new, blocked 0 new, FAILs 0 (no open tickets). Floor refreshed (62 writes pushed, meta/sync v100). Skipped: Notion Family ledger, 8a benches, 9 cockpit (short run).
+- 2026-10-27 17:5x PT: picked 0, closed 0, gated 0 new, blocked 0 new, FAILs 0 (no open tickets). Floor refreshed (62 writes pushed, meta/sync v101). Skipped: Notion Family ledger, 8a benches, 8b/9 cockpit (short run).
+- 2026-10-27 18:4x PT: picked 0, closed 0, gated 0 new, blocked 0 new, FAILs 0 (no open tickets; scout vtsc 'working' 46 min, a live session has it). Floor refreshed (62 writes pushed, meta/sync v102). Skipped: Notion Family ledger, 8a benches, 8b/9 cockpit (short run).
+- 2026-10-27 19:45 PT: picked 1, closed 1 (t-202610280130-vtmd, PB South VT JO via Casey), gated 0, blocked 0, FAILs 0. Floor refresh pushed (62 writes). Benches 8a and cockpit skipped this run (late evening).
+- 2026-10-27 20:5x PT: picked 2 (radar autopsies of qtly and vtmd), closed 2, gated 0, blocked 0, FAILs 0 (both autopsies were Kev-requested; causes in friction.md). Runner doc fixed (steps 3, 9b). Floor refreshed (62 writes, meta/sync v104). Skipped: Notion Family ledger, 8a benches (QBO auth alert still up), 8b/9 cockpit.
+- 2026-10-27 21:4x PT: picked 0, closed 0, gated 0, blocked 2 (t-202610230707-kkfe CloudTalk routine session and t-202610230707-zink allow-list yes: both waiting on Kev since 23 Oct, moved waiting to blocked), FAILs 0 (no open tickets). Floor refreshed (62 writes, meta/sync v105; Family bench not written, Notion ledger skipped). Skipped: 8a benches (QBO auth alert up), 8b/9 cockpit (late evening).
+- 2026-10-27 22:4x PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0 (no open, waiting, picked or working tickets). Run fired after the 10pm window; floor refresh, benches and cockpit left to the 6am run.
+- 2026-10-27 23:4x PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0 (no open, waiting, picked or working tickets). Run fired after the 10pm window; floor refresh, benches and cockpit left to the 6am run.
+- 2026-10-28 01:4x PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0 (no open, waiting, picked or working tickets). Run fired outside the 6am-10pm window; floor refresh, benches and cockpit left to the 6am run.
+- 2026-10-28 02:44 PT: outside 6am-10pm window, queue empty (0 open/waiting/picked/working). picked 0, closed 0, gated 0, blocked 0, FAILs 0. Floor refresh deferred to 6am run.
+- 2026-10-28 03:45 PT: off-hours run (before 6am window). picked 0, closed 0, gated 0 new, blocked 0 new, FAILs 0. Queue: 0 open/picked/working/waiting; 2 gated, 3 blocked already with Kev. Floor refresh (step 8) not run.
+- 2026-10-28 04:45 PT: picked 0, closed 0, gated 0, blocked 0 (3 already blocked, 2 gated), FAILs 0. Floor refreshed (62 writes: agents, alerts, benches, tools, meta); cockpit rewrite and Notion ledger skipped (4:45am, short run); family bench keeps last sync.
+- 2026-10-28 05:49 PT: off-hours run (before 6am window). picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue: 0 open/waiting/picked/working. Floor refresh (step 8) deferred to the 6am-window run; last refreshed 04:45.
+- 2026-10-28 06:55 PT: picked 2, closed 1 (qrdr: Family bench fed from 13 Home-lane Notion rows, 200 of the view's rows read), gated 0, blocked 1 (qtly: Tally's subagent has no QuickBooks tools; QuickBooks itself answers from the runner, so a live Radar session or Q must run 8a), FAILs 0 (both tickets filed 13:35Z, picked 13:55Z). Floor refreshed (66 writes: agents, alerts, benches incl. first family write, tools, meta). Cockpit rewrite, 8a benches and Today-view taps skipped (short run). Note: alert qbo-auth says the sign-in expired but the connector works.
+- 2026-10-28 07:50 PT: picked 0, closed 0, gated 0, blocked 0 (4 already blocked, 2 gated), FAILs 0. Queue empty (0 open/waiting/picked/working). Floor refreshed (62 writes: agents, alerts, benches, tools, meta); Notion ledger read, cockpit rewrite, 8a benches and Today-view taps skipped (short run); family bench keeps last sync.
+- 2026-10-28 08:50 PT: picked 0, closed 0, gated 0, blocked 0 (already blocked/gated with Kev unchanged), FAILs 0. Queue empty (0 open/waiting/picked/working). Floor refreshed (62 writes: agents, alerts, benches, tools, meta); Notion ledger read, cockpit rewrite, 8a benches and Today-view taps skipped (short run); family bench keeps last sync.
+- 2026-10-28 09:50 PT: picked 0, closed 0, gated 0, blocked 0 (4 already blocked, 2 gated with Kev, unchanged), FAILs 0. Queue empty (0 open/waiting/picked/working). Floor refreshed (63 writes: agents, alerts, benches, tools, meta); Notion ledger read, cockpit rewrite, 8a benches and Today-view taps skipped (short run); family bench keeps last sync.
+- 2026-10-28 10:58 PT: picked 1, closed 1 (qpam: Pam re-checked the Eden Staffing schedule, ES-01 recovery moved to Thu 29 Oct), gated 0, blocked 0 (4 already blocked, 2 gated with Kev, unchanged), FAILs 0. Floor refreshed (63 writes: agents, alerts, benches, tools, meta); Notion ledger read, cockpit rewrite, 8a benches and Today-view taps skipped (short run); family bench keeps last sync.
+- 2026-10-28 11:10 PT (last look): picked 1, closed 1 (vsh7: Casey's Triton prep brief for Joe Deburgo, 4pm interview; needs Kev to confirm interviewer and spelling), FAILs 0.
+- 2026-10-28 11:50 PT: picked 0, closed 0, gated 0, blocked 0 (unchanged), FAILs 0. Queue empty (0 open/waiting/picked/working). Floor refreshed (63 writes: agents, alerts, benches, tools, meta); Notion ledger read, cockpit rewrite, 8a benches and Today-view taps skipped (short run); family bench keeps last sync.
+- 2026-10-28 12:50 PT: picked 0, closed 0, gated 2 (existing), blocked 4 (existing), FAILs 0. Floor refreshed (65 writes). Cockpit and 8a/8b skipped (short run).
+- 2026-10-28 13:44 PT: picked 0, closed 0, gated 2 (hmzt, tcrr), blocked 4 (qtly, zink, rdcr, kkfe), FAILs 0. Floor refresh pushed (63 writes). Skipped 8a/9 cockpit.
+- 2026-10-28 14:50 PT: picked 1, closed 1, gated 0, blocked 0 (4 pre-existing), FAILs 0 (ticket 50 min old at start). Tally brief: QBO sign-in expired, benches stale; floor refresh (step 8) not run this hour.
+- 2026-10-28 15:50 PT: picked 0, closed 0, gated 3 (existing), blocked 4 (existing), FAILs 0. Queue empty at start and at last look. Floor refreshed (64 writes: agents, alerts, benches, tools, meta; ember agent doc created). Notion ledger, cockpit, 8a/8b skipped (short run); family bench keeps last sync.
+- 2026-10-28 16:50 PT: picked 0, closed 0, gated 2 (hmzt, tcrr), blocked 4 (existing), FAILs 0. Queue empty at start and last look. Floor refreshed (64 writes). Notion ledger, 8a, cockpit skipped; family bench keeps last sync.
+- 2026-10-28 17:50 PT: picked 3, closed 3 (ember, q, tally), gated 0, blocked 0, FAILs 0. Floor refresh (step 8), benches (8a), cockpit (9) not run this pass: runner had no dump tooling time.
+- 2026-10-28 18:45 PT: picked 1, closed 1 (check-out t-202610290057-yywu), gated 0, blocked 0, FAILs 0. Floor refresh (step 8), 8a, 8b, cockpit not run this pass.
+- 2026-10-28 19:45 PT: picked 0, closed 0, gated 0 new (existing), blocked existing, FAILs 0. Queue empty at start and last look. Floor refreshed (64 writes: agents, alerts, benches, tools, meta). Notion ledger, 8a, 8b, cockpit skipped (short run); family bench keeps last sync.
+- 2026-10-28 21:45 PT: picked 0, closed 0, gated 0 new (existing), blocked existing, FAILs 0. Queue empty at start and last look. Floor refreshed (64 writes: agents, alerts, benches, tools, meta; installed npm deps first). Notion ledger, 8a, 8b, cockpit skipped (short run); family bench keeps last sync.
+- 2026-10-28 21:55 PT: picked 0, closed 0, gated 0 new (existing), blocked existing, FAILs 0. Queue empty at start and last look. Floor refreshed again (64 writes). Applied 3 Today-view touch taps (Ouellette on Hub care doc; Moore and Walker have no care doc, marked applied). Notion ledger, 8a, 8b, cockpit skipped.
+- 2026-10-28 22:50 PT: picked 0, closed 0, gated 0 new (existing), blocked existing, FAILs 0. Queue empty at start and last look. Floor refreshed (64 writes: agents, alerts, benches, tools, meta; installed npm deps first). Notion ledger, 8a, 8b, cockpit skipped (late run, after 10pm); family bench keeps last sync.
+- 2026-10-28 23:44 PT: off-hours run (outside 6am-10pm); queue empty, picked 0, closed 0, gated 0, blocked 0, FAILs 0; floor refresh skipped (no tickets, off-hours)
+- 2026-10-29 00:44 PT: off-hours run (outside 6am-10pm); queue empty, picked 0, closed 0, gated 0, blocked 0, FAILs 0; floor refresh skipped (no tickets, off-hours)
+- 2026-10-29 01:44 PT: off-hours run (outside 6am-10pm); queue empty, picked 0, closed 0, gated 0, blocked 0, FAILs 0; floor refresh skipped (no tickets, off-hours)
+- 2026-10-29 02:45 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; full floor refresh pushed (65 writes). Notion ledger skipped (family bench counts empty).
+- 2026-10-29 03:45 PT: picked 0, closed 0, gated 0, blocked 0 (3 standing blocked, 2 gated); FAILs 0. Floor refreshed (76 writes, 2 batches). Filed t-202610291045-lknd (host) from Kev's QC followup. Daily taps d2/d5/d6 left unapplied (need Notion ledger rows). Ledger/Notion, cockpit doc and 8a/8b skipped (before 6am).
+2026-10-29 04:45 picked 1, closed 1, gated 0, blocked 0, FAILs 0 (floor refresh not run: skipped this run)
+- 2026-10-29 06:05 PT: picked 0, closed 0, gated 2, blocked 3 (standing); FAILs 0. Queue empty; full floor refresh pushed (64 writes, 2 batches; ran npm install first). Notion ledger, 8a (qbo-auth alert still open), cockpit doc skipped; daily taps d2/d5/d6 unapplied (need Notion ledger).
+- 2026-10-29 07:10 PT: picked 0, closed 0, gated 2, blocked 3 (standing); FAILs 0. Queue empty; full floor refresh pushed (76 writes? 64 kept, 2 batches; npm install first). Notion ledger, 8a (qbo-auth still open), cockpit doc skipped; daily taps d2/d5/d6 unapplied (need Notion ledger).
+- 2026-10-29 08:05 PT: picked 0, closed 0, gated 2, blocked 3 (standing); FAILs 0. Queue empty; full floor refresh pushed (64 writes, 2 batches; npm ci first). Notion ledger, 8a (qbo-auth open), cockpit doc skipped; daily taps d2/d5/d6 still unapplied (need Notion ledger writes).
+- 2026-10-29 08:58 PT: picked 0, closed 0, gated 2, blocked 3 (standing); FAILs 0. Queue empty; full floor refresh pushed (64 writes, 2 batches). Notion ledger, 8a (qbo-auth open), cockpit doc skipped; daily taps d2/d5/d6 unapplied (need Notion ledger).
+- 2026-10-29 09:50 PT: picked 0, closed 0, gated 2, blocked 3 (standing); FAILs 0. Queue empty; full floor refresh pushed (64 writes, 2 batches; npm ci first). Notion ledger, 8a (qbo-auth open), cockpit doc skipped; daily taps d2/d5/d6 unapplied (need Notion ledger).
+- 2026-10-29 10:55 PT: picked 0, closed 0, gated 2, blocked 3 (standing); FAILs 0. Queue empty; full floor refresh pushed (64 writes, 2 batches). Notion ledger, 8a (qbo-auth open), cockpit doc skipped; daily taps d2/d5/d6 unapplied (need Notion ledger).
+- 2026-10-29 11:50 PT: picked 0, closed 0, gated 0 (2 waiting on Kev), blocked 0 new (3 existing), FAILs 0. Floor refreshed (42 writes: agents, alerts, meta); benches, Team Hub, Notion ledger, cockpit doc, 8a/8b skipped this run.
+- 2026-10-29 13:05 PT: picked 4 (Radar, Q, Dean, Docket), closed 4, gated 0; FAILs 0. Floor refresh not run this hour (single-ticket run); signed agreements still need pulling into one folder for Docket.
+- 2026-10-29 13:50 PT: picked 0, closed 0, gated 0 (2 waiting on Kev), blocked 0 new; FAILs 0. Queue empty; floor refreshed (47 writes: benches, agents, alerts, meta). Team Hub read; Notion ledger, 8a, 8b, cockpit doc skipped.
+- 2026-10-29 14:55 PT: picked 1 (PM schedule refresh), closed 1, gated 0, blocked 0 new (3 existing); FAILs 0. Floor refreshed (64 writes, 2 batches). Eden Staffing M1 will miss Fri 30 Oct; ES-02/03/04 now Slipped. Notion ledger, 8a (qbo-auth open), cockpit doc skipped; daily taps d2/d5/d6 unapplied (need Notion ledger).
+- 2026-10-29 15:45 PT: picked 0, closed 0, gated 0, blocked 0 new (5 existing gated/blocked), FAILs 0. Floor refreshed (64 writes). Skipped: Notion ledger/Family bench, daily 8a/8b/9 cockpit (no open tickets; 3 unapplied daily-2026-10-28 decision taps d2/d5/d6 left for live Radar).
+- 2026-10-29 16:50 PT: picked 0, closed 0, gated 0, blocked 0 new (existing gated/blocked unchanged); FAILs 0. Queue empty; floor refreshed (64 writes, 2 batches). Skipped: Notion ledger/Family bench, 8a, 8b, cockpit doc; daily taps d2/d5/d6 still unapplied (need Notion ledger).
+- 2026-10-29 17:55 PT: picked 0, closed 0, gated 0, blocked 0 new (existing gated/blocked unchanged); FAILs 0. Queue empty; floor refreshed (64 writes, 2 batches). Skipped: Notion ledger/Family bench, 8a, 8b, cockpit doc; daily taps d2/d5/d6 still unapplied (need Notion ledger).
+- 2026-10-29 18:50 PT: picked 0, closed 0, gated 0, blocked 0 new (existing gated/blocked unchanged); FAILs 0. One ticket (t-202610300000-lkah, Q 12-week look-ahead) already `working` from a live session (17:00 PT), left alone. Floor refreshed (64 writes, 2 batches). Skipped: Notion ledger/Family bench, 8a, 8b, cockpit doc; daily taps d2/d5/d6 still unapplied.
+- 2026-10-29 19:50 PT: picked 2, closed 2, gated 0, blocked 0, FAILs 0. Floor refresh (step 8) not run this pass.
+- 2026-10-29 20:5x PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Floor refreshed (77 writes, crelate-tasks set). Sabbath check passed (Thu). NOT done: 9a Today-view taps (10 decision taps d-2026-10-28/29, 3 QC touches) left applied:false; cockpit Doc (9), 8a benches, Notion ledger/Family bench skipped this run (short run); next run should apply taps.
+- 2026-10-29 21:44 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; floor refreshed (65 writes + crelate-tasks). Family bench and cockpit skipped (no Notion/Docs this run).
+- 2026-10-29 22:44 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; fired after the 10pm window, so the floor refresh (step 8) was not run.
+- 2026-10-29 23:44 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty (fired after the 10pm window); floor refreshed (64 writes + crelate-tasks). Skipped: Notion Family bench, 9 cockpit Doc, 9a Today-view taps (still applied:false from earlier runs), 8a benches.
+- 2026-10-30 00:44 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty (fired after the 10pm window); floor refreshed (63 writes + crelate-tasks). Skipped: Notion Family bench, 9 cockpit Doc, 9a Today-view taps, 8a benches.
+- 2026-10-30 01:45 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty (fired before the 6am window); floor refreshed (63 writes + crelate-tasks). Skipped: Notion Family bench, 9 cockpit Doc, 9a Today-view taps (still applied:false), 8a benches.
+- 2026-10-30 02:50 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Floor refresh in full (63 writes), crelate-tasks refreshed. Notion ledger/Family bench and 8a/9 skipped (not run this hour).
+- 2026-10-30 03:45 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Floor refresh pushed (63 writes). Skipped crelate-tasks, Notion ledger, cockpit (pre-6am).
+- 2026-10-30 04:46 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; floor refresh pushed (63 writes + crelate-tasks). Notion Family ledger and cockpit doc skipped (pre-6am run); QBO bench 8a not run.
+- 2026-10-30 05:50 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0; floor refreshed (63 writes + crelate-tasks)
+- 2026-10-30 06:52 PT: picked 1, closed 1 (t-202610301340-qrdr Family bench), gated 0, blocked 0, FAILs 0. Floor refresh pushed (78 writes + crelate-tasks + Notion Family ledger, 30 rows). Cockpit doc, 9a taps and 8a QBO bench not run this hour.
+- 2026-10-30 07:55 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Floor refresh pushed (63 writes + crelate-tasks). 9a: 74 unapplied taps still queued (13 daily-2026-10-28/29 decisions and touches from Kev, rest older ticket/QC taps), not applied this hour. Notion Family ledger, cockpit doc and 8a QBO bench not run.
+- 2026-10-30 08:50 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; floor refresh pushed (63 writes + crelate-tasks). Notion Family ledger, 9a taps, cockpit doc and 8a QBO bench not run this hour.

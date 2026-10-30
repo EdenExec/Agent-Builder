@@ -2,7 +2,7 @@
 
 Kev, 18 Oct 2026: "Connect the MCPs (Crelate, Claude, CloudTalk) to upload leads at night. Nida should send Radar all the leads; Radar gets them into CloudTalk via MCP so the guys have contact info the next day." First scheduled bot ("Q first", 19 Oct). Spec and decisions: `projects/cloudtalk-nightly/brief.md`. Tool: `npm run leadplan` (`workshop/cloudtalk/`).
 
-Runs weekdays Mon to Fri at about 11pm Pacific, never Saturday. The routine runs in Kev's account with the Gmail (or Superhuman Mail) and CloudTalk connectors attached, and Crelate through `curl` with `CRELATE_API_KEY`. Radar runs it; this playbook is Q's.
+Runs weekdays Mon to Fri at about 11pm Pacific, never Saturday; the Friday run falls inside the Sabbath (Friday sunset to Saturday sunset) and stops at its sabbath check. The routine runs in Kev's account with the Gmail (or Superhuman Mail) and CloudTalk connectors attached, and Crelate through `curl` with `CRELATE_API_KEY`. Radar runs it; this playbook is Q's.
 
 ## Step 0, which mode am I in
 

@@ -26,4 +26,4 @@ Radar's Notion ledger Owner select today lists Kev, Nida, Nick, Joel, Recruiters
 
 ## Dates
 
-Pacific time. Saturday is the Sabbath: no work, no due dates, no chase dates. Fridays: status due 1:50pm. Holidays in the next quarter to plan around: Thanksgiving Thu 26 Nov 2026, Christmas Fri 25 Dec 2026, New Year's Day Fri 1 Jan 2027.
+Pacific time. The Sabbath runs Friday sunset to Saturday sunset: no work in it, no Saturday due or chase dates, Friday dates before sunset. Fridays: status due 1:50pm. Holidays in the next quarter to plan around: Thanksgiving Thu 26 Nov 2026, Christmas Fri 25 Dec 2026, New Year's Day Fri 1 Jan 2027.

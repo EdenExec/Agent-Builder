@@ -43,7 +43,7 @@ export const GOALS = {
 } as const;
 
 export type Group = "recruiter" | "leadership";
-export type Person = { slug: string; name: string; full: string; role: string; group: Group; ids: string[]; start?: string; inGoal?: boolean };
+export type Person = { slug: string; name: string; full: string; role: string; group: Group; ids: string[]; start?: string; inGoal?: boolean; hidden?: boolean };
 
 /** Roster: Dean's seven (team-and-baseline.md) plus Kunji and Kyle, who Kev named on 23 Oct 2026. Kyle has no Crelate user until he starts (2 Nov). */
 export const ROSTER: Person[] = [
@@ -52,8 +52,8 @@ export const ROSTER: Person[] = [
   { slug: "noah", name: "Noah", full: "Noah Fields", role: "Headhunter", group: "recruiter", ids: ["29b91eae-fc26-4455-b304-62de0803002e"] },
   { slug: "andrew", name: "Andrew", full: "Andrew Johnson", role: "Headhunter", group: "recruiter", ids: ["9c963c7a-ac1a-4f90-82e4-f6dd0803ea2d"] },
   { slug: "bridger", name: "Bridger", full: "Bridger Stainbrook", role: "Headhunter, remote", group: "recruiter", ids: ["83f31e94-56a1-435a-8974-bbde0802ba1a"] },
-  { slug: "kunji", name: "Kunji", full: "Kunji Elder", role: "Trainee", group: "recruiter", ids: ["8efc5cf2-d953-408f-8eb9-a4de08032ef2"], inGoal: false }, // no Crelate activity since 1 Sep; Kev to say when the 75 a week starts
-  { slug: "kyle", name: "Kyle", full: "Kyle Cockell", role: "Incoming, Boise", group: "recruiter", ids: [], start: "2026-11-02" },
+  { slug: "kunji", name: "Kunji", full: "Kunji Elder", role: "Trainee", group: "recruiter", ids: ["8efc5cf2-d953-408f-8eb9-a4de08032ef2"], inGoal: false, hidden: true }, // Kev, 29 Oct 2026: "remove Kunj for the time being"; off the board until Kev says
+  { slug: "kyle", name: "Kyle", full: "Kyle Cockell", role: "Incoming, Boise", group: "recruiter", ids: [], start: "tbd" }, // Kev, 29 Oct 2026: pushed out a few weeks from 2 Nov, date TBD
   { slug: "nick", name: "Nick", full: "Nick Leckwold", role: "Operations", group: "leadership", ids: ["6964a256-20dd-4756-abfc-dedd08004293", "f3559cdc-f847-486d-2c61-cba1d7f2dc08"] },
   { slug: "kev", name: "Kev", full: "Kevin Williams", role: "Founder", group: "leadership", ids: ["b3f4a630-5dd1-44a0-cc82-08f8b9f2dc08"] },
 ];
@@ -110,17 +110,29 @@ export function ptStamp(ms: number): string {
 export type Windows = {
   weekStart: string; lastStart: string; lastEnd: string; today: string;
   thisFromMs: number; nowMs: number; lastFromMs: number; lastToMs: number; lastSameToMs: number;
+  /** The Monday-start week the Command Center's recruiter leaderboard uses (Kev, 28 Oct 2026), and the start of today, both Pacific. */
+  monStart: string; monFromMs: number; todayFromMs: number;
+  /** The Monday of the Monday-start week before that one: the start of the 10-weekday window of RPs by day (the Team pulse, 30 Oct 2026). */
+  priorMonStart: string; priorMonFromMs: number;
+  /** The four Monday-start weeks before this one: the trailing window for the funnel ratios (Kev, 30 Oct 2026: "should start ratio tracking"). */
+  fourStart: string; fourFromMs: number;
 };
+export const FOUR_WEEKS = 4;
 /** Weeks run Sunday 00:00 to Saturday 23:59 Pacific (Kev, 23 Oct 2026: "Sun 18 Oct to today"). */
 export function weekWindows(nowMs: number): Windows {
   const today = ptDate(nowMs);
   const weekStart = addDays(today, -weekdayOf(today));
   const lastStart = addDays(weekStart, -7);
+  const monStart = addDays(today, -((weekdayOf(today) + 6) % 7));   // Monday of the Mon-to-Sun week that holds today (a Sunday belongs to the week that is ending)
   const thisFromMs = ptMidnightUtc(weekStart), lastFromMs = ptMidnightUtc(lastStart);
+  const priorMonStart = addDays(monStart, -7), fourStart = addDays(monStart, -FOUR_WEEKS * 7);
   return {
     weekStart, lastStart, lastEnd: addDays(weekStart, -1), today,
     thisFromMs, nowMs, lastFromMs, lastToMs: thisFromMs,
     lastSameToMs: Math.min(thisFromMs, lastFromMs + (nowMs - thisFromMs)),
+    monStart, monFromMs: ptMidnightUtc(monStart), todayFromMs: ptMidnightUtc(today),
+    priorMonStart, priorMonFromMs: ptMidnightUtc(priorMonStart),
+    fourStart, fourFromMs: ptMidnightUtc(fourStart),
   };
 }
 
@@ -200,7 +212,7 @@ function addTo(b: Bucket, metric: Exclude<MetricKey, "offers">, a: ActivityRow, 
   b.seen.add(key); b.counts[metric]++;
 }
 
-export type PersonCounts = { this: Counts; lastSame: Counts; lastFull: Counts; rpsByDay: Record<string, number> };
+export type PersonCounts = { this: Counts; lastSame: Counts; lastFull: Counts; rpsByDay: Record<string, number>; /** RPs by Pacific day from the Monday before last Monday to now: this Monday-start week and last */ rpsByDay2w: Record<string, number>; monWeek: Counts; today: Counts; /** the four Monday-start weeks before this one, unique contacts counted across the whole window */ four: Counts };
 export type JoCounts = { rps: number; resumes: number; ptcs: number; ftis: number };
 export type JoRow = { id: string; num: number | null; name: string; column: string; this: JoCounts; last: JoCounts; people: string[] };
 
@@ -219,8 +231,8 @@ export function countActivities(rows: ActivityRow[], jobs: JobRow[], stages: Sta
   const activeJobs = new Map<string, JobRow>();
   for (const j of jobs) if (ACTIVE_COLUMNS[j.SalesWorkflowItemStatusId?.Id ?? ""]) activeJobs.set(j.Id, j);
 
-  const per: Record<string, { this: Bucket; lastSame: Bucket; lastFull: Bucket }> = {};
-  for (const p of ROSTER) per[p.slug] = { this: bucket(), lastSame: bucket(), lastFull: bucket() };
+  const per: Record<string, { this: Bucket; lastSame: Bucket; lastFull: Bucket; mon: Bucket; today: Bucket; two: Bucket; four: Bucket }> = {};
+  for (const p of ROSTER) per[p.slug] = { this: bucket(), lastSame: bucket(), lastFull: bucket(), mon: bucket(), today: bucket(), two: bucket(), four: bucket() };
   type JoAcc = { t: Bucket; l: Bucket; people: Set<string> };
   const joAcc = new Map<string, JoAcc>();
   const otherT = bucket(), otherL = bucket(), noneT = bucket(), noneL = bucket();
@@ -234,12 +246,19 @@ export function countActivities(rows: ActivityRow[], jobs: JobRow[], stages: Sta
     const whos = slugsOf(a);
     if (!whos.length) continue;                                  // not on the roster (other staff): not counted
     const inThis = ms >= w.thisFromMs, inLast = ms >= w.lastFromMs && ms < w.lastToMs;
-    if (!inThis && !inLast) continue;
+    const inTwo = metric === "rps" && ms >= w.priorMonFromMs;          // the 10-weekday strip: RPs only, same activities, a wider look-back (no extra calls)
+    const inFour = ms >= w.fourFromMs && ms < w.monFromMs;             // the ratios' trailing four weeks: same activities, the widest look-back
+    if (!inThis && !inLast && !inTwo && !inFour) continue;
+    const inMon = ms >= w.monFromMs, inToday = ms >= w.todayFromMs;
     const day = inThis ? ptDate(ms) : null;
     const jobId = a.RegardingId?.Id;
     const isJob = !!jobId && (!a.RegardingId?.EntityName || /^jobs?$/i.test(a.RegardingId.EntityName));
     for (const who of whos) {
+      if (inTwo) { const d2 = ptDate(ms); per[who]!.two.byDay[d2] = (per[who]!.two.byDay[d2] ?? 0) + 1; }
+      if (inFour) addTo(per[who]!.four, metric, a, who, null);
       if (inThis) addTo(per[who]!.this, metric, a, who, day);
+      if (inMon) addTo(per[who]!.mon, metric, a, who, null);           // unique contacts are counted again inside each window, so a contact met Monday and Wednesday is one in the week and one today
+      if (inToday) addTo(per[who]!.today, metric, a, who, null);
       if (inLast) {
         addTo(per[who]!.lastFull, metric, a, who, null);
         if (ms < w.lastSameToMs) addTo(per[who]!.lastSame, metric, a, who, null);
@@ -266,6 +285,8 @@ export function countActivities(rows: ActivityRow[], jobs: JobRow[], stages: Sta
     if (!who || !Number.isFinite(ms) || ms > w.nowMs) continue;
     const key = `offers|${who}|${s.Contact?.Id ?? s.Date}`;
     if (ms >= w.thisFromMs) { const b = per[who]!.this; if (!b.seen.has(key)) { b.seen.add(key); b.counts.offers++; } }
+    if (ms >= w.monFromMs) { const b = per[who]!.mon; if (!b.seen.has(key)) { b.seen.add(key); b.counts.offers++; } }
+    if (ms >= w.todayFromMs) { const b = per[who]!.today; if (!b.seen.has(key)) { b.seen.add(key); b.counts.offers++; } }
     if (ms >= w.lastFromMs && ms < w.lastToMs) {
       const b = per[who]!.lastFull; if (!b.seen.has(key)) { b.seen.add(key); b.counts.offers++; }
       if (ms < w.lastSameToMs) { const c = per[who]!.lastSame; if (!c.seen.has(key)) { c.seen.add(key); c.counts.offers++; } }
@@ -275,7 +296,7 @@ export function countActivities(rows: ActivityRow[], jobs: JobRow[], stages: Sta
   const persons: Record<string, PersonCounts> = {};
   for (const p of ROSTER) {
     const x = per[p.slug]!;
-    persons[p.slug] = { this: x.this.counts, lastSame: x.lastSame.counts, lastFull: x.lastFull.counts, rpsByDay: x.this.byDay };
+    persons[p.slug] = { this: x.this.counts, lastSame: x.lastSame.counts, lastFull: x.lastFull.counts, rpsByDay: x.this.byDay, rpsByDay2w: x.two.byDay, monWeek: x.mon.counts, today: x.today.counts, four: x.four.counts };
   }
   const toJc = (b: Bucket): JoCounts => ({ rps: b.counts.rps, resumes: b.counts.resumes, ptcs: b.counts.ptcs, ftis: b.counts.ftis });
   const jos: JoRow[] = [...joAcc.entries()].map(([id, acc]) => {
@@ -383,16 +404,16 @@ const sum = (list: Counts[]): Counts => { const t = zero(); for (const c of list
 
 export function buildBoard(inp: BoardInput) {
   const w = weekWindows(inp.nowMs), c = inp.counts, q = quarterOf(w.today);
-  const started = (p: Person) => !p.start || p.start <= w.today;
-  const people = ROSTER.map((p) => {
+  const started = (p: Person) => !p.start || (/^\d{4}-\d{2}-\d{2}$/.test(p.start) && p.start <= w.today);   // "tbd" never starts
+  const people = ROSTER.filter((p) => !p.hidden).map((p) => {
     const x = c.persons[p.slug]!, live = p.ids.length > 0;
     const status = !started(p) ? "starts" : live ? "active" : "no Crelate user";
     const revSynced = !!inp.rev && live;
     const qtd = revSynced ? (inp.rev!.perPerson[p.slug] ?? 0) : null;
     return {
       slug: p.slug, name: p.name, role: p.role, group: p.group, status, start: p.start ?? null, in_goal: p.inGoal !== false && p.group === "recruiter" && status === "active",
-      this: x.this, last_same: x.lastSame, last_full: x.lastFull,
-      rp_days_at_15: daysAtGoal(x.rpsByDay), rp_by_day: x.rpsByDay,
+      this: x.this, last_same: x.lastSame, last_full: x.lastFull, mon_week: x.monWeek, today: x.today,
+      rp_days_at_15: daysAtGoal(x.rpsByDay), rp_by_day: x.rpsByDay, rp_by_day_2w: x.rpsByDay2w, four_weeks: x.four,
       revenue_qtd: qtd, pct_to_accelerator: qtd == null ? null : Math.round((qtd / GOALS.accelerator_per_quarter) * 1000) / 10,
     };
   });
@@ -427,7 +448,7 @@ export function buildBoard(inp: BoardInput) {
     as_of: throughLabel,
     source: "Crelate API v3, read-only (Crelate stays the system of record)",
     week: {
-      start: w.weekStart, through: w.today, partial: true, label: `${dayLabel(w.weekStart)} to ${dayLabel(w.today)}`,
+      start: w.weekStart, mon_start: w.monStart, prior_mon_start: w.priorMonStart, four_start: w.fourStart, through: w.today, partial: true, label: `${dayLabel(w.weekStart)} to ${dayLabel(w.today)}`,
       note: "Weeks run Sunday to Saturday, Pacific. A week in progress is compared with last week to the same point, not with last week's full total.",
     },
     last_week: { start: w.lastStart, end: w.lastEnd, same_point_through: new Date(w.lastSameToMs).toISOString(), label: `${dayLabel(w.lastStart)} to ${dayLabel(w.lastEnd)}` },
@@ -466,10 +487,12 @@ export type Board = ReturnType<typeof buildBoard>;
 
 export async function runBoard(opts: { client: Client; nowMs?: number; hub?: HubFigures; revCsv?: string }): Promise<Board> {
   const nowMs = opts.nowMs ?? Date.now(), w = weekWindows(nowMs);
-  const after = new Date(w.lastFromMs).toISOString().replace(".000Z", "Z");
+  // One pull for everything, from the earliest window: the ratios' four weeks before this Monday (which also covers last Sunday and the Team pulse's 10 weekdays).
+  const after = new Date(Math.min(w.lastFromMs, w.priorMonFromMs, w.fourFromMs)).toISOString().replace(".000Z", "Z");
+  const stageAfter = new Date(w.lastFromMs).toISOString().replace(".000Z", "Z");        // offers only look back to last Sunday: the stage reads keep their old window
   const [activities, jobs] = await Promise.all([opts.client.activities(after), opts.client.jobs()]);
   const stages: StageRow[] = [];
-  for (const j of jobs) stages.push(...(await opts.client.stageEntries(j.Id, after)));
+  for (const j of jobs) stages.push(...(await opts.client.stageEntries(j.Id, stageAfter)));
   const counts = countActivities(activities, jobs, stages, w);
   const rev = opts.revCsv ? revenueByRecruiter(parseRevCsv(opts.revCsv), w) : undefined;
   return buildBoard({ nowMs, counts, hub: opts.hub, rev, jobsRead: jobs.length, stageJobsRead: jobs.length, fetchedActivities: activities.length });
