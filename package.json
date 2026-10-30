@@ -35,7 +35,8 @@
     "submittal": "node workshop/submittal/cli.ts",
     "benches": "node workshop/office/benches.ts",
     "daily": "node workshop/office/daily.ts",
-    "eu": "node workshop/office/eu.ts"
+    "eu": "node workshop/office/eu.ts",
+    "lookahead-mirror": "node workshop/office/lookahead-mirror.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",
