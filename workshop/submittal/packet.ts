@@ -1,4 +1,4 @@
-// The Eden submittal packet (Kev, 24 Oct 2026): cover page (Hannah's Hoffman overview, then the Must Do scorecard),
+// The Eden submittal packet (Kev, 24 Oct 2026): cover page (the Eden overview, then the Must Do scorecard),
 // the candidate's original resume, then references and screening notes. Workflow: projects/team-hub/submittal-packet/workflow.md.
 // Client agnostic (standing rule, 8 Oct): nothing here names a client. Pay is on the page, marked current or desired (24 Oct).
 import { readFileSync } from "node:fs";
@@ -166,7 +166,7 @@ export function fullName(c: Packet["candidate"]): string {
   return [c.first, c.middle, c.last].filter(Boolean).join(" ");
 }
 
-/** Page 1: the overview in Hannah's order, then the Must Do scorecard. */
+/** Page 1: the overview in Eden's order, then the Must Do scorecard. */
 export function coverHtml(p: Packet): string {
   const c = p.candidate, pay = p.pay, basis = pay.basis === "current" ? "Current" : "Desired";
   const pkg = ([["Bonus", pay.bonus], ["Vehicle", pay.vehicle], ["ESOP / ownership / golden handcuffs", pay.equity], ["PTO", pay.pto], ["Other", pay.other]] as const)

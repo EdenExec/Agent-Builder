@@ -1,0 +1,5 @@
+# Packets carry pay and references: they live in Drive, never in this repo.
+deliverables/
+*.pdf
+packet*.json
+node_modules/
