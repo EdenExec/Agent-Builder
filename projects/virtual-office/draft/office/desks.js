@@ -377,6 +377,7 @@
     var ht = h('button', { class: 'key', type: 'button', 'aria-expanded': String(!!S.formOpen), text: S.formOpen ? 'Close ticket form' : 'Hand a ticket' });
     ht.addEventListener('click', function () { S.formOpen = !S.formOpen; S.flash = ''; renderSheet(); });
     row.appendChild(ht);
+    if (a.id === 'dean' && !S.share) { var rb = h('button', { class: 'key', type: 'button', text: 'Team pulse · Recruiting bench' }); rb.addEventListener('click', function () { openSheet('bench', 'recruiting', rb); }); row.appendChild(rb); }   // Kev, 30 Oct: the pulse detail lives in recruiting, for Dean and him
     if (S.assets) { var pb = h('button', { class: 'key', type: 'button', text: 'Upload a file' }); pb.disabled = !S.canWrite; pb.addEventListener('click', function () { pickPhoto(a.id); }); row.appendChild(pb); }
     foot.appendChild(row);
     if (S.formOpen) foot.appendChild(ticketForm(a.id, false));

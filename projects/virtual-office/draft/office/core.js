@@ -502,7 +502,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     { id: 'family', zone: 'fam', title: 'Home list', sub: 'KDTW Group · family office', owner: 'Radar', sensitive: true, cls: 'bench' }
   ];
 
-  var S = { sessions: {}, live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, crelate: null, phones: null, tools: {}, logs: {}, chats: {}, assets: null, photo: null, pending: null, sample: null, meta: null, records: null, sound: true, lineSeen: null, today: null, look: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
+  var S = { sessions: {}, live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, crelate: null, phones: null, tools: {}, logs: {}, chats: {}, assets: null, photo: null, pending: null, sample: null, meta: null, records: null, sound: true, lineSeen: null, today: null, look: null, ctasks: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
   var lastFrom = null;
 
   /* ---------- helpers ---------- */
@@ -944,9 +944,13 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
           return { name: x.name + ' Example', day: { dials: days[days.length - 1], conn: 0 }, week: { dials: sm(wkd), conn: 0 }, prior: { dials: sm(days.slice(0, wkd.length)), conn: 0 }, inbound: { total: 0, missed: 0 }, days: days }; }),
         notes: ['Example figures: nothing here is read from CloudTalk.'] };
     })();
+    S.ctasks = { example: true, asOf: iso(HOUR), movedOn: { count: 12, oldestDue: Game.addDays(Game.pacificDate(Date.now()), -300) },
+      screening: 'Hidden: due over 45 days ago and untouched 30+ days, or no due date and untouched 60+ days. Still open in Crelate.',
+      active: [{ id: 'ex-ct1', title: 'Review the offer letter (example)', due: Game.addDays(Game.pacificDate(Date.now()), -1), overdueDays: 1, record: { type: 'Contact', name: 'Sample, Pat' }, assignedBy: 'other', assignerName: 'Dean (example)' },
+        { id: 'ex-ct2', title: 'Call back about the superintendent seat (example)', due: Game.addDays(Game.pacificDate(Date.now()), 2), overdueDays: null, record: { type: 'Contact', name: 'Example, Sam' }, assignedBy: 'self' }] };
     S.logs = { q: [{ at: iso(20 * MIN), text: 'Wired the status feed (example)' }, { at: iso(2 * HOUR), text: 'Ran the dry sync (example)' }] };
   }
-  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.chats = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.crelate = null; S.phones = null; S.tools = {}; S.logs = {}; S.meta = null; S.records = null; S.today = null; S.look = null; }
+  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.chats = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.crelate = null; S.phones = null; S.tools = {}; S.logs = {}; S.meta = null; S.records = null; S.today = null; S.look = null; S.ctasks = null; }
 
   /* ---------- live data: render the example first, then light up when `db` resolves (null after about 10 s: stay on the example) ---------- */
   function listen(name, fn) {
@@ -961,10 +965,11 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     listen('benches', function (m) { S.benches = m; });
     if (!S.unsub.crelate) S.unsub.crelate = S.db.doc('meta/crelate').onSnapshot(function (s) { S.crelate = s.exists ? s.data() : null; renderAll(); }, function () { S.unsub.crelate = null; });
     if (!S.unsub.phones) S.unsub.phones = S.db.doc('meta/phones').onSnapshot(function (s) { S.phones = s.exists ? s.data() : null; renderAll(); }, function () { S.unsub.phones = null; });
+    if (!S.unsub.ctasks) S.unsub.ctasks = S.db.doc('meta/crelate-tasks').onSnapshot(function (s) { S.ctasks = s.exists ? s.data() : null; renderAll(); }, function () { S.unsub.ctasks = null; });   // Kev's open Crelate tasks, stale ones screened out (workshop/crelate/tasks.ts)
     if (!S.unsub.lookahead) S.unsub.lookahead = S.db.doc('meta/lookahead').onSnapshot(function (s) { S.look = s.exists ? s.data() : null; renderAll(); }, function () { S.unsub.lookahead = null; });   // Hawk's mirror: the Family office card (private)
   }
   function dropSensitive() {                              // like the Hub: other data never sits in the page while presenting
-    unwatch('benches'); unwatch('crelate'); S.crelate = null; unwatch('phones'); S.phones = null; unwatch('lookahead'); S.look = null;                 // names beside pace numbers never sit in the page while presenting
+    unwatch('benches'); unwatch('crelate'); S.crelate = null; unwatch('phones'); S.phones = null; unwatch('lookahead'); S.look = null; unwatch('ctasks'); S.ctasks = null;                 // names beside pace numbers never sit in the page while presenting
     Object.keys(S.benches).forEach(function (k) { var d = BENCH_DEFS.filter(function (x) { return x.id === k; })[0]; if (!d || d.sensitive) delete S.benches[k]; });
     S.benchRows = {}; Object.keys(S.unsub).forEach(function (k) { if (k.indexOf('rows-') === 0) unwatch(k); });
     Object.keys(S.logs).forEach(function (k) { if (sensitiveAgent(k)) { delete S.logs[k]; unwatch('log-' + k); } });

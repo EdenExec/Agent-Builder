@@ -773,6 +773,9 @@ textarea{min-height:84px;resize:vertical}
 .td-must li:last-child{border-bottom:0}
 .td-must .mt{font-weight:600;font-size:13px;line-height:1.35;overflow-wrap:anywhere} .td-must .mt span{font:500 10.5px/1 var(--mono);color:var(--mute);margin-right:6px}
 .td-must .mn{font-size:12px;color:var(--mute);margin-top:2px}
+.td-ct li{grid-template-columns:58px minmax(0,1fr)} .td-ct .ctw{font:500 10.5px/1.35 var(--mono);color:var(--mute);padding-top:1px} .td-ct .ctw.late{color:var(--ink);font-weight:600}
+.td-ct li.other .mn{color:var(--ink)}
+.td-ct-box .td-cfoot{padding-bottom:10px}
 .td-must li.done .mt,.td-must li.done .mn{color:var(--mute);text-decoration:line-through;text-decoration-color:var(--line)}
 .td-dec{padding:10px 12px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
 .td-dec:last-child{border-bottom:0}
@@ -802,15 +805,15 @@ textarea{min-height:84px;resize:vertical}
 @media (prefers-reduced-motion:reduce){.td-bar i{transition:none}}
 /* laptop: 320px rail beside the sheet; decisions join the left rail; check-out and scripture drop below the sheet */
 @media (max-width:1599px){
-  .td-grid{grid-template-columns:320px minmax(0,1fr);grid-template-areas:"now mid" "must mid" "dec mid" "run mid" "calls mid" "hab scr" "hab chk"}
+  .td-grid{grid-template-columns:320px minmax(0,1fr);grid-template-areas:"now mid" "must mid" "dec mid" "ct mid" "run mid" "calls mid" "hab scr" "hab chk"}
   .td-left,.td-right{display:contents}
-  .td-now{grid-area:now} .td-must-box{grid-area:must} .td-dec-box{grid-area:dec} .td-runbox{grid-area:run} .td-habbox{grid-area:hab} .td-callbox{grid-area:calls} .td-scr-box{grid-area:scr} .td-chk-box{grid-area:chk} .td-mid{grid-area:mid}
+  .td-now{grid-area:now} .td-must-box{grid-area:must} .td-dec-box{grid-area:dec} .td-runbox{grid-area:run} .td-habbox{grid-area:hab} .td-callbox{grid-area:calls} .td-ct-box{grid-area:ct} .td-scr-box{grid-area:scr} .td-chk-box{grid-area:chk} .td-mid{grid-area:mid}
   .td-focus .td-grid{grid-template-areas:"now mid" "now mid"}
-  .td-focus .td-must-box,.td-focus .td-dec-box,.td-focus .td-scr-box,.td-focus .td-chk-box{display:none}
+  .td-focus .td-must-box,.td-focus .td-dec-box,.td-focus .td-ct-box,.td-focus .td-scr-box,.td-focus .td-chk-box{display:none}
 }
 @media (max-width:820px){
   .today-mode .board-grid{display:none} .today-mode .board-note{display:none}
-  .td-grid,.td-focus .td-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"now" "must" "dec" "mid" "run" "hab" "calls" "chk" "scr"}
+  .td-grid,.td-focus .td-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"now" "must" "dec" "ct" "mid" "run" "hab" "calls" "chk" "scr"}
   .td-clock{font-size:32px}
   .modes{grid-column:1/-1;justify-self:stretch;margin-right:0} .modes button{flex:1}
   .td-cols{display:none}

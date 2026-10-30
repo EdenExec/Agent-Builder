@@ -188,6 +188,7 @@
     var cb = doc && tdCallsBox(); if (cb) left.appendChild(cb);
     grid.appendChild(left); grid.appendChild(tdMid(run)); if (doc) { right.appendChild(tdMustBox()); }
     var decBox = tdDecBox(); if (decBox) right.appendChild(decBox);
+    var ctBox = tdCrelateTasksBox(); if (ctBox) right.appendChild(ctBox);
     if (doc) { right.appendChild(tdScriptureBox()); right.appendChild(tdCheckoutBox()); } grid.appendChild(right);
     box.appendChild(grid);
     if (TD.study && doc && doc.study) box.appendChild(tdStudy());
@@ -377,6 +378,25 @@
       var nl = h('div', { class: 'td-needs' }); shown.forEach(function (i) { nl.appendChild(needRow(i, true)); }); bx.appendChild(nl);
       if (needs.length > TD_NEED_CAP) { var mb = h('button', { class: 'mini txt', text: all ? 'Show fewer' : '+' + (needs.length - TD_NEED_CAP) + ' more' }); mb.addEventListener('click', function () { TD.needAll = !all; renderAll(); }); bx.appendChild(h('div', { class: 'td-in' }, mb)); }
     }
+    return bx;
+  }
+  /* Crelate tasks (Kev, 30 Oct: "if its severely outdated/old, move on from it and remove it from my queue"): his open tasks from meta/crelate-tasks,
+     someone else's assignment first, then most overdue. Severely stale ones are counted, not listed; they stay open in Crelate. Hidden under screen share. */
+  var TD_CT_CAP = 5;
+  function tdCrelateTasksBox() {
+    var c = S.ctasks; if (!c || S.share) return null;
+    var act = c.active || [], all = !!TD.ctAll, shown = all ? act : act.slice(0, TD_CT_CAP), ol = h('ol', { class: 'td-must td-ct' });
+    shown.forEach(function (x) {
+      var when = x.overdueDays ? x.overdueDays + 'd late' : x.due ? new Date(x.due + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'no date';
+      var sub = [x.record ? x.record.name : '', x.assignedBy === 'other' ? 'from ' + (x.assignerName || 'a teammate') : ''].filter(Boolean).join(' · ');
+      ol.appendChild(h('li', { class: x.assignedBy === 'other' ? 'other' : '' }, h('span', { class: 'ctw' + (x.overdueDays ? ' late' : ''), text: when }),
+        h('div', null, h('div', { class: 'mt', text: x.title }), sub ? h('div', { class: 'mn', text: sub }) : null)));
+    });
+    if (!act.length) ol.appendChild(h('li', null, h('span'), h('span', { class: 'mn', text: 'Nothing open that still matters.' })));
+    var bx = h('div', { class: 'td-box td-ct-box' }, h('div', { class: 'eyebrow' }, h('span', { text: 'Crelate tasks' }), h('span', { text: act.length + ' open' })), ol);
+    if (act.length > TD_CT_CAP) { var mb = h('button', { class: 'mini txt', text: all ? 'Show fewer' : '+' + (act.length - TD_CT_CAP) + ' more' }); mb.addEventListener('click', function () { TD.ctAll = !all; renderAll(); }); bx.appendChild(h('div', { class: 'td-in' }, mb)); }
+    var mo = c.movedOn || {};
+    bx.appendChild(h('div', { class: 'td-cfoot', title: c.screening || '', text: (mo.count ? mo.count + ' older moved on' + (mo.oldestDue ? ' (back to ' + tdShort(mo.oldestDue) + ')' : '') + ', still open in Crelate · ' : '') + 'read ' + tdClock(t(c.asOf)) }));
     return bx;
   }
   function tdScriptureBox() {
