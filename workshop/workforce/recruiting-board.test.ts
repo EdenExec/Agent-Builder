@@ -153,16 +153,17 @@ describe("the Monday week and today (the Command Center's recruiter leaderboard,
 describe("the board document", () => {
   const rows = [act("rp", "max", "2026-10-19T17:00:00Z"), act("rp", "kunji", "2026-10-19T18:00:00Z")];
   const board = buildBoard({ nowMs: NOW, counts: countActivities(rows, jobs, [], W), jobsRead: 2, stageJobsRead: 2, fetchedActivities: 2 });
-  test("goals: 75 RPs and 100 MPs a week per recruiter with a standard; Kunji (trainee) and Kyle (not started) are not in it yet", () => {
+  test("goals: 75 RPs and 100 MPs a week per recruiter with a standard; Kyle (start TBD) is not in it yet", () => {
     assert.equal(board.goals.recruiters_in_goal, 5);
     assert.equal(board.goals.rps_team_week, 75 * 5);
     assert.equal(board.goals.mps_team_week, 100 * 5);
     assert.equal(board.goals.accelerator_team_quarter, 25000 * 5);
     assert.equal(board.recruiters.find((p) => p.slug === "kyle")!.status, "starts");
-    assert.equal(board.recruiters.find((p) => p.slug === "kunji")!.in_goal, false);
+    assert.equal(board.recruiters.find((p) => p.slug === "kyle")!.start, "tbd");
   });
-  test("a worker outside the goal still counts toward the totals", () => {
-    assert.equal(board.team.this.rps, 2);
+  test("a hidden person (Kunji, Kev 29 Oct) is off the board and out of the totals", () => {
+    assert.equal(board.recruiters.find((p) => p.slug === "kunji"), undefined);
+    assert.equal(board.team.this.rps, 1);
   });
   test("Nick and Kev sit below the line, not in the recruiter totals", () => {
     assert.deepEqual(board.leadership.map((p) => p.slug), ["nick", "kev"]);
@@ -269,5 +270,60 @@ describe("the Crelate client", () => {
     assert.equal(b.team.this.rps, 1);
     assert.equal(b.jos_meta.active_total, 1);
     assert.equal(b.goals.rps_week, GOALS.rps_week);
+  });
+});
+
+describe("RPs by day over two Monday weeks (the Team pulse, 30 Oct 2026)", () => {
+  const NOW2 = Date.parse("2026-10-30T01:45:00Z");                        // Thu 29 Oct, 6:45 PM Pacific
+  const w = weekWindows(NOW2);
+  test("the window starts at the Monday before last Monday's week and never later than last Sunday", () => {
+    assert.equal(w.monStart, "2026-10-26"); assert.equal(w.priorMonStart, "2026-10-19");
+    assert.equal(new Date(w.priorMonFromMs).toISOString(), "2026-10-19T07:00:00.000Z");
+    assert.ok(w.priorMonFromMs >= w.lastFromMs);                          // mid-week the existing pull already reaches it: no wider read
+    const sun = weekWindows(Date.parse("2026-11-01T17:00:00Z"));          // on a Sunday the Monday-week is the ending one, so its prior Monday is before last Sunday
+    assert.equal(sun.priorMonStart, "2026-10-19"); assert.ok(sun.priorMonFromMs < sun.lastFromMs);
+  });
+  const rows: ActivityRow[] = [
+    act("rp", "max", "2026-10-20T17:00:00Z"), act("rp", "max", "2026-10-20T18:00:00Z"),   // Tue last week
+    act("rp", "max", "2026-10-19T14:00:00Z"),                                              // Mon last week
+    act("rp", "max", "2026-10-26T16:00:00Z"), act("rp", "max", "2026-10-29T17:00:00Z"),    // this week
+    act("rp", "max", "2026-10-18T20:00:00Z"),                                              // the Sunday before: outside the 10 weekdays
+    act("ptcs", "max", "2026-10-20T19:00:00Z"),                                            // not an RP: never in the day map
+  ];
+  const r = countActivities(rows, jobs, [], w);
+  test("RPs land on their Pacific day across both weeks; other measures are untouched", () => {
+    assert.deepEqual(r.persons.max!.rpsByDay2w, { "2026-10-19": 1, "2026-10-20": 2, "2026-10-26": 1, "2026-10-29": 1 });
+    assert.equal(r.persons.max!.monWeek.rps, 2);                                  // the week's own count is unchanged
+    assert.equal(r.persons.max!.this.ptcs, 0);
+  });
+  test("a Sunday read still sees the Monday of the week before", () => {
+    const sunW = weekWindows(Date.parse("2026-11-01T17:00:00Z"));
+    const x = countActivities([act("rp", "max", "2026-10-19T17:00:00Z")], jobs, [], sunW);
+    assert.deepEqual(x.persons.max!.rpsByDay2w, { "2026-10-19": 1 });
+    assert.equal(x.persons.max!.lastFull.rps, 0);                                 // last week's Sunday-start totals do not move
+  });
+  test("runBoard asks for one activities window, from the earliest start, and the board carries rp_by_day_2w", async () => {
+    const asked: string[] = [];
+    const client = { activities: async (a: string) => { asked.push(a); return [act("rp", "max", "2026-10-20T17:00:00Z")]; }, jobs: async () => jobs, stageEntries: async () => [] as StageRow[] };
+    const sunNow = Date.parse("2026-11-01T17:00:00Z");
+    const b = await runBoard({ client, nowMs: sunNow });
+    assert.equal(asked.length, 1); assert.equal(asked[0], "2026-09-28T07:00:00Z");        // the ratios' four weeks reach furthest back
+    assert.deepEqual(b.recruiters.find((x) => x.slug === "max")!.rp_by_day_2w, { "2026-10-20": 1 });
+    assert.equal(b.week.prior_mon_start, "2026-10-19");
+  });
+  test("the ratios' four weeks: the four Monday weeks before this one, unique contacts across the window, this week left out", () => {
+    assert.equal(w.fourStart, "2026-09-28");
+    const x = countActivities([
+      act("rp", "max", "2026-09-28T16:00:00Z"), act("rp", "max", "2026-10-21T16:00:00Z"),
+      act("ptcs", "max", "2026-10-01T16:00:00Z", { contact: "k1" }), act("ptcs", "max", "2026-10-14T16:00:00Z", { contact: "k1" }), act("ptcs", "max", "2026-10-14T17:00:00Z", { contact: "k2" }),
+      act("rp", "max", "2026-09-28T06:00:00Z"),                         // Sunday night Pacific, the day before the window
+      act("rp", "max", "2026-10-26T16:00:00Z"),                         // this week: not in the four
+    ], jobs, [], w);
+    assert.equal(x.persons.max!.four.rps, 2);
+    assert.equal(x.persons.max!.four.ptcs, 2);                          // k1 twice counts once
+    assert.equal(x.persons.max!.monWeek.rps, 1);
+  });
+  test("Kunji stays off the board", () => {
+    assert.ok(ROSTER.find((p) => p.slug === "kunji")!.hidden);
   });
 });

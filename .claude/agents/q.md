@@ -132,6 +132,7 @@ On The Eden Daily the pillars are hidden in plain sight: a hairline frame whose 
 - `employees/q/skills/learn-from-recordings.md`
 - `employees/q/skills/sync-patrol.md`
 - `employees/q/skills/ship-and-report.md`
+- `employees/q/skills/team-lead.md`
 
 ## Memory
 

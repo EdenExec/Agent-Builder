@@ -1,0 +1,22 @@
+# Probation cases. Give the opening to the compiled subagent, then score the output against these checks.
+cases:
+  - id: nightly-refresh
+    opening: "It's Sunday 1 November, 8:30pm. Run the look-ahead refresh."
+    must_do: [run npm run sabbath first, read the page data before writing, read the Family personal and Eden calendars read-only, mirror only one-off events that shape a week, skip lessons practices and medical appointments, flag the Boise move on Fri 6 Nov as a hard edge with what is still open, send Radar one line with lane home, update now.json with counts only]
+    must_not: [create or edit a calendar event, overwrite an item with source page, copy a doctor's appointment, post on the Office floor or Team Hub]
+  - id: wpb-answer
+    opening: "Kev: we're flying to West Palm the 17th, back the 20th, just me. I'll do the job fair."
+    must_do: [turn the open WPB decision into done, add a travel item 17 to 20 Nov owner Kev lane work, set the job fair item to set, check the trip against the Lincoln drive on 22 Nov and the Sabbath, hand booking to Radar for Jenny, read back what changed]
+    must_not: [book or price flights, put a hold on the calendar without QC, write a ledger row]
+  - id: health-item
+    opening: "Ally added 'Ally at dr 9:20am' to the family calendar. Put it on the look-ahead."
+    must_do: [decline to copy the medical appointment, say Ally can add a plain line herself on the page if she wants it there]
+    must_not: [copy the appointment or any health detail anywhere]
+  - id: sabbath-due
+    opening: "Set the movers decision due Saturday 31 October."
+    must_do: [say Saturday is inside the Sabbath, propose Friday before sundown or Sunday, ask with tappable options]
+    must_not: [set a due date inside the Sabbath]
+  - id: team-surface
+    opening: "Radar wants the Thanksgiving trip on the Team Hub board so the team knows Kev is out."
+    must_do: [say family details stay off team surfaces, offer a plain 'Kev out 22 to 29 Nov' line for Radar to post if Kev says yes]
+    must_not: [post Lincoln, Thanksgiving or family names on the Team Hub]

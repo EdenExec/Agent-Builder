@@ -1,8 +1,8 @@
 ---
 title: Eden Staffing · launch schedule
-subtitle: Next 30 days, admin and brand, before launch, before investors · 28 October 2026
+subtitle: Next 30 days, admin and brand, before launch, before investors · 29 October 2026
 author: Pam
-date: 2026-10-28
+date: 2026-10-29
 toc: false
 cover: false
 ---
@@ -11,23 +11,24 @@ cover: false
 
 ## Result
 
-- **Status as of 28 Oct (Wednesday chase pass): 3 of 26 rows Done (AB-01, AB-04, AB-05), 1 Slipped (ES-01), 1 At risk (ES-03), the rest on date. No change since 27 Oct.** Nothing in the repo or the Office tickets (checked through 28 Oct 10:20 PT) shows Kev confirmed the batch, answered the open questions, or sent Nick anything, so ES-01 stays Slipped and the (A) marks stand.
-- **Needs Kev:** (1) confirm owners and dates (ES-01); the Wed 28 Oct recovery has passed, new proposed recovery Thu 29 Oct (A), which keeps M1 on Fri 30 Oct; (2) answer the three open questions (ES-02, due today, Wed 28 Oct); (3) send Nick the trades-list ask (draft in `nick-chase-draft.md`). Until Kev confirms a new ES-01 date, Mon 26 Oct stands with the slip marked.
-- **Next milestone:** M1, plan confirmed, Fri 30 Oct (at risk until ES-01 and ES-02 clear).
-- **Evidence (rechecked 28 Oct, unchanged):** Docket's five drafts are in `legal/` (Office ticket t-202610230555-dkt3, 23 Oct, gate 2026-10-23-20b564 passed 15/15); Jenny's names and marks are in `brand/names.md` with Marlowe's design check in `brand/marlowe-check.md` (t-202610230612-mrl1, 23 Oct). No Nick reply and no sent message to Nick is on file.
+- **Status as of 29 Oct 14:50 PT (Thursday sync): 3 of 26 rows Done (AB-01, AB-04, AB-05), 4 Slipped (ES-01, ES-02, ES-03, ES-04), 3 At risk for Fri 30 Oct (ES-05, ES-06, ES-07); M1 will miss Fri 30 Oct.** Nothing in the repo or Office tickets (checked through 29 Oct 14:50 PT; last commits are ticket-runner and unrelated work) shows Kev confirmed the batch, answered the open questions, or sent Nick anything. No new evidence since 28 Oct 10:20 PT, so only dates moved, no row advanced.
+- **Needs Kev:** (1) confirm owners and dates (ES-01; recovery is today, Thu 29 Oct (A); if it passes, the next proposed date is Fri 30 Oct (A)); (2) answer the three open questions (ES-02, slipped, recovery Fri 30 Oct (A)); (3) send Nick the trades-list ask (ES-03, draft in `nick-chase-draft.md`). Until Kev confirms new dates, the original dates stand with slips marked.
+- **Next milestone:** M1, plan confirmed, Fri 30 Oct. Will slip: ES-01, ES-02 and ES-07 are all open. Proposed recovery Wed 4 Nov (A) if Kev clears ES-01 and ES-02 by Fri 30 Oct; Fri 30 Oct stands on the schedule with the slip marked until he confirms.
+- **Evidence (rechecked 29 Oct, unchanged):** Docket's five drafts are in `legal/` (Office ticket t-202610230555-dkt3, 23 Oct, gate 2026-10-23-20b564 passed 15/15); Jenny's names and marks are in `brand/names.md` with Marlowe's design check in `brand/marlowe-check.md` (t-202610230612-mrl1, 23 Oct). No Nick reply and no sent message to Nick is on file.
 - **Added 23 Oct:** Admin and brand workstream (AB-01 to AB-10, M6 to M8) from Kev's 23 Oct direction. Docket drafts the legal set, Jenny the brand set, Marlowe checks design; Pam holds the dates. All AB dates are proposed (A).
 - **Source:** Kev's doc "Eden Staffing - Initial" (Google Doc `1e1KMIudOcvCG2baYmYGe-fIOMKoi43NkFLxPmR1gq7I`), read 22 Oct 2026. The doc's figures are planning estimates and stay in the doc.
 
 ## This week (week of 26 Oct)
 
-**Status as of 28 Oct:** Monday's confirmations did not land (ES-01 Slipped); AB-01, AB-04 and AB-05 finished early on 23 Oct; Wednesday's chase pass ran 28 Oct: Nick rows (ES-03, ES-05) have no ask sent, so the chase stays a draft for Kev.
+**Status as of 29 Oct:** Monday's confirmations did not land (ES-01 Slipped); ES-02 (Wed) and ES-03 (Tue) dates passed unmet and are now Slipped; ES-04 (due today) is not started and is marked Slipped; AB-01, AB-04 and AB-05 finished early on 23 Oct; Nick rows (ES-03, ES-05) have no ask sent, so the chase stays a draft for Kev.
 
-| Day | Milestone line | Status 28 Oct |
+| Day | Milestone line | Status 29 Oct |
 |---|---|---|
-| Mon 26 Oct | Kev confirms owners and dates, AB rows included (ES-01); trades list asked of Nick (ES-03) | ES-01 Slipped, recovery now Thu 29 Oct (A); ES-03 ask not sent, draft ready for Kev |
-| Tue 27 Oct | Trades list due from Nick (ES-03) | At risk, no ask has gone out (rechecked 28 Oct) |
-| Wed 28 Oct | Open questions answered (ES-02); chase pass: Nick (ES-03, ES-05); AB-01 and AB-04 no longer need a chase (Done) | ES-02 open, due today; chase pass done, Nick chase held as a draft for Kev |
-| Fri 30 Oct | Provider and adviser shortlists in (ES-05, ES-06); fix list done (ES-07); M1 | On date, depends on ES-01, ES-02 |
+| Mon 26 Oct | Kev confirms owners and dates, AB rows included (ES-01); trades list asked of Nick (ES-03) | ES-01 Slipped, recovery Thu 29 Oct (A) is today, open; ES-03 ask not sent, draft ready for Kev |
+| Tue 27 Oct | Trades list due from Nick (ES-03) | Slipped, no ask has gone out (rechecked 29 Oct); recovery Fri 30 Oct (A) |
+| Wed 28 Oct | Open questions answered (ES-02); chase pass: Nick (ES-03, ES-05); AB-01 and AB-04 no longer need a chase (Done) | ES-02 Slipped (no answer on file), recovery Fri 30 Oct (A); Nick chase held as a draft for Kev |
+| Thu 29 Oct | Quote request pack drafted (ES-04); ES-01 recovery | ES-04 Slipped (not started, waits on ES-03 trades list), recovery Mon 2 Nov (A); ES-01 open |
+| Fri 30 Oct | Provider and adviser shortlists in (ES-05, ES-06); fix list done (ES-07); M1 | At risk: ES-05 (no ask to Nick), ES-06 and ES-07 not started; M1 will slip, proposed Wed 4 Nov (A) |
 
 ## Milestones (next 30 days: 22 Oct to 20 Nov)
 
@@ -46,13 +47,13 @@ cover: false
 
 | ID | Deliverable | Milestone | Owner | Due | Status | Next action | Chase | Source |
 |---|---|---|---|---|---|---|---|---|
-| ES-01 | Owners and dates on this schedule confirmed | M1 | Kev | Mon 26 Oct | Slipped (due Mon 26 Oct); Wed 28 Oct recovery passed, new proposed recovery Thu 29 Oct (A) | Kev confirms the batch in the brief `employees/pm/briefs/eden-staffing-confirm-owners-dates.md` (on Needs Kev) | | PM, 22 Oct |
-| ES-02 | Answers to the three open questions: Florida demand and pay; who runs it day to day; was 40% of spread promised | M1 | Kev | Wed 28 Oct (A) | Not started (due today; no answer on file 28 Oct) | Radar puts the three questions on Kev's next admin window | | Open Questions |
-| ES-03 | Trades list (trades and class codes Eden will staff) for the quote requests | M2 | Nick (A) | Tue 27 Oct (A) | At risk; proposed recovery Thu 29 Oct (A) | Kev sends Nick the one-line ask (draft in `nick-chase-draft.md`; no send on file) | Wed 28 Oct | Next 30 Days, move 1 |
-| ES-04 | Quote request pack: one assumption sheet (trades, FL/ID/OR, 25 workers) and the request text | M2 | PM | Thu 29 Oct (A) | Not started | PM drafts the sheet and request text; Docket reviews the wording | | Next 30 Days, move 1 |
-| ES-05 | Shortlist: two EOR and two BaaS providers that take Eden's trades' class codes and are registered in FL, ID and OR | M2 | Nick (A) | Fri 30 Oct (A) | Waiting on | Kev hands Nick the vetting criteria from the doc (draft in `nick-chase-draft.md`) | Wed 28 Oct | Route: EOR vs BaaS |
-| ES-06 | Shortlist: two staffing-specialist insurance brokers and two employment attorneys | M3 | Docket (A) | Fri 30 Oct (A) | Not started | Radar opens an Office ticket for Docket: research only, no contact | | Next 30 Days, move 2 |
-| ES-07 | Fix List corrections in the plan doc: BD example, placeholders, labels | M1 | Kev | Fri 30 Oct (A) | Not started | PM writes the three edits as a suggestion list; Kev edits his doc | | Fix List |
+| ES-01 | Owners and dates on this schedule confirmed | M1 | Kev | Mon 26 Oct | Slipped (due Mon 26 Oct); recovery Thu 29 Oct (A) is today, no confirmation on file as of 14:50 PT; next proposed Fri 30 Oct (A) if it passes | Kev confirms the batch in the brief `employees/pm/briefs/eden-staffing-confirm-owners-dates.md` (on Needs Kev) | | PM, 22 Oct |
+| ES-02 | Answers to the three open questions: Florida demand and pay; who runs it day to day; was 40% of spread promised | M1 | Kev | Wed 28 Oct (A) | Slipped (due Wed 28 Oct; no answer on file 29 Oct); proposed recovery Fri 30 Oct (A) | Radar puts the three questions on Kev's next admin window | | Open Questions |
+| ES-03 | Trades list (trades and class codes Eden will staff) for the quote requests | M2 | Nick (A) | Tue 27 Oct (A) | Slipped (due Tue 27 Oct; no ask to Nick on file 29 Oct); proposed recovery Fri 30 Oct (A) | Kev sends Nick the one-line ask (draft in `nick-chase-draft.md`; no send on file) | Wed 28 Oct | Next 30 Days, move 1 |
+| ES-04 | Quote request pack: one assumption sheet (trades, FL/ID/OR, 25 workers) and the request text | M2 | PM | Thu 29 Oct (A) | Slipped (not started; waits on ES-03); proposed recovery Mon 2 Nov (A) | PM drafts the sheet and request text; Docket reviews the wording | | Next 30 Days, move 1 |
+| ES-05 | Shortlist: two EOR and two BaaS providers that take Eden's trades' class codes and are registered in FL, ID and OR | M2 | Nick (A) | Fri 30 Oct (A) | Waiting on; at risk (no ask to Nick on file) | Kev hands Nick the vetting criteria from the doc (draft in `nick-chase-draft.md`) | Wed 28 Oct | Route: EOR vs BaaS |
+| ES-06 | Shortlist: two staffing-specialist insurance brokers and two employment attorneys | M3 | Docket (A) | Fri 30 Oct (A) | Not started; at risk (no ticket on file) | Radar opens an Office ticket for Docket: research only, no contact | | Next 30 Days, move 2 |
+| ES-07 | Fix List corrections in the plan doc: BD example, placeholders, labels | M1 | Kev | Fri 30 Oct (A) | Not started; at risk | PM writes the three edits as a suggestion list; Kev edits his doc | | Fix List |
 | ES-08 | Quote requests out to the four shortlisted providers | M2 | Kev | Tue 3 Nov (A) | Not started | Kev approves the PM's request drafts (one QC send_message item per provider) | | Next 30 Days, move 1 |
 | ES-09 | Broker and employment attorney picked and engaged | M3 | Kev | Fri 6 Nov (A) | Not started | Kev picks from ES-06; any retainer or fee is a spend item for Kev | | Next 30 Days, move 2 |
 | ES-10 | Commission plan v2 on true gross profit | M4 | Kev | Fri 6 Nov (A) | Not started | Radar opens an Office ticket for Tally to re-run the worked examples through the numbers gate; Kev sets the rates | | Next 30 Days, move 3; depends on ES-02 |
@@ -129,3 +130,4 @@ Kev, 23 Oct: "We need to get prepared on the admin side. We need agreements, sta
 - 2026-10-23: Admin and brand workstream added (AB-01 to AB-10, M6 to M8) on Kev's direction. All owners and dates proposed (A), to be confirmed at the Monday 26 Oct batch with ES-01.
 - 2026-10-27: Status pass. AB-01, AB-04, AB-05 Done (evidence 23 Oct). ES-01 Slipped (no confirmation on file), recovery Wed 28 Oct (A). ES-03 At risk (no ask to Nick on file), recovery Thu 29 Oct (A). AB-02 now Waiting on Kev, chase Mon 2 Nov. Nick chase text drafted in `nick-chase-draft.md`, not sent. All other rows unchanged.
 - 2026-10-28: Wednesday chase pass and sync-patrol recheck (ticket t-202610281720-qpam). Repo and tickets show no new evidence since 27 Oct: no Kev confirmation, no answers to open questions, no message to Nick, no new deliverable files. Statuses unchanged; status dates moved to 28 Oct. ES-01 recovery moved from Wed 28 Oct to Thu 29 Oct (A) because the date passed unconfirmed. Nick chase remains a draft in `nick-chase-draft.md`, not sent.
+- 2026-10-29: Thursday sync-patrol status (ticket t-202610292120-pmsc; Q found the file 27h old). Repo and tickets checked through 29 Oct 14:50 PT: no Kev confirmation, no answers to open questions, no message to Nick, no new deliverable files since 28 Oct 10:20 PT. Dates passed unconfirmed, so marked Slipped: ES-02 (due Wed 28 Oct), ES-03 (due Tue 27 Oct), ES-04 (due Thu 29 Oct, not started); proposed recoveries ES-02 and ES-03 Fri 30 Oct (A), ES-04 Mon 2 Nov (A). ES-01 recovery Thu 29 Oct (A) is today and still open; next proposed Fri 30 Oct (A). ES-05, ES-06, ES-07 marked at risk for Fri 30 Oct. M1 will miss Fri 30 Oct; proposed Wed 4 Nov (A). Original dates stand until Kev confirms. Nick chase remains a draft, not sent.

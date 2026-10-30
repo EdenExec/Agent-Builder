@@ -10,6 +10,8 @@ import { addDays, dayOfWeek, pacificDate } from "./office-game.js";
 export const SCHEMA = 1;
 export const PER_DAY = 15;
 export const DUE_HOUR = 12;                       // a day's standard falls due at noon Pacific
+/** The Team pulse reads the last 10 weekdays: last Monday-to-Friday and this one. Days not yet reached are null (no data), never zero. */
+export const PULSE_WEEKDAYS = 10;
 export const SOURCE_LIVE = "Crelate, read-only (API v3, pulled by the hourly office run)";
 export const SOURCE_FILE = "Round Table board file (projects/workforce/board/current.json), the last Crelate pull saved in the repo";
 
@@ -19,11 +21,13 @@ export type CountsLite = Partial<Record<"rps" | "mps" | "ptcs" | "subs" | "ftis"
 /** The part of the Round Table board document (workshop/workforce/recruiting-board.ts) this needs. Older files have no mon_week or today. */
 export type BoardForLeaderboard = {
   generated_at?: string;
-  week?: { start?: string; through?: string; mon_start?: string };
-  goals?: { rps_per_day?: number };
+  week?: { start?: string; through?: string; mon_start?: string; four_start?: string };
+  goals?: { rps_per_day?: number; rps_week?: number; mps_week?: number };
   recruiters?: {
     slug?: string; name?: string; status?: string; in_goal?: boolean;
     this?: CountsLite; mon_week?: CountsLite; today?: CountsLite; rp_by_day?: Record<string, number>;
+    rp_by_day_2w?: Record<string, number>;   // RPs by Pacific day from the Monday before last Monday (newer board files)
+    four_weeks?: CountsLite;                 // the four Monday weeks before this one, for the funnel ratios (board files from 30 Oct 2026)
   }[];
 };
 
@@ -32,6 +36,8 @@ export type RecruiterRow = {
   inGoal: boolean;                      // false for a trainee: counted in the totals, no standard yet
   week: Five;
   today: Five | null;                   // null when the data was not pulled today
+  rpDays: (number | null)[];            // RPs on each of dayKeys, null where there is no data (a day not reached, or the older board file does not reach back)
+  fourWeeks: Five | null;               // the four Monday weeks before this one (the ratios' trailing window); null in an older board file
   standardToDate: number | null;        // RPs due so far this week at 15 a day; null with no standard
   gap: number | null;                   // week RPs minus standardToDate (negative = behind)
   behind: boolean;
@@ -50,9 +56,13 @@ export type CrelateDoc = {
   todayCurrent: boolean;                // the data was pulled today, so the Today column is real
   weekBasis: "monday" | "sunday-file";  // sunday-file: an older board file; RPs are re-cut to Monday from its daily counts, the other counts are its Sunday-start week
   perDay: number;
+  goals: { rpsWeek: number; mpsWeek: number };   // per recruiter in goal, per week (Kev, 23 Oct 2026)
+  dayKeys: string[];                    // the last 10 weekdays, last Monday through this Friday; rpDays line up with it
   weekdaysCounted: number;
   recruiters: RecruiterRow[];
-  team: { week: Five; today: Five | null; standardToDate: number; gap: number; behind: number; people: number };
+  team: { week: Five; today: Five | null; rpDays: (number | null)[]; fourWeeks: Five | null; standardToDate: number; gap: number; behind: number; people: number };
+  /** The Monday the ratios' four trailing weeks start on; null when the board file has no four-week counts. Ratios are worked out on the page. */
+  fourFrom: string | null;
   notes: string[];
 };
 
@@ -98,6 +108,26 @@ export function rpsFromDays(byDay: Record<string, number> | undefined, monday: s
   return n;
 }
 
+/** Monday to Friday of the week before the one starting `monday`, then Monday to Friday of `monday`'s week: ten dates. */
+export function pulseDayKeys(monday: string): string[] {
+  const out: string[] = [];
+  for (const m of [addDays(monday, -7), monday]) for (let i = 0; i < 5; i++) out.push(addDays(m, i));
+  return out;
+}
+
+/**
+ * One person's RPs on each day key. A day after the last day covered is null. The 10-day map (rp_by_day_2w) covers every day it reaches,
+ * so a day with no entry is a real zero; an older board file has only the Sunday-start week's days, so earlier days are null (not read).
+ */
+export function rpDaysFor(keys: string[], through: string, weekStart: string | undefined, two: Record<string, number> | undefined, one: Record<string, number> | undefined): (number | null)[] {
+  return keys.map((d) => {
+    if (d > through) return null;
+    if (two) return two[d] ?? 0;
+    if (one && weekStart && d >= weekStart) return one[d] ?? 0;
+    return null;
+  });
+}
+
 export function buildCrelateDoc(board: BoardForLeaderboard, live: boolean, now: Date): CrelateDoc {
   const asOf = board.generated_at ?? now.toISOString();
   const asOfMs = Date.parse(asOf);
@@ -111,6 +141,8 @@ export function buildCrelateDoc(board: BoardForLeaderboard, live: boolean, now: 
   const people = (board.recruiters ?? []).filter((p) => p.status === "active");
   const hasMon = people.some((p) => p.mon_week);
   const hasToday = people.some((p) => p.today);
+  const dayKeys = pulseDayKeys(monday);
+  const hasFour = people.some((p) => p.four_weeks);
 
   const rows: RecruiterRow[] = people.map((p) => {
     // Older board files have only the Sunday-start week and RPs by day: re-cut the RPs to Monday, keep the rest as the file has them.
@@ -120,12 +152,14 @@ export function buildCrelateDoc(board: BoardForLeaderboard, live: boolean, now: 
       : { ...zero(), rps: p.rp_by_day?.[through] ?? 0 };      // the file has only RPs for the day: the rest would be a guess, so it stays zero and the page says so
     const inGoal = p.in_goal === true;
     const standard = inGoal ? std : null;
-    return { name: p.name ?? p.slug ?? "?", inGoal, week, today, standardToDate: standard, gap: standard == null ? null : week.rps - standard, behind: isBehind(week.rps, standard) };
+    const rpDays = rpDaysFor(dayKeys, through, board.week?.start, p.rp_by_day_2w, p.rp_by_day);
+    return { name: p.name ?? p.slug ?? "?", inGoal, week, today, rpDays, fourWeeks: hasFour ? five(p.four_weeks) : null, standardToDate: standard, gap: standard == null ? null : week.rps - standard, behind: isBehind(week.rps, standard) };
   }).sort((a, b) => b.week.rps - a.week.rps || a.name.localeCompare(b.name));
 
   const teamWeek = rows.reduce((t, r) => add(t, r.week), zero());
   const teamToday = todayCurrent ? rows.reduce((t, r) => add(t, r.today ?? zero()), zero()) : null;
   const inGoalRows = rows.filter((r) => r.inGoal);
+  const teamDays = dayKeys.map((_, i) => { const v = rows.map((r) => r.rpDays[i]).filter((x): x is number => x != null); return v.length ? v.reduce((a, b) => a + b, 0) : null; });
   const teamStd = inGoalRows.reduce((t, r) => t + (r.standardToDate ?? 0), 0);
   const teamInGoalRps = inGoalRows.reduce((t, r) => t + r.week.rps, 0);
 
@@ -140,17 +174,20 @@ export function buildCrelateDoc(board: BoardForLeaderboard, live: boolean, now: 
     schema: SCHEMA, asOf, syncedAt: now.toISOString(), source: live ? SOURCE_LIVE : SOURCE_FILE, live,
     ageMin: Math.max(0, Math.round((now.getTime() - asOfMs) / 60000)),
     weekOf: monday, through, weekIsCurrent, todayCurrent, weekBasis: hasMon ? "monday" : "sunday-file", perDay,
+    goals: { rpsWeek: board.goals?.rps_week ?? perDay * 5, mpsWeek: board.goals?.mps_week ?? 100 },
+    dayKeys,
     weekdaysCounted: weekdaysThrough(monday, through).length,
     recruiters: rows,
-    team: { week: teamWeek, today: teamToday, standardToDate: teamStd, gap: teamInGoalRps - teamStd, behind: rows.filter((r) => r.behind).length, people: rows.length },
+    team: { week: teamWeek, today: teamToday, rpDays: teamDays, fourWeeks: hasFour ? rows.reduce((t, r) => add(t, r.fourWeeks ?? zero()), zero()) : null, standardToDate: teamStd, gap: teamInGoalRps - teamStd, behind: rows.filter((r) => r.behind).length, people: rows.length },
+    fourFrom: hasFour ? board.week?.four_start ?? addDays(monday, -28) : null,
     notes,
   };
   assertCrelateSafe(doc);
   return doc;
 }
 
-const ALLOWED_KEYS = new Set(["schema", "asOf", "syncedAt", "source", "live", "ageMin", "weekOf", "through", "weekIsCurrent", "todayCurrent", "weekBasis", "perDay", "weekdaysCounted", "recruiters", "team", "notes",
-  "name", "inGoal", "week", "today", "standardToDate", "gap", "behind", "people", "rps", "mps", "ptcs", "subs", "ftis"]);
+const ALLOWED_KEYS = new Set(["schema", "asOf", "syncedAt", "source", "live", "ageMin", "weekOf", "through", "weekIsCurrent", "todayCurrent", "weekBasis", "perDay", "weekdaysCounted", "goals", "rpsWeek", "mpsWeek", "dayKeys", "rpDays", "recruiters", "team", "notes",
+  "name", "inGoal", "week", "today", "fourWeeks", "fourFrom", "standardToDate", "gap", "behind", "people", "rps", "mps", "ptcs", "subs", "ftis"]);
 
 /** The document is counts, dates and first names. Throws on any other key, an email, a phone number or a dollar figure, so a bad field can never be written. */
 export function assertCrelateSafe(doc: unknown): void {

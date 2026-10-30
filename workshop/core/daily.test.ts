@@ -167,6 +167,9 @@ describe("daily document (the Eden Daily as data)", () => {
     const p = doc.calls!.people[0]!;
     assert.deepEqual([p.day, p.prior, p.inbound, p.days], [{ dials: 136, conn: 116 }, { dials: 0, conn: 0 }, { total: 0, missed: 0 }, [114, null, 136]]);
     assert.ok(!/5550142|Raul/.test(JSON.stringify(doc)));
+    assert.equal(p.four, null);                                       // four weeks not read: null, never zero
+    const f = build(input({ calls: { asOf: "2026-10-29T07:30:00Z", people: [{ name: "X", four: { dials: 1900, conn: 400 } }] } })).doc.calls!.people[0]!;
+    assert.deepEqual(f.four, { dials: 1900, conn: 400 });
     assert.throws(() => build(input({ calls: { asOf: "2026-10-29T07:30:00Z", people: [{ name: "X", day: { dials: 1.5 } }] } })), /whole number/);
     assert.throws(() => build(input({ calls: { asOf: "2026-10-29T07:30:00Z", dayKeys: ["Oct 26"], people: [] } })), /YYYY-MM-DD/);
   });

@@ -39,7 +39,8 @@ export type Study = { ref: string; text: string; setting: string; words: { word:
  *  (the connector does not report it). `conn` is CloudTalk's "answered", which on an outbound call can include a voicemail pickup.
  *  `days` lines up with `dayKeys` (outbound dials per day, null when that day was not read). */
 export type CallCount = { dials: number; conn: number };
-export type CallPerson = { name: string; day: CallCount; week: CallCount; prior: CallCount; inbound: { total: number; missed: number }; days: (number | null)[] };
+/** four: dials and pick-ups over the four Monday weeks before this one, for dials per RP on the Recruiting bench (Kev, 30 Oct 2026: ratio tracking); null when not read. */
+export type CallPerson = { name: string; day: CallCount; week: CallCount; prior: CallCount; four: CallCount | null; inbound: { total: number; missed: number }; days: (number | null)[] };
 export type CallStats = { asOf: string; dayLabel: string; weekLabel: string; priorLabel: string; dayKeys: string[]; people: CallPerson[]; notes: string[] };
 export type DailyDoc = {
   schema: number; date: string; dow: string; label: string;
@@ -64,7 +65,7 @@ export type PaperInput = {
     leads: { name: string; title?: string; company?: string; ph?: string; src?: string; crelateUrl?: string; linkedin?: string; note?: string }[] }[];
   study?: { ref: string; text?: string; setting?: string; words?: { word: string; orig?: string; note?: string }[]; reflect?: string[]; prayer?: string; memory?: string };
   calls?: { asOf: string; dayLabel?: string; weekLabel?: string; priorLabel?: string; dayKeys?: string[]; notes?: string[];
-    people: { name: string; day?: Partial<CallCount>; week?: Partial<CallCount>; prior?: Partial<CallCount>; inbound?: { total?: number; missed?: number }; days?: (number | null)[] }[] };
+    people: { name: string; day?: Partial<CallCount>; week?: Partial<CallCount>; prior?: Partial<CallCount>; four?: Partial<CallCount>; inbound?: { total?: number; missed?: number }; days?: (number | null)[] }[] };
   sources?: string[];
 };
 
@@ -236,7 +237,7 @@ export function buildDaily(date: string, input: PaperInput, opts: BuildOpts = {}
       people: (ci.people ?? []).slice(0, 20).map((p, i) => {
         const who = `calls.people[${i}]`;
         return {
-          name: clean(rx, `${who}.name`, p.name, 40, "off") || bad(`${who}.name is empty`), day: pair(p.day, `${who}.day`), week: pair(p.week, `${who}.week`), prior: pair(p.prior, `${who}.prior`),
+          name: clean(rx, `${who}.name`, p.name, 40, "off") || bad(`${who}.name is empty`), day: pair(p.day, `${who}.day`), week: pair(p.week, `${who}.week`), prior: pair(p.prior, `${who}.prior`), four: p.four ? pair(p.four, `${who}.four`) : null,
           inbound: { total: count(p.inbound?.total, `${who}.inbound.total`), missed: count(p.inbound?.missed, `${who}.inbound.missed`) },
           days: dayKeys.map((_, d) => (p.days?.[d] == null ? null : count(p.days[d], `${who}.days[${d}]`))),
         };

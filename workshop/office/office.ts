@@ -27,7 +27,7 @@ import { join } from "node:path";
 import { parse } from "yaml";
 import { list as listQc } from "../core/qc.ts";
 import { list as listGates } from "../core/numbers-gate.ts";
-import { buildGameBlock, injectGameBlock, buildProjectsBlock, injectProjectsBlock } from "./page-game.ts";
+import { buildGameBlock, injectGameBlock, buildProjectsBlock, injectProjectsBlock, OFFICE_CORE } from "./page-game.ts";
 import { pacificDate } from "../core/office-game.js";
 import { loadProjectDefs } from "./projects-load.ts";
 import { buildBenches } from "../core/benches.ts";
@@ -74,7 +74,7 @@ function loadAgents(): { agents: AgentLite[]; routines: RoutineLite[]; nowFiles:
 
 try {
   if (cmd === "build-page") {
-    const page = "projects/virtual-office/draft/eden-office.html";
+    const page = OFFICE_CORE;   // the cores ride in office/core.js since the page split (30 Oct 2026)
     const next = injectProjectsBlock(injectGameBlock(readFileSync(page, "utf8"), buildGameBlock(readFileSync("workshop/core/office-game.js", "utf8"))), buildProjectsBlock(readFileSync("workshop/core/office-projects.js", "utf8")));
     writeFileSync(page, next);
     console.log(`Game core and projects core copied into ${page}.`);

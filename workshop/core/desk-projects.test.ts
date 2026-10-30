@@ -7,6 +7,7 @@ import * as P from "./office-projects.js";
 import { buildAgentProjects, ownerNames, type ProjectDef } from "./desk-projects.ts";
 import { loadProjectDefs, parseDue, scheduleRows, scheduleStatus } from "../office/projects-load.ts";
 import { buildFeed, repoLink, scrub, type SyncInput } from "./office.ts";
+import { readOfficePage } from "../office/page-game.ts";
 
 const NOW = Date.parse("2026-10-29T17:00:00Z");
 const iso = (agoMs: number) => new Date(NOW - agoMs).toISOString();
@@ -170,12 +171,12 @@ date: 2026-10-28
 describe("the page's copy of the projects core", () => {
   test("is a verbatim copy of workshop/core/office-projects.js (run `npm run office -- build-page` if this fails)", async () => {
     const { buildProjectsBlock, currentProjectsBlock } = await import("../office/page-game.ts");
-    const html = readFileSync("projects/virtual-office/draft/eden-office.html", "utf8");
+    const html = await readOfficePage();
     assert.equal(currentProjectsBlock(html), buildProjectsBlock(readFileSync("workshop/core/office-projects.js", "utf8")));
   });
   test("gives the same answers as the sync's", async () => {
     const { currentProjectsBlock } = await import("../office/page-game.ts");
-    const Proj = new Function(currentProjectsBlock(readFileSync("projects/virtual-office/draft/eden-office.html", "utf8"))! + "; return Proj;")();
+    const Proj = new Function(currentProjectsBlock(await readOfficePage())! + "; return Proj;")();
     const t = tk({ status: "done", result: { summary: "Matched 6 of 8; 2 left" } });
     assert.equal(Proj.ticketTitle(t), P.ticketTitle(t));
     assert.deepEqual(Proj.mergeItems([], [t], NOW), P.mergeItems([], [t], NOW));

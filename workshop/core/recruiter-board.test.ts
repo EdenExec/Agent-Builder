@@ -1,7 +1,7 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { assertCrelateSafe, buildCrelateDoc, isBehind, mondayOf, ptHour, rpsFromDays, standardToDate, weekdaysThrough, type BoardForLeaderboard } from "./recruiter-board.ts";
+import { assertCrelateSafe, buildCrelateDoc, isBehind, mondayOf, ptHour, pulseDayKeys, rpDaysFor, rpsFromDays, standardToDate, weekdaysThrough, type BoardForLeaderboard } from "./recruiter-board.ts";
 import { buildBenches } from "./benches.ts";
 import { buildFeed, planWrites } from "./office.ts";
 
@@ -163,5 +163,57 @@ describe("the feed", () => {
     const b = buildBenches({ now: AFTERNOON });
     assert.equal(b.crelate, undefined);
     assert.ok(b.skipped.some((s) => /recruiting and depth/.test(s)));
+  });
+});
+
+describe("the Team pulse: RPs by day for the last 10 weekdays (Kev, 30 Oct 2026)", () => {
+  const KEYS = ["2026-10-19", "2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23", "2026-10-26", "2026-10-27", "2026-10-28", "2026-10-29", "2026-10-30"];
+  test("ten weekdays: last Monday to Friday, then this Monday to Friday", () => {
+    assert.deepEqual(pulseDayKeys("2026-10-26"), KEYS);
+    assert.equal(pulseDayKeys("2026-11-02")[0], "2026-10-26");   // across a month end
+  });
+  test("with the 10-day map every reached day is a number (a day with no entry is a real zero) and later days are null", () => {
+    const d = rpDaysFor(KEYS, "2026-10-28", "2026-10-25", { "2026-10-19": 16, "2026-10-23": 5, "2026-10-26": 15, "2026-10-28": 12 }, undefined);
+    assert.deepEqual(d, [16, 0, 0, 0, 5, 15, 0, 12, null, null]);
+  });
+  test("an older board file has only this week's days: last week is null (not read), not zero", () => {
+    const d = rpDaysFor(KEYS, "2026-10-28", "2026-10-25", undefined, { "2026-10-26": 15, "2026-10-28": 12 });
+    assert.deepEqual(d, [null, null, null, null, null, 15, 0, 12, null, null]);
+  });
+  const rec = [person("Max", { mon_week: c(27), today: c(12), rp_by_day_2w: { "2026-10-22": 14, "2026-10-26": 15, "2026-10-28": 12 } }),
+    person("Noah", { mon_week: c(40), today: c(20), rp_by_day_2w: { "2026-10-22": 9, "2026-10-26": 20, "2026-10-27": 20 } })];
+  const board = live(AFTERNOON, rec); board.goals = { rps_per_day: 15, rps_week: 75, mps_week: 100 };
+  const d = buildCrelateDoc(board, true, AFTERNOON);
+  test("the document carries the day keys, each person's days, and a team row that sums them", () => {
+    assert.deepEqual(d.dayKeys, KEYS);
+    const noah = d.recruiters.find((r) => r.name === "Noah")!;
+    assert.equal(noah.rpDays.length, 10); assert.equal(noah.rpDays[3], 9); assert.equal(noah.rpDays[8], null);
+    assert.deepEqual(d.team.rpDays.slice(3, 8), [23, 0, 35, 20, 12]);
+    assert.equal(d.team.rpDays[9], null);
+  });
+  test("the weekly goals ride along: 75 RPs and 100 MPs per recruiter in goal", () => {
+    assert.deepEqual(d.goals, { rpsWeek: 75, mpsWeek: 100 });
+  });
+  test("the ratios' four weeks ride along per person and for the team; an older file says null rather than zero", () => {
+    const b4 = live(AFTERNOON, [person("Max", { mon_week: c(27), four_weeks: { rps: 300, ptcs: 6, subs: 3, ftis: 1 } }), person("Noah", { mon_week: c(40), four_weeks: { rps: 200, ptcs: 4 } })]);
+    b4.week = { ...b4.week, four_start: "2026-09-28" };
+    const d4 = buildCrelateDoc(b4, true, AFTERNOON);
+    assert.equal(d4.fourFrom, "2026-09-28");
+    assert.deepEqual(d4.recruiters.find((r) => r.name === "Max")!.fourWeeks, { rps: 300, mps: 0, ptcs: 6, subs: 3, ftis: 1 });
+    assert.deepEqual(d4.team.fourWeeks, { rps: 500, mps: 0, ptcs: 10, subs: 3, ftis: 1 });
+    assert.doesNotThrow(() => assertCrelateSafe(d4));
+    assert.equal(d.fourFrom, null); assert.equal(d.team.fourWeeks, null); assert.equal(d.recruiters[0]!.fourWeeks, null);
+  });
+  test("a day count is never mixed with a name or a phone: the safety check still passes and the doc stays counts only", () => {
+    assert.doesNotThrow(() => assertCrelateSafe(d));
+    assert.ok(!/@|\$|phone/i.test(JSON.stringify(d)));
+  });
+  test("the saved board file has no 10-day map, so last week reads null and this week's days are counted", () => {
+    const file = JSON.parse(readFileSync("projects/workforce/board/current.json", "utf8")) as BoardForLeaderboard;
+    const f = buildCrelateDoc(file, false, new Date("2026-10-23T18:00:00Z"));
+    const noah = f.recruiters.find((r) => r.name === "Noah")!;
+    assert.deepEqual(f.dayKeys.slice(0, 5), ["2026-10-12", "2026-10-13", "2026-10-14", "2026-10-15", "2026-10-16"]);
+    assert.ok(noah.rpDays.slice(0, 5).every((x) => x === null));
+    assert.equal(noah.rpDays[9], 3);                       // Fri 23 Oct, the file's last day
   });
 });
