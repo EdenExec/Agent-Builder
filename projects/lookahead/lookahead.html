@@ -473,8 +473,29 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     $("cancelBtn").textContent = ro ? "Close" : "Cancel";
     dlg.showModal();
   }
+  // Unsent entries survive a reload or a new version of the page: kept in this browser only, cleared on Save or Cancel.
+  const FIELDS = ["f-title","f-kind","f-lane","f-start","f-end","f-time","f-owner","f-status","f-note"];
+  const DRAFT_KEY = "lookahead-draft";
+  const readDraft = () => { try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); } catch { return null; } };
+  const currentDraft = () => dlg.open && !$("saveBtn").hidden
+    ? { id: editing?.id || null, values: Object.fromEntries(FIELDS.map((f) => [f, $(f).value])) } : null;
+  const keepDraft = () => { try { const d = currentDraft(); if (d) localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch {} };
+  const dropDraft = () => { try { localStorage.removeItem(DRAFT_KEY); } catch {} };
+  $("itemForm").addEventListener("input", keepDraft);
+  $("itemForm").addEventListener("change", keepDraft);
+  window.claude?.hot?.snapshot?.(() => ({ draft: currentDraft() }));
+  function restoreDraft(d) {
+    if (!d || !d.values || dlg.open) return;
+    const it = d.id ? state.items.find((x) => x.id === d.id) : null;
+    if (d.id && !it) { dropDraft(); return; }
+    openEditor(it);
+    for (const f of FIELDS) if (f in d.values) $(f).value = d.values[f];
+    $("edTitle").textContent = it ? "Edit (restored your unsaved changes)" : "Add (restored your unsaved entry)";
+  }
+
   $("addBtn").addEventListener("click", () => openEditor(null));
-  $("cancelBtn").addEventListener("click", () => dlg.close());
+  $("cancelBtn").addEventListener("click", () => { dropDraft(); dlg.close(); });
+  dlg.addEventListener("cancel", dropDraft);
   $("delBtn").addEventListener("click", () => { $("delConfirm").hidden = false; $("delBtn").hidden = true; });
   $("delYes").addEventListener("click", async () => {
     if (!editing || !db) return;
@@ -495,6 +516,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     try {
       if (editing) await db.collection("items").doc(editing.id).set(data);
       else await db.collection("items").add({ ...data, createdAt: data.updatedAt });
+      dropDraft();
       dlg.close();
     } catch { $("saveBtn").textContent = "Couldn't save. Try again"; setTimeout(() => { $("saveBtn").textContent = "Save"; }, 2500); }
   });
@@ -592,7 +614,14 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
       const can = user ? await user.can("data.write") : null;
       state.canWrite = can !== false;
       let pending = 3;
-      const done = () => { if (--pending <= 0) { state.ready = true; } render(); };
+      const done = () => {
+        if (--pending <= 0 && !state.ready) {
+          state.ready = true; render();
+          if (state.canWrite) restoreDraft(window.claude?.hot?.data?.draft || readDraft());
+          return;
+        }
+        render();
+      };
       let first = [true, true, true];
       db.collection("items").onSnapshot((snap) => {
         state.items = snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter((it) => it.title && it.start);
