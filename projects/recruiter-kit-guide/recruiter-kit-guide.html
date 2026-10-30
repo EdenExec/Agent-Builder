@@ -1,0 +1,116 @@
+<title>Eden Recruiter Kit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one calm reading column, like an Eden one-pager; steps as a checklist, prompts as copyable slips */
+:root{
+  --paper:#FCFBF7; --ink:#141412; --mute:#5E5B54; --line:#D9D4C8; --soft:#F1EEE6; --ok:#2E8A55;
+  --sans:'Montserrat','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#1B1A17;--ink:#EEEBE3;--mute:#A8A397;--line:#36342E;--soft:#24221E;--ok:#5FCF8A;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#1B1A17;--ink:#EEEBE3;--mute:#A8A397;--line:#36342E;--soft:#24221E;--ok:#5FCF8A;color-scheme:dark}
+body{background:var(--paper);color:var(--ink);font:400 15px/1.6 var(--sans);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:720px;margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:40px}
+.eyebrow{font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+h1{font:800 34px/1.15 var(--sans);margin:6px 0 10px;text-wrap:balance;letter-spacing:-.01em}
+h2{font:700 19px/1.3 var(--sans);margin:0 0 12px;text-wrap:balance}
+p{margin:0;max-width:65ch}
+.lede{font-size:16.5px;color:var(--ink)}
+.rule{height:1px;background:var(--line);border:0;margin:0}
+section{display:flex;flex-direction:column;gap:12px}
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+ol.steps li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+ol.steps .n{font:500 12px/1.9 var(--mono);color:var(--mute)}
+ol.steps b{font-weight:700}
+.where{font:400 13px/1.5 var(--mono);background:var(--soft);padding:1px 6px;border-radius:3px;white-space:nowrap}
+.slip{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;border:1px solid var(--line);padding:12px 14px;background:var(--paper)}
+.slip q{quotes:none;font:400 14.5px/1.55 var(--sans);overflow-wrap:anywhere}
+.slip small{display:block;color:var(--mute);font-size:12.5px;margin-top:4px}
+button.copy{font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:none;border:1px solid var(--ink);padding:8px 10px;cursor:pointer;min-width:66px}
+button.copy:focus-visible,a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+button.copy.ok{border-color:var(--ok);color:var(--ok)}
+.rhythm{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.rhythm div{border-top:2px solid var(--ink);padding-top:10px}
+.rhythm h3{font:700 14px/1.3 var(--sans);margin:0 0 4px}
+.rhythm p{font-size:14px;color:var(--mute)}
+ul.rules{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+a{color:var(--ink);text-underline-offset:3px}
+.note{font-size:13.5px;color:var(--mute);border-left:2px solid var(--line);padding-left:12px}
+footer{font:400 11px/1.5 var(--mono);letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+@media (max-width:480px){h1{font-size:28px} .slip{grid-template-columns:minmax(0,1fr)} button.copy{justify-self:start}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<main>
+  <header>
+    <div class="eyebrow">Eden Partner Group · for the recruiting team</div>
+    <h1>Your recruiting assistant</h1>
+    <p class="lede">Your own Claude, connected to Crelate, that builds Eden submittal packets the way we do them. Screen someone, tell it who and for which job, and it hands you a packet to review. It never sends anything: you review, Kev reviews, you send.</p>
+  </header>
+
+  <hr class="rule">
+
+  <section aria-labelledby="setup">
+    <div class="eyebrow">Once · about 15 minutes</div>
+    <h2 id="setup">Set it up</h2>
+    <ol class="steps">
+      <li><span class="n">1</span><div><b>Turn on your Crelate API key.</b> In Crelate: top corner → <span class="where">Your Profile &amp; Preferences</span> → <span class="where">API Access</span> → <b>Enable API Access</b> on → copy your key. Keep it to yourself.</div></li>
+      <li><span class="n">2</span><div><b>Open Claude Code.</b> Go to <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a>, signed in with your <b>edenexec.com</b> email (never a personal Claude account). Start a new session on the <b>EdenExec/recruiter-kit</b> repository. Can't see it? Ask Kev or Nick to add you on GitHub.</div></li>
+      <li><span class="n">3</span><div><b>Save the key in settings, not the chat.</b> In the session's title bar: the cloud environment menu → <span class="where">Edit</span> → <span class="where">Network secrets</span> (or <span class="where">Environment variables</span>). Name it <span class="where">CRELATE_API_KEY</span>, paste the key as the value, save.</div></li>
+      <li><span class="n">4</span><div><b>Let it reach Crelate.</b> Same screen, <span class="where">Network access</span>: add <span class="where">app.crelate.com</span> under Allowed domains, leave "Allow package managers" ticked, save.</div></li>
+      <li><span class="n">5</span><div><b>Test it.</b> Start a <b>new</b> session (it picks up the key) and paste the first prompt below with a candidate you know. If the record comes back, you're connected. "Blocked" means step 4 isn't saved; "key missing" means step 3, or you're still in the old session.</div></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="say">
+    <div class="eyebrow">Every day</div>
+    <h2 id="say">What to say</h2>
+    <div class="slip"><div><q id="p1">Use the recruiting assistant. Read-only: is [candidate name] in Crelate? Who owns them and when were they last touched?</q><small>The connection test, and a quick dedupe before you call someone.</small></div><button class="copy" type="button" data-for="p1">Copy</button></div>
+    <div class="slip"><div><q id="p2">I just screened [candidate name] for [client] – [role]. Build the Eden submittal packet: cover page with the Must Dos scorecard, resume and project list untouched, then references and my notes.</q><small>It pulls the candidate, notes and resume from Crelate, asks for anything missing in one short list, and hands back the packet. No Must Dos on the job? It drafts them from your screening notes, marked "Eden draft, for client approval".</small></div><button class="copy" type="button" data-for="p2">Copy</button></div>
+    <div class="slip"><div><q id="p3">What did I log this week in Crelate: calls, PTCs, submittals, first interviews? Where am I against 15 RPs a day?</q><small>Your own scoreboard before the Friday Round Table.</small></div><button class="copy" type="button" data-for="p3">Copy</button></div>
+    <div class="slip"><div><q id="p4">Here's a lead list. Check each name against Crelate and mark who's already in and who owns them.</q><small>Attach the sheet or paste the names.</small></div><button class="copy" type="button" data-for="p4">Copy</button></div>
+  </section>
+
+  <section aria-labelledby="back">
+    <div class="eyebrow">Keep it one click away</div>
+    <h2 id="back">Pin it and come back to it</h2>
+    <ol class="steps">
+      <li><span class="n">1</span><div><b>Pin this page.</b> In Claude's left sidebar, pin this guide so it sits at the top every time you open Claude.</div></li>
+      <li><span class="n">2</span><div><b>Bookmark claude.ai/code</b> in your browser bar. On your phone, open the Claude app and go to Code; your sessions are there too.</div></li>
+      <li><span class="n">3</span><div><b>One session per job.</b> New screen or new candidate: start a new session on recruiter-kit. Going back to one? It's in the session list on the left; click it and keep talking.</div></li>
+      <li><span class="n">4</span><div><b>Packets go to your Drive,</b> in Submittals / client / job / candidate. Claude makes the folder and tells you to drag the PDF in.</div></li>
+    </ol>
+    <div class="rhythm">
+      <div><h3>After every screen</h3><p>Paste your notes and ask for the packet while the call is fresh.</p></div>
+      <div><h3>Before noon</h3><p>Check your RPs against 15. Ask it who's due a follow-up today.</p></div>
+      <div><h3>Friday morning</h3><p>Ask for your week before the Round Table.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="rules">
+    <div class="eyebrow">The deal</div>
+    <h2 id="rules">How we use it</h2>
+    <ul class="rules">
+      <li><b>Nothing leaves without your yes.</b> Claude drafts; you and Kev review; you send. No emails, uploads to client portals, posts or spending, ZoomInfo credits included.</li>
+      <li><b>Crelate is read-only for Claude.</b> Stage moves, notes and tags are yours to do in Crelate.</li>
+      <li><b>Your key, your account.</b> Never share your key, never paste it into a chat, and keep Eden work in your Eden Claude, never a personal account.</li>
+      <li><b>Desired pay only</b> on a cover page, and no made-up facts: if it isn't in the resume or your notes, it says "confirm with candidate".</li>
+      <li><b>Discreet clients</b> show as "Client · discreet". No thumbs-up/down feedback on chats with candidate or client details.</li>
+    </ul>
+    <p class="note">Stuck? Tell Claude "I'm stuck on step [n], here's what I see." Or ask Kev or Nick.</p>
+  </section>
+
+  <footer>Eden Partner Group · edenpartnergroup.com · Internal</footer>
+</main>
+
+<script>
+document.querySelectorAll('button.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var el = document.getElementById(b.getAttribute('data-for')), txt = el.textContent.trim();
+    var done = function () { b.textContent = 'Copied'; b.classList.add('ok'); setTimeout(function () { b.textContent = 'Copy'; b.classList.remove('ok'); }, 1600); };
+    var fallback = function () { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; };
+    try { navigator.clipboard.writeText(txt).then(done, fallback); } catch (e) { fallback(); }
+  });
+});
+</script>
