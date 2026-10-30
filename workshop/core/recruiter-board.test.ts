@@ -108,8 +108,9 @@ describe("the recruiter leaderboard document", () => {
   });
 });
 
+// The board file as saved on 23 Oct (before the Monday week and the 10-day map), kept as a fixture: the live file in projects/workforce/board/ is rewritten by each Round Table pull.
 describe("the saved board file, when there is no live pull", () => {
-  const file = JSON.parse(readFileSync("projects/workforce/board/current.json", "utf8")) as BoardForLeaderboard;
+  const file = JSON.parse(readFileSync("workshop/core/fixtures/board-file-2026-10-23.json", "utf8")) as BoardForLeaderboard;
   const NOW = new Date("2026-10-28T16:00:00Z");     // five days after the file
   const d = buildCrelateDoc(file, false, NOW);
   test("shows the file's true age and says it is not live", () => {
@@ -209,7 +210,7 @@ describe("the Team pulse: RPs by day for the last 10 weekdays (Kev, 30 Oct 2026)
     assert.ok(!/@|\$|phone/i.test(JSON.stringify(d)));
   });
   test("the saved board file has no 10-day map, so last week reads null and this week's days are counted", () => {
-    const file = JSON.parse(readFileSync("projects/workforce/board/current.json", "utf8")) as BoardForLeaderboard;
+    const file = JSON.parse(readFileSync("workshop/core/fixtures/board-file-2026-10-23.json", "utf8")) as BoardForLeaderboard;
     const f = buildCrelateDoc(file, false, new Date("2026-10-23T18:00:00Z"));
     const noah = f.recruiters.find((r) => r.name === "Noah")!;
     assert.deepEqual(f.dayKeys.slice(0, 5), ["2026-10-12", "2026-10-13", "2026-10-14", "2026-10-15", "2026-10-16"]);

@@ -1,0 +1,10 @@
+{
+  "name": "eden-recruiter-kit",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.18" },
+  "scripts": {
+    "submittal": "node tools/submittal/cli.ts",
+    "test": "node --test tools/submittal/submittal.test.ts"
+  }
+}
