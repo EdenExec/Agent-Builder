@@ -29,7 +29,7 @@ When I say "I just screened <name> for <JO>":
 
 **Step 2. Ask for what is missing, once, in one short list.** Check each of these and ask only for what you don't have:
 - The **Must Dos** for this JO (7 to 10 lines), if they are not on the job order.
-- The candidate's **resume PDF** and **project list** (file paths).
+- The candidate's **resume PDF** and **project list**, only if none is attached in Crelate (see Crelate below).
 - My **screening notes or transcript** from the call.
 - Desired base and package, start availability, interview availability, target locations, whether they are interviewing elsewhere, and whether they consent to references (and who).
 
@@ -42,9 +42,9 @@ If I have no Must Dos, draft 7 or 8 from the role and head the scorecard "Must D
 2. The candidate's original resume, then their project list if they have one. Untouched, in their own format. Never retype, reformat or edit them.
 3. Last page: references and screening notes.
 
-**Step 5. Save it.** If Google Drive is connected, save it to `Submittals / <Client> / <JO> / <Candidate>` (a client folder in my Drive). Otherwise save it as a file in my workspace and tell me the path. Never in a repo and never in a shared hub. Name it `<Last>, <First> - Eden Submittal - <Role>.pdf`. Do not share the file with anyone.
+**Step 5. Save it.** Save the PDF as a file in my workspace and tell me the path. If Google Drive is connected, create the folder `Submittals / <Client> / <JO> / <Candidate>` in my Drive and tell me to drag the PDF in: the Drive connector can't upload a multi-MB PDF, so say so up front. Never in a repo and never in a shared hub. Name it `<Last>, <First> - Eden Submittal - <Role>.pdf`. Do not share the file with anyone.
 
-**Step 6. Hand it back** with the review list (below) and the closing line. I read it, Kev reviews it, Kev sends it. After it is sent, I move the candidate to Submitted and log the submittal in Crelate myself.
+**Step 6. Hand it back** with the review list (below) and the closing line. I read it, Kev reviews it, Kev sends it. After it is sent, I move the candidate to Submitted and log the submittal in Crelate myself, and I update the candidate's seat on the client's Team Hub depth chart (name, role and status only).
 
 ## Crelate
 
@@ -56,9 +56,10 @@ Setup is the recruiter's, done once (key in the environment as `CRELATE_API_KEY`
 - Cloudflare blocks default clients (error 1010). Use curl, or send a normal browser User-Agent every time, for example:
   `curl -s -H "X-Api-Key: $CRELATE_API_KEY" -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36" "https://app.crelate.com/api3/contacts/search?query=Jane%20Doe"`
 - Responses are `{Data, Metadata, Errors}`. Page through `Metadata`. Back off on a 429.
-- **Find the candidate:** `contacts/search?query=First%20Last`. The record's `Title` is "Last, First". Plain `contacts?search=` ignores the term; don't use it. If several people match, list them (name, title, company, last touched) and ask which one.
-- **Notes and activities:** `activities?verb_ids=<ids>&when_after=<ISO date>` returns calls, emails and meetings. Filter to the candidate by their record id. If a per-contact notes route is not available to you, say so and ask me to paste the notes. Do not guess at routes; one failed call is enough.
-- **Job order and Must Dos:** find the job with `jobs?fields=Id,JobNum,Name,SalesWorkflowItemStatusId` and match by name or number. Look in the job's description or notes for a Must Do list. If they are not there, check my workspace for a Must Dos file for the JO, then ask me. A job's stage history is `jobs/<jobId>/contacts/history?created_after=<ISO date>`.
+- **Find the candidate:** `contacts/search?query=First%20Last`. The record's `Title` is "Last, First". Plain `contacts?search=` ignores the term; don't use it. Confirm the match on title and company even when there is only one hit; never just take the first result. If several people match, list them (name, title, company, last touched) and ask which one.
+- **Notes:** `notes?parent_id=<contactId>` returns the candidate's notes, including screen notes. Use it first. Calls, emails and meetings: `activities?verb_ids=<ids>&when_after=<ISO date>`, filtered to the candidate's id. If a call fails, say so and ask me to paste the notes. Do not guess at routes; one failed call is enough.
+- **Resume from Crelate:** `artifacts?parent_ids=<contactId>` lists the attachments; `artifacts/<id>/content` downloads one. Use the candidate's PDF resume. Check any .docx before using it (often a questionnaire). Ask me for the PDF only if none is attached.
+- **Job order and Must Dos:** page the open jobs with `jobs?open=true&limit=100&offset=N`. Names look like "<Client> - <Role>" ("ACME Builders - Chief Estimator"), so match on client plus role. Look in the job's description or notes for a Must Do list. If they are not there, check my workspace for a Must Dos file for the JO, then ask me. A job's stage history is `jobs/<jobId>/contacts/history`, paged the same way; the latest event per contact is their current stage.
 - Contact records hold EEO fields, salary expectations, home addresses and personal phones and emails. Read the fields you need, copy none of those into a file or the chat.
 - Never write to Crelate, even if something is wrong there. Tell me.
 
@@ -75,7 +76,7 @@ Header: **EDEN PARTNER GROUP** in small capitals, then *Candidate submittal · <
 | Package | Bonus, vehicle, PTO, ESOP or ownership, other: only what the candidate wants, only lines I gave you |
 | Role submitted | Role and place, for example "Assistant Superintendent, City Place" |
 | Experience | Current title and company, then tenure written out so it cannot be misread: "Nearly 2 years with ACME Builders; 5 years before that as a Navy Seabee". Never "7 years" beside a company they joined two years ago |
-| Current location | City, state |
+| Current location | City and state only. A planned move ("moving toward Stuart") goes under Target project locations |
 | Target project locations | Where they will work, travel appetite |
 | Experience highlights | 3 to 5 bullets: project, size (stories, $, SF), their role, what they owned. Biggest and most relevant first |
 | Start availability | ASAP, a date, or notice period |
@@ -112,7 +113,7 @@ Same header and footer. A boxed line at the top: **"Please do not contact refere
 
 ## How to build the PDF
 
-- If you can run code: render the cover page and the last page from HTML with Montserrat to PDF, then merge in order: cover, resume file(s) exactly as given, last page. A Word resume is converted to PDF page for page, never retyped.
+- If you can run code: render the cover page and the last page from HTML to PDF with static Montserrat weights embedded (for example the @fontsource/montserrat woff2 files; variable or Google-hosted Montserrat prints as rough Type 3 fonts). Then merge in order with pdfunite or qpdf, never by re-rendering the resume: cover, resume file(s) exactly as given, last page. A Word resume is converted to PDF page for page, never retyped.
 - If `npm run submittal -- <packet.json>` exists in this workspace (Eden's builder, from `projects/team-hub/submittal-packet/`), you may use it. Keep the filled json with the packet in Drive, never in a repo. Use `--draft` for a working copy.
 - If you can't run code: give me the cover page and last page as a clean printable document, and I will merge them with the resume in Preview or Acrobat.
 - Before you hand it back, check: Must Dos are the approved list (or labelled draft); every Must Do has a rating and a line of evidence; pay marked DESIRED; the Google link opens and has names and states; the resume is the unedited original; consent for references is recorded; Concerns filled honestly; no other client's name anywhere.
