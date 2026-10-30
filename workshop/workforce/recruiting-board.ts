@@ -43,7 +43,7 @@ export const GOALS = {
 } as const;
 
 export type Group = "recruiter" | "leadership";
-export type Person = { slug: string; name: string; full: string; role: string; group: Group; ids: string[]; start?: string; inGoal?: boolean };
+export type Person = { slug: string; name: string; full: string; role: string; group: Group; ids: string[]; start?: string; inGoal?: boolean; hidden?: boolean };
 
 /** Roster: Dean's seven (team-and-baseline.md) plus Kunji and Kyle, who Kev named on 23 Oct 2026. Kyle has no Crelate user until he starts (2 Nov). */
 export const ROSTER: Person[] = [
@@ -52,8 +52,8 @@ export const ROSTER: Person[] = [
   { slug: "noah", name: "Noah", full: "Noah Fields", role: "Headhunter", group: "recruiter", ids: ["29b91eae-fc26-4455-b304-62de0803002e"] },
   { slug: "andrew", name: "Andrew", full: "Andrew Johnson", role: "Headhunter", group: "recruiter", ids: ["9c963c7a-ac1a-4f90-82e4-f6dd0803ea2d"] },
   { slug: "bridger", name: "Bridger", full: "Bridger Stainbrook", role: "Headhunter, remote", group: "recruiter", ids: ["83f31e94-56a1-435a-8974-bbde0802ba1a"] },
-  { slug: "kunji", name: "Kunji", full: "Kunji Elder", role: "Trainee", group: "recruiter", ids: ["8efc5cf2-d953-408f-8eb9-a4de08032ef2"], inGoal: false }, // no Crelate activity since 1 Sep; Kev to say when the 75 a week starts
-  { slug: "kyle", name: "Kyle", full: "Kyle Cockell", role: "Incoming, Boise", group: "recruiter", ids: [], start: "2026-11-02" },
+  { slug: "kunji", name: "Kunji", full: "Kunji Elder", role: "Trainee", group: "recruiter", ids: ["8efc5cf2-d953-408f-8eb9-a4de08032ef2"], inGoal: false, hidden: true }, // Kev, 29 Oct 2026: "remove Kunj for the time being"; off the board until Kev says
+  { slug: "kyle", name: "Kyle", full: "Kyle Cockell", role: "Incoming, Boise", group: "recruiter", ids: [], start: "tbd" }, // Kev, 29 Oct 2026: pushed out a few weeks from 2 Nov, date TBD
   { slug: "nick", name: "Nick", full: "Nick Leckwold", role: "Operations", group: "leadership", ids: ["6964a256-20dd-4756-abfc-dedd08004293", "f3559cdc-f847-486d-2c61-cba1d7f2dc08"] },
   { slug: "kev", name: "Kev", full: "Kevin Williams", role: "Founder", group: "leadership", ids: ["b3f4a630-5dd1-44a0-cc82-08f8b9f2dc08"] },
 ];
@@ -392,8 +392,8 @@ const sum = (list: Counts[]): Counts => { const t = zero(); for (const c of list
 
 export function buildBoard(inp: BoardInput) {
   const w = weekWindows(inp.nowMs), c = inp.counts, q = quarterOf(w.today);
-  const started = (p: Person) => !p.start || p.start <= w.today;
-  const people = ROSTER.map((p) => {
+  const started = (p: Person) => !p.start || (/^\d{4}-\d{2}-\d{2}$/.test(p.start) && p.start <= w.today);   // "tbd" never starts
+  const people = ROSTER.filter((p) => !p.hidden).map((p) => {
     const x = c.persons[p.slug]!, live = p.ids.length > 0;
     const status = !started(p) ? "starts" : live ? "active" : "no Crelate user";
     const revSynced = !!inp.rev && live;

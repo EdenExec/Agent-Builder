@@ -8,7 +8,7 @@
 | Nida | Admin and BPO (BPO Wizard): loads leads into Crelate overnight | Admin tasks, lead sheets |
 | Nick | Operations: Crelate portal, scorecards | Ops items |
 | Joel Fairchild | Finance | Invoices, bills, bookkeeping questions |
-| Recruiters: Max Betcher, Noah, Bridger, Evan, Andrew, Kunji | Reps; Max carpools with Kev; Noah implements the recruiters' Eden Daily; Bridger pilots the Must-Dos tracker | Candidate work, never Kev's personal items |
+| Recruiters: Max Betcher, Noah, Bridger, Evan, Andrew (Kunji off the board for now, Kev 29 Oct; Kyle Cockell's 2 Nov start pushed a few weeks, date TBD) | Reps; Max carpools with Kev; Noah implements the recruiters' Eden Daily; Bridger pilots the Must-Dos tracker | Candidate work, never Kev's personal items |
 | Cody Ballah | Coach (Nexorra Group), daily and weekly briefs | Warm callbacks for Power Hours |
 | Chris Catalano | Books and year-end close | Finance, Batch lane |
 | Tana (Freeman Solutions), Chris (BSA-CPA) | Accounting and tax | Finance split, Batch lane |

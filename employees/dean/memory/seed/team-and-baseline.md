@@ -14,7 +14,7 @@ Work facts only. No pay, health, family or age facts belong in this file or any 
 | 6 | Nick Leckwold | Operations · Headhunter | Owns the human side of scorecards and the Crelate portal |
 | 7 | Kevin Williams | Founder · Headhunter | Runs the Round Table and Headhunter Training |
 
-Radar's people file also lists Kunji among the recruiters. Kunji is not on the Round Table pack; ask Kev before adding anyone.
+Radar's people file also lists Kunji among the recruiters. Kunji is not on the Round Table pack; ask Kev before adding anyone. Kev, 29 Oct 2026: Kunji is off the Command Center board for the time being, and Kyle's 2 Nov start is pushed a few weeks (TBD).
 
 ## Baseline: week of 12 October 2026 (PARTIAL: Crelate as of Fri 16 Oct, 11:59 AM PT)
 

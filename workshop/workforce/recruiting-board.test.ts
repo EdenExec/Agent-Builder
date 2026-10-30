@@ -153,16 +153,17 @@ describe("the Monday week and today (the Command Center's recruiter leaderboard,
 describe("the board document", () => {
   const rows = [act("rp", "max", "2026-10-19T17:00:00Z"), act("rp", "kunji", "2026-10-19T18:00:00Z")];
   const board = buildBoard({ nowMs: NOW, counts: countActivities(rows, jobs, [], W), jobsRead: 2, stageJobsRead: 2, fetchedActivities: 2 });
-  test("goals: 75 RPs and 100 MPs a week per recruiter with a standard; Kunji (trainee) and Kyle (not started) are not in it yet", () => {
+  test("goals: 75 RPs and 100 MPs a week per recruiter with a standard; Kyle (start TBD) is not in it yet", () => {
     assert.equal(board.goals.recruiters_in_goal, 5);
     assert.equal(board.goals.rps_team_week, 75 * 5);
     assert.equal(board.goals.mps_team_week, 100 * 5);
     assert.equal(board.goals.accelerator_team_quarter, 25000 * 5);
     assert.equal(board.recruiters.find((p) => p.slug === "kyle")!.status, "starts");
-    assert.equal(board.recruiters.find((p) => p.slug === "kunji")!.in_goal, false);
+    assert.equal(board.recruiters.find((p) => p.slug === "kyle")!.start, "tbd");
   });
-  test("a worker outside the goal still counts toward the totals", () => {
-    assert.equal(board.team.this.rps, 2);
+  test("a hidden person (Kunji, Kev 29 Oct) is off the board and out of the totals", () => {
+    assert.equal(board.recruiters.find((p) => p.slug === "kunji"), undefined);
+    assert.equal(board.team.this.rps, 1);
   });
   test("Nick and Kev sit below the line, not in the recruiter totals", () => {
     assert.deepEqual(board.leadership.map((p) => p.slug), ["nick", "kev"]);
