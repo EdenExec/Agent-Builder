@@ -111,8 +111,16 @@ main { padding-block: 20px 60px; display: grid; gap: 28px }
 .bigpic { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 0; border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); overflow: hidden }
 .bigpic > div { padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0 }
 .bigpic > div + div { border-left: 1px solid var(--rule) }
-.bigpic input { font-family: var(--display); font-size: 19px; font-weight: 700 }
-.bigpic textarea { min-height: 6em }
+.bigpic textarea { min-height: 5em }
+.bl { display: grid; gap: 6px }
+.bl + .bl { margin-top: 10px }
+.bl-head { display: flex; align-items: center; justify-content: space-between; gap: 8px }
+.btn.sm { padding: 2px 8px; font-size: 12px }
+.bullets { margin: 0; padding-left: 1.15em; display: grid; gap: 4px }
+.bullets li { line-height: 1.4; overflow-wrap: anywhere }
+.bullets li::marker { color: var(--accent) }
+.bl.big .bullets li { font-family: var(--display); font-size: 17px; font-weight: 700 }
+.bl-empty { border: 1px dashed var(--rule); border-radius: 8px; background: transparent; padding: 8px 10px; text-align: left; width: 100% }
 .cal { border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); overflow: hidden }
 .cal .hd, .cal .row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)) }
 .cal .hd div { padding: 6px 8px; border-bottom: 1px solid var(--rule) }
@@ -350,6 +358,28 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     } catch (e) { saved.textContent = "Couldn't save. Check your connection and try again."; }
   }
 
+  const lines = (v) => String(v || "").split("\n").map((x) => x.replace(/^[\s•\-*]+/, "").trim()).filter(Boolean);
+  function bulletBlock(id, label, get, onSave, placeholder, size) {
+    const wrap = el("div", { class: `bl ${size}` });
+    const head = (editing) => el("div", { class: "bl-head" }, el("label", { class: "label", for: id, text: label }),
+      state.canWrite && !editing ? el("button", { class: "btn ghost sm", type: "button", onclick: edit }, "Edit") : null);
+    function show() {
+      const ls = get();
+      wrap.replaceChildren(head(false), ls.length
+        ? el("ul", { class: "bullets" }, ls.map((l) => el("li", { text: l })))
+        : el(state.canWrite ? "button" : "p", { class: "empty bl-empty", type: state.canWrite ? "button" : null, onclick: state.canWrite ? edit : null, text: state.canWrite ? placeholder : "Not set yet" }));
+    }
+    function edit() {
+      const ta = el("textarea", { id, rows: Math.max(3, get().length + 1), maxlength: 600, placeholder });
+      ta.value = get().join("\n");
+      ta.addEventListener("blur", async () => { await onSave(lines(ta.value)); show(); });
+      wrap.replaceChildren(head(true), ta);
+      ta.focus();
+    }
+    show();
+    return wrap;
+  }
+
   function viewMonth() {
     const [y, m] = state.month.split("-").map(Number);
     const first = `${state.month}-01`;
@@ -362,23 +392,22 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
       el("button", { class: "btn", type: "button", onclick: () => shift(-1) }, "‹ Prev"),
       el("button", { class: "btn", type: "button", onclick: () => { state.month = todayStr().slice(0, 7); render(); } }, "This month"),
       el("button", { class: "btn", type: "button", onclick: () => shift(1) }, "Next ›")));
-    const theme = el("input", { id: "month-theme", maxlength: 90, placeholder: state.canWrite ? "This month in one line" : "Not set yet", readonly: !state.canWrite });
-    theme.value = mo.theme || "";
-    const rocks = el("textarea", { id: "month-rocks", rows: 4, maxlength: 600, placeholder: state.canWrite ? "Big rocks, one per line" : "Not set yet", readonly: !state.canWrite });
-    rocks.value = mo.rocks || "";
+    // Big picture and big rocks read as bullets (one per line); Edit opens them as a plain list to type into.
+    let themeLines = lines(mo.theme), rockLines = lines(mo.rocks);
     const saved = el("span", { class: "saved" });
     const save = async () => {
       if (!db || !state.canWrite) return;
-      if ((mo.theme || "") === theme.value && (mo.rocks || "") === rocks.value) return;
-      try { await db.collection("months").doc(state.month).set({ theme: theme.value.trim(), rocks: rocks.value.trim(), updatedAt: new Date().toISOString() });
+      const theme = themeLines.join("\n"), rocks = rockLines.join("\n");
+      if ((mo.theme || "") === theme && (mo.rocks || "") === rocks) return;
+      try { await db.collection("months").doc(state.month).set({ theme, rocks, updatedAt: new Date().toISOString() });
         saved.textContent = "Saved"; setTimeout(() => { saved.textContent = ""; }, 1600); }
       catch { saved.textContent = "Couldn't save. Check your connection and try again."; }
     };
-    theme.addEventListener("blur", save); rocks.addEventListener("blur", save);
+    const themeBlock = bulletBlock("month-theme", "Big picture", () => themeLines, (v) => { themeLines = v; return save(); }, "What this month is about, one point per line", "big");
+    const rocksBlock = bulletBlock("month-rocks", "Big rocks", () => rockLines, (v) => { rockLines = v; return save(); }, "The few things that must get done, one per line", "");
     const ms = itemsIn(first, last).filter((it) => it.kind !== "event" || it.status === "open");
     frag.push(el("section", { class: "bigpic", "aria-label": "Month big picture" },
-      el("div", {}, el("label", { class: "label", for: "month-theme", text: "Big picture" }), theme,
-        el("label", { class: "label", for: "month-rocks", text: "Big rocks" }), rocks, saved),
+      el("div", {}, themeBlock, rocksBlock, saved),
       el("div", {}, el("span", { class: "label", text: "Trips, milestones and open calls" }),
         ms.length ? el("div", { class: "decisions" }, ms.map((it) => el("div", { class: "legend" },
           el("span", { class: "mono", text: it.end && it.end !== it.start ? `${fmt(it.start)}–${fmt(it.end)}` : fmtDow(it.start) }), chip(it))))
@@ -419,7 +448,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
       if (mk !== lastMonth) {
         const [yy, mm] = mk.split("-").map(Number);
         const mo = state.months[mk] || {};
-        strip.append(el("div", { class: "month-break" }, el("b", { text: `${MONTH_FULL[mm - 1]} ${yy}` }), el("span", { text: mo.theme || "" })));
+        strip.append(el("div", { class: "month-break" }, el("b", { text: `${MONTH_FULL[mm - 1]} ${yy}` }), el("span", { text: lines(mo.theme).join(" · ") })));
         lastMonth = mk;
       }
       const f = state.weeks[ws] || {};
