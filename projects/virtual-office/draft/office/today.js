@@ -19,6 +19,7 @@
   function tdUnwatch() { TD.un.forEach(function (f) { try { f(); } catch (e) {} }); TD.un = []; }
   function tdWatch() {
     var date = tdDate();
+    tdPadWatch();
     if (!S.live || !S.db) { if (!TD.doc || TD.date !== date) { TD.date = date; TD.doc = tdExample(date); TD.ticks = {}; TD.loaded = true; } return; }
     if (TD.date === date && TD.un.length) return;
     tdUnwatch(); TD.date = date; TD.doc = null; TD.ticks = {}; TD.loaded = false; TD.err = ''; TD.tab = null; TD.sel = {}; TD.undo = []; TD.summary = null;
@@ -28,6 +29,55 @@
       snap.docs.forEach(function (d) { var v = d.data(), mine = TD.ticks[d.id]; if (v && (!mine || t(v.at) >= t(mine.at)) && !TD.timers[d.id]) TD.ticks[d.id] = v; });
       renderAll();
     }, function () {}));
+  }
+  /* Scratch pad (Kev, 30 Oct: "where i can plug away on tasks and notes, come back to stuff as i need, write notes that get picked up to the following day").
+     One document, pad/kev, not tied to a day, so it carries over. A task ticked today stays (struck through) until tomorrow, then drops off.
+     Offline it keeps to this browser. Hidden, and not read, under screen share. */
+  function tdPadWatch() {
+    if (S.share) { if (TD.padUn) { TD.padUn(); TD.padUn = null; } TD.pad = null; return; }
+    if (!S.live || !S.db) { if (!TD.pad) { var v = null; try { v = JSON.parse(localStorage.getItem('cc-pad') || 'null'); } catch (e) {} TD.pad = v || { notes: '', tasks: [] }; } return; }
+    if (TD.padUn) return;
+    TD.padUn = S.db.doc('pad/kev').onSnapshot(function (s) { if (TD.padTimer) return; TD.pad = s.exists ? s.data() : { notes: '', tasks: [] }; renderAll(); }, function () { TD.padUn = null; });
+  }
+  function tdPadTasks() { var today = tdDate(); return ((TD.pad && TD.pad.tasks) || []).filter(function (x) { return !x.done || x.doneOn === today; }); }
+  function tdPadSave(delay) {
+    clearTimeout(TD.padTimer);
+    TD.padTimer = setTimeout(function () {
+      TD.padTimer = null; if (!TD.pad) return;
+      TD.pad.tasks = tdPadTasks().slice(0, 200);       // ticked before today drops off; the same object stays, so open handlers keep writing to it
+      var doc = { schema: 1, notes: String(TD.pad.notes || '').slice(0, 20000), tasks: TD.pad.tasks, updatedAt: new Date().toISOString() };
+      if (S.live && S.db) { if (S.canWrite) S.db.doc('pad/kev').set(doc).catch(function () { TD.flash = 'The scratch pad did not save. Try again.'; renderAll(); }); }
+      else { try { localStorage.setItem('cc-pad', JSON.stringify(doc)); } catch (e) {} }
+    }, delay == null ? 600 : delay);
+  }
+  function tdPadBox() {
+    if (S.share || !TD.pad) return null;
+    var tasks = tdPadTasks(), open = tasks.filter(function (x) { return !x.done; }).length;
+    var d = h('details', { class: 'td-pad' }); try { d.open = localStorage.getItem('cc-pad-open') !== '0'; } catch (e) { d.open = true; }
+    d.addEventListener('toggle', function () { try { localStorage.setItem('cc-pad-open', d.open ? '1' : '0'); } catch (e) {} });
+    d.appendChild(h('summary', null, h('span', { class: 'eyebrow', text: 'Scratch pad' }), h('span', { class: 'eyebrow', text: open + ' open · carries over' })));
+    var ul = h('ul', { class: 'td-padl' });
+    tasks.forEach(function (x) {
+      var li = h('li', { class: x.done ? 'done' : '' });
+      li.appendChild(chk(x.done, 'Done: ' + x.text, function () { x.done = !x.done; x.doneOn = x.done ? tdDate() : null; tdPadSave(0); renderAll(); }));
+      li.appendChild(h('span', { class: 'pt', text: x.text }));
+      var rm = h('button', { class: 'mini txt', type: 'button', 'aria-label': 'Remove: ' + x.text, text: '×' }); rm.disabled = !S.canWrite;
+      rm.addEventListener('click', function () { TD.pad.tasks = (TD.pad.tasks || []).filter(function (y) { return y.id !== x.id; }); tdPadSave(0); renderAll(); });
+      li.appendChild(rm); ul.appendChild(li);
+    });
+    var add = h('input', { class: 'td-notei', type: 'text', 'data-td-in': 'pad-add', placeholder: 'Add a task, Enter to keep it', 'aria-label': 'Add a task', maxlength: '300' }); add.disabled = !S.canWrite;
+    add.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { e.stopPropagation(); add.blur(); return; }
+      if (e.key !== 'Enter') return; e.preventDefault();
+      var v = add.value.trim(); if (!v) return;
+      TD.pad.tasks = (TD.pad.tasks || []).concat([{ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5), text: v, done: false, doneOn: null, at: new Date().toISOString() }]);
+      add.value = ''; tdPadSave(0); renderAll();
+    });
+    var ta = h('textarea', { class: 'td-padn', 'data-td-in': 'pad-notes', rows: '4', placeholder: 'Notes. They stay here tomorrow.', 'aria-label': 'Scratch pad notes', maxlength: '20000' }); ta.value = TD.pad.notes || ''; ta.disabled = !S.canWrite;
+    ta.addEventListener('input', function () { TD.pad.notes = ta.value; tdPadSave(); });
+    ta.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.stopPropagation(); ta.blur(); } });
+    d.appendChild(h('div', { class: 'td-padb' }, ul, add, ta));
+    return d;
   }
   /* Kev's marks are written whole (one document per thing ticked), locally first, so the phone and the big monitor agree. Notes wait 600ms after typing stops. */
   function tdPut(kind, ref, patch, delay) {
@@ -186,7 +236,8 @@
     var left = h('div', { class: 'td-left' }), right = h('div', { class: 'td-right' });
     left.appendChild(tdNowBox(run, now)); left.appendChild(tdRunBox(run, now)); if (doc) left.appendChild(tdHabitBox());
     var cb = doc && tdCallsBox(); if (cb) left.appendChild(cb);
-    grid.appendChild(left); grid.appendChild(tdMid(run)); if (doc) { right.appendChild(tdMustBox()); }
+    var mid = tdMid(run), pad = tdPadBox(); if (pad) mid.insertBefore(pad, mid.firstChild);
+    grid.appendChild(left); grid.appendChild(mid); if (doc) { right.appendChild(tdMustBox()); }
     var decBox = tdDecBox(); if (decBox) right.appendChild(decBox);
     var ctBox = tdCrelateTasksBox(); if (ctBox) right.appendChild(ctBox);
     if (doc) { right.appendChild(tdScriptureBox()); right.appendChild(tdCheckoutBox()); } grid.appendChild(right);
