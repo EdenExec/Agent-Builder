@@ -90,7 +90,7 @@ main { padding-block: 20px 60px; display: grid; gap: 28px }
 .chip .k { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; opacity: .8 }
 .chip.drag { cursor: grab; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none }
 .chip.lifted { opacity: .35 }
-.ghost { position: fixed; z-index: 50; pointer-events: none; box-shadow: 0 6px 18px rgba(0, 0, 0, .22); transform: rotate(-2deg); cursor: grabbing; max-width: 260px }
+.drag-ghost { position: fixed; z-index: 50; pointer-events: none; box-shadow: 0 6px 18px rgba(0, 0, 0, .22); transform: rotate(-2deg); cursor: grabbing; max-width: 260px }
 .drop-over { outline: 2px dashed var(--accent); outline-offset: -3px; background: var(--travel-bg) !important }
 .toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 60; background: var(--ink); color: var(--paper); border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; max-width: calc(100vw - 32px) }
 .flag { font-family: var(--mono); font-size: 10.5px; font-weight: 500; color: var(--open); background: var(--open-bg); border-radius: 4px; padding: 1px 5px; text-transform: uppercase; letter-spacing: .06em }
@@ -221,6 +221,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     </div>
     <div class="actions">
       <button class="btn danger" type="button" id="delBtn" hidden>Delete</button>
+      <button class="btn" type="button" id="dupBtn" hidden>Duplicate</button>
       <span class="confirm" id="delConfirm" hidden>Are you sure? <button class="btn danger" type="button" id="delYes">Yes, delete</button></span>
       <span class="spacer"></span>
       <button class="btn ghost" type="button" id="cancelBtn">Cancel</button>
@@ -492,7 +493,8 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     $("f-ro").hidden = !fromCal;
     for (const id of ["f-title","f-kind","f-lane","f-start","f-end","f-time","f-owner","f-status","f-note"]) $(id).disabled = ro;
     $("saveBtn").hidden = ro; $("delBtn").hidden = ro || !it; $("delConfirm").hidden = true;
-    $("delBtn").textContent = fromCal ? "Remove from look-ahead" : "Delete";
+    $("delBtn").textContent = fromCal ? "Remove" : "Delete";
+    $("dupBtn").hidden = ro || !it;
     $("delYes").textContent = fromCal ? "Yes, remove" : "Yes, delete";
     $("cancelBtn").textContent = ro ? "Close" : "Cancel";
     dlg.showModal();
@@ -520,7 +522,18 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
   $("addBtn").addEventListener("click", () => openEditor(null));
   $("cancelBtn").addEventListener("click", () => { dropDraft(); dlg.close(); });
   dlg.addEventListener("cancel", dropDraft);
-  $("delBtn").addEventListener("click", () => { $("delConfirm").hidden = false; $("delBtn").hidden = true; });
+  $("delBtn").addEventListener("click", () => { $("delConfirm").hidden = false; $("delBtn").hidden = true; $("dupBtn").hidden = true; });
+  // Duplicate: the same entry one week later as a new item; change the date if it repeats on another day, then Save.
+  $("dupBtn").addEventListener("click", () => {
+    const s0 = $("f-start").value, e0 = $("f-end").value;
+    editing = null;
+    if (s0) $("f-start").value = add(s0, 7);
+    if (e0) $("f-end").value = add(e0, 7);
+    $("f-ro").hidden = true; $("dupBtn").hidden = true; $("delBtn").hidden = true; $("delConfirm").hidden = true;
+    $("edTitle").textContent = "Copy: one week later (change the date if needed, then Save)";
+    keepDraft();
+    $("f-start").focus();
+  });
   $("delYes").addEventListener("click", async () => {
     if (!editing || !db) return;
     const fromCal = editing.source === "calendar" || editing.origin === "calendar";
@@ -569,7 +582,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     const r = drag.src.getBoundingClientRect();
     drag.dx = drag.x0 - r.left; drag.dy = drag.y0 - r.top;
     drag.ghost = drag.src.cloneNode(true);
-    drag.ghost.classList.add("ghost");
+    drag.ghost.classList.add("drag-ghost");
     drag.ghost.style.width = `${r.width}px`;
     document.body.append(drag.ghost);
     drag.src.classList.add("lifted");
