@@ -170,7 +170,7 @@
     var teamRow = row('Team', { wk: c.team.week, four: c.team.fourWeeks || null }, 'us', D.team.people + ' on phones');
     teamRow.replaceChild(plRatioCell(PL_RATIOS[3], { wk: { dials: D.team.people ? tw.dials : null, rps: tw.rps }, four: anyFour ? { dials: tf.dials, rps: tf.rps } : null }), teamRow.lastChild);
     body.appendChild(teamRow);
-    body.appendChild(h('p', { class: 'pl-foot', text: 'This week (' + tdShort(c.weekOf) + ' to ' + tdShort(c.through) + ') against the four weeks from ' + (c.fourFrom ? tdShort(c.fourFrom) : '…') + '. ▲▼ = this week against the four weeks, ≈ within 10%. A dash: under ' + PL_MIN + ' in the bottom number. Dials / RP: CloudTalk dials over Crelate RPs; no colour, since fewer dials per call is not always better. Targets: not set yet (Dean and Kev).' }));
+    body.appendChild(h('p', { class: 'pl-foot', text: 'This week (' + tdShort(c.weekOf) + ' to ' + tdShort(c.through) + ') against the four weeks from ' + (c.fourFrom ? tdShort(c.fourFrom) : '…') + '. ▲▼ = this week against the four weeks, ≈ within 10%. A dash: under ' + PL_MIN + ' in the bottom number. Dials / RP: CloudTalk dials over Crelate RPs; no colour, since fewer dials per call is not always better. Targets: not set yet (Dean and Kev). Someone who joined CloudTalk inside the four weeks has a short four-week dials count, so their 4 wk dials per RP reads low.' }));
     if (!c.fourFrom) body.appendChild(h('p', { class: 'pl-foot warn', text: 'The four-week counts arrive with the next hourly office run; until then only this week shows.' }));
     else if (D.ph && !D.ph.people.some(function (p) { return p.four; })) body.appendChild(h('p', { class: 'pl-foot', text: 'Four-week dials arrive with Radar\'s next stand-up (meta/phones).' }));
   }
