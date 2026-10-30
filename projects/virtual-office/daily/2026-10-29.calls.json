@@ -1,24 +1,24 @@
 {
-  "asOf": "2026-10-29T07:40:00Z",
-  "dayLabel": "Wed 28 Oct",
-  "weekLabel": "Mon 26–Wed 28",
-  "priorLabel": "Mon 19–Wed 21",
-  "dayKeys": ["2026-10-19", "2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23", "2026-10-26", "2026-10-27", "2026-10-28"],
+  "asOf": "2026-10-30T02:30:00Z",
+  "dayLabel": "Thu 29 Oct",
+  "weekLabel": "Mon 26–Thu 29",
+  "priorLabel": "Mon 19–Thu 22",
+  "dayKeys": ["2026-10-19", "2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23", "2026-10-26", "2026-10-27", "2026-10-28", "2026-10-29"],
   "people": [
-    { "name": "Andrew Johnson", "day": { "dials": 136, "conn": 116 }, "week": { "dials": 374, "conn": 306 }, "prior": { "dials": 0, "conn": 0 }, "days": [0, 0, 0, 0, 78, 114, 124, 136] },
-    { "name": "Noah Fields", "day": { "dials": 85, "conn": 72 }, "week": { "dials": 274, "conn": 229 }, "prior": { "dials": 0, "conn": 0 }, "days": [0, 0, 0, 0, 0, 102, 87, 85] },
-    { "name": "Bridger Stainbrook", "day": { "dials": 33, "conn": 30 }, "week": { "dials": 130, "conn": 115 }, "prior": { "dials": 154, "conn": 126 }, "days": [0, 0, 154, 100, 2, 0, 97, 33] },
-    { "name": "Evan MacArthur", "day": { "dials": 26, "conn": 22 }, "week": { "dials": 26, "conn": 22 }, "prior": { "dials": 11, "conn": 11 }, "days": [null, null, null, null, null, 0, 0, 26] },
-    { "name": "Kev Williams", "day": { "dials": 13, "conn": 11 }, "week": { "dials": 13, "conn": 11 }, "prior": { "dials": 0, "conn": 0 }, "days": [0, 0, 0, 0, 0, 0, 0, 13] },
-    { "name": "Max Betcher", "day": { "dials": 0, "conn": 0 }, "week": { "dials": 3, "conn": 3 }, "prior": { "dials": 161, "conn": 133 }, "days": [54, 86, 21, 0, 1, 2, 1, 0] },
-    { "name": "Nick L", "day": { "dials": 0, "conn": 0 }, "week": { "dials": 0, "conn": 0 }, "prior": { "dials": 0, "conn": 0 }, "inbound": { "total": 23, "missed": 23 }, "days": [0, 0, 0, null, null, 0, 0, 0] }
+    { "name": "Andrew Johnson", "day": { "dials": 128, "conn": 110 }, "week": { "dials": 502, "conn": 416 }, "prior": { "dials": 0, "conn": 0 }, "days": [0, 0, 0, 0, 78, 114, 124, 136, 128] },
+    { "name": "Noah Fields", "day": { "dials": 160, "conn": 137 }, "week": { "dials": 434, "conn": 366 }, "prior": { "dials": 0, "conn": 0 }, "days": [0, 0, 0, 0, 0, 102, 87, 85, 160] },
+    { "name": "Bridger Stainbrook", "day": { "dials": 80, "conn": 70 }, "week": { "dials": 210, "conn": 185 }, "prior": { "dials": 254, "conn": 213 }, "days": [0, 0, 154, 100, 2, 0, 97, 33, 80] },
+    { "name": "Evan MacArthur", "day": { "dials": 55, "conn": 47 }, "week": { "dials": 81, "conn": 69 }, "prior": { "dials": 16, "conn": 16 }, "days": [null, null, null, 5, 0, 0, 0, 26, 55] },
+    { "name": "Kev Williams", "day": { "dials": 0, "conn": 0 }, "week": { "dials": 13, "conn": 11 }, "prior": { "dials": 0, "conn": 0 }, "days": [0, 0, 0, 0, 0, 0, 0, 13, 0] },
+    { "name": "Max Betcher", "day": { "dials": 0, "conn": 0 }, "week": { "dials": 3, "conn": 3 }, "prior": { "dials": 161, "conn": 133 }, "days": [54, 86, 21, 0, 1, 2, 1, 0, 0] },
+    { "name": "Nick L", "day": { "dials": 0, "conn": 0 }, "week": { "dials": 0, "conn": 0 }, "prior": { "dials": 0, "conn": 0 }, "inbound": { "total": 40, "missed": 40 }, "days": [0, 0, 0, null, null, 0, 0, 0, 0] }
   ],
   "notes": [
-    "Andrew carries the floor: 374 dials Mon–Wed, up every day (114, 124, 136). Noah 274 in his first full week on CloudTalk.",
-    "Max: 3 dials Mon–Wed against 161 the same days last week. Ask where he is dialing from before reading it as a slump.",
-    "Inbound: 23 calls rang Nick this week and none were answered (11 on Wed). Most are known contacts, likely callbacks. Who covers that line?",
-    "Evan, Bridger, Kev and Nick dial out on the same shared number, so callbacks to any of you may be landing on Nick.",
-    "Bridger 130 Mon–Wed against 154; nothing logged Monday.",
-    "Picked up is CloudTalk's 'answered' and can include voicemail. Talk time is not reported through the connector yet. RPs (the 15 a day) stay on the Crelate board."
+    "Noah's biggest day yet: 160 dials Thursday. Andrew 502 Mon–Thu, over 110 every day this week.",
+    "Max: no CloudTalk dials Wed or Thu; 3 Mon–Thu against 161 the same days last week. Worth asking where he is dialing from.",
+    "Inbound: 40 calls rang Nick Mon–Thu (17 on Thursday) and none were answered. Likely callbacks to the shared number. Who covers that line?",
+    "Evan's best day on CloudTalk: 55 Thursday. Bridger 210 Mon–Thu against 254.",
+    "Team 1,243 dials Mon–Thu against 431 the same days last week, mostly Andrew and Noah joining CloudTalk.",
+    "Picked up is CloudTalk's 'answered' and can include voicemail. Talk time is not reported yet. RPs stay on the Crelate board."
   ]
 }
