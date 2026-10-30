@@ -943,6 +943,9 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
           function sm(a) { return a.reduce(function (p, q) { return p + q; }, 0); }
           return { name: x.name + ' Example', day: { dials: days[days.length - 1], conn: 0 }, week: { dials: sm(wkd), conn: 0 }, prior: { dials: sm(days.slice(0, wkd.length)), conn: 0 }, inbound: { total: 0, missed: 0 }, days: days }; }),
         notes: ['Example figures: nothing here is read from CloudTalk.'] };
+      list.forEach(function (x, k) { x.fourWeeks = { rps: 240 + k * 40, mps: 0, ptcs: 5 + k, subs: 3 + (k % 2), ftis: 1 + (k % 3) }; });   // the ratios' four trailing weeks (example)
+      S.crelate.fourFrom = Game.addDays(mon, -28); S.crelate.team.fourWeeks = list.reduce(function (a, x) { ['rps', 'mps', 'ptcs', 'subs', 'ftis'].forEach(function (m) { a[m] += x.fourWeeks[m]; }); return a; }, { rps: 0, mps: 0, ptcs: 0, subs: 0, ftis: 0 });
+      S.phones.people.forEach(function (p, k) { p.four = { dials: 1400 + k * 300, conn: 0 }; });
     })();
     S.ctasks = { example: true, asOf: iso(HOUR), movedOn: { count: 12, oldestDue: Game.addDays(Game.pacificDate(Date.now()), -300) },
       screening: 'Hidden: due over 45 days ago and untouched 30+ days, or no due date and untouched 60+ days. Still open in Crelate.',

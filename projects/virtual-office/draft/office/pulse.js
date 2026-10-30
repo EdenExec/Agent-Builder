@@ -112,6 +112,7 @@
     return svg;
   }
   function plTrendChip(wk, pr) { if (wk == null) return h('span', { class: 'pl-tr fl', text: 'no dials' }); var tr = plTrend(wk, pr); return h('span', { class: 'pl-tr ' + tr[1], text: wk + ' dials' + (tr[0] === 'new' || tr[0] === '–' ? '' : ' ' + tr[0]) }); }
+  function plPtcChip(r) { var v = plRatio(r.week.ptcs, r.week.rps, 100); return h('span', { class: 'pl-tr fl', title: 'PTCs per 100 RPs this week (a dash under ' + PL_MIN + ' RPs)', text: 'PTC/100 ' + (v == null ? '–' : v.toFixed(1)) }); }
   function renderPulse() {
     var box = $('#pulse'), body = $('#pl-body'), D = plData(), sab = derived().game.sabbath;
     if (S.share || sab) { box.hidden = true; body.textContent = ''; $('#pl-asof').textContent = ''; return; }
@@ -132,12 +133,46 @@
       var r = x.r, goal = r.inGoal ? D.goals.rpsWeek : 0, gc = r.inGoal ? (r.week.rps >= goal ? 'hit' : r.behind ? 'bh' : '') : 'ng';
       grid.appendChild(h('button', { class: 'pl-card', type: 'button', 'data-card': 'rec:' + r.name, 'aria-label': r.name + ': ' + r.week.rps + ' RPs' + (r.inGoal ? ' of ' + goal + (r.behind ? ', behind pace' : '') : '') + '. Open the day-by-day charts.' },
         plGauge(r.week.rps, goal, r.inGoal ? r.standardToDate : null, gc, r.name + ' RPs'),
-        h('span', { class: 'pl-cn', text: r.name }), h('b', { text: String(r.week.rps) + (r.inGoal ? ' / ' + goal : '') }), plTrendChip(x.ph ? x.ph.week.dials : null, x.ph ? x.ph.prior.dials : 0)));
+        h('span', { class: 'pl-cn', text: r.name }), h('b', { text: String(r.week.rps) + (r.inGoal ? ' / ' + goal : '') }), plTrendChip(x.ph ? x.ph.week.dials : null, x.ph ? x.ph.prior.dials : 0), plPtcChip(r)));
     });
     who.appendChild(grid);
     var more = h('button', { class: 'mini txt', type: 'button', text: 'Full charts · Recruiting bench' }); more.addEventListener('click', function () { openSheet('bench', 'recruiting', more); });
     body.appendChild(h('div', { class: 'pl-top' }, office, who));
     body.appendChild(h('div', { class: 'pl-foot pl-foot2' }, h('span', { text: 'RPs this week against ' + D.goals.rpsWeek + ' each; the tick is what is due so far; dials against the same days last week.' }), more));
+  }
+  /* Funnel ratios (Kev, 30 Oct: "should start ratio tracking"). Dean's definitions (employees/dean/skills/trends-and-values.md), plus dials per RP.
+     This week against the four Monday weeks before it; a denominator under 5 is a dash, never a 100% off one PTC. No targets until Dean or Kev sets them. */
+  var PL_MIN = 5;
+  var PL_RATIOS = [{ id: 'ptc', label: 'PTCs / 100 RPs', num: 'ptcs', den: 'rps', x: 100, dp: 1 }, { id: 'sub', label: 'Subs / PTC', num: 'subs', den: 'ptcs', x: 1, dp: 2 },
+    { id: 'fti', label: 'FTIs / sub', num: 'ftis', den: 'subs', x: 1, dp: 2 }, { id: 'dpr', label: 'Dials / RP', num: 'dials', den: 'rps', x: 1, dp: 1, neutral: true }];
+  function plRatio(n, d, x) { return n == null || d == null || d < PL_MIN ? null : n / d * x; }
+  function plRatioSets(r, p) {               // {wk, four} count sets for one recruiter, dials joined from CloudTalk by first name
+    var wk = Object.assign({ dials: p ? p.week.dials : null }, r.week), four = r.fourWeeks ? Object.assign({ dials: p && p.four ? p.four.dials : null }, r.fourWeeks) : null;
+    return { wk: wk, four: four };
+  }
+  function plRatioCell(def, sets) {
+    var w = plRatio(sets.wk[def.num], sets.wk[def.den], def.x), f = sets.four ? plRatio(sets.four[def.num], sets.four[def.den], def.x) : null;
+    var fmt = function (v) { return v == null ? '–' : v.toFixed(def.dp); }, arrow = '', cls = 'fl';
+    if (w != null && f) { var d = (w - f) / f; arrow = Math.abs(d) < 0.1 ? '≈' : d > 0 ? '▲' : '▼'; cls = def.neutral || Math.abs(d) < 0.1 ? 'fl' : d > 0 ? 'up' : 'dn'; }
+    return h('span', { class: 'pl-rc', 'data-l': def.label, title: def.label + ': this week ' + fmt(w) + ' (' + (sets.wk[def.num] == null ? 'no dials' : sets.wk[def.num]) + ' / ' + sets.wk[def.den] + '), last four weeks ' + fmt(f) + (sets.four ? ' (' + (sets.four[def.num] == null ? 'no dials' : sets.four[def.num]) + ' / ' + sets.four[def.den] + ')' : '') },
+      h('b', { text: fmt(w) }), arrow ? h('span', { class: 'pl-tr ' + cls, text: arrow }) : null, h('small', { text: '4 wk ' + fmt(f) }));
+  }
+  function plRatios(body, D) {
+    var c = D.c, hd = h('div', { class: 'pl-rhd' }, h('span', { text: 'Who' }));
+    PL_RATIOS.forEach(function (def) { hd.appendChild(h('span', { text: def.label })); }); body.appendChild(hd);
+    function row(name, sets, cls, sub) { var el = h('div', { class: 'pl-rrow' + (cls ? ' ' + cls : '') }, h('div', { class: 'pl-nm' }, name, sub ? h('small', { text: sub }) : null)); PL_RATIOS.forEach(function (def) { el.appendChild(plRatioCell(def, sets)); }); return el; }
+    var tw = { dials: 0, rps: 0 }, tf = { dials: 0, rps: 0 }, anyFour = false;
+    D.rows.forEach(function (x) {
+      body.appendChild(row(x.r.name, plRatioSets(x.r, x.ph)));
+      if (x.ph) { tw.dials += x.ph.week.dials; tw.rps += x.r.week.rps; if (x.ph.four && x.r.fourWeeks) { anyFour = true; tf.dials += x.ph.four.dials; tf.rps += x.r.fourWeeks.rps; } }
+    });
+    // the team's dials per RP counts only the people CloudTalk reads, so a recruiter without a line does not dilute it
+    var teamRow = row('Team', { wk: c.team.week, four: c.team.fourWeeks || null }, 'us', D.team.people + ' on phones');
+    teamRow.replaceChild(plRatioCell(PL_RATIOS[3], { wk: { dials: D.team.people ? tw.dials : null, rps: tw.rps }, four: anyFour ? { dials: tf.dials, rps: tf.rps } : null }), teamRow.lastChild);
+    body.appendChild(teamRow);
+    body.appendChild(h('p', { class: 'pl-foot', text: 'This week (' + tdShort(c.weekOf) + ' to ' + tdShort(c.through) + ') against the four weeks from ' + (c.fourFrom ? tdShort(c.fourFrom) : '…') + '. ▲▼ = this week against the four weeks, ≈ within 10%. A dash: under ' + PL_MIN + ' in the bottom number. Dials / RP: CloudTalk dials over Crelate RPs; no colour, since fewer dials per call is not always better. Targets: not set yet (Dean and Kev).' }));
+    if (!c.fourFrom) body.appendChild(h('p', { class: 'pl-foot warn', text: 'The four-week counts arrive with the next hourly office run; until then only this week shows.' }));
+    else if (D.ph && !D.ph.people.some(function (p) { return p.four; })) body.appendChild(h('p', { class: 'pl-foot', text: 'Four-week dials arrive with Radar\'s next stand-up (meta/phones).' }));
   }
   /* The day-by-day table (dials and RPs by day per recruiter and the team), on the Recruiting bench sheet. */
   function plTable(body, D) {

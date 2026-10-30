@@ -484,7 +484,7 @@
     }
     var tl = h('div', { class: 'tools' }); toolsFor(BENCH_TOOLS[def.id]).forEach(function (x) { tl.appendChild(toolLink(x, '')); }); sec.appendChild(tl);
     if (def.id === 'projects') projectList(sec);
-    if (def.id === 'recruiting' && !S.share) { var PD = plData(); sec.appendChild(h('h3', { class: 'gap', text: 'Team pulse · dials and RPs by day' })); if (PD) { var pb = h('div', { class: 'pl-body pl-in-sheet' }); plTable(pb, PD); sec.appendChild(pb); } else sec.appendChild(h('p', { class: 'small', text: 'Waiting for the office run to write the Crelate counts (meta/crelate).' })); }   // Kev, 30 Oct: the detail lives here, for Kev and Dean
+    if (def.id === 'recruiting' && !S.share) { var PD = plData(); sec.appendChild(h('h3', { class: 'gap', text: 'Team pulse · dials and RPs by day' })); if (PD) { var pb = h('div', { class: 'pl-body pl-in-sheet' }); plTable(pb, PD); sec.appendChild(pb); sec.appendChild(h('h3', { class: 'gap', text: 'Funnel ratios · this week against the last four' })); var rb2 = h('div', { class: 'pl-body pl-in-sheet pl-ratios' }); plRatios(rb2, PD); sec.appendChild(rb2); } else sec.appendChild(h('p', { class: 'small', text: 'Waiting for the office run to write the Crelate counts (meta/crelate).' })); }   // Kev, 30 Oct: the detail lives here, for Kev and Dean
     sec.appendChild(h('p', { class: 'small', text: def.id === 'projects' ? 'Deliverables from the Eden Staffing working doc (21 Oct). "Hand to PM" makes a ticket; the PM chases it down and reports up through Radar. Status lives in the doc until the PM syncs it here.' : 'Each figure carries its source and date. Finance figures show a gate id only when the numbers gate passed; otherwise "not checked".' }));
   }
 

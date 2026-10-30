@@ -302,14 +302,26 @@ describe("RPs by day over two Monday weeks (the Team pulse, 30 Oct 2026)", () =>
     assert.deepEqual(x.persons.max!.rpsByDay2w, { "2026-10-19": 1 });
     assert.equal(x.persons.max!.lastFull.rps, 0);                                 // last week's Sunday-start totals do not move
   });
-  test("runBoard asks for one activities window, from the earlier of the two starts, and the board carries rp_by_day_2w", async () => {
+  test("runBoard asks for one activities window, from the earliest start, and the board carries rp_by_day_2w", async () => {
     const asked: string[] = [];
     const client = { activities: async (a: string) => { asked.push(a); return [act("rp", "max", "2026-10-20T17:00:00Z")]; }, jobs: async () => jobs, stageEntries: async () => [] as StageRow[] };
     const sunNow = Date.parse("2026-11-01T17:00:00Z");
     const b = await runBoard({ client, nowMs: sunNow });
-    assert.equal(asked.length, 1); assert.equal(asked[0], "2026-10-19T07:00:00Z");
+    assert.equal(asked.length, 1); assert.equal(asked[0], "2026-09-28T07:00:00Z");        // the ratios' four weeks reach furthest back
     assert.deepEqual(b.recruiters.find((x) => x.slug === "max")!.rp_by_day_2w, { "2026-10-20": 1 });
     assert.equal(b.week.prior_mon_start, "2026-10-19");
+  });
+  test("the ratios' four weeks: the four Monday weeks before this one, unique contacts across the window, this week left out", () => {
+    assert.equal(w.fourStart, "2026-09-28");
+    const x = countActivities([
+      act("rp", "max", "2026-09-28T16:00:00Z"), act("rp", "max", "2026-10-21T16:00:00Z"),
+      act("ptcs", "max", "2026-10-01T16:00:00Z", { contact: "k1" }), act("ptcs", "max", "2026-10-14T16:00:00Z", { contact: "k1" }), act("ptcs", "max", "2026-10-14T17:00:00Z", { contact: "k2" }),
+      act("rp", "max", "2026-09-28T06:00:00Z"),                         // Sunday night Pacific, the day before the window
+      act("rp", "max", "2026-10-26T16:00:00Z"),                         // this week: not in the four
+    ], jobs, [], w);
+    assert.equal(x.persons.max!.four.rps, 2);
+    assert.equal(x.persons.max!.four.ptcs, 2);                          // k1 twice counts once
+    assert.equal(x.persons.max!.monWeek.rps, 1);
   });
   test("Kunji stays off the board", () => {
     assert.ok(ROSTER.find((p) => p.slug === "kunji")!.hidden);

@@ -114,7 +114,10 @@ export type Windows = {
   monStart: string; monFromMs: number; todayFromMs: number;
   /** The Monday of the Monday-start week before that one: the start of the 10-weekday window of RPs by day (the Team pulse, 30 Oct 2026). */
   priorMonStart: string; priorMonFromMs: number;
+  /** The four Monday-start weeks before this one: the trailing window for the funnel ratios (Kev, 30 Oct 2026: "should start ratio tracking"). */
+  fourStart: string; fourFromMs: number;
 };
+export const FOUR_WEEKS = 4;
 /** Weeks run Sunday 00:00 to Saturday 23:59 Pacific (Kev, 23 Oct 2026: "Sun 18 Oct to today"). */
 export function weekWindows(nowMs: number): Windows {
   const today = ptDate(nowMs);
@@ -122,13 +125,14 @@ export function weekWindows(nowMs: number): Windows {
   const lastStart = addDays(weekStart, -7);
   const monStart = addDays(today, -((weekdayOf(today) + 6) % 7));   // Monday of the Mon-to-Sun week that holds today (a Sunday belongs to the week that is ending)
   const thisFromMs = ptMidnightUtc(weekStart), lastFromMs = ptMidnightUtc(lastStart);
-  const priorMonStart = addDays(monStart, -7);
+  const priorMonStart = addDays(monStart, -7), fourStart = addDays(monStart, -FOUR_WEEKS * 7);
   return {
     weekStart, lastStart, lastEnd: addDays(weekStart, -1), today,
     thisFromMs, nowMs, lastFromMs, lastToMs: thisFromMs,
     lastSameToMs: Math.min(thisFromMs, lastFromMs + (nowMs - thisFromMs)),
     monStart, monFromMs: ptMidnightUtc(monStart), todayFromMs: ptMidnightUtc(today),
     priorMonStart, priorMonFromMs: ptMidnightUtc(priorMonStart),
+    fourStart, fourFromMs: ptMidnightUtc(fourStart),
   };
 }
 
@@ -208,7 +212,7 @@ function addTo(b: Bucket, metric: Exclude<MetricKey, "offers">, a: ActivityRow, 
   b.seen.add(key); b.counts[metric]++;
 }
 
-export type PersonCounts = { this: Counts; lastSame: Counts; lastFull: Counts; rpsByDay: Record<string, number>; /** RPs by Pacific day from the Monday before last Monday to now: this Monday-start week and last */ rpsByDay2w: Record<string, number>; monWeek: Counts; today: Counts };
+export type PersonCounts = { this: Counts; lastSame: Counts; lastFull: Counts; rpsByDay: Record<string, number>; /** RPs by Pacific day from the Monday before last Monday to now: this Monday-start week and last */ rpsByDay2w: Record<string, number>; monWeek: Counts; today: Counts; /** the four Monday-start weeks before this one, unique contacts counted across the whole window */ four: Counts };
 export type JoCounts = { rps: number; resumes: number; ptcs: number; ftis: number };
 export type JoRow = { id: string; num: number | null; name: string; column: string; this: JoCounts; last: JoCounts; people: string[] };
 
@@ -227,8 +231,8 @@ export function countActivities(rows: ActivityRow[], jobs: JobRow[], stages: Sta
   const activeJobs = new Map<string, JobRow>();
   for (const j of jobs) if (ACTIVE_COLUMNS[j.SalesWorkflowItemStatusId?.Id ?? ""]) activeJobs.set(j.Id, j);
 
-  const per: Record<string, { this: Bucket; lastSame: Bucket; lastFull: Bucket; mon: Bucket; today: Bucket; two: Bucket }> = {};
-  for (const p of ROSTER) per[p.slug] = { this: bucket(), lastSame: bucket(), lastFull: bucket(), mon: bucket(), today: bucket(), two: bucket() };
+  const per: Record<string, { this: Bucket; lastSame: Bucket; lastFull: Bucket; mon: Bucket; today: Bucket; two: Bucket; four: Bucket }> = {};
+  for (const p of ROSTER) per[p.slug] = { this: bucket(), lastSame: bucket(), lastFull: bucket(), mon: bucket(), today: bucket(), two: bucket(), four: bucket() };
   type JoAcc = { t: Bucket; l: Bucket; people: Set<string> };
   const joAcc = new Map<string, JoAcc>();
   const otherT = bucket(), otherL = bucket(), noneT = bucket(), noneL = bucket();
@@ -243,13 +247,15 @@ export function countActivities(rows: ActivityRow[], jobs: JobRow[], stages: Sta
     if (!whos.length) continue;                                  // not on the roster (other staff): not counted
     const inThis = ms >= w.thisFromMs, inLast = ms >= w.lastFromMs && ms < w.lastToMs;
     const inTwo = metric === "rps" && ms >= w.priorMonFromMs;          // the 10-weekday strip: RPs only, same activities, a wider look-back (no extra calls)
-    if (!inThis && !inLast && !inTwo) continue;
+    const inFour = ms >= w.fourFromMs && ms < w.monFromMs;             // the ratios' trailing four weeks: same activities, the widest look-back
+    if (!inThis && !inLast && !inTwo && !inFour) continue;
     const inMon = ms >= w.monFromMs, inToday = ms >= w.todayFromMs;
     const day = inThis ? ptDate(ms) : null;
     const jobId = a.RegardingId?.Id;
     const isJob = !!jobId && (!a.RegardingId?.EntityName || /^jobs?$/i.test(a.RegardingId.EntityName));
     for (const who of whos) {
       if (inTwo) { const d2 = ptDate(ms); per[who]!.two.byDay[d2] = (per[who]!.two.byDay[d2] ?? 0) + 1; }
+      if (inFour) addTo(per[who]!.four, metric, a, who, null);
       if (inThis) addTo(per[who]!.this, metric, a, who, day);
       if (inMon) addTo(per[who]!.mon, metric, a, who, null);           // unique contacts are counted again inside each window, so a contact met Monday and Wednesday is one in the week and one today
       if (inToday) addTo(per[who]!.today, metric, a, who, null);
@@ -290,7 +296,7 @@ export function countActivities(rows: ActivityRow[], jobs: JobRow[], stages: Sta
   const persons: Record<string, PersonCounts> = {};
   for (const p of ROSTER) {
     const x = per[p.slug]!;
-    persons[p.slug] = { this: x.this.counts, lastSame: x.lastSame.counts, lastFull: x.lastFull.counts, rpsByDay: x.this.byDay, rpsByDay2w: x.two.byDay, monWeek: x.mon.counts, today: x.today.counts };
+    persons[p.slug] = { this: x.this.counts, lastSame: x.lastSame.counts, lastFull: x.lastFull.counts, rpsByDay: x.this.byDay, rpsByDay2w: x.two.byDay, monWeek: x.mon.counts, today: x.today.counts, four: x.four.counts };
   }
   const toJc = (b: Bucket): JoCounts => ({ rps: b.counts.rps, resumes: b.counts.resumes, ptcs: b.counts.ptcs, ftis: b.counts.ftis });
   const jos: JoRow[] = [...joAcc.entries()].map(([id, acc]) => {
@@ -407,7 +413,7 @@ export function buildBoard(inp: BoardInput) {
     return {
       slug: p.slug, name: p.name, role: p.role, group: p.group, status, start: p.start ?? null, in_goal: p.inGoal !== false && p.group === "recruiter" && status === "active",
       this: x.this, last_same: x.lastSame, last_full: x.lastFull, mon_week: x.monWeek, today: x.today,
-      rp_days_at_15: daysAtGoal(x.rpsByDay), rp_by_day: x.rpsByDay, rp_by_day_2w: x.rpsByDay2w,
+      rp_days_at_15: daysAtGoal(x.rpsByDay), rp_by_day: x.rpsByDay, rp_by_day_2w: x.rpsByDay2w, four_weeks: x.four,
       revenue_qtd: qtd, pct_to_accelerator: qtd == null ? null : Math.round((qtd / GOALS.accelerator_per_quarter) * 1000) / 10,
     };
   });
@@ -442,7 +448,7 @@ export function buildBoard(inp: BoardInput) {
     as_of: throughLabel,
     source: "Crelate API v3, read-only (Crelate stays the system of record)",
     week: {
-      start: w.weekStart, mon_start: w.monStart, prior_mon_start: w.priorMonStart, through: w.today, partial: true, label: `${dayLabel(w.weekStart)} to ${dayLabel(w.today)}`,
+      start: w.weekStart, mon_start: w.monStart, prior_mon_start: w.priorMonStart, four_start: w.fourStart, through: w.today, partial: true, label: `${dayLabel(w.weekStart)} to ${dayLabel(w.today)}`,
       note: "Weeks run Sunday to Saturday, Pacific. A week in progress is compared with last week to the same point, not with last week's full total.",
     },
     last_week: { start: w.lastStart, end: w.lastEnd, same_point_through: new Date(w.lastSameToMs).toISOString(), label: `${dayLabel(w.lastStart)} to ${dayLabel(w.lastEnd)}` },
@@ -481,8 +487,8 @@ export type Board = ReturnType<typeof buildBoard>;
 
 export async function runBoard(opts: { client: Client; nowMs?: number; hub?: HubFigures; revCsv?: string }): Promise<Board> {
   const nowMs = opts.nowMs ?? Date.now(), w = weekWindows(nowMs);
-  // One pull for everything: from last Sunday, or from the Monday before last Monday if that is earlier (only on a Sunday), so the Team pulse's 10 weekdays are covered.
-  const after = new Date(Math.min(w.lastFromMs, w.priorMonFromMs)).toISOString().replace(".000Z", "Z");
+  // One pull for everything, from the earliest window: the ratios' four weeks before this Monday (which also covers last Sunday and the Team pulse's 10 weekdays).
+  const after = new Date(Math.min(w.lastFromMs, w.priorMonFromMs, w.fourFromMs)).toISOString().replace(".000Z", "Z");
   const stageAfter = new Date(w.lastFromMs).toISOString().replace(".000Z", "Z");        // offers only look back to last Sunday: the stage reads keep their old window
   const [activities, jobs] = await Promise.all([opts.client.activities(after), opts.client.jobs()]);
   const stages: StageRow[] = [];

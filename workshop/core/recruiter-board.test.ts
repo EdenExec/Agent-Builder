@@ -194,6 +194,16 @@ describe("the Team pulse: RPs by day for the last 10 weekdays (Kev, 30 Oct 2026)
   test("the weekly goals ride along: 75 RPs and 100 MPs per recruiter in goal", () => {
     assert.deepEqual(d.goals, { rpsWeek: 75, mpsWeek: 100 });
   });
+  test("the ratios' four weeks ride along per person and for the team; an older file says null rather than zero", () => {
+    const b4 = live(AFTERNOON, [person("Max", { mon_week: c(27), four_weeks: { rps: 300, ptcs: 6, subs: 3, ftis: 1 } }), person("Noah", { mon_week: c(40), four_weeks: { rps: 200, ptcs: 4 } })]);
+    b4.week = { ...b4.week, four_start: "2026-09-28" };
+    const d4 = buildCrelateDoc(b4, true, AFTERNOON);
+    assert.equal(d4.fourFrom, "2026-09-28");
+    assert.deepEqual(d4.recruiters.find((r) => r.name === "Max")!.fourWeeks, { rps: 300, mps: 0, ptcs: 6, subs: 3, ftis: 1 });
+    assert.deepEqual(d4.team.fourWeeks, { rps: 500, mps: 0, ptcs: 10, subs: 3, ftis: 1 });
+    assert.doesNotThrow(() => assertCrelateSafe(d4));
+    assert.equal(d.fourFrom, null); assert.equal(d.team.fourWeeks, null); assert.equal(d.recruiters[0]!.fourWeeks, null);
+  });
   test("a day count is never mixed with a name or a phone: the safety check still passes and the doc stays counts only", () => {
     assert.doesNotThrow(() => assertCrelateSafe(d));
     assert.ok(!/@|\$|phone/i.test(JSON.stringify(d)));
