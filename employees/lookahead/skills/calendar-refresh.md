@@ -14,7 +14,7 @@ Use `list_events` with `startTime` this Sunday and `endTime` 12 weeks out, `orde
 
 ## Then
 
-1. Mirror: add or update `source: "calendar"` items to match (slug from the title plus the date). Remove a calendar item only when its event is gone.
+1. Mirror: add or update `source: "calendar"` items to match (slug from the title plus the date). If a doc with that id already exists as `source: "page"` (edited, moved or removed by Kev or Ally, `hidden: true` included), leave it alone. Remove a calendar item only when its event is gone.
 2. Check the next 14 days for: two trips overlapping; anything due or booked inside the Sabbath; an open decision whose date has passed or is within 3 days; a trip with no return date inside 7 days; an event the day of the move (6 Nov) or a travel day.
 3. Send Radar one line (a ticket on the Command Center, `agent: "radar"`, `lane: "home"`, createdBy `lookahead`): "Look-ahead: <n> changes, <conflicts or 'no conflicts'> in the next 14 days." Only if something is new or changed; a quiet night sends nothing.
 4. Update `memory/live/now.json` with counts only.

@@ -149,9 +149,13 @@ main { padding-block: 20px 60px; display: grid; gap: 28px }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; font-size: 12px; color: var(--muted) }
 
 /* editor */
-dialog { border: 1px solid var(--rule); border-radius: 14px; padding: 0; width: min(520px, calc(100vw - 32px)); background: var(--paper); color: var(--ink) }
+dialog { border: 1px solid var(--rule); border-radius: 14px; padding: 0; width: min(520px, calc(100vw - 32px)); background: var(--paper); color: var(--ink); overflow: hidden }
 dialog::backdrop { background: rgba(10, 14, 13, .45) }
-dialog form { display: grid; gap: 12px; padding: 18px }
+/* fields scroll, the Save/Cancel bar stays pinned to the bottom of the box */
+dialog form { display: flex; flex-direction: column; max-height: calc(100vh - 40px); max-height: calc(100dvh - 40px) }
+.ed-body { display: grid; gap: 12px; padding: 18px; overflow-y: auto; min-height: 0 }
+dialog .actions { padding: 12px 18px calc(12px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--rule); background: var(--paper); flex: none }
+dialog .actions .btn { min-height: 40px; padding-inline: 18px }
 dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
 .field { display: grid; gap: 4px; min-width: 0 }
@@ -196,6 +200,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
 
 <dialog id="editor">
   <form id="itemForm" method="dialog">
+    <div class="ed-body">
     <h3 id="edTitle">Add to the look-ahead</h3>
     <div class="field"><label class="label" for="f-title">What</label><input id="f-title" required maxlength="120" placeholder="Fly to West Palm Beach"></div>
     <div class="grid2">
@@ -212,10 +217,11 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     <div class="field"><label class="label" for="f-status">Status</label>
       <select id="f-status"><option value="set">Set</option><option value="open">Open: needs a decision</option><option value="done">Done</option></select></div>
     <div class="field"><label class="label" for="f-note">Note</label><textarea id="f-note" rows="2" maxlength="400" placeholder="What's still moving"></textarea></div>
-    <p class="ro" id="f-ro" hidden>This came from Google Calendar. Change it there; the next nightly refresh updates it here.</p>
+    <p class="ro" id="f-ro" hidden>From Google Calendar. Changes and removals here stay on the look-ahead only; your calendar doesn't change.</p>
+    </div>
     <div class="actions">
       <button class="btn danger" type="button" id="delBtn" hidden>Delete</button>
-      <span class="confirm" id="delConfirm" hidden>Delete this? <button class="btn danger" type="button" id="delYes">Yes, delete</button></span>
+      <span class="confirm" id="delConfirm" hidden>Are you sure? <button class="btn danger" type="button" id="delYes">Yes, delete</button></span>
       <span class="spacer"></span>
       <button class="btn ghost" type="button" id="cancelBtn">Cancel</button>
       <button class="btn primary" type="submit" id="saveBtn">Save</button>
@@ -267,7 +273,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     const k = KIND[it.kind] || "";
     const span = it.end && it.end !== it.start ? ` ${fmt(it.start)}–${fmt(it.end)}` : "";
     const label = `${it.title}${it.time && !compact ? " · " + it.time : ""}`;
-    const movable = state.canWrite && it.source !== "calendar";
+    const movable = state.canWrite;
     if (movable) cls.push("drag");
     return el("button", { class: cls.join(" "), type: "button", "data-id": it.id, title: `${it.title}${span}${it.owner ? " · " + it.owner : ""}${it.note ? "\n" + it.note : ""}`,
       onclick: (e) => { if (drag.justDropped) { e.preventDefault(); return; } openEditor(it); } },
@@ -456,7 +462,8 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
   let editing = null;
   function openEditor(it) {
     editing = it || null;
-    const ro = !state.canWrite || (it && it.source === "calendar");
+    const ro = !state.canWrite;
+    const fromCal = !!it && (it.source === "calendar" || it.origin === "calendar");
     $("edTitle").textContent = it ? (ro ? it.title : "Edit") : "Add to the look-ahead";
     $("f-title").value = it?.title || "";
     $("f-kind").value = it?.kind || "event";
@@ -467,9 +474,11 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     $("f-owner").value = it?.owner || "";
     $("f-status").value = it?.status || "set";
     $("f-note").value = it?.note || "";
-    $("f-ro").hidden = !(it && it.source === "calendar");
+    $("f-ro").hidden = !fromCal;
     for (const id of ["f-title","f-kind","f-lane","f-start","f-end","f-time","f-owner","f-status","f-note"]) $(id).disabled = ro;
     $("saveBtn").hidden = ro; $("delBtn").hidden = ro || !it; $("delConfirm").hidden = true;
+    $("delBtn").textContent = fromCal ? "Remove from look-ahead" : "Delete";
+    $("delYes").textContent = fromCal ? "Yes, remove" : "Yes, delete";
     $("cancelBtn").textContent = ro ? "Close" : "Cancel";
     dlg.showModal();
   }
@@ -499,7 +508,13 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
   $("delBtn").addEventListener("click", () => { $("delConfirm").hidden = false; $("delBtn").hidden = true; });
   $("delYes").addEventListener("click", async () => {
     if (!editing || !db) return;
-    try { await db.collection("items").doc(editing.id).delete(); dlg.close(); }
+    const fromCal = editing.source === "calendar" || editing.origin === "calendar";
+    try {
+      // calendar copies are hidden, not deleted, so the nightly refresh doesn't bring them back
+      if (fromCal) await db.collection("items").doc(editing.id).update({ hidden: true, source: "page", origin: "calendar", updatedAt: new Date().toISOString() });
+      else await db.collection("items").doc(editing.id).delete();
+      dropDraft(); dlg.close();
+    }
     catch { $("delConfirm").textContent = "Couldn't delete. Try again in a moment."; }
   });
   $("itemForm").addEventListener("submit", async (e) => {
@@ -509,7 +524,8 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     const data = {
       title: $("f-title").value.trim(), kind: $("f-kind").value, lane: $("f-lane").value,
       start, end: endv && endv > start ? endv : "", time: $("f-time").value.trim(), owner: $("f-owner").value.trim(),
-      status: $("f-status").value, note: $("f-note").value.trim(), source: editing?.source || "page",
+      status: $("f-status").value, note: $("f-note").value.trim(), source: "page",
+      ...(editing && (editing.source === "calendar" || editing.origin === "calendar") ? { origin: "calendar" } : {}),
       updatedAt: new Date().toISOString(),
     };
     if (!data.title || !data.start) return;
@@ -570,7 +586,9 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     Object.assign(it, { start, end });
     render();
     try {
-      await db.collection("items").doc(it.id).update({ start, end, updatedAt: new Date().toISOString() });
+      const pin = it.source === "calendar" ? { source: "page", origin: "calendar" } : {};
+      await db.collection("items").doc(it.id).update({ start, end, ...pin, updatedAt: new Date().toISOString() });
+      Object.assign(it, pin);
       toast(`Moved to ${fmtDow(start)}${end ? ` – ${fmtDow(end)}` : ""}`);
     } catch {
       Object.assign(it, prev); render();
@@ -583,7 +601,6 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     if (!src || !state.canWrite || !db) return;
     const it = state.items.find((x) => x.id === src.dataset.id);
     if (!it) return;
-    if (it.source === "calendar") { if (e.pointerType === "mouse") src.title = "From Google Calendar: move it there"; return; }
     Object.assign(drag, { item: it, src, x0: e.clientX, y0: e.clientY, pid: e.pointerId, active: false });
     if (e.pointerType !== "mouse") drag.timer = setTimeout(() => { if (drag.src === src) { startDrag(); moveGhost(drag.x0, drag.y0); } }, 300);
   });
@@ -624,7 +641,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
       };
       let first = [true, true, true];
       db.collection("items").onSnapshot((snap) => {
-        state.items = snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter((it) => it.title && it.start);
+        state.items = snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter((it) => it.title && it.start && !it.hidden);
         if (first[0]) { first[0] = false; done(); } else render();
       }, () => { state.error = "The look-ahead couldn't load. Refresh the page to try again."; render(); });
       db.collection("weeks").onSnapshot((snap) => {
