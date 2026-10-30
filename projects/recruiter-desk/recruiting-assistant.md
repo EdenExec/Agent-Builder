@@ -33,7 +33,7 @@ When I say "I just screened <name> for <JO>":
 - My **screening notes or transcript** from the call.
 - Desired base and package, start availability, interview availability, target locations, whether they are interviewing elsewhere, and whether they consent to references (and who).
 
-If I have no Must Dos, draft 7 or 8 from the role and head the scorecard "Must Dos (Eden draft, for client approval)". Tell me plainly that a draft list has to go to the client for approval before this goes out.
+Must Dos come one of two ways (Kev, 30 Oct). If the client gave them, they are on the job order (Crelate and the Team Hub): use those. If not, build them from my screening notes first (the role only fills gaps): unpack the notes into 7 to 10 Must Dos, head the scorecard "Must Dos (Eden draft, for client approval)", and list them separately at the end of your hand-back so I can add them to the job order. Tell me plainly that a draft list has to go to the client for approval before this goes out.
 
 **Step 3. Build the cover page and scorecard** (formats below).
 
