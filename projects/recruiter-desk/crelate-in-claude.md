@@ -5,10 +5,10 @@ Kev, 27 Oct 2026: no custom server, no hosting, no OAuth. Use the same setup Kev
 ## Setup (about 10 minutes, once)
 
 1. **Get your own Crelate API key.** In Crelate, look under your account settings for the API key. If it isn't there, ask Kev to issue one. Use your own key, never someone else's.
-2. **Open Claude Code on the web**: https://claude.ai/code. Start a session on the repo `EdenExec/Agent-Builder` (Kev adds you if you can't see it).
+2. **Open Claude Code on the web**: https://claude.ai/code. Start a session on the repo `EdenExec/recruiter-kit` (Kev or Nick adds you if you can't see it). It holds only what recruiters need; never use the main company repo (Kev, 30 Oct 2026).
 3. **Add the key to the environment.** Open the cloud environment menu in the session's title bar, then Edit. Add the key under **Network secrets** (or as an environment variable) named exactly `CRELATE_API_KEY`. Never paste the key into the chat.
 4. **Let the environment reach Crelate.** In the same settings, under Network access, add `app.crelate.com` to the allowed domains, and leave package managers allowed.
-5. **Start a new session.** A new session picks up the key. Tell Claude: "Read projects/recruiter-desk/crelate-in-claude.md and use Crelate read-only."
+5. **Start a new session.** A new session picks up the key. Tell Claude: "Use the recruiting assistant, Crelate read-only." Step by step: `after-the-api-key.md`.
 
 That's it. There is nothing to host, pay for or maintain, and the key never leaves the environment.
 
