@@ -1,0 +1,522 @@
+<title>Williams Look Ahead</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column, a sticky header with three views (week, month, 12-week strip); the strip is a ruled ledger of weeks, one row per week, travel drawn as bars on a 7-day track. */
+:root {
+  --bg: #fbfbfa;
+  --paper: #ffffff;
+  --ink: #16191a;
+  --muted: #5f6668;
+  --rule: #dfe2e1;
+  --soft: #eef1f0;
+  --accent: #2f5d50;      /* pine: the one accent (Idaho, steady) */
+  --accent-ink: #ffffff;
+  --family: #8a5a2b;      /* lane colors, semantic */
+  --family-bg: #f6ede3;
+  --work: #2b4f7a;
+  --work-bg: #e6eef8;
+  --travel: #2f5d50;
+  --travel-bg: #e3efe9;
+  --open: #a2541a;
+  --open-bg: #fbeadb;
+  --rest: #6b6f8a;
+  --rest-bg: #ececf3;
+  --display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --body: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121514; --paper: #191d1c; --ink: #e9ecea; --muted: #a2aaa7; --rule: #2d3331; --soft: #212725;
+  --accent: #7fb8a5; --accent-ink: #0f1513;
+  --family: #e0b388; --family-bg: #2e241b; --work: #9dbde3; --work-bg: #1b2533;
+  --travel: #8fcab5; --travel-bg: #18291f; --open: #f0a56b; --open-bg: #33231a; --rest: #b3b6d1; --rest-bg: #23242f;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121514; --paper: #191d1c; --ink: #e9ecea; --muted: #a2aaa7; --rule: #2d3331; --soft: #212725;
+  --accent: #7fb8a5; --accent-ink: #0f1513;
+  --family: #e0b388; --family-bg: #2e241b; --work: #9dbde3; --work-bg: #1b2533;
+  --travel: #8fcab5; --travel-bg: #18291f; --open: #f0a56b; --open-bg: #33231a; --rest: #b3b6d1; --rest-bg: #23242f;
+  color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; letter-spacing: 0 }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper) }
+.wrap { max-width: 980px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums }
+.label { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted) }
+button, input, select, textarea { font: inherit; color: inherit }
+button { cursor: pointer }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); border-bottom: 1px solid var(--rule) }
+.top .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding-block: 12px }
+.brand { display: flex; flex-direction: column; gap: 0; min-width: 0; flex: 1 1 220px }
+.brand h1 { margin: 0; font-family: var(--display); font-weight: 800; font-size: 22px; letter-spacing: -.01em; text-wrap: balance }
+.brand .label { font-size: 10.5px }
+nav.tabs { display: flex; gap: 4px; background: var(--soft); border-radius: 999px; padding: 3px }
+nav.tabs a { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 13px; padding: 6px 14px; border-radius: 999px }
+nav.tabs a[aria-current="page"] { background: var(--ink); color: var(--paper) }
+.btn { border: 1px solid var(--rule); background: var(--paper); border-radius: 8px; padding: 7px 12px; font-weight: 600; font-size: 13px }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
+.btn.ghost { border-color: transparent; background: transparent; color: var(--muted) }
+.btn.danger { color: var(--open); border-color: var(--open) }
+
+main { padding-block: 20px 60px; display: grid; gap: 28px }
+.status { font-size: 13px; color: var(--muted) }
+.pager { display: flex; align-items: center; gap: 8px; flex-wrap: wrap }
+.pager h2 { margin: 0 8px 0 0; font-family: var(--display); font-size: 20px; font-weight: 700; text-wrap: balance }
+
+/* focus card */
+.focus { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); overflow: hidden }
+.focus > div { padding: 14px 16px; display: grid; gap: 6px; min-width: 0 }
+.focus > div + div { border-left: 1px solid var(--rule) }
+.focus textarea, .bigpic textarea, .bigpic input { width: 100%; border: 1px dashed transparent; border-radius: 6px; background: transparent; resize: vertical; padding: 4px 6px; margin: -4px -6px; line-height: 1.45 }
+.focus textarea:hover, .bigpic textarea:hover, .bigpic input:hover { border-color: var(--rule) }
+.focus textarea:focus, .bigpic textarea:focus, .bigpic input:focus { border-color: var(--accent); outline: none; background: var(--soft) }
+.focus textarea { font-weight: 600; min-height: 3.2em }
+.saved { font-size: 11px; color: var(--accent); font-family: var(--mono) }
+
+/* chips */
+.chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; padding: 2px 8px; font-size: 12.5px; font-weight: 600; line-height: 1.5; border: 0; text-align: left; max-width: 100% }
+.chip span.t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0 }
+.chip.family { background: var(--family-bg); color: var(--family) }
+.chip.work { background: var(--work-bg); color: var(--work) }
+.chip.both { background: var(--soft); color: var(--ink) }
+.chip.travel { background: var(--travel-bg); color: var(--travel) }
+.chip.open { box-shadow: inset 0 0 0 1.5px var(--open) }
+.chip.done { opacity: .55; text-decoration: line-through }
+.chip .k { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; opacity: .8 }
+.flag { font-family: var(--mono); font-size: 10.5px; font-weight: 500; color: var(--open); background: var(--open-bg); border-radius: 4px; padding: 1px 5px; text-transform: uppercase; letter-spacing: .06em }
+
+/* week days */
+.days { display: grid; border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); overflow: hidden }
+.day { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 12px; padding: 10px 16px; border-top: 1px solid var(--rule); align-items: start }
+.day:first-child { border-top: 0 }
+.day.today { background: var(--soft) }
+.day .d { display: grid; line-height: 1.2 }
+.day .d b { font-size: 18px; font-family: var(--display) }
+.day .items { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 26px }
+.day.rest .d b { color: var(--rest) }
+.restnote { font-size: 12.5px; color: var(--rest); font-weight: 600 }
+.empty { color: var(--muted); font-size: 13px }
+
+/* month */
+.bigpic { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 0; border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); overflow: hidden }
+.bigpic > div { padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0 }
+.bigpic > div + div { border-left: 1px solid var(--rule) }
+.bigpic input { font-family: var(--display); font-size: 19px; font-weight: 700 }
+.bigpic textarea { min-height: 6em }
+.cal { border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); overflow: hidden }
+.cal .hd, .cal .row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)) }
+.cal .hd div { padding: 6px 8px; border-bottom: 1px solid var(--rule) }
+.cal .cell { min-height: 92px; padding: 6px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); display: grid; gap: 3px; align-content: start; min-width: 0 }
+.cal .cell:nth-child(7n) { border-right: 0 }
+.cal .cell.out { background: var(--bg); color: var(--muted) }
+.cal .cell.today .n { background: var(--ink); color: var(--paper); border-radius: 4px; padding: 0 4px }
+.cal .n { font-family: var(--mono); font-size: 12px; justify-self: start }
+.cal .chip { font-size: 11px; padding: 1px 5px; width: 100% }
+.cal .more { font-size: 11px; color: var(--muted) }
+
+/* strip */
+.strip { border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); overflow: hidden }
+.wk { display: grid; grid-template-columns: 112px minmax(0, 1fr) minmax(0, 1.2fr); gap: 14px; padding: 12px 16px; border-top: 1px solid var(--rule); align-items: start }
+.wk:first-child { border-top: 0 }
+.wk.now { background: var(--soft) }
+.wk .when { display: grid; line-height: 1.25 }
+.wk .when b { font-family: var(--display); font-size: 15px }
+.wk .fx { font-weight: 600; font-size: 14px; min-width: 0 }
+.wk .fx .none { color: var(--muted); font-weight: 400 }
+.track { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; margin-bottom: 6px }
+.track i { height: 6px; border-radius: 2px; background: var(--soft) }
+.track i.tr { background: var(--travel) }
+.track i.sab { background: var(--rest-bg) }
+.wk .its { display: flex; flex-wrap: wrap; gap: 5px; min-width: 0 }
+.month-break { padding: 8px 16px; background: var(--bg); border-top: 1px solid var(--rule); display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap }
+.month-break b { font-family: var(--display); font-size: 13px; text-transform: uppercase; letter-spacing: .08em }
+.month-break span { font-size: 13px; color: var(--muted) }
+
+.decisions { display: grid; gap: 8px }
+.decisions h3, section > h3 { margin: 0; font-family: var(--display); font-size: 15px; font-weight: 700 }
+.dec { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 14px; border: 1px solid var(--rule); border-left: 3px solid var(--open); border-radius: 8px; background: var(--paper) }
+.dec .who { font-family: var(--mono); font-size: 12px; color: var(--muted) }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; font-size: 12px; color: var(--muted) }
+
+/* editor */
+dialog { border: 1px solid var(--rule); border-radius: 14px; padding: 0; width: min(520px, calc(100vw - 32px)); background: var(--paper); color: var(--ink) }
+dialog::backdrop { background: rgba(10, 14, 13, .45) }
+dialog form { display: grid; gap: 12px; padding: 18px }
+dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
+.field { display: grid; gap: 4px; min-width: 0 }
+.field input, .field select, .field textarea { border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; background: var(--bg); width: 100% }
+.actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; align-items: center }
+.actions .spacer { flex: 1 }
+.confirm { font-size: 13px; color: var(--open) }
+.ro { font-size: 12.5px; color: var(--muted); background: var(--soft); border-radius: 8px; padding: 8px 10px }
+
+@media (max-width: 680px) {
+  .focus, .bigpic { grid-template-columns: 1fr }
+  .focus > div + div, .bigpic > div + div { border-left: 0; border-top: 1px solid var(--rule) }
+  .wk { grid-template-columns: 1fr; gap: 6px }
+  .day { grid-template-columns: 64px minmax(0, 1fr) }
+  .cal .cell { min-height: 58px; padding: 4px }
+  .cal .chip .t { display: none }
+  .cal .chip { width: 12px; height: 8px; padding: 0 }
+  .cal .chip .k { display: none }
+  .grid2 { grid-template-columns: 1fr }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important } }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <span class="label">KDTW Group · Kev &amp; Ally</span>
+      <h1>Look Ahead</h1>
+    </div>
+    <nav class="tabs" aria-label="Views">
+      <a href="#week" data-view="week">Week</a>
+      <a href="#month" data-view="month">Month</a>
+      <a href="#strip" data-view="strip">12 weeks</a>
+    </nav>
+    <button class="btn primary" id="addBtn" type="button">Add</button>
+  </div>
+</header>
+
+<main class="wrap" id="app">
+  <p class="status" id="status">Loading the look-ahead…</p>
+</main>
+
+<dialog id="editor">
+  <form id="itemForm" method="dialog">
+    <h3 id="edTitle">Add to the look-ahead</h3>
+    <div class="field"><label class="label" for="f-title">What</label><input id="f-title" required maxlength="120" placeholder="Fly to West Palm Beach"></div>
+    <div class="grid2">
+      <div class="field"><label class="label" for="f-kind">Type</label>
+        <select id="f-kind"><option value="event">Event</option><option value="travel">Travel</option><option value="milestone">Milestone</option><option value="decision">Decision to make</option></select></div>
+      <div class="field"><label class="label" for="f-lane">Lane</label>
+        <select id="f-lane"><option value="family">Family</option><option value="work">Work</option><option value="both">Both</option></select></div>
+      <div class="field"><label class="label" for="f-start">Date (or start)</label><input id="f-start" type="date" required></div>
+      <div class="field"><label class="label" for="f-end">End (trips)</label><input id="f-end" type="date"></div>
+      <div class="field"><label class="label" for="f-time">Time</label><input id="f-time" maxlength="40" placeholder="6:30pm"></div>
+      <div class="field"><label class="label" for="f-owner">Owner</label><input id="f-owner" maxlength="40" list="owners" placeholder="Kev"></div>
+    </div>
+    <datalist id="owners"><option value="Kev"></option><option value="Ally"></option><option value="Kev & Ally"></option><option value="Radar"></option><option value="Jenny"></option></datalist>
+    <div class="field"><label class="label" for="f-status">Status</label>
+      <select id="f-status"><option value="set">Set</option><option value="open">Open: needs a decision</option><option value="done">Done</option></select></div>
+    <div class="field"><label class="label" for="f-note">Note</label><textarea id="f-note" rows="2" maxlength="400" placeholder="What's still moving"></textarea></div>
+    <p class="ro" id="f-ro" hidden>This came from Google Calendar. Change it there; the next nightly refresh updates it here.</p>
+    <div class="actions">
+      <button class="btn danger" type="button" id="delBtn" hidden>Delete</button>
+      <span class="confirm" id="delConfirm" hidden>Delete this? <button class="btn danger" type="button" id="delYes">Yes, delete</button></span>
+      <span class="spacer"></span>
+      <button class="btn ghost" type="button" id="cancelBtn">Cancel</button>
+      <button class="btn primary" type="submit" id="saveBtn">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(() => {
+  const DAY = 86400000;
+  const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const MONTH_FULL = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const KIND = { event: "", travel: "Trip", milestone: "Milestone", decision: "Decide" };
+
+  // dates as YYYY-MM-DD strings, math in UTC so time zones never shift a day
+  const toD = (s) => new Date(s + "T00:00:00Z");
+  const fromD = (d) => d.toISOString().slice(0, 10);
+  const add = (s, n) => fromD(new Date(toD(s).getTime() + n * DAY));
+  const sundayOf = (s) => add(s, -toD(s).getUTCDay());
+  const todayStr = () => { const n = new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`; };
+  const fmt = (s) => { const d = toD(s); return `${d.getUTCDate()} ${MON[d.getUTCMonth()]}`; };
+  const fmtDow = (s) => `${DOW[toD(s).getUTCDay()]} ${fmt(s)}`;
+
+  const state = { items: [], weeks: {}, months: {}, ready: false, canWrite: false, error: null,
+    weekStart: sundayOf(todayStr()), month: todayStr().slice(0, 7) };
+  let db = null;
+
+  const el = (tag, attrs = {}, ...kids) => {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === "class") n.className = v; else if (k === "text") n.textContent = v;
+      else if (k.startsWith("on")) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v === true ? "" : v);
+    }
+    for (const k of kids.flat()) if (k != null && k !== false) n.append(k.nodeType ? k : document.createTextNode(k));
+    return n;
+  };
+
+  const itemsOn = (s) => state.items.filter((it) => it.start <= s && (it.end || it.start) >= s)
+    .sort((a, b) => (a.time || "").localeCompare(b.time || "") || a.title.localeCompare(b.title));
+  const itemsIn = (a, b) => state.items.filter((it) => it.start <= b && (it.end || it.start) >= a)
+    .sort((x, y) => x.start.localeCompare(y.start));
+
+  function chip(it, compact) {
+    const cls = ["chip", it.kind === "travel" ? "travel" : (it.lane || "both")];
+    if (it.status === "open") cls.push("open");
+    if (it.status === "done") cls.push("done");
+    const k = KIND[it.kind] || "";
+    const span = it.end && it.end !== it.start ? ` ${fmt(it.start)}–${fmt(it.end)}` : "";
+    const label = `${it.title}${it.time && !compact ? " · " + it.time : ""}`;
+    return el("button", { class: cls.join(" "), type: "button", title: `${it.title}${span}${it.owner ? " · " + it.owner : ""}${it.note ? "\n" + it.note : ""}`,
+      onclick: () => openEditor(it) },
+      k ? el("span", { class: "k", text: k }) : null, el("span", { class: "t", text: label }));
+  }
+
+  // Sabbath: Friday sundown to Saturday sundown
+  const isSat = (s) => toD(s).getUTCDay() === 6;
+  const isFri = (s) => toD(s).getUTCDay() === 5;
+
+  // ---------- views ----------
+  function viewWeek() {
+    const ws = state.weekStart, we = add(ws, 6), t = todayStr();
+    const f = state.weeks[ws] || {};
+    const frag = [];
+    frag.push(el("div", { class: "pager" },
+      el("h2", { text: `Week of ${fmt(ws)}` }),
+      el("button", { class: "btn", type: "button", onclick: () => { state.weekStart = add(ws, -7); render(); } }, "‹ Prev"),
+      el("button", { class: "btn", type: "button", onclick: () => { state.weekStart = sundayOf(t); render(); } }, "This week"),
+      el("button", { class: "btn", type: "button", onclick: () => { state.weekStart = add(ws, 7); render(); } }, "Next ›")));
+    const focus = el("section", { class: "focus", "aria-label": "Weekly focus" },
+      focusField("work", "Work focus", f.work, ws, "The one result that makes this a good work week"),
+      focusField("family", "Family focus", f.family, ws, "What home needs from us this week"),
+      focusField("one", "Must not slip", f.one, ws, "The date or decision that can't move"));
+    frag.push(focus);
+    const days = el("section", { class: "days", "aria-label": "Days this week" });
+    for (let i = 0; i < 7; i++) {
+      const s = add(ws, i), its = itemsOn(s);
+      const row = el("div", { class: `day${s === t ? " today" : ""}${isSat(s) ? " rest" : ""}` },
+        el("div", { class: "d" }, el("span", { class: "label", text: DOW[i] }), el("b", { text: String(toD(s).getUTCDate()) })),
+        el("div", { class: "items" },
+          its.map((it) => chip(it)),
+          isFri(s) ? el("span", { class: "restnote", text: "Sabbath from sundown" }) : null,
+          isSat(s) ? el("span", { class: "restnote", text: "Sabbath until sundown" }) : null,
+          !its.length && !isFri(s) && !isSat(s) ? el("span", { class: "empty", text: "Open" }) : null));
+      days.append(row);
+    }
+    frag.push(days);
+    frag.push(openDecisions(ws, add(ws, 27), "Open in the next 4 weeks"));
+    return frag;
+  }
+
+  function focusField(key, label, value, ws, ph) {
+    const id = `focus-${key}`;
+    const ta = el("textarea", { id, rows: 2, maxlength: 240, placeholder: state.canWrite ? ph : "Not set yet", readonly: !state.canWrite });
+    ta.value = value || "";
+    const saved = el("span", { class: "saved" });
+    let timer;
+    ta.addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(() => saveFocus(ws, key, ta.value, saved), 700); });
+    ta.addEventListener("blur", () => { clearTimeout(timer); if ((state.weeks[ws]?.[key] || "") !== ta.value) saveFocus(ws, key, ta.value, saved); });
+    return el("div", {}, el("label", { class: "label", for: id, text: label }), ta, saved);
+  }
+  async function saveFocus(ws, key, value, saved) {
+    if (!db || !state.canWrite) return;
+    try {
+      const ref = db.collection("weeks").doc(ws);
+      const cur = state.weeks[ws] || {};
+      await ref.set({ ...cur, [key]: value.trim(), updatedAt: new Date().toISOString() });
+      saved.textContent = "Saved";
+      setTimeout(() => { saved.textContent = ""; }, 1600);
+    } catch (e) { saved.textContent = "Couldn't save. Check your connection and try again."; }
+  }
+
+  function viewMonth() {
+    const [y, m] = state.month.split("-").map(Number);
+    const first = `${state.month}-01`;
+    const last = fromD(new Date(Date.UTC(y, m, 0)));
+    const mo = state.months[state.month] || {};
+    const shift = (n) => { const d = new Date(Date.UTC(y, m - 1 + n, 1)); state.month = fromD(d).slice(0, 7); render(); };
+    const frag = [];
+    frag.push(el("div", { class: "pager" },
+      el("h2", { text: `${MONTH_FULL[m - 1]} ${y}` }),
+      el("button", { class: "btn", type: "button", onclick: () => shift(-1) }, "‹ Prev"),
+      el("button", { class: "btn", type: "button", onclick: () => { state.month = todayStr().slice(0, 7); render(); } }, "This month"),
+      el("button", { class: "btn", type: "button", onclick: () => shift(1) }, "Next ›")));
+    const theme = el("input", { id: "month-theme", maxlength: 90, placeholder: state.canWrite ? "This month in one line" : "Not set yet", readonly: !state.canWrite });
+    theme.value = mo.theme || "";
+    const rocks = el("textarea", { id: "month-rocks", rows: 4, maxlength: 600, placeholder: state.canWrite ? "Big rocks, one per line" : "Not set yet", readonly: !state.canWrite });
+    rocks.value = mo.rocks || "";
+    const saved = el("span", { class: "saved" });
+    const save = async () => {
+      if (!db || !state.canWrite) return;
+      if ((mo.theme || "") === theme.value && (mo.rocks || "") === rocks.value) return;
+      try { await db.collection("months").doc(state.month).set({ theme: theme.value.trim(), rocks: rocks.value.trim(), updatedAt: new Date().toISOString() });
+        saved.textContent = "Saved"; setTimeout(() => { saved.textContent = ""; }, 1600); }
+      catch { saved.textContent = "Couldn't save. Check your connection and try again."; }
+    };
+    theme.addEventListener("blur", save); rocks.addEventListener("blur", save);
+    const ms = itemsIn(first, last).filter((it) => it.kind !== "event" || it.status === "open");
+    frag.push(el("section", { class: "bigpic", "aria-label": "Month big picture" },
+      el("div", {}, el("label", { class: "label", for: "month-theme", text: "Big picture" }), theme,
+        el("label", { class: "label", for: "month-rocks", text: "Big rocks" }), rocks, saved),
+      el("div", {}, el("span", { class: "label", text: "Trips, milestones and open calls" }),
+        ms.length ? el("div", { class: "decisions" }, ms.map((it) => el("div", { class: "legend" },
+          el("span", { class: "mono", text: it.end && it.end !== it.start ? `${fmt(it.start)}–${fmt(it.end)}` : fmtDow(it.start) }), chip(it))))
+          : el("p", { class: "empty", text: "Nothing big on the books yet this month." }))));
+    // calendar grid
+    const cal = el("section", { class: "cal", "aria-label": "Month calendar" });
+    cal.append(el("div", { class: "hd" }, DOW.map((d) => el("div", { class: "label", text: d }))));
+    let s = sundayOf(first); const end = add(sundayOf(last), 6); const t = todayStr();
+    let row;
+    for (let i = 0; s <= end; i++, s = add(s, 1)) {
+      if (i % 7 === 0) { row = el("div", { class: "row" }); cal.append(row); }
+      const its = itemsOn(s), out = s.slice(0, 7) !== state.month;
+      row.append(el("div", { class: `cell${out ? " out" : ""}${s === t ? " today" : ""}` },
+        el("span", { class: "n", text: String(toD(s).getUTCDate()) }),
+        its.slice(0, 3).map((it) => chip(it, true)),
+        its.length > 3 ? el("span", { class: "more", text: `+${its.length - 3} more` }) : null));
+    }
+    frag.push(cal);
+    return frag;
+  }
+
+  function viewStrip() {
+    const start = sundayOf(todayStr()), t = todayStr();
+    const frag = [];
+    frag.push(el("div", { class: "pager" }, el("h2", { text: `12 weeks · ${fmt(start)} to ${fmt(add(start, 83))}` })));
+    frag.push(el("div", { class: "legend" },
+      el("span", { class: "chip family" }, el("span", { class: "t", text: "Family" })),
+      el("span", { class: "chip work" }, el("span", { class: "t", text: "Work" })),
+      el("span", { class: "chip travel" }, el("span", { class: "t", text: "Travel" })),
+      el("span", { class: "chip both open" }, el("span", { class: "t", text: "Open decision" })),
+      "Bar under each week: travel days in green, Sabbath in grey"));
+    const strip = el("section", { class: "strip", "aria-label": "Twelve week strip" });
+    let lastMonth = "";
+    for (let w = 0; w < 12; w++) {
+      const ws = add(start, w * 7), we = add(ws, 6);
+      const mk = ws.slice(0, 7) < we.slice(0, 7) && w > 0 ? we.slice(0, 7) : ws.slice(0, 7);
+      if (mk !== lastMonth) {
+        const [yy, mm] = mk.split("-").map(Number);
+        const mo = state.months[mk] || {};
+        strip.append(el("div", { class: "month-break" }, el("b", { text: `${MONTH_FULL[mm - 1]} ${yy}` }), el("span", { text: mo.theme || "" })));
+        lastMonth = mk;
+      }
+      const f = state.weeks[ws] || {};
+      const its = itemsIn(ws, we).filter((it) => it.kind !== "event" || it.lane !== "both" || it.status === "open");
+      const track = el("div", { class: "track", "aria-hidden": "true" });
+      for (let i = 0; i < 7; i++) {
+        const d = add(ws, i);
+        const tr = state.items.some((it) => it.kind === "travel" && it.start <= d && (it.end || it.start) >= d);
+        track.append(el("i", { class: tr ? "tr" : isSat(d) ? "sab" : "" }));
+      }
+      const fx = [f.work, f.family, f.one].filter(Boolean);
+      strip.append(el("div", { class: `wk${t >= ws && t <= we ? " now" : ""}` },
+        el("div", { class: "when" }, el("span", { class: "label", text: `Week ${w + 1}` }), el("b", { text: `${fmt(ws)}–${fmt(we)}` })),
+        el("div", { class: "fx" }, fx.length ? fx.join(" · ") : el("span", { class: "none", text: "Focus set at the Sunday stand-up" })),
+        el("div", {}, track, el("div", { class: "its" }, its.length ? its.map((it) => chip(it, true)) : el("span", { class: "empty", text: "Clear" })))));
+    }
+    frag.push(strip);
+    frag.push(openDecisions(start, add(start, 83), "Open decisions across the 12 weeks"));
+    return frag;
+  }
+
+  function openDecisions(a, b, heading) {
+    const open = state.items.filter((it) => it.status === "open" && it.start <= b && (it.end || it.start) >= a)
+      .sort((x, y) => x.start.localeCompare(y.start));
+    return el("section", { class: "decisions" }, el("h3", { text: heading }),
+      open.length ? open.map((it) => el("div", { class: "dec" },
+        el("div", {}, el("div", {}, chip(it)), it.note ? el("div", { class: "empty", text: it.note }) : null),
+        el("span", { class: "who", text: `${it.owner || "No owner"} · ${fmtDow(it.start)}` })))
+        : el("p", { class: "empty", text: "Nothing waiting on a decision." }));
+  }
+
+  function render() {
+    const view = ["week", "month", "strip"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "week";
+    document.querySelectorAll("nav.tabs a").forEach((a) => {
+      if (a.dataset.view === view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    const app = document.getElementById("app");
+    const keep = document.activeElement && app.contains(document.activeElement) && /TEXTAREA|INPUT/.test(document.activeElement.tagName) ? document.activeElement.id : null;
+    if (keep) return; // never re-render under someone's cursor
+    app.replaceChildren();
+    if (state.error) app.append(el("p", { class: "status", text: state.error }));
+    else if (!state.ready) app.append(el("p", { class: "status", text: "Loading the look-ahead…" }));
+    if (state.ready && !state.items.length && !Object.keys(state.weeks).length) {
+      app.append(el("p", { class: "status", text: "Nothing on the look-ahead yet. Tap Add to put the first trip, milestone or decision on it." }));
+    }
+    app.append(...(view === "week" ? viewWeek() : view === "month" ? viewMonth() : viewStrip()));
+    document.getElementById("addBtn").hidden = !state.canWrite;
+  }
+
+  // ---------- editor ----------
+  const dlg = document.getElementById("editor");
+  const $ = (id) => document.getElementById(id);
+  let editing = null;
+  function openEditor(it) {
+    editing = it || null;
+    const ro = !state.canWrite || (it && it.source === "calendar");
+    $("edTitle").textContent = it ? (ro ? it.title : "Edit") : "Add to the look-ahead";
+    $("f-title").value = it?.title || "";
+    $("f-kind").value = it?.kind || "event";
+    $("f-lane").value = it?.lane || "family";
+    $("f-start").value = it?.start || (location.hash === "#week" || !location.hash ? state.weekStart : todayStr());
+    $("f-end").value = it?.end || "";
+    $("f-time").value = it?.time || "";
+    $("f-owner").value = it?.owner || "";
+    $("f-status").value = it?.status || "set";
+    $("f-note").value = it?.note || "";
+    $("f-ro").hidden = !(it && it.source === "calendar");
+    for (const id of ["f-title","f-kind","f-lane","f-start","f-end","f-time","f-owner","f-status","f-note"]) $(id).disabled = ro;
+    $("saveBtn").hidden = ro; $("delBtn").hidden = ro || !it; $("delConfirm").hidden = true;
+    $("cancelBtn").textContent = ro ? "Close" : "Cancel";
+    dlg.showModal();
+  }
+  $("addBtn").addEventListener("click", () => openEditor(null));
+  $("cancelBtn").addEventListener("click", () => dlg.close());
+  $("delBtn").addEventListener("click", () => { $("delConfirm").hidden = false; $("delBtn").hidden = true; });
+  $("delYes").addEventListener("click", async () => {
+    if (!editing || !db) return;
+    try { await db.collection("items").doc(editing.id).delete(); dlg.close(); }
+    catch { $("delConfirm").textContent = "Couldn't delete. Try again in a moment."; }
+  });
+  $("itemForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!db || !state.canWrite) return;
+    const start = $("f-start").value, endv = $("f-end").value;
+    const data = {
+      title: $("f-title").value.trim(), kind: $("f-kind").value, lane: $("f-lane").value,
+      start, end: endv && endv > start ? endv : "", time: $("f-time").value.trim(), owner: $("f-owner").value.trim(),
+      status: $("f-status").value, note: $("f-note").value.trim(), source: editing?.source || "page",
+      updatedAt: new Date().toISOString(),
+    };
+    if (!data.title || !data.start) return;
+    try {
+      if (editing) await db.collection("items").doc(editing.id).set(data);
+      else await db.collection("items").add({ ...data, createdAt: data.updatedAt });
+      dlg.close();
+    } catch { $("saveBtn").textContent = "Couldn't save. Try again"; setTimeout(() => { $("saveBtn").textContent = "Save"; }, 2500); }
+  });
+
+  // ---------- data ----------
+  window.addEventListener("hashchange", render);
+  render();
+  (async () => {
+    try {
+      db = await window.claude?.use?.("db");
+      const user = await window.claude?.use?.("user");
+      if (!db) { state.error = "Sign in to claude.ai to see the look-ahead."; render(); return; }
+      const can = user ? await user.can("data.write") : null;
+      state.canWrite = can !== false;
+      let pending = 3;
+      const done = () => { if (--pending <= 0) { state.ready = true; } render(); };
+      let first = [true, true, true];
+      db.collection("items").onSnapshot((snap) => {
+        state.items = snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter((it) => it.title && it.start);
+        if (first[0]) { first[0] = false; done(); } else render();
+      }, () => { state.error = "The look-ahead couldn't load. Refresh the page to try again."; render(); });
+      db.collection("weeks").onSnapshot((snap) => {
+        state.weeks = Object.fromEntries(snap.docs.map((d) => [d.id, d.data()]));
+        if (first[1]) { first[1] = false; done(); } else render();
+      });
+      db.collection("months").onSnapshot((snap) => {
+        state.months = Object.fromEntries(snap.docs.map((d) => [d.id, d.data()]));
+        if (first[2]) { first[2] = false; done(); } else render();
+      });
+    } catch { state.error = "The look-ahead couldn't load. Refresh the page to try again."; render(); }
+  })();
+})();
+</script>

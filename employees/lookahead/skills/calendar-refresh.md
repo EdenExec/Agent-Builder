@@ -1,0 +1,22 @@
+# Nightly refresh
+
+Sunday to Thursday before Radar's stand-up tomorrow, and Saturday after sundown for the Sunday Edition. Never Friday sunset to Saturday sunset (`npm run sabbath` exits 0: stop with one line).
+
+## Read (read-only, always)
+
+| Calendar | Id | What to take |
+|---|---|---|
+| Family (iCal import, read-only) | `0nae4cnun4tvm43clph902slbt2tphvl@import.calendar.google.com` | One-off family events: games, dinners, parties, trips, birthdays. Skip recurring lessons and practices, and every medical appointment |
+| Kev personal | `kdt.williams@gmail.com` | Birthdays, trips, family dates. Skip the recurring "Sabbath" and "Pay CC Bill" |
+| Kev - Eden | `kev@edenexec.com` (primary) | Only all-day events, out-of-office, travel and flights, client visits away from home, C12, board meetings. Skip recruiting blocks, calls and internal meetings |
+
+Use `list_events` with `startTime` this Sunday and `endTime` 12 weeks out, `orderBy: startTime`. Ally's own calendar is not shared with you: what she wants on it, she adds on the page.
+
+## Then
+
+1. Mirror: add or update `source: "calendar"` items to match (slug from the title plus the date). Remove a calendar item only when its event is gone.
+2. Check the next 14 days for: two trips overlapping; anything due or booked inside the Sabbath; an open decision whose date has passed or is within 3 days; a trip with no return date inside 7 days; an event the day of the move (6 Nov) or a travel day.
+3. Send Radar one line (a ticket on the Command Center, `agent: "radar"`, `lane: "home"`, createdBy `lookahead`): "Look-ahead: <n> changes, <conflicts or 'no conflicts'> in the next 14 days." Only if something is new or changed; a quiet night sends nothing.
+4. Update `memory/live/now.json` with counts only.
+
+Kev's time zone is Pacific until Fri 6 Nov 2026, Mountain after. Times on the page are the event's local time as the calendar shows it.
