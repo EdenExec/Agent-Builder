@@ -2063,12 +2063,13 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
   function seenBtn(item) { var b = h('button', { class: 'mini', text: 'Seen' }); b.disabled = !S.canWrite; b.setAttribute('data-seen', item.key); return b; }
   function renderBanner() {
     var b = $('#banner'); b.textContent = '';
-    var reds = allItems().filter(function (i) { return i.light === 'urgent' && !i.seen; }).sort(function (x, y) { return t(x.raisedAt) - t(y.raisedAt); });
+    var now = Date.now(), fresh = function (i) { return t(i.raisedAt) && now - t(i.raisedAt) <= STACK_DAYS * DAY ? 0 : 1; };   // Kev, 30 Oct: the newest red leads; a 25-day-old spend no longer sits on top
+    var reds = allItems().filter(function (i) { return i.light === 'urgent' && !i.seen; }).sort(function (x, y) { return (fresh(x) - fresh(y)) || (t(y.raisedAt) - t(x.raisedAt)); });
     if (!reds.length) { b.hidden = true; bannerKey = null; return; }
     b.hidden = false; var f = reds[0]; bannerKey = f.key;   // the strip skips what the banner already holds
     b.appendChild(led('urgent', true));
     b.appendChild(h('div', null, h('div', { class: 'what', text: f.title }), h('div', { class: 'sub', text: nameOf(f.agent) + ' · ' + ago(f.raisedAt) + (reds.length > 1 ? ' · ' + (reds.length - 1) + ' more urgent' : '') })));
-    if (f.kind !== 'sla') { var acts = h('div', { class: 'sacts' }); zzz(acts, f); if (!zzzOpen[f.key]) acts.appendChild(seenBtn(f)); b.appendChild(acts); }   // a FAIL clears when the ticket is picked up, not when it is dismissed
+    if (f.kind !== 'sla') { var acts = h('div', { class: 'sacts' }); if (/^sync-qc-/.test(f.key || '') && usefulLink(f.link)) acts.appendChild(h('a', { class: 'mini txt', href: linkUrl(f.link), target: '_blank', rel: 'noopener', text: 'Approve in QC' })); acts.appendChild(answerSeg(f)); b.appendChild(acts); }   // a FAIL clears when the ticket is picked up, not when it is dismissed
   }
   function openLabel(url) { return /github\.com|^(?!https?:)/.test(url || '') ? 'Open the file' : /superhuman\.com/.test(url) ? 'Open in Superhuman' : 'Open'; }
   /* The Eden Desk has no approval cards (Kev, 23 Oct), so a link that only points there is dropped; approval is the Approve tap. */

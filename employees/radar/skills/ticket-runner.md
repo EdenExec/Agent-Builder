@@ -65,6 +65,11 @@ Kev: "Tasks should be far more collapsed and have a title on them explaining wha
      - `later`: snooze it. Set `snoozeUntil` to the next weekday at 7:00 PT. The page hides it until then.
      - `drop`: no longer needed. Mark the alert, and its ledger row, QC item or ticket, superseded with `resolved: "dropped by Kev <date>"`. Never delete. A dropped QC item is withdrawn, never approved.
      - `talk`: one hit-list line for Kev's next block with Radar. The alert stays up until then.
+   - **Ticket lines** (`alertKey` starting `ticket-<id>-done|gated|blocked`) have no alert doc. The page hides them itself; the runner applies the meaning to the ticket underneath:
+     - `-done`: `done` or `drop` means Kev has seen it. Set `seenByKev: <date>` on the ticket.
+     - `-gated`: `drop` withdraws the proposal: set status `done` with "dropped by Kev <date>". It is never approved. `done` means he handled it himself: check, then close the ticket the same way with "handled by Kev".
+     - `-blocked`: `done` means Kev did the thing it was waiting on. Set the ticket back to `open` with a line in `result.summary`, so the agent's next run retries. `drop` closes it as dropped.
+     - `talk` adds a hit-list line in every case. Mark the action `applied: true` once it is done.
    - For QC items, `done` means Kev says he already approved or handled it outside the page. Check the QC queue: if the item is still pending, leave it and add a hit-list line ("QC <id> still waiting on your two taps") rather than approving anything.
    - Never treat a tap as approval of a spend, a send or a publish: those stay QC two-tap items.
    - Ticks under `daily/<date>/ticks` are Kev's: read them at check-out, never write them.
