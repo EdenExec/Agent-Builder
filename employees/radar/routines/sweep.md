@@ -153,6 +153,8 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 
 "Any time I send work, you should be publishing it to the agent's feed on their desk in the Command Center." Whenever Radar hands an agent work, by subagent, ticket or the runner, and whenever Kev asks for something in any channel (chat, voice, a comment, the cockpit doc), it becomes a document in the Command Center's `tickets` collection: agent, the ask in Kev's words, createdBy "radar" (or "kev" when he filed it himself), status, and `result {summary, link}` when it comes back. Work done in this session counts too: write the ticket when the subagent starts and close it when it returns, so the desk lights and the flow line show it. Each agent also has its own Claude Code session (projects/virtual-office/sessions.json); work Kev gives it there goes on the same feed by the same rule, written into its session prompt. Health, prayer, coaching and journal work is posted as "Private brief for Kev" only.
 - 27 October 2026 (Kev): Power Hours follow the leads' time zone, not Kev's. Kev is on Pacific until the Boise move (6 Nov 2026, then Mountain). East Coast lists (VMG/DC, Miami, Florida) run no later than 1:00pm PT (4pm ET); after the move, no later than 2:00pm MT. Never schedule East Coast dials into the 5pm ET hour or later. West Coast lists take the afternoon.
+- 29 October 2026 (Kev): **give options for where an agent setup lives.** Whenever any Eden employee or agent helps someone (client, candidate, recruiter, Kev) set up Claude workflows, offer the menu (a folder on their computer, Microsoft 365, Google Drive, iCloud, GitHub, cloud with no files), ask the five questions, recommend one with the reason and set it up the way they choose; never assume GitHub. Text and menu: `employees/_shared/agent-home-options.md`. Eden's own team default is the Eden-owned "Eden Agents" Shared Drive (proposal: `projects/eden-drive-framework/proposal.md`, pending Kev's four decisions); GitHub stays for code and cloud routines.
+- 30 October 2026 (Kev, yes to "notes only"): **one narrow Crelate write: Kev's QC notes.** A note Kev types on a candidates-in-process row in the Today view may be written to that candidate's Crelate record as a note, marked as Kev's (via Radar), in his words unedited. Nothing else changes: no stage moves, tags, edits, new records, deletes, and no notes an agent wrote itself. Every other Crelate call stays read-only. Q owns the writer (ticket `t-202610300215-crnt`); until it ships, the notes go in the check-out under "Crelate notes to paste".
 
 
 ==================== PLAYBOOK: ledger (employees/radar/skills/ledger.md) ====================
@@ -267,7 +269,7 @@ Runs weekdays, every hour from 7am to 6pm Pacific. Silent: no message to Kev unl
 | Interrupt | See `interrupt-rules.md` | Push now, draft the reply, ledger row Lane Mine |
 | Ask of Kev | Someone needs a reply, a decision or a file | Draft the reply in Kev's voice (`create_or_update_draft` with `instructions`, type `reply`), ledger row: Lane Batch if it is a small decision, Lane Mine if only Kev can write it. Leave the thread in the inbox. |
 | Waiting | Kev is owed a reply | `create_or_update_reminder` with `mark_done: false`, remind in 2 business days (clients, candidates) or 5 (vendors). Ledger row Lane Waiting on. |
-| Bill or finance | Finance split, Taxes and Bills label, invoices, statements | Ledger row Lane Batch, Bill rate Admin, Due ten days before the stated due date, Owner Kev or Joel. Never pay, never reply. Leave in the inbox. |
+| Bill or finance | Finance split, Taxes and Bills label, invoices, statements | Ledger row Lane Batch, Bill rate Admin, Due ten days before the stated due date, Owner Kev or Joel. Never pay, never reply. Leave in the inbox. Receivables work (building, sending or chasing an invoice): read `employees/radar/skills/invoicing.md` in the repo first. |
 | Family | Family calendar, school, Ally, kids, church | Ledger row Lane Mine or Scheduled, Bill rate Family. Never archive. |
 | Team | Recruiters, Nida, Nick, Joel | Ledger row only if it asks Kev something. Otherwise leave it. |
 | Noise | Newsletters, notifications, marketing, receipts already filed, Coaching Briefs older than today, calendar acceptances | Archive (`update_thread`, remove INBOX). Count it. |
@@ -322,7 +324,7 @@ Kev, 21 Oct: every ready draft gets a Superhuman link, so he can send it from Su
 2. **Actions.** `ArtifactData list actions` where `applied` is false. Apply each one Kev tapped:
    - **`done` means Kev did it himself** (Kev, 23 Oct 2026: "I book a flight then say done, it means I executed the task, it's done, move on"). Close the source item and make sure no agent carries it out: cancel any open or gated ticket for it (`done`, result "Kev handled it himself, Office <date>"), and never send, book, buy or publish on a `done` tap. Done is never approval. A QC item becomes `npm run qc -- reject <id> "handled by Kev outside the queue (Office, <date>)"`; never approve. If that command is denied (it was on 21 Oct for spend items), leave the QC item for Kev to close on the Eden Desk and say so in the sweep log. A ledger row becomes Status Done.
    - **`approve`** is Kev's yes, given with two taps (Approve, then "Confirm: <exact action>"; Kev, 23 Oct 2026). Save the action doc straight from the Office (`ArtifactData get actions/<key>` with `out_dir`) and run `npm run qc -- office-approve <qc id> --action <that file>`. It records the approval only if the tap is Kev's, confirmed, for that exact QC item, and the item has not changed since (fingerprint). If it passes, carry out exactly that action once, close the ticket or item, and log it with the action key and time. If it is refused, do nothing: leave the item pending, mark the action applied with the refusal in `note`, and raise one `needsKev` item that names the reason (most often "the action changed after you approved; approve the new version"). **Never write an `approve` action yourself**, never edit one, and never run office-approve on a file you built rather than saved from the Office.
-   - **`followup`:** a ledger row with Lane Waiting on, Owner Kev and a due date 7 days out, Source "Eden Office follow-up".
+   - **`followup`:** a ledger row with Lane Waiting on, Owner Kev and a due date 7 days out, Source "Eden Office follow-up". When the action carries a `note` (Kev typed it on the desk line, 29 Oct), it is his answer: for a `ticket-<id>-blocked` or `-gated` key, set that ticket back to `open` with the note appended to its `ask` as "Kev, <date>: <note>" so the agent acts on it next pass; put the note in the ledger row's item too.
    - **`snooze`:** leave it alone. The page hides the item until `until`.
    - Then `update` the action with `applied: true` (pin `if_version`).
 3. **Desk chats.** For each agent, `ArtifactData query chats/<agent>/messages` where `filed` is false. File every "Direction:" line Kev agreed to:
@@ -336,75 +338,6 @@ Kev, 21 Oct: every ready draft gets a Superhuman link, so he can send it from Su
 ## New JO catch (Kev, 24 Oct 2026; via Casey, 25 Oct)
 
 Every weekday sweep: read Crelate `jobs` created since the last sweep in the Retained, Top Priority, Go Now and Typical columns (read-only, `jobs?statuses=...&fields=Id,JobNum,Name,CreatedOn,Owners`). Any new JO: ticket **Scout** (lead gen for the JO) and **Casey** (place it on the board, depth chart, Must Dos). Baker shows as "Client · discreet". Never create the ticket twice for the same JobNum.
-
-
-==================== PLAYBOOK: invoicing (employees/radar/skills/invoicing.md) ====================
-
-# Invoicing (receivables)
-
-Proposed 5 October 2026 from the sent mail, the Hub and Emma's old threads. Kev confirms or edits; until he does, every step below ends in a draft, never a send. Joel Fairchild keeps payables, bookkeeping and the finance@ inbox. Radar keeps receivables: build, draft, chase.
-
-## Where things live
-
-| Thing | Where |
-|---|---|
-| Placements and fee maths | Hub sheet "2026 - EPG Dashboard (Hub)", tab "2026 Rev Report" (`1J1RSMPF5B5tFooRN_PEJdAzK6y74lXBqgxIxq6byP24`). Placements starting in 2027 go on "2027 - EPG Dashboard (Hub)" (`1L8GNBklncJqi6scmlBMR3RybT5Ltt73I9s8qg3lAFcY`, Kev 23 Oct 2026), same columns. One row per placement or retainer: #, Candidate, Start Date, Net Terms, Client, Role, H.A., Salary, Rate, Fee, Discount, Eden Gross, Notes. |
-| Template | Google Doc "(TEMPLATE) Invoice - ____ - _. _____ (Role)" (`1MuNperxtLjmhs2-216FW2YBpvrnJl_PgIIJS1bR80_Y`), in the Invoices folder (`1fEMaQEa9j3Xc6fNQMqUNouvr3uADefeO`). Copy it with `copy_file`; never edit the template. The copy keeps the letterhead, Montserrat and layout. |
-| Finished invoices | Same folder, named `Invoice - <#> - <F. Last> - <Role>`. |
-| Sent record | The email thread in Superhuman and a ledger row (Lane Waiting on, Owner the client's AP contact, Due the terms date). The Hub column "Date: $ In" is empty on every 2026 row, so the ledger is the tracker until Kev adds "Invoice sent" and "Paid" columns to the sheet. |
-
-## Trigger
-
-A Rev Report row whose Start Date has arrived and has no sent-invoice thread. The invoice is dated the start date and goes out that morning (Emma sent Kev the PDF the morning of the start; Kev then sent it to the client). Retainers go out on the 1st with the terms the sheet names ("Net 15", "due by the 5th").
-
-## Filling the doc
-
-| Field | Source |
-|---|---|
-| Invoice # | Rev Report `#` exactly (62026-A and 62026-B are two invoices) |
-| Date | Start date, written `M/D/YYYY` |
-| Client Name, Contact | Rev Report Client; Contact is the AP or hiring contact the last invoice to that client went to (see table) |
-| Role, Candidate, Hiring Authority | Rev Report Role, Candidate, H.A. |
-| Salary, Rate, Fee | Rev Report. Fee = Salary x Rate. Check it before writing it; Carmel caught a wrong rate and Megawatt caught a wrong salary. |
-| Retainer Fee | When part of the fee was paid up front, add a line "Retainer Fee: $X" and bill Fee minus X. Not a discount (Kev, 8 June 2026). |
-| Discount | Only when the fee itself was cut (relocation, sign-on, referral). Show the line and the reason in one short phrase. |
-| Other | Leave out unless the row has a sign-on or external item to pass through. |
-| Total Amount Due | Fee after retainer and discount |
-| Invoice Terms | Rev Report Net Terms. Blank means Net 30 from the start date. |
-
-Export the finished doc as PDF with the same name. Carmel asks for a Word copy so they can black out salary; keep `.docx` export in mind when a client asks.
-
-## The email (draft only at stage 1)
-
-- To the client's AP contact, cc Nick and the recruiter on the deal (Bridger on VMG and Baker in September).
-- Subject: `Invoice <#> - <F. Last> - (Net 30 - <start date>)`.
-- Body in Kev's voice, three lines: invoice attached for <first name>, who started <date>; W-9 and contact info already on file (or "attached" the first time with a client); call Nick or Kev with questions; thanks for the partnership.
-- Attach the PDF. Draft with `create_or_update_draft` using `body` (Kev's exact words, HTML). Neither mail tool can attach a file reliably: Gmail `create_draft` wants the PDF as inline base64, which a model cannot reproduce byte for byte, and the Superhuman tool has no attachment field. So the PDF goes to Kev as a file card (SendUserFile) and the Google Doc lives in the Invoices folder; he attaches from Drive or the card before sending. Then a ledger row Lane Batch, Owner Kev, so he sends it from the check-out batch or the paper. At stage 2 or later, send on the start date and list it in that day's "sent for you".
-
-## After sending
-
-- Ledger row Lane Waiting on, Owner the AP contact, Due the terms date, Source the thread subject. Superhuman reminder on the thread for the due date.
-- Past due: a Batch row for Kev with the recommended move (Nick calls the hiring authority first, as with Baker). Never a dunning email without Kev.
-- W-9 and banking: admin@edenexec.com holds banking info; W-9 copies were made by Emma per client. Ask Kev where the master W-9 lives before the first new client.
-
-## AP contacts seen so far
-
-| Client | Invoice goes to | From thread |
-|---|---|---|
-| Baker Construction | Wes Avritt (Avrittw@bakerconstruction.com), cc Nick | 62046, 62059 |
-| VMG | Peter Cramer (pcramer@vmgmech.com), cc Nick, Bridger | 62060 |
-| Megawatt | Joel Gaines (jgaines@megawatt.com) | 62502 |
-| PENTA | Anthony Boca (aboca@pentabldggroup.com), Andrea Robinson cc'd once | 62043 |
-| Carmel Partners | Caroldean Ross (cross@carmelpartners.com); wants a Word copy and a W-9 | 62047, 62048 |
-| PB South | Kristen Rose, Controller (krose@pbsouthconstruction.com). Placements and retainers both. Must pay Eden Partner Group, not EES: she has paid the wrong account before. Retainers due by the 15th. | 62023, 62033, Perklov chase |
-| Pence / Pence Kelly | Benjamin Kizer (benjamin.kizer@pence.net) asked that invoices go to materials@pence.net with him cc'd. Kev sends to Ben and cc's the hiring manager. | 62039 |
-| Triton Construction | Lance Franklin (lfranklin@tritonconstruction.net), H.A. on the retainer row. First invoice 10/2026; confirm. | Rev Report 62064 |
-| Swinerton DFW, Hoffman | Not in Kev's sent mail. Ask before the first invoice. | |
-
-## Never
-
-- Never send at stage 1. Never change a fee, rate or discount on your own: a mismatch with the Rev Report is a Batch question for Kev.
-- Never put salary or fee figures in a ledger row; reference the invoice number.
 
 
 ==================== SEED MEMORY: sources (employees/radar/memory/seed/sources.md) ====================
@@ -448,7 +381,7 @@ Export the finished doc as PDF with the same name. Carmel asks for a Word copy s
 | Nida | Admin and BPO (BPO Wizard): loads leads into Crelate overnight | Admin tasks, lead sheets |
 | Nick | Operations: Crelate portal, scorecards | Ops items |
 | Joel Fairchild | Finance | Invoices, bills, bookkeeping questions |
-| Recruiters: Max Betcher, Noah, Bridger, Evan, Andrew, Kunji | Reps; Max carpools with Kev; Noah implements the recruiters' Eden Daily; Bridger pilots the Must-Dos tracker | Candidate work, never Kev's personal items |
+| Recruiters: Max Betcher, Noah, Bridger, Evan, Andrew (Kunji off the board for now, Kev 29 Oct; Kyle Cockell's 2 Nov start pushed a few weeks, date TBD) | Reps; Max carpools with Kev; Noah implements the recruiters' Eden Daily; Bridger pilots the Must-Dos tracker | Candidate work, never Kev's personal items |
 | Cody Ballah | Coach (Nexorra Group), daily and weekly briefs | Warm callbacks for Power Hours |
 | Chris Catalano | Books and year-end close | Finance, Batch lane |
 | Tana (Freeman Solutions), Chris (BSA-CPA) | Accounting and tax | Finance split, Batch lane |
