@@ -15,7 +15,7 @@ Runs weekdays, every hour from 7am to 6pm Pacific. Silent: no message to Kev unl
 | Interrupt | See `interrupt-rules.md` | Push now, draft the reply, ledger row Lane Mine |
 | Ask of Kev | Someone needs a reply, a decision or a file | Draft the reply in Kev's voice (`create_or_update_draft` with `instructions`, type `reply`), ledger row: Lane Batch if it is a small decision, Lane Mine if only Kev can write it. Leave the thread in the inbox. |
 | Waiting | Kev is owed a reply | `create_or_update_reminder` with `mark_done: false`, remind in 2 business days (clients, candidates) or 5 (vendors). Ledger row Lane Waiting on. |
-| Bill or finance | Finance split, Taxes and Bills label, invoices, statements | Ledger row Lane Batch, Bill rate Admin, Due ten days before the stated due date, Owner Kev or Joel. Never pay, never reply. Leave in the inbox. |
+| Bill or finance | Finance split, Taxes and Bills label, invoices, statements | Ledger row Lane Batch, Bill rate Admin, Due ten days before the stated due date, Owner Kev or Joel. Never pay, never reply. Leave in the inbox. Receivables work (building, sending or chasing an invoice): read `employees/radar/skills/invoicing.md` in the repo first. |
 | Family | Family calendar, school, Ally, kids, church | Ledger row Lane Mine or Scheduled, Bill rate Family. Never archive. |
 | Team | Recruiters, Nida, Nick, Joel | Ledger row only if it asks Kev something. Otherwise leave it. |
 | Noise | Newsletters, notifications, marketing, receipts already filed, Coaching Briefs older than today, calendar acceptances | Archive (`update_thread`, remove INBOX). Count it. |
