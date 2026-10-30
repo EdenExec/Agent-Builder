@@ -626,6 +626,69 @@
       "stage": "landed"
     },
     {
+      "title": "EL-030 · 2026-10-30 · Nick biz dev · Low voltage field ops leaders, TX SD + national data center · 95 leads",
+      "landedAt": "2026-10-30",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-30-lv-bizdev-field-ops-leaders.csv",
+      "rows": 95,
+      "tiers": {
+        "1": 27,
+        "2": 33,
+        "3": 35
+      },
+      "built": "2026-10-30",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1yt2i3V3nTS-9JoAaaZx4Pj8Q2bVL_t4HG5v0kIp-qIM/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-031 · 2026-10-30 · Crelate reload · Low voltage PMs (TX + traveling) · 511 leads",
+      "landedAt": "2026-10-30",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-30-lv-pm-crelate-reload.csv",
+      "rows": 511,
+      "tiers": {
+        "1": 62,
+        "2": 5,
+        "3": 444
+      },
+      "built": "2026-10-30",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1TGbm_9GGiogc5m9AHuaD2vpWR3uik54EObIuYamKOTY/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
+      "title": "EL-029 · 2026-10-30 · Low voltage PM talent pool, Texas + South Dakota + traveling data center · 435 leads",
+      "landedAt": "2026-10-30",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
+      "file": "2026-10-30-lv-pm-talent-pool.csv",
+      "rows": 435,
+      "tiers": {
+        "1": 98,
+        "2": 227,
+        "3": 110
+      },
+      "built": "2026-10-30",
+      "discreet": false,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1kCGJuLBTuXpueG99YyN7CgHCk7-kNjK6CLPP-MDQv60/edit",
+      "status": "ok",
+      "errors": 0,
+      "stage": "landed"
+    },
+    {
       "title": "20 · Pool · Estimating + Procurement, South FL · 63 leads",
       "landedAt": "2026-10-21",
       "phonesAt": null,

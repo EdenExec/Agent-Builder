@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-30T16:57:16.917Z",
-  "as_of": "Fri 30 Oct 2026, 9:57 AM PT",
+  "generated_at": "2026-10-30T17:47:32.879Z",
+  "as_of": "Fri 30 Oct 2026, 10:47 AM PT",
   "source": "Crelate API v3, read-only (Crelate stays the system of record)",
   "week": {
     "start": "2026-10-25",
@@ -16,7 +16,7 @@
   "last_week": {
     "start": "2026-10-18",
     "end": "2026-10-24",
-    "same_point_through": "2026-10-23T16:57:16.917Z",
+    "same_point_through": "2026-10-23T17:47:32.879Z",
     "label": "Sun 18 Oct to Sat 24 Oct"
   },
   "goals": {
@@ -44,7 +44,7 @@
   },
   "team": {
     "this": {
-      "rps": 302,
+      "rps": 303,
       "mps": 2,
       "resumes": 15,
       "ptcs": 20,
@@ -53,11 +53,11 @@
       "offers": 0
     },
     "last_same": {
-      "rps": 297,
+      "rps": 300,
       "mps": 4,
-      "resumes": 19,
+      "resumes": 20,
       "ptcs": 20,
-      "subs": 15,
+      "subs": 16,
       "ftis": 7,
       "offers": 0
     },
@@ -73,7 +73,7 @@
   },
   "desk": {
     "this": {
-      "rps": 354,
+      "rps": 355,
       "mps": 14,
       "resumes": 21,
       "ptcs": 43,
@@ -82,11 +82,11 @@
       "offers": 0
     },
     "last_same": {
-      "rps": 342,
+      "rps": 345,
       "mps": 14,
-      "resumes": 23,
+      "resumes": 24,
       "ptcs": 27,
-      "subs": 15,
+      "subs": 16,
       "ftis": 9,
       "offers": 0
     },
@@ -110,7 +110,7 @@
       "start": null,
       "in_goal": true,
       "this": {
-        "rps": 78,
+        "rps": 79,
         "mps": 1,
         "resumes": 2,
         "ptcs": 5,
@@ -119,7 +119,7 @@
         "offers": 0
       },
       "last_same": {
-        "rps": 56,
+        "rps": 57,
         "mps": 4,
         "resumes": 3,
         "ptcs": 3,
@@ -137,7 +137,7 @@
         "offers": 0
       },
       "mon_week": {
-        "rps": 78,
+        "rps": 79,
         "mps": 1,
         "resumes": 2,
         "ptcs": 5,
@@ -146,7 +146,7 @@
         "offers": 0
       },
       "today": {
-        "rps": 9,
+        "rps": 10,
         "mps": 0,
         "resumes": 0,
         "ptcs": 0,
@@ -156,14 +156,14 @@
       },
       "rp_days_at_15": 4,
       "rp_by_day": {
-        "2026-10-30": 9,
+        "2026-10-30": 10,
         "2026-10-29": 15,
         "2026-10-28": 16,
         "2026-10-27": 20,
         "2026-10-26": 18
       },
       "rp_by_day_2w": {
-        "2026-10-30": 9,
+        "2026-10-30": 10,
         "2026-10-29": 15,
         "2026-10-28": 16,
         "2026-10-27": 20,
@@ -206,9 +206,9 @@
       "last_same": {
         "rps": 63,
         "mps": 0,
-        "resumes": 5,
+        "resumes": 6,
         "ptcs": 7,
-        "subs": 1,
+        "subs": 2,
         "ftis": 3,
         "offers": 0
       },
@@ -372,7 +372,7 @@
         "offers": 0
       },
       "last_same": {
-        "rps": 48,
+        "rps": 50,
         "mps": 0,
         "resumes": 0,
         "ptcs": 1,
@@ -926,6 +926,28 @@
       ]
     },
     {
+      "id": "f35251ab-c666-4ee4-b582-bcde0803c205",
+      "num": 7890,
+      "name": "VMG APMS",
+      "column": "TOP",
+      "this": {
+        "rps": 2,
+        "resumes": 1,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "last": {
+        "rps": 0,
+        "resumes": 0,
+        "ptcs": 0,
+        "ftis": 0
+      },
+      "people": [
+        "max",
+        "noah"
+      ]
+    },
+    {
       "id": "36e41ba2-04ea-4e48-8d3c-dcde08033129",
       "num": 7946,
       "name": "VMG- BIM/VDC",
@@ -1074,27 +1096,6 @@
       },
       "people": [
         "evan"
-      ]
-    },
-    {
-      "id": "f35251ab-c666-4ee4-b582-bcde0803c205",
-      "num": 7890,
-      "name": "VMG APMS",
-      "column": "TOP",
-      "this": {
-        "rps": 1,
-        "resumes": 1,
-        "ptcs": 0,
-        "ftis": 0
-      },
-      "last": {
-        "rps": 0,
-        "resumes": 0,
-        "ptcs": 0,
-        "ftis": 0
-      },
-      "people": [
-        "noah"
       ]
     },
     {
@@ -1690,11 +1691,11 @@
     }
   },
   "counts_meta": {
-    "activities_read": 2013,
+    "activities_read": 2014,
     "stage_jobs_read": 71
   },
   "notes": [
     "1 activity row(s) dated in the future were ignored.",
-    "316 of 354 RPs this week (89%) are not on an active JO: 93 have no job attached, 223 sit on buckets, portals or closed jobs."
+    "316 of 355 RPs this week (89%) are not on an active JO: 93 have no job attached, 223 sit on buckets, portals or closed jobs."
   ]
 }
