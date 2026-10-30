@@ -1,6 +1,6 @@
-# Crelate in Claude: the Eden way (for Max and every recruiter)
+# Crelate in Claude: the Eden way (for every recruiter)
 
-Kev, 27 Oct 2026: no custom server, no hosting, no OAuth. Use the same setup Kev and Radar use. Claude calls Crelate's API directly, from inside a Claude cloud session, with the recruiter's own key held as a secret in the environment.
+Kev, 27 Oct 2026: no custom server, no hosting, no OAuth. Use the same setup Kev uses. Claude calls Crelate's API directly, from inside a Claude cloud session, with the recruiter's own key held as a secret in the environment.
 
 ## Setup (about 10 minutes, once)
 
@@ -21,7 +21,7 @@ That's it. There is nothing to host, pay for or maintain, and the key never leav
   - Read the key from the environment; never print it.
   - Responses come back as `{Data, Metadata, Errors}`. Page through `Metadata`, and back off on a 429.
 - **Cloudflare blocks default clients** (error 1010). Use curl, or send a normal browser User-Agent on every request.
-- **Endpoints that work** (checked by Radar):
+- **Endpoints that work**:
   - Find a person by name: `contacts/search?query=First%20Last`. The record's `Title` is "Last, First".
   - Active jobs: `jobs?statuses=<ids>&fields=Id,JobNum,Name,SalesWorkflowItemStatusId`.
   - Who moved through a job's stages: `jobs/<jobId>/contacts/history?created_after=<ISO date>`.
@@ -32,10 +32,10 @@ That's it. There is nothing to host, pay for or maintain, and the key never leav
   - Names, titles, companies, stages and dates are fine for your own work.
   - No candidate details on team surfaces beyond name, stage and dates.
 - **Discreet clients:**
-  - Baker shows as "Client · discreet" everywhere except the Team Hub.
-  - Moss material never names other clients.
+  - Discreet clients show as "Client · discreet".
+  - Material for one client never names other clients.
 
-## What Max can ask for on day one
+## What you can ask for on day one
 
 - "Is <name> already in Crelate? Who owns them, and when were they last touched?"
 - "Who is in each stage on <job>?"

@@ -17,15 +17,15 @@ If anything below is missing from what I gave you, ask me for it in one short li
 
 Header: **EDEN PARTNER GROUP** in small capitals, then *Candidate submittal · <role submitted>* in bold italic, then a thin rule. The candidate's name large and bold. Montserrat (fallback Helvetica Neue, Arial), black on white, lots of white space, data in a simple two-column table. No colours except muted green, amber and red on the scorecard pills. Footer: edenpartnergroup.com · Confidential · EDEN PARTNER GROUP.
 
-**Overview table, in this order** (Hannah's format from Hoffman):
+**Overview table, in this order**:
 
 | Field | What goes in it |
 |---|---|
 | Candidate name | Full name, plus a LinkedIn link if I gave you one |
 | Salary expectations | **DESIRED** base only, with a small "DESIRED" tag. If no number yet, write "To discuss". **Never show current pay** unless I tell you to for this candidate |
 | Package | Bonus, vehicle, PTO, ESOP or ownership, other: only what the candidate wants and only lines I gave you |
-| Role submitted | The role and place, for example "Assistant Superintendent, City Place" |
-| Experience | Current title and company, then tenure written out so it cannot be misread, for example "Nearly 2 years with Morganti; 5 years before that as a Navy Seabee". Never "7 years" next to a company they joined two years ago |
+| Role submitted | The role and place, for example "Assistant Superintendent, Riverside Tower" |
+| Experience | Current title and company, then tenure written out so it cannot be misread, for example "Nearly 2 years with a regional general contractor; 5 years before that as a field engineer". Never "7 years" next to a company they joined two years ago |
 | Current location | City, state |
 | Target project locations | Where they will work, travel appetite |
 | Experience highlights | 3 to 5 bullets: project, size (stories, $, SF), their role, what they owned. Biggest and most relevant to this job first |

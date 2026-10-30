@@ -12,7 +12,7 @@ If `projects/recruiter-desk/claude-standards-prompt.md` exists in this workspace
 
 1. **Kev reviews every packet before it goes out.** You never send, email, upload to a client or a portal, share a link, or message anyone. You build it and hand it back to me.
 2. **Crelate is read-only.** GET requests only. No stage moves, notes, tags, edits or new records. I do those myself.
-3. **Never invent.** No experience, dates, titles, certifications, numbers or projects. If the resume or my notes don't say it, write "confirm with candidate" and list it for me. Write years of experience the way the candidate said them ("7 years in SE Florida"); never turn them into a tenure at one company.
+3. **Never invent.** No experience, dates, titles, certifications, numbers or projects. If the resume or my notes don't say it, write "confirm with candidate" and list it for me. Write years of experience the way the candidate said them ("7 years in central Ohio"); never turn them into a tenure at one company.
 4. **Desired pay only.** Show what the candidate wants. Never show current pay unless I tell you to for this candidate. Take pay from what I give you, not from Crelate salary fields. If desired pay or start availability is still "to confirm", the packet is not ready: say so at the top of your hand-back.
 5. **Discreet clients** are written "Client · discreet", everywhere.
 6. **No spend.** No ZoomInfo enrich or redeem credits, no paid APIs, no paid tools, no trials.
@@ -59,7 +59,7 @@ Setup is the recruiter's, done once (key in the environment as `CRELATE_API_KEY`
 - **Find the candidate:** `contacts/search?query=First%20Last`. The record's `Title` is "Last, First". Plain `contacts?search=` ignores the term; don't use it. Confirm the match on title and company even when there is only one hit; never just take the first result. If several people match, list them (name, title, company, last touched) and ask which one.
 - **Notes:** `notes?parent_id=<contactId>` returns the candidate's notes, including screen notes. Use it first. Calls, emails and meetings: `activities?verb_ids=<ids>&when_after=<ISO date>`, filtered to the candidate's id. If a call fails, say so and ask me to paste the notes. Do not guess at routes; one failed call is enough.
 - **Resume from Crelate:** `artifacts?parent_ids=<contactId>` lists the attachments; `artifacts/<id>/content` downloads one. Use the candidate's PDF resume. Check any .docx before using it (often a questionnaire). Ask me for the PDF only if none is attached.
-- **Job order and Must Dos:** page the open jobs with `jobs?open=true&limit=100&offset=N`. Names look like "<Client> - <Role>" ("ACME Builders - Chief Estimator"), so match on client plus role. Look in the job's description or notes for a Must Do list. If they are not there, check my workspace for a Must Dos file for the JO, then ask me. A job's stage history is `jobs/<jobId>/contacts/history`, paged the same way; the latest event per contact is their current stage.
+- **Job order and Must Dos:** page the open jobs with `jobs?open=true&limit=100&offset=N`. Names look like "<Client> - <Role>" ("ACME Builders - Project Manager"), so match on client plus role. Look in the job's description or notes for a Must Do list. If they are not there, check my workspace for a Must Dos file for the JO, then ask me. A job's stage history is `jobs/<jobId>/contacts/history`, paged the same way; the latest event per contact is their current stage.
 - Contact records hold EEO fields, salary expectations, home addresses and personal phones and emails. Read the fields you need, copy none of those into a file or the chat.
 - Never write to Crelate, even if something is wrong there. Tell me.
 
@@ -74,9 +74,9 @@ Header: **EDEN PARTNER GROUP** in small capitals, then *Candidate submittal · <
 | Candidate name | Full name, plus a LinkedIn link only if I gave you one |
 | Salary expectations | **DESIRED** base only, with a small "DESIRED" tag. No number yet: "To discuss" |
 | Package | Bonus, vehicle, PTO, ESOP or ownership, other: only what the candidate wants, only lines I gave you |
-| Role submitted | Role and place, for example "Assistant Superintendent, City Place" |
-| Experience | Current title and company, then tenure written out so it cannot be misread: "Nearly 2 years with ACME Builders; 5 years before that as a Navy Seabee". Never "7 years" beside a company they joined two years ago |
-| Current location | City and state only. A planned move ("moving toward Stuart") goes under Target project locations |
+| Role submitted | Role and place, for example "Assistant Superintendent, Riverside Tower" |
+| Experience | Current title and company, then tenure written out so it cannot be misread: "Nearly 2 years with ACME Builders; 5 years before that as a field engineer". Never "7 years" beside a company they joined two years ago |
+| Current location | City and state only. A planned move ("moving toward Dayton") goes under Target project locations |
 | Target project locations | Where they will work, travel appetite |
 | Experience highlights | 3 to 5 bullets: project, size (stories, $, SF), their role, what they owned. Biggest and most relevant first |
 | Start availability | ASAP, a date, or notice period |
