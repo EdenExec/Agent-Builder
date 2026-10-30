@@ -638,6 +638,7 @@ textarea{min-height:84px;resize:vertical}
 .td-stamp{font:500 9.5px/1 var(--mono);letter-spacing:.14em;border:1px solid var(--a);color:var(--a);padding:4px 6px}
 .td-cols,.td-row{display:grid;grid-template-columns:minmax(140px,1.15fr) minmax(160px,1.35fr) 34px 38px 44px 44px 44px 58px minmax(200px,3fr);gap:0 8px;align-items:center;padding:0 16px}
 .td-qc .td-cols,.td-qc .td-row{grid-template-columns:minmax(120px,1fr) minmax(170px,1.4fr) minmax(130px,1fr) minmax(220px,2.6fr) 74px}
+.td-qc .td-row .qn{grid-column:1/-1;display:flex;align-items:center;gap:8px;padding:0 0 8px} .td-qc .td-row .qn input{flex:1;min-width:0} .td-qc .td-row .qn small{font:500 9.5px/1.3 var(--mono);color:var(--mute);white-space:nowrap}
 .td-stick{position:sticky;top:0;z-index:3;background:var(--paper)}
 .td-cols{padding-block:8px;border-bottom:1px solid var(--line);font:500 10px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .td-row{min-height:42px;border-bottom:1px solid var(--line);position:relative}
@@ -711,8 +712,8 @@ textarea{min-height:84px;resize:vertical}
   .td-row,.td-qc .td-row{grid-template-columns:minmax(0,1fr) 44px 44px 44px;grid-template-areas:"nm d v c" "tc tc tc tc" "nt nt out out";gap:2px 4px;padding:8px 12px}
   .td-row .nm{grid-area:nm} .td-row .tc{grid-area:tc} .td-row .ph,.td-row .src{display:none} .td-row .cd{grid-area:d} .td-row .cv{grid-area:v} .td-row .cc{grid-area:c} .td-row .nt{grid-area:nt} .td-row .co{grid-area:out}
   .td-chk{width:44px;height:44px}
-  .td-qc .td-row{grid-template-areas:"nm nm nm ct" "tc tc tc tc" "lt lt lt lt" "nt nt nt nt"}
-  .td-qc .td-row .ct{grid-area:ct} .td-qc .td-row .lt{grid-area:lt}
+  .td-qc .td-row{grid-template-areas:"nm nm nm ct" "tc tc tc tc" "lt lt lt lt" "nt nt nt nt" "qn qn qn qn"}
+  .td-qc .td-row .ct{grid-area:ct} .td-qc .td-row .lt{grid-area:lt} .td-qc .td-row .qn{grid-area:qn;padding:2px 0 0}
   .td-tab{padding:11px 10px}
   .td-kb{columns:1}
   .td-hab{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -3243,10 +3244,24 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
       row.appendChild(h('div', { class: 'tc lt', text: S.share ? '' : x.lastTouch }));
       row.appendChild(h('div', { class: 'tc nt', text: S.share ? '' : x['do'] }));
       var c = chk(k.value, 'Touched', function () { TD.sel.qc = i; tdTouch(x, !k.value); }); c.classList.add('ct'); row.appendChild(c);
+      if (!S.share) { var qa = S.actions['daily-' + TD.date + '-note-' + x.id];
+        row.appendChild(h('div', { class: 'qn' }, tdInput('qcnote-' + x.id, k.note || '', 'td-notei', 'Note for Radar: what happened, what is next', function (v) { tdQcNote(x, v); }), h('small', { text: !k.note ? '' : qa && qa.applied ? 'Radar logged it' : 'Radar picks this up' }))); }
       w.appendChild(row);
     });
-    w.appendChild(h('div', { class: 'td-legend', text: 'TODAY = no touch yet, or a start inside a week. Never pay or personal detail in a touch note.' }));
+    w.appendChild(h('div', { class: 'td-legend', text: 'TODAY = no touch yet, or a start inside a week. Notes go to Radar, who logs them on the Team Hub. Never pay or personal detail in a note.' }));
     return w;
+  }
+  /* A QC note (Kev, 30 Oct: "leave notes for Radar on this as we move through the day"): saved on the touch tick, and one actions/ row per candidate per day
+     that Radar's runner applies (Team Hub log; Crelate only once Kev says yes to write-back). The row is rewritten as the note changes. */
+  function tdQcNote(x, v) {
+    var id = 'touch-' + x.id, cur = TD.ticks[id] || {}, key = 'daily-' + TD.date + '-note-' + x.id;
+    TD.ticks[id] = Object.assign({ kind: 'touch', ref: x.id, value: false }, cur, { note: v, at: new Date().toISOString() }); tdSave(id, 600);
+    clearTimeout(TD.timers[key]);
+    TD.timers[key] = setTimeout(function () {
+      delete TD.timers[key];
+      var doc = { key: key, agent: 'radar', title: 'QC note: ' + x.name + ' (' + TD.date + ')', action: 'note', note: String(v).slice(0, 600), ref: x.id, at: new Date().toISOString(), by: 'kev', applied: false, source: 'daily' };
+      S.actions[key] = doc; if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).set(doc).catch(function () {});
+    }, 1500);
   }
   function tdTouch(x, on) {
     tdPut('touch', x.id, { value: on });
