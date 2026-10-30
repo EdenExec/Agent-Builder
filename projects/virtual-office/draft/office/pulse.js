@@ -214,7 +214,13 @@
       sec.appendChild(h('p', { class: 'small pl-bigcap', text: wk + ' dials ' + (ph && ph.weekLabel ? ph.weekLabel : 'this week') + ' against ' + pr + ' the same days last week' + (ph && ph.priorLabel ? ' (' + ph.priorLabel + ')' : '') + (tr[0] === 'new' || tr[0] === '–' ? '' : ' (' + tr[0] + ')') + '. No dials goal is set: the trend only. As of ' + ptStamp(ph.asOf) + '.' }));
     } else sec.appendChild(h('p', { class: 'small', text: team ? 'No CloudTalk counts written yet (meta/phones, from the stand-up).' : who + ' is not in the last CloudTalk read.' }));
   }
+  /* The Sabbath (Friday sunset to Saturday sunset): recruiter numbers rest even when a sheet is opened directly, the way the Floor's pulse does. */
+  function plRest(p, title) {
+    p.appendChild(head(title, null, 'Recruiting · Crelate, read-only', 'The Sabbath'));
+    p.appendChild(h('div', { class: 'panel-b one' }, h('section', null, h('p', { class: 'small', text: 'The Sabbath · recruiter numbers rest until sundown Saturday.' }))));
+  }
   function recruiterSheet(p, key) {
+    if (Game.isSabbathAt(Date.now())) { plRest(p, key === 'rec:__team' ? 'Team' : key.slice(4)); return; }
     var c = S.crelate, team = key === 'rec:__team', name = key.slice(4);
     var r = c && c.recruiters ? (team ? null : c.recruiters.filter(function (x) { return x.name === name; })[0]) : null;
     if (!c || (!team && !r)) { p.appendChild(head(team ? 'Team' : name, null, 'Recruiter · Crelate, read-only', 'No data')); var e = h('div', { class: 'panel-b one' }); e.appendChild(h('section', null, h('p', { class: 'small', text: 'No Crelate counts for this recruiter yet.' }))); p.appendChild(e); return; }

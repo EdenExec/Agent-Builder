@@ -464,6 +464,7 @@
     }
   }
   function benchSheet(p, def) {
+    if (def.id === 'recruiting' && Game.isSabbathAt(Date.now())) { plRest(p, def.title); return; }   // rests on the Sabbath like the Floor (Kev's standing rule)
     var doc = S.benches[def.id] || {};
     p.appendChild(head(def.title, null, 'Desk: ' + def.owner + (doc.example ? ' · example figures' : ''), doc.asOf ? 'As of ' + doc.asOf.slice(0, 10) : 'Not synced'));
     var body = h('div', { class: 'panel-b one' }); p.appendChild(body);
