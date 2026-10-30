@@ -247,7 +247,19 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
   const fmtDow = (s) => `${DOW[toD(s).getUTCDay()]} ${fmt(s)}`;
 
   const state = { items: [], weeks: {}, months: {}, ready: false, canWrite: false, error: null,
-    weekStart: sundayOf(todayStr()), month: todayStr().slice(0, 7) };
+    weekStart: sundayOf(todayStr()), month: todayStr().slice(0, 7), view: "week" };
+  // Keep your place (view, week, month, scroll) across reloads and new versions of the page: this browser only.
+  const SPOT_KEY = "lookahead-spot";
+  const spotIn = window.claude?.hot?.data?.spot || (() => { try { return JSON.parse(localStorage.getItem(SPOT_KEY) || "null"); } catch { return null; } })();
+  if (spotIn) {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(spotIn.weekStart || "")) state.weekStart = spotIn.weekStart;
+    if (/^\d{4}-\d{2}$/.test(spotIn.month || "")) state.month = spotIn.month;
+    if (["week", "month", "strip"].includes(spotIn.view)) state.view = spotIn.view;
+  }
+  const spot = () => ({ weekStart: state.weekStart, month: state.month, view: state.view, y: window.scrollY });
+  const keepSpot = () => { try { localStorage.setItem(SPOT_KEY, JSON.stringify(spot())); } catch {} };
+  let scrollTimer;
+  window.addEventListener("scroll", () => { clearTimeout(scrollTimer); scrollTimer = setTimeout(keepSpot, 250); }, { passive: true });
   let db = null;
 
   const el = (tag, attrs = {}, ...kids) => {
@@ -439,7 +451,10 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
   }
 
   function render() {
-    const view = ["week", "month", "strip"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "week";
+    const h = location.hash.slice(1);
+    if (["week", "month", "strip"].includes(h)) state.view = h;
+    const view = state.view;
+    keepSpot();
     document.querySelectorAll("nav.tabs a").forEach((a) => {
       if (a.dataset.view === view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
@@ -468,7 +483,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     $("f-title").value = it?.title || "";
     $("f-kind").value = it?.kind || "event";
     $("f-lane").value = it?.lane || "family";
-    $("f-start").value = it?.start || (location.hash === "#week" || !location.hash ? state.weekStart : todayStr());
+    $("f-start").value = it?.start || (state.view === "week" ? state.weekStart : state.view === "month" && state.month !== todayStr().slice(0, 7) ? `${state.month}-01` : todayStr());
     $("f-end").value = it?.end || "";
     $("f-time").value = it?.time || "";
     $("f-owner").value = it?.owner || "";
@@ -492,7 +507,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
   const dropDraft = () => { try { localStorage.removeItem(DRAFT_KEY); } catch {} };
   $("itemForm").addEventListener("input", keepDraft);
   $("itemForm").addEventListener("change", keepDraft);
-  window.claude?.hot?.snapshot?.(() => ({ draft: currentDraft() }));
+  window.claude?.hot?.snapshot?.(() => ({ draft: currentDraft(), spot: spot() }));
   function restoreDraft(d) {
     if (!d || !d.values || dlg.open) return;
     const it = d.id ? state.items.find((x) => x.id === d.id) : null;
@@ -634,6 +649,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
       const done = () => {
         if (--pending <= 0 && !state.ready) {
           state.ready = true; render();
+          if (spotIn && spotIn.y > 0) requestAnimationFrame(() => window.scrollTo(0, spotIn.y));
           if (state.canWrite) restoreDraft(window.claude?.hot?.data?.draft || readDraft());
           return;
         }
