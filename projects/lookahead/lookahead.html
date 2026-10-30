@@ -88,6 +88,11 @@ main { padding-block: 20px 60px; display: grid; gap: 28px }
 .chip.open { box-shadow: inset 0 0 0 1.5px var(--open) }
 .chip.done { opacity: .55; text-decoration: line-through }
 .chip .k { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; opacity: .8 }
+.chip.drag { cursor: grab; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none }
+.chip.lifted { opacity: .35 }
+.ghost { position: fixed; z-index: 50; pointer-events: none; box-shadow: 0 6px 18px rgba(0, 0, 0, .22); transform: rotate(-2deg); cursor: grabbing; max-width: 260px }
+.drop-over { outline: 2px dashed var(--accent); outline-offset: -3px; background: var(--travel-bg) !important }
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 60; background: var(--ink); color: var(--paper); border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; max-width: calc(100vw - 32px) }
 .flag { font-family: var(--mono); font-size: 10.5px; font-weight: 500; color: var(--open); background: var(--open-bg); border-radius: 4px; padding: 1px 5px; text-transform: uppercase; letter-spacing: .06em }
 
 /* week days */
@@ -262,8 +267,10 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     const k = KIND[it.kind] || "";
     const span = it.end && it.end !== it.start ? ` ${fmt(it.start)}–${fmt(it.end)}` : "";
     const label = `${it.title}${it.time && !compact ? " · " + it.time : ""}`;
-    return el("button", { class: cls.join(" "), type: "button", title: `${it.title}${span}${it.owner ? " · " + it.owner : ""}${it.note ? "\n" + it.note : ""}`,
-      onclick: () => openEditor(it) },
+    const movable = state.canWrite && it.source !== "calendar";
+    if (movable) cls.push("drag");
+    return el("button", { class: cls.join(" "), type: "button", "data-id": it.id, title: `${it.title}${span}${it.owner ? " · " + it.owner : ""}${it.note ? "\n" + it.note : ""}`,
+      onclick: (e) => { if (drag.justDropped) { e.preventDefault(); return; } openEditor(it); } },
       k ? el("span", { class: "k", text: k }) : null, el("span", { class: "t", text: label }));
   }
 
@@ -289,7 +296,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     const days = el("section", { class: "days", "aria-label": "Days this week" });
     for (let i = 0; i < 7; i++) {
       const s = add(ws, i), its = itemsOn(s);
-      const row = el("div", { class: `day${s === t ? " today" : ""}${isSat(s) ? " rest" : ""}` },
+      const row = el("div", { class: `day${s === t ? " today" : ""}${isSat(s) ? " rest" : ""}`, "data-drop": s },
         el("div", { class: "d" }, el("span", { class: "label", text: DOW[i] }), el("b", { text: String(toD(s).getUTCDate()) })),
         el("div", { class: "items" },
           its.map((it) => chip(it)),
@@ -365,7 +372,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
     for (let i = 0; s <= end; i++, s = add(s, 1)) {
       if (i % 7 === 0) { row = el("div", { class: "row" }); cal.append(row); }
       const its = itemsOn(s), out = s.slice(0, 7) !== state.month;
-      row.append(el("div", { class: `cell${out ? " out" : ""}${s === t ? " today" : ""}` },
+      row.append(el("div", { class: `cell${out ? " out" : ""}${s === t ? " today" : ""}`, "data-drop": s },
         el("span", { class: "n", text: String(toD(s).getUTCDate()) }),
         its.slice(0, 3).map((it) => chip(it, true)),
         its.length > 3 ? el("span", { class: "more", text: `+${its.length - 3} more` }) : null));
@@ -383,7 +390,8 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
       el("span", { class: "chip work" }, el("span", { class: "t", text: "Work" })),
       el("span", { class: "chip travel" }, el("span", { class: "t", text: "Travel" })),
       el("span", { class: "chip both open" }, el("span", { class: "t", text: "Open decision" })),
-      "Bar under each week: travel days in green, Sabbath in grey"));
+      "Bar under each week: travel days in green, Sabbath in grey.",
+      state.canWrite ? " Drag a chip to another week to move it (on a phone, press and hold first)." : ""));
     const strip = el("section", { class: "strip", "aria-label": "Twelve week strip" });
     let lastMonth = "";
     for (let w = 0; w < 12; w++) {
@@ -404,7 +412,7 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
         track.append(el("i", { class: tr ? "tr" : isSat(d) ? "sab" : "" }));
       }
       const fx = [f.work, f.family, f.one].filter(Boolean);
-      strip.append(el("div", { class: `wk${t >= ws && t <= we ? " now" : ""}` },
+      strip.append(el("div", { class: `wk${t >= ws && t <= we ? " now" : ""}`, "data-dropweek": ws },
         el("div", { class: "when" }, el("span", { class: "label", text: `Week ${w + 1}` }), el("b", { text: `${fmt(ws)}–${fmt(we)}` })),
         el("div", { class: "fx" }, fx.length ? fx.join(" · ") : el("span", { class: "none", text: "Focus set at the Sunday stand-up" })),
         el("div", {}, track, el("div", { class: "its" }, its.length ? its.map((it) => chip(it, true)) : el("span", { class: "empty", text: "Clear" })))));
@@ -490,6 +498,88 @@ dialog h3 { margin: 0; font-family: var(--display); font-size: 18px }
       dlg.close();
     } catch { $("saveBtn").textContent = "Couldn't save. Try again"; setTimeout(() => { $("saveBtn").textContent = "Save"; }, 2500); }
   });
+
+  // ---------- drag to move ----------
+  // Mouse: drag after 5px. Touch: press and hold 300ms, then drag. Drop on a day (week, month) or a week row (strip).
+  // A week drop keeps the weekday; a day drop sets the date. Trips keep their length.
+  const drag = { item: null, src: null, ghost: null, over: null, timer: null, x0: 0, y0: 0, dx: 0, dy: 0, active: false, justDropped: false, pid: null };
+  function toast(msg) {
+    const t = el("div", { class: "toast", role: "status", text: msg });
+    document.body.append(t);
+    setTimeout(() => t.remove(), 2600);
+  }
+  function dropTarget(x, y) {
+    const hit = document.elementFromPoint(x, y);
+    return hit ? hit.closest("[data-drop],[data-dropweek]") : null;
+  }
+  function startDrag() {
+    const r = drag.src.getBoundingClientRect();
+    drag.dx = drag.x0 - r.left; drag.dy = drag.y0 - r.top;
+    drag.ghost = drag.src.cloneNode(true);
+    drag.ghost.classList.add("ghost");
+    drag.ghost.style.width = `${r.width}px`;
+    document.body.append(drag.ghost);
+    drag.src.classList.add("lifted");
+    drag.active = true;
+    if (navigator.vibrate) try { navigator.vibrate(10); } catch {}
+  }
+  function moveGhost(x, y) {
+    drag.ghost.style.left = `${x - drag.dx}px`; drag.ghost.style.top = `${y - drag.dy}px`;
+    const t = dropTarget(x, y);
+    if (t !== drag.over) { drag.over?.classList.remove("drop-over"); drag.over = t; t?.classList.add("drop-over"); }
+  }
+  function endDrag(commit) {
+    clearTimeout(drag.timer);
+    const { item, over, active } = drag;
+    drag.ghost?.remove(); drag.src?.classList.remove("lifted"); over?.classList.remove("drop-over");
+    Object.assign(drag, { item: null, src: null, ghost: null, over: null, active: false, pid: null });
+    if (!active) return;
+    drag.justDropped = true; setTimeout(() => { drag.justDropped = false; }, 0);
+    if (commit && item && over) moveItem(item, over);
+  }
+  async function moveItem(it, target) {
+    let start;
+    if (target.dataset.drop) start = target.dataset.drop;
+    else start = add(target.dataset.dropweek, toD(it.start).getUTCDay());
+    if (start === it.start) return;
+    const len = it.end ? Math.round((toD(it.end) - toD(it.start)) / DAY) : 0;
+    const end = it.end ? add(start, len) : "";
+    const prev = { start: it.start, end: it.end };
+    Object.assign(it, { start, end });
+    render();
+    try {
+      await db.collection("items").doc(it.id).update({ start, end, updatedAt: new Date().toISOString() });
+      toast(`Moved to ${fmtDow(start)}${end ? ` – ${fmtDow(end)}` : ""}`);
+    } catch {
+      Object.assign(it, prev); render();
+      toast("Couldn't move it. Check your connection and try again.");
+    }
+  }
+  document.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0 && e.pointerType === "mouse") return;
+    const src = e.target.closest(".chip[data-id]");
+    if (!src || !state.canWrite || !db) return;
+    const it = state.items.find((x) => x.id === src.dataset.id);
+    if (!it) return;
+    if (it.source === "calendar") { if (e.pointerType === "mouse") src.title = "From Google Calendar: move it there"; return; }
+    Object.assign(drag, { item: it, src, x0: e.clientX, y0: e.clientY, pid: e.pointerId, active: false });
+    if (e.pointerType !== "mouse") drag.timer = setTimeout(() => { if (drag.src === src) { startDrag(); moveGhost(drag.x0, drag.y0); } }, 300);
+  });
+  document.addEventListener("pointermove", (e) => {
+    if (!drag.item || e.pointerId !== drag.pid) return;
+    const far = Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 6;
+    if (!drag.active) {
+      if (e.pointerType === "mouse" && far) startDrag();
+      else if (e.pointerType !== "mouse" && far) { endDrag(false); return; } // finger moved before the hold: let it scroll
+      else return;
+    }
+    moveGhost(e.clientX, e.clientY);
+  });
+  document.addEventListener("pointerup", (e) => { if (drag.item && e.pointerId === drag.pid) endDrag(true); });
+  document.addEventListener("pointercancel", (e) => { if (drag.item && e.pointerId === drag.pid) endDrag(false); });
+  document.addEventListener("touchmove", (e) => { if (drag.active) e.preventDefault(); }, { passive: false });
+  document.addEventListener("contextmenu", (e) => { if (drag.item) e.preventDefault(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && drag.active) endDrag(false); });
 
   // ---------- data ----------
   window.addEventListener("hashchange", render);
