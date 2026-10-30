@@ -160,3 +160,4 @@
 - 2026-10-30 04:46 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; floor refresh pushed (63 writes + crelate-tasks). Notion Family ledger and cockpit doc skipped (pre-6am run); QBO bench 8a not run.
 - 2026-10-30 05:50 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0; floor refreshed (63 writes + crelate-tasks)
 - 2026-10-30 06:52 PT: picked 1, closed 1 (t-202610301340-qrdr Family bench), gated 0, blocked 0, FAILs 0. Floor refresh pushed (78 writes + crelate-tasks + Notion Family ledger, 30 rows). Cockpit doc, 9a taps and 8a QBO bench not run this hour.
+- 2026-10-30 07:55 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Floor refresh pushed (63 writes + crelate-tasks). 9a: 74 unapplied taps still queued (13 daily-2026-10-28/29 decisions and touches from Kev, rest older ticket/QC taps), not applied this hour. Notion Family ledger, cockpit doc and 8a QBO bench not run.
