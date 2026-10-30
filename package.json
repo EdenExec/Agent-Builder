@@ -36,7 +36,8 @@
     "benches": "node workshop/office/benches.ts",
     "daily": "node workshop/office/daily.ts",
     "eu": "node workshop/office/eu.ts",
-    "crelate-note": "node workshop/crelate/notes.ts"
+    "crelate-note": "node workshop/crelate/notes.ts",
+    "lookahead-mirror": "node workshop/office/lookahead-mirror.ts"
   },
   "dependencies": {
     "undici": "^7.10.0",
