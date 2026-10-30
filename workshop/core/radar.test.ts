@@ -41,7 +41,7 @@ describe("radar routines", () => {
     assert.match(sweep.cron, / 7 7-18 \* \* 1-5$/);
   });
 
-  test("every prompt is self-contained: persona, brand, standing rules, its playbook, its seeds, and the repo refresh step", () => {
+  test("every prompt carries persona, brand, standing rules, its primary playbook and seeds, names the other playbooks by path, and the repo refresh step", () => {
     for (const r of file.routines) {
       const p = prompts[r.id]!;
       assert.match(p, /STEP 0, READ THE LIVE FILES/);
@@ -52,7 +52,12 @@ describe("radar routines", () => {
       assert.match(p, /BRAND STANDARD/);
       assert.match(p, /PLAYBOOK: standing-rules/);
       assert.match(p, /Friday sunset to Saturday sunset, no Eden Daily/);
-      for (const s of r.skills) assert.match(p, new RegExp(`PLAYBOOK: ${s} `));
+      // the primary playbook and the standing rules are embedded; every other playbook is named by path for step 0
+      const primary = ({ brief: "morning-brief", sweep: "inbox-sweep", "check-out": "check-out", "stand-up": "stand-up-tomorrow" } as Record<string, string>)[r.id] ?? r.skills[r.skills.length - 1]!;
+      for (const s of r.skills) {
+        if (s === primary || s === "standing-rules") assert.match(p, new RegExp(`PLAYBOOK: ${s} `));
+        else { assert.doesNotMatch(p, new RegExp(`PLAYBOOK: ${s} `)); assert.ok(p.includes(`employees/radar/skills/${s}.md`), `${r.id}: ${s} is not named for step 0`); }
+      }
       for (const s of r.seeds) assert.match(p, new RegExp(`SEED MEMORY: ${s} `));
       assert.ok(p.length < 60_000, `${r.id} prompt is ${p.length} chars; routine prompts are bounded to 64 KiB`);
     }
