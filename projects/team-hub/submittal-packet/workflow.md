@@ -27,7 +27,7 @@ Why: clients ask for better candidate quality and match, and more references.
 
 | Step | Who | What |
 |---|---|---|
-| 0. Must Dos exist for the JO | Lead recruiter | Every JO from now on has a Must Do list (`must-dos-intake-template.md`). Taken from the client on the intake call; if the client has none, we draft them and send to the client for approval. No scorecard until the Must Dos are approved |
+| 0. Must Dos for the JO | Lead recruiter, then each recruiter | Two ways in (Kev, 30 Oct 2026). If the client gave us Must Dos, they go on the job order in Crelate (in the job's search notes or description) and the Team Hub. If not, the recruiter builds them while screening: the assistant unpacks the screening notes into 7 to 10 Must Dos, labelled "Eden draft, for client approval", and the recruiter adds them to the job order so the next screen uses the same list |
 | 1. Screen | Recruiter | Screening call. Notes and transcript saved. Candidate confirms pay, availability and consent to references |
 | 2. Build | Recruiter | Fill cover page, score each Must Do, attach resume, add references and notes. Folder: Drive, `Submittals / <Client> / <JO> / <Candidate>`. Baker shows as "Client · discreet" in any shared name |
 | 3. Check | Recruiter | Run the checklist below |
@@ -40,7 +40,7 @@ Why: clients ask for better candidate quality and match, and more references.
 - **Kev reviews every packet before it is submitted (Kev, 27 Oct 2026).** Whoever builds it hands it to Kev with the reminder "Review before it goes to the client", and nothing goes out until he has read every field, pay line and name. Quality control is his eyes on it.
 - **Pay shows only what Kev wants the client to see.** Desired pay, bonus structure, vehicle and PTO; never current base unless Kev says so (Corey Donovan, 27 Oct).
 
-- **Pay goes on the cover page, always marked current or desired.** This replaces the 8 Oct "no comp history on a submittal" line for the packet's pay field only (Kev, 24 Oct 2026).
+- **Pay on the cover page is desired pay, marked DESIRED (Kev, 30 Oct 2026).** This settles the 24 Oct "current or desired" wording: current pay never goes on a packet unless Kev says so for that candidate.
 - **Where packets live:** Drive, one folder per client. Never the repo, never the Team Hub, never a ticket. Pay, references and transcripts are on them. The Hub keeps names, role and status only.
 - **References:** each carries "Please do not contact without the candidate's clear consent." No reference without the candidate's yes.
 - **Background first pass:** the Google search link is a first-pass check, not a conclusion. It never goes beyond public search; no enrichment tool, no ZoomInfo.
@@ -60,7 +60,7 @@ Why: clients ask for better candidate quality and match, and more references.
 |---|
 | Must Dos are the approved list for this JO |
 | Every Must Do has a score and one line of evidence |
-| Pay marked current or desired |
+| Pay is desired only, marked DESIRED |
 | Boolean link opens and has name variations and locations |
 | Resume is the original, unedited |
 | Consent for references recorded |
@@ -72,5 +72,4 @@ Why: clients ask for better candidate quality and match, and more references.
 | # | Ask |
 |---|---|
 | 1 | Hannah's actual Hoffman page: the field order here comes from your description. Drop the file in Drive and I will match the layout |
-| 2 | Scorecard scale: 3-point (Meets, Partial, Gap) is the default here. Keep or change |
-| 3 | The packet PDF is built in Eden's look (Montserrat, EDEN PARTNER GROUP header and footer) rather than filled into the Word letterhead, because it has to merge with the original resume. Keep, or build the cover page on the letterhead .docx instead |
+| 2 | The packet PDF is built in Eden's look (Montserrat, EDEN PARTNER GROUP header and footer) rather than filled into the Word letterhead, because it has to merge with the original resume. Keep, or build the cover page on the letterhead .docx instead |
