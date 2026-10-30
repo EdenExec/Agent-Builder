@@ -30,10 +30,10 @@ export const DEFAULT_EXPECTED_EVERY_HOURS = 96;
 export type Desk = "centre" | "recruiting" | "finance" | "family" | "projects" | "other";
 export const DESKS: Record<string, Desk> = {
   radar: "centre", scout: "recruiting", casey: "recruiting", ember: "recruiting", q: "recruiting", dean: "recruiting", host: "finance",
-  tally: "finance", docket: "finance", pm: "projects", atlas: "family", "housing-architect": "family", keys: "family", hale: "family", jethro: "family", barnabas: "family",
+  tally: "finance", docket: "finance", pm: "projects", atlas: "family", "housing-architect": "family", keys: "family", hale: "family", jethro: "family", barnabas: "family", lookahead: "family",
 };
 /** Hidden or blanked under the Screen-share switch: finance, family and the coaching desk. */
-export const SENSITIVE_AGENTS = new Set(["tally", "docket", "atlas", "housing-architect", "keys", "dean", "hale", "jethro", "barnabas"]);
+export const SENSITIVE_AGENTS = new Set(["tally", "docket", "atlas", "housing-architect", "keys", "dean", "hale", "jethro", "barnabas", "lookahead"]);
 
 export type AgentLite = { id: string; name: string; title?: string };
 export type NowFile = { task?: string; since?: string; state?: "working" | "idle" | "blocked"; blockedOn?: string; updated?: string };
@@ -313,12 +313,15 @@ const strip = (v: unknown) => JSON.stringify(v, (k, x) => (k === "updated" || k 
  * Existing docs need if_version; unchanged docs are skipped; sync-owned alerts (id starts "sync-") that are no longer true are deleted
  * (they are derived mirror rows this script owns, never records of a system).
  */
-export function planWrites(docs: Record<string, unknown>, existing: Existing = {}): Op[] {
+export function planWrites(docs: Record<string, unknown>, existing: Existing = {}, now: Date = new Date()): Op[] {
   const ops: Op[] = [];
-  for (const [path, data] of Object.entries(docs)) {
+  for (let [path, data] of Object.entries(docs)) {
     const i = path.lastIndexOf("/");
     const collection = path.slice(0, i), doc_id = path.slice(i + 1);
     const ex = existing[path];
+    // Radar's runner snoozes an alert ("Later" on the Needs Kev strip) by setting snoozeUntil on its doc; the hourly rewrite must not wipe it while it is still in the future.
+    const snz = collection === "alerts" ? (ex?.data as { snoozeUntil?: unknown } | undefined)?.snoozeUntil : undefined;
+    if (typeof snz === "string" && Date.parse(snz) > now.getTime() && data && typeof data === "object") data = { ...(data as object), snoozeUntil: snz };
     if (ex) {
       // meta/sync is the heartbeat behind the page's "Synced Nm ago": never skipped, even when nothing else changed (strip() ignores syncedAt).
       if (path !== "meta/sync" && ex.data !== undefined && strip(ex.data) === strip(data)) continue;

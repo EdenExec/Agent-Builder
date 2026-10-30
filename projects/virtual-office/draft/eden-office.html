@@ -71,6 +71,43 @@ a{color:inherit}
 .strip ol{list-style:none;margin:0;padding:0}
 .strip li{border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center}
 .strip li:last-child{border-bottom:0}
+.strip-h .sh-r{display:flex;align-items:center;gap:6px 12px;flex-wrap:wrap}
+.strip .seg .mini{padding:6px 8px}
+.strip .more{padding:6px 12px 8px;cursor:pointer}
+.strip .undo{display:flex;align-items:baseline;gap:8px;padding:7px 12px;border-bottom:1px solid var(--line);font:500 10.5px/1.4 var(--mono);letter-spacing:.03em;color:var(--mute);background:var(--soft)}
+.strip .undo .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Clear the stack: one calm line per open item, four groups */
+.stk h3{display:flex;justify-content:space-between;gap:8px}
+.stk-r{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:4px 12px;padding:7px 0;border-top:1px solid var(--line)}
+.stk-r:first-of-type{border-top:0}
+.stk-t{display:flex;align-items:center;gap:8px;min-width:0}
+.stk-t .led{flex:none}
+.stk-t .who{flex:none;max-width:92px;overflow:hidden;text-overflow:ellipsis;font:700 11px/1.2 var(--sans);letter-spacing:.1em;text-transform:uppercase}
+.stk-t b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:600}
+.stk-r .ago{font:500 10.5px/1 var(--mono);letter-spacing:.04em;color:var(--mute);white-space:nowrap;text-align:right;min-width:2.4em}
+.stk-a{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;justify-content:flex-end}
+.stk-a .mini{white-space:nowrap}
+.stk .undo{display:flex;align-items:baseline;gap:8px;font:500 10.5px/1.4 var(--mono);letter-spacing:.03em;color:var(--mute)}
+.stk .undo .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.stk .hint{font:500 10.5px/1.4 var(--mono);letter-spacing:.04em;color:var(--mute);text-transform:none}
+/* Hawk's look-ahead card inside the Family office wing */
+.la{border:1px solid var(--line);background:var(--paper);padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.la-h{display:flex;justify-content:space-between;gap:4px 10px;flex-wrap:wrap}
+.la h4{margin:0 0 4px;font:500 10.5px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.la .one{margin:0;font-weight:700;font-size:13.5px;line-height:1.4;overflow-wrap:anywhere}
+.la .ln{margin:2px 0 0;font-size:12.5px;line-height:1.4;overflow-wrap:anywhere}
+.la .ln b{font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-right:6px}
+.la ul{list-style:none;margin:0;padding:0}
+.la li{display:grid;grid-template-columns:7.2em minmax(0,1fr) auto;gap:0 8px;align-items:baseline;padding:4px 0;border-top:1px solid var(--line);font-size:12.5px}
+.la li:first-child{border-top:0}
+.la li .d{font:500 10.5px/1.3 var(--mono);letter-spacing:.02em;color:var(--mute)}
+.la li .ti{min-width:0;overflow-wrap:anywhere}
+.la li .o{font:500 10px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.la .tag{font:600 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--ink);padding:2px 4px;margin-right:6px;white-space:nowrap}
+.la .tag.ms{border-style:dashed}
+.la .foot2{display:flex;justify-content:space-between;align-items:center;gap:6px 10px;flex-wrap:wrap}
+.la .asof{font:500 10px/1.3 var(--mono);letter-spacing:.04em;color:var(--mute)} .la .asof.warn{color:var(--a)}
+.la .none{margin:0;font-size:12px;color:var(--mute)}
 .smain{display:grid;grid-template-columns:22px 92px minmax(0,1fr);align-items:center;gap:10px;padding:10px 12px;background:none;border:0;text-align:left;cursor:pointer;min-width:0}
 .smain:hover{background:var(--soft)}
 .smain:disabled{cursor:default}
@@ -587,6 +624,9 @@ textarea{min-height:84px;resize:vertical}
   .smain{grid-template-columns:20px minmax(0,1fr);row-gap:2px}
   .strip .who{grid-column:2} .strip .what{grid-column:2;grid-row:2;white-space:normal}
   .strip li{grid-template-columns:minmax(0,1fr)} .sacts{padding:0 12px 10px 42px;justify-content:flex-start}
+  .stk-r{grid-template-columns:minmax(0,1fr) auto} .stk-a{grid-column:1/-1;justify-content:flex-start;padding-left:20px}
+  .stk-t{align-items:flex-start} .stk-t b{white-space:normal;overflow-wrap:anywhere}
+  .la li{grid-template-columns:5.6em minmax(0,1fr)} .la li .o{grid-column:2}
   .mini{min-height:34px}
   .switches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
   .sw{min-height:40px;justify-content:center}
@@ -817,7 +857,7 @@ textarea{min-height:84px;resize:vertical}
 
   <div class="toprow">
     <section class="strip" aria-label="Needs Kev">
-    <div class="strip-h"><span class="eyebrow">Needs Kev · ranked · three at most</span><span class="eyebrow" id="strip-count"></span></div>
+    <div class="strip-h"><span class="eyebrow">Needs Kev · ranked · three at most</span><span class="sh-r"><span class="eyebrow" id="strip-count"></span><button class="mini" id="stack-btn" type="button" hidden>Clear the stack</button></span></div>
     <ol id="strip"></ol>
     <div class="more" id="more"></div>
     </section>
@@ -884,6 +924,7 @@ textarea{min-height:84px;resize:vertical}
       <section class="zone z-fam private" data-zone="fam">
         <span class="eyebrow"><span>07 · Family office · KDTW Group</span><span>Own wing</span></span>
         <div class="desks" id="d-fam"></div>
+        <div class="la" id="la" hidden aria-label="Look-ahead: this week and the next three"></div>
         <div id="b-fam" class="slot"></div>
         <div class="closed">Wing closed</div>
       </section>
@@ -1430,7 +1471,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     { id: 'family', zone: 'fam', title: 'Home list', sub: 'KDTW Group · family office', owner: 'Radar', sensitive: true, cls: 'bench' }
   ];
 
-  var S = { sessions: {}, live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, crelate: null, phones: null, tools: {}, logs: {}, chats: {}, assets: null, photo: null, pending: null, sample: null, meta: null, records: null, sound: true, lineSeen: null, today: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
+  var S = { sessions: {}, live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, crelate: null, phones: null, tools: {}, logs: {}, chats: {}, assets: null, photo: null, pending: null, sample: null, meta: null, records: null, sound: true, lineSeen: null, today: null, look: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
   var lastFrom = null;
 
   /* ---------- helpers ---------- */
@@ -1476,7 +1517,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     var out = [];
     Object.keys(S.alerts).forEach(function (k) {
       var a = S.alerts[k]; if (a.agent !== id || a.kind === 'sla' || (S.share && (a.sensitive || sensitiveAgent(a.agent)))) return;   // SLA alerts are recomputed live below, so they are never an hour stale
-      if (acted(a.id)) return;                             // Kev marked it done, moved it to follow-up, or snoozed it
+      if (acted(a.id) || stripHidden(a.id, a)) return;     // Kev marked it done, moved it to follow-up, or snoozed it; or answered it on the strip; or Radar snoozed it (snoozeUntil)
       var seen = isSeen(a.id) && !(a.light === 'urgent' && Date.now() - t(S.seen[a.id].at) > DAY);   // a seen red comes back to the top of the list after a day (Kev, 26 Oct)
       if (seen && a.light !== 'urgent') return;           // seen clears everything but red; red holds steady until the source resolves
       var rel = a.link ? null : relatedTicket(a);
@@ -1487,7 +1528,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
       var f = derived().sla[tk.id];                        // FAIL (red) or STALL (amber), by the page's own clock
       if (f) out.push({ light: f.state === 'fail' ? 'urgent' : 'blocked', title: Game.slaTitle(f.state, f.minutes, tk.ask), raisedAt: new Date(f.since).toISOString(), key: 'sla-' + f.state + '-' + tk.id, needsKev: false, agent: id, kind: 'sla', seen: false });
       var key = 'ticket-' + tk.id + '-' + tk.status;
-      if (acted(key)) return;
+      if (acted(key) || stripHidden(key)) return;
       // Kev, 26 Oct: a gated or blocked ticket stays on its desk until he taps Done or Follow up; Seen only quiets the strip (it was on the line with no way to close it).
       if (tk.status === 'blocked' || tk.status === 'gated') out.push({ light: 'blocked', title: 'Ticket needs you: ' + tk.ask, raisedAt: tk.updatedAt || tk.createdAt, key: key, needsKev: true, agent: id, seen: isSeen(key), link: tk.result && tk.result.link });
       if (tk.status === 'done' && !isSeen(key)) out.push({ light: 'review', title: 'Ticket done: ' + tk.ask, raisedAt: tk.doneAt || tk.updatedAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
@@ -2013,7 +2054,8 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     if (S.live && S.db && S.canWrite) S.db.doc('actions/' + i.key).set(doc).catch(function () { delete S.actions[i.key]; renderAll(); });
   }
   function undoAction(key) {
-    delete S.actions[key]; renderAll();
+    stripUndo = stripUndo.filter(function (u) { return u.key !== key; });
+    delete S.actions[key]; S.forceSheet = true; renderAll();
     if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).delete().catch(function () {});
   }
 
@@ -2045,11 +2087,71 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
   var bannerKey = null;
   var openDrafts = {};
   function nameOf(id) { return S.agents[id] ? S.agents[id].name : id; }
+  /* ---------- Needs Kev: answer it where you read it (Kev, 30 Oct: "this isn't working well right now, how do we make it easier to move on stuff?") ----------
+     Four taps per line, Done / Later / Drop / Talk. A tap writes actions/alert-<alertKey> (source "strip", applied false) and the line hides at once, with ten
+     seconds of Undo. Radar's runner applies it (ticket-runner step 9a). Approving a spend, a send or a publish is never a tap here: QC keeps its two taps. */
+  var STACK_DAYS = 7, STRANK = { urgent: 0, reply: 1, review: 2, blocked: 3 };
+  var STRIP_ACTS = [['done', 'Done', 'I handled it myself'], ['later', 'Later', 'Back on the next weekday at 7:00 am'], ['drop', 'Drop', 'No longer needed'], ['talk', 'Talk', 'Put it on the hit list for our next block']];
+  var STRIP_WORD = { done: 'Done', later: 'Later', drop: 'Dropped', talk: 'Talk' };
+  var stripUndo = [];
+  /* Hidden: Kev answered it on the strip and Radar has not applied it yet (a Talk stays hidden: it is on the hit list), or Radar snoozed it (snoozeUntil in the future). */
+  function stripHidden(key, a) {
+    var x = S.actions['alert-' + key];
+    if (x && x.source === 'strip') {
+      if (/^ticket-/.test(key)) {                          // a ticket line has no alert doc for Radar to flip, so the page keeps the answer itself; Later wakes on the next workday at 7
+        if (x.action !== 'later') return true;
+        if (t(x.at) && Date.now() < at(nextWorkday(new Date(t(x.at))), 7).getTime()) return true;
+      } else if (!x.applied || x.action === 'talk') return true;
+    }
+    return !!(a && a.snoozeUntil && t(a.snoozeUntil) > Date.now());
+  }
+  /* Everything open for Kev: raised in the last 7 days first (urgent, reply, review, blocked; newest first inside each), then the stale ones the same way. */
+  function stackList() {
+    var now = Date.now();
+    return allItems().filter(function (i) { return i.needsKev && !i.seen && STRANK[i.light] !== undefined; })
+      .map(function (i) { i.stale = !(t(i.raisedAt) && now - t(i.raisedAt) <= STACK_DAYS * DAY); return i; })
+      .sort(function (a, b) { return (a.stale - b.stale) || (STRANK[a.light] - STRANK[b.light]) || (t(b.raisedAt) - t(a.raisedAt)); });
+  }
+  function stackGroup(i) {
+    if (i.stale) return 'stale';
+    var k = i.key || '';
+    if (/^sync-qc-/.test(k) || i.kind === 'qc' || /^ticket-.+-gated$/.test(k)) return 'decide';   // spend, send, publish: QC and gated tickets
+    if (i.kind === 'inbox' || /^sync-inbox-/.test(k) || i.light === 'reply') return 'reply';
+    if (i.light === 'review') return 'review';                                     // finished work and cleared gates, ready to look at
+    return 'unblock';                                                              // blocked agents, routines without a trigger, sign-ins, overdue ledger rows
+  }
+  function stripTap(i, action) {
+    var key = 'alert-' + i.key, doc = { key: key, agent: i.agent || null, title: i.title || '', action: action, alertKey: i.key, at: new Date().toISOString(), by: 'kev', applied: false, source: 'strip' };
+    S.actions[key] = doc;
+    var u = { key: key, action: action, title: i.title || '' };
+    stripUndo = stripUndo.filter(function (x) { return x.key !== key; }); stripUndo.push(u);
+    setTimeout(function () { stripUndo = stripUndo.filter(function (x) { return x !== u; }); S.forceSheet = true; renderAll(); }, 10000);
+    S.forceSheet = true; renderAll();
+    if (S.live && S.db && S.canWrite) S.db.doc('actions/' + key).set(doc).catch(function () { if (S.actions[key] === doc) delete S.actions[key]; stripUndo = stripUndo.filter(function (x) { return x !== u; }); S.flash = 'That did not save. Try again.'; S.forceSheet = true; renderAll(); });
+  }
+  function answerSeg(i) {
+    var seg = h('span', { class: 'seg', role: 'group', 'aria-label': 'Answer: ' + clip1(i.title, 50) });
+    STRIP_ACTS.forEach(function (o) {
+      var b = h('button', { class: 'mini', type: 'button', text: o[1], title: o[2], 'data-stk': o[0], 'aria-label': o[1] + ': ' + clip1(i.title, 60) }); b.disabled = !S.canWrite;
+      b.addEventListener('click', function (ev) { ev.stopPropagation(); stripTap(i, o[0]); });
+      seg.appendChild(b);
+    });
+    return seg;
+  }
+  /* A QC item keeps its own two-tap approval: the link opens the alert's own page. Anything else opens only when the link is worth opening. */
+  function stripOpen(i, acts) {
+    if (/^sync-qc-/.test(i.key || '')) { if (i.link) acts.appendChild(h('a', { class: 'mini txt', href: linkUrl(i.link), target: '_blank', rel: 'noopener', 'data-stk-open': 'qc', text: 'Approve in QC' })); }
+    else if (usefulLink(i.link)) acts.appendChild(h('a', { class: 'mini txt', href: linkUrl(i.link), target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
+  }
+  function undoLines(tag) {
+    return stripUndo.map(function (u) {
+      var b = h('button', { class: 'mini txt', type: 'button', text: 'Undo', 'data-undo': u.key }); b.disabled = !S.canWrite;
+      return h(tag, { class: 'undo', 'data-stk-undo': u.key }, h('span', { class: 't', text: STRIP_WORD[u.action] + ' · ' + clip1(u.title, 70) }), b);
+    });
+  }
   function renderStrip() {
     var ol = $('#strip'); ol.textContent = '';
-    var rank = { urgent: 0, reply: 1, review: 2, blocked: 3 };
-    var every = allItems().filter(function (i) { return i.needsKev && !i.seen && rank[i.light] !== undefined && i.key !== bannerKey; })
-      .sort(function (a, b) { return (rank[a.light] - rank[b.light]) || (t(a.raisedAt) - t(b.raisedAt)); });
+    var all = stackList(), every = all.filter(function (i) { return i.key !== bannerKey; });
     var items = every.filter(function (i) { return i.light === 'urgent' || inFocusAgent(i.agent); }), heldN = every.length - items.length, L = laneOf(S.focus);   // red always comes through a focus lane (Kev, 26 Oct)
     $('.strip-h .eyebrow').textContent = L ? 'Needs Kev · ' + L.name.toLowerCase() + ' only' + (heldN ? ' · ' + heldN + ' held' : '') : 'Needs Kev · ranked · three at most';
     if (!items.length) ol.appendChild(h('li', null, h('button', { class: 'smain', disabled: 'disabled' }, h('span'), h('span', { class: 'who', text: 'Clear' }), h('span', { class: 'what', text: L ? 'Nothing in this lane needs you. Head down.' : 'Nothing needs you.' }))));
@@ -2057,22 +2159,49 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
       var main = h('button', { class: 'smain', 'data-id': i.agent }, led(i.light, true), h('span', { class: 'who', text: nameOf(i.agent) }), h('span', { class: 'what', text: i.title }));
       main.setAttribute('aria-label', WORD[i.light] + ', ' + nameOf(i.agent) + ': ' + i.title);
       var acts = h('span', { class: 'sacts' });
-      if (usefulLink(i.link)) acts.appendChild(h('a', { class: 'mini txt', href: linkUrl(i.link), target: '_blank', rel: 'noopener', text: openLabel(i.link) }));
-      zzz(acts, i); if (!zzzOpen[i.key]) acts.appendChild(seenBtn(i));
-      ol.appendChild(h('li', null, main, acts));
+      stripOpen(i, acts); acts.appendChild(answerSeg(i));
+      ol.appendChild(h('li', { 'data-key': i.key }, main, acts));
     });
-    $('#strip-count').textContent = items.length ? items.length + ' open' : '';
-    var more = $('#more'); more.hidden = items.length <= 3;
-    more.textContent = items.length > 3 ? (items.length - 3) + ' more: ' + items.slice(3).map(function (i) { return nameOf(i.agent) + ' ' + WORD[i.light].toLowerCase(); }).join(' · ') : '';
+    undoLines('li').forEach(function (u) { ol.appendChild(u); });
+    $('#strip-count').textContent = '';
+    var sb = $('#stack-btn'); sb.hidden = !all.length; sb.textContent = 'Clear the stack · ' + all.length;
+    var more = $('#more'), rest = items.slice(3), staleN = rest.filter(function (i) { return i.stale; }).length;
+    more.hidden = !rest.length;
+    more.textContent = rest.length ? rest.length + ' more waiting' + (staleN ? ' · ' + staleN + ' stale' : '') + ' · open the stack' : '';
+  }
+  function stackRow(i) {
+    var row = h('div', { class: 'stk-r', 'data-key': i.key });
+    row.appendChild(h('span', { class: 'stk-t' }, led(i.light, true), h('span', { class: 'who', text: nameOf(i.agent) }), h('b', { text: i.title, title: i.title })));
+    row.appendChild(h('span', { class: 'ago', text: short(i.raisedAt) }));
+    var acts = h('span', { class: 'stk-a' }); stripOpen(i, acts); acts.appendChild(answerSeg(i)); row.appendChild(acts);
+    return row;
+  }
+  var STACK_GROUPS = [['decide', 'Decide', 'spend, send, publish'], ['reply', 'Reply', 'inbox'], ['unblock', 'Unblock', 'waiting on you'], ['review', 'Review', 'finished, ready to look'], ['stale', 'Stale', 'over 7 days']];
+  function stackSheet(p) {
+    var all = stackList();
+    p.appendChild(head('Clear the stack', null, all.length ? all.length + ' open · one tap each' : 'Nothing open', 'Needs Kev'));
+    var body = h('div', { class: 'panel-b one stk' }); p.appendChild(body);
+    var ul = undoLines('div'); if (ul.length) { var us = h('section'); ul.forEach(function (u) { us.appendChild(u); }); body.appendChild(us); }
+    if (S.flash) body.appendChild(h('section', null, h('p', { class: 'small', text: S.flash })));
+    if (!all.length) { body.appendChild(h('section', null, h('p', { class: 'small', text: 'Nothing needs you. The stack is clear.' }))); return; }
+    STACK_GROUPS.forEach(function (g) {
+      var xs = all.filter(function (i) { return stackGroup(i) === g[0]; }); if (!xs.length) return;
+      var sec = h('section', { 'data-group': g[0] }, h('h3', null, h('span', { text: g[1] + ' · ' + xs.length }), h('span', { class: 'hint', text: g[2] })));
+      xs.forEach(function (i) { sec.appendChild(stackRow(i)); });
+      body.appendChild(sec);
+    });
   }
 
   /* ---------- the floor ---------- */
   var ZONE_OF = { radar: 'rad', recruiting: 'rec', finance: 'fin', family: 'fam', other: 'rec' };
-  var AGENT_ORDER = ['scout', 'casey', 'ember', 'dean', 'q', 'pm', 'tally', 'docket', 'host', 'atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];
-  var WING = ['atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas'];   // the KDTW wing: private, closes whole under Screen share
+  var AGENT_ORDER = ['scout', 'casey', 'ember', 'dean', 'q', 'pm', 'tally', 'docket', 'host', 'atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas', 'lookahead'];
+  var WING = ['atlas', 'housing-architect', 'keys', 'hale', 'jethro', 'barnabas', 'lookahead'];   // the KDTW wing: private, closes whole under Screen share
   var SEAT = { q: 'rec', host: 'fin', pm: 'spx', casey: 'cli', ember: 'cli' };   // ember: MPC and warm-inventory keeper, Kev 28 Oct: next to Casey in Client work   // casey: Client Care Manager, Kev 23 Oct: a desk in Client work, over the job-order board   // pm: the special projects PM, Kev 21 Oct; side projects inside EPG, reports to Radar
     // Kev, 21 Oct: Q takes Host's old seat on the recruiting desk; Jenny (host) sits by Docket
   function zoneOf(a) { return SEAT[a.id] || (WING.indexOf(a.id) >= 0 ? 'fam' : (ZONE_OF[a.desk] || 'rec')); }
+  /* A desk that exists in the repo before its first office sync still sits in its zone (Hawk, 30 Oct): the synced doc replaces the stub the moment it arrives. */
+  var STUBS = { lookahead: { id: 'lookahead', name: 'Hawk', role: 'Look-ahead keeper', desk: 'family', sensitive: true, light: 'idle', counts: {}, task: null, stub: true } };
+  function withStubs(m) { Object.keys(STUBS).forEach(function (k) { if (!m[k]) m[k] = Object.assign({}, STUBS[k]); }); return m; }
   function isDusk() { var d = new Date(), x = d.getHours() + d.getMinutes() / 60; return !(x >= 7.5 && x <= 18.5); }
 
   function deskEl(a) {
@@ -2141,6 +2270,58 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
       door.addEventListener('click', function () { markSeen('open-' + rt.id); }); $('#b-ppl').appendChild(door); } }
     if (focus) { var back = focusIsBench ? $('[data-bench="' + focus + '"]') : $('.desk[data-id="' + focus + '"]'); if (back && back !== document.activeElement && !S.sheet) back.focus(); }
     applyFocus(); phaseLock(); drawNotes(); drawFlow();
+  }
+
+  /* ---------- Hawk's look-ahead card, inside the Family office wing (Kev, 30 Oct: "should we add our planning scheduler and a widget down here?") ----------
+     Reads meta/lookahead, which Hawk writes: titles, dates and owners only, never a note. Private: hidden whole and unsubscribed under Screen share, like the wing. */
+  function laDay(d, short2) {
+    var x = new Date(d + 'T12:00:00Z'); if (isNaN(x)) return d;
+    return x.toLocaleDateString('en-US', short2 ? { month: 'short', day: 'numeric', timeZone: 'UTC' } : { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
+  }
+  function laWhen(x, today) {
+    if (x.start === today) return 'Today'; if (x.start === Game.addDays(today, 1) && !(x.end && x.end > x.start)) return 'Tomorrow';
+    if (x.end && x.end > x.start) { var a = laDay(x.start, true), b = laDay(x.end, true); return a.split(' ')[0] === b.split(' ')[0] ? a + '–' + b.split(' ')[1] : a + ' – ' + b; }
+    return laDay(x.start);
+  }
+  function laRow(x, today, withTag) {
+    var ti = h('span', { class: 'ti' });
+    if (withTag && x.kind === 'travel') ti.appendChild(h('span', { class: 'tag', text: 'Trip' }));
+    if (withTag && x.kind === 'milestone') ti.appendChild(h('span', { class: 'tag ms', text: 'Milestone' }));
+    ti.appendChild(document.createTextNode(x.title + (x.time ? ' · ' + x.time : '')));
+    return h('li', null, h('span', { class: 'd', text: laWhen(x, today) }), ti, h('span', { class: 'o', text: x.owner || '' }));
+  }
+  function renderLookahead() {
+    var box = $('#la'); if (!box) return;
+    box.textContent = '';
+    if (S.share) { box.hidden = true; return; }
+    box.hidden = false;
+    var d = S.look, today = Game.pacificDate(Date.now());
+    box.appendChild(h('div', { class: 'la-h' }, h('span', { class: 'eyebrow', text: 'Look-ahead · Hawk' }), h('span', { class: 'eyebrow', text: d && d.week && d.week.start ? 'Week of ' + laDay(d.week.start, true) : '' })));
+    if (!d) { box.appendChild(h('p', { class: 'none', text: 'Hawk has not written the look-ahead yet. It shows here after the next nightly run.' })); return; }
+    var w = d.week || {}, wk = h('div');
+    wk.appendChild(h('h4', { text: 'This week' }));
+    if (w.one) wk.appendChild(h('p', { class: 'one', text: w.one }));
+    if (w.work) wk.appendChild(h('p', { class: 'ln' }, h('b', { text: 'Work' }), w.work));
+    if (w.family) wk.appendChild(h('p', { class: 'ln' }, h('b', { text: 'Family' }), w.family));
+    if (!w.one && !w.work && !w.family) wk.appendChild(h('p', { class: 'none', text: 'No focus set for this week yet.' }));
+    box.appendChild(wk);
+    var decs = Array.isArray(d.decisions) ? d.decisions : [], decIds = {}; decs.forEach(function (x) { decIds[x.id] = true; });
+    var nx = (Array.isArray(d.next) ? d.next : []).filter(function (x) { return !decIds[x.id]; });
+    var cap = S.laAll ? nx.length : 6, nb = h('div'); nb.appendChild(h('h4', { text: 'Next 3 weeks' }));
+    if (nx.length) {
+      var ul = h('ul'); nx.slice(0, cap).forEach(function (x) { ul.appendChild(laRow(x, today, true)); }); nb.appendChild(ul);
+      if (nx.length > 6) { var mb = h('button', { class: 'mini txt', type: 'button', text: S.laAll ? 'Show fewer' : '+' + (nx.length - 6) + ' more' }); mb.addEventListener('click', function () { S.laAll = !S.laAll; renderAll(); }); nb.appendChild(mb); }
+    } else nb.appendChild(h('p', { class: 'none', text: 'Nothing dated in the next three weeks.' }));
+    box.appendChild(nb);
+    if (decs.length) {
+      var db = h('div'); db.appendChild(h('h4', { text: 'Open decisions · decide by' }));
+      var dl = h('ul'); decs.forEach(function (x) { dl.appendChild(h('li', null, h('span', { class: 'd', text: x.start === today ? 'Today' : laDay(x.start) }), h('span', { class: 'ti', text: x.title }), h('span', { class: 'o', text: x.owner || '' }))); }); db.appendChild(dl);
+      box.appendChild(db);
+    }
+    var old = Date.now() - t(d.asOf) > 36 * HOUR, f = h('div', { class: 'foot2' });
+    if (typeof d.url === 'string' && /^https:\/\//.test(d.url)) f.appendChild(h('a', { class: 'mini', href: d.url, target: '_blank', rel: 'noopener', text: 'Open the 12-week look-ahead' }));
+    f.appendChild(h('span', { class: 'asof' + (old ? ' warn' : ''), text: 'as of ' + (d.asOf ? ptStamp(d.asOf) : 'unknown') + (old ? ' · older than a day' : '') }));
+    box.appendChild(f);
   }
 
   /* ---------- focus: Recruit mode (a preset, no timer) and Deep work (pick a lane or one desk, optional timer) ---------- */
@@ -2931,6 +3112,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     if (sh.kind === 'desk') { var a = sh.id === 'radar' ? (S.agents.radar || { id: 'radar', name: 'Radar', role: 'Chief of staff' }) : S.agents[sh.id]; if (!a) { S.sheet = null; sheet.hidden = true; return; } deskSheet(p, a); }
     else if (sh.kind === 'bench') { var def = BENCH_DEFS.filter(function (d) { return d.id === sh.id; })[0]; if (!def || (S.share && def.sensitive)) { S.sheet = null; sheet.hidden = true; return; } benchSheet(p, def); }
     else if (sh.kind === 'board') { if (/^rec:/.test(sh.id)) { if (S.share) { S.sheet = null; sheet.hidden = true; return; } recruiterSheet(p, sh.id); } else boardSheet(p, sh.id); }
+    else if (sh.kind === 'stack') stackSheet(p);
     else leverSheet(p, sh.id);
     p.scrollTop = scrollTop;
     sheet.hidden = false;
@@ -3037,6 +3219,8 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     if (S.focus && S.focus.kind === 'recruit') endFocus(); else startFocus({ lane: 'recruiting', task: '', kind: 'recruit', until: null });
   });
   $('#focus-btn').addEventListener('click', function () { openSheet('lever', 'focus', $('#focus-btn')); });
+  $('#stack-btn').addEventListener('click', function () { openSheet('stack', 'stack', $('#stack-btn')); });
+  $('#more').addEventListener('click', function () { openSheet('stack', 'stack', $('#stack-btn')); });
   try { var fsaved = JSON.parse(localStorage.getItem('eo-focus') || 'null'); if (fsaved && fsaved.lane && (!fsaved.until || t(fsaved.until) > Date.now())) S.focus = fsaved; } catch (x) {}
 
   /* ---------- render ---------- */
@@ -3117,7 +3301,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
   }
   function renderAllInner() {
     memo = null;                                    // one derivation of the game and the SLA per render
-    try { ensurePm(); checkFocusTimer(); renderNext(); renderSync(); renderBanner(); renderFocus(); renderStrip(); renderToday(); renderBoard(); renderPulse(); renderRecords(); renderLine(); renderFloor(); renderTools(); renderSheet(); }
+    try { ensurePm(); checkFocusTimer(); renderNext(); renderSync(); renderBanner(); renderFocus(); renderStrip(); renderToday(); renderBoard(); renderPulse(); renderRecords(); renderLine(); renderFloor(); renderLookahead(); renderTools(); renderSheet(); }
     finally { memo = null; }
   }
 
@@ -3655,6 +3839,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     ag('hale', 'Hale', 'family', 'Health advisor', { task: 'Example task', counts: { working: 1 }, lastHeard: iso(2 * HOUR) });
     ag('jethro', 'Jethro', 'family', 'Growth coach', { task: 'Example task', lastHeard: iso(6 * HOUR) });
     ag('barnabas', 'Barny', 'family', 'Spiritual advisor', { lastHeard: iso(4 * DAY) });
+    ag('lookahead', 'Hawk', 'family', 'Look-ahead keeper', { lastHeard: iso(5 * HOUR) });
     function al(id, agent, light, kind, title, ms) { S.alerts[id] = { id: id, agent: agent, light: light, kind: kind, title: title, source: 'example', raisedAt: iso(ms), needsKev: true, sensitive: SENS.indexOf(agent) >= 0 }; }
     al('e1', 'radar', 'urgent', 'call', 'Missed call: a client contact (example)', 12 * MIN);
     al('e2', 'scout', 'reply', 'inbox', 'Reply (team): lead sheet question (example)', 40 * MIN);
@@ -3684,6 +3869,13 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
       var c = r[0] * DAY + 3 * HOUR; tk('h' + i, r[1], 'Past work ' + (i + 1), r[2], 'done', c, { pickedAt: c - 20 * MIN, doneAt: c - 40 * MIN, result: { summary: 'Done (example)' } });
     });
     S.actions = { 'ex-a1': { key: 'ex-a1', action: 'done', at: iso(90 * MIN), by: 'kev', title: 'Example', agent: null }, 'ex-a2': { key: 'ex-a2', action: 'followup', at: iso(26 * HOUR), by: 'kev', title: 'Example', agent: null } };
+    (function () {         // invented, for the offline page only
+      var td = Game.pacificDate(Date.now()), ad = function (n) { return Game.addDays(td, n); };
+      function li(id, title, kind, start, o) { var x = { id: id, title: title + ' (example)', kind: kind, lane: 'both', start: start, end: '', time: '', owner: '', status: 'set' }; for (var k in o) x[k] = o[k]; return x; }
+      S.look = { schema: 1, asOf: iso(5 * HOUR), url: 'https://claude.ai/artifact/', week: { start: Game.addDays(td, -Game.dayOfWeek(td)), work: 'Two client calls, one hire decision (example)', family: 'Soccer Saturday (example)', one: 'Settle the Boise move date (example)' },
+        next: [li('x1', 'Family dinner', 'event', ad(1), { time: '6:30pm', owner: 'Kev & Ally' }), li('x2', 'Boise', 'travel', ad(8), { end: ad(10), owner: 'Kev' }), li('x3', 'Move to Boise', 'milestone', ad(12), { owner: 'Kev & Ally', status: 'open' })],
+        decisions: [li('x4', 'Pick the move date', 'decision', ad(3), { owner: 'Kev', status: 'open' })], counts: { items: 4, open: 2 } };
+    })();
     S.seen = { 'open-hub': { at: iso(DAY) }, 'open-eden-daily': { at: iso(5 * HOUR) } };
     S.tools = { nightly: { id: 'nightly', name: 'CloudTalk nightly lead load', noTrigger: true, owner: 'q' } };
     S.today = { lines: [{ at: '09:00', text: 'Coaching block (example)' }, { at: '11:30', text: 'Client call (example)' }, { at: '14:00', text: 'Wednesday training (example)' }] };
@@ -3715,7 +3907,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     })();
     S.logs = { q: [{ at: iso(20 * MIN), text: 'Wired the status feed (example)' }, { at: iso(2 * HOUR), text: 'Ran the dry sync (example)' }] };
   }
-  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.chats = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.crelate = null; S.phones = null; S.tools = {}; S.logs = {}; S.meta = null; S.records = null; S.today = null; }
+  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.chats = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.crelate = null; S.phones = null; S.tools = {}; S.logs = {}; S.meta = null; S.records = null; S.today = null; S.look = null; }
 
   /* ---------- live data: render the example first, then light up when `db` resolves (null after about 10 s: stay on the example) ---------- */
   function listen(name, fn) {
@@ -3730,9 +3922,10 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     listen('benches', function (m) { S.benches = m; });
     if (!S.unsub.crelate) S.unsub.crelate = S.db.doc('meta/crelate').onSnapshot(function (s) { S.crelate = s.exists ? s.data() : null; renderAll(); }, function () { S.unsub.crelate = null; });
     if (!S.unsub.phones) S.unsub.phones = S.db.doc('meta/phones').onSnapshot(function (s) { S.phones = s.exists ? s.data() : null; renderAll(); }, function () { S.unsub.phones = null; });
+    if (!S.unsub.lookahead) S.unsub.lookahead = S.db.doc('meta/lookahead').onSnapshot(function (s) { S.look = s.exists ? s.data() : null; renderAll(); }, function () { S.unsub.lookahead = null; });   // Hawk's mirror: the Family office card (private)
   }
   function dropSensitive() {                              // like the Hub: other data never sits in the page while presenting
-    unwatch('benches'); unwatch('crelate'); S.crelate = null; unwatch('phones'); S.phones = null;                 // names beside pace numbers never sit in the page while presenting
+    unwatch('benches'); unwatch('crelate'); S.crelate = null; unwatch('phones'); S.phones = null; unwatch('lookahead'); S.look = null;                 // names beside pace numbers never sit in the page while presenting
     Object.keys(S.benches).forEach(function (k) { var d = BENCH_DEFS.filter(function (x) { return x.id === k; })[0]; if (!d || d.sensitive) delete S.benches[k]; });
     S.benchRows = {}; Object.keys(S.unsub).forEach(function (k) { if (k.indexOf('rows-') === 0) unwatch(k); });
     Object.keys(S.logs).forEach(function (k) { if (sensitiveAgent(k)) { delete S.logs[k]; unwatch('log-' + k); } });
@@ -3740,7 +3933,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
   }
   function goLive(db) {
     S.db = db; S.live = true; clearData();
-    listen('agents', function (m) { S.agents = m; });
+    listen('agents', function (m) { S.agents = withStubs(m); });
     listen('alerts', function (m) { S.alerts = m; });
     listen('seen', function (m) { S.seen = m; });
     listen('actions', function (m) { S.actions = m; });

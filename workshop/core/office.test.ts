@@ -194,6 +194,16 @@ describe("write plan", () => {
     const ops = planWrites(docs, existing);
     assert.deepEqual(ops.map((o) => `${o.op} ${o.collection}/${o.doc_id} v${o.if_version ?? "-"}`), ["set agents/radar v2", "set alerts/sync-new v-", "delete alerts/sync-gone v7"]);
   });
+  test("a snooze Radar set on an alert survives the hourly rewrite while it is in the future, and Hawk sits in the sensitive family wing", () => {
+    const later = new Date(now.getTime() + 3600_000).toISOString(), past = new Date(now.getTime() - 3600_000).toISOString();
+    const ex = (snoozeUntil: string) => ({ "alerts/sync-a": { version: 3, data: { id: "sync-a", title: "old", snoozeUntil } } });
+    const docs = { "alerts/sync-a": { id: "sync-a", title: "new" } };
+    const kept = planWrites(docs, ex(later), now);
+    assert.equal((kept[0]!.data as { snoozeUntil?: string }).snoozeUntil, later);
+    assert.equal((planWrites(docs, ex(past), now)[0]!.data as { snoozeUntil?: string }).snoozeUntil, undefined);
+    assert.equal(planWrites({ "alerts/sync-a": { id: "sync-a", title: "old", snoozeUntil: later } }, ex(later), now).length, 0);   // nothing else changed: no write
+    assert.equal(DESKS.lookahead, "family"); assert.ok(SENSITIVE_AGENTS.has("lookahead"));
+  });
   test("batches hold at most 50", () => {
     assert.deepEqual(chunk(Array.from({ length: 120 }, (_, i) => i)).map((c) => c.length), [50, 50, 20]);
   });
