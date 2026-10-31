@@ -113,7 +113,7 @@ details.study .in{padding:0 16px 16px;display:flex;flex-direction:column;gap:10p
 (function () {
   var ROOMS = ['sabbath', 'journal', 'studies', 'people', 'charts', 'ahead', 'podcasts'];
   var KINDS = [['learned', 'Learned this week'], ['study', 'Study note'], ['question', 'Question'], ['prayer', 'Prayer'], ['carry', 'To carry']];
-  var S = { db: null, uid: null, live: false, sabbath: [], framework: null, studies: [], people: [], next: [], podcasts: [], charts: [], journal: [], progress: {}, pick: null, sample: null, filter: 'all', peopleKind: 'all', draft: null, asking: false, answer: '' };
+  var S = { db: null, uid: null, live: false, sabbath: [], framework: null, studies: [], people: [], next: [], podcasts: [], charts: [], journal: [], progress: {}, rhythm: {}, pick: null, sample: null, filter: 'all', peopleKind: 'all', draft: null, asking: false, answer: '' };
   var $ = function (s) { return document.querySelector(s); };
   function h(tag, attrs) {
     var el = document.createElement(tag), kids = Array.prototype.slice.call(arguments, 2);
@@ -126,7 +126,7 @@ details.study .in{padding:0 16px 16px;display:flex;flex-direction:column;gap:10p
   function short(d) { var x = new Date(d); return isNaN(x) ? '' : x.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ', ' + x.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
   function link(text, href, cls) { return href ? h('a', { class: cls || 'ref', href: href, target: '_blank', rel: 'noopener' }, text) : h('span', null, text); }
   function grade(g) { return g ? h('span', { class: 'grade ' + g, title: { TEXT: 'What the passage plainly says', CONSENSUS: 'Historic orthodox teaching', DISPUTED: 'Faithful Christians differ', SUGGESTION: 'Barny\'s suggestion, not binding' }[g] || '' , text: g }) : null; }
-  function room() { var r = (location.hash || '').slice(1); return ROOMS.indexOf(r) >= 0 ? r : 'sabbath'; }
+  function room() { var r = (location.hash || '').slice(1); if (ROOMS.indexOf(r) < 0) r = store('bw-room'); return ROOMS.indexOf(r) >= 0 ? r : 'sabbath'; }   // opened from the Home Screen with no #, it returns to the last room
 
   /* ---------- data ---------- */
   function listen(path, key, sort) {
@@ -158,6 +158,7 @@ details.study .in{padding:0 16px 16px;display:flex;flex-direction:column;gap:10p
             var v = d.data() || {};
             if (d.id === 'progress') S.progress = v.studies || {};
             else if (d.id === 'choices') S.pick = v.next || null;
+            else if (d.id.indexOf('rhythm-') === 0) S.rhythm[d.id.slice(7)] = v.ticks || {};
             else if (d.id.indexOf('j-') === 0) j.push(Object.assign({ id: d.id }, v));
           });
           j.sort(function (a, b) { return String(b.at).localeCompare(String(a.at)); });
@@ -170,11 +171,12 @@ details.study .in{padding:0 16px 16px;display:flex;flex-direction:column;gap:10p
     if (window.claude && window.claude.use) window.claude.use('sample').then(function (s) { S.sample = s; render(); }, function () {});
   }
   function mine(k) { return S.db.collection('data/users/' + S.uid).doc(k); }
+  function saved(p) { return p.then(function (x) { $('#state').textContent = 'Saved ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) + ' · private to you'; return x; }, function (e) { $('#state').textContent = 'Not saved. Check your connection and try again.'; throw e; }); }
   function saveEntry(e) {
     if (!S.live) return Promise.reject(new Error('offline'));
     var id = e.id || ('j-' + Date.now().toString(36));
     var doc = { kind: e.kind, text: e.text, ref: e.ref || '', prompt: e.prompt || '', sabbath: e.sabbath || '', at: e.at || new Date().toISOString(), edited: e.id ? new Date().toISOString() : null, notion: e.notion || false };
-    return mine(id).set(doc);
+    return saved(mine(id).set(doc));
   }
 
   /* ---------- rooms ---------- */
@@ -216,16 +218,16 @@ details.study .in{padding:0 16px 16px;display:flex;flex-direction:column;gap:10p
   function list(parent, title, arr, tag) { if (!(arr || []).length) return; parent.appendChild(h('h3', { text: title })); var l = h(tag || 'ul', { class: 'q' }); arr.forEach(function (x) { l.appendChild(h('li', { text: x })); }); parent.appendChild(l); }
   function rhythmBox(s) {
     var steps = (S.framework && S.framework.rhythm) || [];
-    var key = 'bw-rhythm-' + (s.date || s.id), ticks = store(key) || {}, box = h('section', { class: 'sheet' }, h('span', { class: 'eyebrow', text: 'The rhythm' }));
+    var day = s.date || s.id, key = 'bw-rhythm-' + day, ticks = Object.assign({}, S.live ? S.rhythm[day] || {} : store(key) || {}), box = h('section', { class: 'sheet' }, h('span', { class: 'eyebrow', text: 'The rhythm' }));
     if (!steps.length) { box.appendChild(h('p', { class: 'empty', text: 'Barny\'s order for a Sabbath in the workshop shows here.' })); return box; }
     var ol = h('ol', { class: 'rhythm' }), total = 0;
     steps.forEach(function (st, i) {
       var name = typeof st === 'string' ? st : (st.step || st.name || ''), min = typeof st === 'object' ? st.minutes : null; total += +min || 0;
       var cb = h('input', { type: 'checkbox', id: 'rh-' + i, 'aria-label': name }); cb.checked = !!ticks[i];
-      cb.addEventListener('change', function () { ticks[i] = cb.checked; store(key, ticks); render(); });
+      cb.addEventListener('change', function () { ticks[i] = cb.checked; if (S.live) { S.rhythm[day] = ticks; saved(mine('rhythm-' + day).set({ ticks: ticks, at: new Date().toISOString() })).catch(function () {}); } else store(key, ticks); render(); });
       ol.appendChild(h('li', { class: ticks[i] ? 'done' : '' }, cb, h('span', { class: 't' }, name, st.what ? h('div', { class: 'note', text: st.what }) : null), h('span', { class: 'm', text: min ? min + ' min' : '' })));
     });
-    box.appendChild(ol); if (total) box.appendChild(h('p', { class: 'note', text: 'About ' + total + ' minutes. Ticks stay on this device.' }));
+    box.appendChild(ol); if (total) box.appendChild(h('p', { class: 'note', text: 'About ' + total + ' minutes. Ticks save to your account, so your phone and laptop match.' }));
     return box;
   }
   function promptsBox(s) {
@@ -290,7 +292,7 @@ details.study .in{padding:0 16px 16px;display:flex;flex-direction:column;gap:10p
       var edit = h('button', { class: 'link', type: 'button', text: 'Edit' }); edit.addEventListener('click', function () { S.draft = Object.assign({}, x); render(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
       var del = h('button', { class: 'link', type: 'button', text: 'Delete' });
       del.addEventListener('click', function () {
-        if (del.getAttribute('data-sure')) { mine(x.id).delete().catch(function () {}); return; }
+        if (del.getAttribute('data-sure')) { saved(mine(x.id).delete()).catch(function () {}); return; }
         del.setAttribute('data-sure', '1'); del.textContent = 'Delete for good?'; setTimeout(function () { del.removeAttribute('data-sure'); del.textContent = 'Delete'; }, 4000);
       });
       sec.appendChild(h('div', { class: 'entry' },
@@ -327,7 +329,7 @@ details.study .in{padding:0 16px 16px;display:flex;flex-direction:column;gap:10p
     var inner = h('div', { class: 'in' }), ol = h('ol', { class: 'sessions' });
     sess.forEach(function (x) {
       var cb = h('input', { type: 'checkbox', id: 'ss-' + st.id + '-' + x.n, 'aria-label': 'Session ' + x.n + ' done' }); cb.checked = !!prog[x.n]; cb.disabled = !S.live;
-      cb.addEventListener('change', function () { var all = Object.assign({}, S.progress), p = Object.assign({}, all[st.id] || {}); p[x.n] = cb.checked; all[st.id] = p; S.progress = all; mine('progress').set({ studies: all, at: new Date().toISOString() }).catch(function () {}); render(); });
+      cb.addEventListener('change', function () { var all = Object.assign({}, S.progress), p = Object.assign({}, all[st.id] || {}); p[x.n] = cb.checked; all[st.id] = p; S.progress = all; saved(mine('progress').set({ studies: all, at: new Date().toISOString() })).catch(function () {}); render(); });
       ol.appendChild(h('li', null, cb, h('span', { class: 'n', text: String(x.n) }), h('div', null, h('strong', { text: x.title || '' }), x.read ? h('div', { class: 'note', text: 'Read: ' + x.read }) : null, x.focus ? h('div', { text: x.focus }) : null)));
     });
     inner.appendChild(ol);
@@ -367,7 +369,7 @@ details.study .in{padding:0 16px 16px;display:flex;flex-direction:column;gap:10p
     sec.appendChild(h('p', { class: 'note', text: S.pick ? 'Your pick is marked. Barny reads it when he plans the next Sabbaths.' : 'Pick one. Barny reads your pick when he plans the next Sabbaths. His recommendation is first.' }));
     S.next.forEach(function (n, i) {
       var picked = S.pick === n.id, b = h('button', { type: 'button', class: picked ? 'primary' : '', 'aria-pressed': String(picked), text: picked ? 'Your pick' : 'Pick this' }); b.disabled = !S.live;
-      b.addEventListener('click', function () { S.pick = picked ? null : n.id; mine('choices').set({ next: S.pick, at: new Date().toISOString() }).catch(function () {}); render(); });
+      b.addEventListener('click', function () { S.pick = picked ? null : n.id; saved(mine('choices').set({ next: S.pick, at: new Date().toISOString() })).catch(function () {}); render(); });
       sec.appendChild(h('div', { class: 'entry' }, h('div', { class: 'meta' }, h('span', { text: (n.stream || '') + (i === 0 ? ' · Barny\'s recommendation' : '') })), h('h3', { text: n.title }), h('p', { text: n.why || '' }), h('div', { class: 'row' }, b)));
     });
     m.appendChild(sec);
@@ -387,7 +389,7 @@ details.study .in{padding:0 16px 16px;display:flex;flex-direction:column;gap:10p
     m.appendChild(g);
   }
 
-  window.addEventListener('hashchange', function () { render(); window.scrollTo(0, 0); });
+  window.addEventListener('hashchange', function () { store('bw-room', room()); render(); window.scrollTo(0, 0); });
   boot();
 })();
 </script>
