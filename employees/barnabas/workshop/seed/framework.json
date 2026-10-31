@@ -1,0 +1,145 @@
+{
+  "intro": "A Sabbath in the workshop is unhurried and has four movements: read the Word, study it with a pen, journal what the week taught you, and look ahead to what to study next. Nothing here is homework; take what the day gives and leave the rest, because the Sabbath was made for man (Mark 2:27). Barny prepares the page by Friday before sunset and sits with you only when you open it.",
+  "rhythm": [
+    {
+      "step": "Settle",
+      "minutes": 5,
+      "what": "Phone down, a short prayer, and the verse you carried in from last Sabbath."
+    },
+    {
+      "step": "Read the Word aloud",
+      "minutes": 10,
+      "what": "The Sabbath passage, slowly, in the ESV. Read it twice."
+    },
+    {
+      "step": "Study with a pen",
+      "minutes": 20,
+      "what": "Observe, interpret, apply: the questions, word notes and cross-references on the page."
+    },
+    {
+      "step": "Journal",
+      "minutes": 15,
+      "what": "Log what you learned this week and what the passage asked of you. These are your entries, stored for you alone."
+    },
+    {
+      "step": "Study a stream",
+      "minutes": 15,
+      "what": "One reading from the current study, a person from the people list, or a chart we have built."
+    },
+    {
+      "step": "Pray",
+      "minutes": 5,
+      "what": "Adoration, confession, thanksgiving, supplication, in your words."
+    },
+    {
+      "step": "Look ahead",
+      "minutes": 10,
+      "what": "Choose next Sabbath's passage or study from the next list. Carry one verse into the week."
+    }
+  ],
+  "totalMinutes": 80,
+  "streams": [
+    {
+      "id": "word",
+      "name": "The Word (book by book)",
+      "what": "Slow, whole-book reading and study in the ESV, moving from observation to interpretation to application. Today this is your Romans spine, with one Sabbath passage studied more deeply.",
+      "why": "It is the authority over every other stream and it keeps them honest.",
+      "grade": "TEXT, then SUGGESTION for method",
+      "starter": {
+        "title": "ESV reading plans and text",
+        "author": "Crossway",
+        "link": "https://www.esv.org/"
+      },
+      "doctrineNote": "Everything else on this page is read against the Word."
+    },
+    {
+      "id": "practicing-the-way",
+      "name": "Practicing the Way (John Mark Comer)",
+      "what": "A guide to apprenticeship to Jesus: the frame, in paraphrase, is be with Jesus, become like him, do as he did, carried by practices such as Sabbath, Scripture, prayer, fasting and simplicity.",
+      "why": "It turns what you already do on the Sabbath, the Word and prayer, into one connected way of life, and it speaks to pace and hurry.",
+      "grade": "CONSENSUS on the frame; DISPUTED on some emphases",
+      "starter": {
+        "title": "Practicing the Way: Be with Jesus. Become like him. Do what he did.",
+        "author": "John Mark Comer",
+        "link": "https://www.practicingtheway.org/"
+      },
+      "doctrineNote": "Comer is an evangelical pastor who draws on monastic and contemplative practice (silence, solitude, rule of life). Faithful Christians differ on how far to borrow from those traditions. Read generously, test each practice against Scripture, and take questions to your pastor or Micah."
+    },
+    {
+      "id": "bibleproject",
+      "name": "BibleProject",
+      "what": "Free videos, podcasts and classes on the Bible as one unified story, by theme and by book, with a strong eye for literary design and Hebrew background.",
+      "why": "The charts and maps we have built sit well beside their book overviews, and the themes show how Old and New Testaments connect.",
+      "grade": "CONSENSUS on the main storyline; DISPUTED on some interpretive claims",
+      "starter": {
+        "title": "Book overviews and Themes library",
+        "author": "BibleProject",
+        "link": "https://bibleproject.com/"
+      },
+      "doctrineNote": "BibleProject is non-denominational and teaches from scholarly work. On contested questions (for example creation, the divine council, how sacrifice works) they often present one view well, not all views. Treat it as a B source: check against the text and the doctrine map."
+    },
+    {
+      "id": "willard",
+      "name": "Dallas Willard",
+      "what": "A philosopher and teacher on spiritual formation: the kingdom of God as life available now, the disciplines as means of grace, and the VIM pattern of change (Vision, Intention, Means).",
+      "why": "He gives a clear method for sanctification that fits your examen and the Seven Pillars, with plain effort and no striving for acceptance.",
+      "grade": "CONSENSUS on the disciplines as means; DISPUTED on some emphases",
+      "starter": {
+        "title": "Renovation of the Heart",
+        "author": "Dallas Willard (NavPress)",
+        "link": "https://www.navpress.com/"
+      },
+      "doctrineNote": "Willard was a Southern Baptist. Some Reformed readers feel he gives less weight to the cross and to the doctrine of imputed righteousness than they would; others find him a corrective to a gospel of mere forgiveness. Read with Romans open. Also see The Divine Conspiracy and The Spirit of the Disciplines; official resources at dwillard.org.",
+      "extra": [
+        {
+          "title": "The Divine Conspiracy",
+          "author": "Dallas Willard (HarperOne)",
+          "link": "https://www.harpercollins.com/"
+        },
+        {
+          "title": "The Spirit of the Disciplines",
+          "author": "Dallas Willard (HarperOne)",
+          "link": "https://www.harpercollins.com/"
+        },
+        {
+          "title": "Dallas Willard Ministries",
+          "author": "Willard Ministries",
+          "link": "https://dwillard.org/"
+        }
+      ]
+    },
+    {
+      "id": "ortberg",
+      "name": "John Ortberg",
+      "what": "Warm, practical teaching on spiritual growth, shaped by Willard: ordinary life as the place of formation, and the care of the soul.",
+      "why": "He is a gentle on-ramp to Willard's ideas, with stories and questions that work in a journal.",
+      "grade": "CONSENSUS on the goal; SUGGESTION on method",
+      "starter": {
+        "title": "The Life You've Always Wanted",
+        "author": "John Ortberg (Zondervan)",
+        "link": "https://www.zondervan.com/"
+      },
+      "doctrineNote": "Evangelical and mainstream, with the same Willard-shaped emphasis on training, not trying. Also Soul Keeping, on the care of the soul.",
+      "extra": [
+        {
+          "title": "Soul Keeping",
+          "author": "John Ortberg (Zondervan)",
+          "link": "https://www.zondervan.com/"
+        }
+      ]
+    },
+    {
+      "id": "church-history",
+      "name": "Church history: fathers, mothers, saints and revivals",
+      "what": "The lives and writings of those who walked with God before us: the early church, the desert, the Reformation, the awakenings and the missionaries.",
+      "why": "A cloud of witnesses (Hebrews 12:1) steadies a young faith and a busy one, and it shows how the same gospel has been lived across centuries.",
+      "grade": "CONSENSUS on the facts; DISPUTED on veneration and some theology",
+      "starter": {
+        "title": "Christian Classics Ethereal Library (primary texts)",
+        "author": "Calvin University",
+        "link": "https://www.ccel.org/"
+      },
+      "doctrineNote": "Protestants honour the saints as examples and teachers (Hebrews 13:7). Catholic and Orthodox churches also ask saints to pray for the living and speak of patron saints, which most Protestants do not practise. That is a second-order matter on the doctrine map. Read these people for their devotion and learn from their practices with discernment; none is a doctrinal authority on his or her own."
+    }
+  ]
+}

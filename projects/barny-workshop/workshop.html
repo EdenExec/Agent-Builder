@@ -1,0 +1,393 @@
+<title>Barny's Workshop</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: a quiet study room. A slim rail of rooms on the left (tabs on a phone), one reading column in the middle, a margin column for the rhythm and notes. */
+:root{
+  --bg:#ECEEEA; --page:#F7F8F5; --ink:#1E272B; --mute:#5E6866; --line:#D3D8D2;
+  --vine:#3E5C3A; --vine-soft:#E1E8DD; --gold:#8E6F22;
+  --display:'Cinzel','Trajan Pro',Georgia,serif;
+  --read:'Source Serif 4','Iowan Old Style',Georgia,serif;
+  --ui:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141A1C;--page:#1B2326;--ink:#E7EBE6;--mute:#9CA7A3;--line:#2E393B;--vine:#9CC08F;--vine-soft:#22301F;--gold:#D2B26A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141A1C;--page:#1B2326;--ink:#E7EBE6;--mute:#9CA7A3;--line:#2E393B;--vine:#9CC08F;--vine-soft:#22301F;--gold:#D2B26A;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--ui);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;grid-template-columns:190px minmax(0,1fr);gap:28px}
+header.top{grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}
+h1{font:600 26px/1.1 var(--display);letter-spacing:.08em;margin:0}
+.sub{color:var(--mute);font-size:13px}
+.eyebrow{font:600 11px/1.3 var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+nav.rooms{display:flex;flex-direction:column;gap:2px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start}
+nav.rooms a{display:flex;justify-content:space-between;gap:8px;padding:8px 10px;border-radius:6px;color:var(--ink);text-decoration:none;font-weight:500}
+nav.rooms a small{color:var(--mute);font-weight:400;font-variant-numeric:tabular-nums}
+nav.rooms a:hover{background:var(--page)} nav.rooms a[aria-current="page"]{background:var(--vine-soft);color:var(--vine)}
+nav.rooms a:focus-visible,button:focus-visible,textarea:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--vine);outline-offset:2px}
+main{min-width:0;display:flex;flex-direction:column;gap:22px}
+.room-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+h2{font:600 20px/1.2 var(--display);letter-spacing:.06em;margin:0;text-wrap:balance}
+h3{font:600 17px/1.3 var(--read);margin:0;text-wrap:balance}
+h4{margin:0}
+p{margin:0}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start}
+.sheet{background:var(--page);border:1px solid var(--line);border-radius:8px;padding:20px 22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.reading{font:17px/1.7 var(--read);max-width:68ch}
+.reading blockquote{margin:0;padding:4px 0 4px 16px;border-left:2px solid var(--vine);font-style:italic}
+.ref{align-self:flex-start;font:500 13px/1.3 var(--ui);color:var(--vine);text-decoration:none;border-bottom:1px solid currentColor}
+.passage{display:flex;flex-direction:column;gap:6px}
+.passage .big{font:600 24px/1.2 var(--display);letter-spacing:.04em}
+ol.q,ul.q{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+dl.words{margin:0;display:flex;flex-direction:column;gap:10px} dl.words dt{font-weight:600} dl.words dd{margin:2px 0 0;color:var(--ink)}
+.grade{display:inline-block;font:600 10px/1 var(--ui);letter-spacing:.1em;padding:3px 6px;border-radius:3px;background:var(--vine-soft);color:var(--vine);vertical-align:2px;margin-left:6px}
+.grade.DISPUTED{background:transparent;border:1px solid var(--gold);color:var(--gold)} .grade.SUGGESTION{background:transparent;border:1px solid var(--line);color:var(--mute)}
+.practice{border-top:1px solid var(--line);padding-top:12px}
+aside{display:flex;flex-direction:column;gap:16px;min-width:0}
+.rhythm{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.rhythm li{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:8px;align-items:start;padding:8px 0;border-bottom:1px solid var(--line)}
+.rhythm li:last-child{border-bottom:0} .rhythm li.done span.t{color:var(--mute);text-decoration:line-through}
+.rhythm .m{font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--vine);margin:2px 0 0}
+button{font:500 14px/1 var(--ui);border:1px solid var(--line);background:var(--page);color:var(--ink);padding:9px 14px;border-radius:6px;cursor:pointer}
+button.primary{background:var(--vine);border-color:var(--vine);color:var(--page)}
+button.link{border:0;background:none;padding:4px 0;color:var(--vine);text-decoration:underline}
+button:disabled{opacity:.5;cursor:default}
+textarea,select,input[type=text]{font:15px/1.5 var(--read);width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+textarea{min-height:110px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:500 12px/1 var(--ui);padding:6px 10px;border-radius:99px;border:1px solid var(--line);background:var(--page);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--vine);border-color:var(--vine);color:var(--page)}
+.entry{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:6px}
+.entry .meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--mute)}
+.entry .body{font:16px/1.65 var(--read);white-space:pre-wrap;overflow-wrap:anywhere}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:var(--page);border:1px solid var(--line);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card .kind{font:600 10.5px/1.3 var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.card p{font:15px/1.55 var(--read)}
+.card .caution{font-size:13px;color:var(--mute);font-style:italic}
+.status{font:600 10.5px/1 var(--ui);letter-spacing:.1em;text-transform:uppercase;padding:4px 7px;border-radius:3px;border:1px solid var(--line);color:var(--mute)}
+.status.now{border-color:var(--vine);color:var(--vine)} .status.next{border-color:var(--gold);color:var(--gold)}
+details.study{background:var(--page);border:1px solid var(--line);border-radius:8px}
+details.study>summary{list-style:none;cursor:pointer;padding:14px 16px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}
+details.study>summary::-webkit-details-marker{display:none}
+details.study .in{padding:0 16px 16px;display:flex;flex-direction:column;gap:10px}
+.sessions{list-style:none;margin:0;padding:0} .sessions li{display:grid;grid-template-columns:24px 28px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid var(--line)}
+.sessions .n{font:600 12px/1.6 var(--ui);color:var(--mute);font-variant-numeric:tabular-nums}
+.empty{color:var(--mute);font:15px/1.6 var(--read);font-style:italic}
+.note{font-size:13px;color:var(--mute)}
+.stream{display:flex;flex-direction:column;gap:12px}
+.stream-h{display:flex;flex-direction:column;gap:2px;border-left:2px solid var(--vine);padding-left:12px}
+.answer{font:16px/1.65 var(--read);white-space:pre-wrap}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:900px){.cols{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:720px){
+  .wrap{grid-template-columns:minmax(0,1fr);gap:16px}
+  nav.rooms{position:static;flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:4px}
+  nav.rooms a{white-space:nowrap} nav.rooms a small{display:none}
+  .sheet{padding:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div><span class="eyebrow">KDTW Group · Sabbath study</span><h1>BARNY'S WORKSHOP</h1></div>
+    <div class="sub" id="state">Opening the workshop…</div>
+  </header>
+  <nav class="rooms" aria-label="Rooms">
+    <a href="#sabbath" data-room="sabbath">This Sabbath</a>
+    <a href="#journal" data-room="journal">Journal <small id="n-journal"></small></a>
+    <a href="#studies" data-room="studies">Studies <small id="n-studies"></small></a>
+    <a href="#people" data-room="people">Saints and teachers <small id="n-people"></small></a>
+    <a href="#charts" data-room="charts">Charts and maps</a>
+    <a href="#ahead" data-room="ahead">Look ahead</a>
+    <a href="#podcasts" data-room="podcasts">Podcasts</a>
+  </nav>
+  <main id="main" aria-live="polite"></main>
+</div>
+
+<script>
+(function () {
+  var ROOMS = ['sabbath', 'journal', 'studies', 'people', 'charts', 'ahead', 'podcasts'];
+  var KINDS = [['learned', 'Learned this week'], ['study', 'Study note'], ['question', 'Question'], ['prayer', 'Prayer'], ['carry', 'To carry']];
+  var S = { db: null, uid: null, live: false, sabbath: [], framework: null, studies: [], people: [], next: [], podcasts: [], charts: [], journal: [], progress: {}, pick: null, sample: null, filter: 'all', peopleKind: 'all', draft: null, asking: false, answer: '' };
+  var $ = function (s) { return document.querySelector(s); };
+  function h(tag, attrs) {
+    var el = document.createElement(tag), kids = Array.prototype.slice.call(arguments, 2);
+    for (var k in attrs || {}) { var v = attrs[k]; if (v == null || v === false) continue; if (k === 'text') el.textContent = v; else if (k === 'class') el.className = v; else el.setAttribute(k, v === true ? '' : v); }
+    kids.forEach(function (c) { if (c == null || c === false) return; el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return el;
+  }
+  function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || 'null'); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } }
+  function fmtDate(d) { var x = new Date(String(d).slice(0, 10) + 'T12:00:00'); return isNaN(x) ? String(d || '') : x.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); }
+  function short(d) { var x = new Date(d); return isNaN(x) ? '' : x.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ', ' + x.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
+  function link(text, href, cls) { return href ? h('a', { class: cls || 'ref', href: href, target: '_blank', rel: 'noopener' }, text) : h('span', null, text); }
+  function grade(g) { return g ? h('span', { class: 'grade ' + g, title: { TEXT: 'What the passage plainly says', CONSENSUS: 'Historic orthodox teaching', DISPUTED: 'Faithful Christians differ', SUGGESTION: 'Barny\'s suggestion, not binding' }[g] || '' , text: g }) : null; }
+  function room() { var r = (location.hash || '').slice(1); return ROOMS.indexOf(r) >= 0 ? r : 'sabbath'; }
+
+  /* ---------- data ---------- */
+  function listen(path, key, sort) {
+    S.db.collection(path).onSnapshot(function (snap) {
+      var a = snap.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); });
+      if (sort) a.sort(sort); S[key] = a; render();
+    }, function () {});
+  }
+  function boot() {
+    S.draft = store('bw-draft') || null;
+    render();
+    if (!window.claude || !window.claude.use) { $('#state').textContent = 'Open this page in Claude to use the workshop.'; return; }
+    Promise.all([window.claude.use('db'), window.claude.use('user')]).then(function (r) {
+      var db = r[0], user = r[1];
+      if (!db || !user) { $('#state').textContent = 'Sign in to Claude to open the workshop.'; render(); return; }
+      S.db = db; S.live = true;
+      return user.id().then(function (id) {
+        S.uid = id;
+        listen('sabbath', 'sabbath', function (a, b) { return String(b.date || b.id).localeCompare(String(a.date || a.id)); });
+        listen('studies', 'studies', function (a, b) { return (a.order || 0) - (b.order || 0); });
+        listen('people', 'people', function (a, b) { var y = function (x) { var m = String(x.years || '').match(/\d+/); return m ? +m[0] : 0; }; return y(a) - y(b); });
+        listen('next', 'next', function (a, b) { return (a.order || 0) - (b.order || 0); });
+        listen('podcasts', 'podcasts', function (a, b) { return (a.order || 0) - (b.order || 0); });
+        listen('charts', 'charts', function (a, b) { return (a.order || 0) - (b.order || 0); });
+        db.doc('meta/framework').onSnapshot(function (s) { S.framework = s.exists ? s.data() : null; render(); }, function () {});
+        db.collection('data/users/' + id).onSnapshot(function (snap) {
+          var j = [];
+          snap.docs.forEach(function (d) {
+            var v = d.data() || {};
+            if (d.id === 'progress') S.progress = v.studies || {};
+            else if (d.id === 'choices') S.pick = v.next || null;
+            else if (d.id.indexOf('j-') === 0) j.push(Object.assign({ id: d.id }, v));
+          });
+          j.sort(function (a, b) { return String(b.at).localeCompare(String(a.at)); });
+          S.journal = j; render();
+        }, function () {});
+        $('#state').textContent = 'Your journal is private to you.';
+        render();
+      });
+    }).catch(function () { $('#state').textContent = 'The workshop could not open its store. Reload to try again.'; });
+    if (window.claude && window.claude.use) window.claude.use('sample').then(function (s) { S.sample = s; render(); }, function () {});
+  }
+  function mine(k) { return S.db.collection('data/users/' + S.uid).doc(k); }
+  function saveEntry(e) {
+    if (!S.live) return Promise.reject(new Error('offline'));
+    var id = e.id || ('j-' + Date.now().toString(36));
+    var doc = { kind: e.kind, text: e.text, ref: e.ref || '', prompt: e.prompt || '', sabbath: e.sabbath || '', at: e.at || new Date().toISOString(), edited: e.id ? new Date().toISOString() : null, notion: e.notion || false };
+    return mine(id).set(doc);
+  }
+
+  /* ---------- rooms ---------- */
+  function render() {
+    var r = room(), m = $('#main');
+    document.querySelectorAll('nav.rooms a').forEach(function (a) { if (a.getAttribute('data-room') === r) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    $('#n-journal').textContent = S.journal.length || '';
+    $('#n-studies').textContent = S.studies.length || '';
+    $('#n-people').textContent = S.people.length || '';
+    var ae = document.activeElement, keep = ae && ae.id && m.contains(ae) ? { id: ae.id, s: ae.selectionStart, e: ae.selectionEnd } : null;
+    if (keep && /^(TEXTAREA|INPUT|SELECT)$/.test(ae.tagName)) return;   // never rebuild under someone typing
+    m.textContent = '';
+    ({ sabbath: roomSabbath, journal: roomJournal, studies: roomStudies, people: roomPeople, charts: roomCharts, ahead: roomAhead, podcasts: roomPodcasts })[r](m);
+  }
+
+  function roomSabbath(m) {
+    var s = S.sabbath[0];
+    m.appendChild(h('div', { class: 'room-h' }, h('h2', { text: 'This Sabbath' }), h('span', { class: 'eyebrow', text: s ? fmtDate(s.date || s.id) : '' })));
+    if (!s) { m.appendChild(h('div', { class: 'sheet' }, h('p', { class: 'empty', text: S.live ? 'Barny sets out each Sabbath\'s passage, study and practice here by Friday afternoon.' : 'The passage, study and practice for the Sabbath appear here.' }))); return; }
+    var cols = h('div', { class: 'cols' }), sh = h('article', { class: 'sheet reading' });
+    var p = s.passage || {};
+    sh.appendChild(h('div', { class: 'passage' }, h('span', { class: 'eyebrow', text: s.title || 'The passage' }), h('span', { class: 'big', text: p.ref || '' }), p.link ? link('Read it in the ESV', p.link) : null, p.why ? h('p', { class: 'note', text: p.why }) : null));
+    if (s.readAloud) sh.appendChild(h('blockquote', { text: s.readAloud }));
+    if (s.readAloud && s.readAloudNote) sh.appendChild(h('p', { class: 'note', text: s.readAloudNote }));
+    if (s.setting) { sh.appendChild(h('h3', { text: 'The setting' })); sh.appendChild(h('p', { text: s.setting })); }
+    list(sh, 'Look closely', s.observe, 'ol');
+    if ((s.words || []).length) { sh.appendChild(h('h3', { text: 'Word by word' })); var dl = h('dl', { class: 'words' }); s.words.forEach(function (w) { dl.appendChild(h('dt', null, '“' + w.word + '”' + (w.orig ? ' · ' + w.orig : ''), grade(w.grade))); dl.appendChild(h('dd', { text: w.note || '' })); }); sh.appendChild(dl); }
+    if ((s.crossRefs || []).length) { sh.appendChild(h('h3', { text: 'Across the Bible' })); var ul = h('ul', { class: 'q' }); s.crossRefs.forEach(function (c) { ul.appendChild(h('li', null, link(c.ref, c.link), c.note ? ' · ' + c.note : '')); }); sh.appendChild(ul); }
+    list(sh, 'Reflect', s.reflect, 'ol');
+    if (s.practice) sh.appendChild(h('div', { class: 'practice' }, h('span', { class: 'eyebrow', text: 'Practice' + (s.practice.stream ? ' · ' + s.practice.stream : '') }), h('h3', { text: s.practice.name || '' }), h('p', { text: s.practice.how || '' })));
+    if (s.pray) { sh.appendChild(h('h3', { text: 'Pray' })); sh.appendChild(h('p', { text: s.pray })); }
+    if (s.carry) sh.appendChild(h('p', { class: 'note' }, 'Carry into the week: ', link(s.carry, s.carryLink || 'https://www.esv.org/' + encodeURIComponent(s.carry) + '/')));
+    var side = h('aside');
+    side.appendChild(rhythmBox(s));
+    side.appendChild(promptsBox(s));
+    side.appendChild(askBox(s));
+    cols.appendChild(sh); cols.appendChild(side); m.appendChild(cols);
+  }
+  function list(parent, title, arr, tag) { if (!(arr || []).length) return; parent.appendChild(h('h3', { text: title })); var l = h(tag || 'ul', { class: 'q' }); arr.forEach(function (x) { l.appendChild(h('li', { text: x })); }); parent.appendChild(l); }
+  function rhythmBox(s) {
+    var steps = (S.framework && S.framework.rhythm) || [];
+    var key = 'bw-rhythm-' + (s.date || s.id), ticks = store(key) || {}, box = h('section', { class: 'sheet' }, h('span', { class: 'eyebrow', text: 'The rhythm' }));
+    if (!steps.length) { box.appendChild(h('p', { class: 'empty', text: 'Barny\'s order for a Sabbath in the workshop shows here.' })); return box; }
+    var ol = h('ol', { class: 'rhythm' }), total = 0;
+    steps.forEach(function (st, i) {
+      var name = typeof st === 'string' ? st : (st.step || st.name || ''), min = typeof st === 'object' ? st.minutes : null; total += +min || 0;
+      var cb = h('input', { type: 'checkbox', id: 'rh-' + i, 'aria-label': name }); cb.checked = !!ticks[i];
+      cb.addEventListener('change', function () { ticks[i] = cb.checked; store(key, ticks); render(); });
+      ol.appendChild(h('li', { class: ticks[i] ? 'done' : '' }, cb, h('span', { class: 't' }, name, st.what ? h('div', { class: 'note', text: st.what }) : null), h('span', { class: 'm', text: min ? min + ' min' : '' })));
+    });
+    box.appendChild(ol); if (total) box.appendChild(h('p', { class: 'note', text: 'About ' + total + ' minutes. Ticks stay on this device.' }));
+    return box;
+  }
+  function promptsBox(s) {
+    var box = h('section', { class: 'sheet' }, h('span', { class: 'eyebrow', text: 'Journal from the week' }));
+    (s.journalPrompts || []).forEach(function (q) { var b = h('button', { class: 'link', type: 'button', text: q }); b.addEventListener('click', function () { S.draft = { kind: 'learned', prompt: q, ref: (s.passage || {}).ref || '', sabbath: s.date || s.id }; location.hash = '#journal'; }); box.appendChild(b); });
+    var go = h('button', { class: 'primary', type: 'button', text: 'Write in the journal' }); go.addEventListener('click', function () { S.draft = { kind: 'learned', ref: (s.passage || {}).ref || '', sabbath: s.date || s.id }; location.hash = '#journal'; });
+    box.appendChild(go); return box;
+  }
+  function askBox(s) {
+    var box = h('section', { class: 'sheet' }, h('span', { class: 'eyebrow', text: 'Ask Barny' }));
+    if (!S.sample) { box.appendChild(h('p', { class: 'note', text: 'Questions to Barny light up when this page can ask Claude. Until then, bring them to his session.' })); return box; }
+    var ta = h('textarea', { id: 'ask-q', 'aria-label': 'Your question for Barny', placeholder: 'What does Paul mean by…', rows: '3' });
+    var b = h('button', { class: 'primary', type: 'button', text: S.asking ? 'Barny is thinking…' : 'Ask' }); b.disabled = S.asking;
+    b.addEventListener('click', function () {
+      var q = ta.value.trim(); if (!q || S.asking) return;
+      S.asking = true; S.answer = ''; render();
+      var sys = 'You are Barnabas (Barny), Kev Williams\'s spiritual advisor. Scripture first, historically orthodox and evangelical, inside the Apostles\' and Nicene Creeds. Grade claims TEXT, CONSENSUS, DISPUTED or SUGGESTION. Never invent a quotation; paraphrase and say so. On secondary doctrines give the main views fairly and point him to his pastor and elders at Main Street. Never claim a word from God. If he speaks of despair or harm, stop and point him to Ally, his pastor and, if in danger, 988 or 911. Short, warm, plain; no emoji; under 220 words.';
+      var ctx = 'This Sabbath\'s passage: ' + ((s.passage || {}).ref || 'none') + '. Setting: ' + (s.setting || '') + '\n\nKev asks: ' + q;
+      S.sample([{ role: 'user', content: sys + '\n\n' + ctx }], { modelTier: 'default', cache: false, onText: function (x) { S.answer = x.text; var a = document.getElementById('ask-a'); if (a) a.textContent = x.text; } })
+        .then(function (r) { S.answer = r.text; }, function (e) { S.answer = e && e.code === 'not_granted' ? 'Asking Claude is turned off for this page.' : e && e.code === 'rate_limited' ? 'Too many questions just now. Try again in a minute.' : 'That question did not go through. Try again.'; if (e && e.code === 'not_granted') S.sample = null; })
+        .then(function () { S.asking = false; render(); });
+    });
+    box.appendChild(ta); box.appendChild(b);
+    if (S.answer) { box.appendChild(h('p', { class: 'answer', id: 'ask-a', text: S.answer })); var keep = h('button', { class: 'link', type: 'button', text: 'Keep this in the journal' }); keep.addEventListener('click', function () { S.draft = { kind: 'study', text: S.answer, ref: (s.passage || {}).ref || '', sabbath: s.date || s.id }; location.hash = '#journal'; }); box.appendChild(keep); }
+    else if (S.asking) box.appendChild(h('p', { class: 'answer', id: 'ask-a', text: '' }));
+    return box;
+  }
+
+  function roomJournal(m) {
+    m.appendChild(h('div', { class: 'room-h' }, h('h2', { text: 'Journal' }), h('span', { class: 'eyebrow', text: S.journal.length + ' entries · private to you' })));
+    var d = S.draft || { kind: 'learned' }, form = h('form', { class: 'sheet' });
+    form.appendChild(h('span', { class: 'eyebrow', text: d.id ? 'Edit the entry' : 'New entry' }));
+    if (d.prompt) form.appendChild(h('p', { class: 'note', text: d.prompt }));
+    var kind = h('select', { id: 'j-kind', 'aria-label': 'Kind of entry' }); KINDS.forEach(function (k) { var o = h('option', { value: k[0], text: k[1] }); if (k[0] === d.kind) o.selected = true; kind.appendChild(o); });
+    var ref = h('input', { type: 'text', id: 'j-ref', 'aria-label': 'Scripture or source', placeholder: 'Scripture or source (optional), e.g. Romans 8:1-4' }); ref.value = d.ref || '';
+    var ta = h('textarea', { id: 'j-text', 'aria-label': 'Entry', placeholder: 'What did you learn this week? What is God showing you in the Word?', rows: '6' }); ta.value = d.text || '';
+    var saving = false, btn = h('button', { class: 'primary', type: 'submit', text: d.id ? 'Save changes' : 'Save to the journal' }), msg = h('span', { class: 'note', role: 'status' });
+    btn.disabled = !S.live;
+    function keepDraft() { S.draft = Object.assign({}, d, { kind: kind.value, ref: ref.value, text: ta.value }); store('bw-draft', S.draft); }   // a half-written entry survives a refresh
+    [kind, ref, ta].forEach(function (x) { x.addEventListener('input', keepDraft); x.addEventListener('change', keepDraft); });
+    form.appendChild(h('div', { class: 'row' }, h('div', { style: 'flex:1 1 180px;min-width:0' }, kind), h('div', { style: 'flex:2 1 240px;min-width:0' }, ref)));
+    form.appendChild(ta);
+    var cancel = d.id || d.text || d.prompt ? h('button', { type: 'button', text: 'Cancel' }) : null;
+    if (cancel) cancel.addEventListener('click', function () { S.draft = null; store('bw-draft', null); render(); });
+    form.appendChild(h('div', { class: 'row' }, btn, cancel, msg));
+    if (!S.live) form.appendChild(h('p', { class: 'note', text: 'Open this page in Claude, signed in, to write in the journal.' }));
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); if (saving) return;
+      var text = ta.value.trim(); if (!text) { msg.textContent = 'Write something first.'; return; }
+      saving = true; btn.disabled = true; msg.textContent = 'Saving…';
+      saveEntry({ id: d.id, kind: kind.value, ref: ref.value.trim(), text: text, prompt: d.prompt, sabbath: d.sabbath, at: d.at, notion: d.notion })
+        .then(function () { S.draft = null; store('bw-draft', null); ta.blur(); render(); }, function () { saving = false; btn.disabled = false; msg.textContent = 'That entry did not save. Check your connection and try again.'; });
+    });
+    m.appendChild(form);
+    var chips = h('div', { class: 'chips', role: 'group', 'aria-label': 'Show' });
+    [['all', 'All']].concat(KINDS).forEach(function (k) { var c = h('button', { class: 'chip', type: 'button', 'aria-pressed': String(S.filter === k[0]), text: k[1] }); c.addEventListener('click', function () { S.filter = k[0]; render(); }); chips.appendChild(c); });
+    m.appendChild(chips);
+    var shown = S.journal.filter(function (x) { return S.filter === 'all' || x.kind === S.filter; }), sec = h('section', { class: 'sheet' });
+    if (!shown.length) sec.appendChild(h('p', { class: 'empty', text: S.journal.length ? 'Nothing of that kind yet.' : 'Your first entry will sit here. Ask Barny in his session to copy a Sabbath\'s entries to your private Notion page.' }));
+    shown.forEach(function (x) {
+      var kindName = (KINDS.filter(function (k) { return k[0] === x.kind; })[0] || ['', 'Entry'])[1];
+      var edit = h('button', { class: 'link', type: 'button', text: 'Edit' }); edit.addEventListener('click', function () { S.draft = Object.assign({}, x); render(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+      var del = h('button', { class: 'link', type: 'button', text: 'Delete' });
+      del.addEventListener('click', function () {
+        if (del.getAttribute('data-sure')) { mine(x.id).delete().catch(function () {}); return; }
+        del.setAttribute('data-sure', '1'); del.textContent = 'Delete for good?'; setTimeout(function () { del.removeAttribute('data-sure'); del.textContent = 'Delete'; }, 4000);
+      });
+      sec.appendChild(h('div', { class: 'entry' },
+        h('div', { class: 'meta' }, h('span', null, kindName + (x.ref ? ' · ' + x.ref : '')), h('span', null, short(x.at) + (x.notion ? ' · in Notion' : ''))),
+        x.prompt ? h('p', { class: 'note', text: x.prompt }) : null, h('p', { class: 'body', text: x.text }), h('div', { class: 'row' }, edit, del)));
+    });
+    m.appendChild(sec);
+  }
+
+  function roomStudies(m) {
+    m.appendChild(h('div', { class: 'room-h' }, h('h2', { text: 'Studies' }), h('span', { class: 'eyebrow', text: 'The framework' })));
+    var f = S.framework;
+    if (f && f.intro) m.appendChild(h('div', { class: 'sheet reading' }, h('p', { text: f.intro })));
+    var streams = (f && f.streams) || [];
+    if (!S.studies.length && !streams.length) { m.appendChild(h('div', { class: 'sheet' }, h('p', { class: 'empty', text: 'Barny\'s study paths (the Word, Practicing the Way, BibleProject, Willard, Ortberg, church history) appear here.' }))); return; }
+    var ids = streams.map(function (s) { return s.id; });
+    S.studies.forEach(function (st) { if (ids.indexOf(st.stream) < 0) { ids.push(st.stream); streams.push({ id: st.stream, name: st.stream }); } });
+    streams.forEach(function (sm) {
+      var mineS = S.studies.filter(function (x) { return x.stream === sm.id; });
+      var sec = h('section', { class: 'stream' }, h('div', { class: 'stream-h' }, h('h3', null, sm.name || sm.id, grade(sm.grade)), sm.what ? h('p', { class: 'note', text: sm.what }) : null,
+        sm.starter ? h('p', { class: 'note' }, 'Start with ', link((sm.starter.title || '') + (sm.starter.author ? ', ' + sm.starter.author : ''), sm.starter.link)) : null));
+      mineS.forEach(function (st) { sec.appendChild(studyCard(st)); });
+      if (!mineS.length && !sm.what) return;
+      m.appendChild(sec);
+    });
+  }
+  function studyCard(st) {
+    var prog = S.progress[st.id] || {}, sess = st.sessions || [], done = sess.filter(function (x) { return prog[x.n]; }).length;
+    var status = done && done < sess.length ? 'now' : done === sess.length && sess.length ? 'done' : (st.status || 'later');
+    var d = h('details', { class: 'study' }); if (store('bw-open-' + st.id)) d.open = true;
+    d.addEventListener('toggle', function () { store('bw-open-' + st.id, d.open); });
+    d.appendChild(h('summary', null, h('h3', { text: st.title }), h('span', { class: 'status ' + status, text: status === 'now' ? 'In progress' : status === 'done' ? 'Finished' : status === 'next' ? 'Recommended next' : 'Later' }),
+      h('p', { class: 'note', text: st.summary || '' }), h('span', { class: 'note', text: sess.length ? done + ' of ' + sess.length : '' })));
+    var inner = h('div', { class: 'in' }), ol = h('ol', { class: 'sessions' });
+    sess.forEach(function (x) {
+      var cb = h('input', { type: 'checkbox', id: 'ss-' + st.id + '-' + x.n, 'aria-label': 'Session ' + x.n + ' done' }); cb.checked = !!prog[x.n]; cb.disabled = !S.live;
+      cb.addEventListener('change', function () { var all = Object.assign({}, S.progress), p = Object.assign({}, all[st.id] || {}); p[x.n] = cb.checked; all[st.id] = p; S.progress = all; mine('progress').set({ studies: all, at: new Date().toISOString() }).catch(function () {}); render(); });
+      ol.appendChild(h('li', null, cb, h('span', { class: 'n', text: String(x.n) }), h('div', null, h('strong', { text: x.title || '' }), x.read ? h('div', { class: 'note', text: 'Read: ' + x.read }) : null, x.focus ? h('div', { text: x.focus }) : null)));
+    });
+    inner.appendChild(ol);
+    if ((st.resources || []).length) { var ul = h('ul', { class: 'q' }); st.resources.forEach(function (r) { ul.appendChild(h('li', null, link(r.title + (r.author ? ', ' + r.author : ''), r.link))); }); inner.appendChild(h('span', { class: 'eyebrow', text: 'Resources' })); inner.appendChild(ul); }
+    var note = h('button', { class: 'link', type: 'button', text: 'Write a study note' }); note.addEventListener('click', function () { S.draft = { kind: 'study', ref: st.title }; location.hash = '#journal'; });
+    inner.appendChild(note); d.appendChild(inner); return d;
+  }
+
+  function roomPeople(m) {
+    m.appendChild(h('div', { class: 'room-h' }, h('h2', { text: 'Saints and teachers' }), h('span', { class: 'eyebrow', text: 'Revival preachers, fathers and mothers of the faith' })));
+    if (!S.people.length) { m.appendChild(h('div', { class: 'sheet' }, h('p', { class: 'empty', text: 'The great cloud of witnesses (Hebrews 12:1): who they were, what they are known for, and one practice to borrow from each.' }))); return; }
+    var kinds = []; S.people.forEach(function (p) { if (kinds.indexOf(p.kind) < 0) kinds.push(p.kind); });
+    var chips = h('div', { class: 'chips', role: 'group', 'aria-label': 'Show' });
+    ['all'].concat(kinds).forEach(function (k) { var c = h('button', { class: 'chip', type: 'button', 'aria-pressed': String(S.peopleKind === k), text: k === 'all' ? 'Everyone' : k.charAt(0).toUpperCase() + k.slice(1) }); c.addEventListener('click', function () { S.peopleKind = k; render(); }); chips.appendChild(c); });
+    m.appendChild(chips);
+    var g = h('div', { class: 'grid' });
+    S.people.filter(function (p) { return S.peopleKind === 'all' || p.kind === S.peopleKind; }).forEach(function (p) {
+      g.appendChild(h('article', { class: 'card' }, h('span', { class: 'kind', text: [p.kind, p.tradition].filter(Boolean).join(' · ') }), h('h3', null, p.name, grade(p.grade)),
+        h('span', { class: 'note', text: [p.years, p.place].filter(Boolean).join(' · ') }), h('p', { text: p.knownFor || '' }),
+        p.practice ? h('p', null, h('strong', { text: 'Borrow: ' }), p.practice) : null, p.read ? link(p.read.title || 'Read', p.read.link) : null, p.caution ? h('p', { class: 'caution', text: p.caution }) : null));
+    });
+    m.appendChild(g);
+  }
+
+  function roomCharts(m) {
+    m.appendChild(h('div', { class: 'room-h' }, h('h2', { text: 'Charts and maps' }), h('span', { class: 'eyebrow', text: 'What we have built' })));
+    if (!S.charts.length) { m.appendChild(h('div', { class: 'sheet' }, h('p', { class: 'empty', text: 'Barny\'s timelines and maps land here as he builds them, each one linked.' }))); return; }
+    var g = h('div', { class: 'grid' });
+    S.charts.forEach(function (c) { g.appendChild(h('article', { class: 'card' }, h('span', { class: 'kind', text: c.kind || 'Chart' }), h('h3', { text: c.title }), h('p', { text: c.about || '' }), c.link ? link('Open', c.link) : h('span', { class: 'note', text: c.status || 'Being built' }))); });
+    m.appendChild(g);
+  }
+
+  function roomAhead(m) {
+    m.appendChild(h('div', { class: 'room-h' }, h('h2', { text: 'Look ahead' }), h('span', { class: 'eyebrow', text: 'What to study next' })));
+    var sec = h('section', { class: 'sheet' });
+    if (!S.next.length) { sec.appendChild(h('p', { class: 'empty', text: 'Barny\'s options for the next study appear here. Pick one and he plans it.' })); m.appendChild(sec); return; }
+    sec.appendChild(h('p', { class: 'note', text: S.pick ? 'Your pick is marked. Barny reads it when he plans the next Sabbaths.' : 'Pick one. Barny reads your pick when he plans the next Sabbaths. His recommendation is first.' }));
+    S.next.forEach(function (n, i) {
+      var picked = S.pick === n.id, b = h('button', { type: 'button', class: picked ? 'primary' : '', 'aria-pressed': String(picked), text: picked ? 'Your pick' : 'Pick this' }); b.disabled = !S.live;
+      b.addEventListener('click', function () { S.pick = picked ? null : n.id; mine('choices').set({ next: S.pick, at: new Date().toISOString() }).catch(function () {}); render(); });
+      sec.appendChild(h('div', { class: 'entry' }, h('div', { class: 'meta' }, h('span', { text: (n.stream || '') + (i === 0 ? ' · Barny\'s recommendation' : '') })), h('h3', { text: n.title }), h('p', { text: n.why || '' }), h('div', { class: 'row' }, b)));
+    });
+    m.appendChild(sec);
+  }
+
+  function roomPodcasts(m) {
+    m.appendChild(h('div', { class: 'room-h' }, h('h2', { text: 'Podcasts' }), h('span', { class: 'eyebrow', text: 'Two voices, one subject' })));
+    if (!S.podcasts.length) { m.appendChild(h('div', { class: 'sheet' }, h('p', { class: 'empty', text: 'Episodes on the week\'s study, read aloud in two voices, appear here with their scripts.' }))); return; }
+    var g = h('div', { class: 'grid' });
+    S.podcasts.forEach(function (p) {
+      var card = h('article', { class: 'card' }, h('span', { class: 'kind', text: [p.stream, p.length].filter(Boolean).join(' · ') }), h('h3', { text: p.title }), h('p', { text: p.premise || '' }));
+      if ((p.segments || []).length) { var ul = h('ul', { class: 'q' }); p.segments.forEach(function (s) { ul.appendChild(h('li', { text: s })); }); card.appendChild(ul); }
+      if (p.audio) { var a = h('audio', { controls: true, preload: 'none', src: p.audio }); a.style.width = '100%'; card.appendChild(a); }
+      card.appendChild(h('div', { class: 'row' }, h('span', { class: 'status ' + (p.status === 'ready' ? 'now' : ''), text: p.status === 'ready' ? 'Ready' : p.status === 'script' ? 'Script ready' : 'Idea' }), p.script ? link('Read the script', p.script) : null));
+      g.appendChild(card);
+    });
+    m.appendChild(g);
+  }
+
+  window.addEventListener('hashchange', function () { render(); window.scrollTo(0, 0); });
+  boot();
+})();
+</script>

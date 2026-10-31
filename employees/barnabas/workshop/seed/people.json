@@ -1,0 +1,315 @@
+[
+  {
+    "id": "augustine",
+    "name": "Augustine of Hippo",
+    "years": "354-430",
+    "place": "Hippo, North Africa",
+    "tradition": "Early church (Western)",
+    "kind": "church father",
+    "knownFor": "Bishop and theologian whose Confessions tell his restless search and conversion. His thought on sin and grace shaped Catholic and Protestant theology alike.",
+    "practice": "Pray your story to God, as the Confessions do.",
+    "read": {
+      "title": "Confessions (CCEL)",
+      "link": "https://www.ccel.org/ccel/augustine/confess.html"
+    },
+    "grade": "CONSENSUS",
+    "caution": "Protestants and Catholics read him differently on grace and the church; read as a witness, not a final authority."
+  },
+  {
+    "id": "monica",
+    "name": "Monica",
+    "years": "c. 331-387",
+    "place": "North Africa and Ostia",
+    "tradition": "Early church",
+    "kind": "church mother",
+    "knownFor": "Mother of Augustine, remembered for years of persevering prayer for her son. Our main source is Augustine's Confessions.",
+    "practice": "Keep praying for one person over years without a deadline.",
+    "read": {
+      "title": "Confessions, Book IX (CCEL)",
+      "link": "https://www.ccel.org/ccel/augustine/confess.html"
+    },
+    "grade": "CONSENSUS (dates approximate)"
+  },
+  {
+    "id": "athanasius",
+    "name": "Athanasius of Alexandria",
+    "years": "c. 296-373",
+    "place": "Alexandria, Egypt",
+    "tradition": "Early church",
+    "kind": "church father",
+    "knownFor": "Defender of the full deity of Christ at and after Nicaea, often against the stream, and exiled several times. His On the Incarnation is a classic.",
+    "practice": "Hold a first-order truth steadily when it is unpopular.",
+    "read": {
+      "title": "On the Incarnation (CCEL)",
+      "link": "https://www.ccel.org/ccel/athanasius/incarnation.html"
+    },
+    "grade": "CONSENSUS (birth year approximate)"
+  },
+  {
+    "id": "anthony",
+    "name": "Anthony of Egypt",
+    "years": "c. 251-356",
+    "place": "Egyptian desert",
+    "tradition": "Early monastic",
+    "kind": "church father",
+    "knownFor": "Early desert hermit whose life, told by Athanasius, drew many to solitude and prayer. Often called a father of monasticism.",
+    "practice": "Take a short stretch of real solitude to pray.",
+    "read": {
+      "title": "Life of Antony (CCEL)",
+      "link": "https://www.ccel.org/"
+    },
+    "grade": "CONSENSUS (dates traditional)",
+    "caution": "Later accounts add legend; treat details as tradition."
+  },
+  {
+    "id": "macrina",
+    "name": "Macrina the Younger",
+    "years": "c. 327-379",
+    "place": "Cappadocia (modern Turkey)",
+    "tradition": "Early church",
+    "kind": "church mother",
+    "knownFor": "Sister of Basil of Caesarea and Gregory of Nyssa; a teacher and ascetic who shaped her brothers, as told by Gregory in his Life of Macrina.",
+    "practice": "Teach your own household by quiet example.",
+    "read": {
+      "title": "Life of Saint Macrina (Gregory of Nyssa)",
+      "link": "https://www.ccel.org/"
+    },
+    "grade": "CONSENSUS (dates approximate)"
+  },
+  {
+    "id": "benedict",
+    "name": "Benedict of Nursia",
+    "years": "c. 480-c. 547",
+    "place": "Nursia and Monte Cassino, Italy",
+    "tradition": "Western monasticism",
+    "kind": "saint",
+    "knownFor": "Wrote the Rule that shaped Western monastic life around prayer, work, study and hospitality.",
+    "practice": "Order the day around prayer and work: a simple rule of life.",
+    "read": {
+      "title": "The Rule of Benedict (CCEL)",
+      "link": "https://www.ccel.org/ccel/benedict"
+    },
+    "grade": "CONSENSUS (dates approximate)",
+    "caution": "A Catholic monastic rule; borrow the rhythm, test it against Scripture."
+  },
+  {
+    "id": "patrick",
+    "name": "Patrick",
+    "years": "5th century (traditionally c. 385-461)",
+    "place": "Britain and Ireland",
+    "tradition": "Early church (Celtic)",
+    "kind": "saint",
+    "knownFor": "A former slave who returned to Ireland as a missionary and wrote a brief Confession of his calling.",
+    "practice": "Pray where you work, and make a habit of gratitude for rescue.",
+    "read": {
+      "title": "Saint Patrick (Britannica)",
+      "link": "https://www.britannica.com/biography/Saint-Patrick"
+    },
+    "grade": "CONSENSUS on the broad story; dates uncertain",
+    "caution": "Many legends gather around him; only the Confession and a letter are firmly his."
+  },
+  {
+    "id": "francis",
+    "name": "Francis of Assisi",
+    "years": "1181/82-1226",
+    "place": "Assisi, Italy",
+    "tradition": "Medieval Catholic",
+    "kind": "saint",
+    "knownFor": "Gave up wealth to live in poverty and preach the gospel; founded the Franciscans; praised for love of creation.",
+    "practice": "Practice simplicity: give something up to love Christ and neighbour freely.",
+    "read": {
+      "title": "Saint Francis of Assisi (Britannica)",
+      "link": "https://www.britannica.com/biography/Saint-Francis-of-Assisi"
+    },
+    "grade": "CONSENSUS",
+    "caution": "Many popular stories are later and sentimental."
+  },
+  {
+    "id": "teresa",
+    "name": "Teresa of Avila",
+    "years": "1515-1582",
+    "place": "Avila, Spain",
+    "tradition": "Catholic mystic and reformer",
+    "kind": "saint",
+    "knownFor": "Carmelite reformer and writer on prayer, especially in The Interior Castle.",
+    "practice": "Treat prayer as friendship, a plain talking with the one who loves you.",
+    "read": {
+      "title": "The Interior Castle (CCEL)",
+      "link": "https://www.ccel.org/"
+    },
+    "grade": "CONSENSUS",
+    "caution": "Visions and mystical states are her own testimony; Protestants read her for devotion, not as a pattern for experience."
+  },
+  {
+    "id": "lawrence",
+    "name": "Brother Lawrence",
+    "years": "c. 1614-1691",
+    "place": "Paris, France",
+    "tradition": "Catholic (Carmelite lay brother)",
+    "kind": "spiritual writer",
+    "knownFor": "A kitchen worker whose conversations and letters, compiled as The Practice of the Presence of God, show prayer in ordinary work.",
+    "practice": "Do ordinary tasks as if with God present.",
+    "read": {
+      "title": "The Practice of the Presence of God (CCEL)",
+      "link": "https://www.ccel.org/ccel/lawrence/practice"
+    },
+    "grade": "CONSENSUS (birth year approximate)"
+  },
+  {
+    "id": "luther",
+    "name": "Martin Luther",
+    "years": "1483-1546",
+    "place": "Wittenberg, Germany",
+    "tradition": "Reformer (Lutheran)",
+    "kind": "reformer",
+    "knownFor": "Augustinian monk who recovered the gospel of justification by faith alone and sparked the Reformation; translated the Bible into German.",
+    "practice": "Write down what Scripture tells you about grace and pray it back.",
+    "read": {
+      "title": "Martin Luther (CCEL)",
+      "link": "https://www.ccel.org/ccel/luther"
+    },
+    "grade": "CONSENSUS",
+    "caution": "His writings include harsh statements about Jews and others that must be named plainly and rejected."
+  },
+  {
+    "id": "calvin",
+    "name": "John Calvin",
+    "years": "1509-1564",
+    "place": "Geneva, Switzerland",
+    "tradition": "Reformer (Reformed)",
+    "kind": "reformer",
+    "knownFor": "Pastor and theologian of the Reformation; his Institutes shaped Reformed theology.",
+    "practice": "Read Scripture in order and pray what you read.",
+    "read": {
+      "title": "Institutes of the Christian Religion (CCEL)",
+      "link": "https://www.ccel.org/ccel/calvin/institutes"
+    },
+    "grade": "CONSENSUS",
+    "caution": "Reformed views on election are disputed with Arminians; talk with your pastor."
+  },
+  {
+    "id": "wesley",
+    "name": "John Wesley",
+    "years": "1703-1791",
+    "place": "England",
+    "tradition": "Anglican, founder of Methodism",
+    "kind": "revival preacher",
+    "knownFor": "Preacher and organiser of the Methodist revival, with an emphasis on assurance and holiness of heart and life.",
+    "practice": "Meet with a small group to confess and encourage.",
+    "read": {
+      "title": "The Journal of John Wesley (CCEL)",
+      "link": "https://www.ccel.org/ccel/wesley"
+    },
+    "grade": "CONSENSUS",
+    "caution": "Wesleyan views on perfection and free will differ from Reformed readings."
+  },
+  {
+    "id": "whitefield",
+    "name": "George Whitefield",
+    "years": "1714-1770",
+    "place": "England and the American colonies",
+    "tradition": "Anglican, Calvinist Methodist",
+    "kind": "revival preacher",
+    "knownFor": "Field preacher of the Great Awakening, whose preaching drew very large crowds on both sides of the Atlantic.",
+    "practice": "Speak plainly of the new birth to someone this week.",
+    "read": {
+      "title": "George Whitefield (Britannica)",
+      "link": "https://www.britannica.com/biography/George-Whitefield"
+    },
+    "grade": "CONSENSUS",
+    "caution": "Whitefield held slaves and defended slavery, which must be faced honestly."
+  },
+  {
+    "id": "edwards",
+    "name": "Jonathan Edwards",
+    "years": "1703-1758",
+    "place": "Northampton, Massachusetts",
+    "tradition": "Congregationalist (Reformed)",
+    "kind": "revival preacher",
+    "knownFor": "Pastor and theologian of the Great Awakening; wrote on the religious affections and true revival.",
+    "practice": "Write resolutions and review them often.",
+    "read": {
+      "title": "Works of Jonathan Edwards (CCEL)",
+      "link": "https://www.ccel.org/ccel/edwards"
+    },
+    "grade": "CONSENSUS",
+    "caution": "He is often reduced to one sermon on wrath; read his work on beauty and the affections too."
+  },
+  {
+    "id": "spurgeon",
+    "name": "Charles Spurgeon",
+    "years": "1834-1892",
+    "place": "London, England",
+    "tradition": "Reformed Baptist",
+    "kind": "revival preacher",
+    "knownFor": "Prince of preachers at the Metropolitan Tabernacle; wrote Morning and Evening and The Treasury of David.",
+    "practice": "Read a Psalm slowly and speak it back to God.",
+    "read": {
+      "title": "Spurgeon sermons",
+      "link": "https://www.spurgeon.org/"
+    },
+    "grade": "CONSENSUS",
+    "caution": "He suffered with depression; his honest struggle is itself instructive."
+  },
+  {
+    "id": "carmichael",
+    "name": "Amy Carmichael",
+    "years": "1867-1951",
+    "place": "Dohnavur, India",
+    "tradition": "Irish Protestant missionary",
+    "kind": "spiritual writer",
+    "knownFor": "Missionary who rescued children from temple service and wrote devotional books and poems.",
+    "practice": "Offer daily work as a gift with no audience.",
+    "read": {
+      "title": "Amy Carmichael (Britannica)",
+      "link": "https://www.britannica.com/biography/Amy-Carmichael"
+    },
+    "grade": "CONSENSUS"
+  },
+  {
+    "id": "tenboom",
+    "name": "Corrie ten Boom",
+    "years": "1892-1983",
+    "place": "Haarlem, Netherlands",
+    "tradition": "Dutch Reformed",
+    "kind": "spiritual writer",
+    "knownFor": "Hid Jews in WWII, survived Ravensbruck, and spoke widely about forgiveness; author of The Hiding Place.",
+    "practice": "Forgive by an act of the will, then ask for the feelings.",
+    "read": {
+      "title": "Corrie ten Boom (Britannica)",
+      "link": "https://www.britannica.com/biography/Corrie-ten-Boom"
+    },
+    "grade": "CONSENSUS"
+  },
+  {
+    "id": "bonhoeffer",
+    "name": "Dietrich Bonhoeffer",
+    "years": "1906-1945",
+    "place": "Berlin, Germany",
+    "tradition": "Lutheran",
+    "kind": "spiritual writer",
+    "knownFor": "Pastor and theologian who opposed the Nazi regime and was executed; wrote The Cost of Discipleship and Life Together.",
+    "practice": "Confess sin to a trusted brother, as in Life Together.",
+    "read": {
+      "title": "Dietrich Bonhoeffer (Britannica)",
+      "link": "https://www.britannica.com/biography/Dietrich-Bonhoeffer"
+    },
+    "grade": "CONSENSUS",
+    "caution": "His later prison thoughts on religionless Christianity are debated; start with Life Together."
+  },
+  {
+    "id": "tozer",
+    "name": "A. W. Tozer",
+    "years": "1897-1963",
+    "place": "Chicago, USA",
+    "tradition": "Christian and Missionary Alliance",
+    "kind": "spiritual writer",
+    "knownFor": "Pastor and author of The Pursuit of God and The Knowledge of the Holy, on hunger for God.",
+    "practice": "Pray slowly through one attribute of God.",
+    "read": {
+      "title": "The Pursuit of God (CCEL)",
+      "link": "https://www.ccel.org/ccel/tozer"
+    },
+    "grade": "CONSENSUS"
+  }
+]
