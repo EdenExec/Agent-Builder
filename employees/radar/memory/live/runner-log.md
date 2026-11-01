@@ -175,3 +175,4 @@
 - 2026-11-01 01:45 PT (Sun, outside 6am-10pm window): picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty. Floor refresh not rerun (done 00:50, nothing changed).
 - 2026-11-01 01:44 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; floor refresh pushed (62 writes). Skipped crelate-tasks, daily benches, cockpit (off-hours).
 - 2026-11-01 02:45 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; floor refresh done (62 writes: agents, alerts, benches, meta, tools). Skipped: Notion ledger/Family bench, crelate-tasks 3a, cockpit doc, 8a benches.
+- 2026-11-01 03:44 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Full floor refresh pushed (62 writes). Skipped: Notion family bench, crelate-tasks, daily benches (early hour).
