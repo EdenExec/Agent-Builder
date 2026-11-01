@@ -178,3 +178,4 @@
 - 2026-11-01 03:44 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Full floor refresh pushed (62 writes). Skipped: Notion family bench, crelate-tasks, daily benches (early hour).
 - 2026-11-01 04:44 PT (Sun, outside 6am-10pm window): picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; floor refresh not rerun (done 03:44, nothing changed).
 - 2026-11-01 05:44 PT (Sun, outside 6am-10pm window): picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty; floor refresh not rerun (done 03:44, nothing changed).
+- 2026-11-01 06:44 PT (Sun): picked 5, closed 5 (4 stale-desk status asks + Family bench ledger), gated 0, blocked 0, FAILs 0. Full floor refresh pushed (79 writes; 31 Family rows from Notion). Skipped: crelate-tasks (undici missing before npm ci, no Crelate pull), cockpit doc, daily benches.
