@@ -196,3 +196,4 @@
 - 2026-11-01 21:45 PT (Sun): picked 0, closed 0, gated 3 (existing), blocked 4 (existing), FAILs 0. Queue empty. Full floor refresh pushed (61 writes in 2 batches) plus crelate-tasks. Skipped: Notion Family ledger, cockpit doc, daily benches (qbo-auth alert up), Today-view taps.
 - 2026-11-01 22:45 PT (Sun): picked 0, closed 0, FAILs 0. Queue empty (no open, waiting, picked or working tickets). Run fired after the 10pm window; floor refresh not re-run, last full refresh 21:45.
 - 2026-11-02 07:45Z (Sun 23:45 PT): picked 0, closed 0, gated 0, blocked 0, FAILs 0. Floor refreshed (61 writes). Skipped: Notion Family ledger, crelate-tasks, cockpit doc, Today taps, daily benches (outside 6am-10pm window, no open tickets); board pull failed, used repo board file.
+- 2026-11-02 00:45 PT (Mon): picked 0, closed 0, FAILs 0. Queue empty. Outside 6am-10pm window; floor refresh not re-run, last full refresh 23:45 PT.
