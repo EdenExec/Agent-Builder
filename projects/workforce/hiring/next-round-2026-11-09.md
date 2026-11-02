@@ -19,7 +19,7 @@ All times Mountain (Boise). Kev's calendar is clear at all four slots: only his 
 
 | # | Item | Status |
 |---|---|---|
-| 1 | Candidate edition of the NDA | Docket is redlining Eden's existing Mutual NDA (the template Nick attached) into `candidate-nda-master.md` in this folder. One master; each copy only gets the name and date |
+| 1 | Candidate edition of the NDA | Docket's redline is done: `candidate-nda-master.md` in this folder. 7 MUST edits (purpose, candidates in non-circumvention at 12 months with a job carve-out, Idaho law and venue, protected rights and the DTSA notice, no "independent contractors" line, 2-year confidentiality, Eden Partner Group LLC as the party). Kev approves; counsel reads once before 9 Nov. Each copy changes only name, role, date and home state |
 | 2 | Shared master doc | One Drive folder "Hiring / Candidate NDAs" with the master and one signed copy per person. Bridger owns it (A) |
 | 3 | Candidate emails | Not in Kev's inbox. Bridger has them from the first round |
 | 4 | Presley's work sample | Brief in `recruiter-prescreen.md` (Marketing add-on). Nick asked Kev for a proposal guideline; send this unless Kev has his own |
@@ -46,7 +46,7 @@ Subject: Next step with Eden Partner Group: [day and date]
 >
 > [Sender signature]
 
-Why the wording: Nick asked to highlight why they are signing. The template is a confidentiality and non-circumvention agreement, not a noncompete, so the email doesn't call it one (Docket to confirm).
+Why the wording: Nick asked to highlight why they are signing. Docket confirmed (2 Nov) it is a confidentiality and non-circumvention agreement, not a noncompete: a candidate is not a key employee under Idaho Code 44-2701, so the email never calls it one. Docket also advises showing the work live on screen with no copies, and redacting candidate names, pay and contacts from depth charts and pipelines.
 
 ## Calendar invites (drafts, for QC)
 
