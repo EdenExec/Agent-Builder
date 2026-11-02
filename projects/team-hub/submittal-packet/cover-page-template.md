@@ -1,6 +1,6 @@
 # Cover page template
 
-Header: EDEN PARTNER GROUP. Title in bold italic: "Candidate Overview". One page. Montserrat. Build on Eden letterhead (`employees/_shared/eden-letterhead.docx`). Fields in Hannah's Hoffman order; Kev's added fields marked +.
+Header: EDEN PARTNER GROUP. Title in bold italic: "Candidate Overview". One page. Montserrat. Build on Eden letterhead (`employees/_shared/eden-letterhead.docx`). Fields in Eden's overview order; Kev's added fields marked +.
 
 Template only. Never save a filled copy in the repo or the Hub.
 

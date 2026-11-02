@@ -1,14 +1,14 @@
-# Crelate in Claude: the Eden way (for Max and every recruiter)
+# Crelate in Claude: the Eden way (for every recruiter)
 
-Kev, 27 Oct 2026: no custom server, no hosting, no OAuth. Use the same setup Kev and Radar use. Claude calls Crelate's API directly, from inside a Claude cloud session, with the recruiter's own key held as a secret in the environment.
+Kev, 27 Oct 2026: no custom server, no hosting, no OAuth. Use the same setup Kev uses. Claude calls Crelate's API directly, from inside a Claude cloud session, with the recruiter's own key held as a secret in the environment.
 
 ## Setup (about 10 minutes, once)
 
 1. **Get your own Crelate API key.** In Crelate, look under your account settings for the API key. If it isn't there, ask Kev to issue one. Use your own key, never someone else's.
-2. **Open Claude Code on the web**: https://claude.ai/code. Start a session on the repo `EdenExec/Agent-Builder` (Kev adds you if you can't see it).
+2. **Open Claude Code on the web**: https://claude.ai/code. Start a session on the repo `EdenExec/recruiter-kit` (Kev or Nick adds you if you can't see it). It holds only what recruiters need; never use the main company repo (Kev, 30 Oct 2026).
 3. **Add the key to the environment.** Open the cloud environment menu in the session's title bar, then Edit. Add the key under **Network secrets** (or as an environment variable) named exactly `CRELATE_API_KEY`. Never paste the key into the chat.
 4. **Let the environment reach Crelate.** In the same settings, under Network access, add `app.crelate.com` to the allowed domains, and leave package managers allowed.
-5. **Start a new session.** A new session picks up the key. Tell Claude: "Read projects/recruiter-desk/crelate-in-claude.md and use Crelate read-only."
+5. **Start a new session.** A new session picks up the key. Tell Claude: "Use the recruiting assistant, Crelate read-only." Step by step: `after-the-api-key.md`.
 
 That's it. There is nothing to host, pay for or maintain, and the key never leaves the environment.
 
@@ -21,7 +21,7 @@ That's it. There is nothing to host, pay for or maintain, and the key never leav
   - Read the key from the environment; never print it.
   - Responses come back as `{Data, Metadata, Errors}`. Page through `Metadata`, and back off on a 429.
 - **Cloudflare blocks default clients** (error 1010). Use curl, or send a normal browser User-Agent on every request.
-- **Endpoints that work** (checked by Radar):
+- **Endpoints that work**:
   - Find a person by name: `contacts/search?query=First%20Last`. The record's `Title` is "Last, First".
   - Active jobs: `jobs?statuses=<ids>&fields=Id,JobNum,Name,SalesWorkflowItemStatusId`.
   - Who moved through a job's stages: `jobs/<jobId>/contacts/history?created_after=<ISO date>`.
@@ -32,10 +32,10 @@ That's it. There is nothing to host, pay for or maintain, and the key never leav
   - Names, titles, companies, stages and dates are fine for your own work.
   - No candidate details on team surfaces beyond name, stage and dates.
 - **Discreet clients:**
-  - Baker shows as "Client · discreet" everywhere except the Team Hub.
-  - Moss material never names other clients.
+  - Discreet clients show as "Client · discreet".
+  - Material for one client never names other clients.
 
-## What Max can ask for on day one
+## What you can ask for on day one
 
 - "Is <name> already in Crelate? Who owns them, and when were they last touched?"
 - "Who is in each stage on <job>?"

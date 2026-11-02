@@ -1,0 +1,9 @@
+{
+  "id": "2026-10-30-8e3c43",
+  "status": "pending",
+  "createdAt": "2026-10-30T23:36:24.762Z",
+  "employee": "q",
+  "kind": "publish",
+  "summary": "Create private GitHub repo EdenExec/recruiter-kit and push the Eden Recruiter Kit (projects/recruiter-kit)",
+  "detail": "Private repo, no collaborators invited (Kev or Nick add recruiters). Contents exactly projects/recruiter-kit at the commit on claude/pensive-brown-18gll8: CLAUDE.md (Eden standards), .claude/agents/recruiting-assistant.md, docs/ (crelate-in-claude, after-the-api-key), submittal-packet/ (team-prompt, cover-page, scorecard, must-dos-intake templates, Eden letterhead), tools/submittal (PDF builder, 6 tests pass), README, package.json, .gitignore. Two q-qa leak sweeps; every finding fixed (client names, a real JO name, candidate details all removed or invented). Ticket t-202610302250-rkit."
+}

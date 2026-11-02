@@ -24,7 +24,7 @@ The tracked changes and comments were in the files, just hidden on the iPad. Eve
 | 2 | Payment: client-side pays its partner within 5 business days of collecting, **but no later than 60 days after invoicing**, whether or not the client has paid; must send a copy of the invoice; no write-off without notice | **Accept the 5 days, invoice copy and write-off notice. Strike the 60-day backstop.** | The backstop turns Eden into Brian's guarantor: if a client pays late, Eden fronts his half out of its own cash. On 23 Oct, $158,700 of what clients owed Eden was past due. v2 is pay-when-paid, with collection reports on request and any discount shared in proportion. It applies both ways, so Eden gets the same protection on Brian's clients. |
 | 3 | Comment: "50/50 is preferred" | **Accept** | 50/50 is ticked in v2; moving to 70/35 takes a signed amendment. |
 | 4 | New candidate-ownership rule: first valid submittal wins; disputes split evenly | **Accept** | Standard and fair. Consent must be in writing. |
-| 5 | Backfill clause made mutual; remedy capped at a refund on that one placement; carve-out when the candidate leaves for a non-performance reason (layoff); 90-day window | **Accept mutual, the cap and the 90 days. Replace the layoff carve-out.** | The carve-out would leave Eden alone on the hook if *its* client contract still requires a replacement after a layoff. v2 makes both sides' duties track the client contract exactly, and adds your 50/50 holdback (decision 2), so the held-back half funds any refund. |
+| 5 | Backfill clause made mutual; remedy capped at a refund on that one placement; carve-out when the candidate leaves for a non-performance reason (layoff); 90-day window | **Accept mutual, the cap and the 90 days. Replace the layoff carve-out.** | The carve-out would leave Eden alone on the hook if *its* client contract still requires a replacement after a layoff. v2 makes both sides' duties track the client contract exactly, and shares any client refund in proportion to the split. |
 | 6 | Confidentiality points to the NDA, and the NDA controls | **Accept + fix** | His comment says the NDA survives the merger clause, but the text never changed. The original "Entire Agreement" clause would have wiped out the NDA. v2 fixes it. |
 | 7 | Non-solicit limited to clients introduced or worked under the agreement; each side's existing book carved out | **Accept + tighten** | Fair. v2 adds that whoever claims a client was pre-existing must be able to show records dated before the introduction. Without that, every client becomes "pre-existing" after the fact. |
 | 8 | Term: runs until 30 days' notice; splits continue on candidates submitted before the end and placed within 12 months | **Accept** | This also replaces the 90-day trial in your cover letter, which conflicted with it. I dropped the cover letter from the signing copy. |
@@ -44,11 +44,11 @@ The tracked changes and comments were in the files, just hidden on the iPad. Eve
 
 v2 also names Eden Partner Group LLC, covers information shared since 22 July, and replaces the July draft.
 
-## Decisions for you (defaults already in v2)
+## Kev's calls (30 Oct)
 
-1. **Eden's contracting entity:** v2 says *Eden Partner Group LLC*, with your title as *Founding Partner / CEO*. The July drafts used three different versions of both. If the legal name is different (for example, if EES is its own LLC and should be the party), tell me and I'll change it in two places.
-2. **Guarantee holdback:** 50% of Brian's share paid within 5 business days of collection, 50% within 5 business days after the guarantee ends. This is your 17 August proposal, which Brian accepted. Refunds come out of the holdback first, and anything left over is repaid within 30 days. This is the default. Say so if you want it different.
-3. **The 60-day backstop:** struck. If Brian pushes back, the fallback I'd accept is "if a client is more than 90 days late, the parties agree together on collection action" (still no out-of-pocket payment). Your call if you'd rather just give him the backstop to close today.
+1. **Payment (Kev, 30 Oct):** no holdback. Invoice on the start date; pay the partner's full share within 5 business days of receiving the client's payment. If a client pays late, both sides work out the best course of action together. The 60-day backstop is struck. If a refund is due after payout, the candidate side repays its share within 30 days of notice.
+2. **Entity:** v2 names Eden Partner Group LLC, with Kev as Founding Partner / CEO. Change it before signing if the legal name differs.
+3. Everything else is as above. Kev: "we should be good to go." The reply to Brian is in Kev's Superhuman Drafts on the Partnership Agreement + NDA thread. The PDFs still need to be attached before it is sent.
 
 ## Risk notes
 

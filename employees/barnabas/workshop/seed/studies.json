@@ -1,0 +1,387 @@
+[
+  {
+    "id": "romans-5-8",
+    "stream": "word",
+    "title": "Romans 5 to 8: Life in the Spirit",
+    "summary": "Four chapters from peace with God to no condemnation, the Spirit's life and the unbreakable love of God. It follows your reading spine and moves slowly where the gospel is richest.",
+    "sessions": [
+      {
+        "n": 1,
+        "title": "Peace with God",
+        "read": "Romans 5:1-11",
+        "focus": "Justification, peace, hope"
+      },
+      {
+        "n": 2,
+        "title": "Adam and Christ",
+        "read": "Romans 5:12-21",
+        "focus": "Two heads, one gift"
+      },
+      {
+        "n": 3,
+        "title": "Dead to sin, alive to God",
+        "read": "Romans 6",
+        "focus": "Union with Christ and baptism"
+      },
+      {
+        "n": 4,
+        "title": "The struggle and the Spirit",
+        "read": "Romans 7:7-8:17",
+        "focus": "Law, flesh, Spirit, adoption"
+      },
+      {
+        "n": 5,
+        "title": "Nothing can separate",
+        "read": "Romans 8:18-39",
+        "focus": "Groaning, glory, God's love"
+      }
+    ],
+    "resources": [
+      {
+        "title": "The Message of Romans",
+        "author": "John Stott (IVP)",
+        "link": "https://www.ivpress.com/"
+      },
+      {
+        "title": "Romans 1-7 For You and Romans 8-16 For You",
+        "author": "Tim Keller (The Good Book Company)",
+        "link": "https://www.thegoodbook.com/"
+      }
+    ],
+    "status": "next",
+    "recommended": true
+  },
+  {
+    "id": "be-with-jesus",
+    "stream": "practicing-the-way",
+    "title": "Practicing the Way: Be With Jesus",
+    "summary": "A slow study of the first movement of apprenticeship: being with Jesus through Scripture, prayer, Sabbath and stillness. Each session pairs a Gospel scene with one practice to try that week.",
+    "sessions": [
+      {
+        "n": 1,
+        "title": "Called to be with him",
+        "read": "Mark 3:13-19",
+        "focus": "The first thing Jesus does with the Twelve"
+      },
+      {
+        "n": 2,
+        "title": "Come away and rest",
+        "read": "Mark 6:30-32",
+        "focus": "Rest in the middle of work"
+      },
+      {
+        "n": 3,
+        "title": "Abide",
+        "read": "John 15:1-11",
+        "focus": "Remaining, not striving"
+      },
+      {
+        "n": 4,
+        "title": "Alone with the Father",
+        "read": "Mark 1:35; Luke 5:15-16",
+        "focus": "Solitude and prayer"
+      },
+      {
+        "n": 5,
+        "title": "A rule of life",
+        "read": "Colossians 3:1-17",
+        "focus": "What shape does my week take?"
+      }
+    ],
+    "resources": [
+      {
+        "title": "Practicing the Way",
+        "author": "John Mark Comer (WaterBrook)",
+        "link": "https://www.practicingtheway.org/"
+      }
+    ],
+    "status": "next",
+    "recommended": true
+  },
+  {
+    "id": "bp-sabbath",
+    "stream": "bibleproject",
+    "title": "BibleProject: Sabbath and Rest across the Bible",
+    "summary": "Follow rest from creation to the new creation using the book overviews and themes, reading the texts first. A good companion to your own Sabbath.",
+    "sessions": [
+      {
+        "n": 1,
+        "title": "God rests",
+        "read": "Genesis 1:1-2:3",
+        "focus": "Seventh day and creation"
+      },
+      {
+        "n": 2,
+        "title": "Manna and the pattern",
+        "read": "Exodus 16",
+        "focus": "Trust in daily provision"
+      },
+      {
+        "n": 3,
+        "title": "Remember the rescue",
+        "read": "Exodus 20:8-11; Deuteronomy 5:12-15",
+        "focus": "Two reasons for one command"
+      },
+      {
+        "n": 4,
+        "title": "The Lord of the Sabbath",
+        "read": "Mark 2:23-3:6",
+        "focus": "What Jesus says rest is for"
+      },
+      {
+        "n": 5,
+        "title": "A rest that remains",
+        "read": "Hebrews 3:7-4:13",
+        "focus": "The fulfilment"
+      }
+    ],
+    "resources": [
+      {
+        "title": "Themes and book overviews",
+        "author": "BibleProject",
+        "link": "https://bibleproject.com/"
+      }
+    ],
+    "status": "later"
+  },
+  {
+    "id": "willard-vim",
+    "stream": "willard",
+    "title": "Willard's VIM: Vision, Intention, Means",
+    "summary": "Learn Willard's three-part pattern for real change, and test it against Scripture and your examen. Practice it on one pillar at a time.",
+    "sessions": [
+      {
+        "n": 1,
+        "title": "Vision: the life offered",
+        "read": "John 10:10; Matthew 6:33",
+        "focus": "What is the life worth wanting?"
+      },
+      {
+        "n": 2,
+        "title": "Intention: decide",
+        "read": "Romans 12:1-2",
+        "focus": "Choosing to be changed"
+      },
+      {
+        "n": 3,
+        "title": "Means: grace through practice",
+        "read": "1 Timothy 4:7-8",
+        "focus": "Training, not trying"
+      },
+      {
+        "n": 4,
+        "title": "Renewing the mind and heart",
+        "read": "Colossians 3:1-17",
+        "focus": "Thoughts, feelings, will"
+      },
+      {
+        "n": 5,
+        "title": "Grace and effort",
+        "read": "Philippians 2:12-13",
+        "focus": "Work out what God works in"
+      }
+    ],
+    "resources": [
+      {
+        "title": "Renovation of the Heart",
+        "author": "Dallas Willard (NavPress)",
+        "link": "https://www.navpress.com/"
+      },
+      {
+        "title": "Dallas Willard Ministries",
+        "author": "Willard Ministries",
+        "link": "https://dwillard.org/"
+      }
+    ],
+    "status": "later"
+  },
+  {
+    "id": "soul-keeping",
+    "stream": "ortberg",
+    "title": "Soul Keeping with John Ortberg",
+    "summary": "A study of the care of the soul, drawing on Ortberg and Scripture. It pairs well with the weekly examen.",
+    "sessions": [
+      {
+        "n": 1,
+        "title": "What is the soul?",
+        "read": "Mark 8:36-37",
+        "focus": "Why the soul matters"
+      },
+      {
+        "n": 2,
+        "title": "A soul at rest",
+        "read": "Psalm 62:1-2; Psalm 131",
+        "focus": "Quieting the soul"
+      },
+      {
+        "n": 3,
+        "title": "Guarding the heart",
+        "read": "Proverbs 4:23",
+        "focus": "Attention and habit"
+      },
+      {
+        "n": 4,
+        "title": "Soul and body",
+        "read": "Psalm 139:13-16",
+        "focus": "The whole person"
+      },
+      {
+        "n": 5,
+        "title": "Soul friends",
+        "read": "Proverbs 27:17; James 5:16",
+        "focus": "Community and confession"
+      }
+    ],
+    "resources": [
+      {
+        "title": "Soul Keeping",
+        "author": "John Ortberg (Zondervan)",
+        "link": "https://www.zondervan.com/"
+      }
+    ],
+    "status": "later"
+  },
+  {
+    "id": "confessions",
+    "stream": "church-history",
+    "title": "Augustine's Confessions and the restless heart",
+    "summary": "Read selected books of Augustine's prayer-memoir alongside Psalms. A classic of conversion, mother love and longing for God.",
+    "sessions": [
+      {
+        "n": 1,
+        "title": "Restless until it rests",
+        "read": "Psalm 62:1; Confessions I",
+        "focus": "The opening prayer"
+      },
+      {
+        "n": 2,
+        "title": "The pear tree and sin",
+        "read": "Psalm 51; Confessions II",
+        "focus": "Sin understood"
+      },
+      {
+        "n": 3,
+        "title": "The garden",
+        "read": "Romans 13:11-14; Confessions VIII",
+        "focus": "The turning"
+      },
+      {
+        "n": 4,
+        "title": "Monica",
+        "read": "Proverbs 31; Confessions IX",
+        "focus": "A mother's prayers"
+      },
+      {
+        "n": 5,
+        "title": "Time and memory",
+        "read": "Psalm 90; Confessions X-XI",
+        "focus": "Wonder at God"
+      }
+    ],
+    "resources": [
+      {
+        "title": "Confessions",
+        "author": "Augustine (CCEL, public domain)",
+        "link": "https://www.ccel.org/ccel/augustine/confess.html"
+      }
+    ],
+    "status": "later"
+  },
+  {
+    "id": "awakenings",
+    "stream": "church-history",
+    "title": "The Great Awakenings: Edwards, Whitefield, Wesley",
+    "summary": "Read the 18th-century revivals through the people God used and the texts they preached. See what revival meant and what it cost.",
+    "sessions": [
+      {
+        "n": 1,
+        "title": "The preached word",
+        "read": "Acts 2:14-41",
+        "focus": "The model of awakening"
+      },
+      {
+        "n": 2,
+        "title": "Edwards and the affections",
+        "read": "Romans 5:1-5 and Psalm 42",
+        "focus": "True religion of the heart"
+      },
+      {
+        "n": 3,
+        "title": "Whitefield, the field preacher",
+        "read": "John 3:1-21",
+        "focus": "The new birth"
+      },
+      {
+        "n": 4,
+        "title": "Wesley's warmed heart",
+        "read": "Romans 8:14-17",
+        "focus": "Assurance and the Spirit"
+      },
+      {
+        "n": 5,
+        "title": "What revival leaves behind",
+        "read": "1 Thessalonians 1:2-10",
+        "focus": "Fruit that lasts"
+      }
+    ],
+    "resources": [
+      {
+        "title": "Christian History Institute: Great Awakenings",
+        "author": "Christian History Institute",
+        "link": "https://christianhistoryinstitute.org/"
+      }
+    ],
+    "status": "later"
+  },
+  {
+    "id": "desert-and-rule",
+    "stream": "church-history",
+    "title": "Desert Fathers and the Rule of Benedict",
+    "summary": "A short study of stillness, work and prayer in the early monastic tradition, read beside Jesus' own withdrawing to pray. Take the rhythms, leave what Scripture does not require.",
+    "sessions": [
+      {
+        "n": 1,
+        "title": "Anthony goes to the desert",
+        "read": "Matthew 4:1-11; Mark 1:35",
+        "focus": "Withdrawal for God"
+      },
+      {
+        "n": 2,
+        "title": "The sayings",
+        "read": "Proverbs 10:19; James 3:1-12",
+        "focus": "Words and silence"
+      },
+      {
+        "n": 3,
+        "title": "Pray and work",
+        "read": "Colossians 3:23",
+        "focus": "Ora et labora"
+      },
+      {
+        "n": 4,
+        "title": "Hours of prayer",
+        "read": "Psalm 119:164; Daniel 6:10",
+        "focus": "A rhythm of day"
+      },
+      {
+        "n": 5,
+        "title": "Hospitality",
+        "read": "Hebrews 13:1-2",
+        "focus": "Welcome as worship"
+      }
+    ],
+    "resources": [
+      {
+        "title": "The Rule of Benedict",
+        "author": "Benedict (CCEL)",
+        "link": "https://www.ccel.org/ccel/benedict"
+      },
+      {
+        "title": "Life of Antony",
+        "author": "Athanasius (CCEL)",
+        "link": "https://www.ccel.org/"
+      }
+    ],
+    "status": "later"
+  }
+]

@@ -972,7 +972,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     if (!S.unsub.lookahead) S.unsub.lookahead = S.db.doc('meta/lookahead').onSnapshot(function (s) { S.look = s.exists ? s.data() : null; renderAll(); }, function () { S.unsub.lookahead = null; });   // Hawk's mirror: the Family office card (private)
   }
   function dropSensitive() {                              // like the Hub: other data never sits in the page while presenting
-    unwatch('benches'); unwatch('crelate'); S.crelate = null; unwatch('phones'); S.phones = null; unwatch('lookahead'); S.look = null; unwatch('ctasks'); S.ctasks = null;                 // names beside pace numbers never sit in the page while presenting
+    unwatch('benches'); unwatch('crelate'); S.crelate = null; unwatch('phones'); S.phones = null; unwatch('lookahead'); S.look = null; unwatch('ctasks'); S.ctasks = null; if (TD.padUn) { TD.padUn(); TD.padUn = null; } TD.pad = null;   // the scratch pad is Kev's own notes                 // names beside pace numbers never sit in the page while presenting
     Object.keys(S.benches).forEach(function (k) { var d = BENCH_DEFS.filter(function (x) { return x.id === k; })[0]; if (!d || d.sensitive) delete S.benches[k]; });
     S.benchRows = {}; Object.keys(S.unsub).forEach(function (k) { if (k.indexOf('rows-') === 0) unwatch(k); });
     Object.keys(S.logs).forEach(function (k) { if (sensitiveAgent(k)) { delete S.logs[k]; unwatch('log-' + k); } });
