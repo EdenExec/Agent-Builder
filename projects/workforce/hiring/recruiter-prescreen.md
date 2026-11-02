@@ -2,6 +2,8 @@
 
 Status: DRAFT for Kev and Nick. Not sent. Kev, 2 Nov 2026: "a pre-screening doc that we can send out to have recruiters go through a gate. If they can't put the brainpower into this, we probably don't want them."
 
+**Live form (Kev, 2 Nov 2026):** https://docs.google.com/forms/d/e/1FAIpQLSdJ754TkGKbtMwom4BrNBU7hNy6XdvsgMUDa9tkQ1aMxAUjGA/viewform (Drive file "Eden Partner Group · Recruiter pre-screen", id 14y9dmr0msGfm7Nb73nmcgB5boIk7_L8d6RXs5hG4xoc). Send this link, not the text below. On 2 Nov an anonymous open of the link returned "sign in required" (401): if "Restrict to users in Eden Partner Group" is on, outside candidates can't open it.
+
 **How we use it.** Sent after a first call, before any in-person round. Written answers, returned within 3 business days. Expect 60 to 90 minutes of real work. We read for thinking, not polish. A blank section or one-line answers end the process. Nick fills Section 5 before it goes out.
 
 **Rules for whoever sends it (Docket's hiring review, 23 Oct 2026).** Never add questions about age, family, health, religion, pay history or anything personal. Section 6 is about how someone works, not what they believe. Use the same document for every candidate in a role.
