@@ -1,7 +1,7 @@
 ---
 title: Mutual Non-Disclosure and Non-Circumvention Agreement (Split Partner Edition), master
 org: epg
-status: DRAFT FOR ATTORNEY REVIEW. Built by Dean on 2 Nov 2026 from the Candidate and Team Edition Kev approved the same day (12 months, 2 years, 5 business days). Docket review 2 Nov 2026 applied five MUST edits (split-partner-nda-review.md). Nothing sent or signed.
+status: FINAL (Kev, 2 Nov 2026: no counsel review; use as final). Signing title Founding Partner / President. Built by Dean on 2 Nov 2026 from the Candidate and Team Edition Kev approved the same day (12 months, 2 years, 5 business days). Docket review 2 Nov 2026 applied five MUST edits (split-partner-nda-review.md). Nothing sent or signed.
 fill-ins: [Partner legal name], [entity description], [Signer name], [Signer title], [Date]
 use: 1099 split partners (other recruiters and search firms) before or alongside a Split Partner Agreement. First use: Steve Cross, Inlet Associates.
 ---
@@ -65,5 +65,5 @@ Date: ______________________
 **Eden Partner Group LLC**
 Signed: ______________________
 Name: Kevin Williams
-Title: Founding Partner / CEO
+Title: Founding Partner / President
 Date: ______________________

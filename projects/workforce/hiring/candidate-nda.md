@@ -1,7 +1,7 @@
 ---
 title: Mutual Non-Disclosure Agreement (Candidate and Team Edition), clean master
 org: epg
-status: DRAFT FOR ATTORNEY REVIEW. Kev approved all 12 edits on 2 Nov 2026 (12 months, 2 years, 5 business days confirmed), with a broader purpose so the same signed copy covers any role or classification. Counsel reads once before 9 Nov. Nothing sent or signed.
+status: FINAL (Kev, 2 Nov 2026: no counsel review; use as final). Signing title Founding Partner / President. Kev approved all 12 edits on 2 Nov 2026 (12 months, 2 years, 5 business days confirmed), with a broader purpose so the same signed copy covers any role or classification. Nothing sent or signed.
 source: Docket's redline in candidate-nda-master.md, applied by Dean
 fill-ins: [Candidate name], [Date]. Nothing else changes per person.
 ---
@@ -63,5 +63,5 @@ Date: ______________________
 **Eden Partner Group LLC**
 Signed: ______________________
 Name: Kevin Williams
-Title: Founding Partner / CEO
+Title: Founding Partner / President
 Date: ______________________

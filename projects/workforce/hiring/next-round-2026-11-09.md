@@ -19,7 +19,7 @@ All times Mountain (Boise). Kev's calendar is clear at all four slots: only his 
 
 | # | Item | Status |
 |---|---|---|
-| 1 | Candidate edition of the NDA | Docket's redline is done: `candidate-nda-master.md` in this folder. 7 MUST edits (purpose, candidates in non-circumvention at 12 months with a job carve-out, Idaho law and venue, protected rights and the DTSA notice, no "independent contractors" line, 2-year confidentiality, Eden Partner Group LLC as the party). Kev approves; counsel reads once before 9 Nov. Each copy changes only name, role, date and home state |
+| 1 | Candidate edition of the NDA | Docket's redline is done: `candidate-nda-master.md` in this folder. 7 MUST edits (purpose, candidates in non-circumvention at 12 months with a job carve-out, Idaho law and venue, protected rights and the DTSA notice, no "independent contractors" line, 2-year confidentiality, Eden Partner Group LLC as the party). Final (Kev, 2 Nov: no counsel review; title Founding Partner / President). Each copy changes only name, role, date and home state |
 | 1b | Files to attach | `Eden Mutual NDA - Candidate and Team Edition.docx` (fill name and date, save as PDF per person) in this folder |
 | 2 | Shared master doc | One Drive folder "Hiring / Candidate NDAs" with the master and one signed copy per person. Bridger owns it (A) |
 | 3 | Candidate emails | Not in Kev's inbox. Bridger has them from the first round |
