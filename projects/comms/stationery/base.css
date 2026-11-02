@@ -1,0 +1,9 @@
+@font-face{font-family:M;src:url(/home/user/Agent-Builder/workshop/submittal/fonts/montserrat-latin-400-normal.woff2);font-weight:400}
+@font-face{font-family:M;src:url(/home/user/Agent-Builder/workshop/submittal/fonts/montserrat-latin-600-normal.woff2);font-weight:600}
+@font-face{font-family:M;src:url(/home/user/Agent-Builder/workshop/submittal/fonts/montserrat-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:M;src:url(/home/user/Agent-Builder/workshop/submittal/fonts/montserrat-latin-800-normal.woff2);font-weight:800}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:M,'Helvetica Neue',Arial,sans-serif;color:#111;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;overflow:hidden;page-break-after:always}
+.lab{font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.wm{font-weight:800;letter-spacing:.22em}
