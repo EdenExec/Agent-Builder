@@ -190,3 +190,4 @@
 - 2026-11-01 15:50 PT (Sun): picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty. Full floor refresh pushed (61 writes in 2 batches). Skipped: crelate-tasks, Notion Family ledger, cockpit doc, daily benches (qbo-auth alert up), Today-view taps.
 - 2026-11-01 16:45 PT: picked 0, closed 0, gated 3 (existing), blocked 4 (existing), FAILs 0. Floor refresh pushed (61 writes). Skipped: crelate-tasks pull, 8a benches, cockpit doc.
 - 2026-11-01 17:50 PT (Sun): picked 0, closed 0, gated 3 (existing), blocked 4 (existing), FAILs 0. Queue empty. Full floor refresh pushed (61 writes in 2 batches). Skipped: crelate-tasks, Notion Family ledger, cockpit doc, daily benches (qbo-auth alert up), Today-view taps.
+- 2026-11-01 18:50 PT: picked 2, closed 1 (ember status), blocked 1 (tally, QuickBooks auth), gated 0, FAILs 0 (both tickets <1h old). Floor refresh (step 8) not run: Command Center dump/office-prep/Notion/Docs connectors not attached to this routine session.
