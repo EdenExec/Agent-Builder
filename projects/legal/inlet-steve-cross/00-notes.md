@@ -27,3 +27,9 @@ Docket · 30 October 2026 · ticket t-202610302005-mzcr
 - Steve's copy is in this folder: party "Inlet Associates" with a blank for the entity type (still open, see above), signer Steve Cross, Recruiter.
 - It covers every client and job order, not just PB South, so Eden can share more. Two-way non-circumvention for 12 months with a pre-existing-relationship carve-out; confidentiality 2 years; return in 5 business days. Where it conflicts with the PB South split agreement on a placement under it, the split agreement controls.
 - Watch: the PB South split agreement has an entire-agreement clause and Washington law; the NDA follows the split agreement's law and states the order of precedence. Docket check recommended before Kev sends.
+
+## Docket review of the split partner NDA (2 Nov 2026)
+- Verdict SIGN after five MUST edits, now applied; log in `projects/workforce/hiring/split-partner-nda-review.md`.
+- The NDA adds to the PB South agreement and never amends it; the split agreement controls on anything it covers. Washington law and Washington courts, matching PB South.
+- Partner-side non-circumvention is now non-solicit plus non-use. A ban on "accepting" a client's business is a noncompete under RCW 49.62.010(4). PB South s.7 still has "accept a fee from PB South"; counsel question 2.
+- The party line asks Steve to state Inlet's entity, or "a trade name of Steve Cross, an individual".
