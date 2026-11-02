@@ -1,6 +1,6 @@
 # Next round: Rex, Sadie, Riley, Presley (9 and 10 Nov 2026)
 
-Status: DRAFT. Nothing sent, no invite created. Source: Nick's email to Bridger and Kev, "Follow Up for Candidates", 2 Nov 2026 (NDA template attached), and Kev in Dean's session the same day. Nick asked Bridger to send and to save the email as a template; this file is that package. Every send and every invite needs Kev's yes (QC).
+Status: DRAFT. Nothing sent, no invite created. Kev, 2 Nov: Bridger sends; NDA edits approved. Source: Nick's email to Bridger and Kev, "Follow Up for Candidates", 2 Nov 2026 (NDA template attached), and Kev in Dean's session the same day. Nick asked Bridger to send and to save the email as a template; this file is that package. Every send and every invite needs Kev's yes (QC).
 
 ## The schedule
 
@@ -20,6 +20,7 @@ All times Mountain (Boise). Kev's calendar is clear at all four slots: only his 
 | # | Item | Status |
 |---|---|---|
 | 1 | Candidate edition of the NDA | Docket's redline is done: `candidate-nda-master.md` in this folder. 7 MUST edits (purpose, candidates in non-circumvention at 12 months with a job carve-out, Idaho law and venue, protected rights and the DTSA notice, no "independent contractors" line, 2-year confidentiality, Eden Partner Group LLC as the party). Kev approves; counsel reads once before 9 Nov. Each copy changes only name, role, date and home state |
+| 1b | Files to attach | `Eden Mutual NDA - Candidate and Team Edition.docx` (fill name and date, save as PDF per person) in this folder |
 | 2 | Shared master doc | One Drive folder "Hiring / Candidate NDAs" with the master and one signed copy per person. Bridger owns it (A) |
 | 3 | Candidate emails | Not in Kev's inbox. Bridger has them from the first round |
 | 4 | Presley's work sample | Brief in `recruiter-prescreen.md` (Marketing add-on). Nick asked Kev for a proposal guideline; send this unless Kev has his own |

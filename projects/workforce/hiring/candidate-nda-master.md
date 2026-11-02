@@ -8,6 +8,10 @@ status: DRAFT FOR ATTORNEY REVIEW. Nothing sent, signed or shared.
 
 # DRAFT FOR ATTORNEY REVIEW
 
+**Kev's decisions, 2 Nov 2026:** all 12 edits approved; 12 months, 2 years and 5 business days confirmed. Change to edit 2: no [Role]. The purpose covers working with or for Eden "in any capacity" (employee, contractor, intern or otherwise, any role, including later changes of role or classification), so one signed copy survives a move from one role to another or from 1099 to W-2. Edit 7 follows: the agreement runs for the whole relationship and its clocks start when the relationship ends; a later employment or contractor agreement adds to it. Edit 5, Kev: "they should be able to go work directly for a company if that is the path they choose." Clean text: `candidate-nda.md`; PDF and Word copies beside it. Per person only [Candidate name] and [Date] change.
+
+**Counsel question 4 (from the change above):** does an "any capacity" purpose plus a relationship-long term hold up for someone who later becomes a W-2 employee, or should the employee confidentiality agreement in the offer letters (`projects/workforce/boise-internships/docket-1099-and-offer-letters-2026-10-23.md`) still be signed on hire?
+
 ## Executive summary
 
 **Verdict: FIX FIRST, then use it.** Nick's template ("[Template] EPG & ____ - NDA", Mutual Non-Disclosure Agreement, 3 pages) is a good base for candidates. It needs 7 MUST edits before 9 November. Have counsel read the edited version once. Confidence: LIKELY.
