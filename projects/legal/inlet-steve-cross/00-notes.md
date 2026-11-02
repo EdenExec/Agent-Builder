@@ -21,3 +21,9 @@ Docket · 30 October 2026 · ticket t-202610302005-mzcr
 ## Open
 - **Inlet's legal entity:** listed as "Inlet Associates". Ask Steve whether it's an LLC or he signs personally, and fix the party line before countersigning.
 - Same entity check for Eden as on Vesta (Eden Partner Group LLC).
+
+## Split partner NDA (Dean, 2 Nov 2026)
+- Kev asked for a split-partner NDA template and a copy for Steve. Template: `projects/workforce/hiring/split-partner-nda.md` (PDF and Word beside it), built from the Candidate and Team Edition Kev approved on 2 Nov.
+- Steve's copy is in this folder: party "Inlet Associates" with a blank for the entity type (still open, see above), signer Steve Cross, Recruiter.
+- It covers every client and job order, not just PB South, so Eden can share more. Two-way non-circumvention for 12 months with a pre-existing-relationship carve-out; confidentiality 2 years; return in 5 business days. Where it conflicts with the PB South split agreement on a placement under it, the split agreement controls.
+- Watch: the PB South split agreement has an entire-agreement clause and Washington law; the NDA follows the split agreement's law and states the order of precedence. Docket check recommended before Kev sends.
