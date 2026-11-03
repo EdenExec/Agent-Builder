@@ -32,3 +32,12 @@ Ref, #, Tier, Name, **Mobile, Mobile source, Direct, Phone notes**, Title, Compa
 ## Quality bar
 
 At least 25 Tier 1 names for a common title in a large metro, or a note saying why the market is thinner. Fewer than 10% of rows bounce as wrong person or wrong company when the recruiter checks.
+
+## Working in tandem with Noah's agent (Kev, 3 Nov 2026)
+
+Noah runs his own copy of Scout (skill package `projects/team-hub/scout-for-noah/`). Same folder, same Lead Log, same format. To keep from colliding:
+- Claim a sheet before working it: append "Scout working · <date time PT>" to its Lead Log Owner note; clear it when done. Never work a sheet Noah's agent has claimed in the last 12 hours.
+- Reference numbers: Scout EL-001 to EL-499; Noah's agent EL-500 and up.
+- Separate ZoomInfo seats (Scout: Kev's; Noah's agent: Noah's). Never enrich a row whose Mobile is filled.
+- Never insert, delete or reorder columns on a sheet Noah's agent made or is working.
+- When the package's rules change (format, clients, phone pass), update the files in `projects/team-hub/scout-for-noah/`, re-zip, and tell Kev so Noah can re-upload.
