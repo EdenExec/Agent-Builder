@@ -207,6 +207,11 @@
     if (TD.mode !== 'today') return;
     tdWatch(); keepFocus(tdRenderInner);
   }
+  /* One box that cannot draw its data shows a short line instead of taking the whole Today view down (3 Nov: a calls block with no week read blanked the page). */
+  function tdSafe(fn, name) {
+    var args = Array.prototype.slice.call(arguments, 2);
+    try { return fn.apply(null, args); } catch (e) { try { console.warn('Today: ' + name + ' could not draw', e); } catch (x) {} return h('div', { class: 'td-box' }, h('div', { class: 'td-note amber', text: name + ' could not show today\'s data. The rest of the page is fine; Q has been told.' })); }
+  }
   function tdRenderInner() {
     var box = $('#td-root'); box.textContent = '';
     if (Game.isSabbathAt(Date.now())) {
@@ -234,13 +239,13 @@
     }
     var grid = h('div', { class: 'td-grid' });
     var left = h('div', { class: 'td-left' }), right = h('div', { class: 'td-right' });
-    left.appendChild(tdNowBox(run, now)); left.appendChild(tdRunBox(run, now)); if (doc) left.appendChild(tdHabitBox());
-    var cb = doc && tdCallsBox(); if (cb) left.appendChild(cb);
-    var mid = tdMid(run), pad = tdPadBox(); if (pad) mid.insertBefore(pad, mid.firstChild);
-    grid.appendChild(left); grid.appendChild(mid); if (doc) { right.appendChild(tdMustBox()); }
-    var decBox = tdDecBox(); if (decBox) right.appendChild(decBox);
-    var ctBox = tdCrelateTasksBox(); if (ctBox) right.appendChild(ctBox);
-    if (doc) { right.appendChild(tdScriptureBox()); right.appendChild(tdCheckoutBox()); } grid.appendChild(right);
+    left.appendChild(tdSafe(tdNowBox, 'Now', run, now)); left.appendChild(tdSafe(tdRunBox, 'Run of day', run, now)); if (doc) left.appendChild(tdSafe(tdHabitBox, 'Habits'));
+    var cb = doc && tdSafe(tdCallsBox, 'Phones'); if (cb) left.appendChild(cb);
+    var mid = tdSafe(tdMid, 'The call sheets', run), pad = tdSafe(tdPadBox, 'Scratch pad'); if (pad) mid.insertBefore(pad, mid.firstChild);
+    grid.appendChild(left); grid.appendChild(mid); if (doc) { right.appendChild(tdSafe(tdMustBox, 'Must-hits')); }
+    var decBox = tdSafe(tdDecBox, 'Decisions'); if (decBox) right.appendChild(decBox);
+    var ctBox = tdSafe(tdCrelateTasksBox, 'Crelate tasks'); if (ctBox) right.appendChild(ctBox);
+    if (doc) { right.appendChild(tdSafe(tdScriptureBox, 'Scripture')); right.appendChild(tdSafe(tdCheckoutBox, 'Check-out')); } grid.appendChild(right);
     box.appendChild(grid);
     if (TD.study && doc && doc.study) box.appendChild(tdStudy());
   }
@@ -285,24 +290,28 @@
      Counts only, written into daily/{date}.calls by the stand-up from read-only CloudTalk stats. Hidden under screen share. */
   function tdCallsBox() {
     var c = TD.doc.calls; if (!c || !(c.people || []).length || S.share) return null;
-    var w = h('div', { class: 'td-calls' }), keys = c.dayKeys || [];
-    w.appendChild(h('div', { class: 'td-cr hd' }, h('span', { text: 'Who' }), h('span', { text: keys.length ? 'Daily dials' : '' }), h('span', { class: 'n', text: 'Wk' }), h('span', { class: 'n', text: 'vs last' }), h('span', { class: 'n', text: 'Pick' })));
-    var people = c.people.slice().sort(function (a, b) { return b.week.dials - a.week.dials || b.prior.dials - a.prior.dials; });
+    var w = h('div', { class: 'td-calls' }), keys = c.dayKeys || [], dayOnly = c.people.every(function (p) { return !(p.week && typeof p.week.dials === 'number'); });
+    w.appendChild(h('div', { class: 'td-cr hd' }, h('span', { text: 'Who' }), h('span', { text: keys.length ? 'Daily dials' : '' }), h('span', { class: 'n', text: dayOnly ? 'Day' : 'Wk' }), h('span', { class: 'n', text: 'vs last' }), h('span', { class: 'n', text: 'Pick' })));
+    // A night's read can miss the week or last-week windows (3 Nov: "Monday only"); a missing count shows a dash, never zero, and never breaks the page.
+    var cnt = function (x) { return x && typeof x.dials === 'number' ? x : null; };
+    var people = c.people.map(function (p) { return Object.assign({}, p, { day: cnt(p.day) || { dials: 0, conn: 0 }, week: cnt(p.week), prior: cnt(p.prior), days: Array.isArray(p.days) ? p.days : [] }); });
+    var noWeek = people.every(function (p) { return !p.week; });
+    people.sort(function (a, b) { return ((b.week || b.day).dials - (a.week || a.day).dials) || ((b.prior ? b.prior.dials : 0) - (a.prior ? a.prior.dials : 0)); });
     var tot = { w: 0, p: 0 };
     people.forEach(function (p) {
-      tot.w += p.week.dials; tot.p += p.prior.dials;
+      var wk = p.week || (noWeek ? p.day : null), pr = p.prior; tot.w += wk ? wk.dials : 0; tot.p += pr ? pr.dials : 0;
       var max = Math.max.apply(null, [1].concat(p.days.filter(function (x) { return x != null; }))), sp = h('span', { class: 'td-spark', title: keys.map(function (k, i) { return tdShort(k) + ': ' + (p.days[i] == null ? 'not read' : p.days[i]); }).join('\n') });
       p.days.forEach(function (x, i) { sp.appendChild(h('i', { class: x == null ? 'na' : !x ? 'z' : i === p.days.length - 1 ? 'last' : '', style: x ? 'height:' + Math.max(8, Math.round(x / max * 100)) + '%' : '' })); });
-      var d = p.week.dials - p.prior.dials, tr = !p.prior.dials ? (p.week.dials ? ['new', 'up'] : ['–', 'fl']) : [(d >= 0 ? '▲' : '▼') + Math.abs(Math.round(d / p.prior.dials * 100)) + '%', Math.abs(d / p.prior.dials) < 0.1 ? 'fl' : d > 0 ? 'up' : 'dn'];
-      w.appendChild(h('div', { class: 'td-cr', title: p.name + ' · ' + (c.dayLabel || 'yesterday') + ': ' + p.day.dials + ' dials, ' + p.day.conn + ' picked up · ' + (c.priorLabel || 'last week') + ': ' + p.prior.dials + ' dials' },
-        h('span', { class: 'nm', text: p.name.split(' ')[0] }), sp, h('span', { class: 'n', text: String(p.week.dials) }), h('span', { class: 'tr ' + tr[1], text: tr[0] }),
-        h('span', { class: 'n', text: p.week.dials ? Math.round(p.week.conn / p.week.dials * 100) + '%' : '–' })));
+      var tr = !p.week || !pr ? ['–', 'fl'] : !pr.dials ? (p.week.dials ? ['new', 'up'] : ['–', 'fl']) : (function (d) { return [(d >= 0 ? '▲' : '▼') + Math.abs(Math.round(d / pr.dials * 100)) + '%', Math.abs(d / pr.dials) < 0.1 ? 'fl' : d > 0 ? 'up' : 'dn']; })(p.week.dials - pr.dials);
+      w.appendChild(h('div', { class: 'td-cr', title: p.name + ' · ' + (c.dayLabel || 'yesterday') + ': ' + p.day.dials + ' dials, ' + p.day.conn + ' picked up · ' + (c.priorLabel || 'last week') + ': ' + (pr ? pr.dials + ' dials' : 'not read') },
+        h('span', { class: 'nm', text: p.name.split(' ')[0] }), sp, h('span', { class: 'n', text: wk ? String(wk.dials) : '–' }), h('span', { class: 'tr ' + tr[1], text: tr[0] }),
+        h('span', { class: 'n', text: wk && wk.dials ? Math.round(wk.conn / wk.dials * 100) + '%' : '–' })));
       if (p.inbound && p.inbound.missed) w.appendChild(h('div', { class: 'td-cin', text: p.name.split(' ')[0] + ': ' + p.inbound.missed + ' of ' + p.inbound.total + ' inbound missed this week' }));
     });
     if ((c.notes || []).length) { var ul = h('ul', { class: 'td-cnotes' }), all = !!TD.callsAll; (all ? c.notes : c.notes.slice(0, 3)).forEach(function (n) { ul.appendChild(h('li', { text: n })); }); w.appendChild(ul);
       if (c.notes.length > 3) { var mb = h('button', { class: 'mini txt', text: all ? 'Fewer notes' : '+' + (c.notes.length - 3) + ' more' }); mb.addEventListener('click', function () { TD.callsAll = !all; renderAll(); }); w.appendChild(h('div', { class: 'td-cfoot' }, mb)); } }
-    w.appendChild(h('div', { class: 'td-cfoot', text: 'CloudTalk · ' + (c.weekLabel || 'this week') + ' vs ' + (c.priorLabel || 'last week') + ' · team ' + tot.w + ' vs ' + tot.p + ' · read ' + new Date(t(c.asOf)).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' }) + ' ' + tdClock(t(c.asOf)) }));
-    return h('div', { class: 'td-box td-callbox' }, h('div', { class: 'eyebrow' }, h('span', { text: 'Phones · CloudTalk' }), h('span', { text: c.weekLabel || 'this week' })), w);
+    w.appendChild(h('div', { class: 'td-cfoot', text: 'CloudTalk · ' + (dayOnly ? (c.dayLabel || 'yesterday') + ' only; the week was not read · team ' + tot.w : (c.weekLabel || 'this week') + ' vs ' + (c.priorLabel || 'last week') + ' · team ' + tot.w + ' vs ' + tot.p) + ' · read ' + new Date(t(c.asOf)).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' }) + ' ' + tdClock(t(c.asOf)) }));
+    return h('div', { class: 'td-box td-callbox' }, h('div', { class: 'eyebrow' }, h('span', { text: 'Phones · CloudTalk' }), h('span', { text: dayOnly ? (c.dayLabel || 'yesterday') : c.weekLabel || 'this week' })), w);
   }
   function tdMid(run) {
     var mid = h('main', { class: 'td-mid' }), doc = TD.doc;

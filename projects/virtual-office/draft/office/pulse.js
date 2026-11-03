@@ -54,6 +54,7 @@
     var haveRp = c.dayKeys && c.dayKeys.length === keys.length;
     var rows = recRank(c.recruiters.map(function (r) { return Object.assign({}, r); })).map(function (r) {
       var p = ph && ph.people ? ph.people.filter(function (x) { return plFirst(x.name) === plFirst(r.name); })[0] : null;
+      if (p && !(p.week && p.prior && typeof p.week.dials === 'number' && typeof p.prior.dials === 'number')) p = null;   // a night that missed the week windows: no dials rather than a broken panel
       return { r: r, ph: p || null, dials: p ? plMap(keys, ph.dayKeys, p.days) : null, rp: haveRp && r.rpDays && r.rpDays.length === keys.length ? r.rpDays : null };
     });
     var withPh = rows.filter(function (x) { return x.ph; }), goalN = rows.filter(function (x) { return x.r.inGoal; }).length;
