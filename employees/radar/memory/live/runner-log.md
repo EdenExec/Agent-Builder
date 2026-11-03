@@ -234,3 +234,4 @@
 - 2026-11-03 12:52 PT: picked 1, closed 1, gated 0, blocked 0, FAILs 0. Floor refresh (step 8) not run this hour.
 - 2026-11-03 13:50 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Floor refreshed (87 sync writes kept 61, pushed). Skipped: Crelate tasks pull, cockpit doc, Today-view taps (cut for time).
 - 2026-11-03 14:45 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty (no open/waiting/picked/working). Floor refresh (step 8) not repeated; last full refresh 13:50 PT. Skipped: crelate-tasks, 8a, 8b, cockpit, Today-view taps.
+- 2026-11-03 15:50 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. One ticket (t-202611032330-xlph, Scout XL phones) already 'working' from a live session, filed minutes ago; left alone. Floor refreshed in full (61 writes). Skipped: Notion Family ledger, crelate-tasks, 8a, 8b, cockpit, Today-view taps.
