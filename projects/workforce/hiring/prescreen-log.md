@@ -1,5 +1,7 @@
 # Recruiter pre-screen log
 
+Review page for Kev and Nick: https://claude.ai/artifact/4Nasro5TiVN8G5Wta6k2jT (rows in its db collection "candidates", read time in "meta/summary"; Dean updates it on each pass).
+
 Source: the live form's response sheet (Sheet id 1QByLRPcB9onEee1dSOY2uuRdNwNz62NF6AH6R0YVkq8, tab "Form Responses 1"). Read against "How we read it" in `recruiter-prescreen.md`. Per that doc we record only advance, pass or unclear, the vertical and the date: no scores, no answers, no contact details, no pay. Ticket t-202611031130-pscr2 (Radar for Kev, 3 Nov 2026).
 
 ## Read 3 Nov 2026 (23 responses, 2 Nov 15:14 to 3 Nov 11:26)

@@ -1,0 +1,153 @@
+<title>Recruiter Pre-screen Bench</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one working column. Summary strip, filter bar, then the ranked bench as rows. */
+:root{
+  --bg:#ffffff; --ink:#111111; --muted:#5c5a55; --line:#dedbd4; --soft:#f6f4ef;
+  --adv:#1f6b3a; --adv-bg:#e6f2ea; --unc:#8a5a00; --unc-bg:#fbf1dc; --pass:#6b6b6b; --pass-bg:#eeeeec;
+  --star:#111111;
+  --sans:'Montserrat',Arial,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141413; --ink:#f2f0ea; --muted:#a8a59c; --line:#34322e; --soft:#1d1c1a;
+  --adv:#7fd19a; --adv-bg:#1d3324; --unc:#f0c46a; --unc-bg:#3a2e14; --pass:#b5b3ad; --pass-bg:#2a2927; --star:#f2f0ea; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141413; --ink:#f2f0ea; --muted:#a8a59c; --line:#34322e; --soft:#1d1c1a;
+  --adv:#7fd19a; --adv-bg:#1d3324; --unc:#f0c46a; --unc-bg:#3a2e14; --pass:#b5b3ad; --pass-bg:#2a2927; --star:#f2f0ea; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px;display:flex;flex-direction:column;gap:22px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.eye{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{margin:4px 0 0;font-size:26px;font-weight:800;text-wrap:balance}
+.asof{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.sum div{border:1px solid var(--line);padding:10px 12px}
+.sum b{display:block;font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.sum span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.bar label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+select,input{font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);padding:7px 9px;min-width:0}
+input[type=search]{width:200px;max-width:100%}
+select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.count{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:minmax(0,1.3fr) 110px minmax(0,1fr) minmax(0,2.2fr);gap:14px;padding:12px 4px;border-bottom:1px solid var(--line);align-items:start}
+.row.head{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-block:8px}
+.row.head button{all:unset;cursor:pointer}
+.row.head button[aria-sort]::after{content:" \2193"}
+.name{font-weight:700}
+.first{display:inline-block;margin-top:4px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--star);padding:1px 6px}
+.pill{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;font-weight:600}
+.pill.advance{background:var(--adv-bg);color:var(--adv)}
+.pill.unclear{background:var(--unc-bg);color:var(--unc)}
+.pill.pass{background:var(--pass-bg);color:var(--pass)}
+.vert{font-size:14px}
+.vert small{display:block;color:var(--muted);font-size:12px}
+.why{font-size:14px}
+.why .test{display:block;margin-top:4px;color:var(--muted);font-size:13px}
+.why .test b{color:var(--ink);font-weight:600}
+.empty{padding:28px 4px;color:var(--muted)}
+footer{font-size:12px;color:var(--muted);max-width:70ch}
+@media (max-width:720px){
+  .row{grid-template-columns:1fr auto;gap:6px 12px}
+  .row.head{display:none}
+  .row .vert{grid-column:1 / -1}
+  .row .why{grid-column:1 / -1}
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eye">Eden Partner Group · Recruiter hiring</div>
+      <h1>Recruiter pre-screen bench</h1>
+    </div>
+    <div class="asof" id="asof">Loading the bench…</div>
+  </header>
+
+  <section class="sum" id="sum" aria-label="Summary"></section>
+
+  <section class="bar" aria-label="Filters">
+    <label for="fVerdict">Verdict
+      <select id="fVerdict"><option value="">All</option><option value="advance">Advance</option><option value="unclear">Unclear</option><option value="pass">Pass</option></select>
+    </label>
+    <label for="fVert">Vertical
+      <select id="fVert"><option value="">All</option><option>Construction</option><option>Tech</option><option>Healthcare</option><option>Other</option></select>
+    </label>
+    <label for="fFirst">Show
+      <select id="fFirst"><option value="">Everyone</option><option value="1">Call first only</option></select>
+    </label>
+    <label for="fQ">Search
+      <input type="search" id="fQ" placeholder="Name or note">
+    </label>
+    <span class="count" id="count"></span>
+  </section>
+
+  <section class="list" id="list" aria-live="polite">
+    <div class="row head">
+      <button type="button" data-sort="rank" aria-sort="ascending">Candidate</button>
+      <button type="button" data-sort="verdict">Verdict</button>
+      <button type="button" data-sort="vertical">Vertical</button>
+      <span>Why, and what the call should test</span>
+    </div>
+    <div class="empty" id="empty">The bench fills from Dean's reads of the pre-screen form, three times a day. Nothing has loaded yet.</div>
+  </section>
+
+  <footer>Read against "How we read it" in the recruiter pre-screen doc: sections 1 to 4 must show real effort. Advance, unclear or pass only, no scores. Names and work notes only: no contact details, pay or personal details. Dean refreshes this at 5am, 12pm and 5pm Pacific, never on the Sabbath.</footer>
+</div>
+
+<script>
+(function(){
+  var rows=[], meta=null, sortKey="rank";
+  var order={advance:0,unclear:1,pass:2};
+  var $=function(id){return document.getElementById(id)};
+  function esc(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML}
+  function render(){
+    var v=$('fVerdict').value, vt=$('fVert').value, f=$('fFirst').value, q=$('fQ').value.trim().toLowerCase();
+    var list=rows.filter(function(r){
+      if(v && r.verdict!==v) return false;
+      if(vt && r.vertical!==vt) return false;
+      if(f && !r.callFirst) return false;
+      if(q && (r.name+' '+r.why+' '+(r.test||'')+' '+(r.detail||'')).toLowerCase().indexOf(q)<0) return false;
+      return true;
+    }).sort(function(a,b){
+      if(sortKey==='verdict') return (order[a.verdict]-order[b.verdict])||(a.rank-b.rank);
+      if(sortKey==='vertical') return a.vertical.localeCompare(b.vertical)||(a.rank-b.rank);
+      return a.rank-b.rank;
+    });
+    var host=$('list'); host.querySelectorAll('.row:not(.head),.empty').forEach(function(n){n.remove()});
+    if(!list.length){var e=document.createElement('div');e.className='empty';e.textContent=rows.length?'No one matches these filters.':'The bench fills from Dean\'s reads of the pre-screen form. Nothing has loaded yet.';host.appendChild(e)}
+    list.forEach(function(r){
+      var el=document.createElement('div');el.className='row';
+      el.innerHTML='<div><div class="name">'+esc(r.name)+'</div>'+(r.callFirst?'<span class="first">Call first</span>':'')+'</div>'+
+        '<div><span class="pill '+esc(r.verdict)+'">'+esc(r.verdictLabel||r.verdict)+'</span></div>'+
+        '<div class="vert">'+esc(r.vertical)+(r.detail?'<small>'+esc(r.detail)+'</small>':'')+'</div>'+
+        '<div class="why">'+esc(r.why)+(r.test?'<span class="test"><b>Call should test:</b> '+esc(r.test)+'</span>':'')+'</div>';
+      host.appendChild(el);
+    });
+    $('count').textContent=list.length+' of '+rows.length;
+    var c={advance:0,unclear:0,pass:0},vc={Construction:0,Tech:0,Healthcare:0,Other:0};
+    rows.forEach(function(r){c[r.verdict]=(c[r.verdict]||0)+1;vc[r.vertical]=(vc[r.vertical]||0)+1});
+    $('sum').innerHTML=rows.length?[
+      [rows.length,'Responses'],[c.advance,'Advance'],[c.unclear,'Unclear'],[c.pass,'Pass'],
+      [vc.Construction,'Construction'],[vc.Tech,'Tech'],[vc.Healthcare,'Healthcare'],[vc.Other,'Other']
+    ].map(function(p){return '<div><b>'+p[0]+'</b><span>'+p[1]+'</span></div>'}).join(''):'';
+    if(meta) $('asof').innerHTML='Read '+esc(meta.readAt)+'<br>'+esc(meta.note||'');
+  }
+  ['fVerdict','fVert','fFirst','fQ'].forEach(function(id){$(id).addEventListener('input',render)});
+  document.querySelectorAll('[data-sort]').forEach(function(b){b.addEventListener('click',function(){
+    sortKey=b.dataset.sort;document.querySelectorAll('[data-sort]').forEach(function(x){x.removeAttribute('aria-sort')});b.setAttribute('aria-sort','ascending');render();
+  })});
+  var t=setTimeout(function(){$('asof').textContent='Could not load the bench. Reopen the page to try again.'},10000);
+  (async function(){
+    var db=window.claude&&window.claude.use?await window.claude.use('db'):null;
+    if(!db){clearTimeout(t);$('asof').textContent='Sign in to claude.ai to see the bench.';return}
+    db.collection('candidates').onSnapshot(function(snap){
+      clearTimeout(t);rows=snap.docs.map(function(d){return d.data()});render();
+    },function(){clearTimeout(t);$('asof').textContent='Could not load the bench.'});
+    db.doc('meta/summary').onSnapshot(function(d){meta=d.exists?d.data():null;render()},function(){});
+  })();
+})();
+</script>
