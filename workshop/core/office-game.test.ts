@@ -180,7 +180,7 @@ describe("streak and records", () => {
 describe("the Sabbath: Friday sunset to Saturday sunset (Kev, 24 Oct 2026)", () => {
   const local = (ms: number, tz: string) => new Date(ms).toLocaleTimeString("en-US", { timeZone: tz, hour: "numeric", minute: "2-digit" });
   test("sunset matches the almanac within a few minutes, in Vancouver and in Boise", () => {
-    const V = sabbathPlace("2026-10-23"), B = sabbathPlace("2026-11-06");
+    const V = sabbathPlace("2026-10-23"), B = sabbathPlace("2026-11-13");
     assert.deepEqual([V.name, B.name], ["Vancouver, WA", "Boise, ID"]);
     const near = (date: string, place: typeof V, hhmm: string) => {
       const [h, m] = hhmm.split(":").map(Number), ms = sunsetAt(date, place), p = new Intl.DateTimeFormat("en-US", { timeZone: place.tz, hourCycle: "h23", hour: "numeric", minute: "numeric" }).formatToParts(new Date(ms));
@@ -190,10 +190,12 @@ describe("the Sabbath: Friday sunset to Saturday sunset (Kev, 24 Oct 2026)", () 
     near("2026-10-23", V, "18:11"); near("2026-12-21", V, "16:29"); near("2026-06-21", V, "21:03");
     near("2026-12-21", B, "17:11"); near("2026-06-21", B, "21:29");
   });
-  test("the family moves to Boise on Fri 6 Nov 2026: that Sabbath is kept on Boise's sunset", () => {
-    assert.equal(sabbathPlace("2026-11-05").name, "Vancouver, WA");
-    const w = sabbathWindow(at("2026-11-06T18:00:00Z"));
-    assert.deepEqual([w.friday, w.place, w.tz], ["2026-11-06", "Boise, ID", "America/Boise"]);
+  test("the family moves to Boise on Sun 8 Nov 2026 (Kev, 3 Nov): Fri 6 Nov is still Vancouver's sunset, Fri 13 Nov is Boise's", () => {
+    assert.equal(sabbathPlace("2026-11-06").name, "Vancouver, WA");
+    const v = sabbathWindow(at("2026-11-06T18:00:00Z"));
+    assert.deepEqual([v.friday, v.place], ["2026-11-06", "Vancouver, WA"]);
+    const w = sabbathWindow(at("2026-11-13T18:00:00Z"));
+    assert.deepEqual([w.friday, w.place, w.tz], ["2026-11-13", "Boise, ID", "America/Boise"]);
   });
   test("inside from Friday's sunset to Saturday's, and never on any other day", () => {
     assert.equal(isSabbathAt(at("2026-10-24T01:00:00Z")), false, "Fri 6:00pm, before sunset");
@@ -214,6 +216,7 @@ describe("the Sabbath: Friday sunset to Saturday sunset (Kev, 24 Oct 2026)", () 
     assert.match(sab.stdout, /Friday sunset: +Fri, Oct 23, 6:1\d PM PDT/);
     assert.equal(run("2026-10-22T14:00:00-07:00").status, 1);
     assert.equal(run("not-a-time").status, 2);
-    assert.equal(JSON.parse(run("2026-11-07T10:00:00-07:00", "--json").stdout).place, "Boise, ID");
+    assert.equal(JSON.parse(run("2026-11-07T10:00:00-07:00", "--json").stdout).place, "Vancouver, WA");   // the move is Sun 8 Nov (Kev, 3 Nov)
+    assert.equal(JSON.parse(run("2026-11-14T10:00:00-07:00", "--json").stdout).place, "Boise, ID");
   });
 });

@@ -7,7 +7,7 @@
 ## Facts and where they came from
 | Fact | Source |
 |---|---|
-| Family moves to Boise Fri 6 Nov 2026; the Sabbath follows Boise sunset from then | `employees/radar/skills/standing-rules.md` rule 1 |
+| Family moves to Boise Sun 8 Nov 2026 (moved from 6 Nov, Kev 3 Nov); the Sabbath follows Boise sunset from Fri 13 Nov | `employees/radar/skills/standing-rules.md` rule 1 |
 | Boise office on N. Milwaukie St.; lease review checklist before signing (R-006) | `projects/boise-office/hit-list.md`, `projects/legal/risk-register.md` |
 | PB South job fair, West Palm Beach, Thu 19 Nov, approved at $3,750. Whether Kev attends is not on file | `employees/radar/memory/live/standing.md` (19 Oct) |
 | Joey Walker's WPB trip 11 to 13 Nov is a candidate's trip, not Kev's (pending QC 2026-10-23-52fd95) | `qc/pending/` |

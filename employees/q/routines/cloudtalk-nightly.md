@@ -6,7 +6,7 @@ STEP 0, READ THE LIVE FILES. The authoritative version of everything below lives
 1. If employees/q/ and employees/radar/ exist in the working directory, read employees/radar/skills/standing-rules.md, employees/q/skills/cloudtalk-nightly.md from there, plus employees/q/memory/live/. They override the embedded copies below.
 2. Otherwise run: git clone --depth 1 --branch claude/pensive-brown-18gll8 https://github.com/EdenExec/Agent-Builder /tmp/agent-builder, then read the same files from /tmp/agent-builder. The lead tool is run with: cd /tmp/agent-builder && npm ci && npm run leadplan -- <sheets> (Node 22.18 or newer).
 3. If both fail, the embedded copies below are authoritative, and the lead tool cannot run: say so and stop.
-THE SABBATH is Friday sunset to Saturday sunset. After step 0 run `node workshop/office/sabbath.ts` in the repo (exit 0 = inside it; no repo: judge Vancouver, WA sunset, Boise, ID from 6 Nov 2026). Inside it, stop with one line and load nothing: the Friday night run waits for Monday.
+THE SABBATH is Friday sunset to Saturday sunset. After step 0 run `node workshop/office/sabbath.ts` in the repo (exit 0 = inside it; no repo: judge Vancouver, WA sunset, Boise, ID from Sun 8 Nov 2026). Inside it, stop with one line and load nothing: the Friday night run waits for Monday.
 
 Then do exactly what the playbook "cloudtalk-nightly" says, honouring every standing rule. The default mode is DRY RUN: nothing is created in CloudTalk unless a QC item Kev approved covers it. Close with a short plain summary of what you did, what you created, and anything you could not do.
 
@@ -102,7 +102,7 @@ Source: Kev, logged 3 October 2026 in the Daily Catch-Up Log, plus later additio
 
 ## The paper (The Eden Daily)
 
-1. **The Sabbath: Friday sunset to Saturday sunset, no Eden Daily.** (Kev, 24 Oct 2026.) Sunset where the family lives (Vancouver, WA; Boise, ID from 6 Nov 2026); `npm run sabbath` exits 0 inside it. Nothing is built, sent, pushed or posted, and no routine fires work at Kev. Friday's work finishes before sunset (4:30 to 8pm by season). What Kev sends is captured on the ledger and held, then launched after Saturday sundown. The one Saturday build is the Sunday Edition, after sundown and 8pm.
+1. **The Sabbath: Friday sunset to Saturday sunset, no Eden Daily.** (Kev, 24 Oct 2026.) Sunset where the family lives (Vancouver, WA; Boise, ID from Sun 8 Nov 2026); `npm run sabbath` exits 0 inside it. Nothing is built, sent, pushed or posted, and no routine fires work at Kev. Friday's work finishes before sunset (4:30 to 8pm by season). What Kev sends is captured on the ledger and held, then launched after Saturday sundown. The one Saturday build is the Sunday Edition, after sundown and 8pm.
 2. **Sunday Edition**, ready Sunday morning before Main Street. Content in `sunday-edition.md`.
 3. **Habit tracker** at the top of every day's paper with streaks: Bible, RPs, MPs, Workout, Drinks, Wisdom, Agency, Growth, Weight. Numbers come from the prior night's check-out; leave a blank where a stat was not logged, never invent one.
 4. **Landscape orientation**, letter 11 x 8.5.
