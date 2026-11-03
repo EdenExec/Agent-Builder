@@ -710,8 +710,8 @@
       "stage": "landed"
     },
     {
-      "title": null,
-      "landedAt": null,
+      "title": "EL-036 · 2026-11-03 · XL Construction · Concrete Estimator (self-perform, Bradley), SF Bay Area · 135 leads",
+      "landedAt": "2026-11-02",
       "phonesAt": null,
       "crelateAt": null,
       "movedAt": null,
@@ -725,10 +725,10 @@
       },
       "built": "2026-11-03",
       "discreet": false,
-      "driveUrl": null,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1KQFHXMH0PhNhUxSJhK-q6Cs5M19TJo77CcXS0X24i20/edit",
       "status": "ok",
       "errors": 0,
-      "stage": "staged"
+      "stage": "landed"
     },
     {
       "title": null,
@@ -752,6 +752,12 @@
       "stage": "staged"
     },
     {
+      "title": "EL-035 · 2026-11-03 · XL Construction · Safety Manager (demolition/decommissioning), SF Bay Area · 80 leads",
+      "landedAt": "2026-11-02",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
       "file": "2026-11-03-xl-sf-safety-manager-demo.csv",
       "rows": 80,
       "tiers": {
@@ -761,16 +767,10 @@
       },
       "built": "2026-11-03",
       "discreet": false,
-      "driveUrl": null,
+      "driveUrl": "https://docs.google.com/spreadsheets/d/1eIUD9Sa4w3Y0yu0wFuC-cBmRNA39FCN4rfrC2siUnfU/edit",
       "status": "ok",
       "errors": 0,
-      "title": null,
-      "landedAt": null,
-      "phonesAt": null,
-      "crelateAt": null,
-      "movedAt": null,
-      "note": "",
-      "stage": "staged"
+      "stage": "landed"
     },
     {
       "title": null,
