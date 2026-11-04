@@ -1,5 +1,5 @@
 <!--
-Routine spec: "Hawk · Sunday stand-up prep". NOT SCHEDULED. Radar creates it once Kev says yes.
+Routine spec: "Hawk · Sunday stand-up prep". Scheduled 3 Nov 2026 on Kev's yes (Q created it, Google Calendar attached).
 Suggested schedule: CRON_TZ=America/Boise 13 14 * * 0   (Sunday 2:13pm Mountain, after church, before the evening stand-up)
 Needs: the Google Calendar connector (read). Fresh session per run.
 -->
