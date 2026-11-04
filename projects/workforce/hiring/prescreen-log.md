@@ -14,6 +14,7 @@ Source: the live form's response sheet (Sheet id 1QByLRPcB9onEee1dSOY2uuRdNwNz62
 | Christopher Kouns | Advance | Other: executive search generalist | Hands-on Boolean and daily activity |
 | Kareem Zaki | Advance | Other: security and high-volume hourly | Move from volume to executive search |
 | Eva Crosson | Advance (lower end) | Healthcare | Depth on passive candidates |
+| Brittney Jones (read 3 Nov 5pm) | Advance (lower end) | Other: financial services | Plan B when nobody bites; opening a client on a stale role |
 | Thaithanh Nguyen | Unclear | Healthcare and construction | Real construction placements and her numbers |
 | Robert Rivera III | Unclear | Other: agency generalist | His system and CRM habits |
 | Kassandra Wypych | Unclear | Other: corporate in-house | Agency and cold-call experience |
@@ -32,6 +33,6 @@ Source: the live form's response sheet (Sheet id 1QByLRPcB9onEee1dSOY2uuRdNwNz62
 | Maggie Golias | Pass | Other: light industrial | |
 | Mikaili Cosby | Pass | Other: in-house HR | |
 
-Totals: 6 advance, 8 unclear, 9 pass. Verticals: Construction as primary 0; Tech 5; Healthcare 6; Other 12. Construction exposure: Fryzowski, Nguyen, Abdo (and McFarland, titles only).
+Totals (3 Nov 5pm pass, 24 responses): 7 advance, 8 unclear, 9 pass. Verticals: Construction as primary 0; Tech 5; Healthcare 6; Other 13. Construction exposure: Fryzowski, Nguyen, Abdo (and McFarland, titles only).
 
 Notes: several answers read as AI-written (Mejia, Abdo, Anaokar and parts of others), so calls should check that answers hold up live. No duplicates and no test rows.
