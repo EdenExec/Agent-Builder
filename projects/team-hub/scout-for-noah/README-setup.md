@@ -1,3 +1,5 @@
+**RETIRED 4 Nov 2026 (Kev).** Do not use or install this package. Phone pulls are no longer done per record through the API on any seat. Scout runs one lead-gen engine (`employees/scout/skills/lead-gen-engine.md`): free list-building with a has-mobile filter, then one person clicks Export in the ZoomInfo web app. Noah is one of the people who clicks export, not a second operator of lead-gen levers. Kept for history only.
+
 # Set up your own Scout (for Noah)
 
 Kev's Scout is an AI lead researcher. This package gives your Claude the same playbook, so your agent builds lists and fills phones exactly the way Kev's does, and the two never collide.

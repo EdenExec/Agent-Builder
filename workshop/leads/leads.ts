@@ -3,7 +3,7 @@
 // Time Zone as three separate columns), and stages good ones into projects/leads/sheets with the two phone
 // columns Noah fills (Mobile, Mobile source). It never calls Drive, Crelate, ZoomInfo or CloudTalk.
 //
-// Privacy: ZoomInfo phones never land (a Mobile value must name a non-ZoomInfo source). Salary, comp, EEO,
+// Privacy: a Mobile value must name its source (Crelate, ZoomInfo, the call, the candidate); ZoomInfo is allowed since 4 Nov 2026 (lead-gen engine). Real numbers stay in Drive: the repo-copy scan is in leads.test.ts. Salary, comp, EEO,
 // home address and personal email columns are refused by header name; their values are never read.
 import { parseCsv } from "../cloudtalk/csv.ts";
 
@@ -57,7 +57,6 @@ export function checkSheet(file: string, text: string): Report {
     if (iTier >= 0) tiers[g(iTier) || "?"] = (tiers[g(iTier) || "?"] ?? 0) + 1;
     if (iMob >= 0 && g(iMob)) {
       if (!g(iMobSrc)) err("Mobile filled but Mobile source is blank", n);
-      else if (/zoominfo|\bZI\b/i.test(g(iMobSrc))) err("a ZoomInfo phone may never land on a sheet", n);
     }
   });
   const leadRows = rows.filter((c) => !isLabel(c)).length;

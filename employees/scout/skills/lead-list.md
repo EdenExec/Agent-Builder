@@ -34,7 +34,9 @@ Ref, #, Tier, Name, **Mobile, Mobile source, Direct, Phone notes**, Title, Compa
 
 At least 25 Tier 1 names for a common title in a large metro, or a note saying why the market is thinner. Fewer than 10% of rows bounce as wrong person or wrong company when the recruiter checks.
 
-## Working in tandem with Noah's agent (Kev, 3 Nov 2026)
+## Working in tandem with Noah's agent (RETIRED 4 Nov 2026)
+
+**Retired (Kev, 4 Nov):** Noah's own Scout package (`projects/team-hub/scout-for-noah/`, eden-scout.zip) is dead. One engine (Scout, `lead-gen-engine.md`) builds lists free and rotates the four Eden ZoomInfo seats; Noah is one of the people who clicks Export in the web app, not a second operator. The rules below are history; do not claim sheets or use EL-500+ any more.
 
 Noah runs his own copy of Scout (skill package `projects/team-hub/scout-for-noah/`). Same folder, same Lead Log, same format. To keep from colliding:
 - Claim a sheet before working it: append "Scout working · <date time PT>" to its Lead Log Owner note; clear it when done. Never work a sheet Noah's agent has claimed in the last 12 hours.

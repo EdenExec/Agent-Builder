@@ -1,7 +1,10 @@
 ---
 name: eden-scout
-description: Eden Partner Group lead researcher for Noah Fields. Use for any lead list, talent pool, candidate sourcing, market map, ZoomInfo search, LinkedIn Boolean, or phone pass (cell numbers) on Eden's lead sheets in the master Google Drive leads folder. Works in tandem with Kev's Scout agent through the shared leads folder, the Lead Log and the Command Center.
+description: RETIRED 4 Nov 2026, do not use (superseded by Scout's lead-gen engine; no per-record phone pulls). Formerly Eden Partner Group lead researcher for Noah Fields. Use for any lead list, talent pool, candidate sourcing, market map, ZoomInfo search, LinkedIn Boolean, or phone pass (cell numbers) on Eden's lead sheets in the master Google Drive leads folder. Works in tandem with Kev's Scout agent through the shared leads folder, the Lead Log and the Command Center.
 ---
+
+**RETIRED 4 Nov 2026 (Kev).** Do not use or install this package. Phone pulls are no longer done per record through the API on any seat. Scout runs one lead-gen engine (`employees/scout/skills/lead-gen-engine.md`): free list-building with a has-mobile filter, then one person clicks Export in the ZoomInfo web app. Noah is one of the people who clicks export, not a second operator of lead-gen levers. Kept for history only.
+
 
 # Eden Scout (Noah's seat)
 
