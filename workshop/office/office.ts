@@ -32,6 +32,7 @@ import { pacificDate } from "../core/office-game.js";
 import { loadProjectDefs } from "./projects-load.ts";
 import { buildBenches } from "../core/benches.ts";
 import { loadBenchInputs } from "./benches.ts";
+import { buildCredits } from "../core/credits.ts";
 import { buildFeed, chunk, planWrites, type AgentLite, type NowFile, type RoutineLite, type SyncInput, type Tool } from "../core/office.ts";
 
 const argv = process.argv.slice(2);
@@ -92,6 +93,7 @@ try {
     tickets: flat(json<unknown[]>("tickets")), actions: flat(json<unknown[]>("actions")), asks: flat(json<unknown[]>("asks")),
   };
   input.benches = buildBenches(loadBenchInputs({ now: input.now, jobsFile: flags.get("jobs"), jobsReadAt: flags.has("jobs-read-at") ? new Date(flags.get("jobs-read-at")!) : undefined, boardFile: flags.get("board"), ledgerFile: flags.get("ledger") }));
+  { const cf = "employees/scout/memory/live/credits.md"; if (existsSync(cf)) input.credits = buildCredits(readFileSync(cf, "utf8"), input.now); }   // the API credit watch (meta/credits)
   const toolsFile = "projects/virtual-office/tools.json";
   const tools = existsSync(toolsFile) ? (JSON.parse(readFileSync(toolsFile, "utf8")) as Tool[]) : [];
   const existing = json<Record<string, { version: number; data?: unknown }>>("existing") ?? {};

@@ -502,7 +502,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     { id: 'family', zone: 'fam', title: 'Home list', sub: 'KDTW Group · family office', owner: 'Radar', sensitive: true, cls: 'bench' }
   ];
 
-  var S = { sessions: {}, live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, crelate: null, phones: null, tools: {}, logs: {}, chats: {}, assets: null, photo: null, pending: null, sample: null, meta: null, records: null, sound: true, lineSeen: null, today: null, look: null, ctasks: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
+  var S = { sessions: {}, live: false, canWrite: true, share: false, agents: {}, alerts: {}, actions: {}, seen: {}, tickets: {}, benches: {}, benchRows: {}, crelate: null, phones: null, tools: {}, logs: {}, chats: {}, assets: null, photo: null, pending: null, sample: null, meta: null, records: null, sound: true, lineSeen: null, today: null, look: null, ctasks: null, credits: null, sheet: null, formOpen: false, flash: '', unsub: {}, db: null };
   var lastFrom = null;
 
   /* ---------- helpers ---------- */
@@ -814,7 +814,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
   }
   function renderAllInner() {
     memo = null;                                    // one derivation of the game and the SLA per render
-    try { ensurePm(); checkFocusTimer(); renderNext(); renderSync(); renderBanner(); renderFocus(); renderStrip(); renderToday(); renderBoard(); renderPulse(); renderRecords(); renderLine(); renderFloor(); renderLookahead(); renderTools(); renderSheet(); }
+    try { ensurePm(); checkFocusTimer(); renderNext(); renderSync(); renderBanner(); renderFocus(); renderStrip(); renderToday(); renderBoard(); renderCredits(); renderPulse(); renderRecords(); renderLine(); renderFloor(); renderLookahead(); renderTools(); renderSheet(); }
     finally { memo = null; }
   }
   /* ---- example data: clearly invented, shown only when the page is not reading the database ---- */
@@ -947,13 +947,15 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
       S.crelate.fourFrom = Game.addDays(mon, -28); S.crelate.team.fourWeeks = list.reduce(function (a, x) { ['rps', 'mps', 'ptcs', 'subs', 'ftis'].forEach(function (m) { a[m] += x.fourWeeks[m]; }); return a; }, { rps: 0, mps: 0, ptcs: 0, subs: 0, ftis: 0 });
       S.phones.people.forEach(function (p, k) { p.four = { dials: 1400 + k * 300, conn: 0 }; });
     })();
+    S.credits = { example: true, schema: 1, asOf: iso(HOUR), month: Game.pacificDate(Date.now()).slice(0, 7), cap: 2000, runs: 3, flagged: 1, notes: ['seat-b: on pace for 2,300 of 2,000 this month (example).'],
+      seats: [{ seat: 'seat-a', weekPaid: 40, monthPaid: 310, projected: 900, cap: 2000, lastRun: null, status: 'ok' }, { seat: 'seat-b', weekPaid: 420, monthPaid: 760, projected: 2300, cap: 2000, lastRun: null, status: 'over' }] };
     S.ctasks = { example: true, asOf: iso(HOUR), movedOn: { count: 12, oldestDue: Game.addDays(Game.pacificDate(Date.now()), -300) },
       screening: 'Hidden: due over 45 days ago and untouched 30+ days, or no due date and untouched 60+ days. Still open in Crelate.',
       active: [{ id: 'ex-ct1', title: 'Review the offer letter (example)', due: Game.addDays(Game.pacificDate(Date.now()), -1), overdueDays: 1, record: { type: 'Contact', name: 'Sample, Pat' }, assignedBy: 'other', assignerName: 'Dean (example)' },
         { id: 'ex-ct2', title: 'Call back about the superintendent seat (example)', due: Game.addDays(Game.pacificDate(Date.now()), 2), overdueDays: null, record: { type: 'Contact', name: 'Example, Sam' }, assignedBy: 'self' }] };
     S.logs = { q: [{ at: iso(20 * MIN), text: 'Wired the status feed (example)' }, { at: iso(2 * HOUR), text: 'Ran the dry sync (example)' }] };
   }
-  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.chats = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.crelate = null; S.phones = null; S.tools = {}; S.logs = {}; S.meta = null; S.records = null; S.today = null; S.look = null; S.ctasks = null; }
+  function clearData() { S.agents = {}; S.alerts = {}; S.actions = {}; S.chats = {}; S.seen = {}; S.tickets = {}; S.benches = {}; S.benchRows = {}; S.crelate = null; S.phones = null; S.tools = {}; S.logs = {}; S.meta = null; S.records = null; S.today = null; S.look = null; S.ctasks = null; S.credits = null; }
 
   /* ---------- live data: render the example first, then light up when `db` resolves (null after about 10 s: stay on the example) ---------- */
   function listen(name, fn) {
@@ -989,6 +991,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
     listen('sessions', function (m) { S.sessions = m; });
     S.unsub.meta = db.doc('meta/sync').onSnapshot(function (s) { S.meta = s.exists ? s.data() : null; renderAll(); }, function () {});
     S.unsub.records = db.doc('meta/records').onSnapshot(function (s) { S.records = s.exists ? s.data() : null; renderAll(); }, function () {});
+    S.unsub.credits = db.doc('meta/credits').onSnapshot(function (s) { S.credits = s.exists ? s.data() : null; renderAll(); }, function () {});   // API credit watch (Kev, 4 Nov): counts and seat names, so it stays up under screen share
     S.unsub.today = db.doc('meta/today').onSnapshot(function (s) { S.today = s.exists ? s.data() : null; renderAll(); }, function () {});
     if (!S.share) attachBenches();
     TD.un = []; TD.date = null; TD.doc = null; tdWatch();
