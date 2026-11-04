@@ -11,9 +11,9 @@ Every weeknight, enrich Eden's new lead sheets with cell phone numbers from Zoom
 
 1. Open the Google Sheet "Lead Log" in the Drive folder https://drive.google.com/drive/folders/1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9. Work only on rows where "Landed" has a date and "Phones added" is blank. If there are none, say "nothing new" and stop.
 
-2. For each such row, open the sheet in its "Drive link" column. If the last two columns are not "Mobile" and "Mobile source", add those two headers at the end. Change nothing else: no other column, no row order, no deleted rows.
+2. For each such row, open the sheet in its "Drive link" column. Find the phone columns BY HEADER NAME: "Mobile", "Mobile source", "Direct", "Phone notes". Since 3 Nov 2026 (Kev) they sit right after Name, in columns E to H. Never add a second "Mobile" column. Only if a sheet has no "Mobile" header at all, add "Mobile" and "Mobile source" at the end. Change nothing else: no other column, no row order, no deleted rows.
 
-3. For each row with a blank Mobile, enrich the person in ZoomInfo by name and company (use the LinkedIn URL to confirm it is the right person). Write their mobile number in Mobile and "ZoomInfo" in Mobile source. If ZoomInfo has no mobile, write their direct dial instead with "ZoomInfo direct" as the source. If it has neither, leave Mobile blank and write "none in ZoomInfo" in Mobile source.
+3. For each row with a blank Mobile, enrich the person in ZoomInfo by name and company (use the LinkedIn URL to confirm it is the right person). Write their mobile number in Mobile and "ZoomInfo" in Mobile source. If ZoomInfo has no mobile, write their direct dial instead with "ZoomInfo direct" as the source (and put the direct line in "Direct" when that column exists). Do Not Call, wrong metro, or new in role go in "Phone notes". If it has neither, leave Mobile blank and write "none in ZoomInfo" in Mobile source.
 
 4. To save credits: never enrich a row that already has a Mobile, never enrich the same person twice, and skip rows in a "referral asks only" block. If the Lead Log Owner note says discreet client, skip that sheet and leave it for me.
 

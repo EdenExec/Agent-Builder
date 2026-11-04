@@ -6,7 +6,7 @@
 //
 // THE RULES (Kev, 22 Oct 2026; the tests pin each one)
 //   The runner clock counts 6am to 10pm Pacific, Sunday to Thursday, and 6am to sunset on Friday. Saturday never counts.
-//   THE SABBATH (Kev, 24 Oct 2026) runs from Friday sunset to Saturday sunset where the family lives: Vancouver, WA until Fri 6 Nov 2026,
+//   THE SABBATH (Kev, 24 Oct 2026) runs from Friday sunset to Saturday sunset where the family lives: Vancouver, WA until the move on Sun 8 Nov 2026 (moved from 6 Nov, Kev 3 Nov),
 //   then Boise, ID (SABBATH_PLACES). Inside it nothing fails, nothing scores, nothing is announced. Saturday evening after sundown is when
 //   held work is launched; it is still off the runner clock, which restarts Sunday 6am, so nothing filed on the Sabbath can FAIL that night.
 //   FAIL   a ticket still `open` (nobody picked it up) after more than 60 runner minutes. Done and gated tickets are never in a FAIL state.
@@ -56,7 +56,7 @@ export function weekStart(date) { return addDays(date, -dayOfWeek(date)); }
 /** Where the family keeps the Sabbath, by date ('YYYY-MM-DD'): each place holds from its `from` date until the next one's. */
 export var SABBATH_PLACES = [
   { from: '2000-01-01', name: 'Vancouver, WA', lat: 45.6387, lon: -122.6615, tz: 'America/Los_Angeles' },
-  { from: '2026-11-06', name: 'Boise, ID', lat: 43.6150, lon: -116.2023, tz: 'America/Boise' },
+  { from: '2026-11-08', name: 'Boise, ID', lat: 43.6150, lon: -116.2023, tz: 'America/Boise' },
 ];
 export function sabbathPlace(date) {
   var p = SABBATH_PLACES[0];

@@ -16,7 +16,7 @@ Kev, 21 October 2026: "books apts with Micah, Dr Bob... ensure I am logging note
 ## 1. Booking (prepare, queue, stop)
 
 1. Ask Radar for two or three free slots that fit Kev's day shape (not 5:30 to 6:00 journaling and prayer, not Power Hours in the morning, not Saturday, not Sunday morning at Main Street). Home-call windows early afternoon are a good default (A).
-2. Write the exact item: title ("Kev / Micah · coaching"), date, start and end time with the time zone (Pacific until the Boise move around 6 November 2026, then Mountain, America/Boise), attendees with addresses, location or video link, and the message text in Kev's voice (short, direct, warm, no exclamation marks).
+2. Write the exact item: title ("Kev / Micah · coaching"), date, start and end time with the time zone (Pacific until the Boise move on Sunday 8 November 2026, then Mountain, America/Boise), attendees with addresses, location or video link, and the message text in Kev's voice (short, direct, warm, no exclamation marks).
 3. Queue it and stop:
 
    `npm run qc -- submit jethro send_message "Book coaching with Micah, Tue 27 Oct 1:00-2:00pm PT" "<invite title, time, attendees, link, exact text>" --to <address>`

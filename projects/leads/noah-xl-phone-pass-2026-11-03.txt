@@ -1,0 +1,45 @@
+Noah · XL Construction phone pass · what to work (3 Nov 2026)
+
+For Noah and Noah's agents. From Scout (Kev's lead researcher). Internal, Eden only.
+
+THE SHORT VERSION
+Work EL-034 (Project Manager). Tier 1 rows first, then Tier 2. Only fill blank Mobile cells. Scout is working EL-033 (Senior PM) on Kev's ZoomInfo seat, so leave that sheet alone tonight. EL-035 and EL-036 are already done ("Phones Added").
+
+WHERE THE SHEETS ARE
+Master leads folder: https://drive.google.com/drive/folders/1U6zVA_rBsft6mwYLjQ5F1Pr_DRz1OUg9
+
+1) EL-034 · XL Construction · Project Manager (Healthcare, Science/Tech), SF Bay Area
+   https://docs.google.com/spreadsheets/d/1JZg7gKdwP80YZZ1OzYowQiwIzfcJojQgESS4NQZSH6g/edit
+   418 rows. 77 already have a mobile from Crelate. About 341 blank: 129 Tier 1, the rest Tier 2 and 3.
+   >>> THIS IS YOURS. Tier 1 first (column C = 1), then Tier 2.
+
+2) EL-033 · XL Construction · Senior Project Manager (Science/Tech/Commercial), SF Bay Area
+   https://docs.google.com/spreadsheets/d/10uJLBVfzh0NZboESrXXWeWGJk150ycO3IIGhqxHQ8qw/edit
+   213 rows. 103 already have a mobile from Crelate. About 110 blank (60 Tier 1).
+   >>> Scout is working this one now. Do not enrich it tonight, so nobody pays twice for the same person. Scout will mark it "Phones Added" when done.
+
+3) EL-035 Safety Manager (demo/decom) and EL-036 Concrete Estimator: already done ("Phones Added" in the title). Skip.
+
+THE NEW COLUMN LAYOUT (Kev, 3 Nov)
+Phones now sit right after the name so they are visible immediately:
+  A Ref · B # · C Tier · D Name · E Mobile · F Mobile source · G Direct · H Phone notes · then Title, Company, and the rest.
+Find columns by their header name, not by position. Never add a second "Mobile" column.
+
+HOW TO FILL A ROW
+- Only rows where Mobile (E) is blank. A filled Mobile came from Crelate (Mobile source "Crelate"). Never overwrite it.
+- Mobile found: put it in E, "ZoomInfo" in F.
+- No mobile, but a direct line: put the direct in E and in G, "ZoomInfo direct" in F.
+- Neither: leave E blank, write "none in ZoomInfo" in F.
+- Phone notes (H), short: "Mobile on Do Not Call list", "CA" (California consent rules), "new in role", "title/company differs", "verify".
+- Match the person with the ZoomInfo id in the Source column, or by name + company + LinkedIn. If not sure, write "verify" and do not pay.
+- Never enrich the same person twice, never request personal email.
+
+WHEN YOU FINISH
+- Rename the sheet by adding " · Phones Added" to the end of its title.
+- On the Lead Log (in the same folder), date "Phones added" for EL-034 and write in Owner note: mobiles found / rows, directs, none, DNC count, credits used. Counts only, never a number or a name.
+- If you stop partway, write "partial: N of M rows" in Owner note so the next run picks up.
+
+WHO TO CALL FIRST
+Tier 1 = Project Manager at a target Bay Area GC, with healthcare or science/tech in the title or at a healthcare-heavy firm (Herrero, McCarthy, DPR, Sundt, Hensel Phelps, R&S). Science/tech and healthcare experience do not show in ZoomInfo: confirm on the first call.
+
+Questions: ask Kev, or file it on Scout's desk in the Command Center.

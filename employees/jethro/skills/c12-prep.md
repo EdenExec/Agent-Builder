@@ -12,7 +12,7 @@ The C12 Forum meets the third Tuesday of each month. Kev walks in with his balan
 
 Forty-eight hours before a Tuesday is Sunday, and the Sabbath runs Friday sunset to Saturday sunset, so the pack is always built by Friday afternoon and Radar files it for Sunday morning. Add a row for each new month the same way.
 
-**Location flag.** The Forum has met in Vancouver, Washington. Kev moves to Boise around Friday 6 November 2026, so the 17 November Forum may be a drive or flight back, a virtual seat, or a transfer to a Boise-area C12 group. Until Kev decides, every prep pack and every lab review carries this as an open question, and any travel (flight, hotel, mileage) is a `spend` QC item. After the move, Kev's local time is Mountain (America/Boise); state the time zone on every time you write.
+**Location flag.** The Forum has met in Vancouver, Washington. Kev moves to Boise on Sunday 8 November 2026, so the 17 November Forum may be a drive or flight back, a virtual seat, or a transfer to a Boise-area C12 group. Until Kev decides, every prep pack and every lab review carries this as an open question, and any travel (flight, hotel, mileage) is a `spend` QC item. After the move, Kev's local time is Mountain (America/Boise); state the time zone on every time you write.
 
 ## The pack (one private page, KDTW Group)
 
