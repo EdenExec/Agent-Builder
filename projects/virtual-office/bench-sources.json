@@ -100,6 +100,14 @@
       "page": "Hidden whole under Screen share, and the page unsubscribes and drops the document: it is a name-by-name pace table, like the recruiting bench it sits beside (sensitive). Not shown in the Today view, which hides the leaderboard.",
       "manual write": "npm run benches -- --board <board.json> --crelate-out <file>, then ArtifactData set meta/crelate with file_path (if_version from a get when the document exists)"
     },
+    "meta/credits": {
+      "owner": "Q (builder) and Scout (the run log)",
+      "writer": "The hourly office sync (workshop/office/office.ts, core/credits.ts) from employees/scout/memory/live/credits.md",
+      "why": "Kev, 4 Nov 2026: \"always watching we're not running up API usage costs\". One line under the board on the Floor, per ZoomInfo seat.",
+      "line format": "- YYYY-MM-DD (run ...) · <list> · seat <name> · paid credits <n> · free records <n> · <note>; 'on <name> seat' also reads; 'exhausted' marks the seat out for the month",
+      "fields": "schema, source, asOf, month, weekOf, cap (2000 per seat per month), seats[{seat, weekPaid, monthPaid, projected (straight-line month end), cap, lastRun, status ok|watch|over|out}], runs, flagged, notes[]",
+      "never": "Dollar figures, contacts or list contents. Counts and seat names only, so it stays up under Screen share."
+    },
     "meta/phones": {
       "owner": "Radar",
       "writer": "Radar (the stand-up, Step 1a, employees/radar/skills/stand-up-tomorrow.md)",

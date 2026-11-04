@@ -295,6 +295,9 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 @media (prefers-reduced-motion:reduce){.line.ping{animation:none}}
 .board-rest{padding:18px 16px;display:flex;flex-direction:column;gap:6px}
 .board-rest b{font:700 15px/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase}
+.credits{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:7px 14px;border-top:1px solid var(--bd-line);font:500 10.5px/1.5 var(--mono);letter-spacing:.04em;color:var(--bd-mute)}
+.credits b{color:var(--bd-fg);font-weight:600} .credits .cs{white-space:nowrap} .credits .cs.watch b{color:var(--a)} .credits .cs.over b,.credits .cs.out b{color:var(--r)}
+.credits .cflag{color:var(--r)} .credits .cold{opacity:.7}
 .board-note{padding:8px 14px;border-top:1px solid var(--bd-line);font:500 10px/1.5 var(--mono);letter-spacing:.04em;color:var(--bd-mute)}
 .lb{border:1px solid var(--line);background:var(--paper)}
 .lb>summary{cursor:pointer;list-style:none;padding:9px 14px;display:flex;justify-content:space-between;gap:10px}
