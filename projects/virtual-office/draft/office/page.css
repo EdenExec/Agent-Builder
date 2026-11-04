@@ -259,6 +259,10 @@ svg.lines text{font:500 9.5px var(--mono);letter-spacing:.12em;fill:var(--ink)}
 .board-h{display:flex;justify-content:space-between;align-items:center;gap:6px 14px;flex-wrap:wrap;padding:9px 14px;border-bottom:1px solid var(--bd-line)}
 .board-h .eyebrow{color:var(--bd-mute)}
 .board-h .eyebrow b{color:var(--bd-fg);font-weight:500}
+:root.fold-board:not(.today-mode) .board-grid,:root.fold-board .board-note,.fold-line #ghosts,.fold-line #tks,.fold-line #clear{display:none}
+.today-mode #fold-board{display:none}
+.board .mini.fold{background:transparent;color:var(--bd-mute);border-color:var(--bd-line)}
+.line-h .sh-r{display:flex;align-items:center;gap:10px}
 .board-meta{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap}
 .board-meta .sync{font:500 10.5px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bd-mute)}
 .board-meta .sync.warn{color:#E7B04C}

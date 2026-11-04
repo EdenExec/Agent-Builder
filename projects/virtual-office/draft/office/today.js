@@ -414,7 +414,7 @@
   }
   /* Decisions, then NEEDS YOUR INPUT (Kev, 29 Oct: "so he never has to open a desk to unblock an agent"): every agent's blocked or gated ticket and needs-Kev alert,
      with the same answer controls as on the desk. */
-  var TD_NEED_CAP = 6;
+  var TD_NEED_CAP = 5;   // Marlowe's flow (4 Nov): at most five decisions in view
   function tdDecBox() {
     var d = (TD.doc && TD.doc.decisions) || [], bx = h('div', { class: 'td-box td-dec-box' }), needs = allNeeds();
     if (!TD.doc && !needs.length) return null;

@@ -562,7 +562,7 @@ return { TITLE_WORDS: TITLE_WORDS, STATUS_WORDS: STATUS_WORDS, NEED_WORDS: NEED_
       if (acted(key) || stripHidden(key)) return;
       // Kev, 26 Oct: a gated or blocked ticket stays on its desk until he taps Done or Follow up; Seen only quiets the strip (it was on the line with no way to close it).
       if (tk.status === 'blocked' || tk.status === 'gated') out.push({ light: 'blocked', title: 'Ticket needs you: ' + tk.ask, raisedAt: tk.updatedAt || tk.createdAt, key: key, needsKev: true, agent: id, seen: isSeen(key), link: tk.result && tk.result.link });
-      if (tk.status === 'done' && !isSeen(key)) out.push({ light: 'review', title: 'Ticket done: ' + tk.ask, raisedAt: tk.doneAt || tk.updatedAt, key: key, needsKev: true, agent: id, link: tk.result && tk.result.link });
+      // Kev, 4 Nov ("instant decision fatigue"): a finished ticket no longer asks him to look; it rests on its desk and in the done log (Marlowe's flow, phase 1).
     });
     return out;
   }
