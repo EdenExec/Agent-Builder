@@ -36,6 +36,7 @@ const stubInit = (crelateDoc) => {
     page.on('pageerror', (e) => errs.push('pageerror: ' + e.message));
     await page.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
     if (initDoc !== undefined) await page.addInitScript(stubInit, initDoc);
+    await page.addInitScript(() => { try { localStorage.setItem('cc-fold-board', '0'); } catch (e) {} });   // the board folds by default (4 Nov); these checks read it open
     await page.clock.install({ time: new Date(NOW) });
     await page.goto(URL + (hash || '#floor')); await page.clock.resume(); await page.waitForTimeout(500);
     return { page, ctx, errs };
@@ -161,6 +162,7 @@ const stubInit = (crelateDoc) => {
     const p3 = await ctx3.newPage(); const e3 = [];
     p3.on('console', (m) => { if (m.type() === 'error') e3.push(m.text()); }); p3.on('pageerror', (e) => e3.push('pageerror: ' + e.message));
     await p3.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
+    await p3.addInitScript(() => { try { localStorage.setItem('cc-fold-board', '0'); } catch (e) {} });
     await p3.addInitScript(stubInit, null); await p3.addInitScript(() => { const o = window.claude.use; window.claude.use = (n) => o(n).then((db) => db && Object.assign({}, db, { doc: (p) => ({ onSnapshot(cb) { setTimeout(() => cb({ exists: false, data: () => null }), 0); return () => {}; } }) })); });
     await p3.clock.install({ time: new Date(NOW) }); await p3.goto(URL + '#floor'); await p3.clock.resume(); await p3.waitForTimeout(500);
     ok('no document yet: the block says it is waiting, not zeros', /Waiting for the office run/.test(await p3.textContent('.lb-rec')));
