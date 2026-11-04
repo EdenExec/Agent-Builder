@@ -1,1 +1,2 @@
 - 2026-11-03 (run 15:58-16:15 PT) · EL-033 · 110 rows looked up (free search on all; 14 enriched free, under management) · paid credits 0 (first paid batch of 10 refused: ZoomInfo credits exhausted on kev1 seat, nothing charged) · free records 14 · partial, 90 rows waiting for credits
+- 2026-11-04 · XL Construction remake · web recipes only (no list built, no export) · seat unconfirmed (seats.md missing) · est. credits not computed
