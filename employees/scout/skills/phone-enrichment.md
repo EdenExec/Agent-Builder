@@ -1,3 +1,5 @@
+**RETIRED 4 Nov 2026.** Never ran live; superseded by `lead-gen-engine.md`, which uses free list-building plus a manual web-app export instead of the per-record API calls below. Kept only for history.
+
 # Nightly phone enrichment (Kev, 27 Oct 2026)
 
 Kev moved Noah's lead-sheet phone enrichment to Scout, run at night on the **kev1** ZoomInfo seat (the ZoomInfo connector is signed in as Kev1). It is API only: no browser and no ZoomInfo web app. Kev's standing credit cap is **100 Data (Bulk) credits a night**. This cap is Kev's yes for this job only; every other enrichment still follows `zoominfo-search` and QC.

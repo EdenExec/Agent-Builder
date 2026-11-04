@@ -29,8 +29,8 @@
     },
     {
       "stage": "phones",
-      "owner": "Scout's nightly routine (10pm PT weeknights, ZoomInfo API on the kev1 seat, cap 100 paid credits a night; Kev, 27 Oct 2026). Replaces Noah's routine once live; until then Noah's routine runs",
-      "done": "Mobile, Mobile source, Direct and Phone notes filled in place; sheet renamed '<title> · Phones Added'; Lead Log Phones added dated. See employees/scout/skills/phone-enrichment.md",
+      "owner": "Scout's lead-gen engine (Kev, 4 Nov 2026): builds the list free, rotates all 4 Eden-owned ZoomInfo seats, one human (Kev or Noah) clicks the web-app export. Replaces both the kev1-seat API routine and Noah's manual pulls.",
+      "done": "Mobile, Mobile source, Direct and Phone notes filled in place; sheet renamed '<title> · Phones Added'; Lead Log Phones added dated. See employees/scout/skills/lead-gen-engine.md",
       "recordedBy": "Noah's routine dates Phones added in the Lead Log; npm run leads -- stage-set <file> phones",
       "logColumn": "Phones added"
     },
