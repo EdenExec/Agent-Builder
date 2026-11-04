@@ -717,11 +717,11 @@
       "movedAt": null,
       "note": "",
       "file": "2026-11-03-xl-sf-concrete-estimator.csv",
-      "rows": 135,
+      "rows": 162,
       "tiers": {
-        "1": 43,
-        "2": 75,
-        "3": 17
+        "1": 49,
+        "2": 94,
+        "3": 19
       },
       "built": "2026-11-03",
       "discreet": false,
@@ -738,11 +738,11 @@
       "movedAt": null,
       "note": "",
       "file": "2026-11-03-xl-sf-project-manager.csv",
-      "rows": 161,
+      "rows": 418,
       "tiers": {
-        "1": 59,
-        "2": 100,
-        "3": 2
+        "1": 164,
+        "2": 249,
+        "3": 5
       },
       "built": "2026-11-03",
       "discreet": false,
@@ -759,11 +759,11 @@
       "movedAt": null,
       "note": "",
       "file": "2026-11-03-xl-sf-safety-manager-demo.csv",
-      "rows": 80,
+      "rows": 100,
       "tiers": {
-        "1": 8,
-        "2": 55,
-        "3": 17
+        "1": 13,
+        "2": 66,
+        "3": 21
       },
       "built": "2026-11-03",
       "discreet": false,
@@ -773,23 +773,24 @@
       "stage": "landed"
     },
     {
-      "title": "EL-033 · 2026-11-03 · XL Construction · Senior Project Manager (Science/Tech/Commercial), SF Bay Area · 155 leads",
-      "landedAt": "2026-11-02",
-      "phonesAt": null,
-      "crelateAt": null,
-      "movedAt": null,
-      "note": "",
       "file": "2026-11-03-xl-sf-senior-pm.csv",
-      "rows": 155,
+      "rows": 213,
       "tiers": {
-        "1": 109,
-        "2": 46
+        "1": 130,
+        "2": 75,
+        "3": 8
       },
       "built": "2026-11-03",
       "discreet": false,
       "driveUrl": "https://docs.google.com/spreadsheets/d/10uJLBVfzh0NZboESrXXWeWGJk150ycO3IIGhqxHQ8qw/edit",
       "status": "ok",
       "errors": 0,
+      "title": "EL-033 · 2026-11-03 · XL Construction · Senior Project Manager (Science/Tech/Commercial), SF Bay Area · 155 leads",
+      "landedAt": "2026-11-02",
+      "phonesAt": null,
+      "crelateAt": null,
+      "movedAt": null,
+      "note": "",
       "stage": "landed"
     },
     {
