@@ -1,3 +1,5 @@
+**RETIRED 4 Nov 2026 (Kev).** Do not use or install this package. Phone pulls are no longer done per record through the API on any seat. Scout runs one lead-gen engine (`employees/scout/skills/lead-gen-engine.md`): free list-building with a has-mobile filter, then one person clicks Export in the ZoomInfo web app. Noah is one of the people who clicks export, not a second operator of lead-gen levers. Kept for history only.
+
 # Phone pass (filling cell numbers from ZoomInfo on Noah's seat)
 
 ## What to work
