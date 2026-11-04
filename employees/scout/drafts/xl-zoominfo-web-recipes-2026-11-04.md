@@ -27,3 +27,9 @@ Upper bound is the has-mobile count minus anyone under management or already in 
 ## Open
 - `memory/live/seats.md` does not exist. No seat is confirmed, so I am not naming one. The kev1 seat ran out of credits on 3 Nov. Kev or Docket needs to confirm which seat has credits.
 - Unverified: whether web export uses the same credit pool as per-record enrich.
+
+## Narrowed counts (4 Nov, search only, 0 credits)
+Pool companies only (Suffolk, Webcor, Build Group, DPR, Hathaway Dinwiddie, Rudolph and Sletten, Skanska, Turner, Holder, McCarthy), San Francisco metro, has-mobile on:
+- EL-033 Sr PM: 86 (was 1,827)
+- EL-034 PM: 338 (was 7,717; title match overlaps Sr PM, so the real new count is lower)
+Upper bound for both: about 424 credits before removing managed records, DNC and rows already in the staged sheets. Some hits are mobile DNC (first sample was), so expect fewer.
