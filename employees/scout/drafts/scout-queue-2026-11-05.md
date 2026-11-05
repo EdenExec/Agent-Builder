@@ -16,3 +16,8 @@ Build path: free ZoomInfo search, one human clicks Export (lead-gen-engine.md). 
 
 Order I'd take them: Moss x3 and Megawatt x2 are new work; XL last because the sheets already exist.
 Open: seat with credits; XL metro; whether Steed has a signed fee agreement.
+
+## Casey's answers (5 Nov)
+- XL: re-run of the Bay Area sheets (EL-033 to EL-036), plus Sacramento (small pool, per Berto Guerra's older Crelate notes). Pull a delta only, filtered to the new specs: safety with demo/decom, healthcare and science/tech PMs, concrete estimator. No new metros until Nick confirms at the 6 Nov sync.
+- Steed: no fee agreement found. Own staff not dialed; Casey put that on the JO's condition pending Nick's confirmation 6 Nov.
+- Order confirmed: Moss x3 and Megawatt x2 first.
