@@ -72,3 +72,18 @@ No health or family details anywhere in the Round Table. Dean never reads or cop
 - Google Forms can't make 4.9 conditional, so it is required for everyone ("hit my numbers" if they did).
 - `setRequireLogin` only works on a Google Workspace account, which kev@edenexec.com is.
 - The prefill only fills short-answer fields whose titles match the Prefill tab headers exactly. Don't rename page 0 questions in the Form editor.
+
+## Option A (built 5 Nov): the scorecard as a Claude page, no Google setup
+
+Kev asked the agents to build the forms today without his lift. No agent can create a Google Form, so `scorecard-page.html` is the same scorecard as a private claude.ai page: https://claude.ai/artifact/M6AXCD9ekLjnJnQuXsiLkZ
+
+- Each person signs in with their Eden Claude account. Recruiters see the recruiter form; Kev and Nick see the leadership form plus a Team view.
+- Page 0 is prefilled from Dean's Crelate and CloudTalk pull (db `prefill/<name>`, `prefill/team`); the week, window and 10:30 lock live in `meta/week`.
+- Editing closes at 10:30am PT sharp (enforced by the page; the data rules don't know the time).
+- Storage and who reads it, checked on the server with lowered access levels on 5 Nov (probe rows written, read and deleted):
+  - `responses/<id>`: the recruiter's own pages 0, 1, 2 and 4. A recruiter reads and writes only their own. Kev and Nick read all.
+  - `candor/<id>`: section 3, plus L3, L4 and L9. A recruiter reads and writes only their own. Only Kev (owner) reads all; Nick does not.
+  - `leadership/<id>`: Kev's and Nick's leadership answers; both read them.
+  - `prefill/*` and `meta/*`: every team member can read the week's activity numbers (the same counts as the leaderboard); only editors write.
+- Who is who (fixed 5 Nov after Kev's dry run showed "not on the list": the org does not share email with the page): the owner is Kev; otherwise the Eden email if shared, else the account name (e.g. "Max Betcher"), else a one-time name pick saved in `claims/<id>` (Kev and Nick can read claims; each person writes only their own). `identity-check.cjs` runs the page in Chromium with a stand-in store for all three paths. Still unproven with a real second person: a recruiter saving into their own slot.
+- Sharing (Kev, Share menu, on his go): the five recruiters as Contributors, Nick as Editor.
