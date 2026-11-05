@@ -482,10 +482,10 @@ dialog.jod::backdrop{background:var(--shade)}
 
   // ---- Job Orders: an internal Eden folder across every client ----
   // Rows load only while the folder is open and are dropped on close. Screen-share mode hides the folder and closes it.
-  const ROT_DAYS=14;
+  const ROT_DAYS=10; // Kev, 5 Nov 2026: 10 days is enough to move someone off a JO they are not moving on
   const dayNum=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(s||''));if(!m)return null;const t=today().split('-').map(Number);return Math.round((Date.UTC(t[0],t[1]-1,t[2])-Date.UTC(+m[1],+m[2]-1,+m[3]))/864e5)};
   const isStandby=p=>/standby/i.test(String(p.role_on_job||''));
-  const overdue=p=>!isStandby(p)&&(dayNum(p.since)||0)>ROT_DAYS;
+  const overdue=p=>!isStandby(p)&&(dayNum(p.since)||0)>=ROT_DAYS;
   // a discreet client never shows its name: every text field of that row is scrubbed too
   // Kev, 23 Oct: Baker and INL are fine to name on the Team Hub; only a row flagged discreet hides its client
   const discreet=j=>!!j.discreet;
@@ -495,7 +495,7 @@ dialog.jod::backdrop{background:var(--shade)}
   const jStatus=j=>String(j.status||'active').toLowerCase().trim().replace(/\s+/g,'-');
   const byRank=(a,b)=>(+a.rank||99)-(+b.rank||99)||jClient(a).localeCompare(jClient(b))||String(a.role||'').localeCompare(String(b.role||''));
   const daysTxt=n=>n==null?'start date to add':n<0?'starts '+(-n)+(n===-1?' day':' days')+' from now':n+(n===1?' day':' days')+' on job';
-  const rotChip='<span class="chip rot">14+ days, rotate?</span>';
+  const rotChip='<span class="chip rot">'+ROT_DAYS+'+ days, rotate?</span>';
   const roleChip=p=>p.role_on_job?'<span class="chip'+(isStandby(p)?' warn':' gold')+'">'+esc(p.role_on_job)+'</span>':'';
   function jTeam(j){
     const team=j.team||[];
@@ -524,10 +524,9 @@ dialog.jod::backdrop{background:var(--shade)}
   const ST_TONE={active:'pos','on-hold':'warn',filled:'pos',killed:'neg',closed:''};
   const ST_LABEL={active:'Active','on-hold':'On hold',filled:'Filled',closed:'Closed',killed:'Killed'};
   const CLOSED=['filled','closed','killed'];
-  const STALE_DAYS=10;
   const JV_KEY='hub-jo-view';
   const shortRole=r=>{const t=String(r||'').replace(/\s*\(.*$/,'').trim();return t||String(r||'')};
-  const isGo=j=>jStatus(j)==='active'&&((+j.rank>0&&+j.rank<=6)||/^go\b/i.test(String(j.board_note||'').trim()));
+  const isGo=j=>jStatus(j)==='active'&&j.hot===true; // Hot replaces Go (Kev, 5 Nov 2026)
   const named=j=>(j.team||[]).filter(p=>String(p.recruiter||'').trim());
   const leadTotal=j=>(j.leads||[]).reduce((a,l)=>a+(+l.count||0),0);
   const linkPath=(j,l)=>'clients/'+slugOf(l.client_slug||j.client_slug)+'/depth/'+String(l.chart||'');
@@ -556,7 +555,7 @@ dialog.jod::backdrop{background:var(--shade)}
   }
   function jRow(j,kind,list){
     const st=jStatus(j),act=st==='active',hold=st==='on-hold',out=jOut(j),hot=isHot(j),ps=isPartner(j);
-    const lead=leadOf(j),a=lead?dayNum(lead.since):null,rot=act&&a!=null&&a>=ROT_DAYS,warm=act&&a!=null&&a>=STALE_DAYS&&a<ROT_DAYS;
+    const lead=leadOf(j),a=lead?dayNum(lead.since):null,rot=act&&a!=null&&a>=ROT_DAYS,warm=false;
     const ageCls=rot?' rotting':warm?' warm':'',ageTxt=a==null?'—':a<0?'in '+(-a)+'d':a+'d';
     const nl=leadTotal(j),leadsTxt=nl+(nl===1?' lead':' leads'),who=lead?jt(j,lead.recruiter):'';
     const role=jt(j,j.role)||'Role to name',id=esc(j.id);
@@ -597,7 +596,7 @@ dialog.jod::backdrop{background:var(--shade)}
       '<label for="ja-role">Role<input class="ed" id="ja-role" name="role" data-k="ja-role" placeholder="e.g. MEP Superintendent" required></label>'+
       '<label for="ja-loc">Location<input class="ed" id="ja-loc" name="location" data-k="ja-loc" placeholder="City, state"></label>'+
       '<label for="ja-owner">Owner<select class="ed" id="ja-owner" name="owner" data-k="ja-owner"><option value="">Open</option>'+ROSTER.map(r=>'<option value="'+esc(r)+'">'+esc(r)+'</option>').join('')+'</select></label>'+
-      '<label for="ja-prio">Priority<select class="ed" id="ja-prio" name="prio" data-k="ja-prio"><option value="normal">Normal</option><option value="go">Go</option></select></label></div>'+
+      '<label for="ja-prio">Priority<select class="ed" id="ja-prio" name="prio" data-k="ja-prio"><option value="normal">Normal</option><option value="go">Hot next week</option></select></label></div>'+
       '<div class="prow"><button type="submit">Pin it and alert Scout</button>'+A('jo-add-toggle','','Cancel')+'</div></form>':'';
     const flash=state.addMsg?'<div class="jo-flash" role="status">'+esc(state.addMsg)+'</div>':'';
     return flash+form;
@@ -688,10 +687,10 @@ dialog.jod::backdrop{background:var(--shade)}
     const slug=slugOf(j.client_slug||j.client),folder=!discreet(j)&&state.clients.find(c=>c.id===slug);
     const btn=(k,l,on,cls)=>'<button class="btn'+(cls?' '+cls:'')+'" type="button" data-st="'+k+'" aria-pressed="'+on+'">'+l+'</button>';
     const edit=state.canEdit&&db?'<div><div class="k">Status</div>'+(state.killAsk?'<div class="killq">Kill this job order? It stays on the board, crossed out.<button class="yes" type="button" data-st="kill-yes">Yes, kill it</button><button class="no" type="button" data-st="kill-no">Keep it</button></div>':
-      '<div class="stbtns">'+btn('go','Go',go)+btn('active','Active',st==='active'&&!go)+btn('hold','Hold',st==='on-hold')+btn('kill','Kill',st==='killed','kill')+btn('filled','Filled',st==='filled')+'</div>')+'</div>':'';
+      '<div class="stbtns">'+btn('hot',go?'Hot ✓':'Hot',go)+btn('active','Active',st==='active')+btn('hold','Hold',st==='on-hold')+btn('kill','Kill',st==='killed','kill')+btn('filled','Filled',st==='filled')+'</div>')+'</div>':'';
     const sc=j.scout&&j.scout.status?'<span class="meta">Scout '+esc(j.scout.status)+(j.scout.at?' · asked '+esc(String(j.scout.at).slice(0,10)):'')+'</span>':'';
     d.innerHTML='<div class="jod-in"><div class="jod-top"><div><div class="brand">'+esc(jClient(j))+' · Job order</div><h2 id="jod-t">'+esc(jt(j,j.role)||'Role to name')+'</h2></div><button class="jod-x" type="button" data-act="jod-close" aria-label="Close">×</button></div>'+
-      '<div class="jod-facts"><span class="chip '+(ST_TONE[st]||'')+'">'+esc(ST_LABEL[st]||st)+'</span>'+(go?'<span class="chip go">Go</span>':'')+(j.rank?'<span class="jo">#'+esc(j.rank)+'</span>':'')+'<span class="meta">'+esc(jt(j,j.location||'Location to confirm'))+(j.opened?' · opened '+esc(j.opened):'')+(j.killed_on&&st==='killed'?' · killed '+esc(j.killed_on):'')+(j.filled_on&&st==='filled'?' · filled '+esc(j.filled_on):'')+'</span>'+sc+'</div>'+
+      '<div class="jod-facts"><span class="chip '+(ST_TONE[st]||'')+'">'+esc(ST_LABEL[st]||st)+'</span>'+(go?'<span class="chip hotc">Hot</span>':'')+(j.rank?'<span class="jo">#'+esc(j.rank)+'</span>':'')+'<span class="meta">'+esc(jt(j,j.location||'Location to confirm'))+(j.opened?' · opened '+esc(j.opened):'')+(j.killed_on&&st==='killed'?' · killed '+esc(j.killed_on):'')+(j.filled_on&&st==='filled'?' · filled '+esc(j.filled_on):'')+'</span>'+sc+'</div>'+
       (j.board_note?'<div class="bnote"><div class="k">Latest from Kev</div><p>'+esc(jt(j,j.board_note))+'</p></div>':'')+
       (j.condition?'<div><div class="k">Condition</div><p style="margin:0;font-size:13px">'+esc(jt(j,j.condition))+'</p></div>':'')+edit+
       '<div><div class="k">Who is on it</div>'+jTeam(j)+'</div>'+
@@ -703,8 +702,8 @@ dialog.jod::backdrop{background:var(--shade)}
   }
   function setJobStatus(j,k){
     const t=today(),ch={updated:t};
-    if(k==='go'){ch.status='active';ch.rank=5}
-    else if(k==='active'){ch.status='active';if(+j.rank>0&&+j.rank<=6)ch.rank=30}
+    if(k==='hot'){ch.hot=!(j.hot===true);if(jStatus(j)!=='active')ch.status='active'}
+    else if(k==='active')ch.status='active';
     else if(k==='hold')ch.status='on-hold';
     else if(k==='kill'){ch.status='killed';ch.killed_on=t}
     else if(k==='filled'){ch.status='filled';ch.filled_on=t}
@@ -730,7 +729,7 @@ dialog.jod::backdrop{background:var(--shade)}
     const base=(slugOf(slug+'-'+role).slice(0,80).replace(/-+$/,''))||('jo-'+uid());
     let id=base,n=2;while(state.jobs.some(x=>x.id===id))id=base+'-'+(n++);
     const at=new Date().toISOString(),t=today();
-    const doc={client,client_slug:slug,role,location,status:'active',opened:t,rank:go?5:30,leads:[],team:owner?[{recruiter:owner,since:t,role_on_job:'lead',note:''}]:[],condition:'',board_note:'',depth:[],updated:t,source:'Added on the board by Kev',scout:{requested:true,at,status:'queued'}};
+    const doc={client,client_slug:slug,role,location,status:'active',opened:t,rank:30,hot:go,partner_share:false,leads:[],team:owner?[{recruiter:owner,since:t,role_on_job:'lead',note:''}]:[],condition:'',board_note:'',depth:[],updated:t,source:'Added on the board by Kev',scout:{requested:true,at,status:'queued'}};
     if(disc)doc.discreet=true;
     state.jobs.push(Object.assign({id},JSON.parse(JSON.stringify(doc))));
     writeDoc('jobs/'+id,doc,'set');
@@ -746,8 +745,8 @@ dialog.jod::backdrop{background:var(--shade)}
     if(!all.length&&!(state.canEdit&&db))return '<div class="fbody"><div class="empty" style="margin-top:16px">No job orders filed yet. Radar adds them after each JO meeting.</div></div>';
     const late=act.reduce((a,j)=>a+(j.team||[]).filter(overdue).length,0),none=act.filter(j=>!(j.team||[]).length).length;
     const hold=all.filter(j=>jStatus(j)==='on-hold').length,killed=all.filter(j=>jStatus(j)==='killed').length;
-    const sum='<div class="jo-sum"><div><b>'+act.length+'</b><span class="meta">active job orders</span></div><div'+(late?' class="hot"':'')+'><b>'+late+'</b><span class="meta">assignments past '+ROT_DAYS+' days</span></div><div><b>'+none+'</b><span class="meta">with no owner</span></div><div><b>'+hold+'</b><span class="meta">on hold</span></div><div><b>'+killed+'</b><span class="meta">killed</span></div></div>';
-    const note='<p class="sub" style="margin-bottom:14px">Internal to Eden. This folder shows every client at once, so keep it closed while sharing your screen. Anyone on the same job order for more than '+ROT_DAYS+' days is flagged for Kev to rotate. Standby means on it only if a condition is met.'+(state.jview!=='recruiter'?' Tap a row to see who is on it, its lead sheets and its depth-chart seats.':'')+'</p>';
+    const sum='<div class="jo-sum"><div><b>'+act.length+'</b><span class="meta">active job orders</span></div><div'+(late?' class="hot"':'')+'><b>'+late+'</b><span class="meta">assignments at '+ROT_DAYS+'+ days</span></div><div><b>'+none+'</b><span class="meta">with no owner</span></div><div><b>'+hold+'</b><span class="meta">on hold</span></div><div><b>'+killed+'</b><span class="meta">killed</span></div></div>';
+    const note='<p class="sub" style="margin-bottom:14px">Internal to Eden. This folder shows every client at once, so keep it closed while sharing your screen. Anyone on the same job order for '+ROT_DAYS+' days or more is flagged for Kev to rotate. Standby means on it only if a condition is met.'+(state.jview!=='recruiter'?' Tap a row to see who is on it, its lead sheets and its depth-chart seats.':'')+'</p>';
     if(state.jview!=='recruiter')return '<div class="fbody">'+sum+'<div class="sec">'+note+jTools(all,true)+jAddForm()+jBoard(all)+'</div></div>';
     const others=rest.length?'<div class="past"><details><summary>On hold, filled, closed or killed ('+rest.length+')</summary><ul class="jlist" style="margin-top:10px">'+rest.map(j=>'<li><div><b>'+esc(jClient(j))+'</b> · '+esc(jt(j,j.role))+'</div><span class="meta">'+esc(ST_LABEL[jStatus(j)]||jStatus(j))+(jStatus(j)==='killed'&&j.killed_on?' '+esc(j.killed_on):'')+' · '+esc(jt(j,j.location||''))+(j.condition?' · '+esc(jt(j,j.condition)):'')+'</span></li>').join('')+'</ul></details></div>':'';
     return '<div class="fbody">'+sum+'<div class="sec">'+note+jTools(all,false)+(act.length?jByRecruiter(act.filter(passes)):'<div class="empty">No active job orders.</div>')+others+'</div></div>';
