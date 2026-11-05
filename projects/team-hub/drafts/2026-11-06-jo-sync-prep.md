@@ -4,7 +4,7 @@ by: Casey, from the Team Hub board as of 5 Nov
 audience: internal
 ---
 
-**The board today:** 59 active and 7 on hold across 14 clients. 13 JOs were added on 5 Nov from Crelate JO points. Ranks are per client today, so several JOs share the same number; the sync can rank them across the board.
+**The board today:** 59 active and 7 on hold across 12 clients. 13 JOs were added on 5 Nov from Crelate JO points. Ranks are per client today, so several JOs share the same number; the sync can rank them across the board.
 
 **Three things to decide**
 1. **Rank:** set each JO's rank on the board (number field or up/down).
