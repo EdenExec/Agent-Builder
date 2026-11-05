@@ -31,9 +31,9 @@ describe("lead sheet landing check", () => {
       assert.ok(r.findings.some((f) => /forbidden column/.test(f.msg)));
     }
   });
-  test("a ZoomInfo phone never lands: Mobile needs a non-ZoomInfo source", () => {
+  test("a Mobile value needs a source; ZoomInfo is an allowed source (4 Nov 2026)", () => {
     const base = `${H},Mobile,Mobile source\n`;
-    assert.equal(checkSheet("a.csv", `${base}${row()},208-555-0100,ZoomInfo\n`).ok, false);
+    assert.equal(checkSheet("a.csv", `${base}${row()},208-555-0100,ZoomInfo\n`).ok, true);
     assert.equal(checkSheet("a.csv", `${base}${row()},208-555-0100,\n`).ok, false);
     assert.equal(checkSheet("a.csv", `${base}${row()},208-555-0100,Crelate\n`).ok, true);
     assert.equal(checkSheet("a.csv", `${base}${row()},,\n`).ok, true);
@@ -127,7 +127,8 @@ describe("the staged folder (projects/leads) as it stands", () => {
       const e = idx.find((x) => x.file === f);
       assert.ok(e, `${f} indexed`);
       assert.equal(e!.rows, checkSheet(f, text).rows, f);
-      assert.match(text.split("\n")[0]!, /,Mobile,Mobile source$/, f);
+      const hdr = text.split("\n")[0]!.replace(/\r$/, "").split(",");
+      assert.ok(hdr.includes("Mobile") && hdr.includes("Mobile source"), `${f} lacks Mobile and Mobile source columns`);
     }
     assert.equal(idx.length, files.length);
   });
@@ -135,7 +136,8 @@ describe("the staged folder (projects/leads) as it stands", () => {
     for (const f of files) {
       const text = readFileSync(join(dir, f), "utf8");
       const r = checkSheet(f, text);
-      assert.ok(!r.findings.some((x) => /forbidden|ZoomInfo phone|Mobile/.test(x.msg)), f);
+      assert.ok(!r.findings.some((x) => /forbidden|Mobile/.test(x.msg)), f);
+      assert.ok(!/\(?\b\d{3}\)?[-. ]\d{3}[-. ]\d{4}\b/.test(text), `${f} carries a real phone number in the repo copy (numbers live only in Drive)`);
       if (/inl-safety/.test(f)) assert.ok(!/Baker (Concrete|Construction)/i.test(text), f);
     }
   });

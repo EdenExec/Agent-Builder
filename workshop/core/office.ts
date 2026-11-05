@@ -74,6 +74,8 @@ export type SyncInput = {
   /** Projects read from the briefs and schedules (workshop/office/projects-load.ts): each agent's desk lists its own. Absent: agents get no `projects` field. */
   projectDefs?: ProjectDef[];
   benches?: { docs: Record<string, unknown>; skipped: string[]; /** meta/crelate: the recruiter leaderboard's counts (core/recruiter-board.ts) */ crelate?: unknown };
+  /** meta/credits: API credit watch per seat (core/credits.ts), from Scout's run log in the repo (Kev, 4 Nov 2026) */
+  credits?: unknown;
 };
 
 export type Alert = {
@@ -373,6 +375,7 @@ export function buildFeed(input: SyncInput, tools: Tool[] = [], seen: Record<str
   for (const [path, bench] of Object.entries(input.benches?.docs ?? {})) docs[path] = bench;
   skipped.push(...(input.benches?.skipped ?? []));
   if (input.benches?.crelate) docs["meta/crelate"] = input.benches.crelate;
+  if (input.credits) docs["meta/credits"] = input.credits;
   for (const a of agents) docs[`agents/${a.id}`] = a;
   for (const a of alerts) docs[`alerts/${a.id}`] = a;
   for (const t of tools) {

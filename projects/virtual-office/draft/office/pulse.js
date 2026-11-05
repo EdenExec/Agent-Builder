@@ -114,6 +114,21 @@
   }
   function plTrendChip(wk, pr) { if (wk == null) return h('span', { class: 'pl-tr fl', text: 'no dials' }); var tr = plTrend(wk, pr); return h('span', { class: 'pl-tr ' + tr[1], text: wk + ' dials' + (tr[0] === 'new' || tr[0] === '–' ? '' : ' ' + tr[0]) }); }
   function plPtcChip(r) { var v = plRatio(r.week.ptcs, r.week.rps, 100); return h('span', { class: 'pl-tr fl', title: 'PTCs per 100 RPs this week (a dash under ' + PL_MIN + ' RPs)', text: 'PTC/100 ' + (v == null ? '–' : v.toFixed(1)) }); }
+  /* API credit watch (Kev, 4 Nov 2026: "always watching we're not running up API usage costs"): one line under the board, per ZoomInfo seat,
+     paid credits this week and this month against the 2,000 allowance, red when a seat is out or on pace to go over. From meta/credits. */
+  function renderCredits() {
+    var el = $('#credits'), c = S.credits; if (!el) return;
+    if (!c || !(c.seats || []).length) { el.hidden = true; el.textContent = ''; return; }
+    el.hidden = false; el.textContent = '';
+    var fmt = function (n) { return Number(n || 0).toLocaleString('en-US'); }, word = { out: 'OUT', over: 'ON PACE TO GO OVER', watch: 'WATCH' };
+    el.appendChild(h('span', null, h('b', { text: 'API credits' }), ' · ZoomInfo · ' + (c.month || '')));
+    c.seats.forEach(function (s) {
+      el.appendChild(h('span', { class: 'cs ' + s.status, title: s.seat + ': ' + fmt(s.weekPaid) + ' paid this week, ' + fmt(s.monthPaid) + ' this month, on pace for ' + fmt(s.projected) + ' of ' + fmt(s.cap) },
+        s.seat + ' ', h('b', { text: fmt(s.monthPaid) + ' / ' + fmt(s.cap) }), ' · ' + fmt(s.weekPaid) + ' this wk' + (word[s.status] ? ' · ' + word[s.status] : '')));
+    });
+    if (c.flagged) el.appendChild(h('span', { class: 'cflag', title: (c.notes || []).join('\n'), text: c.flagged + ' to watch' }));
+    if (Date.now() - t(c.asOf) > 26 * HOUR) el.appendChild(h('span', { class: 'cold', text: 'read ' + ago(c.asOf) }));
+  }
   function renderPulse() {
     var box = $('#pulse'), body = $('#pl-body'), D = plData(), sab = derived().game.sabbath;
     if (S.share || sab) { box.hidden = true; body.textContent = ''; $('#pl-asof').textContent = ''; return; }

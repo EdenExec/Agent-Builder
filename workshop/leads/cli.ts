@@ -106,7 +106,7 @@ if (cmd === "check" || cmd === "stage") {
     if (r.ok && e?.status === "needs-fix") { bad++; console.log(`FAIL  ${f} now passes; restage to clear needs-fix`); }
     if (!e) { bad++; console.log(`FAIL  ${f} is not in index.json`); }
     else if (e.rows !== r.rows) { bad++; console.log(`FAIL  ${f} index says ${e.rows} rows, file has ${r.rows}`); }
-    if (!/,Mobile,Mobile source$/.test(readFileSync(join(SHEETS, f), "utf8").split("\n")[0]!)) { bad++; console.log(`FAIL  ${f} lacks the Mobile columns at the end`); }
+    { const hdr = readFileSync(join(SHEETS, f), "utf8").split("\n")[0]!.replace(/\r$/, "").split(","); if (!(hdr.includes("Mobile") && hdr.includes("Mobile source"))) { bad++; console.log(`FAIL  ${f} lacks the Mobile and Mobile source columns`); } }
   }
   for (const e of index) if (!files.includes(e.file)) { bad++; console.log(`FAIL  index lists ${e.file} but the file is missing`); }
   for (const e of index) if (e.movedAt && !e.crelateAt) { bad++; console.log(`FAIL  ${e.file} is dated Moved but not In Crelate`); }

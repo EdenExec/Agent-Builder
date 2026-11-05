@@ -1,5 +1,5 @@
 <!--
-Routine spec: "Hawk · look-ahead refresh". NOT SCHEDULED. Radar creates it once Kev says yes, from claude.ai so Google Calendar is attached.
+Routine spec: "Hawk · look-ahead refresh". Scheduled 3 Nov 2026 on Kev's yes (Q created it, Google Calendar attached).
 Suggested schedule: CRON_TZ=America/Boise 37 20 * * 0-4,6   (8:37pm Mountain Sunday to Thursday, before the stand-up; Saturday's run builds for the Sunday Edition and stops if sundown hasn't passed)
 Needs: the Google Calendar connector (read). Fresh session per run.
 -->
@@ -13,6 +13,7 @@ IN ORDER:
 1. Read the Look Ahead page data (ArtifactData list of items, weeks, months on https://claude.ai/artifact/W6m2KGscEaeG7i2Q2w3CHU).
 2. Read the three calendars per calendar-refresh.md, this Sunday to 12 weeks out. Read only.
 3. Mirror calendar items; never touch items with source "page".
+3a. Refresh the Command Center card per calendar-refresh.md step 3a: list items and weeks with out_dir, run `npm run lookahead-mirror -- <dir>`, then get meta/lookahead on the Command Center and set the new file pinned to that version.
 4. Check the next 14 days for conflicts and hard edges.
 5. If anything changed or conflicts: one ticket to Radar on the Command Center (https://claude.ai/artifact/WF9MaVZaf3qkf2354wcHDW, collection tickets, agent "radar", lane "home", createdBy "lookahead"), one line.
 6. Update employees/lookahead/memory/live/now.json with counts only; commit "Hawk refresh <date>" and push.

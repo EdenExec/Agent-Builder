@@ -1,0 +1,1 @@
+- 2026-11-05 ticket runner: step 8 floor refresh could not run in this routine (Team Hub reads cannot be saved to files; no versions.json source). Desks stay stale until a live Radar session runs it. Fix: allow out_dir for Team Hub or let office-prep skip team_asks/jobs.

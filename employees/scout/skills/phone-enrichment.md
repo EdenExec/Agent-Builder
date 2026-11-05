@@ -1,3 +1,5 @@
+**RETIRED 4 Nov 2026.** Never ran live; superseded by `lead-gen-engine.md`, which uses free list-building plus a manual web-app export instead of the per-record API calls below. Kept only for history.
+
 # Nightly phone enrichment (Kev, 27 Oct 2026)
 
 Kev moved Noah's lead-sheet phone enrichment to Scout, run at night on the **kev1** ZoomInfo seat (the ZoomInfo connector is signed in as Kev1). It is API only: no browser and no ZoomInfo web app. Kev's standing credit cap is **100 Data (Bulk) credits a night**. This cap is Kev's yes for this job only; every other enrichment still follows `zoominfo-search` and QC.
@@ -20,7 +22,7 @@ ZoomInfo, Google Drive and **Google Sheets** (to write cells in the existing she
    - then unmanaged rows that have a mobile or direct, Tier 1 before 2 before 3, until the night's paid count reaches 100;
    - never pay for a person with neither a mobile nor a direct (write "none in ZoomInfo"), and never enrich the same person twice.
    Keep a running count of paid enrichments; stop paying at 100 and carry the rest to the next night.
-5. **Write the sheet in place** (one batch per sheet; read `references/sheets.md` in the google-workspace skill first). Keep every existing column and row order. The last columns are **Mobile, Mobile source**, then add **Direct** and **Phone notes** after them if missing. Mobile source is "ZoomInfo" or "ZoomInfo direct" (when only a direct exists, it goes in Mobile too, as Noah's routine did). Write numbers as text so Sheets does not turn them into numbers. Phone notes, short and semicolon-separated:
+5. **Write the sheet in place** (one batch per sheet; read `references/sheets.md` in the google-workspace skill first). Keep every existing column and row order. Find **Mobile, Mobile source, Direct, Phone notes** by header name; on sheets landed from 3 Nov 2026 they sit in columns E to H, right after Name. If an older sheet lacks Direct or Phone notes, add them right after Mobile source only when the sheet is your own and nobody else is working it; otherwise put them at the end. Mobile source is "ZoomInfo" or "ZoomInfo direct" (when only a direct exists, it goes in Mobile too, as Noah's routine did). Write numbers as text so Sheets does not turn them into numbers. Phone notes, short and semicolon-separated:
    - "Mobile on Do Not Call list" (and set that cell's text bold red);
    - lead outside the sheet's target metro; direct-line area code that does not match the lead's city;
    - new in role (started within about 6 months), or title or company differs from the sheet;

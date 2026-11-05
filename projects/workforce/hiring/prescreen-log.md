@@ -1,5 +1,7 @@
 # Recruiter pre-screen log
 
+Review page for Kev and Nick: https://claude.ai/artifact/4Nasro5TiVN8G5Wta6k2jT (rows in its db collection "candidates", read time in "meta/summary"; Dean updates it on each pass).
+
 Source: the live form's response sheet (Sheet id 1QByLRPcB9onEee1dSOY2uuRdNwNz62NF6AH6R0YVkq8, tab "Form Responses 1"). Read against "How we read it" in `recruiter-prescreen.md`. Per that doc we record only advance, pass or unclear, the vertical and the date: no scores, no answers, no contact details, no pay. Ticket t-202611031130-pscr2 (Radar for Kev, 3 Nov 2026).
 
 ## Read 3 Nov 2026 (23 responses, 2 Nov 15:14 to 3 Nov 11:26)
@@ -12,6 +14,7 @@ Source: the live form's response sheet (Sheet id 1QByLRPcB9onEee1dSOY2uuRdNwNz62
 | Christopher Kouns | Advance | Other: executive search generalist | Hands-on Boolean and daily activity |
 | Kareem Zaki | Advance | Other: security and high-volume hourly | Move from volume to executive search |
 | Eva Crosson | Advance (lower end) | Healthcare | Depth on passive candidates |
+| Brittney Jones (read 3 Nov 5pm) | Advance (lower end) | Other: financial services | Plan B when nobody bites; opening a client on a stale role |
 | Thaithanh Nguyen | Unclear | Healthcare and construction | Real construction placements and her numbers |
 | Robert Rivera III | Unclear | Other: agency generalist | His system and CRM habits |
 | Kassandra Wypych | Unclear | Other: corporate in-house | Agency and cold-call experience |
@@ -29,7 +32,9 @@ Source: the live form's response sheet (Sheet id 1QByLRPcB9onEee1dSOY2uuRdNwNz62
 | Victoria Maddis | Pass | Other | |
 | Maggie Golias | Pass | Other: light industrial | |
 | Mikaili Cosby | Pass | Other: in-house HR | |
+| Belinda Haynes (read 4 Nov 5am) | Pass | Other: retail and corporate generalist | |
+| Allen Gladstone (read 4 Nov 5pm) | Pass | Other: startup generalist | |
 
-Totals: 6 advance, 8 unclear, 9 pass. Verticals: Construction as primary 0; Tech 5; Healthcare 6; Other 12. Construction exposure: Fryzowski, Nguyen, Abdo (and McFarland, titles only).
+Totals (4 Nov 5pm pass, 26 responses): 7 advance, 8 unclear, 11 pass. Verticals: Construction as primary 0; Tech 5; Healthcare 6; Other 15. Construction exposure: Fryzowski, Nguyen, Abdo (and McFarland, titles only).
 
 Notes: several answers read as AI-written (Mejia, Abdo, Anaokar and parts of others), so calls should check that answers hold up live. No duplicates and no test rows.

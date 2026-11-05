@@ -29,10 +29,11 @@
   <section class="board" id="board" aria-label="The board: team score">
     <div class="board-h">
       <span class="eyebrow">The board · <b>team score</b> · Kev, Radar and the agents</span>
-      <span class="board-meta"><span class="sync" id="b-sync" aria-live="off"></span><button class="sw" id="sw-sound" type="button" aria-pressed="true" title="A quiet click when a ticket closes"><i></i>Sound</button></span>
+      <span class="board-meta"><button class="mini fold" id="fold-board" type="button" aria-expanded="false">Show the board</button><span class="sync" id="b-sync" aria-live="off"></span><button class="sw" id="sw-sound" type="button" aria-pressed="true" title="A quiet click when a ticket closes"><i></i>Sound</button></span>
     </div>
     <div class="board-grid" id="board-grid"></div>
     <div class="board-note" id="board-note"></div>
+    <div class="credits" id="credits" hidden aria-label="API credit watch"></div>
   </section>
   <div class="recbar" id="recbar" role="status" hidden></div>
   <details class="lb" id="lb" open>
@@ -62,7 +63,7 @@
   </div>
 
   <section class="line" id="line" aria-label="The line: open tickets">
-    <div class="line-h"><span class="eyebrow">The line · every open ticket, in full</span><span class="eyebrow" id="line-count"></span></div>
+    <div class="line-h"><span class="eyebrow">The line · every open ticket, in full</span><span class="sh-r"><span class="eyebrow" id="line-count"></span><button class="mini fold" id="fold-line" type="button" aria-expanded="false">Show the line</button></span></div>
     <div class="ghosts" id="ghosts" aria-live="polite"></div>
     <div class="tks" id="tks"></div>
     <div class="clear" id="clear" hidden></div>
@@ -165,6 +166,7 @@
 </div>
 
 <script src="office/core.js"></script>
+<script src="office/clipboard.js"></script>
 <script src="office/floor.js"></script>
 <script src="office/pulse.js"></script>
 <script src="office/strip.js"></script>

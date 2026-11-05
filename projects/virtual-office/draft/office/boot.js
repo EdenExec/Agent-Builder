@@ -128,5 +128,16 @@
   $('#m-today').addEventListener('click', function () { setMode('today'); });
   addEventListener('hashchange', function () { var hh = location.hash.slice(1); if (hh === 'today' && TD.mode !== 'today') setMode('today', true); });
   addEventListener('resize', function () { if (TD.mode === 'today') renderAll(); });
+  /* The board and the Line rest folded until Kev opens them (Marlowe's flow, 4 Nov); remembered per device. The credit watch stays in view. */
+  function setFold(which, folded) {
+    root.classList.toggle('fold-' + which, folded);
+    var b = $('#fold-' + which); if (b) { b.setAttribute('aria-expanded', String(!folded)); b.textContent = (folded ? 'Show the ' : 'Fold the ') + which; }
+    try { localStorage.setItem('cc-fold-' + which, folded ? '1' : '0'); } catch (e) {}
+  }
+  ['board', 'line'].forEach(function (w) {
+    var v = null; try { v = localStorage.getItem('cc-fold-' + w); } catch (e) {}
+    setFold(w, v !== '0');
+    var b = $('#fold-' + w); if (b) b.addEventListener('click', function () { setFold(w, !root.classList.contains('fold-' + w)); });
+  });
   boot();
 
