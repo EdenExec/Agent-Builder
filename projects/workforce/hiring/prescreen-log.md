@@ -34,7 +34,8 @@ Source: the live form's response sheet (Sheet id 1QByLRPcB9onEee1dSOY2uuRdNwNz62
 | Mikaili Cosby | Pass | Other: in-house HR | |
 | Belinda Haynes (read 4 Nov 5am) | Pass | Other: retail and corporate generalist | |
 | Allen Gladstone (read 4 Nov 5pm) | Pass | Other: startup generalist | |
+| Brandon Dickerson (read 5 Nov noon) | Pass | Other: insurance producers | |
 
-Totals (4 Nov 5pm pass, 26 responses): 7 advance, 8 unclear, 11 pass. Verticals: Construction as primary 0; Tech 5; Healthcare 6; Other 15. Construction exposure: Fryzowski, Nguyen, Abdo (and McFarland, titles only).
+Totals (5 Nov noon pass, 27 responses): 7 advance, 8 unclear, 12 pass. Verticals: Construction as primary 0; Tech 5; Healthcare 6; Other 16. Construction exposure: Fryzowski, Nguyen, Abdo (and McFarland, titles only).
 
 Notes: several answers read as AI-written (Mejia, Abdo, Anaokar and parts of others), so calls should check that answers hold up live. No duplicates and no test rows.
