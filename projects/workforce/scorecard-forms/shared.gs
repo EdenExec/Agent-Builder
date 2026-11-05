@@ -184,19 +184,21 @@ function buildPrefillLinks() {
     var row = values[r];
     var form = forms[String(row[0]).toLowerCase()];
     if (!form) continue;
-    var link;
+    var link, filled = 0;
     try { // one bad row must not stop the rest, or fail the Thursday trigger
       var resp = form.createResponse();
       form.getItems(FormApp.ItemType.TEXT).forEach(function (item) {
         var c = head.indexOf(item.getTitle());
         if (c < 0 || c === linkCol || row[c] === '' || row[c] === null) return;
         resp.withItemResponse(item.asTextItem().createResponse(String(row[c])));
+        filled++;
       });
+      if (!filled) continue; // no numbers yet: leave the row (and its Link) alone
       link = resp.toPrefilledUrl();
     } catch (e) {
       link = 'ERROR: ' + e.message;
     }
-    tab.getRange(r + 1, linkCol + 1).setValue(link);
+    if (row[linkCol] !== link) tab.getRange(r + 1, linkCol + 1).setValue(link); // idempotent: rewritten each run, written only if changed
   }
 }
 
@@ -224,14 +226,14 @@ function preparePrefillTab_() {
 
 /**
  * Run once after both forms are built: Prefill tab, plus the weekly triggers
- * (reset Thursday 12:00, prefilled links Thursday 3:00pm, lock Friday 10:30am, all Pacific).
+ * (reset Thursday 12:00, prefilled links every hour, lock Friday 10:30am, all Pacific).
  */
 function installScorecard() {
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (['weeklyReset', 'lockEdits', 'buildPrefillLinks'].indexOf(t.getHandlerFunction()) >= 0) ScriptApp.deleteTrigger(t);
   });
   ScriptApp.newTrigger('weeklyReset').timeBased().onWeekDay(ScriptApp.WeekDay.THURSDAY).atHour(12).nearMinute(0).inTimezone(EDEN_TZ).create();
-  ScriptApp.newTrigger('buildPrefillLinks').timeBased().onWeekDay(ScriptApp.WeekDay.THURSDAY).atHour(15).nearMinute(0).inTimezone(EDEN_TZ).create();
+  ScriptApp.newTrigger('buildPrefillLinks').timeBased().everyHours(1).create(); // hourly, any day: links appear within the hour a row gets numbers
   ScriptApp.newTrigger('lockEdits').timeBased().onWeekDay(ScriptApp.WeekDay.FRIDAY).atHour(10).nearMinute(30).inTimezone(EDEN_TZ).create();
   preparePrefillTab_();
   var ss = responsesSheet_();

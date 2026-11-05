@@ -27,7 +27,7 @@ What you end up with: two Forms and one Sheet ("Eden · Friday Scorecard respons
 - Sign-in required, edenexec.com accounts only; email collected automatically; one response per person.
 - Answers can be edited until about **Friday 10:30am PT** (Google runs timed triggers within 15 minutes of the set minute, so the lock lands between 10:15 and 10:45), then editing turns off (`lockEdits` trigger). A late first answer is still accepted.
 - **Thursday noon PT** (`weeklyReset`): the title moves to the new week ending date, the page 0 note shows the new Friday-to-Thursday window, last week's answers are cleared from the Form (the Sheet keeps every week), and editing opens again.
-- **Thursday 3:00pm PT** (`buildPrefillLinks`): writes a prefilled link per person into the Prefill tab. It sends nothing.
+- **Every hour** (`buildPrefillLinks`): for any Prefill row with numbers, writes (or refreshes) that person's prefilled link in the Link column. Rows with no numbers are skipped. It sends nothing.
 
 ## Page 0 numbers: the Thursday prefill
 
@@ -40,7 +40,7 @@ Each Thursday by 2:30pm PT, Dean (with Radar and Q) fills the **Prefill** tab, o
 | Placements | Names on the 2026 Rev Report tab of "2026 - EPG Dashboard (Hub)" not in last week's snapshot (Rec. column: Juice = Andrew, Bridge = Bridger). Baseline saved Thu 5 Nov; first real comparison 12 Nov |
 | Team rows (leadership) | The five recruiters' totals |
 
-At 3:00pm the links appear in the Link column. **They go out only on Kev's go.**
+Within the hour of a row getting numbers, its link appears in the Link column. **They go out only on Kev's go.**
 
 Not prefilled yet:
 - **Placements, this first week:** only Thursday's additions are caught. Recruiters add the rest in 4.1.
