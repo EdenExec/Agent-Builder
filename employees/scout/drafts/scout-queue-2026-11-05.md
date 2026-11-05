@@ -21,3 +21,13 @@ Open: seat with credits; XL metro; whether Steed has a signed fee agreement.
 - XL: re-run of the Bay Area sheets (EL-033 to EL-036), plus Sacramento (small pool, per Berto Guerra's older Crelate notes). Pull a delta only, filtered to the new specs: safety with demo/decom, healthcare and science/tech PMs, concrete estimator. No new metros until Nick confirms at the 6 Nov sync.
 - Steed: no fee agreement found. Own staff not dialed; Casey put that on the JO's condition pending Nick's confirmation 6 Nov.
 - Order confirmed: Moss x3 and Megawatt x2 first.
+
+## First free counts (5 Nov, search only, 0 credits, has-mobile on)
+| Brief | Metro | Count | Read |
+|---|---|---|---|
+| Moss precon | Tampa Bay | 9 | Real but thin. Has-mobile cuts the pool hard. The unfiltered pool is larger and callable by direct line or LinkedIn. Build the sheet without the mobile filter, tag mobile on file. |
+| Moss schedulers | Miami metro (no separate Fort Lauderdale metro id; covers South Florida) | 23 | Usable. Same note on the mobile filter. |
+| Moss TA | Miami | 15 | Not reliable. First hit was Microsoft; the industry keyword filter is matching loosely. Redo with a lookup'd industry id and a company list. |
+| Megawatt LV PM | Texas | 9,964 | Not usable. Keyword match is far too loose (first hit Oracle). Redo with industry ids, low-voltage/cabling/electrical firms, and the Dallas, Houston, Austin metros. |
+
+Next: rebuild the TA and Megawatt searches on industry ids and named company lists; drop the mobile filter on the three Moss sheets so thin Florida pools aren't cut further.
