@@ -12,18 +12,23 @@ var EDEN_TZ = 'America/Los_Angeles';
 var RECRUITERS = ['Max', 'Evan', 'Noah', 'Andrew', 'Bridger'];
 var PILLARS = ['01 Righteousness', '02 Winning', '03 Accountability', '04 Discipline', '05 Transparency', '06 Growth', '07 Execution'];
 
-/** The Thursday that ends the week being scored: the day before the coming (or current) Friday. */
+/**
+ * The Thursday that ends the week being scored: the day before the coming (or current) Friday.
+ * Calendar maths is done in UTC on the Pacific calendar date, so it does not depend on the
+ * script's own time zone setting. start/end are UTC-midnight Dates; format them with 'GMT'.
+ */
 function scoredWeek_(now) {
   now = now || new Date();
-  var today = new Date(Utilities.formatDate(now, EDEN_TZ, 'yyyy/MM/dd'));
-  var friday = new Date(today.getTime());
-  friday.setDate(today.getDate() + ((5 - today.getDay() + 7) % 7));
-  var end = new Date(friday.getTime()); end.setDate(friday.getDate() - 1);
-  var start = new Date(end.getTime()); start.setDate(end.getDate() - 6);
+  var DAY = 24 * 60 * 60 * 1000;
+  var p = Utilities.formatDate(now, EDEN_TZ, 'yyyy-MM-dd').split('-');
+  var today = Date.UTC(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  var friday = today + ((5 - new Date(today).getUTCDay() + 7) % 7) * DAY;
+  var end = new Date(friday - DAY);
+  var start = new Date(friday - 7 * DAY);
   return {
     start: start, end: end,
-    endLabel: Utilities.formatDate(end, EDEN_TZ, 'EEE d MMM yyyy'),
-    window: Utilities.formatDate(start, EDEN_TZ, 'EEE d MMM') + ' to ' + Utilities.formatDate(end, EDEN_TZ, 'EEE d MMM')
+    endLabel: Utilities.formatDate(end, 'GMT', 'EEE d MMM yyyy'),
+    window: Utilities.formatDate(start, 'GMT', 'EEE d MMM') + ' to ' + Utilities.formatDate(end, 'GMT', 'EEE d MMM')
   };
 }
 
@@ -33,9 +38,17 @@ function formTitle_(leadership) {
 
 /** Settings both forms share: Eden sign-in only, one response each, email collected, editable until the lock. */
 function applySettings_(form) {
-  form.setRequireLogin(true);            // edenexec.com accounts only
+  try {
+    form.setRequireLogin(true);          // edenexec.com accounts only (Workspace feature)
+  } catch (e) {
+    Logger.log('WARNING: setRequireLogin failed (' + e.message + '). Turn on "Restrict to users in your organization" in the Form settings by hand.');
+  }
   form.setCollectEmail(true);            // recorded automatically from the sign-in
-  form.setLimitOneResponsePerUser(true);
+  try {
+    form.setLimitOneResponsePerUser(true);
+  } catch (e) {
+    Logger.log('WARNING: setLimitOneResponsePerUser failed (' + e.message + '). Turn on "Limit to 1 response" in the Form settings by hand.');
+  }
   form.setAllowResponseEdits(true);
   form.setProgressBar(true);
   form.setShowLinkToRespondAgain(false);
@@ -53,19 +66,48 @@ function responsesSheet_() {
   return ss;
 }
 
-/** Point a form at the shared Sheet and name its tab. */
+/** True if this sheet tab is the response tab of the given form. */
+function sheetIsFormTab_(sh, form) {
+  var linked;
+  try { linked = sh.getFormUrl(); } catch (e) { return false; }
+  if (!linked) return false;
+  try { return FormApp.openByUrl(linked).getId() === form.getId(); } catch (e) { return false; }
+}
+
+/**
+ * Point a form at the shared Sheet and name its response tab.
+ * The response tab can take a moment to appear, so look for it a few times; if it never matches by
+ * form URL, fall back to the newest unclaimed "Form Responses" tab; if nothing is found, carry on
+ * (the form still saves answers to the Sheet) and log a warning rather than failing the build.
+ */
 function linkToSheet_(form, tabName) {
-  var ss = responsesSheet_();
-  form.setDestination(FormApp.DestinationType.SPREADSHEET, ss.getId());
-  SpreadsheetApp.flush();
-  ss = SpreadsheetApp.openById(ss.getId()); // re-open so the new response tab is visible
-  ss.getSheets().forEach(function (sh) {
-    var linked = sh.getFormUrl();
-    if (linked && FormApp.openByUrl(linked).getId() === form.getId()) sh.setName(tabName);
-  });
-  // Drop the blank "Sheet1" the new Spreadsheet started with.
-  var blank = ss.getSheetByName('Sheet1');
-  if (blank && !blank.getFormUrl() && blank.getLastRow() === 0 && ss.getSheets().length > 1) ss.deleteSheet(blank);
+  var id = responsesSheet_().getId();
+  form.setDestination(FormApp.DestinationType.SPREADSHEET, id);
+  var ss, tab = null;
+  for (var attempt = 0; attempt < 6 && !tab; attempt++) {
+    SpreadsheetApp.flush();
+    ss = SpreadsheetApp.openById(id); // re-open so the new response tab is visible
+    var sheets = ss.getSheets();
+    for (var i = 0; i < sheets.length && !tab; i++) if (sheetIsFormTab_(sheets[i], form)) tab = sheets[i];
+    if (!tab) {
+      var guess = sheets.filter(function (sh) { return /^Form Responses/i.test(sh.getName()); });
+      if (attempt >= 3 && guess.length) tab = guess[guess.length - 1];
+    }
+    if (!tab) Utilities.sleep(1500);
+  }
+  if (tab) {
+    var name = tabName, n = 2, clash = ss.getSheetByName(name);
+    while (clash && clash.getSheetId() !== tab.getSheetId()) { name = tabName + ' ' + n++; clash = ss.getSheetByName(name); }
+    tab.setName(name);
+    // Drop the blank starter tab ("Sheet1" in English; any name in other locales). Only after the response tab is confirmed.
+    ss.getSheets().forEach(function (sh) {
+      if (ss.getSheets().length > 1 && sh.getSheetId() !== tab.getSheetId() && !sh.getFormUrl() &&
+          sh.getLastRow() === 0 && sh.getLastColumn() === 0 && ['Prefill', 'Recruiters', 'Leadership'].indexOf(sh.getName()) < 0 &&
+          /^(Sheet|Hoja|Feuille|Tabelle|Foglio)\s*\d*$/i.test(sh.getName())) ss.deleteSheet(sh);
+    });
+  } else {
+    Logger.log('WARNING: could not find the response tab for "' + tabName + '". Answers still save to the Sheet; rename its "Form Responses" tab by hand.');
+  }
   return ss;
 }
 
@@ -109,7 +151,7 @@ function weeklyReset() {
     form.setAcceptingResponses(true);
     form.setAllowResponseEdits(true);
     var intro = form.getItems(FormApp.ItemType.SECTION_HEADER)[0];
-    if (intro) intro.setHelpText(page0Note_(w));
+    if (intro) intro.asSectionHeaderItem().setHelpText(page0Note_(w));
   });
 }
 
@@ -136,18 +178,25 @@ function buildPrefillLinks() {
   var values = tab.getDataRange().getValues();
   var head = values[0];
   var linkCol = head.indexOf('Link');
+  if (linkCol < 0) throw new Error('The Prefill tab needs a column headed Link. Run installScorecard to rebuild the headers.');
   var forms = { recruiter: storedForm_('RECRUITER_FORM_ID'), leadership: storedForm_('LEADERSHIP_FORM_ID') };
   for (var r = 1; r < values.length; r++) {
     var row = values[r];
     var form = forms[String(row[0]).toLowerCase()];
     if (!form) continue;
-    var resp = form.createResponse();
-    form.getItems(FormApp.ItemType.TEXT).forEach(function (item) {
-      var c = head.indexOf(item.getTitle());
-      if (c < 0 || row[c] === '' || row[c] === null) return;
-      resp.withItemResponse(item.asTextItem().createResponse(String(row[c])));
-    });
-    tab.getRange(r + 1, linkCol + 1).setValue(resp.toPrefilledUrl());
+    var link;
+    try { // one bad row must not stop the rest, or fail the Thursday trigger
+      var resp = form.createResponse();
+      form.getItems(FormApp.ItemType.TEXT).forEach(function (item) {
+        var c = head.indexOf(item.getTitle());
+        if (c < 0 || c === linkCol || row[c] === '' || row[c] === null) return;
+        resp.withItemResponse(item.asTextItem().createResponse(String(row[c])));
+      });
+      link = resp.toPrefilledUrl();
+    } catch (e) {
+      link = 'ERROR: ' + e.message;
+    }
+    tab.getRange(r + 1, linkCol + 1).setValue(link);
   }
 }
 

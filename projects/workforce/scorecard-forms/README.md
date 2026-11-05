@@ -11,11 +11,13 @@ Owner: Dean. Engineering review: Q. Built 5 Nov 2026 from Kev's approved brief (
 
 1. Open https://script.google.com and click **New project**. Name it "Eden Friday Scorecard".
 2. **Project Settings** (gear icon): set the time zone to **(GMT-08:00) Pacific Time - Los Angeles**.
+   Optional extra safety: tick **Show "appsscript.json" manifest file in editor**, open it, and replace its contents with `appsscript.json` from this folder (Pacific time, V8). The code does its week maths in Pacific regardless, so skipping this is fine.
 3. Back in **Editor**: replace `Code.gs` with `shared.gs`. Click **+** > Script and add `recruiter-form.gs`, then again for `leadership-form.gs`. Paste each file whole. Save.
 4. Run, in this order, approving Google's permissions the first time:
    1. `buildRecruiterForm`
    2. `buildLeadershipForm`
    3. `installScorecard`
+   If a run stops with a permissions screen, click **Review permissions**, pick kev@edenexec.com, **Advanced > Go to Eden Friday Scorecard (unsafe) > Allow**, then run the same function again.
 5. The execution log prints the two edit links, the two form links and the responses Sheet. Paste them back to Dean (or Radar); nothing else to do.
 
 What you end up with: two Forms and one Sheet ("Eden · Friday Scorecard responses") in your Drive, shared with no one. The Sheet has three tabs: Recruiters, Leadership, Prefill.
@@ -23,7 +25,7 @@ What you end up with: two Forms and one Sheet ("Eden · Friday Scorecard respons
 ## Settings on both forms
 
 - Sign-in required, edenexec.com accounts only; email collected automatically; one response per person.
-- Answers can be edited until **Friday 10:30am PT**, then editing turns off (`lockEdits` trigger). A late first answer is still accepted.
+- Answers can be edited until about **Friday 10:30am PT** (Google runs timed triggers within 15 minutes of the set minute, so the lock lands between 10:15 and 10:45), then editing turns off (`lockEdits` trigger). A late first answer is still accepted.
 - **Thursday noon PT** (`weeklyReset`): the title moves to the new week ending date, the page 0 note shows the new Friday-to-Thursday window, last week's answers are cleared from the Form (the Sheet keeps every week), and editing opens again.
 - **Thursday 3:00pm PT** (`buildPrefillLinks`): writes a prefilled link per person into the Prefill tab. It sends nothing.
 
