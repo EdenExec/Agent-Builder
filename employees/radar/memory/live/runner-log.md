@@ -265,3 +265,4 @@
 - 2026-11-04 21:55 PT: picked 1, closed 1, gated 0, blocked 0, FAILs 0 (floor refresh/benches/cockpit not run this pass)
 - 2026-11-04 23:45 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty (fired outside the 6am-10pm window). Floor refresh not run; last full refresh 20:5x.
 - 2026-11-05 00:4x PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty (fired outside the 6am-10pm window; 8 blocked + 3 gated wait on Kev, none open). Floor refresh pushed (21 writes: agents, meta). Skipped: alert docs (no versions), Team Hub asks/jobs, Notion ledger, crelate-tasks, Today-view taps, cockpit doc, 8a/8b.
+- 2026-11-05 01:44 PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Fired outside 6am-10pm window; queue empty; floor refresh left to the 6am run.
