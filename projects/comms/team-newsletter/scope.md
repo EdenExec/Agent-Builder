@@ -13,6 +13,7 @@ Start with one issue a week: **The Eden Brief, Tuesday 7:00am PT**, emailed to t
 | 3 numbers this week | Scout | Internal + forwardable | Three sourced construction-market numbers with a one-line "so what" |
 | Talking points: candidates | Scout, Jenny writes | Internal | Two lines a recruiter can say on a call ("Specialty contractors grew 14.7% and 62.6% are short on craft") |
 | Talking points: clients | Scout, Jenny writes | Internal | Two lines for a hiring-manager call: market pressure, comp-free |
+| Market Pulse | Scout | Internal only | 150 to 250 words: one talent-pool number that moved (dated, unverified ZoomInfo estimate), one market-map update, one lead-gen note (lists ready, thin roles, hardest titles). Never in the forwardable note |
 | Headhunter's craft | Dean | Internal | One tip from training or the scorecard trend: an opener, an objection, a Boolean string. No names, no individual numbers |
 | Market note (forward this) | Jenny | Clients and candidates | 120 words, three numbers, sources, Eden sign-off. Sent by each recruiter from their own inbox |
 | This week on LinkedIn | Jenny | Internal | The approved post to like and share |
@@ -22,7 +23,7 @@ Start with one issue a week: **The Eden Brief, Tuesday 7:00am PT**, emailed to t
 | | Scout | Dean |
 | --- | --- | --- |
 | What | 4 to 6 market items (raw is fine): headline, date, URL opened, the hard numbers, two lines in its own words, every company named, client flags. Already its Sunday comms-picks format, so no new routine | One craft tip and one trend line from the Friday scorecard (team-level only), in a few lines. Raw is fine |
-| Deadline | Sunday 6:00pm PT (after Sabbath; the existing picks deadline) | Monday 12:00pm PT |
+| Deadline | Market picks Sunday 6:00pm PT (the existing picks deadline); Market Pulse in `employees/scout/drafts/newsletter-YYYY-MM-DD.md` by Monday 12:00pm PT | Monday 12:00pm PT |
 | Raw or polished | Raw facts, no prose. I write every line the team reads | Raw. I set it in the house voice and Dean checks the meaning |
 | Hard rules | Every number from a page it opened; client names flagged | No recruiter names, pay or individual numbers |
 
