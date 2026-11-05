@@ -573,7 +573,7 @@ dialog.jod::backdrop{background:var(--shade)}
     const label=shortRole(role)+', '+jClient(j)+', '+(ST_LABEL[st]||st)+(hot?', hot next week':'')+(ps?', 1099 partners':'');
     return '<li class="jr'+(hot?' hot':'')+(hold?' hold':'')+(st==='killed'?' dead':'')+(rot?' rot':'')+'" data-row="'+id+'">'+rank+
       '<div class="jr-body"><button class="jr-role" type="button" data-jo="'+id+'" aria-label="'+esc(label)+'">'+esc(role)+'</button>'+
-      '<span class="jr-meta">'+esc(jClient(j))+(j.location?' · '+esc(jt(j,j.location)):'')+
+      '<span class="jr-meta">'+[kind==='client'?'':esc(jClient(j)),j.location?esc(jt(j,j.location)):''].filter(Boolean).join(' · ')+
         '<span class="m-only"> · '+(who?esc(who):'No owner')+' · <span class="'+ageCls.trim()+'">'+esc(ageTxt)+'</span> · '+esc(leadsTxt)+'</span></span>'+
       (hold&&j.condition?'<span class="jr-cond">'+esc(jt(j,j.condition))+'</span>':'')+'</div>'+
       '<span class="jr-lead">'+(who?esc(who):'<span class="meta">Open</span>')+'</span>'+
