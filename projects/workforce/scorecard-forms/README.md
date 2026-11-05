@@ -85,5 +85,5 @@ Kev asked the agents to build the forms today without his lift. No agent can cre
   - `candor/<id>`: section 3, plus L3, L4 and L9. A recruiter reads and writes only their own. Only Kev (owner) reads all; Nick does not.
   - `leadership/<id>`: Kev's and Nick's leadership answers; both read them.
   - `prefill/*` and `meta/*`: every team member can read the week's activity numbers (the same counts as the leaderboard); only editors write.
-- Not verifiable until a real recruiter opens it: the recruiter saving into their own slot, and their Eden email reaching the page (the page needs it to know who they are).
+- Who is who (fixed 5 Nov after Kev's dry run showed "not on the list": the org does not share email with the page): the owner is Kev; otherwise the Eden email if shared, else the account name (e.g. "Max Betcher"), else a one-time name pick saved in `claims/<id>` (Kev and Nick can read claims; each person writes only their own). `identity-check.cjs` runs the page in Chromium with a stand-in store for all three paths. Still unproven with a real second person: a recruiter saving into their own slot.
 - Sharing (Kev, Share menu, on his go): the five recruiters as Contributors, Nick as Editor.

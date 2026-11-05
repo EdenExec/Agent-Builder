@@ -182,10 +182,32 @@ var timer=setTimeout(function(){status('Could not load the scorecard. Reopen the
 (async function(){
  var c=window.claude;db=c&&c.use?await c.use('db'):null;user=c&&c.use?await c.use('user'):null;clearTimeout(timer);
  if(!db||!user){status('Sign in to claude.ai with your Eden account to open your scorecard.',true);return}
- var me=await user.me();uid=me.id;email=(me.email||'').toLowerCase();
+ var me=await user.me();uid=me.id;
  if(!uid){status('Sign in to claude.ai with your Eden account to open your scorecard.',true);return}
- if(RECRUITERS[email]){role='rec';spec=REC;mainCol='responses'}else if(LEADERS[email]){role='lead';spec=LEAD;mainCol='leadership'}
- else{status('This scorecard is for the Eden recruiting team. Your account isn\'t on the list; ask Kev.',true);return}
+ email=await whoAmI(me);
+ if(!email)return; // the name picker is showing
+ if(RECRUITERS[email]){role='rec';spec=REC;mainCol='responses'}else{role='lead';spec=LEAD;mainCol='leadership'}
+ await start();
+})();
+// Who is this? The owner is Kev. Otherwise: Eden email if the org shares it, then the account name, then a one-time pick (kept in claims/<id>).
+var FULL={'max@edenexec.com':'Max Betcher','evan@edenexec.com':'Evan MacArthur','noah@edenexec.com':'Noah Fields','andrew@edenexec.com':'Andrew Johnson','bridger@edenexec.com':'Bridger Stainbrook','kev@edenexec.com':'Kevin Williams','nick@edenexec.com':'Nick Leckwold'};
+async function whoAmI(me){
+ var all=Object.assign({},RECRUITERS,LEADERS);
+ if(me.isOwner)return 'kev@edenexec.com';
+ var em=(me.email||'').toLowerCase(); if(all[em])return em;
+ try{var c=await db.doc('claims/'+uid).get();if(c.exists&&all[c.data().email])return c.data().email}catch(e){}
+ var nm=(me.name||'').toLowerCase().trim();
+ if(nm){for(var k in FULL){if(k!=='kev@edenexec.com'&&FULL[k].toLowerCase()===nm){await claim(k);return k}}}
+ picker(all);return '';
+}
+async function claim(em){try{await db.doc('claims/'+uid).set({email:em,at:new Date().toISOString()})}catch(e){}}
+function picker(all){
+ status('Pick your name once so your scorecard saves to you. Kev sees which account picked which name.');
+ var t=$('tabs');t.innerHTML='';t.hidden=false;
+ Object.keys(all).filter(function(k){return k!=='kev@edenexec.com'}).forEach(function(k){var b=el('button',{type:'button'},all[k]);b.onclick=async function(){email=k;await claim(k);
+   if(RECRUITERS[k]){role='rec';spec=REC;mainCol='responses'}else{role='lead';spec=LEAD;mainCol='leadership'}await start()};t.appendChild(b)});
+}
+async function start(){
  try{var m=await db.doc('meta/week').get();meta=m.exists?m.data():null}catch(e){meta=null}
  if(!meta){status('This week\'s scorecard isn\'t open yet. Check back Thursday afternoon.',true);return}
  $('title').textContent='Eden Friday Scorecard'+(role==='lead'?' · Leadership':'')+', week ending '+meta.weekEndingLabel;
@@ -204,6 +226,6 @@ var timer=setTimeout(function(){status('Could not load the scorecard. Reopen the
   db.collection('candor').onSnapshot(function(snap){teamCandor={};snap.docs.forEach(function(d){var x=d.data();if(x.form==='rec')teamCandor[d.id]=x});if(cur===-1)renderTeam()},function(){});
  }
  setInterval(function(){if(!locked&&isLocked()){collect();locked=true;renderPage();$('saveBtn').disabled=$('submitBtn').disabled=true;status('Editing closed at 10:30am Pacific.')}},30000);
-})();
+}
 })();
 </script>
