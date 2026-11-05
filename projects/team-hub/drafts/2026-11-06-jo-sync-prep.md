@@ -42,6 +42,7 @@ Kev decides what partners can see: client name or not, and which fields. The fee
 - **Tim Norton landed Prometheus**, so Noah's "standby only if Tim misses" spots on Megawatt Sr PM/PX and Promethean NYC fall away. Drop Noah from both?
 - **Baker:** is the Louisiana QC team the same work as "QC Manager (oil and gas)"? If so, merge. Nick's deep dive first.
 - **PB South Demo Super:** did PB South's own offer land? If not, it's the priority again.
+- **Nick to confirm:** where the four XL seats are (Scout is re-running the Bay Area and Sacramento sheets for now), and whether Steed has signed a fee agreement (until then Steed staff aren't dialed).
 - **Pruter Sr PM (SoCal):** on hold until the fee agreement is signed (retainer flexibility offered 3 Nov).
 - **Confirm or kill:** Hoffman Area Supers (Houston), PB South "Superintendents, Miami", Hoffman Low-voltage location (Childress or Amarillo).
 - **No lead recruiter:** Baker QC Manager (oil and gas), PB South VT Specialist, Hoffman MEP/GC Supers, Megawatt Sandusky MEP super, Moss Precon (South FL).
