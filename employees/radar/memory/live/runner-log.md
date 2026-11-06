@@ -285,3 +285,4 @@
 - 2026-11-05 18:4x PT: picked 0, closed 0, gated 0 new, blocked 0 new, FAILs 0. Queue empty. Floor refreshed (40 writes, 1 batch: agents/alerts/meta). Team Hub asks/jobs, Notion ledger, crelate-tasks, 8a, cockpit doc and Today taps not run.
 - 2026-11-05 19:50 PT: picked 1, closed 1 (t-202611060337-hawk, radar), gated 0, blocked 0, FAILs 0. Floor refresh (step 8) not run this pass: only the ticket queue was read.
 - 2026-11-05 21:0x PT: picked 1, closed 1 (t-202611052120-pmsc, pm schedule refresh), gated 0, blocked 0, FAILs 0. Floor refresh (step 8) not run this pass: only the ticket queue was handled.
+- 2026-11-05 21:5x PT: picked 0, closed 0, gated 0, blocked 0, FAILs 0. Queue empty. Floor refresh (step 8) not run: office-prep needs Team Hub asks/jobs, benches, tools dumps and version files that this pass did not pull; last full refresh 18:4x PT.
