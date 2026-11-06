@@ -1,5 +1,15 @@
 {
-  "updated": "2026-11-02T15:18:00Z",
+  "task": "Desk check-in (t-202611060630-shsa): desk live, nothing in flight",
+  "status": "6 Nov 2026 06:45 PT: desk live. 1 recommendation standing (hot tub), 3 questions waiting on Kev, 2 open projects, 0 items in QC.",
+  "state": "idle",
+  "lastHeard": "2026-11-06T14:45:00Z",
+  "updated": "2026-11-06T14:45:00Z",
+  "counts": {
+    "waitingOnKev": 3,
+    "openProjects": 2,
+    "qcPending": 0,
+    "inFlight": 0
+  },
   "focus": "Portable 4-person hot tub for the rental backyard, moves to the forever house later",
   "ticket": "t-202610281600-hrtb",
   "recommendation": "120V plug-and-play rotomolded tub first; wood-fired (Goodland) second if burning is allowed",
@@ -11,6 +21,5 @@
   "openProjects": [
     "eden-ranch-idaho (brief done, land ~2028)",
     "orangery board rebuild when Unsplash key lands"
-  ],
-  "status": "2 Nov 2026 07:18 PT: desk live. Nothing new to report; hot tub recommendation stands, waiting on Kev for the 3 rental questions; ranch brief done, orangery board waits on the Unsplash key."
+  ]
 }
